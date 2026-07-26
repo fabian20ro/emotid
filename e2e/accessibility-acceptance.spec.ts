@@ -1,0 +1,91 @@
+import { expect, test, type Page } from '@playwright/test'
+import { openApp, openArrival } from './helpers'
+
+async function expectScreenSemantics(page: Page, heading: RegExp, navigation = true) {
+  const main = page.getByRole('main')
+  const title = page.getByRole('heading', { level: 1, name: heading })
+
+  await expect(page.locator('h1')).toHaveCount(1)
+  await expect(main).toHaveAttribute('aria-labelledby', 'screen-title')
+  await expect(title).toHaveAttribute('id', 'screen-title')
+  await expect(title).toBeFocused()
+  await expect(page.getByRole('navigation')).toHaveCount(navigation ? 1 : 0)
+}
+
+async function expectNoHorizontalOverflow(page: Page) {
+  const overflow = await page.locator('.app-shell').evaluate((element) => ({
+    document: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+    shell: element.scrollWidth - element.clientWidth,
+  }))
+  expect(overflow.document).toBeLessThanOrEqual(1)
+  expect(overflow.shell).toBeLessThanOrEqual(1)
+}
+
+async function placeFeeling(page: Page) {
+  const field = page.getByRole('group', { name: /energy and pleasantness map|hartă a energiei și caracterului plăcut/i })
+  await field.focus()
+  await page.keyboard.press('ArrowLeft')
+  await page.keyboard.press('ArrowUp')
+  await page.locator('.dimensional-suggestion-chip').first().click()
+  await page.getByRole('button', { name: /reflect on these words|reflectați la aceste cuvinte/i }).click()
+}
+
+test.describe('Critical journey semantics and focus', () => {
+  for (const language of ['en', 'ro'] as const) {
+    test(`${language} announces meaningful destinations through the Affect journey`, async ({ page }) => {
+      await openApp(page, { language })
+      await expectScreenSemantics(page, /how are you feeling|cum vă simțiți/i)
+      await expect(page.getByRole('button', { name: /today|astăzi/i })).toHaveAttribute('aria-current', 'page')
+
+      await openArrival(page)
+      await expectScreenSemantics(page, /what feels easiest to notice|ce vă este cel mai ușor să observați/i)
+
+      await page.getByTestId('arrival-affect').click()
+      await expectScreenSemantics(page, /place the feeling|plasați starea/i, false)
+
+      await placeFeeling(page)
+      await expectScreenSemantics(page, /what may be here|ce ar putea fi aici/i, false)
+    })
+  }
+
+  test('save recovery focuses the new context and limits urgent announcements', async ({ page }) => {
+    await page.addInitScript(() => {
+      const originalPut = IDBObjectStore.prototype.put
+      let shouldFail = true
+      IDBObjectStore.prototype.put = function put(value: unknown, key?: IDBValidKey) {
+        if (shouldFail) {
+          shouldFail = false
+          throw new DOMException('Simulated local save failure', 'QuotaExceededError')
+        }
+        return originalPut.call(this, value, key)
+      }
+    })
+    await openApp(page)
+    await page.getByTestId('quick-feeling-anxiety').click()
+    await page.getByRole('button', { name: 'Done for now' }).click()
+
+    await expectScreenSemantics(page, /this reflection was not saved/i, false)
+    await expect(page.getByRole('alert')).toHaveCount(1)
+    await expect(page.getByRole('alert')).toContainText('Nothing was sent online')
+    await expect(page.getByRole('alert')).not.toContainText('Try saving again')
+
+    await page.getByRole('button', { name: 'Try saving again' }).click()
+    await expectScreenSemantics(page, /check-in complete/i, false)
+  })
+})
+
+test.describe('200% desktop reflow equivalent', () => {
+  test.use({ viewport: { width: 640, height: 400 }, isMobile: false, hasTouch: false })
+
+  test('critical Affect and Reflection screens reflow without two-dimensional scrolling', async ({ page }) => {
+    await openApp(page)
+    await expectNoHorizontalOverflow(page)
+    await openArrival(page)
+    await expectNoHorizontalOverflow(page)
+    await page.getByTestId('arrival-affect').click()
+    await expectNoHorizontalOverflow(page)
+    await placeFeeling(page)
+    await expectNoHorizontalOverflow(page)
+    await expect(page.getByRole('button', { name: 'Done for now' })).toBeVisible()
+  })
+})

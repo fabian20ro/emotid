@@ -21,7 +21,7 @@ export function ScreenHeader({ eyebrow, title, lede, onBack }: ScreenHeaderProps
         </button>
       )}
       {eyebrow && <p className="screen-eyebrow">{eyebrow}</p>}
-      <h1 className="screen-title">{title}</h1>
+      <h1 id="screen-title" className="screen-title" tabIndex={-1}>{title}</h1>
       {lede && <p className="screen-lede">{lede}</p>}
     </>
   )

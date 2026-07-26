@@ -142,6 +142,10 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   outline-offset: 2px;
 }
 
+.screen-title[tabindex="-1"]:focus {
+  outline: none;
+}
+
 .app-shell {
   min-height: 100dvh;
   height: 100dvh;

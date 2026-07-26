@@ -23,7 +23,7 @@ export function TodayScreen({ sessions, saveSessions, onStart, onQuickComplete, 
   return (
     <div className="screen" data-testid="today-screen">
       <p className="screen-eyebrow">{t.eyebrow}</p>
-      <h1 className="screen-title">{t.title}</h1>
+      <h1 id="screen-title" className="screen-title" tabIndex={-1}>{t.title}</h1>
       <p className="screen-lede">{t.lede}</p>
 
       <button type="button" className="primary-button mt-6" onClick={onStart}>

@@ -36,6 +36,7 @@ export function AppShell({
 
   useEffect(() => {
     contentRef.current?.scrollTo({ top: 0, left: 0 })
+    contentRef.current?.querySelector<HTMLElement>('#screen-title')?.focus({ preventScroll: true })
   }, [screenKey])
 
   return (
@@ -60,7 +61,7 @@ export function AppShell({
 
       {isOffline && <div className="offline-strip" role="status">{navT.offline}</div>}
 
-      <main ref={contentRef} className="app-content">{children}</main>
+      <main ref={contentRef} className="app-content" aria-labelledby="screen-title">{children}</main>
 
       {showTabs && (
         <nav className="bottom-nav" aria-label={navT.mainNavigation}>

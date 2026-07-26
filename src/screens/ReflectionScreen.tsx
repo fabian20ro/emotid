@@ -50,6 +50,7 @@ export function ReflectionScreen({ completion, allowExternalAI, onBack, onSave, 
 
   useLayoutEffect(() => {
     screenRef.current?.scrollIntoView?.({ block: 'start' })
+    screenRef.current?.querySelector<HTMLElement>('#screen-title')?.focus({ preventScroll: true })
   }, [finishState, showStep])
 
   const attemptSave = async (detail: ReflectionDetail) => {
@@ -93,20 +94,20 @@ export function ReflectionScreen({ completion, allowExternalAI, onBack, onSave, 
 
   if (finishState === 'saving') {
     return (
-      <div ref={screenRef} className="screen reflection-save-state" data-testid="reflection-saving-screen" role="status" aria-live="polite">
+      <div ref={screenRef} className="screen reflection-save-state" data-testid="reflection-saving-screen">
         <span className="save-state-mark"><LoaderCircle size={28} aria-hidden="true" /></span>
-        <h1 className="screen-title">{t.savingTitle}</h1>
-        <p className="screen-lede">{t.savingBody}</p>
+        <h1 id="screen-title" className="screen-title" tabIndex={-1}>{t.savingTitle}</h1>
+        <p className="screen-lede" role="status" aria-live="polite">{t.savingBody}</p>
       </div>
     )
   }
 
   if (finishState === 'error') {
     return (
-      <div ref={screenRef} className="screen reflection-save-state" data-testid="reflection-save-error-screen" role="alert">
+      <div ref={screenRef} className="screen reflection-save-state" data-testid="reflection-save-error-screen">
         <span className="save-state-mark is-error"><TriangleAlert size={28} aria-hidden="true" /></span>
-        <h1 className="screen-title">{t.saveErrorTitle}</h1>
-        <p className="screen-lede">{t.saveErrorBody}</p>
+        <h1 id="screen-title" className="screen-title" tabIndex={-1}>{t.saveErrorTitle}</h1>
+        <p className="screen-lede" role="alert">{t.saveErrorBody}</p>
         <div className="save-error-actions">
           <button type="button" className="primary-button" onClick={retrySave}>
             <RotateCcw size={18} aria-hidden="true" />{t.retrySave}
@@ -121,7 +122,7 @@ export function ReflectionScreen({ completion, allowExternalAI, onBack, onSave, 
     return (
       <div ref={screenRef} className="screen reflection-close" data-testid="reflection-close-screen">
         <span className="close-mark"><Check size={28} aria-hidden="true" /></span>
-        <h1 className="screen-title">{t.closeTitle}</h1>
+        <h1 id="screen-title" className="screen-title" tabIndex={-1}>{t.closeTitle}</h1>
         <p className="screen-lede">{t.closeBody}</p>
         <p className="privacy-line">{saveOutcome === 'saved' ? t.saved : t.notSaved}</p>
         <button type="button" className="primary-button mt-6" onClick={onReturn}>{t.returnToday}</button>

@@ -46,6 +46,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     storage.set('language', language)
+    document.documentElement.lang = language
   }, [language])
 
   useEffect(() => {
