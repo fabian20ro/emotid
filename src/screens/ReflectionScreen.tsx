@@ -1,24 +1,23 @@
 import { useLayoutEffect, useMemo, useRef, useState } from 'react'
-import { ArrowLeft, Check, ChevronDown, ExternalLink, HeartHandshake, Lightbulb, X } from 'lucide-react'
+import { ArrowLeft, Check, ChevronDown, ExternalLink, HeartHandshake, Lightbulb, LoaderCircle, RotateCcw, TriangleAlert, X } from 'lucide-react'
 import { useLanguage } from '../context/LanguageContext'
 import { synthesize } from '../models/synthesis'
 import { CrisisBanner } from '../components/CrisisBanner'
 import { ScreenHeader } from '../components/ScreenHeader'
 import { buildGoogleAiSearchUrl } from '../utils/google-ai-search'
-import type { CheckInCompletion } from '../navigation/types'
+import type { CheckInCompletion, ReflectionAnswer, ReflectionDetail, ReflectionSaveOutcome } from '../navigation/types'
 
-type Fit = 'yes' | 'partly' | 'no'
+type FinishState = 'idle' | 'saving' | 'error' | 'finished'
 
 interface ReflectionScreenProps {
   completion: CheckInCompletion
-  saveSessions: boolean
   allowExternalAI: boolean
   onBack: () => void
-  onSave: (detail: { reflectionAnswer?: Fit; selectedNeed?: string; nextStep?: string }) => void
+  onSave: (detail: ReflectionDetail) => Promise<ReflectionSaveOutcome>
   onReturn: () => void
 }
 
-export function ReflectionScreen({ completion, saveSessions, allowExternalAI, onBack, onSave, onReturn }: ReflectionScreenProps) {
+export function ReflectionScreen({ completion, allowExternalAI, onBack, onSave, onReturn }: ReflectionScreenProps) {
   const { language, section } = useLanguage()
   const t = section('reflectionScreen')
   const analyzeT = section('analyze')
@@ -27,13 +26,16 @@ export function ReflectionScreen({ completion, saveSessions, allowExternalAI, on
     () => [...new Set(results.map((result) => result.needs?.[language]).filter((need): need is string => Boolean(need)))],
     [language, results],
   )
-  const [fit, setFit] = useState<Fit | undefined>()
+  const [fit, setFit] = useState<ReflectionAnswer | undefined>()
   const [selectedNeed, setSelectedNeed] = useState<string | undefined>(() => needs.length === 1 ? needs[0] : undefined)
   const [tier4Acknowledged, setTier4Acknowledged] = useState(false)
   const [showStep, setShowStep] = useState(false)
-  const [finished, setFinished] = useState(false)
+  const [finishState, setFinishState] = useState<FinishState>('idle')
+  const [saveOutcome, setSaveOutcome] = useState<ReflectionSaveOutcome>()
   const [nextStep, setNextStep] = useState<string | undefined>()
   const screenRef = useRef<HTMLDivElement>(null)
+  const savingRef = useRef(false)
+  const pendingDetailRef = useRef<ReflectionDetail | null>(null)
   const synthesis = useMemo(() => synthesize(results, language), [results, language])
   const emotionNames = results.map((result) => result.label[language]).join(language === 'ro' ? ', ' : ', ')
   const briefSynthesis = language === 'ro'
@@ -48,30 +50,80 @@ export function ReflectionScreen({ completion, saveSessions, allowExternalAI, on
 
   useLayoutEffect(() => {
     screenRef.current?.scrollIntoView?.({ block: 'start' })
-  }, [finished, showStep])
+  }, [finishState, showStep])
+
+  const attemptSave = async (detail: ReflectionDetail) => {
+    if (savingRef.current) return
+    savingRef.current = true
+    pendingDetailRef.current = detail
+    setFinishState('saving')
+    try {
+      const outcome = await onSave(detail)
+      setSaveOutcome(outcome)
+      setFinishState('finished')
+    } catch {
+      setFinishState('error')
+    } finally {
+      savingRef.current = false
+    }
+  }
 
   const finish = (step = nextStep) => {
-    onSave({
+    void attemptSave({
       reflectionAnswer: fit,
       selectedNeed: rejected ? undefined : selectedNeed,
       nextStep: rejected ? undefined : step,
     })
-    setFinished(true)
   }
 
-  const chooseFit = (answer: Fit) => {
+  const retrySave = () => {
+    if (pendingDetailRef.current) void attemptSave(pendingDetailRef.current)
+  }
+
+  const continueWithoutSaving = () => {
+    setSaveOutcome('not-saved')
+    setFinishState('finished')
+  }
+
+  const chooseFit = (answer: ReflectionAnswer) => {
     setFit(answer)
     setNextStep(undefined)
     if (answer === 'no') setSelectedNeed(undefined)
   }
 
-  if (finished) {
+  if (finishState === 'saving') {
+    return (
+      <div ref={screenRef} className="screen reflection-save-state" data-testid="reflection-saving-screen" role="status" aria-live="polite">
+        <span className="save-state-mark"><LoaderCircle size={28} aria-hidden="true" /></span>
+        <h1 className="screen-title">{t.savingTitle}</h1>
+        <p className="screen-lede">{t.savingBody}</p>
+      </div>
+    )
+  }
+
+  if (finishState === 'error') {
+    return (
+      <div ref={screenRef} className="screen reflection-save-state" data-testid="reflection-save-error-screen" role="alert">
+        <span className="save-state-mark is-error"><TriangleAlert size={28} aria-hidden="true" /></span>
+        <h1 className="screen-title">{t.saveErrorTitle}</h1>
+        <p className="screen-lede">{t.saveErrorBody}</p>
+        <div className="save-error-actions">
+          <button type="button" className="primary-button" onClick={retrySave}>
+            <RotateCcw size={18} aria-hidden="true" />{t.retrySave}
+          </button>
+          <button type="button" className="text-button" onClick={continueWithoutSaving}>{t.continueWithoutSaving}</button>
+        </div>
+      </div>
+    )
+  }
+
+  if (finishState === 'finished') {
     return (
       <div ref={screenRef} className="screen reflection-close" data-testid="reflection-close-screen">
         <span className="close-mark"><Check size={28} aria-hidden="true" /></span>
         <h1 className="screen-title">{t.closeTitle}</h1>
         <p className="screen-lede">{t.closeBody}</p>
-        <p className="privacy-line">{saveSessions ? t.saved : t.notSaved}</p>
+        <p className="privacy-line">{saveOutcome === 'saved' ? t.saved : t.notSaved}</p>
         <button type="button" className="primary-button mt-6" onClick={onReturn}>{t.returnToday}</button>
       </div>
     )

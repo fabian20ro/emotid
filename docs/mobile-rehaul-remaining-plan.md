@@ -1,6 +1,6 @@
 # Remaining Mobile Migration Plan
 
-Status: P7 trust and safety boundary complete, July 26, 2026.
+Status: P8 persistence trust complete, July 26, 2026.
 
 ## Completed Since Last Update
 
@@ -34,6 +34,8 @@ Status: P7 trust and safety boundary complete, July 26, 2026.
 - Replaced automatic label-derived actions with explicit neutral choices, made rejected results
   discard inferred details, disclosed the Google handoff, and migrated the crisis presentation.
 - Deleted the unreachable Guided Scan stack after confirming that it had no release entry point.
+- Made Reflection await local persistence, expose pending/failure states, retry the same detail,
+  and continue without false saved confirmation when IndexedDB fails.
 
 ## Constraints
 
@@ -186,19 +188,43 @@ disclosure, tier-4 gating, actionable support links, dark contrast, and 320px bo
 320x568 light/dark inspection confirmed readable mismatch, next-step, and support states with no
 horizontal overflow.
 
+## Completed: P8 Persistence Trust
+
+`App.saveReflection` now returns an explicit `saved` or `not-saved` result and awaits the existing
+session repository before marking a reflection saved. Saving-disabled completion returns without
+touching IndexedDB. No queue, global store, schema migration, or persistence abstraction was added.
+
+Reflection owns a four-state local lifecycle: idle, saving, error, and finished. A synchronous
+in-flight ref blocks duplicate submissions before React can rerender. The attempted
+`ReflectionDetail` remains available for retry, while continuing after failure deliberately
+finishes with a not-saved outcome. Success copy appears only after repository confirmation.
+
+Pending state uses a polite live status. Failure uses a normal in-flow alert screen with bilingual
+explanation, retry, and continue-without-saving actions. Nothing is shown as uploaded or recovered
+when the local write fails.
+
+**Verification:** `npm run check` passes 65 files and 608 tests, bilingual audits, TypeScript, lint,
+and production build. `npm run test:e2e` passes all 152 Mobile Safari and Mobile Chrome cases.
+Browser fault injection covers delayed completion, four same-task clicks producing one write,
+first-write failure and retry, permanent Romanian failure, continue without saving, save-disabled
+zero-write behavior, and final Journal contents. Manual 320x568 light/dark inspection confirmed no
+horizontal overflow, 48px-or-larger recovery actions, visible keyboard focus, and readable tokens.
+
 ## Recommended Sequence
 
-1. Make Reflection persistence completion and failure explicit.
-2. Verify interruption behavior while saving, including rapid repeated taps and repository errors.
-3. Re-run the bilingual, cross-browser release matrix and perform one production-build smoke pass.
+1. Run an assistive-technology acceptance pass across the critical check-in and recovery journeys.
+2. Verify installed-PWA offline reload and service-worker update behavior without data loss.
+3. Update deprecated GitHub Actions versions as isolated CI maintenance.
 
 ## Recommended Next Update
 
-Close the remaining persistence trust gap without introducing a queue or global state framework:
+Complete P9 release accessibility and PWA lifecycle verification:
 
-1. Make `App.saveReflection` await the existing repository save and return an explicit result.
-2. Keep the close action pending while the write is in flight; prevent duplicate submissions.
-3. Show a compact bilingual retry/continue-without-saving state when IndexedDB fails.
-4. Preserve the current immediate close path when local saving is disabled.
-5. Add repository-failure unit coverage and Playwright journeys for pending, retry, opt-out, and
-   rapid repeated taps in both browser engines.
+1. Audit one heading hierarchy, landmark names, control names, live announcements, and focus order
+   across Today -> check-in -> Reflection -> save recovery -> Journal.
+2. Fix only demonstrated gaps; do not add a new accessibility framework or component rewrite.
+3. Add repeatable browser checks for 200% zoom/reflow, offline installed-app reload, and
+   service-worker update activation while preserving local sessions.
+4. Perform manual VoiceOver and TalkBack checks for the critical journey, recording limitations
+   that cannot be asserted reliably in Playwright.
+5. Keep GitHub Actions runtime-version maintenance in a separate small commit.

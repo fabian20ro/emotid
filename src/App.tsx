@@ -27,7 +27,7 @@ import { exportStoredUserDataJSON } from './data/user-data'
 import { getCrisisTier } from './models/distress'
 import { escalateCrisisTier, hasTemporalCrisisPattern } from './data/temporal-crisis'
 import type { AnalysisResult, BaseEmotion } from './models/types'
-import type { CheckInCompletion, CheckInRoute, AppTab } from './navigation/types'
+import type { CheckInCompletion, CheckInRoute, AppTab, ReflectionDetail, ReflectionSaveOutcome } from './navigation/types'
 import type { SerializedSelection, Session } from './data/types'
 
 export default function App() {
@@ -99,8 +99,9 @@ export default function App() {
     complete('quick', 'quick-check-in', [selection], [result])
   }, [complete])
 
-  const saveReflection = useCallback((detail: { reflectionAnswer?: 'yes' | 'partly' | 'no'; selectedNeed?: string; nextStep?: string }) => {
-    if (!completion || !saveSessions || reflectionSaved) return
+  const saveReflection = useCallback(async (detail: ReflectionDetail): Promise<ReflectionSaveOutcome> => {
+    if (!completion || !saveSessions) return 'not-saved'
+    if (reflectionSaved) return 'saved'
     const serialized: SerializedSelection[] = completion.selections.map((selection) => {
       const item: SerializedSelection = { emotionId: selection.id, label: selection.label }
       if ('selectedSensation' in selection && 'selectedIntensity' in selection) {
@@ -123,8 +124,9 @@ export default function App() {
       selectedNeed: detail.selectedNeed,
       nextStep: detail.nextStep,
     }
-    void saveSession(session)
+    await saveSession(session)
     setReflectionSaved(true)
+    return 'saved'
   }, [completion, reflectionSaved, saveSession, saveSessions])
 
   const returnToday = useCallback(() => {
@@ -174,7 +176,7 @@ export default function App() {
           : <ModelCheckInScreen route={destination.route} onBack={navigation.back} onComplete={(modelId, selections, results) => complete(destination.route, modelId, selections, results)} />
       case 'reflection':
         return completion
-          ? <ReflectionScreen completion={completion} saveSessions={saveSessions} allowExternalAI={allowExternalAI} onBack={navigation.back} onSave={saveReflection} onReturn={returnToday} />
+          ? <ReflectionScreen completion={completion} allowExternalAI={allowExternalAI} onBack={navigation.back} onSave={saveReflection} onReturn={returnToday} />
           : <TodayScreen sessions={sessions} saveSessions={saveSessions} onStart={() => navigation.navigate({ name: 'arrival' })} onQuickComplete={completeQuick} onOpenJournal={() => navigation.reset({ name: 'journal' })} />
       case 'explore':
         return <ExploreScreen onChoose={startRoute} onPractice={() => navigation.navigate({ name: 'granularity' })} />

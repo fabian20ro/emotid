@@ -3,6 +3,14 @@ import type { CrisisTier } from '../models/distress'
 
 export type AppTab = 'today' | 'explore' | 'journal'
 export type CheckInRoute = 'quick' | 'body' | 'affect' | 'words' | 'plutchik'
+export type ReflectionAnswer = 'yes' | 'partly' | 'no'
+export type ReflectionSaveOutcome = 'saved' | 'not-saved'
+
+export interface ReflectionDetail {
+  reflectionAnswer?: ReflectionAnswer
+  selectedNeed?: string
+  nextStep?: string
+}
 
 export type AppDestination =
   | { name: AppTab }

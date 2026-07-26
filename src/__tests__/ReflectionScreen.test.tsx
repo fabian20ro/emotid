@@ -1,11 +1,21 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ReflectionScreen } from '../screens/ReflectionScreen'
 import { LanguageProvider } from '../context/LanguageContext'
 import { storage } from '../data/storage'
 import type { AnalysisResult } from '../models/types'
-import type { CheckInCompletion } from '../navigation/types'
+import type { CheckInCompletion, ReflectionDetail, ReflectionSaveOutcome } from '../navigation/types'
+
+function deferred<T>() {
+  let resolve!: (value: T) => void
+  let reject!: (reason?: unknown) => void
+  const promise = new Promise<T>((resolvePromise, rejectPromise) => {
+    resolve = resolvePromise
+    reject = rejectPromise
+  })
+  return { promise, resolve, reject }
+}
 
 function result(id: string, need?: { en: string; ro: string }): AnalysisResult {
   return {
@@ -35,16 +45,16 @@ function renderReflection(
     language?: 'en' | 'ro'
     saveSessions?: boolean
     allowExternalAI?: boolean
+    onSave?: (detail: ReflectionDetail) => Promise<ReflectionSaveOutcome>
   } = {},
 ) {
   storage.set('language', options.language ?? 'en')
-  const onSave = vi.fn()
+  const onSave = vi.fn(options.onSave ?? (() => Promise.resolve(options.saveSessions === false ? 'not-saved' : 'saved')))
   const onBack = vi.fn()
   render(
     <LanguageProvider>
       <ReflectionScreen
         completion={completion(results, options.crisisTier)}
-        saveSessions={options.saveSessions ?? true}
         allowExternalAI={options.allowExternalAI ?? false}
         onBack={onBack}
         onSave={onSave}
@@ -123,7 +133,7 @@ describe('ReflectionScreen need selection', () => {
     await user.click(screen.getByRole('button', { name: 'Gata pentru acum' }))
 
     expect(onSave).toHaveBeenCalledWith(expect.objectContaining({ selectedNeed: second.ro }))
-    expect(screen.getByText('Această verificare nu a fost salvată')).toBeInTheDocument()
+    expect(await screen.findByText('Această verificare nu a fost salvată')).toBeInTheDocument()
   })
 
   it('keeps every need control behind tier-4 acknowledgement', async () => {
@@ -201,5 +211,56 @@ describe('ReflectionScreen need selection', () => {
     await user.click(screen.getByRole('button', { name: 'Nu prea' }))
     expect(screen.getByRole('heading', { name: 'Rezultatul nu se potrivește' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Încheiați fără o etichetă' })).toBeInTheDocument()
+  })
+
+  it('shows pending state, waits for persistence, and blocks duplicate submission', async () => {
+    const pending = deferred<ReflectionSaveOutcome>()
+    const onSave = vi.fn(() => pending.promise)
+    renderReflection([result('calm')], { onSave })
+    const done = screen.getByRole('button', { name: 'Done for now' })
+
+    act(() => {
+      done.click()
+      done.click()
+    })
+
+    expect(onSave).toHaveBeenCalledOnce()
+    expect(screen.getByTestId('reflection-saving-screen')).toHaveTextContent('Saving on this device')
+    expect(screen.queryByTestId('reflection-close-screen')).not.toBeInTheDocument()
+
+    await act(async () => pending.resolve('saved'))
+    expect(screen.getByTestId('reflection-close-screen')).toHaveTextContent('Saved privately on this device')
+  })
+
+  it('retries the same reflection after a local save failure', async () => {
+    const user = userEvent.setup()
+    const save = vi.fn()
+      .mockRejectedValueOnce(new Error('IndexedDB unavailable'))
+      .mockResolvedValueOnce('saved' as const)
+    const { onSave } = renderReflection([result('calm')], { onSave: save })
+
+    await user.click(screen.getByRole('button', { name: 'Done for now' }))
+    expect(await screen.findByRole('heading', { name: 'This reflection was not saved' })).toBeInTheDocument()
+    expect(screen.getByText(/nothing was sent online/i)).toBeInTheDocument()
+    expect(screen.queryByTestId('reflection-close-screen')).not.toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: 'Try saving again' }))
+    expect(await screen.findByTestId('reflection-close-screen')).toHaveTextContent('Saved privately on this device')
+    expect(onSave).toHaveBeenCalledTimes(2)
+    expect(onSave.mock.calls[1][0]).toEqual(onSave.mock.calls[0][0])
+  })
+
+  it('allows continuing after failure without claiming the reflection was saved', async () => {
+    const user = userEvent.setup()
+    renderReflection(
+      [result('calm')],
+      { language: 'ro', onSave: () => Promise.reject(new Error('IndexedDB unavailable')) },
+    )
+
+    await user.click(screen.getByRole('button', { name: 'Gata pentru acum' }))
+    expect(await screen.findByRole('heading', { name: 'Această reflecție nu a fost salvată' })).toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: 'Continuați fără salvare' }))
+
+    expect(screen.getByTestId('reflection-close-screen')).toHaveTextContent('Această verificare nu a fost salvată')
   })
 })

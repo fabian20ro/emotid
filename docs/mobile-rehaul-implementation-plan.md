@@ -599,6 +599,10 @@ the deployed app usable. Translation-only slices update both locales together.
 
 **Verify:** old/new fixture round trips; no destructive migration.
 
+**P8 follow-up:** Reflection now awaits the existing repository, reports pending/failure states,
+retries the same detail, blocks duplicate submission, and never claims success before IndexedDB
+confirmation. No schema or datastore change was required.
+
 ### Slice 13: Build Body Compass
 
 **Status:** Complete July 22, 2026.

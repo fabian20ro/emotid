@@ -872,3 +872,31 @@ least 65px high.
 optional actions require an explicit choice, and internal subviews reset scroll independently of
 route navigation. Safety contacts must be source-verified before becoming actionable.
 **Promoted to Lessons Learned:** Yes — safety-contact verification.
+
+---
+
+### [2026-07-26] Complete P8 persistence trust
+
+**Context:** Reflection entered its success screen immediately while `App` discarded the
+IndexedDB promise. A failed local write could therefore be described as saved, and repeated taps
+had no explicit in-flight guard.
+**What happened:**
+- Added shared reflection detail and save-outcome types; made `App.saveReflection` await the
+  existing repository and return `saved` or `not-saved`.
+- Added local idle, saving, error, and finished states to Reflection plus a synchronous in-flight
+  ref and retained detail for exact retry.
+- Added bilingual pending, failure, retry, and continue-without-saving UI with polite status and
+  alert semantics; saved confirmation now depends on the actual repository outcome.
+- Added unit coverage for unresolved writes, same-task duplicate clicks, rejection, exact retry,
+  successful recovery, and Romanian continuation without saving.
+- Added real-browser IndexedDB fault injection for delayed completion, first/permanent failure,
+  retry, one-record persistence, and saving-disabled zero-write behavior.
+- Manually inspected the recovery screen at 320x568 in light and dark themes, including bounds,
+  touch-target geometry, keyboard focus, live-region order, and token colors.
+**Outcome:** Success. `npm run check` passes 65 files and 608 tests, bilingual audits, TypeScript,
+lint, and production build. `npm run test:e2e` passes all 152 Mobile Safari and Mobile Chrome
+cases. The rendered recovery screen has no horizontal overflow; actions are 56px and 48px high.
+**Insight:** Success copy at a persistence boundary must follow durable-write confirmation.
+React-disabled controls are not a sufficient duplicate-write guard because multiple events can
+arrive in one task; pair the pending state with a synchronous in-flight ref.
+**Promoted to Lessons Learned:** No

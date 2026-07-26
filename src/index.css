@@ -523,6 +523,15 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .next-step-options button.is-active .need-choice-mark { border-color: var(--teal); background: var(--teal); color: var(--accent-ink); }
 .reflection-close { display: flex; min-height: 70dvh; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
 .close-mark { width: 58px; height: 58px; border-radius: 50%; display: grid; place-items: center; background: var(--teal-soft); color: var(--teal); margin-bottom: 18px; }
+.reflection-save-state { min-height: 70dvh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.save-state-mark { width: 58px; height: 58px; margin-bottom: 18px; border-radius: 50%; display: grid; place-items: center; background: var(--blue-soft); color: var(--blue); }
+.save-state-mark > svg { animation: save-state-spin 1s linear infinite; }
+.save-state-mark.is-error { background: var(--danger-bg); color: var(--danger-ink); }
+.save-state-mark.is-error > svg { animation: none; }
+.save-error-actions { width: 100%; margin-top: 24px; display: grid; gap: 8px; }
+.save-error-actions .text-button { width: 100%; }
+@keyframes save-state-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .save-state-mark > svg { animation: none; } }
 
 .crisis-banner { margin-bottom: 18px; padding: 16px; border: 1px solid var(--need-line); border-left: 4px solid var(--mustard); border-radius: 8px; background: var(--mustard-soft); color: var(--ink); }
 .crisis-banner.is-tier4 { border-color: var(--danger-line); border-left-color: var(--danger-ink); background: var(--danger-bg); }
