@@ -210,21 +210,46 @@ first-write failure and retry, permanent Romanian failure, continue without savi
 zero-write behavior, and final Journal contents. Manual 320x568 light/dark inspection confirmed no
 horizontal overflow, 48px-or-larger recovery actions, visible keyboard focus, and readable tokens.
 
-## Recommended Sequence
+## Completed: P9 Automated Accessibility and PWA Lifecycle
 
-1. Run an assistive-technology acceptance pass across the critical check-in and recovery journeys.
-2. Verify installed-PWA offline reload and service-worker update behavior without data loss.
-3. Update deprecated GitHub Actions versions as isolated CI maintenance.
+Every routed screen now exposes one programmatically focusable `h1`; the application `main`
+landmark is named by that heading and moves focus there after destination changes. Reflection
+also moves focus when saving, recovery, next-step, and completion replace the current view.
+Pending and failed writes announce only their relevant message instead of treating the entire
+screen and its actions as one live region.
 
-## Recommended Next Update
+Browser zoom is no longer disabled. The active language is synchronized to the document language,
+and bilingual Playwright acceptance follows Today -> Arrival -> Affect -> Reflection plus local
+save recovery. A 640 CSS-pixel desktop viewport provides the repeatable reflow equivalent for a
+1280px viewport at 200% zoom.
 
-Complete P9 release accessibility and PWA lifecycle verification:
+Workbox now precaches the complete revisioned local build instead of relying on a short-lived,
+visited-resource runtime cache. A separate production-only Chromium harness builds two versions
+and proves manifest scope, service-worker control, offline reopen, unvisited Affect/Plutchik chunk
+availability, IndexedDB Journal persistence, automatic update activation, and data survival after
+the update. It also rejects unexpected external requests.
 
-1. Audit one heading hierarchy, landmark names, control names, live announcements, and focus order
-   across Today -> check-in -> Reflection -> save recovery -> Journal.
-2. Fix only demonstrated gaps; do not add a new accessibility framework or component rewrite.
-3. Add repeatable browser checks for 200% zoom/reflow, offline installed-app reload, and
-   service-worker update activation while preserving local sessions.
-4. Perform manual VoiceOver and TalkBack checks for the critical journey, recording limitations
-   that cannot be asserted reliably in Playwright.
-5. Keep GitHub Actions runtime-version maintenance in a separate small commit.
+GitHub Actions now uses Node 24 and current Node 24-compatible major releases. The production PWA
+lifecycle is a distinct CI gate after the existing Safari/Chrome development-server matrix.
+
+**Verification:** `npm run check` passes 65 files and 608 tests, translation audits, TypeScript,
+lint, and a production build with 18 precache entries. `npm run test:e2e` passes all 160 Mobile
+Safari and Mobile Chrome cases. `npm run test:pwa` passes the production offline/update lifecycle.
+Manual 393x742 light/dark inspection confirmed focused headings, Affect geometry, and Settings
+contrast with no horizontal overflow. Visual inspection caught and removed the browser-default
+outline from programmatically focused noninteractive headings; interactive focus indicators
+remain.
+
+## Remaining Release Gate
+
+Run the scripted critical journey on physical assistive-technology combinations:
+
+1. VoiceOver with Safari on an Apple device.
+2. TalkBack with Chrome on Android.
+3. Record spoken order, duplicate announcements, modal focus, route focus, and crisis-content
+   priority.
+4. Make code changes only for demonstrated defects and add a repeatable regression where the
+   browser exposes the behavior.
+
+This device-level gate cannot be represented faithfully by Playwright's accessibility tree and was
+not claimed as completed in the automated environment.

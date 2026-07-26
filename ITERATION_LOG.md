@@ -900,3 +900,33 @@ cases. The rendered recovery screen has no horizontal overflow; actions are 56px
 React-disabled controls are not a sufficient duplicate-write guard because multiple events can
 arrive in one task; pair the pending state with a synchronous in-flight ref.
 **Promoted to Lessons Learned:** No
+
+---
+
+### [2026-07-26] Complete P9 automated accessibility and PWA lifecycle
+
+**Context:** Routed screens reset scroll without moving assistive-technology focus, browser zoom
+was disabled, Reflection live regions announced whole replacement screens, and Workbox disabled
+precache so offline behavior depended on previously visited resources.
+**What happened:**
+- Added one stable focusable screen heading per routed view, a heading-labelled main landmark,
+  destination focus, and internal Reflection-state focus.
+- Narrowed saving and failure announcements to their relevant message; synchronized document
+  language and restored browser zoom.
+- Added bilingual critical-journey semantics/focus coverage and a 200% desktop reflow equivalent
+  in Mobile Safari and Mobile Chrome.
+- Replaced short-lived runtime-only caching with 18 revisioned precache entries covering the shell
+  and every lazy visualization chunk.
+- Added a production-only two-build PWA harness proving offline reopen, unvisited Plutchik access,
+  persisted Journal data, automatic update activation, and no unexpected external requests.
+- Updated CI to Node 24-compatible action majors and added the PWA lifecycle as a separate gate.
+- Manual 393x742 inspection caught a default outline on the programmatically focused heading;
+  removed it without changing interactive focus indicators.
+**Outcome:** Success. `npm run check` passes 65 files and 608 tests. `npm run test:e2e` passes all
+160 Mobile Safari and Mobile Chrome cases. `npm run test:pwa` passes the production lifecycle.
+The build precaches 18 entries. Real VoiceOver and TalkBack device sessions remain a documented
+manual release gate and were not claimed as automated.
+**Insight:** A PWA requires production service-worker acceptance, not dev-server offline toggles.
+Route focus and live-region scope also need rendered-browser checks because valid ARIA alone can
+still produce duplicate announcements or visible noninteractive focus artifacts.
+**Promoted to Lessons Learned:** Yes — production PWA lifecycle verification.

@@ -54,6 +54,11 @@
 
 ## Performance & Infrastructure
 
+**[2026-07-26]** PWA development tests do not prove offline installation behavior — An empty
+Workbox `globPatterns` list left the application dependent on visited-resource runtime caches.
+Verify a production build with a controlled service worker, unvisited lazy chunks, offline reopen,
+and a two-version update while asserting IndexedDB survival.
+
 **[2026-02-07]** Browser automation can fail due to missing expected channel/runtime — Playwright MCP expected Chrome path unavailable. Verify runtime first, switch to local Playwright binaries if missing. Check browser availability before UI audits. Keep a fallback scripted audit path ready.
 
 **[2026-02-07]** Sandbox restrictions can block local server/browser startup — `EPERM` during dev server and browser launch. Escalate as soon as a required command fails under sandbox rules. Assume UI audit setup may need escalation.
