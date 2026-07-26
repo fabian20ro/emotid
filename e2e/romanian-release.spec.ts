@@ -129,9 +129,11 @@ test.describe('Romanian release journeys', () => {
     await chooseWord(page, /^Lipsit de valoare$/i)
 
     await page.locator('.route-action button').click()
-    await expect(page.getByRole('alert')).toContainText(/sfârșirea vieții/i)
+    await expect(page.getByRole('alert')).toContainText(
+      /nu îi arată aplicației Emot-ID dacă sunteți în pericol/i,
+    )
     await expect(page.locator('.emotion-heading')).toHaveCount(0)
-    await page.getByRole('button', { name: 'Am înțeles. Arată-mi reflecția' }).click()
+    await page.getByRole('button', { name: 'Continuați la reflecție' }).click()
     await expect(page.locator('.emotion-heading')).toContainText(/disperare/i)
   })
 })

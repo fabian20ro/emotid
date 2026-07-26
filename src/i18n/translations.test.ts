@@ -47,11 +47,6 @@ describe('i18n integrity', () => {
         expect(data.analyze).toHaveProperty('aiPromptMultiple');
       });
 
-      it('should contain the {region} placeholder for somatic prompts', () => {
-        expect(data.somatic.guidedPrompt).toContain('{region}');
-        expect(data.somatic.guidedPause).toContain('{region}');
-      });
-
       it('should have identical keys for all nested objects (en vs ro)', () => {
         const checkKeys = (obj1: any, obj2: any, path = '') => { // eslint-disable-line @typescript-eslint/no-explicit-any
           Object.keys(obj1).forEach(key => {

@@ -4,11 +4,13 @@ import { openApp, openArrival } from './helpers'
 async function expectSupportBoundary(page: Page, options: { tier4?: boolean } = {}) {
   const alert = page.getByRole('alert')
   await expect(alert).toBeVisible()
+  await expect(alert.getByRole('link', { name: /deprehub/i })).toHaveAttribute('href', 'tel:+40374456420')
   await expect(alert.getByRole('link', { name: /findahelpline/i })).toHaveAttribute('href', 'https://findahelpline.com')
   await expect(alert).toContainText(/immediate danger/i)
 
-  const acknowledge = page.getByRole('button', { name: /understand.*show my reflection/i })
+  const acknowledge = page.getByRole('button', { name: 'Continue to reflection' })
   if (options.tier4) {
+    await expect(alert).toContainText(/do not tell Emot-ID whether you are in danger/i)
     await expect(page.locator('.emotion-heading')).toHaveCount(0)
     await expect(page.getByRole('group', { name: 'What feels most needed right now?' })).toHaveCount(0)
     await expect(acknowledge).toBeVisible()

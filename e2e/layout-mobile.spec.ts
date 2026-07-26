@@ -2,6 +2,7 @@ import { test, expect, type Page } from '@playwright/test'
 import { openApp, openArrival } from './helpers'
 
 const viewports = [
+  { width: 320, height: 568 },
   { width: 360, height: 800 },
   { width: 393, height: 742 },
   { width: 430, height: 932 },

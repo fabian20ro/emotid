@@ -30,23 +30,29 @@ function completion(results: AnalysisResult[], crisisTier: CheckInCompletion['cr
 
 function renderReflection(
   results: AnalysisResult[],
-  options: { crisisTier?: CheckInCompletion['crisisTier']; language?: 'en' | 'ro'; saveSessions?: boolean } = {},
+  options: {
+    crisisTier?: CheckInCompletion['crisisTier']
+    language?: 'en' | 'ro'
+    saveSessions?: boolean
+    allowExternalAI?: boolean
+  } = {},
 ) {
   storage.set('language', options.language ?? 'en')
   const onSave = vi.fn()
+  const onBack = vi.fn()
   render(
     <LanguageProvider>
       <ReflectionScreen
         completion={completion(results, options.crisisTier)}
         saveSessions={options.saveSessions ?? true}
-        allowExternalAI={false}
-        onBack={vi.fn()}
+        allowExternalAI={options.allowExternalAI ?? false}
+        onBack={onBack}
         onSave={onSave}
         onReturn={vi.fn()}
       />
     </LanguageProvider>,
   )
-  return { onSave }
+  return { onSave, onBack }
 }
 
 describe('ReflectionScreen need selection', () => {
@@ -126,9 +132,74 @@ describe('ReflectionScreen need selection', () => {
     renderReflection([result('despair', need)], { crisisTier: 'tier4' })
 
     expect(screen.queryByRole('group', { name: 'What feels most needed right now?' })).not.toBeInTheDocument()
-    await user.click(screen.getByRole('button', { name: 'I understand. Show my reflection' }))
+    await user.click(screen.getByRole('button', { name: 'Continue to reflection' }))
 
     expect(screen.getByRole('group', { name: 'What feels most needed right now?' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: need.en })).toHaveAttribute('aria-pressed', 'true')
+  })
+
+  it('clears inferred content and saves no inferred detail when the result is rejected', async () => {
+    const user = userEvent.setup()
+    const need = { en: 'quiet and rest', ro: 'liniște și odihnă' }
+    const { onSave, onBack } = renderReflection([result('anxiety', need)], { allowExternalAI: true })
+
+    expect(screen.getByRole('button', { name: need.en })).toHaveAttribute('aria-pressed', 'true')
+    await user.click(screen.getByRole('button', { name: 'Not really' }))
+
+    expect(screen.getByRole('heading', { name: 'The result does not fit' })).toBeInTheDocument()
+    expect(screen.queryByRole('group', { name: 'What feels most needed right now?' })).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'Try one small step' })).not.toBeInTheDocument()
+    expect(screen.queryByRole('link', { name: 'Explore with AI' })).not.toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: 'Revise my selection' }))
+    expect(onBack).toHaveBeenCalledOnce()
+
+    await user.click(screen.getByRole('button', { name: 'Finish without a label' }))
+    expect(onSave).toHaveBeenCalledWith({
+      reflectionAnswer: 'no',
+      selectedNeed: undefined,
+      nextStep: undefined,
+    })
+  })
+
+  it('explains a partial fit and saves only an explicitly chosen neutral step', async () => {
+    const user = userEvent.setup()
+    const { onSave } = renderReflection([result('anxiety')])
+
+    await user.click(screen.getByRole('button', { name: 'Partly' }))
+    expect(screen.getByRole('status')).toHaveTextContent(/treating these as possibilities/i)
+    await user.click(screen.getByRole('button', { name: 'Try one small step' }))
+
+    expect(screen.queryByText(/approach what feels scary/i)).not.toBeInTheDocument()
+    const keep = screen.getByRole('button', { name: 'Keep this step' })
+    expect(keep).toBeDisabled()
+    const chosenStep = 'Write down one observation without trying to solve it.'
+    await user.click(screen.getByRole('button', { name: chosenStep }))
+    expect(keep).toBeEnabled()
+    await user.click(keep)
+
+    expect(onSave).toHaveBeenCalledWith({
+      reflectionAnswer: 'partly',
+      selectedNeed: undefined,
+      nextStep: chosenStep,
+    })
+  })
+
+  it('shows the Google handoff disclosure beside the unchanged external action', () => {
+    renderReflection([result('anxiety')], { allowExternalAI: true })
+
+    const link = screen.getByRole('link', { name: 'Explore with AI' })
+    expect(link).toHaveAttribute('href', expect.stringContaining('https://www.google.com/search?udm=50&q='))
+    expect(screen.getByText(/opens Google AI Mode/i)).toBeInTheDocument()
+    expect(screen.getByText(/not a substitute for professional support/i)).toBeInTheDocument()
+  })
+
+  it('localizes mismatch recovery in Romanian', async () => {
+    const user = userEvent.setup()
+    renderReflection([result('anxietate', { en: 'support', ro: 'sprijin' })], { language: 'ro' })
+
+    await user.click(screen.getByRole('button', { name: 'Nu prea' }))
+    expect(screen.getByRole('heading', { name: 'Rezultatul nu se potrivește' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Încheiați fără o etichetă' })).toBeInTheDocument()
   })
 })

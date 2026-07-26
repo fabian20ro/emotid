@@ -82,7 +82,7 @@ from Today, Reflection, Settings, and every crisis state.
 | First-run onboarding | Set expectations, privacy, language, and optional local saving | `Onboarding.tsx` | Replace model-choice final step |
 | Today | Calm home, quick strip, recent thread, start button | `QuickCheckIn.tsx`, session repo | New |
 | Arrival | Choose words, body, placement, or guided uncertainty | `DontKnowModal.tsx` | New full screen |
-| Body Compass | Region -> sensation -> intensity -> possible words | `BodyMap.tsx`, `GuidedScan.tsx` | Implemented staged route |
+| Body Compass | Region -> sensation -> intensity -> possible words | `BodyCompassScreen.tsx`, `BodyRegionMap.tsx` | Migrated staged route |
 | Affect Map | Place a point, read dimensions, then reveal suggestions | `DimensionalField.tsx` | Recompose |
 | Word Ladder | Broad family -> branch -> precise word | Wheel model, `WheelBreadcrumb.tsx` | New presentation |
 | Meaning + Need | Tentative synthesis, fit check, function, need | `ResultModal.tsx`, `ResultsView.tsx` | Recompose as screen |
@@ -164,7 +164,7 @@ or an authoritative-sounding "analysis" report.
 - Stable body viewport; front/back segmented control; one focused region at a time.
 - Sensation and intensity remain user-reported inputs.
 - Generate possible words only after input, preserving probabilistic language.
-- Retain `GuidedScan` as optional help, not the default overlay.
+- Keep optional help inline and user-initiated; the unreachable Guided Scan overlay was deleted.
 
 ### 3. Affect Map
 
@@ -613,10 +613,13 @@ the deployed app usable. Translation-only slices update both locales together.
 
 - Compose region, sensation, and intensity into one stepped route.
 - Add front/back control and stable body viewport.
-- Keep Guided Scan optional; preserve numbness/flooding safeguards.
+- Keep the route staged and user-directed; do not infer somatic meaning before completion.
 - Pass final selections through the shared controller.
 
 **Verify:** front/back selection, skip behavior, high-intensity pause, crisis completion, mobile bounds.
+
+**P7 follow-up:** The unreachable Guided Scan stack was deleted on July 26, 2026 after the active
+Body Compass route covered its concrete release value without overlay orchestration.
 
 ### Slice 14: Recompose Affect Map
 

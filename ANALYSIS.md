@@ -4,6 +4,9 @@
 **Codebase version:** Post Pixel 9a layout hotfixes (Phase 0.1-0.3 completed)
 **Target device:** Pixel 9a (393×742 effective Chrome viewport; 412×915 physical)
 
+> Historical baseline audit. File references and implementation findings describe the February
+> 2026 codebase; current migration status is tracked in `docs/mobile-rehaul-remaining-plan.md`.
+
 ---
 
 ## Table of Contents
@@ -399,7 +402,7 @@ Status: **RESOLVED** (graduated crisis feature access)
 ### 4.4 Recommendations
 
 **R4.1 (P0) — Add tier-4 crisis response for suicide-specific patterns.**
-Define a `SUICIDE_RISK_COMBOS` set containing combinations like `despair + worthless + empty`, `helpless + numb + abandoned`, etc. When triggered, display a distinct tier-4 banner with explicit language: "If you are thinking about ending your life, please call [number] now" or local equivalent. Include 988 (US), 116 123 (Romania), and findahelpline.com. The tier-4 banner should be visually distinct (red, not amber) and should be the only visible element until the user explicitly acknowledges it.
+Define a `SUICIDE_RISK_COMBOS` set containing combinations like `despair + worthless + empty`, `helpless + numb + abandoned`, etc. When triggered, display a distinct tier-4 banner that states the model limitation, offers a verified local support resource and findahelpline.com, and gates reflection detail until explicit acknowledgment. Do not infer self-harm intent from selected emotion labels.
 
 Files to modify: `src/models/distress.ts`, `src/components/CrisisBanner.tsx`
 i18n: Requires new keys `crisis.tier4`, `crisis.tier4Acknowledge`

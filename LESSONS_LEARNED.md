@@ -60,6 +60,8 @@
 
 ## Dependencies & External Services
 
+**[2026-07-26]** Safety contacts require current source verification before becoming actionable — Do not preserve a phone number merely because it already exists in copy or tests. Verify the country, service, availability, and dialing format through the hotline lookup source, then update links, bilingual copy, and deterministic tests together.
+
 **[2026-02-07]** Documentation accuracy depends on source verification — Stale behavior statements required follow-up fixes. Verify implementation details against actual source before writing docs. Map each doc claim to file/function evidence.
 
 **[2026-02-17]** ESLint 10 blocked by typescript-eslint peer dependency — `@eslint/js@10` and `eslint@10` cannot be installed while `typescript-eslint` still requires `eslint ^8.57.0 || ^9.0.0`. Skip these until `typescript-eslint` releases a compatible version. Safe to update all other major bumps (`globals`, `jsdom`, `eslint-plugin-react-refresh`, `@types/node`) independently.

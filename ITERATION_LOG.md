@@ -841,3 +841,34 @@ desktop, reduced-motion, or cross-route crisis release matrix. Affect placement 
 suggestions are keyboard-operable; test full route completion by input modality, not isolated
 buttons. Generated test directories should also be excluded from repository-wide static scans.
 **Promoted to Lessons Learned:** No
+
+---
+
+### [2026-07-26] Complete P7 reflection trust and safety boundary
+
+**Context:** Reflection still converted emotion labels into automatic advice, retained inferred
+content after explicit rejection, obscured the external Google handoff, and presented crisis
+support through legacy styling and an unverified Romanian number. The unreachable Guided Scan
+also retained unsupported clinical interaction code.
+**What happened:**
+- Replaced label-derived opposite actions and automatic breathing with three neutral,
+  user-selected next steps; no step persists without an explicit choice.
+- Made `Not really` withdraw inferred needs, meaning, AI, and next-step content, with revise and
+  finish-without-label paths that persist no inferred need or action.
+- Added uncertainty framing for partial fit and just-in-time Google AI Mode disclosure while
+  preserving the fixed emotion-name-only `udm=50` query contract.
+- Migrated crisis presentation, made support resources actionable, collapsed optional grounding,
+  and clarified that selected labels cannot establish danger or self-harm intent.
+- Verified the Romanian support resource before replacing stale copy and links; updated English,
+  Romanian, unit, and browser contracts together.
+- Deleted Guided Scan, its intensity picker/constants/tests, and the opposite-action lookup/tests.
+- Manual 320x568 inspection found a hidden next-step heading after an internal view transition;
+  added a local scroll reset and cross-browser regression assertion.
+**Outcome:** Success. `npm run check` passes 65 files and 605 tests, bilingual audits, TypeScript,
+lint, and production build. `npm run test:e2e` passes all 144 Mobile Safari and Mobile Chrome
+cases. Manual 320x568 light/dark checks found no horizontal overflow; support links measured at
+least 65px high.
+**Insight:** A result screen preserves agency only when rejection removes downstream inference,
+optional actions require an explicit choice, and internal subviews reset scroll independently of
+route navigation. Safety contacts must be source-verified before becoming actionable.
+**Promoted to Lessons Learned:** Yes — safety-contact verification.

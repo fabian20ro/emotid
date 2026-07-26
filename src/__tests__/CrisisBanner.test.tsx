@@ -7,7 +7,7 @@ const mockCrisisT = {
   tier2: 'Tier 2 message',
   tier3: 'Tier 3 message',
   tier4: 'Tier 4 message',
-  roLine: 'Romania: 116 123',
+  roLine: 'Romania: DepreHUB',
   intLine: 'International: help',
   disclaimer: 'Disclaimer text',
   temporalNote: 'Temporal note text',
@@ -19,7 +19,8 @@ describe('CrisisBanner', () => {
   it('renders tier 1 correctly', () => {
     render(<CrisisBanner tier="tier1" crisisT={mockCrisisT} />)
     expect(screen.getByText('Tier 1 message')).toBeInTheDocument()
-    expect(screen.getByText('Romania: 116 123')).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Romania: DepreHUB' })).toHaveAttribute('href', 'tel:+40374456420')
+    expect(screen.getByRole('link', { name: 'International: help' })).toHaveAttribute('href', 'https://findahelpline.com')
   })
 
   it('renders tier 2 with grounding details', () => {
@@ -35,7 +36,7 @@ describe('CrisisBanner', () => {
     expect(screen.getByText('Grounding title')).toBeInTheDocument()
   })
 
-  it('renders tier 4 with red styling, temporal note, aria-live alert region (per current impl)', () => {
+  it('renders tier 4 with semantic danger styling, temporal note, and an alert region', () => {
     render(<CrisisBanner tier="tier4" crisisT={mockCrisisT} showTemporalNote={true} />)
     expect(screen.getByText('Tier 4 message')).toBeInTheDocument()
     // Tier 4 still shows the temporal note when requested (safety-critical gating)
@@ -45,6 +46,7 @@ describe('CrisisBanner', () => {
     // Deterministic accessibility check: root must announce as alert region (safety-critical gating)
     const container = document.querySelector('[role="alert"]')
     expect(container).toBeInTheDocument()
+    expect(container).toHaveClass('crisis-banner', 'is-tier4')
     expect(container?.getAttribute('aria-live')).toBe('polite')
   })
 

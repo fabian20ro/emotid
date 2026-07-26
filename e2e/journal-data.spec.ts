@@ -7,6 +7,7 @@ async function saveQuickReflectionWithNextStep(page: Page) {
   await page.getByTestId('quick-feeling-anxiety').click()
   await page.getByRole('button', { name: 'Yes' }).click()
   await page.getByRole('button', { name: 'Try one small step' }).click()
+  await page.getByRole('button', { name: 'Pause and notice what feels manageable next.' }).click()
   await page.getByRole('button', { name: 'Keep this step' }).click()
   await page.getByRole('button', { name: 'Return to Today' }).click()
 }
@@ -86,7 +87,8 @@ test.describe('Journal data trust', () => {
     await page.getByRole('button', { name: /Moderată/i }).click()
     await page.locator('.route-action button').click()
     await page.getByRole('button', { name: 'Încercați un pas mic' }).click()
-    await page.getByRole('button', { name: 'Păstrez acest pas' }).click()
+    await page.getByRole('button', { name: 'Opriți-vă puțin și observați ce pare realizabil în continuare.' }).click()
+    await page.getByRole('button', { name: 'Păstrați acest pas' }).click()
     await page.getByRole('button', { name: 'Reveniți la Astăzi' }).click()
 
     await page.getByRole('button', { name: 'Jurnal', exact: true }).click()

@@ -161,13 +161,15 @@ test.describe('Safety behavior through the UI', () => {
     await expect(page.locator('.emotion-heading')).not.toBeVisible()
     await expect(page.getByRole('group', { name: 'What feels most needed right now?' })).toHaveCount(0)
     await expect(page.getByRole('link', { name: 'Explore with AI' })).toHaveCount(0)
-    await expect(page.getByRole('button', { name: /understand.*show my reflection/i })).toBeVisible()
+    await expect(alert).toContainText(/do not tell Emot-ID whether you are in danger/i)
+    await expect(alert.getByRole('link', { name: /deprehub/i })).toHaveAttribute('href', 'tel:+40374456420')
+    await expect(page.getByRole('button', { name: 'Continue to reflection' })).toBeVisible()
 
     const alertBox = await alert.boundingBox()
-    const ackBox = await page.getByRole('button', { name: /understand.*show my reflection/i }).boundingBox()
+    const ackBox = await page.getByRole('button', { name: 'Continue to reflection' }).boundingBox()
     expect(alertBox!.y).toBeLessThan(ackBox!.y)
 
-    await page.getByRole('button', { name: /understand.*show my reflection/i }).click()
+    await page.getByRole('button', { name: 'Continue to reflection' }).click()
     await expect(page.locator('.emotion-heading')).toContainText(/despair/i)
     await expect(page.getByRole('group', { name: 'What feels most needed right now?' })).toBeVisible()
     await expect(page.getByRole('link', { name: 'Explore with AI' })).toBeVisible()
@@ -188,6 +190,8 @@ test.describe('Privacy and support destinations', () => {
     expect(url.searchParams.get('q')).toBe(
       'I feel anxiety. What does this emotion mean and how can I understand it better?',
     )
+    await expect(page.getByText(/opens Google AI Mode with a fixed question/i)).toBeVisible()
+    await expect(page.getByText(/not a substitute for professional support/i)).toBeVisible()
 
     await page.getByRole('button', { name: 'Back' }).click()
     await expect(page.getByTestId('today-screen')).toBeVisible()
@@ -213,6 +217,6 @@ test.describe('Privacy and support destinations', () => {
     await expect(page.getByTestId('privacy-screen')).toContainText(/no account, analytics, or cloud sync/i)
     await page.getByRole('button', { name: 'Back' }).click()
     await page.getByRole('button', { name: 'Support' }).click()
-    await expect(page.getByTestId('support-screen')).toContainText('116 123')
+    await expect(page.getByTestId('support-screen')).toContainText('0374 456 420')
   })
 })

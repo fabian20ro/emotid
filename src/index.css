@@ -505,12 +505,36 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .more-context summary { min-height: 48px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; font-weight: 680; }
 .more-context p { color: var(--ink-muted); font-size: 14px; line-height: 1.5; }
 .external-ai-link { text-decoration: none; }
+.external-ai-action { margin-top: 12px; }
+.external-ai-action p { margin: 9px 4px 0; color: var(--ink); font-size: 14px; line-height: 1.5; text-align: center; }
+.external-ai-action small { display: block; margin: 5px 4px 0; color: var(--ink-muted); font-size: 12px; line-height: 1.45; text-align: center; }
 .external-ai-disabled { margin: 12px 8px 0; color: var(--ink-muted); font-size: 12px; line-height: 1.45; text-align: center; }
 .crisis-ack { width: 100%; min-height: 56px; padding: 12px; border: 0; border-radius: 8px; background: #9f2f27; color: white; font-weight: 750; }
-.next-step-card { margin-top: 24px; padding: 18px; border: 1px solid var(--need-line); border-radius: 8px; background: var(--mustard-soft); display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; color: var(--need-ink); }
-.next-step-card p { margin: 0; line-height: 1.55; }
+.fit-response { margin: -7px 0 18px; padding: 12px 14px; border-left: 4px solid var(--blue); background: var(--blue-soft); color: var(--ink); font-size: 14px; line-height: 1.5; }
+.mismatch-panel { margin-top: 4px; padding: 16px; border-left: 4px solid var(--blue); background: var(--blue-soft); }
+.mismatch-panel h2 { margin: 0; font-size: 17px; }
+.mismatch-panel p { margin: 7px 0 16px; color: var(--ink-muted); line-height: 1.5; }
+.mismatch-panel .text-button { margin-top: 7px; }
+.next-step-need { margin: 20px 0 10px; color: var(--ink-muted); display: flex; align-items: flex-start; gap: 8px; line-height: 1.45; }
+.next-step-need svg { flex: 0 0 auto; color: var(--mustard); }
+.next-step-options { display: grid; gap: 9px; margin-top: 20px; }
+.next-step-options button { width: 100%; min-height: 58px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-raised); color: var(--ink); display: grid; grid-template-columns: 22px minmax(0, 1fr); align-items: center; gap: 9px; text-align: left; line-height: 1.4; }
+.next-step-options button.is-active { border-color: var(--teal); background: var(--teal-soft); color: var(--teal); font-weight: 700; }
+.next-step-options button.is-active .need-choice-mark { border-color: var(--teal); background: var(--teal); color: var(--accent-ink); }
 .reflection-close { display: flex; min-height: 70dvh; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
 .close-mark { width: 58px; height: 58px; border-radius: 50%; display: grid; place-items: center; background: var(--teal-soft); color: var(--teal); margin-bottom: 18px; }
+
+.crisis-banner { margin-bottom: 18px; padding: 16px; border: 1px solid var(--need-line); border-left: 4px solid var(--mustard); border-radius: 8px; background: var(--mustard-soft); color: var(--ink); }
+.crisis-banner.is-tier4 { border-color: var(--danger-line); border-left-color: var(--danger-ink); background: var(--danger-bg); }
+.crisis-message { margin: 0; font-size: 16px; font-weight: 680; line-height: 1.5; }
+.crisis-resources { display: grid; gap: 8px; margin-top: 14px; }
+.crisis-resource { min-height: 52px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-raised); color: var(--ink); text-decoration: none; display: grid; grid-template-columns: 22px minmax(0, 1fr); align-items: center; gap: 9px; line-height: 1.35; }
+.crisis-resource svg { color: var(--teal); }
+.crisis-disclaimer, .crisis-temporal-note { margin: 11px 0 0; color: var(--ink-muted); font-size: 13px; line-height: 1.5; }
+.crisis-temporal-note { padding-top: 10px; border-top: 1px solid var(--line); }
+.crisis-grounding { margin-top: 11px; border-top: 1px solid var(--line); padding-top: 7px; }
+.crisis-grounding summary { min-height: 44px; cursor: pointer; display: flex; align-items: center; color: var(--ink); font-size: 14px; font-weight: 680; }
+.crisis-grounding p { margin: 4px 0 0; color: var(--ink-muted); font-size: 14px; line-height: 1.5; }
 
 .guided-screen { padding-bottom: 40px; }
 .guided-step, .guided-complete, .guided-success, .guided-empty { margin-top: 24px; }

@@ -1,6 +1,6 @@
 # Remaining Mobile Migration Plan
 
-Status: P6 complete; Guided Scan product decision remains, July 24, 2026.
+Status: P7 trust and safety boundary complete, July 26, 2026.
 
 ## Completed Since Last Update
 
@@ -31,6 +31,9 @@ Status: P6 complete; Guided Scan product decision remains, July 24, 2026.
   intervention, and sessions-only export presentation after tracing every production caller.
 - Replaced the mixed-responsibility Body Map with a route-owned staged flow and a
   presentation-only, theme-aware `BodyRegionMap`.
+- Replaced automatic label-derived actions with explicit neutral choices, made rejected results
+  discard inferred details, disclosed the Google handoff, and migrated the crisis presentation.
+- Deleted the unreachable Guided Scan stack after confirming that it had no release entry point.
 
 ## Constraints
 
@@ -120,8 +123,9 @@ Intensity -> Review workflow are unchanged. Native SVG paths replace motion-owne
 deterministic CSS-variable rendering and keyboard focus.
 
 The unreachable `BodyMap` orchestrator and `SensationPicker` sheet were deleted with their
-dedicated tests. `GuidedScan` and its compact `IntensityPicker` remain unchanged and tested, but
-are intentionally outside the active route until a separate product-placement decision.
+dedicated tests. The later P7 review also deleted `GuidedScan`, `GuidedScanPhases`,
+`IntensityPicker`, and their unused constants, copy, and tests because they had no active caller
+or distinct release value.
 
 **Verification:** `npm run check` passes 67 files and 625 tests. `npm run test:e2e` passes all 88
 Mobile Safari and Mobile Chrome cases. Browser coverage measures front/back bounds at 360x800,
@@ -130,13 +134,6 @@ Back/edit/remove/add-another behavior, shared crisis completion, and all non-bod
 Manual 393x742 inspection caught and fixed undersized and edge-clipped labels; final light/dark
 screens have no console errors. The body route chunk fell from 23.30 kB (8.22 gzip) to 6.89 kB
 (2.98 gzip), and main CSS fell from 65.20 to 63.69 kB.
-
-## Deferred: Guided Scan Placement
-
-`GuidedScan` currently has no active route caller. Before release, make one explicit product
-decision: either expose it as a route-local Body Compass mode with the same staged shell, or delete
-it with `GuidedScanPhases`, `IntensityPicker`, constants, and dedicated tests. Do not restore an
-overlay inside the region map.
 
 ## Completed: P6 Release Hardening
 
@@ -163,20 +160,45 @@ lint, and production build. `npm run test:e2e` passes all 130 Mobile Safari and 
 cases. Manual desktop light/dark inspection confirmed the Affect focus ring, readout, suggestions,
 and constrained field remain visible without clipping.
 
+## Completed: P7 Reflection Trust and Safety
+
+Reflection now treats every generated label as a hypothesis. Choosing `Not really` withdraws
+inferred needs, meaning, AI exploration, and next-step content; the user can revise the input or
+finish without persisting a label-derived need or action. `Partly` retains uncertainty language.
+
+The former opposite-action lookup and automatic breathing intervention were removed. The optional
+next-step view offers three neutral, explicit choices and does not save one until the user selects
+it. Opening that subview resets the content scroller so its heading remains visible at 320px.
+
+The external Google AI Mode link keeps the existing fixed-query contract and now gives
+just-in-time disclosure before the handoff. Crisis copy explicitly states that selected words
+cannot establish danger or self-harm intent. The migrated banner exposes a verified Romanian
+telephone resource and international directory as large actionable links; optional grounding is
+collapsed by default and framed as stoppable.
+
+The unreachable Guided Scan stack and label-derived opposite-action data were deleted rather than
+retained as unsupported clinical behavior.
+
+**Verification:** `npm run check` passes 65 files and 605 tests, bilingual audits, TypeScript, lint,
+and production build. `npm run test:e2e` passes all 144 Mobile Safari and Mobile Chrome cases,
+covering rejection persistence, partial-fit uncertainty, explicit next-step selection, AI
+disclosure, tier-4 gating, actionable support links, dark contrast, and 320px bounds. Manual
+320x568 light/dark inspection confirmed readable mismatch, next-step, and support states with no
+horizontal overflow.
+
 ## Recommended Sequence
 
-1. Explicit Guided Scan keep/delete decision before release.
-2. Run the unchanged full release matrix after that decision.
+1. Make Reflection persistence completion and failure explicit.
+2. Verify interruption behavior while saving, including rapid repeated taps and repository errors.
+3. Re-run the bilingual, cross-browser release matrix and perform one production-build smoke pass.
 
 ## Recommended Next Update
 
-Resolve the isolated Guided Scan boundary:
+Close the remaining persistence trust gap without introducing a queue or global state framework:
 
-1. Decide whether Guided Scan has a concrete release entry point and distinct user value beyond
-   the staged Body Compass.
-2. If retained, expose it as a route-local Body Compass mode using the existing screen shell; keep
-   it out of `BodyRegionMap` and do not add a generic wizard.
-3. If no release entry point is justified, delete `GuidedScan`, `GuidedScanPhases`,
-   `IntensityPicker`, unused constants/copy, and their dedicated tests.
-4. Re-run `npm run check` and all 130 Playwright cases after the decision, updating counts only for
-   intentional test removal or additions.
+1. Make `App.saveReflection` await the existing repository save and return an explicit result.
+2. Keep the close action pending while the write is in flight; prevent duplicate submissions.
+3. Show a compact bilingual retry/continue-without-saving state when IndexedDB fails.
+4. Preserve the current immediate close path when local saving is disabled.
+5. Add repository-failure unit coverage and Playwright journeys for pending, retry, opt-out, and
+   rapid repeated taps in both browser engines.
