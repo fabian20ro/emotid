@@ -11,41 +11,16 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['apple-touch-icon.png'],
       workbox: {
-        globPatterns: [],
-        runtimeCaching: [
-          {
-            urlPattern: ({ request }) => request.destination === 'document',
-            handler: 'NetworkFirst',
-            options: {
-              cacheName: 'html-cache',
-              expiration: { maxAgeSeconds: 180 },
-            },
-          },
-          {
-            urlPattern: ({ request }) =>
-              ['style', 'script', 'worker'].includes(request.destination),
-            handler: 'StaleWhileRevalidate',
-            options: {
-              cacheName: 'asset-cache',
-              expiration: { maxAgeSeconds: 180 },
-            },
-          },
-          {
-            urlPattern: ({ request }) => request.destination === 'image',
-            handler: 'CacheFirst',
-            options: {
-              cacheName: 'image-cache',
-              expiration: { maxAgeSeconds: 180, maxEntries: 50 },
-            },
-          },
-        ],
+        cleanupOutdatedCaches: true,
+        globPatterns: ['**/*.{css,html,ico,js,png,svg,webmanifest}'],
+        navigateFallback: 'index.html',
       },
       manifest: {
         name: 'Emot-ID',
         short_name: 'Emot-ID',
         description: 'Identifică-ți emoțiile prin bule interactive',
-        theme_color: '#8B5CF6',
-        background_color: '#1f2937',
+        theme_color: '#f7f7f3',
+        background_color: '#f7f7f3',
         display: 'standalone',
         orientation: 'portrait',
         scope: '/emot-id/',

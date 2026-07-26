@@ -25,6 +25,7 @@
     "lint:fix": "eslint . --fix",
     "format": "npm run lint:fix",
     "test:e2e": "playwright test",
+    "test:pwa": "playwright test --config=playwright.pwa.config.ts",
     "test:e2e:ui": "playwright test --ui",
     "check-keys": "node ./check_i18n_keys.cjs",
     "check-translations": "node ./check_translations.cjs",
