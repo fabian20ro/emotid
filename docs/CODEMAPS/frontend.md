@@ -1,18 +1,18 @@
 # Frontend Codemap
 
-**Last Updated:** 2026-07-24
+**Last Updated:** 2026-07-27
 
 ## Component Tree
 
 ```
 App (src/App.tsx)
- +-- Onboarding                   # 4-screen overlay (shown once)
+ +-- Onboarding                   # 3-step first-run overlay
  +-- AppShell                     # Persistent header, content, bottom tabs
  +-- TodayScreen                  # Quick emotions and recent reflection
  +-- ArrivalScreen                # Route chooser
  +-- ModelCheckInScreen           # Affect map and Plutchik flows
  |    +-- Visualization**
- |         +-- BubbleField        # Plutchik
+ |         +-- PlutchikWheel      # Stable two-emotion combination wheel
  |         +-- DimensionalField   # Affect map
  +-- WordLadderScreen             # Hierarchical emotion vocabulary
  +-- BodyCompassScreen            # Somatic route
@@ -21,7 +21,7 @@ App (src/App.tsx)
  +-- ExploreScreen                # Route and practice entry points
  +-- JournalScreen                # Sessions, summaries, chain entry
  +-- SessionDetailScreen          # Saved reflection details
- +-- SettingsScreen               # Preferences
+ +-- SettingsScreen               # Language, appearance, utility routes
  +-- PrivacyDataScreen            # Storage, export, destructive confirmation*
  +-- SupportScreen                # Crisis and product boundaries
  +-- GranularityTraining          # Full-screen practice flow

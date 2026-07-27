@@ -13,8 +13,6 @@ type StringSection = keyof Strings
 interface LanguageContextType {
   language: Language
   setLanguage: (lang: Language) => void
-  simpleLanguage: boolean
-  setSimpleLanguage: (enabled: boolean) => void
   t: Strings
   /** Type-safe section accessor: `section('today')` returns `Strings['today']` */
   section: <K extends StringSection>(key: K) => Strings[K]
@@ -37,28 +35,15 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     }
     return 'en'
   })
-  const [simpleLanguage, setSimpleLanguage] = useState<boolean>(() => {
-    if (typeof window !== 'undefined') {
-      return storage.get('simpleLanguage') === 'true'
-    }
-    return false
-  })
-
   useEffect(() => {
     storage.set('language', language)
     document.documentElement.lang = language
   }, [language])
 
-  useEffect(() => {
-    storage.set('simpleLanguage', String(simpleLanguage))
-  }, [simpleLanguage])
-
   return (
     <LanguageContext.Provider value={{
       language,
       setLanguage,
-      simpleLanguage,
-      setSimpleLanguage,
       t: strings[language],
       section: <K extends StringSection>(key: K) => strings[language][key],
     }}>

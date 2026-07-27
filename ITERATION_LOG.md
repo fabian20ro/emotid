@@ -930,3 +930,30 @@ manual release gate and were not claimed as automated.
 Route focus and live-region scope also need rendered-browser checks because valid ARIA alone can
 still produce duplicate announcements or visible noninteractive focus artifacts.
 **Promoted to Lessons Learned:** Yes — production PWA lifecycle verification.
+
+---
+
+### [2026-07-27] Complete P10 product truthfulness
+
+**Context:** Settings exposed three promises the client did not deliver: simple language never
+changed copy, sound had no playback caller, and a "Daily reminder" could not run after the app
+closed. Installed-app metadata and icons still represented the retired purple bubble UI.
+**What happened:**
+- Removed the simple-language, sound, and reminder controls plus their unused context, hooks,
+  notification service, translations, and dedicated tests.
+- Kept retired local-storage keys only in destructive cleanup so older installations still delete
+  all preferences; moved full-data export to schema version 2 without changing saved records.
+- Added pressed-button semantics for language and appearance in Settings and onboarding, with unit
+  and cross-browser assertions.
+- Replaced the `eid`/thought-bubble assets with a mask-safe four-color mark and aligned favicon,
+  manifest, HTML metadata, README, codemaps, and plan status with the routed product.
+- Extended the production PWA lifecycle to verify name, description, app ID, icon declarations,
+  favicon, and metadata while retaining offline/update/data-survival coverage.
+- Manual 393x742 Playwright inspection covered onboarding and Settings in light/dark themes; the
+  accessibility snapshot exposed both selector groups and their current pressed values.
+**Outcome:** Success. `npm run check` passes 64 files and 598 tests. `npm run test:e2e` passes all
+160 Mobile Safari and Mobile Chrome cases. `npm run test:pwa` passes the two-build production
+lifecycle with 18 precache entries.
+**Insight:** A persisted toggle is not a feature contract. Preference surfaces should remain
+absent until their effect works across the lifecycle implied by their label.
+**Promoted to Lessons Learned:** No

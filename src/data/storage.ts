@@ -3,13 +3,9 @@ const PREFIX = 'emot-id-'
 const KEYS = {
   model: `${PREFIX}model`,
   language: `${PREFIX}language`,
-  soundMuted: `${PREFIX}sound-muted`,
   onboarded: `${PREFIX}onboarded`,
   saveSessions: `${PREFIX}save-sessions`,
   dimensionalAxisHintSeen: `${PREFIX}dimensional-axis-hint-seen`,
-  dailyReminderEnabled: `${PREFIX}daily-reminder-enabled`,
-  dailyReminderLastSentAt: `${PREFIX}daily-reminder-last-sent-at`,
-  simpleLanguage: `${PREFIX}simple-language`,
   allowExternalAI: `${PREFIX}allow-external-ai`,
   theme: `${PREFIX}theme`,
 } as const
@@ -19,12 +15,8 @@ type StorageKey = keyof typeof KEYS
 export interface PreferenceSnapshot {
   model: string | null
   language: 'ro' | 'en'
-  soundMuted: boolean
   saveSessions: boolean
   dimensionalAxisHintSeen: boolean
-  dailyReminderEnabled: boolean
-  dailyReminderLastSentAt: number | null
-  simpleLanguage: boolean
   allowExternalAI: boolean
   theme: 'light' | 'dark'
   dismissedHints: string[]
@@ -33,15 +25,18 @@ export interface PreferenceSnapshot {
 const PREFERENCE_KEYS: StorageKey[] = [
   'model',
   'language',
-  'soundMuted',
   'saveSessions',
   'dimensionalAxisHintSeen',
-  'dailyReminderEnabled',
-  'dailyReminderLastSentAt',
-  'simpleLanguage',
   'allowExternalAI',
   'theme',
 ]
+
+const LEGACY_PREFERENCE_KEYS = [
+  `${PREFIX}sound-muted`,
+  `${PREFIX}daily-reminder-enabled`,
+  `${PREFIX}daily-reminder-last-sent-at`,
+  `${PREFIX}simple-language`,
+] as const
 
 function getStorage(): Storage | null {
   if (typeof window !== 'undefined' && window.localStorage) {
@@ -70,7 +65,6 @@ function set(key: StorageKey, value: string): void {
 }
 
 function getPreferenceSnapshot(): PreferenceSnapshot {
-  const reminderTimestamp = Number(get('dailyReminderLastSentAt'))
   const local = getStorage()
   const dismissedHints: string[] = []
   if (local) {
@@ -88,12 +82,8 @@ function getPreferenceSnapshot(): PreferenceSnapshot {
   return {
     model: get('model'),
     language: get('language') === 'ro' ? 'ro' : 'en',
-    soundMuted: get('soundMuted') === 'true',
     saveSessions: get('saveSessions') !== 'false',
     dimensionalAxisHintSeen: get('dimensionalAxisHintSeen') === 'true',
-    dailyReminderEnabled: get('dailyReminderEnabled') === 'true',
-    dailyReminderLastSentAt: Number.isFinite(reminderTimestamp) && reminderTimestamp > 0 ? reminderTimestamp : null,
-    simpleLanguage: get('simpleLanguage') === 'true',
     allowExternalAI: get('allowExternalAI') !== 'false',
     theme: get('theme') === 'dark' ? 'dark' : 'light',
     dismissedHints: dismissedHints.sort(),
@@ -103,7 +93,10 @@ function getPreferenceSnapshot(): PreferenceSnapshot {
 function resetPreferences(): void {
   const local = getStorage()
   if (!local) return
-  const keysToRemove: string[] = PREFERENCE_KEYS.map((key) => KEYS[key])
+  const keysToRemove: string[] = [
+    ...PREFERENCE_KEYS.map((key) => KEYS[key]),
+    ...LEGACY_PREFERENCE_KEYS,
+  ]
   try {
     for (let index = 0; index < local.length; index++) {
       const key = local.key(index)

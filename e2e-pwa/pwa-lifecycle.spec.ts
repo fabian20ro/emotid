@@ -30,10 +30,23 @@ test('offline reopen and automatic update preserve local reflections', async ({ 
   expect(manifestUrl).toBeTruthy()
   const manifest = await page.evaluate(async (url) => fetch(url!).then((response) => response.json()), manifestUrl)
   expect(manifest).toMatchObject({
+    name: 'Emot-ID',
+    short_name: 'Emot-ID',
+    description: 'Explore emotions through words, body sensations, and affect mapping.',
+    id: '/emot-id/',
     display: 'standalone',
     scope: '/emot-id/',
     start_url: '/emot-id/',
   })
+  expect(manifest.icons).toEqual(expect.arrayContaining([
+    expect.objectContaining({ src: 'icon-192.png', sizes: '192x192' }),
+    expect.objectContaining({ src: 'icon-512.png', sizes: '512x512', purpose: 'maskable' }),
+  ]))
+  await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+    'content',
+    'Emot-ID helps you explore emotions through words, body sensations, and affect mapping.',
+  )
+  await expect(page.locator('link[rel="icon"]')).toHaveAttribute('href', '/emot-id/icon-192.png')
 
   await waitForServiceWorkerControl(page)
   await page.getByTestId('quick-feeling-anxiety').click()

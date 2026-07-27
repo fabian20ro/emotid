@@ -1,7 +1,9 @@
 # Improvement Plan
 
-> Future improvements and architectural enhancements for Emot-ID.
-> Items here are tracked for follow-up iterations, not immediate implementation.
+> Historical plan. The Multi-Tree Emotion Membership work was completed by
+> `IMPLEMENTATION_PLAN.md` and is not remaining migration work.
+
+**Status**: Superseded, 2026-02-27.
 
 ---
 

@@ -4,7 +4,7 @@ import { getAllSessions } from './session-repo'
 import type { ChainAnalysisEntry, Session } from './types'
 
 export interface UserDataExport {
-  schemaVersion: 1
+  schemaVersion: 2
   exportedAt: string
   sessions: Session[]
   chainEntries: ChainAnalysisEntry[]
@@ -18,7 +18,7 @@ export function buildUserDataExport(
   exportedAt = new Date().toISOString(),
 ): UserDataExport {
   return {
-    schemaVersion: 1,
+    schemaVersion: 2,
     exportedAt,
     sessions,
     chainEntries,

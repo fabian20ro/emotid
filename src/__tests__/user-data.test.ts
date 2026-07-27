@@ -6,12 +6,8 @@ import type { ChainAnalysisEntry, Session } from '../data/types'
 const preferences: PreferenceSnapshot = {
   model: 'somatic',
   language: 'ro',
-  soundMuted: true,
   saveSessions: true,
   dimensionalAxisHintSeen: true,
-  dailyReminderEnabled: false,
-  dailyReminderLastSentAt: 42,
-  simpleLanguage: false,
   allowExternalAI: false,
   theme: 'dark',
   dismissedHints: ['somatic'],
@@ -50,7 +46,7 @@ describe('complete user-data export', () => {
     const exported = buildUserDataExport([session], [chain], preferences, '2026-07-23T00:00:00.000Z')
 
     expect(exported).toEqual({
-      schemaVersion: 1,
+      schemaVersion: 2,
       exportedAt: '2026-07-23T00:00:00.000Z',
       sessions: [session],
       chainEntries: [chain],
@@ -63,7 +59,7 @@ describe('complete user-data export', () => {
   it('serializes a stable JSON envelope', () => {
     const exported = JSON.parse(exportUserDataJSON([session], [chain], preferences))
 
-    expect(exported.schemaVersion).toBe(1)
+    expect(exported.schemaVersion).toBe(2)
     expect(exported.exportedAt).toEqual(expect.any(String))
     expect(exported.sessions[0].selectedNeed).toBe('slow breathing and safety')
     expect(exported.sessions[0].nextStep).toBe('Pause for three slow breaths.')

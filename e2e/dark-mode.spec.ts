@@ -106,4 +106,7 @@ test('keeps returning-user onboarding readable in dark mode', async ({ page }) =
   await expectDarkScreen(page, 'Onboarding step 2')
   await page.getByRole('button', { name: 'Next' }).click()
   await expectDarkScreen(page, 'Onboarding step 3')
+  const languageGroup = page.getByRole('group', { name: 'Language' })
+  await expect(languageGroup.getByRole('button', { name: 'English' })).toHaveAttribute('aria-pressed', 'true')
+  await expect(languageGroup.getByRole('button', { name: 'Română' })).toHaveAttribute('aria-pressed', 'false')
 })

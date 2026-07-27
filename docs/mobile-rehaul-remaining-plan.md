@@ -1,6 +1,6 @@
 # Remaining Mobile Migration Plan
 
-Status: P8 persistence trust complete, July 26, 2026.
+Status: P10 product truthfulness complete, July 27, 2026.
 
 ## Completed Since Last Update
 
@@ -240,7 +240,7 @@ contrast with no horizontal overflow. Visual inspection caught and removed the b
 outline from programmatically focused noninteractive headings; interactive focus indicators
 remain.
 
-## Remaining Release Gate
+## P9 Manual Follow-Up
 
 Run the scripted critical journey on physical assistive-technology combinations:
 
@@ -253,3 +253,33 @@ Run the scripted critical journey on physical assistive-technology combinations:
 
 This device-level gate cannot be represented faithfully by Playwright's accessibility tree and was
 not claimed as completed in the automated environment.
+
+## Completed: P10 Product Truthfulness
+
+Settings now exposes only implemented preferences: language and appearance. The no-op simple
+language and sound controls were removed with their dead runtime hooks. The notification control
+was also removed because its visible "Daily reminder" promise could not run after the client-only
+application closed. Legacy preference keys remain part of destructive cleanup only.
+
+Language and appearance selectors now expose their current values through pressed-button semantics
+in Settings and onboarding. Full-data export uses schema version 2 and omits the retired
+preferences without changing stored session or chain records.
+
+The installed-app surface now uses a text-free, mask-safe four-path mark at Apple, 192px, and 512px
+sizes. HTML and manifest metadata describe the routed words, body, and affect experience instead
+of the retired bubble-first UI. README, codemaps, and historical-plan status were reconciled with
+the current product.
+
+**Verification:** `npm run check` passes 64 files and 598 tests. `npm run test:e2e` passes all 160
+Mobile Safari and Mobile Chrome cases. `npm run test:pwa` passes the production offline/update
+lifecycle with manifest, icon, and metadata assertions. Manual 393x742 light/dark inspection
+confirmed bounded Settings rows, readable selected/unselected states, and correct accessibility
+snapshots.
+
+## Remaining Product Quality Work
+
+1. P11: patch the development dependency advisory graph without unrelated major upgrades.
+2. P12: establish the psychological copy contract and revise high-risk active descriptions.
+3. P13: review full catalog and somatic provenance plus safety-rule invariants.
+4. P14: complete physical VoiceOver/Safari and TalkBack/Chrome release acceptance.
+5. P15: optimize bundle architecture only if real-device measurements justify it.

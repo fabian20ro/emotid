@@ -1,31 +1,29 @@
 # Emot-ID
 
-> **[Try the live app →](https://fabian20ro.github.io/emot-id)**
+> **[Try the live app](https://fabian20ro.github.io/emot-id)**
 
-Interactive PWA for identifying and exploring emotions through multiple classification models.
+Privacy-first PWA for exploring emotions through words, body sensations, and affect mapping.
 
-## What does it do?
+## Product Flow
 
-- **Multiple models** — Explore emotions through Plutchik's wheel (dyad combinations), Emotion Wheel (hierarchical drill-down), Body Map (physical sensations), or Emotional Space (2D valence/arousal)
-- **Select emotions** — Tap bubbles, body regions, or scatter plot dots that resonate with your current state
-- **Discover patterns** — The app detects dyads, somatic patterns, and emotional complexity
-- **Safety-aware** — 4-tier crisis detection with graduated access (contextualizes without gatekeeping) and grounding techniques
-- **Explore further** — One-tap Google query generation from your selected emotions; optional external AI links stay off by default and require explicit opt-in in Settings
-- **Session history** — tracks your most-identified emotions, model spread, and milestone progress over time
+- **Today** offers a quick starting point and recent local reflections.
+- **Arrival** routes by what feels easiest to notice: body, placement, words, or guided uncertainty.
+- **Body Compass** records a region, sensation, and intensity before suggesting possible words.
+- **Affect Map** places a state by energy and pleasantness.
+- **Word Ladder** moves from broad feeling families toward more precise language.
+- **Plutchik** explores possible blends between two primary emotions.
+- **Reflection** presents tentative meaning, an explicit fit check, optional needs, and a user-chosen next step.
+- **Journal** keeps optional local reflections and guided chain-analysis entries.
 
 ## Features
 
-- 4 emotion classification models with distinct visualizations
-- Bilingual support (English / Romanian)
-- Narrative synthesis — personalized paragraph describing your emotional state
-- Cross-model bridges — suggestions to explore with a different model
-- 4-step onboarding for first-time users (can be skipped)
-- Session history with local-only analytics and export (JSON + therapist-friendly text)
-- Privacy-first — all session data stays strictly in your browser; no server-side storage or tracking
-- Sound feedback on selection (can be muted)
-- Accessibility and pacing — simple language mode plus daily reminders for lighter, more consistent check-ins
-- Responsive — works on mobile and desktop
-- Installable PWA — works offline after first load
+- English and Romanian interface.
+- Local-only IndexedDB journal; no account, telemetry, or cloud sync.
+- Versioned full-data JSON export and explicit local-data deletion.
+- Deterministic support prompts with actionable resources and no diagnosis from selected words.
+- Optional Google Search AI Mode link using only selected emotion names; enabled by default with an explicit opt-out.
+- Light and dark themes, keyboard operation, route focus management, reduced-motion support, and mobile reflow.
+- Installable offline PWA with tested update and data-retention behavior.
 
 ## Tech Stack
 
@@ -44,25 +42,17 @@ npm run dev
 
 ## Testing
 
-Run all unit tests using:
-
 ```bash
-npm test
-```
-
-For end-to-end testing with Playwright:
-
-```bash
+npm run check
 npm run test:e2e
+npm run test:pwa
 ```
 
-## Credits
+`npm run check` covers lint, unit/integration tests, bilingual audits, TypeScript, and the production build. Playwright covers Mobile Safari and Mobile Chrome; the PWA suite exercises the production service worker, offline reopen, automatic update, and local-data survival.
 
-Emotion models based on:
-- [Plutchik's Wheel of Emotions](https://en.wikipedia.org/wiki/Robert_Plutchik#Plutchik's_wheel_of_emotions) (Robert Plutchik, 1980)
-- [Emotion Wheel](https://en.wikipedia.org/wiki/Emotion_classification) (hierarchical classification)
-- [Body Map of Emotions](https://en.wikipedia.org/wiki/Bodily_map_of_emotions) (Nummenmaa et al., 2014)
-- [Circumplex Model](https://en.wikipedia.org/wiki/Circumplex_model_of_affect) (Russell, 1980) — valence/arousal dimensional approach
+## Method Context
+
+The optional exploration methods draw from Plutchik's emotion model, hierarchical emotion vocabularies, circumplex affect models, and body-awareness research. Emot-ID is a reflection tool, not therapy, diagnosis, or emergency care.
 
 ## License
 

@@ -25,6 +25,12 @@ async function saveChainEntry(page: Page) {
 test.describe('Journal data trust', () => {
   test('exports sessions, chain entries, and preferences, then deletes all local data', async ({ page }) => {
     await openApp(page)
+    await page.evaluate(() => {
+      localStorage.setItem('emot-id-sound-muted', 'true')
+      localStorage.setItem('emot-id-daily-reminder-enabled', 'true')
+      localStorage.setItem('emot-id-daily-reminder-last-sent-at', '42')
+      localStorage.setItem('emot-id-simple-language', 'true')
+    })
     await saveQuickReflectionWithNextStep(page)
     await saveChainEntry(page)
 
@@ -41,7 +47,7 @@ test.describe('Journal data trust', () => {
     expect(path).not.toBeNull()
     const exported = JSON.parse(await readFile(path!, 'utf8'))
 
-    expect(exported.schemaVersion).toBe(1)
+    expect(exported.schemaVersion).toBe(2)
     expect(exported.sessions).toHaveLength(1)
     expect(exported.sessions[0].selectedNeed).toBe('grounding, breath, and present focus')
     expect(exported.sessions[0].nextStep).toEqual(expect.any(String))
@@ -49,6 +55,10 @@ test.describe('Journal data trust', () => {
     expect(exported.chainEntries[0].emotion).toBe('entry-3')
     expect(exported.preferences.theme).toBe('dark')
     expect(exported.preferences.allowExternalAI).toBe(false)
+    expect(exported.preferences).not.toHaveProperty('soundMuted')
+    expect(exported.preferences).not.toHaveProperty('dailyReminderEnabled')
+    expect(exported.preferences).not.toHaveProperty('dailyReminderLastSentAt')
+    expect(exported.preferences).not.toHaveProperty('simpleLanguage')
 
     const deleteTrigger = page.getByRole('button', { name: 'Delete all local data' })
     await deleteTrigger.click()
@@ -66,6 +76,12 @@ test.describe('Journal data trust', () => {
     await expect(page.getByRole('status')).toContainText('Local data was deleted')
     await expect(page.locator('html')).toHaveAttribute('data-theme', 'light')
     await expect(page.getByRole('switch', { name: 'Allow external AI search links' })).toBeChecked()
+    expect(await page.evaluate(() => ({
+      sound: localStorage.getItem('emot-id-sound-muted'),
+      reminder: localStorage.getItem('emot-id-daily-reminder-enabled'),
+      reminderSent: localStorage.getItem('emot-id-daily-reminder-last-sent-at'),
+      simple: localStorage.getItem('emot-id-simple-language'),
+    }))).toEqual({ sound: null, reminder: null, reminderSent: null, simple: null })
 
     await page.getByRole('button', { name: 'Back' }).click()
     await page.getByRole('button', { name: 'Back' }).click()

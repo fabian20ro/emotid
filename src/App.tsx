@@ -19,8 +19,6 @@ import { SupportScreen } from './screens/SupportScreen'
 import { useAppNavigation } from './hooks/useAppNavigation'
 import { useSessionHistory } from './hooks/useSessionHistory'
 import { useChainAnalysis } from './hooks/useChainAnalysis'
-import { useReminders } from './hooks/useReminders'
-import { useSound } from './hooks/useSound'
 import { useLanguage } from './context/LanguageContext'
 import { storage } from './data/storage'
 import { exportStoredUserDataJSON } from './data/user-data'
@@ -31,7 +29,7 @@ import type { CheckInCompletion, CheckInRoute, AppTab, ReflectionDetail, Reflect
 import type { SerializedSelection, Session } from './data/types'
 
 export default function App() {
-  const { section, setLanguage, setSimpleLanguage } = useLanguage()
+  const { setLanguage } = useLanguage()
   const navigation = useAppNavigation()
   const [showOnboarding, setShowOnboarding] = useState(() => storage.get('onboarded') !== 'true')
   const [isOffline, setIsOffline] = useState(() => typeof navigator !== 'undefined' && !navigator.onLine)
@@ -40,12 +38,9 @@ export default function App() {
 
   const { sessions, loading: sessionsLoading, error: sessionsError, save: saveSession, clearAll: clearAllSessions } = useSessionHistory()
   const { entries: chainEntries, loading: chainLoading, save: saveChainEntry, clearAll: clearAllChains } = useChainAnalysis()
-  const { muted, setMuted } = useSound()
   const [saveSessions, setSaveSessions] = useState(() => storage.get('saveSessions') !== 'false')
   const [allowExternalAI, setAllowExternalAI] = useState(() => storage.get('allowExternalAI') !== 'false')
   const [theme, setTheme] = useState<'light' | 'dark'>(() => storage.get('theme') === 'dark' ? 'dark' : 'light')
-  const remindersT = section('reminders')
-  const { dailyReminderEnabled, reminderPermission, reminderSupported, handleDailyReminderChange } = useReminders(remindersT)
 
   useEffect(() => {
     const online = () => setIsOffline(false)
@@ -150,13 +145,10 @@ export default function App() {
     await Promise.all([clearAllSessions(), clearAllChains()])
     storage.resetPreferences()
     setLanguage(navigator.language.startsWith('ro') ? 'ro' : 'en')
-    setSimpleLanguage(false)
-    setMuted(false)
     setSaving(true)
     setExternalAI(true)
     setTheme('light')
-    await handleDailyReminderChange(false)
-  }, [clearAllChains, clearAllSessions, handleDailyReminderChange, setExternalAI, setLanguage, setMuted, setSaving, setSimpleLanguage])
+  }, [clearAllChains, clearAllSessions, setExternalAI, setLanguage, setSaving])
 
   const destination = navigation.destination
   const activeTab: AppTab | null = destination.name === 'today' || destination.name === 'explore' || destination.name === 'journal' ? destination.name : null
@@ -185,7 +177,7 @@ export default function App() {
       case 'session':
         return <SessionDetailScreen session={sessions.find((session) => session.id === destination.sessionId)} onBack={navigation.back} />
       case 'settings':
-        return <SettingsScreen soundMuted={muted} dailyReminderEnabled={dailyReminderEnabled} reminderSupported={reminderSupported && reminderPermission !== 'denied'} theme={theme} onBack={navigation.back} onSoundChange={setMuted} onReminderChange={(enabled) => void handleDailyReminderChange(enabled)} onThemeChange={setTheme} onOpenPrivacy={() => navigation.navigate({ name: 'privacy' })} onOpenSupport={() => navigation.navigate({ name: 'support' })} />
+        return <SettingsScreen theme={theme} onBack={navigation.back} onThemeChange={setTheme} onOpenPrivacy={() => navigation.navigate({ name: 'privacy' })} onOpenSupport={() => navigation.navigate({ name: 'support' })} />
       case 'privacy':
         return <PrivacyDataScreen saveSessions={saveSessions} allowExternalAI={allowExternalAI} onBack={navigation.back} onSaveSessionsChange={setSaving} onExternalAIChange={setExternalAI} onExport={exportData} onClear={clearData} />
       case 'support':
@@ -197,7 +189,7 @@ export default function App() {
       default:
         return null
     }
-  }, [allowExternalAI, chainEntries, chainLoading, clearAllChains, clearData, complete, completeQuick, completion, dailyReminderEnabled, destination, exportData, handleDailyReminderChange, muted, navigation, reminderPermission, reminderSupported, returnToday, saveChainEntry, saveReflection, saveSessions, sessions, sessionsError, sessionsLoading, setExternalAI, setMuted, setSaving, startRoute, theme])
+  }, [allowExternalAI, chainEntries, chainLoading, clearAllChains, clearData, complete, completeQuick, completion, destination, exportData, navigation, returnToday, saveChainEntry, saveReflection, saveSessions, sessions, sessionsError, sessionsLoading, setExternalAI, setSaving, startRoute, theme])
 
   if (showOnboarding) {
     return (

@@ -99,28 +99,28 @@ describe('storage', () => {
   describe('preferences', () => {
     it('returns resolved defaults and stored values as a typed snapshot', () => {
       storage.set('language', 'ro')
-      storage.set('soundMuted', 'true')
       storage.set('allowExternalAI', 'false')
       storage.set('theme', 'dark')
-      storage.set('dailyReminderLastSentAt', '42')
       storage.dismissHint('somatic')
 
       expect(storage.getPreferenceSnapshot()).toEqual(expect.objectContaining({
         language: 'ro',
-        soundMuted: true,
         saveSessions: true,
         allowExternalAI: false,
         theme: 'dark',
-        dailyReminderLastSentAt: 42,
         dismissedHints: ['somatic'],
       }))
     })
 
-    it('removes preference keys but preserves onboarding state', () => {
+    it('removes active and legacy preference keys but preserves onboarding state', () => {
       storage.set('language', 'ro')
       storage.set('theme', 'dark')
       storage.set('onboarded', 'true')
       storage.dismissHint('somatic')
+      window.localStorage.setItem('emot-id-sound-muted', 'true')
+      window.localStorage.setItem('emot-id-daily-reminder-enabled', 'true')
+      window.localStorage.setItem('emot-id-daily-reminder-last-sent-at', '42')
+      window.localStorage.setItem('emot-id-simple-language', 'true')
 
       storage.resetPreferences()
 
@@ -128,6 +128,10 @@ describe('storage', () => {
       expect(storage.get('theme')).toBeNull()
       expect(storage.get('onboarded')).toBe('true')
       expect(storage.isHintDismissed('somatic')).toBe(false)
+      expect(window.localStorage.getItem('emot-id-sound-muted')).toBeNull()
+      expect(window.localStorage.getItem('emot-id-daily-reminder-enabled')).toBeNull()
+      expect(window.localStorage.getItem('emot-id-daily-reminder-last-sent-at')).toBeNull()
+      expect(window.localStorage.getItem('emot-id-simple-language')).toBeNull()
     })
   })
 })

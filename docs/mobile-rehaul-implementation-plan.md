@@ -724,6 +724,10 @@ Body Compass route covered its concrete release value without overlay orchestrat
 
 **Verify:** every preference persists through the storage facade; keyboard and screen-reader navigation.
 
+**P10 follow-up:** The July 2026 trust cleanup removed simple-language, sound, and daily-reminder
+controls after source tracing proved they did not deliver their visible promises. Settings now
+contains only implemented language and appearance preferences plus Privacy and Support routes.
+
 ### Slice 20: Add Privacy & Data and Support
 
 **Files**

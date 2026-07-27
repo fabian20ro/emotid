@@ -42,29 +42,11 @@
   "onboarding": {
     "screen1Title": "This is an exploration, not a test",
     "screen1Body": "There are no right or wrong answers. Emotions are complex and layered. Take your time — this is a space for curiosity, not judgment.",
-    "screen1BodySimple": "There is no right or wrong answer. Be curious, not harsh with yourself.",
     "screen2Title": "Every emotion has a purpose",
     "screen2Body": "No emotion is good or bad. Anger protects boundaries. Sadness helps process loss. Fear keeps you safe. Instead of asking \"what's wrong,\" ask \"what is my body telling me?\"",
-    "screen2BodySimple": "Each emotion has a job. None are bad. Ask: what is this feeling trying to tell me?",
-    "screen3Title": "Choose your way in",
-    "screen3Body": "Body Map — feel where emotions live in your body. Emotion Wheel — navigate from general to specific feelings. Plutchik — discover how emotions combine and interact. Each reveals different aspects. Start wherever feels natural.",
-    "screen3BodySimple": "Body Map: start with sensations. Emotion Wheel: choose feeling words. Plutchik: see emotion combinations. Pick what feels easiest.",
-    "screen4Title": "About this app",
-    "screen4Body": "This app supports emotional self-awareness. It is not a diagnostic tool and does not replace professional mental health support. If you ever want to talk to someone, you can call DepreHUB at 0374 456 420 (Romania, free, confidential, 24/7) or visit findahelpline.com.",
-    "screen4BodySimple": "This app helps you notice emotions. It is not medical diagnosis. If you need support, call DepreHUB at 0374 456 420 or visit findahelpline.com.",
     "next": "Next",
     "back": "Back",
-    "selectModel": "Choose your starting model",
     "getStarted": "Get started"
-  },
-  "reminders": {
-    "label": "Daily reminder",
-    "on": "On",
-    "off": "Off",
-    "unsupported": "Notifications are not supported on this device.",
-    "permissionDenied": "Notifications are blocked. Enable them in browser settings.",
-    "notificationTitle": "Time for a quick emotional check-in",
-    "notificationBody": "Take 30 seconds to notice what you feel."
   },
   "firstHint": {
     "somatic": "Tap where you notice a sensation",
@@ -345,16 +327,11 @@
     "title": "Settings",
     "preferences": "Preferences",
     "language": "Language",
-    "simple": "Simple language",
     "theme": "Appearance",
     "light": "Light",
     "dark": "Dark",
-    "sound": "Sound effects",
-    "reminders": "Daily reminder",
     "privacy": "Privacy & data",
-    "support": "Support",
-    "on": "On",
-    "off": "Off"
+    "support": "Support"
   },
   "privacyData": {
     "title": "Privacy & data",

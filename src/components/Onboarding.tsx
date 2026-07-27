@@ -42,9 +42,9 @@ export function Onboarding({ onComplete }: OnboardingProps) {
           <h1 id="onboarding-title">{current.title}</h1>
           <p>{current.body}</p>
           {isLast && (
-            <div className="segmented onboarding-language" aria-label={section('settingsScreen').language}>
-              <button type="button" className={language === 'en' ? 'is-active' : ''} onClick={() => setLanguage('en')}>English</button>
-              <button type="button" className={language === 'ro' ? 'is-active' : ''} onClick={() => setLanguage('ro')}>Română</button>
+            <div className="segmented onboarding-language" role="group" aria-label={section('settingsScreen').language}>
+              <button type="button" aria-pressed={language === 'en'} className={language === 'en' ? 'is-active' : ''} onClick={() => setLanguage('en')}>English</button>
+              <button type="button" aria-pressed={language === 'ro'} className={language === 'ro' ? 'is-active' : ''} onClick={() => setLanguage('ro')}>Română</button>
             </div>
           )}
         </motion.div>

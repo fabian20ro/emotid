@@ -1,15 +1,10 @@
-import { Bell, ChevronRight, Languages, LifeBuoy, LockKeyhole, Moon, Volume2 } from 'lucide-react'
+import { ChevronRight, Languages, LifeBuoy, LockKeyhole, Moon } from 'lucide-react'
 import { useLanguage } from '../context/LanguageContext'
 import { ScreenHeader } from '../components/ScreenHeader'
 
 interface SettingsScreenProps {
-  soundMuted: boolean
-  dailyReminderEnabled: boolean
-  reminderSupported: boolean
   theme: 'light' | 'dark'
   onBack: () => void
-  onSoundChange: (muted: boolean) => void
-  onReminderChange: (enabled: boolean) => void
   onThemeChange: (theme: 'light' | 'dark') => void
   onOpenPrivacy: () => void
   onOpenSupport: () => void
@@ -29,8 +24,8 @@ function Toggle({ checked, label, onChange, disabled = false }: { checked: boole
   )
 }
 
-export function SettingsScreen({ soundMuted, dailyReminderEnabled, reminderSupported, theme, onBack, onSoundChange, onReminderChange, onThemeChange, onOpenPrivacy, onOpenSupport }: SettingsScreenProps) {
-  const { language, setLanguage, simpleLanguage, setSimpleLanguage, section } = useLanguage()
+export function SettingsScreen({ theme, onBack, onThemeChange, onOpenPrivacy, onOpenSupport }: SettingsScreenProps) {
+  const { language, setLanguage, section } = useLanguage()
   const t = section('settingsScreen')
 
   return (
@@ -40,16 +35,20 @@ export function SettingsScreen({ soundMuted, dailyReminderEnabled, reminderSuppo
       <div className="settings-list">
         <div className="settings-row">
           <Languages size={20} aria-hidden="true" />
-          <span>{t.language}</span>
-          <div className="segmented" aria-label={t.language}>
-            <button type="button" className={language === 'en' ? 'is-active' : ''} onClick={() => setLanguage('en')}>EN</button>
-            <button type="button" className={language === 'ro' ? 'is-active' : ''} onClick={() => setLanguage('ro')}>RO</button>
+          <span id="settings-language-label">{t.language}</span>
+          <div className="segmented" role="group" aria-labelledby="settings-language-label">
+            <button type="button" aria-pressed={language === 'en'} className={language === 'en' ? 'is-active' : ''} onClick={() => setLanguage('en')}>EN</button>
+            <button type="button" aria-pressed={language === 'ro'} className={language === 'ro' ? 'is-active' : ''} onClick={() => setLanguage('ro')}>RO</button>
           </div>
         </div>
-        <div className="settings-row"><Languages size={20} aria-hidden="true" /><span>{t.simple}</span><Toggle checked={simpleLanguage} label={t.simple} onChange={setSimpleLanguage} /></div>
-        <div className="settings-row"><Moon size={20} aria-hidden="true" /><span>{t.theme}</span><div className="segmented" aria-label={t.theme}><button type="button" className={theme === 'light' ? 'is-active' : ''} onClick={() => onThemeChange('light')}>{t.light}</button><button type="button" className={theme === 'dark' ? 'is-active' : ''} onClick={() => onThemeChange('dark')}>{t.dark}</button></div></div>
-        <div className="settings-row"><Volume2 size={20} aria-hidden="true" /><span>{t.sound}</span><Toggle checked={!soundMuted} label={t.sound} onChange={(enabled) => onSoundChange(!enabled)} /></div>
-        <div className="settings-row"><Bell size={20} aria-hidden="true" /><span>{t.reminders}</span><Toggle checked={dailyReminderEnabled} label={t.reminders} disabled={!reminderSupported} onChange={onReminderChange} /></div>
+        <div className="settings-row">
+          <Moon size={20} aria-hidden="true" />
+          <span id="settings-theme-label">{t.theme}</span>
+          <div className="segmented" role="group" aria-labelledby="settings-theme-label">
+            <button type="button" aria-pressed={theme === 'light'} className={theme === 'light' ? 'is-active' : ''} onClick={() => onThemeChange('light')}>{t.light}</button>
+            <button type="button" aria-pressed={theme === 'dark'} className={theme === 'dark' ? 'is-active' : ''} onClick={() => onThemeChange('dark')}>{t.dark}</button>
+          </div>
+        </div>
       </div>
 
       <h2 className="section-heading">{section('privacyData').title}</h2>

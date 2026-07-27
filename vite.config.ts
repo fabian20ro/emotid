@@ -18,11 +18,13 @@ export default defineConfig({
       manifest: {
         name: 'Emot-ID',
         short_name: 'Emot-ID',
-        description: 'Identifică-ți emoțiile prin bule interactive',
+        description: 'Explore emotions through words, body sensations, and affect mapping.',
+        id: '/emot-id/',
         theme_color: '#f7f7f3',
         background_color: '#f7f7f3',
         display: 'standalone',
         orientation: 'portrait',
+        categories: ['lifestyle', 'utilities'],
         scope: '/emot-id/',
         start_url: '/emot-id/',
         icons: [
