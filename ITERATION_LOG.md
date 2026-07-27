@@ -957,3 +957,30 @@ lifecycle with 18 precache entries.
 **Insight:** A persisted toggle is not a feature contract. Preference surfaces should remain
 absent until their effect works across the lifecycle implied by their label.
 **Promoted to Lessons Learned:** No
+
+---
+
+### [2026-07-28] Complete P11 dependency remediation
+
+**Context:** GitHub reported six open Dependabot advisories. The installed npm graph expanded
+those advisories to 21 affected packages, including direct Vite and ESLint tooling plus stale
+Workbox and lint transitive chains.
+**What happened:**
+- Applied compatible patched versions for Vite, esbuild, PostCSS, fast-uri, AJV, TypeScript
+  ESLint, and vite-plugin-pwa.
+- Upgraded ESLint, `@eslint/js`, React Hooks, and React Refresh as one peer cohort; raised the
+  documented Node development baseline to the strictest supported engine range.
+- Added a narrow EJS 6 override for Workbox's off-main-thread Rollup plugin, removing its
+  vulnerable Jake/filelist/minimatch chain without replacing the current PWA architecture.
+- Fixed two new ESLint 10 findings without suppressions: preserved a caught JSON parse cause and
+  removed an overwritten button-label initialization.
+- Regenerated the lockfile, verified a clean install and peer tree, and archived the obsolete
+  lesson that TypeScript ESLint blocked ESLint 10.
+**Outcome:** Success. Clean `npm ci` and `npm ls` pass; `npm audit` reports zero vulnerabilities.
+`npm run check` passes 64 files and 598 tests, bilingual audits, TypeScript, lint, and production
+build. `npm run test:e2e` passes all 160 Mobile Safari and Mobile Chrome cases. `npm run test:pwa`
+passes the two-build production lifecycle with 18 precache entries.
+**Insight:** Security upgrades are dependency-cohort changes, not isolated version edits. Encode
+patched direct minimums and the true Node floor, constrain stale transitive replacements narrowly,
+then require clean-install, peer, browser, and production lifecycle gates.
+**Promoted to Lessons Learned:** Yes — dependency peer cohorts and engine floors.

@@ -35,6 +35,8 @@ Privacy-first PWA for exploring emotions through words, body sensations, and aff
 
 ## Local Development
 
+Requires Node.js 20.19+, 22.13+, or 24+.
+
 ```bash
 npm install
 npm run dev

@@ -57,8 +57,10 @@ test('all somatic data files are valid JSON and contain emotion signals', () => 
     let parsed: Record<string, SomaticPart>
     try {
       parsed = JSON.parse(readFileSync(filePath, 'utf-8')) as Record<string, SomaticPart>
-    } catch (e) {
-      throw new Error(`Failed to parse ${part}.json as valid JSON: ${String(e)}`)
+    } catch (error) {
+      throw new Error(`Failed to parse ${part}.json as valid JSON: ${String(error)}`, {
+        cause: error,
+      })
     }
     const parts = Object.values(parsed)
     expect(parts.length).toBeGreaterThan(0)

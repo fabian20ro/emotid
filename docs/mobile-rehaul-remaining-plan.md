@@ -276,10 +276,28 @@ lifecycle with manifest, icon, and metadata assertions. Manual 393x742 light/dar
 confirmed bounded Settings rows, readable selected/unselected states, and correct accessibility
 snapshots.
 
+## Completed: P11 Dependency Remediation
+
+The development graph now resolves with zero npm advisories. Vite, esbuild, PostCSS, fast-uri,
+AJV, TypeScript ESLint, and related transitive packages moved to patched versions. ESLint and its
+React plugins moved together to versions with explicit ESLint 10 peer support; the documented
+Node development baseline now matches ESLint's runtime requirement.
+
+Workbox 7.4.1 remains the latest available release but depends on an off-main-thread Rollup plugin
+whose EJS 3 dependency retains a vulnerable build-only Jake/filelist chain. A narrow npm override
+supplies EJS 6 to that plugin. The plugin uses the stable CommonJS `ejs.render` API, and the
+production PWA build plus offline/update lifecycle remain required compatibility gates for this
+override.
+
+**Verification:** clean `npm ci` and `npm ls` pass without peer errors; `npm audit` reports zero
+vulnerabilities. `npm run check` passes 64 files and 598 tests, bilingual audits, ESLint 10,
+TypeScript, and the Vite 7.3.6 / PWA 1.3.0 production build. `npm run test:e2e` passes all 160
+Mobile Safari and Mobile Chrome cases. `npm run test:pwa` passes the two-build production
+lifecycle with 18 precache entries.
+
 ## Remaining Product Quality Work
 
-1. P11: patch the development dependency advisory graph without unrelated major upgrades.
-2. P12: establish the psychological copy contract and revise high-risk active descriptions.
-3. P13: review full catalog and somatic provenance plus safety-rule invariants.
-4. P14: complete physical VoiceOver/Safari and TalkBack/Chrome release acceptance.
-5. P15: optimize bundle architecture only if real-device measurements justify it.
+1. P12: establish the psychological copy contract and revise high-risk active descriptions.
+2. P13: review full catalog and somatic provenance plus safety-rule invariants.
+3. P14: complete physical VoiceOver/Safari and TalkBack/Chrome release acceptance.
+4. P15: optimize bundle architecture only if real-device measurements justify it.

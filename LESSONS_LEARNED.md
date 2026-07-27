@@ -69,7 +69,7 @@ and a two-version update while asserting IndexedDB survival.
 
 **[2026-02-07]** Documentation accuracy depends on source verification — Stale behavior statements required follow-up fixes. Verify implementation details against actual source before writing docs. Map each doc claim to file/function evidence.
 
-**[2026-02-17]** ESLint 10 blocked by typescript-eslint peer dependency — `@eslint/js@10` and `eslint@10` cannot be installed while `typescript-eslint` still requires `eslint ^8.57.0 || ^9.0.0`. Skip these until `typescript-eslint` releases a compatible version. Safe to update all other major bumps (`globals`, `jsdom`, `eslint-plugin-react-refresh`, `@types/node`) independently.
+**[2026-07-28]** Dependency majors require the complete peer cohort and an honest engine floor — ESLint 10 became viable only after synchronizing `@eslint/js`, TypeScript ESLint, React Hooks, and React Refresh, then raising the Node development baseline to the strictest supported range. Validate with a clean `npm ci`, `npm ls`, lint, and the complete product suite; do not normalize resolver warnings with a permanent force install.
 
 **[2026-02-17]** Always run `npm outdated` before and after updates — Distinguishes semver-compatible updates (`npm update`) from major version bumps (explicit `npm install pkg@latest`). Check peer dependency conflicts before batching major bumps.
 
@@ -87,3 +87,7 @@ and a two-version update while asserting IndexedDB survival.
 
 <!-- Lessons that are no longer applicable. Keep for historical context. -->
 <!-- Format: **[YYYY-MM-DD] Archived [YYYY-MM-DD]** Title — Reason for archival -->
+
+**[2026-02-17] Archived [2026-07-28]** ESLint 10 blocked by TypeScript ESLint — Obsolete after
+TypeScript ESLint 8.65 added ESLint 10 support. The replacement lesson records the synchronized
+peer and Node-engine requirements.
