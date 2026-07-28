@@ -6,7 +6,7 @@ test.describe('Reflection trust boundary', () => {
 
   test('rejected results remove inferred content and persist no inferred need', async ({ page }) => {
     await completeQuick(page, 'anxiety')
-    await expect(page.getByRole('button', { name: 'grounding, breath, and present focus' })).toHaveAttribute('aria-pressed', 'true')
+    await expect(page.getByRole('button', { name: 'grounding, breath, and present focus' })).toHaveAttribute('aria-pressed', 'false')
 
     await page.getByRole('button', { name: 'Not really' }).click()
     await expect(page.getByRole('heading', { name: 'The result does not fit' })).toBeVisible()
@@ -15,9 +15,9 @@ test.describe('Reflection trust boundary', () => {
     await expect(page.getByRole('link', { name: 'Explore with AI' })).toHaveCount(0)
 
     await page.getByRole('button', { name: 'Finish without a label' }).click()
-    await page.getByRole('button', { name: 'Return to Today' }).click()
+    await expect(page.getByTestId('today-screen')).toBeVisible()
     await page.getByRole('button', { name: 'Journal', exact: true }).click()
-    await page.getByRole('button', { name: /open reflection: anxiety/i }).click()
+    await page.getByRole('button', { name: /open check-in: anxiety/i }).click()
     await expect(page.getByTestId('session-detail-screen')).toContainText(/not really/i)
     await expect(page.getByTestId('session-detail-screen')).not.toContainText('grounding, breath, and present focus')
   })
@@ -25,7 +25,7 @@ test.describe('Reflection trust boundary', () => {
   test('partial results offer only user-chosen neutral next steps', async ({ page }) => {
     await completeQuick(page, 'anxiety')
     await page.getByRole('button', { name: 'Partly' }).click()
-    await expect(page.getByRole('status')).toContainText(/possibilities/i)
+    await expect(page.locator('.fit-response')).toContainText(/possibilities/i)
     await page.locator('.app-content').evaluate((element) => {
       element.scrollTop = element.scrollHeight
     })
@@ -40,15 +40,15 @@ test.describe('Reflection trust boundary', () => {
     await expect(keep).toBeEnabled()
     await keep.click()
 
-    await page.getByRole('button', { name: 'Return to Today' }).click()
+    await expect(page.getByTestId('today-screen')).toBeVisible()
     await page.getByRole('button', { name: 'Journal', exact: true }).click()
-    await page.getByRole('button', { name: /open reflection: anxiety/i }).click()
+    await page.getByRole('button', { name: /open check-in: anxiety/i }).click()
     await expect(page.getByTestId('session-detail-screen')).toContainText('Write down one observation without trying to solve it.')
   })
 
   test('Romanian mismatch recovery remains in bounds', async ({ page }) => {
     await page.getByRole('button', { name: 'Settings' }).click()
-    await page.getByRole('button', { name: 'RO' }).click()
+    await page.getByRole('button', { name: 'RO', exact: true }).click()
     await page.getByRole('button', { name: 'Înapoi' }).click()
     await page.getByTestId('quick-feeling-anxiety').click()
     await page.getByRole('button', { name: 'Nu prea' }).click()

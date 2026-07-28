@@ -71,7 +71,7 @@ test.describe('Crisis boundary by completion route', () => {
 
     await chooseWord(page, /^sad/i)
     await chooseWord(page, /^despair/i)
-    await page.getByRole('button', { name: 'Use Despair' }).click()
+    await page.getByRole('button', { name: 'Add Despair' }).click()
     await chooseWord(page, /^sad/i)
     await chooseWord(page, /^depressed/i)
     await chooseWord(page, /^empty/i)

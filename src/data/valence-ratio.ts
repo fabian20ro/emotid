@@ -1,4 +1,5 @@
 import type { Session } from './types'
+import { isSessionEligibleForPatterns } from './session-presentation'
 
 export interface ValenceRatio {
   pleasant: number
@@ -23,6 +24,7 @@ function computeRange(sessions: Session[], start: number, end: number) {
   let neutral = 0
 
   for (const session of inRange) {
+    if (!isSessionEligibleForPatterns(session)) continue
     for (const result of session.results) {
       if (result.valence === undefined) continue
 

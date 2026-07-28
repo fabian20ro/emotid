@@ -24,7 +24,7 @@ test.describe('Romanian release journeys', () => {
     await moreContext.getByText('Mai mult context').click()
     await expect(moreContext).toContainText(/cea mai apropiată potrivire dintre aceste sugestii/i)
     await expect(moreContext).not.toContainText(/experimentezi un semnal|sistemul tău răspunde/i)
-    await expect(page.getByRole('button', { name: 'ancorare, respiratie si prezenta' })).toHaveAttribute('aria-pressed', 'true')
+    await expect(page.getByRole('button', { name: 'ancorare, respiratie si prezenta' })).toHaveAttribute('aria-pressed', 'false')
     await finishReflection(page)
   })
 
@@ -74,7 +74,7 @@ test.describe('Romanian release journeys', () => {
     await page.getByTestId('arrival-words').click()
 
     await chooseWord(page, 'Fericit')
-    await page.getByRole('button', { name: 'Folosiți Fericit' }).click()
+    await page.getByRole('button', { name: 'Adăugați Fericit' }).click()
     await page.locator('.route-action button').click()
 
     await expect(page.getByTestId('reflection-screen')).toBeVisible()
@@ -129,7 +129,7 @@ test.describe('Romanian release journeys', () => {
 
     await chooseWord(page, /^Trist$/i)
     await chooseWord(page, /^disperare$/i)
-    await page.getByRole('button', { name: /Folosiți disperare/i }).click()
+    await page.getByRole('button', { name: /Adăugați disperare/i }).click()
 
     await chooseWord(page, /^Trist$/i)
     await chooseWord(page, /^Deprimat$/i)

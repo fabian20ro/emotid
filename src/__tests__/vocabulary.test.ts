@@ -44,6 +44,25 @@ describe('computeVocabulary', () => {
     expect(result.perModel['somatic']).toBe(1)
   })
 
+  it('excludes unconfirmed and rejected suggestions from emotion patterns', () => {
+    const sessions = [
+      makeSession({ modelId: 'affect', entryRoute: 'affect', reflectionAnswer: undefined }),
+      makeSession({ modelId: 'body', entryRoute: 'body', reflectionAnswer: 'partly' }),
+      makeSession({ modelId: 'plutchik', entryRoute: 'plutchik', reflectionAnswer: 'no' }),
+      makeSession({ entryRoute: 'affect', reflectionAnswer: 'yes' }),
+    ]
+
+    const result = computeVocabulary(sessions)
+
+    expect(result.uniqueEmotionCount).toBe(1)
+    expect(result.topActiveEmotions).toEqual([
+      { id: 'happy', count: 1, label: { ro: 'fericit', en: 'happy' } },
+    ])
+    expect(result.passiveUniqueEmotionCount).toBe(0)
+    expect(result.modelsUsed).toBe(1)
+    expect(result.perModel).toEqual({ wheel: 1 })
+  })
+
   it('tracks passive emotions that are selected but never surfaced in results', () => {
     const sessions = [
       makeSession({

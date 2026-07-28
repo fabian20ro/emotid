@@ -149,6 +149,11 @@ export function useEmotionModel(modelId: string = defaultModelId) {
     return model.analyze(selections)
   }, [model, selections, noopAnalyze])
 
+  const analyzeSelections = useCallback((candidateSelections: BaseEmotion[]): AnalysisResult[] => {
+    if (!model) return noopAnalyze()
+    return model.analyze(candidateSelections)
+  }, [model, noopAnalyze])
+
   return {
     modelReady,
     selections,
@@ -163,5 +168,6 @@ export function useEmotionModel(modelId: string = defaultModelId) {
     handleBreadcrumbSelect,
     restore,
     analyze,
+    analyzeSelections,
   }
 }

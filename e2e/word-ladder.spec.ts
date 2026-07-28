@@ -12,17 +12,32 @@ test.describe('Word Ladder route', () => {
     await expect(page.getByRole('button', { name: 'Back' })).toBeVisible()
     await page.getByRole('button', { name: 'Happy' }).click()
     await page.getByRole('button', { name: 'Playful' }).click()
-    await expect(page.getByRole('button', { name: 'Use Happy' })).toBeVisible()
-    await expect(page.getByRole('button', { name: 'Use Playful' })).toBeVisible()
+    await expect(page.getByText('This word can be your answer')).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Continue with Playful' })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Add Happy' })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Add Playful' })).toBeVisible()
 
     await page.getByRole('button', { name: 'Back one level' }).click()
-    await expect(page.getByRole('button', { name: 'Use Happy' })).toBeVisible()
-    await expect(page.getByRole('button', { name: 'Use Playful' })).toHaveCount(0)
+    await expect(page.getByRole('button', { name: 'Add Happy' })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Add Playful' })).toHaveCount(0)
     await expect(page.getByRole('button', { name: 'Playful' })).toBeVisible()
 
     await page.getByRole('button', { name: 'Back one level' }).click()
     await expect(page.getByRole('button', { name: 'Happy' })).toBeVisible()
     await expect(page.getByRole('button', { name: 'Back one level' })).toHaveCount(0)
+  })
+
+  test('finishes from an intermediary word with one explicit action', async ({ page }) => {
+    await openApp(page)
+    await openArrival(page)
+    await page.getByTestId('arrival-words').click()
+    await page.getByRole('button', { name: 'Happy' }).click()
+    await page.getByRole('button', { name: 'Playful' }).click()
+    await page.getByRole('button', { name: 'Continue with Playful' }).click()
+
+    await expect(page.getByTestId('reflection-screen')).toBeVisible()
+    await expect(page.locator('.emotion-heading')).toContainText('Playful')
+    await expect(page.locator('.session-save-status')).toContainText('Check-in saved')
   })
 
   test('selects a broad path level and keeps Reflection interruption-free', async ({ page }) => {
@@ -31,7 +46,7 @@ test.describe('Word Ladder route', () => {
     await page.getByTestId('arrival-words').click()
     await page.getByRole('button', { name: 'Happy' }).click()
     await page.getByRole('button', { name: 'Playful' }).click()
-    await page.getByRole('button', { name: 'Use Happy' }).click()
+    await page.getByRole('button', { name: 'Add Happy' }).click()
 
     const selected = page.getByRole('region', { name: 'Selected words' })
     await expect(selected).toContainText('Happy')
@@ -41,7 +56,7 @@ test.describe('Word Ladder route', () => {
     await expect(comparison).toContainText('Happy')
     await expect(comparison).toContainText('Sad')
     await expect(page.getByText('Notice which description, if either, feels closer.')).toBeVisible()
-    const action = page.getByRole('button', { name: 'Use my current choice' })
+    const action = page.getByRole('button', { name: 'Continue with Happy' })
     const comparisonBox = await page.getByRole('region', { name: 'Compare nearby words' }).boundingBox()
     const actionBox = await action.boundingBox()
     expect(actionBox!.y).toBeGreaterThanOrEqual(comparisonBox!.y + comparisonBox!.height - 1)
@@ -79,9 +94,9 @@ test.describe('Word Ladder route', () => {
     await page.getByTestId('arrival-words').click()
     await page.getByRole('button', { name: 'Fericit' }).click()
 
-    await expect(page.getByRole('button', { name: 'Folosiți Fericit' })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Adăugați Fericit' })).toBeVisible()
     await expect(page.getByRole('button', { name: 'Înapoi cu un nivel' })).toBeVisible()
-    await page.getByRole('button', { name: 'Folosiți Fericit' }).click()
+    await page.getByRole('button', { name: 'Adăugați Fericit' }).click()
     await page.getByRole('button', { name: 'Comparați cuvinte apropiate' }).click()
     await page.getByRole('button', { name: 'Comparați cu Trist' }).click()
     await expect(page.getByRole('group', { name: 'Fericit și Trist' })).toBeVisible()

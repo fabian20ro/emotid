@@ -45,24 +45,31 @@ function renderReflection(
     language?: 'en' | 'ro'
     saveSessions?: boolean
     allowExternalAI?: boolean
+    saveState?: React.ComponentProps<typeof ReflectionScreen>['saveState']
+    sessionCaptured?: boolean
     onSave?: (detail: ReflectionDetail) => Promise<ReflectionSaveOutcome>
   } = {},
 ) {
   storage.set('language', options.language ?? 'en')
   const onSave = vi.fn(options.onSave ?? (() => Promise.resolve(options.saveSessions === false ? 'not-saved' : 'saved')))
   const onBack = vi.fn()
+  const onReturn = vi.fn()
+  const onRetryBaseSave = vi.fn()
   render(
     <LanguageProvider>
       <ReflectionScreen
         completion={completion(results, options.crisisTier)}
         allowExternalAI={options.allowExternalAI ?? false}
+        saveState={options.saveState ?? (options.saveSessions === false ? 'disabled' : 'saved')}
+        sessionCaptured={options.sessionCaptured ?? options.saveSessions !== false}
         onBack={onBack}
+        onRetryBaseSave={onRetryBaseSave}
         onSave={onSave}
-        onReturn={vi.fn()}
+        onReturn={onReturn}
       />
     </LanguageProvider>,
   )
-  return { onSave, onBack }
+  return { onSave, onBack, onReturn, onRetryBaseSave }
 }
 
 describe('ReflectionScreen need selection', () => {
@@ -71,6 +78,20 @@ describe('ReflectionScreen need selection', () => {
   it('frames generated labels as rejectable possibilities in both languages', () => {
     renderReflection([result('anxiety')])
     expect(screen.getByText('anxiety may be among the possibilities here. Keep only the words that fit your experience.')).toBeInTheDocument()
+  })
+
+  it('makes the direct exit primary and records no inferred need without a tap', async () => {
+    const user = userEvent.setup()
+    const need = { en: 'quiet and rest', ro: 'liniște și odihnă' }
+    const { onSave } = renderReflection([result('tired', need)])
+    const done = screen.getByRole('button', { name: 'Done for now' })
+    const step = screen.getByRole('button', { name: 'Try one small step' })
+
+    expect(done).toHaveClass('primary-button')
+    expect(step).toHaveClass('secondary-button')
+    expect(done.compareDocumentPosition(step) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+    await user.click(done)
+    expect(onSave).toHaveBeenCalledWith(expect.objectContaining({ selectedNeed: undefined }))
   })
 
   it('uses the same uncertainty and agency level in Romanian', () => {
@@ -88,13 +109,14 @@ describe('ReflectionScreen need selection', () => {
     expect(onSave).toHaveBeenCalledWith(expect.objectContaining({ selectedNeed: undefined }))
   })
 
-  it('preselects the only inferred need and persists it', async () => {
+  it('requires explicit consent before persisting the only inferred need', async () => {
     const user = userEvent.setup()
     const need = { en: 'quiet and rest', ro: 'liniște și odihnă' }
     const { onSave } = renderReflection([result('tired', need)])
     const option = screen.getByRole('button', { name: need.en })
 
-    expect(option).toHaveAttribute('aria-pressed', 'true')
+    expect(option).toHaveAttribute('aria-pressed', 'false')
+    await user.click(option)
     await user.click(screen.getByRole('button', { name: 'Done for now' }))
 
     expect(onSave).toHaveBeenCalledWith(expect.objectContaining({ selectedNeed: need.en }))
@@ -132,7 +154,7 @@ describe('ReflectionScreen need selection', () => {
     const user = userEvent.setup()
     const first = { en: 'quiet', ro: 'liniște' }
     const second = { en: 'support', ro: 'sprijin' }
-    const { onSave } = renderReflection(
+    const { onSave, onReturn } = renderReflection(
       [result('obosit', first), result('trist', second)],
       { language: 'ro', saveSessions: false },
     )
@@ -143,7 +165,7 @@ describe('ReflectionScreen need selection', () => {
     await user.click(screen.getByRole('button', { name: 'Gata pentru acum' }))
 
     expect(onSave).toHaveBeenCalledWith(expect.objectContaining({ selectedNeed: second.ro }))
-    expect(await screen.findByText('Această verificare nu a fost salvată')).toBeInTheDocument()
+    expect(onReturn).toHaveBeenCalledOnce()
   })
 
   it('keeps every need control behind tier-4 acknowledgement', async () => {
@@ -155,7 +177,14 @@ describe('ReflectionScreen need selection', () => {
     await user.click(screen.getByRole('button', { name: 'Continue to reflection' }))
 
     expect(screen.getByRole('group', { name: 'What feels most needed right now?' })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: need.en })).toHaveAttribute('aria-pressed', 'true')
+    expect(screen.getByRole('button', { name: need.en })).toHaveAttribute('aria-pressed', 'false')
+  })
+
+  it('keeps safety support ahead of storage and suppresses routine save status', () => {
+    renderReflection([result('despair')], { crisisTier: 'tier4', saveState: 'saved' })
+
+    expect(screen.getByRole('alert')).toHaveClass('crisis-banner')
+    expect(screen.queryByText('Check-in saved. Everything below is optional.')).not.toBeInTheDocument()
   })
 
   it('clears inferred content and saves no inferred detail when the result is rejected', async () => {
@@ -163,7 +192,7 @@ describe('ReflectionScreen need selection', () => {
     const need = { en: 'quiet and rest', ro: 'liniște și odihnă' }
     const { onSave, onBack } = renderReflection([result('anxiety', need)], { allowExternalAI: true })
 
-    expect(screen.getByRole('button', { name: need.en })).toHaveAttribute('aria-pressed', 'true')
+    expect(screen.getByRole('button', { name: need.en })).toHaveAttribute('aria-pressed', 'false')
     await user.click(screen.getByRole('button', { name: 'Not really' }))
 
     expect(screen.getByRole('heading', { name: 'The result does not fit' })).toBeInTheDocument()
@@ -187,7 +216,7 @@ describe('ReflectionScreen need selection', () => {
     const { onSave } = renderReflection([result('anxiety')])
 
     await user.click(screen.getByRole('button', { name: 'Partly' }))
-    expect(screen.getByRole('status')).toHaveTextContent(/treating these as possibilities/i)
+    expect(screen.getByText(/treating these as possibilities/i)).toBeInTheDocument()
     await user.click(screen.getByRole('button', { name: 'Try one small step' }))
 
     expect(screen.queryByText(/approach what feels scary/i)).not.toBeInTheDocument()
@@ -226,7 +255,7 @@ describe('ReflectionScreen need selection', () => {
   it('shows pending state, waits for persistence, and blocks duplicate submission', async () => {
     const pending = deferred<ReflectionSaveOutcome>()
     const onSave = vi.fn(() => pending.promise)
-    renderReflection([result('calm')], { onSave })
+    const { onReturn } = renderReflection([result('calm')], { onSave })
     const done = screen.getByRole('button', { name: 'Done for now' })
 
     act(() => {
@@ -235,11 +264,12 @@ describe('ReflectionScreen need selection', () => {
     })
 
     expect(onSave).toHaveBeenCalledOnce()
-    expect(screen.getByTestId('reflection-saving-screen')).toHaveTextContent('Saving on this device')
+    expect(screen.getByTestId('reflection-screen')).toHaveAttribute('aria-busy', 'true')
+    expect(screen.getByRole('button', { name: 'Finishing…' })).toBeDisabled()
     expect(screen.queryByTestId('reflection-close-screen')).not.toBeInTheDocument()
 
     await act(async () => pending.resolve('saved'))
-    expect(screen.getByTestId('reflection-close-screen')).toHaveTextContent('Saved privately on this device')
+    expect(onReturn).toHaveBeenCalledOnce()
   })
 
   it('retries the same reflection after a local save failure', async () => {
@@ -247,30 +277,42 @@ describe('ReflectionScreen need selection', () => {
     const save = vi.fn()
       .mockRejectedValueOnce(new Error('IndexedDB unavailable'))
       .mockResolvedValueOnce('saved' as const)
-    const { onSave } = renderReflection([result('calm')], { onSave: save })
+    const { onSave, onReturn } = renderReflection([result('calm')], { onSave: save })
 
     await user.click(screen.getByRole('button', { name: 'Done for now' }))
-    expect(await screen.findByRole('heading', { name: 'This reflection was not saved' })).toBeInTheDocument()
+    expect(await screen.findByRole('heading', { name: 'The latest details were not saved' })).toBeInTheDocument()
     expect(screen.getByText(/nothing was sent online/i)).toBeInTheDocument()
     expect(screen.queryByTestId('reflection-close-screen')).not.toBeInTheDocument()
 
     await user.click(screen.getByRole('button', { name: 'Try saving again' }))
-    expect(await screen.findByTestId('reflection-close-screen')).toHaveTextContent('Saved privately on this device')
+    expect(onReturn).toHaveBeenCalledOnce()
     expect(onSave).toHaveBeenCalledTimes(2)
     expect(onSave.mock.calls[1][0]).toEqual(onSave.mock.calls[0][0])
   })
 
   it('allows continuing after failure without claiming the reflection was saved', async () => {
     const user = userEvent.setup()
-    renderReflection(
+    const { onReturn } = renderReflection(
       [result('calm')],
       { language: 'ro', onSave: () => Promise.reject(new Error('IndexedDB unavailable')) },
     )
 
     await user.click(screen.getByRole('button', { name: 'Gata pentru acum' }))
-    expect(await screen.findByRole('heading', { name: 'Această reflecție nu a fost salvată' })).toBeInTheDocument()
-    await user.click(screen.getByRole('button', { name: 'Continuați fără salvare' }))
+    expect(await screen.findByRole('heading', { name: 'Ultimele detalii nu au fost salvate' })).toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: 'Încheiați fără aceste detalii' }))
 
-    expect(screen.getByTestId('reflection-close-screen')).toHaveTextContent('Această verificare nu a fost salvată')
+    expect(onReturn).toHaveBeenCalledOnce()
+  })
+
+  it('makes early local capture explicit and lets the user retry it', async () => {
+    const user = userEvent.setup()
+    const { onRetryBaseSave } = renderReflection([result('calm')], {
+      saveState: 'error',
+      sessionCaptured: false,
+    })
+
+    expect(screen.getByRole('alert')).toHaveTextContent('Your latest selection has not been saved yet')
+    await user.click(screen.getByRole('button', { name: 'Try saving again' }))
+    expect(onRetryBaseSave).toHaveBeenCalledOnce()
   })
 })

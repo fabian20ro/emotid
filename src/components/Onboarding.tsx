@@ -1,15 +1,17 @@
-import { useCallback, useState } from 'react'
-import { ArrowLeft, ArrowRight, Compass, HeartHandshake, LockKeyhole } from 'lucide-react'
+import { useCallback, useEffect, useState } from 'react'
+import { ArrowLeft, ArrowRight, Compass, HeartHandshake, LockKeyhole, X } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { useLanguage } from '../context/LanguageContext'
 import { useFocusTrap } from '../hooks/useFocusTrap'
 import { storage } from '../data/storage'
 
 interface OnboardingProps {
-  onComplete: (modelId: string | null) => void
+  mode?: 'initial' | 'replay'
+  onComplete: () => void
+  onClose?: () => void
 }
 
-export function Onboarding({ onComplete }: OnboardingProps) {
+export function Onboarding({ mode = 'initial', onComplete, onClose }: OnboardingProps) {
   const { section, language, setLanguage } = useLanguage()
   const t = section('onboarding')
   const privacyT = section('privacyData')
@@ -25,14 +27,30 @@ export function Onboarding({ onComplete }: OnboardingProps) {
   const current = screens[step]
 
   const finish = useCallback(() => {
-    storage.set('onboarded', 'true')
-    onComplete(null)
-  }, [onComplete])
+    if (mode === 'initial') storage.set('onboarded', 'true')
+    onComplete()
+  }, [mode, onComplete])
+
+  useEffect(() => {
+    if (mode !== 'replay' || !onClose) return
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') onClose()
+    }
+    window.addEventListener('keydown', closeOnEscape)
+    return () => window.removeEventListener('keydown', closeOnEscape)
+  }, [mode, onClose])
 
   return (
     <div className="onboarding" role="dialog" aria-modal="true" aria-labelledby="onboarding-title">
       <div ref={focusTrapRef} className="onboarding-panel">
-        <div className="onboarding-brand">Emot-ID</div>
+        <div className="onboarding-header">
+          <div className="onboarding-brand">Emot-ID</div>
+          {mode === 'replay' && onClose && (
+            <button type="button" className="icon-button" onClick={onClose} aria-label={t.close}>
+              <X size={20} aria-hidden="true" />
+            </button>
+          )}
+        </div>
         <div className="onboarding-progress" aria-label={`${step + 1}/${screens.length}`}>
           {screens.map((_, index) => <span key={index} data-step={index} className={index === step ? 'is-active' : ''} />)}
         </div>
@@ -41,7 +59,7 @@ export function Onboarding({ onComplete }: OnboardingProps) {
           <span className="onboarding-icon"><current.Icon size={27} aria-hidden="true" /></span>
           <h1 id="onboarding-title">{current.title}</h1>
           <p>{current.body}</p>
-          {isLast && (
+          {isLast && mode === 'initial' && (
             <div className="segmented onboarding-language" role="group" aria-label={section('settingsScreen').language}>
               <button type="button" aria-pressed={language === 'en'} className={language === 'en' ? 'is-active' : ''} onClick={() => setLanguage('en')}>English</button>
               <button type="button" aria-pressed={language === 'ro'} className={language === 'ro' ? 'is-active' : ''} onClick={() => setLanguage('ro')}>Română</button>
@@ -56,7 +74,7 @@ export function Onboarding({ onComplete }: OnboardingProps) {
             </button>
           ) : <span />}
           <button type="button" className="primary-button" onClick={() => isLast ? finish() : setStep((value) => value + 1)}>
-            {isLast ? (t.getStarted ?? 'Get started') : (t.next ?? 'Next')}
+            {isLast ? (mode === 'replay' ? t.done : t.getStarted) : t.next}
             {!isLast && <ArrowRight size={18} aria-hidden="true" />}
           </button>
         </div>

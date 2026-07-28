@@ -10,7 +10,7 @@ async function waitForServiceWorkerControl(page: Page) {
   })
 }
 
-test('offline reopen and automatic update preserve local reflections', async ({ context, page, request }) => {
+test('offline reopen and automatic update preserve local check-ins', async ({ context, page, request }) => {
   const externalRequests: string[] = []
   context.on('request', (browserRequest) => {
     const url = new URL(browserRequest.url())
@@ -51,8 +51,7 @@ test('offline reopen and automatic update preserve local reflections', async ({ 
   await waitForServiceWorkerControl(page)
   await page.getByTestId('quick-feeling-anxiety').click()
   await page.getByRole('button', { name: 'Done for now' }).click()
-  await expect(page.getByTestId('reflection-close-screen')).toContainText('Saved privately on this device')
-  await page.getByRole('button', { name: 'Return to Today' }).click()
+  await expect(page.getByTestId('today-screen')).toBeVisible()
 
   const cachedPaths = await page.evaluate(async () => {
     const paths: string[] = []

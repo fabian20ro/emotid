@@ -19,7 +19,7 @@ test.describe('Keyboard-only primary journeys', () => {
     await expect(page.getByTestId('reflection-screen')).toBeVisible()
     await activate(page.getByRole('button', { name: 'Yes' }), 'Space')
     await activate(page.getByRole('button', { name: 'Done for now' }))
-    await expect(page.getByTestId('reflection-close-screen')).toBeVisible()
+    await expect(page.getByTestId('today-screen')).toBeVisible()
   })
 
   test('Body Compass completes without pointer input', async ({ page }) => {
@@ -50,7 +50,7 @@ test.describe('Keyboard-only primary journeys', () => {
     await activate(page.getByRole('button', { name: 'Start a check-in' }))
     await activate(page.getByTestId('arrival-words'))
     await activate(page.getByRole('button', { name: 'Happy' }), 'Space')
-    await activate(page.getByRole('button', { name: 'Use Happy' }))
+    await activate(page.getByRole('button', { name: 'Add Happy' }))
     await activate(page.locator('.route-action button'))
     await expect(page.getByTestId('reflection-screen')).toBeVisible()
   })
@@ -112,7 +112,7 @@ test('reduced motion, offline recovery, and save-disabled behavior remain functi
   await page.getByTestId('quick-feeling-joy').click()
   await finishReflection(page)
   await page.getByRole('button', { name: 'Journal', exact: true }).click()
-  await expect(page.getByText('No saved reflections yet')).toBeVisible()
+  await expect(page.getByText('No saved check-ins yet')).toBeVisible()
 })
 
 test.describe('desktop sanity viewport', () => {

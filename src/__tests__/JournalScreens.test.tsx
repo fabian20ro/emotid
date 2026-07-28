@@ -58,13 +58,13 @@ describe('Journal data display', () => {
       onOpenChain: vi.fn(),
     }
     const { rerender } = withLanguage(<JournalScreen {...props} loading />)
-    expect(screen.getByRole('status')).toHaveTextContent('Loading saved reflections')
+    expect(screen.getByRole('status')).toHaveTextContent('Loading saved check-ins')
 
     rerender(<LanguageProvider><JournalScreen {...props} loading={false} error /></LanguageProvider>)
-    expect(screen.getByRole('alert')).toHaveTextContent('Saved reflections could not be loaded')
+    expect(screen.getByRole('alert')).toHaveTextContent('Saved check-ins could not be loaded')
 
     rerender(<LanguageProvider><JournalScreen {...props} loading={false} /></LanguageProvider>)
-    expect(screen.getByText('No saved reflections yet')).toBeInTheDocument()
+    expect(screen.getByText('No saved check-ins yet')).toBeInTheDocument()
   })
 
   it('shows localized body signals, selected need, and next step without mutating the record', () => {
@@ -82,6 +82,7 @@ describe('Journal data display', () => {
 
   it('keeps older records without optional detail fields readable', () => {
     const oldSession = bodySession({
+      entryRoute: undefined,
       selections: [{ emotionId: 'legacy-region', label: { ro: 'Zonă veche', en: 'Legacy region' } }],
       reflectionAnswer: undefined,
       selectedNeed: undefined,
@@ -90,6 +91,17 @@ describe('Journal data display', () => {
     withLanguage(<SessionDetailScreen session={oldSession} onBack={vi.fn()} />)
 
     expect(screen.getByText('anxiety')).toBeInTheDocument()
-    expect(screen.getByText('This reflection was saved before these details were available.')).toBeInTheDocument()
+    expect(screen.getByText('This check-in was saved before these details were available.')).toBeInTheDocument()
+  })
+
+  it('labels generated results as possibilities until the user confirms fit', () => {
+    withLanguage(<SessionDetailScreen session={bodySession({
+      reflectionAnswer: undefined,
+      selectedNeed: undefined,
+      nextStep: undefined,
+    })} onBack={vi.fn()} />)
+
+    expect(screen.getByText('Possible words')).toBeInTheDocument()
+    expect(screen.queryByText(/optional reflection details/i)).not.toBeInTheDocument()
   })
 })

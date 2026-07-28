@@ -6,10 +6,11 @@ import { openApp, openArrival } from './helpers'
 async function saveQuickReflectionWithNextStep(page: Page) {
   await page.getByTestId('quick-feeling-anxiety').click()
   await page.getByRole('button', { name: 'Yes' }).click()
+  await page.getByRole('button', { name: 'grounding, breath, and present focus' }).click()
   await page.getByRole('button', { name: 'Try one small step' }).click()
   await page.getByRole('button', { name: 'Pause and notice what feels manageable next.' }).click()
   await page.getByRole('button', { name: 'Keep this step' }).click()
-  await page.getByRole('button', { name: 'Return to Today' }).click()
+  await expect(page.getByTestId('today-screen')).toBeVisible()
 }
 
 async function saveChainEntry(page: Page) {
@@ -86,7 +87,7 @@ test.describe('Journal data trust', () => {
     await page.getByRole('button', { name: 'Back' }).click()
     await page.getByRole('button', { name: 'Back' }).click()
     await page.getByRole('button', { name: 'Journal', exact: true }).click()
-    await expect(page.getByText('No saved reflections yet')).toBeVisible()
+    await expect(page.getByText('No saved check-ins yet')).toBeVisible()
     await page.getByRole('button', { name: 'Unpack a moment' }).click()
     await expect(page.getByText('Recent chains')).toHaveCount(0)
 
@@ -105,7 +106,7 @@ test.describe('Journal data trust', () => {
     await page.getByRole('button', { name: 'Încercați un pas mic' }).click()
     await page.getByRole('button', { name: 'Opriți-vă puțin și observați ce pare realizabil în continuare.' }).click()
     await page.getByRole('button', { name: 'Păstrați acest pas' }).click()
-    await page.getByRole('button', { name: 'Reveniți la Astăzi' }).click()
+    await expect(page.getByTestId('today-screen')).toBeVisible()
 
     await page.getByRole('button', { name: 'Jurnal', exact: true }).click()
     await expect(page.getByText('Piept (1)')).toBeVisible()

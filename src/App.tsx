@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { MotionConfig } from 'framer-motion'
 import { AppShell } from './components/AppShell'
 import { Onboarding } from './components/Onboarding'
@@ -22,19 +22,26 @@ import { useChainAnalysis } from './hooks/useChainAnalysis'
 import { useLanguage } from './context/LanguageContext'
 import { storage } from './data/storage'
 import { exportStoredUserDataJSON } from './data/user-data'
+import { addReflectionDetail, createSession } from './data/session'
 import { getCrisisTier } from './models/distress'
 import { escalateCrisisTier, hasTemporalCrisisPattern } from './data/temporal-crisis'
 import type { AnalysisResult, BaseEmotion } from './models/types'
-import type { CheckInCompletion, CheckInRoute, AppTab, ReflectionDetail, ReflectionSaveOutcome } from './navigation/types'
-import type { SerializedSelection, Session } from './data/types'
+import type { CheckInCompletion, CheckInRoute, AppTab, ReflectionDetail, ReflectionSaveOutcome, SessionSaveState } from './navigation/types'
+import type { Session } from './data/types'
 
 export default function App() {
   const { setLanguage } = useLanguage()
   const navigation = useAppNavigation()
-  const [showOnboarding, setShowOnboarding] = useState(() => storage.get('onboarded') !== 'true')
+  const [onboardingMode, setOnboardingMode] = useState<'initial' | 'replay' | null>(() => storage.get('onboarded') !== 'true' ? 'initial' : null)
   const [isOffline, setIsOffline] = useState(() => typeof navigator !== 'undefined' && !navigator.onLine)
   const [completion, setCompletion] = useState<CheckInCompletion | null>(null)
-  const [reflectionSaved, setReflectionSaved] = useState(false)
+  const [sessionSaveState, setSessionSaveState] = useState<SessionSaveState>('disabled')
+  const [sessionCaptured, setSessionCaptured] = useState(false)
+  const activeSessionRef = useRef<Session | null>(null)
+  const sessionWriteRef = useRef<Promise<void>>(Promise.resolve())
+  const latestWriteRef = useRef<Promise<void> | null>(null)
+  const latestBaseWriteRef = useRef<Promise<void> | null>(null)
+  const completionInFlightRef = useRef(false)
 
   const { sessions, loading: sessionsLoading, error: sessionsError, save: saveSession, clearAll: clearAllSessions } = useSessionHistory()
   const { entries: chainEntries, loading: chainLoading, save: saveChainEntry, clearAll: clearAllChains } = useChainAnalysis()
@@ -70,65 +77,100 @@ export default function App() {
 
   const startRoute = useCallback((route: Exclude<CheckInRoute, 'quick'>) => {
     setCompletion(null)
-    setReflectionSaved(false)
+    activeSessionRef.current = null
+    latestWriteRef.current = null
+    latestBaseWriteRef.current = null
+    setSessionCaptured(false)
+    setSessionSaveState(saveSessions ? 'saved' : 'disabled')
     navigation.navigate({ name: 'check-in', route })
-  }, [navigation])
+  }, [navigation, saveSessions])
+
+  const queueSessionSave = useCallback((session: Session) => {
+    const write = sessionWriteRef.current
+      .catch(() => undefined)
+      .then(() => saveSession(session))
+    sessionWriteRef.current = write
+    latestWriteRef.current = write
+    return write
+  }, [saveSession])
+
+  const persistBaseSession = useCallback((session: Session) => {
+    if (!saveSessions) {
+      setSessionCaptured(false)
+      setSessionSaveState('disabled')
+      return
+    }
+    setSessionSaveState('saving')
+    const write = queueSessionSave(session)
+    latestBaseWriteRef.current = write
+    void write.then(
+      () => {
+        if (latestBaseWriteRef.current !== write) return
+        setSessionCaptured(true)
+        if (latestWriteRef.current === write) setSessionSaveState('saved')
+      },
+      () => {
+        if (latestBaseWriteRef.current === write) setSessionSaveState('error')
+      },
+    )
+  }, [queueSessionSave, saveSessions])
 
   const complete = useCallback((route: CheckInRoute, modelId: string, selections: BaseEmotion[], results: AnalysisResult[]) => {
-    if (selections.length === 0 || results.length === 0) return
+    if (selections.length === 0 || results.length === 0 || completionInFlightRef.current) return
+    completionInFlightRef.current = true
     const baseTier = getCrisisTier(results.map((result) => result.id))
     const crisisTier = escalateCrisisTier(baseTier, sessions)
-    setCompletion({
+    const nextCompletion = {
       route,
       modelId,
       selections,
       results,
       crisisTier,
       temporalEscalation: hasTemporalCrisisPattern(sessions) && crisisTier !== baseTier,
-    })
-    setReflectionSaved(false)
+    }
+    const existing = activeSessionRef.current
+    const session = createSession(nextCompletion, existing
+      ? { id: existing.id, timestamp: existing.timestamp }
+      : undefined)
+    activeSessionRef.current = session
+    setSessionCaptured(false)
+    setCompletion(nextCompletion)
+    persistBaseSession(session)
     navigation.navigate({ name: 'reflection' })
-  }, [navigation, sessions])
+    window.setTimeout(() => {
+      completionInFlightRef.current = false
+    }, 0)
+  }, [navigation, persistBaseSession, sessions])
 
   const completeQuick = useCallback((selection: BaseEmotion, result: AnalysisResult) => {
     complete('quick', 'quick-check-in', [selection], [result])
   }, [complete])
 
   const saveReflection = useCallback(async (detail: ReflectionDetail): Promise<ReflectionSaveOutcome> => {
-    if (!completion || !saveSessions) return 'not-saved'
-    if (reflectionSaved) return 'saved'
-    const serialized: SerializedSelection[] = completion.selections.map((selection) => {
-      const item: SerializedSelection = { emotionId: selection.id, label: selection.label }
-      if ('selectedSensation' in selection && 'selectedIntensity' in selection) {
-        item.extras = {
-          sensationType: (selection as BaseEmotion & { selectedSensation: string }).selectedSensation,
-          intensity: (selection as BaseEmotion & { selectedIntensity: number }).selectedIntensity,
-        }
-      }
-      return item
-    })
-    const session: Session = {
-      id: crypto.randomUUID(),
-      timestamp: Date.now(),
-      modelId: completion.modelId,
-      entryRoute: completion.route,
-      selections: serialized,
-      results: completion.results,
-      crisisTier: getCrisisTier(completion.results.map((result) => result.id)),
-      reflectionAnswer: detail.reflectionAnswer,
-      selectedNeed: detail.selectedNeed,
-      nextStep: detail.nextStep,
-    }
-    await saveSession(session)
-    setReflectionSaved(true)
+    const session = activeSessionRef.current
+    if (!session || !saveSessions) return 'not-saved'
+    const updated = addReflectionDetail(session, detail)
+    const write = queueSessionSave(updated)
+    await write
+    activeSessionRef.current = updated
+    setSessionCaptured(true)
+    if (latestWriteRef.current === write) setSessionSaveState('saved')
     return 'saved'
-  }, [completion, reflectionSaved, saveSession, saveSessions])
+  }, [queueSessionSave, saveSessions])
+
+  const retryBaseSave = useCallback(() => {
+    if (activeSessionRef.current) persistBaseSession(activeSessionRef.current)
+  }, [persistBaseSession])
 
   const returnToday = useCallback(() => {
     setCompletion(null)
-    setReflectionSaved(false)
+    activeSessionRef.current = null
+    latestWriteRef.current = null
+    latestBaseWriteRef.current = null
+    setSessionCaptured(false)
+    setSessionSaveState(saveSessions ? 'saved' : 'disabled')
     navigation.reset({ name: 'today' })
-  }, [navigation])
+  }, [navigation, saveSessions])
 
   const exportData = useCallback(async () => {
     const json = await exportStoredUserDataJSON()
@@ -168,7 +210,7 @@ export default function App() {
           : <ModelCheckInScreen route={destination.route} onBack={navigation.back} onComplete={(modelId, selections, results) => complete(destination.route, modelId, selections, results)} />
       case 'reflection':
         return completion
-          ? <ReflectionScreen completion={completion} allowExternalAI={allowExternalAI} onBack={navigation.back} onSave={saveReflection} onReturn={returnToday} />
+          ? <ReflectionScreen completion={completion} allowExternalAI={allowExternalAI} saveState={sessionSaveState} sessionCaptured={sessionCaptured} onBack={navigation.back} onRetryBaseSave={retryBaseSave} onSave={saveReflection} onReturn={returnToday} />
           : <TodayScreen sessions={sessions} saveSessions={saveSessions} onStart={() => navigation.navigate({ name: 'arrival' })} onQuickComplete={completeQuick} onOpenJournal={() => navigation.reset({ name: 'journal' })} />
       case 'explore':
         return <ExploreScreen onChoose={startRoute} onPractice={() => navigation.navigate({ name: 'granularity' })} />
@@ -177,7 +219,7 @@ export default function App() {
       case 'session':
         return <SessionDetailScreen session={sessions.find((session) => session.id === destination.sessionId)} onBack={navigation.back} />
       case 'settings':
-        return <SettingsScreen theme={theme} onBack={navigation.back} onThemeChange={setTheme} onOpenPrivacy={() => navigation.navigate({ name: 'privacy' })} onOpenSupport={() => navigation.navigate({ name: 'support' })} />
+        return <SettingsScreen theme={theme} onBack={navigation.back} onThemeChange={setTheme} onOpenPrivacy={() => navigation.navigate({ name: 'privacy' })} onOpenSupport={() => navigation.navigate({ name: 'support' })} onReplayIntroduction={() => setOnboardingMode('replay')} />
       case 'privacy':
         return <PrivacyDataScreen saveSessions={saveSessions} allowExternalAI={allowExternalAI} onBack={navigation.back} onSaveSessionsChange={setSaving} onExternalAIChange={setExternalAI} onExport={exportData} onClear={clearData} />
       case 'support':
@@ -189,12 +231,12 @@ export default function App() {
       default:
         return null
     }
-  }, [allowExternalAI, chainEntries, chainLoading, clearAllChains, clearData, complete, completeQuick, completion, destination, exportData, navigation, returnToday, saveChainEntry, saveReflection, saveSessions, sessions, sessionsError, sessionsLoading, setExternalAI, setSaving, startRoute, theme])
+  }, [allowExternalAI, chainEntries, chainLoading, clearAllChains, clearData, complete, completeQuick, completion, destination, exportData, navigation, retryBaseSave, returnToday, saveChainEntry, saveReflection, saveSessions, sessionCaptured, sessionSaveState, sessions, sessionsError, sessionsLoading, setExternalAI, setSaving, startRoute, theme])
 
-  if (showOnboarding) {
+  if (onboardingMode) {
     return (
       <MotionConfig reducedMotion="user">
-        <Onboarding onComplete={() => setShowOnboarding(false)} />
+        <Onboarding mode={onboardingMode} onComplete={() => setOnboardingMode(null)} onClose={onboardingMode === 'replay' ? () => setOnboardingMode(null) : undefined} />
       </MotionConfig>
     )
   }

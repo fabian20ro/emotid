@@ -51,7 +51,7 @@ describe('Onboarding', () => {
     expect(finish).toBeEnabled()
     await user.click(finish)
 
-    expect(onComplete).toHaveBeenCalledWith(null)
+    expect(onComplete).toHaveBeenCalledOnce()
     expect(setItemSpy).toHaveBeenCalledWith(storage.KEYS.onboarded, 'true')
   })
 
@@ -90,5 +90,21 @@ describe('Onboarding', () => {
     expect(romanian).toHaveAttribute('aria-pressed', 'true')
     expect(screen.getByRole('button', { name: /începeți/i })).toBeInTheDocument()
     expect(setItemSpy).toHaveBeenCalledWith(storage.KEYS.language, 'ro')
+  })
+
+  it('replays without rewriting first-run state and can be dismissed', async () => {
+    const user = userEvent.setup()
+    const onComplete = vi.fn()
+    const onClose = vi.fn()
+    render(
+      <LanguageProvider>
+        <Onboarding mode="replay" onComplete={onComplete} onClose={onClose} />
+      </LanguageProvider>,
+    )
+
+    expect(screen.queryByRole('group', { name: 'Language' })).not.toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: 'Close introduction' }))
+    expect(onClose).toHaveBeenCalledOnce()
+    expect(setItemSpy).not.toHaveBeenCalledWith(storage.KEYS.onboarded, 'true')
   })
 })

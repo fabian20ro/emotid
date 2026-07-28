@@ -58,13 +58,15 @@ test.describe('Primary check-in routes', () => {
     await moreContext.getByText('More context').click()
     await expect(moreContext).toContainText(/closest match among these suggestions/i)
     await expect(moreContext).not.toContainText(/you are experiencing|your system is responding/i)
-    await expect(page.getByRole('button', { name: 'grounding, breath, and present focus' })).toHaveAttribute('aria-pressed', 'true')
+    const need = page.getByRole('button', { name: 'grounding, breath, and present focus' })
+    await expect(need).toHaveAttribute('aria-pressed', 'false')
+    await need.click()
     await page.getByRole('button', { name: 'Yes' }).click()
     await finishReflection(page)
 
     await page.getByRole('button', { name: 'Journal', exact: true }).click()
     await expect(page.getByTestId('journal-screen')).toContainText(/anxiety/i)
-    await page.getByRole('button', { name: /open reflection: anxiety/i }).click()
+    await page.getByRole('button', { name: /open check-in: anxiety/i }).click()
     await expect(page.getByTestId('session-detail-screen')).toContainText(/yes/i)
     await expect(page.getByTestId('session-detail-screen')).toContainText('grounding, breath, and present focus')
   })
@@ -78,7 +80,7 @@ test.describe('Primary check-in routes', () => {
     await completeQuick(page, 'joy')
     await finishReflection(page)
     await page.getByRole('button', { name: 'Journal', exact: true }).click()
-    await expect(page.getByText('No saved reflections yet')).toBeVisible()
+    await expect(page.getByText('No saved check-ins yet')).toBeVisible()
   })
 
   test('Body Compass collects region, sensation, intensity and reflects', async ({ page }) => {
@@ -154,7 +156,7 @@ test.describe('Safety behavior through the UI', () => {
 
     await choose(/^sad/i)
     await choose(/^despair/i)
-    await page.getByRole('button', { name: 'Use Despair' }).click()
+    await page.getByRole('button', { name: 'Add Despair' }).click()
 
     await choose(/^sad/i)
     await choose(/^depressed/i)

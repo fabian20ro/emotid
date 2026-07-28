@@ -339,7 +339,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .settings-row:last-child, .settings-link:last-child { border-bottom: 0; }
 .settings-row small { display: block; color: var(--ink-muted); font-size: 11px; margin-top: 3px; line-height: 1.35; }
 .segmented { display: flex; border: 1px solid var(--line); border-radius: 8px; padding: 2px; }
-.segmented button { min-width: 44px; min-height: 40px; border: 0; border-radius: 6px; background: transparent; color: var(--ink-muted); }
+.segmented button { min-width: 44px; min-height: 44px; border: 0; border-radius: 6px; background: transparent; color: var(--ink-muted); }
 .segmented button.is-active { background: var(--teal); color: var(--accent-ink); }
 .switch { width: 50px; height: 30px; padding: 3px; border: 0; border-radius: 16px; background: var(--disabled-bg); transition: background 160ms ease; }
 .switch span { display: block; width: 24px; height: 24px; border-radius: 50%; background: white; box-shadow: 0 1px 3px #0003; transform: translateX(0); transition: transform 160ms ease; }
@@ -452,9 +452,14 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .word-ladder { margin: 16px 0; }
 .word-path { position: relative; padding: 12px; border-left: 3px solid var(--blue); background: var(--blue-soft); border-radius: 0 8px 8px 0; }
 .word-path > span { font-size: 11px; color: var(--ink-muted); text-transform: uppercase; font-weight: 750; }
+.word-path > p { margin: 5px 0 0; color: var(--ink-muted); font-size: 13px; line-height: 1.4; }
 .word-path-levels { margin-top: 7px; display: flex; flex-wrap: wrap; gap: 7px; }
 .word-path-levels button, .word-level-back { min-height: 44px; padding: 7px 10px; border: 1px solid color-mix(in srgb, var(--blue) 35%, var(--line)); border-radius: 7px; background: var(--surface-raised); color: var(--blue); font-size: 12px; font-weight: 700; }
 .word-level-back { margin-top: 9px; display: inline-flex; align-items: center; gap: 6px; }
+.word-stop-choice { margin-top: 10px; padding: 14px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-raised); display: grid; gap: 8px; }
+.word-stop-choice > span { color: var(--ink-muted); font-size: 12px; }
+.word-stop-choice > strong { font-size: 20px; }
+.word-stop-choice > p { margin: 3px 0 0; padding-top: 11px; border-top: 1px solid var(--line); color: var(--ink-muted); font-size: 13px; line-height: 1.4; }
 .word-selection { margin-top: 10px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-raised); }
 .word-selection > div:first-child { min-height: 44px; display: flex; align-items: center; justify-content: space-between; color: var(--ink-muted); font-size: 11px; font-weight: 750; text-transform: uppercase; }
 .word-selection > div:last-child { display: flex; flex-wrap: wrap; gap: 7px; }
@@ -488,6 +493,15 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .emotion-heading span { min-height: 34px; padding: 6px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-raised); display: inline-flex; align-items: center; gap: 7px; font-weight: 680; }
 .emotion-heading i { width: 9px; height: 9px; border-radius: 50%; }
 .reflection-synthesis { margin: 0 0 20px; font-size: 17px; line-height: 1.62; }
+.reflection-exit { position: sticky; z-index: 2; bottom: 0; margin: 0 -2px 18px; padding: 8px 2px max(8px, env(safe-area-inset-bottom)); border-top: 1px solid var(--line); background: var(--surface); }
+.reflection-exit .primary-button { width: 100%; }
+.session-save-status { min-height: 44px; margin: 14px 0 18px; padding: 9px 11px; border-left: 3px solid var(--teal); background: var(--teal-soft); color: var(--ink); display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 13px; line-height: 1.4; }
+.session-save-status > span { display: inline-flex; align-items: center; gap: 7px; }
+.session-save-status svg { flex: 0 0 auto; }
+.session-save-status.is-saving svg { animation: save-state-spin 1s linear infinite; }
+.session-save-status.is-error { border-left-color: var(--danger-ink); background: var(--danger-bg); color: var(--danger-ink); }
+.session-save-status.is-disabled { border-left-color: var(--ink-muted); background: var(--surface-raised); color: var(--ink-muted); }
+.session-save-status .text-button { flex: 0 0 auto; min-height: 44px; padding-inline: 8px; font-size: 12px; }
 .fit-check { margin: 0 0 18px; padding: 0; border: 0; }
 .fit-check legend { margin-bottom: 8px; font-size: 13px; font-weight: 700; }
 .fit-check > div { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; }
@@ -526,8 +540,6 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .next-step-options button { width: 100%; min-height: 58px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-raised); color: var(--ink); display: grid; grid-template-columns: 22px minmax(0, 1fr); align-items: center; gap: 9px; text-align: left; line-height: 1.4; }
 .next-step-options button.is-active { border-color: var(--teal); background: var(--teal-soft); color: var(--teal); font-weight: 700; }
 .next-step-options button.is-active .need-choice-mark { border-color: var(--teal); background: var(--teal); color: var(--accent-ink); }
-.reflection-close { display: flex; min-height: 70dvh; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
-.close-mark { width: 58px; height: 58px; border-radius: 50%; display: grid; place-items: center; background: var(--teal-soft); color: var(--teal); margin-bottom: 18px; }
 .reflection-save-state { min-height: 70dvh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
 .save-state-mark { width: 58px; height: 58px; margin-bottom: 18px; border-radius: 50%; display: grid; place-items: center; background: var(--blue-soft); color: var(--blue); }
 .save-state-mark > svg { animation: save-state-spin 1s linear infinite; }
@@ -536,7 +548,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .save-error-actions { width: 100%; margin-top: 24px; display: grid; gap: 8px; }
 .save-error-actions .text-button { width: 100%; }
 @keyframes save-state-spin { to { transform: rotate(360deg); } }
-@media (prefers-reduced-motion: reduce) { .save-state-mark > svg { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .save-state-mark > svg, .session-save-status.is-saving svg { animation: none; } }
 
 .crisis-banner { margin-bottom: 18px; padding: 16px; border: 1px solid var(--need-line); border-left: 4px solid var(--mustard); border-radius: 8px; background: var(--mustard-soft); color: var(--ink); }
 .crisis-banner.is-tier4 { border-color: var(--danger-line); border-left-color: var(--danger-ink); background: var(--danger-bg); }
@@ -591,6 +603,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 
 .onboarding { min-height: 100dvh; padding: max(22px, env(safe-area-inset-top)) 18px max(22px, env(safe-area-inset-bottom)); background: var(--surface); color: var(--ink); display: grid; place-items: center; }
 .onboarding-panel { width: min(100%, 430px); min-height: min(650px, calc(100dvh - 44px)); display: grid; grid-template-rows: auto auto minmax(0, 1fr) auto; }
+.onboarding-header { min-height: 48px; display: flex; align-items: center; justify-content: space-between; }
 .onboarding-brand { font-weight: 760; font-size: 17px; }
 .onboarding-progress { margin: 28px 0 16px; display: flex; gap: 7px; }
 .onboarding-progress span { width: 28px; height: 4px; border-radius: 2px; background: var(--line); }
@@ -611,6 +624,12 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 @media (max-width: 359px) {
   .screen-title { font-size: 27px; }
   .quick-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 430px) {
+  .settings-row { grid-template-columns: auto minmax(0, 1fr); padding-block: 10px; }
+  .settings-row .segmented { grid-column: 2; width: 100%; }
+  .settings-row .segmented button { flex: 1 1 0; min-width: 0; padding-inline: 7px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -1,4 +1,4 @@
-import { useState, type CSSProperties } from 'react'
+import { useLayoutEffect, useRef, useState, type CSSProperties } from 'react'
 import { ArrowLeft, ArrowLeftRight, Check, ChevronRight, RotateCcw, X } from 'lucide-react'
 import { ScreenHeader } from '../components/ScreenHeader'
 import { useLanguage } from '../context/LanguageContext'
@@ -40,6 +40,11 @@ export function WordLadderScreen({ onBack, onComplete }: WordLadderScreenProps) 
   const [comparisonContext, setComparisonContext] = useState<ComparisonContext | null>(null)
   const [comparison, setComparison] = useState<BaseEmotion | null>(null)
   const [comparisonOpen, setComparisonOpen] = useState(false)
+  const stopChoiceRef = useRef<HTMLElement>(null)
+
+  useLayoutEffect(() => {
+    if (path.length > 0) stopChoiceRef.current?.focus({ preventScroll: true })
+  }, [path.length])
 
   const prepareComparison = (selected: BaseEmotion, level: BaseEmotion[]) => {
     setComparisonContext({
@@ -108,6 +113,11 @@ export function WordLadderScreen({ onBack, onComplete }: WordLadderScreenProps) 
     }
   }
 
+  const finishWithPathEmotion = (emotion: BaseEmotion) => {
+    const results = model.analyzeSelections([emotion])
+    if (results.length > 0) onComplete(MODEL_IDS.WHEEL, [emotion], results)
+  }
+
   return (
     <div className="screen checkin-screen checkin-screen-words" data-testid="words-screen">
       <ScreenHeader onBack={onBack} eyebrow={t.eyebrow} title={t.title} lede={t.lede} />
@@ -118,24 +128,36 @@ export function WordLadderScreen({ onBack, onComplete }: WordLadderScreenProps) 
 
       <div className="word-ladder">
         {path.length > 0 && (
-          <section className="word-path" aria-label={t.path}>
-            <span>{t.path}</span>
-            <div className="word-path-levels">
-              {path.map((item, index) => (
-                <button
-                  type="button"
-                  key={`${item.id}-${index}`}
-                  onClick={() => choosePathLevel(index)}
-                  aria-label={t.useWord.replace('{word}', item.label[language])}
-                >
-                  {item.label[language]}
-                </button>
-              ))}
-            </div>
-            <button type="button" className="word-level-back" onClick={backOneLevel}>
-              <ArrowLeft size={17} aria-hidden="true" />{t.backLevel}
-            </button>
-          </section>
+          <>
+            <section className="word-path" aria-label={t.path}>
+              <span>{t.path}</span>
+              <p>{t.pathHint}</p>
+              <div className="word-path-levels">
+                {path.map((item, index) => (
+                  <button
+                    type="button"
+                    key={`${item.id}-${index}`}
+                    onClick={() => choosePathLevel(index)}
+                    aria-label={t.useWord.replace('{word}', item.label[language])}
+                  >
+                    {t.useWord.replace('{word}', item.label[language])}
+                  </button>
+                ))}
+              </div>
+              <button type="button" className="word-level-back" onClick={backOneLevel}>
+                <ArrowLeft size={17} aria-hidden="true" />{t.backLevel}
+              </button>
+            </section>
+            <section ref={stopChoiceRef} className="word-stop-choice" aria-labelledby="word-stop-title" tabIndex={-1}>
+              <span>{t.stopHere}</span>
+              <strong id="word-stop-title">{path[path.length - 1].label[language]}</strong>
+              <button type="button" className="primary-button" onClick={() => finishWithPathEmotion(path[path.length - 1])}>
+                {t.continueWith.replace('{word}', path[path.length - 1].label[language])}
+                <ChevronRight size={19} aria-hidden="true" />
+              </button>
+              <p>{t.moreSpecific}</p>
+            </section>
+          </>
         )}
 
         {model.selections.length > 0 && (
@@ -214,7 +236,8 @@ export function WordLadderScreen({ onBack, onComplete }: WordLadderScreenProps) 
         {model.selections.length > 0 && (
           <div className="route-action">
             <button type="button" className="primary-button" disabled={!model.modelReady} onClick={finish}>
-              {t.choose}<ChevronRight size={19} aria-hidden="true" />
+              {t.continueWith.replace('{word}', model.selections.map((emotion) => emotion.label[language]).join(', '))}
+              <ChevronRight size={19} aria-hidden="true" />
             </button>
           </div>
         )}

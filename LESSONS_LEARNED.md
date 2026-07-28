@@ -14,6 +14,11 @@
 
 ## Architecture & Design Decisions
 
+**[2026-07-29]** Model output becomes user history only after an explicit commitment — Persist the
+user's committed input early, but keep inferred labels, needs, and actions optional. Derived
+suggestions that are unconfirmed, partial, or rejected may remain visible in the Journal for
+context, but must not silently enter pattern analytics as facts about the user.
+
 **[2026-07-28]** Generated psychological copy needs a typed boundary from catalog prose — Do not
 parse or splice emotion descriptions into generated narratives. Keep reviewed bilingual templates
 in one typed module, let model logic select templates, and test that arbitrary catalog prose cannot

@@ -6,6 +6,7 @@ import { computeVocabulary } from '../data/vocabulary'
 import { computeValenceRatio } from '../data/valence-ratio'
 import { computeSomaticPatterns } from '../data/somatic-patterns'
 import { getSomaticRegionLabel } from '../models/somatic/display'
+import { getResultRelationship } from '../data/session-presentation'
 
 interface JournalScreenProps {
   sessions: Session[]
@@ -58,15 +59,19 @@ export function JournalScreen({ sessions, loading, error = false, saveSessions, 
           </div>
         ) : (
           <div className="journal-list">
-            {sessions.map((session) => (
-              <button type="button" key={session.id} onClick={() => onOpenSession(session.id)} aria-label={`${t.open}: ${session.results.map((r) => r.label[language]).join(', ')}`}>
-                <span>
-                  <small>{new Intl.DateTimeFormat(language, { dateStyle: 'medium', timeStyle: 'short' }).format(session.timestamp)}</small>
-                  <strong>{session.results.slice(0, 3).map((r) => r.label[language]).join(', ')}</strong>
-                </span>
-                <ArrowRight size={18} aria-hidden="true" />
-              </button>
-            ))}
+            {sessions.map((session) => {
+              const relationship = getResultRelationship(session)
+              return (
+                <button type="button" key={session.id} onClick={() => onOpenSession(session.id)} aria-label={`${t.open}: ${session.results.map((r) => r.label[language]).join(', ')}. ${t.relationship[relationship]}`}>
+                  <span>
+                    <small>{new Intl.DateTimeFormat(language, { dateStyle: 'medium', timeStyle: 'short' }).format(session.timestamp)}</small>
+                    <strong>{session.results.slice(0, 3).map((r) => r.label[language]).join(', ')}</strong>
+                    <small>{t.relationship[relationship]}</small>
+                  </span>
+                  <ArrowRight size={18} aria-hidden="true" />
+                </button>
+              )
+            })}
           </div>
         )}
       </section>

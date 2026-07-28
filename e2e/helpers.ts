@@ -26,7 +26,5 @@ export async function completeQuick(page: Page, emotionId = 'anxiety') {
 
 export async function finishReflection(page: Page) {
   await page.getByRole('button', { name: /done for now|gata pentru acum/i }).click()
-  await expect(page.getByTestId('reflection-close-screen')).toBeVisible()
-  await page.getByRole('button', { name: /return to today|reveniți la astăzi/i }).click()
   await expect(page.getByTestId('today-screen')).toBeVisible()
 }

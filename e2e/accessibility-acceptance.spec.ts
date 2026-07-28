@@ -51,10 +51,10 @@ test.describe('Critical journey semantics and focus', () => {
   test('save recovery focuses the new context and limits urgent announcements', async ({ page }) => {
     await page.addInitScript(() => {
       const originalPut = IDBObjectStore.prototype.put
-      let shouldFail = true
+      let attempts = 0
       IDBObjectStore.prototype.put = function put(value: unknown, key?: IDBValidKey) {
-        if (shouldFail) {
-          shouldFail = false
+        attempts += 1
+        if (attempts === 2) {
           throw new DOMException('Simulated local save failure', 'QuotaExceededError')
         }
         return originalPut.call(this, value, key)
@@ -64,13 +64,13 @@ test.describe('Critical journey semantics and focus', () => {
     await page.getByTestId('quick-feeling-anxiety').click()
     await page.getByRole('button', { name: 'Done for now' }).click()
 
-    await expectScreenSemantics(page, /this reflection was not saved/i, false)
+    await expectScreenSemantics(page, /the latest details were not saved/i, false)
     await expect(page.getByRole('alert')).toHaveCount(1)
-    await expect(page.getByRole('alert')).toContainText('Nothing was sent online')
+    await expect(page.getByRole('alert')).toContainText(/nothing was sent online/i)
     await expect(page.getByRole('alert')).not.toContainText('Try saving again')
 
     await page.getByRole('button', { name: 'Try saving again' }).click()
-    await expectScreenSemantics(page, /check-in complete/i, false)
+    await expectScreenSemantics(page, /how are you feeling/i)
   })
 })
 

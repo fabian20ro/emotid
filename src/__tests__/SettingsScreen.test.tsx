@@ -11,6 +11,7 @@ function renderSettings(theme: 'light' | 'dark' = 'light') {
     onThemeChange: vi.fn(),
     onOpenPrivacy: vi.fn(),
     onOpenSupport: vi.fn(),
+    onReplayIntroduction: vi.fn(),
   }
   return {
     ...render(<LanguageProvider><SettingsScreen {...props} /></LanguageProvider>),
@@ -51,5 +52,14 @@ describe('SettingsScreen', () => {
     expect(romanian).toHaveAttribute('aria-pressed', 'true')
     await user.click(dark)
     expect(props.onThemeChange).toHaveBeenCalledWith('dark')
+  })
+
+  it('offers the introduction again from Help', async () => {
+    const user = userEvent.setup()
+    const { props } = renderSettings()
+
+    expect(screen.getByRole('heading', { name: 'Help' })).toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: 'Replay introduction' }))
+    expect(props.onReplayIntroduction).toHaveBeenCalledOnce()
   })
 })

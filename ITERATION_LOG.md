@@ -1046,3 +1046,38 @@ Manual 393x742 light/dark Playwright inspection confirms the Body Compass eviden
 review remains necessary because repository-wide data audits can miss user-facing claims in
 onboarding and can underweight consequential copy through typography.
 **Promoted to Lessons Learned:** Yes — fail-closed psychological provenance.
+
+---
+
+### [2026-07-29] Complete P14/P15 early capture, explicit stopping, and replayable introduction
+
+**Context:** Word discovery obscured that an intermediary emotion could be the final answer.
+Reflection delayed the durable Journal write and added optional questions plus a second completion
+click after the user had already named an emotion. The first-run introduction could not be replayed.
+**What happened:**
+- Added one pure session constructor/updater and a small ordered write boundary in `App`; base
+  check-ins persist immediately, revisions retain identity, optional details update in place, and
+  saving-disabled mode performs zero writes.
+- Made every Word Ladder level an explicit result with a prominent current-word action, visible
+  path actions, and focus movement. Reused the existing analyzer and shared completion boundary.
+- Removed the completion interstitial. Reflection keeps one-tap `Done for now` visible before
+  optional needs/steps, leaves all inferred needs unselected, keeps pending context visible, and
+  distinguishes base-save from optional-detail failures.
+- Added result-relationship presentation and excluded unconfirmed, partial, and rejected
+  suggestions from vocabulary/valence patterns without changing stored records or crisis logic.
+- Reused onboarding as a portaled, focus-trapped, dismissible Settings replay while preserving
+  preferences. Hid the setup-only language chooser during replay.
+- Independent simplicity-focused UX review identified the below-fold exit, silent need selection,
+  blocking save view, crisis/status ordering, suggestion leakage, revision-state ambiguity,
+  Romanian theme collision, intermediary stopping ambiguity, and duplicate replay language
+  control. All findings were addressed before final verification.
+- The final acceptance pass also drove revision-identity guarding, accurate whole-check-in versus
+  detail-only failure headings, clearer `Add` versus `Continue` word actions, consistent Privacy
+  terminology, and 44px compact controls.
+**Outcome:** Success. `npm run check` passes 66 files and 618 tests. `npm run test:e2e` passes all
+170 Mobile Safari and Mobile Chrome cases. `npm run test:pwa` passes the production offline/update
+lifecycle. Manual 393x742 dark inspection covered Reflection, intermediary Word Ladder selection,
+Romanian Settings, and replay with no clipping, collisions, or console errors.
+**Insight:** Persist the user's explicit commitment early; model-derived enrichment remains
+optional and cannot become either a selected answer or a personal pattern without confirmation.
+**Promoted to Lessons Learned:** Yes — explicit commitment boundary for model output.

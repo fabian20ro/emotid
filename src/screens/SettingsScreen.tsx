@@ -1,4 +1,4 @@
-import { ChevronRight, Languages, LifeBuoy, LockKeyhole, Moon } from 'lucide-react'
+import { ChevronRight, Languages, LifeBuoy, LockKeyhole, Moon, RotateCcw } from 'lucide-react'
 import { useLanguage } from '../context/LanguageContext'
 import { ScreenHeader } from '../components/ScreenHeader'
 
@@ -8,6 +8,7 @@ interface SettingsScreenProps {
   onThemeChange: (theme: 'light' | 'dark') => void
   onOpenPrivacy: () => void
   onOpenSupport: () => void
+  onReplayIntroduction: () => void
 }
 
 function Toggle({ checked, label, onChange, disabled = false }: { checked: boolean; label: string; onChange: (checked: boolean) => void; disabled?: boolean }) {
@@ -24,7 +25,7 @@ function Toggle({ checked, label, onChange, disabled = false }: { checked: boole
   )
 }
 
-export function SettingsScreen({ theme, onBack, onThemeChange, onOpenPrivacy, onOpenSupport }: SettingsScreenProps) {
+export function SettingsScreen({ theme, onBack, onThemeChange, onOpenPrivacy, onOpenSupport, onReplayIntroduction }: SettingsScreenProps) {
   const { language, setLanguage, section } = useLanguage()
   const t = section('settingsScreen')
 
@@ -54,6 +55,11 @@ export function SettingsScreen({ theme, onBack, onThemeChange, onOpenPrivacy, on
       <h2 className="section-heading">{section('privacyData').title}</h2>
       <div className="settings-list">
         <button type="button" className="settings-link" onClick={onOpenPrivacy}><LockKeyhole size={20} aria-hidden="true" /><span>{t.privacy}</span><ChevronRight size={18} aria-hidden="true" /></button>
+      </div>
+
+      <h2 className="section-heading">{t.help}</h2>
+      <div className="settings-list">
+        <button type="button" className="settings-link" onClick={onReplayIntroduction}><RotateCcw size={20} aria-hidden="true" /><span>{t.replayIntroduction}</span><ChevronRight size={18} aria-hidden="true" /></button>
         <button type="button" className="settings-link" onClick={onOpenSupport}><LifeBuoy size={20} aria-hidden="true" /><span>{t.support}</span><ChevronRight size={18} aria-hidden="true" /></button>
       </div>
     </div>

@@ -41,6 +41,18 @@ describe('computeValenceRatio', () => {
     expect(result.weeks[result.weeks.length - 1].total).toBe(3)
   })
 
+  it('excludes generated results until the user confirms their fit', () => {
+    const suggestedResult = { id: 'happy', label: { ro: 'fericit', en: 'happy' }, color: '#fff', valence: 0.8 }
+    const sessions = [
+      makeSession({ entryRoute: 'affect', results: [suggestedResult] }),
+      makeSession({ entryRoute: 'body', reflectionAnswer: 'partly', results: [suggestedResult] }),
+      makeSession({ entryRoute: 'plutchik', reflectionAnswer: 'no', results: [suggestedResult] }),
+      makeSession({ entryRoute: 'affect', reflectionAnswer: 'yes', results: [suggestedResult] }),
+    ]
+
+    expect(computeValenceRatio(sessions).pleasant).toBe(1)
+  })
+
   it('excludes sessions older than 7 days', () => {
     const eightDaysAgo = Date.now() - 8 * 24 * 60 * 60 * 1000
     const sessions = [

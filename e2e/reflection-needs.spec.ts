@@ -37,6 +37,6 @@ test('chooses one of several inferred needs and persists it to Journal', async (
   await finishReflection(page)
 
   await page.getByRole('button', { name: 'Journal', exact: true }).click()
-  await page.getByRole('button', { name: /open reflection:.*free.*wounded/i }).click()
+  await page.getByRole('button', { name: /open check-in:.*free.*wounded/i }).click()
   await expect(page.getByTestId('session-detail-screen')).toContainText('acknowledgment and gentle care')
 })

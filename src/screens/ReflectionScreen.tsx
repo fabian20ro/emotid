@@ -5,19 +5,22 @@ import { synthesize } from '../models/synthesis'
 import { CrisisBanner } from '../components/CrisisBanner'
 import { ScreenHeader } from '../components/ScreenHeader'
 import { buildGoogleAiSearchUrl } from '../utils/google-ai-search'
-import type { CheckInCompletion, ReflectionAnswer, ReflectionDetail, ReflectionSaveOutcome } from '../navigation/types'
+import type { CheckInCompletion, ReflectionAnswer, ReflectionDetail, ReflectionSaveOutcome, SessionSaveState } from '../navigation/types'
 
-type FinishState = 'idle' | 'saving' | 'error' | 'finished'
+type FinishState = 'idle' | 'saving' | 'error'
 
 interface ReflectionScreenProps {
   completion: CheckInCompletion
   allowExternalAI: boolean
+  saveState: SessionSaveState
+  sessionCaptured: boolean
   onBack: () => void
+  onRetryBaseSave: () => void
   onSave: (detail: ReflectionDetail) => Promise<ReflectionSaveOutcome>
   onReturn: () => void
 }
 
-export function ReflectionScreen({ completion, allowExternalAI, onBack, onSave, onReturn }: ReflectionScreenProps) {
+export function ReflectionScreen({ completion, allowExternalAI, saveState, sessionCaptured, onBack, onRetryBaseSave, onSave, onReturn }: ReflectionScreenProps) {
   const { language, section } = useLanguage()
   const t = section('reflectionScreen')
   const analyzeT = section('analyze')
@@ -27,11 +30,10 @@ export function ReflectionScreen({ completion, allowExternalAI, onBack, onSave, 
     [language, results],
   )
   const [fit, setFit] = useState<ReflectionAnswer | undefined>()
-  const [selectedNeed, setSelectedNeed] = useState<string | undefined>(() => needs.length === 1 ? needs[0] : undefined)
+  const [selectedNeed, setSelectedNeed] = useState<string | undefined>()
   const [tier4Acknowledged, setTier4Acknowledged] = useState(false)
   const [showStep, setShowStep] = useState(false)
   const [finishState, setFinishState] = useState<FinishState>('idle')
-  const [saveOutcome, setSaveOutcome] = useState<ReflectionSaveOutcome>()
   const [nextStep, setNextStep] = useState<string | undefined>()
   const screenRef = useRef<HTMLDivElement>(null)
   const savingRef = useRef(false)
@@ -47,6 +49,7 @@ export function ReflectionScreen({ completion, allowExternalAI, onBack, onSave, 
     : null
 
   useLayoutEffect(() => {
+    if (finishState === 'saving') return
     screenRef.current?.scrollIntoView?.({ block: 'start' })
     screenRef.current?.querySelector<HTMLElement>('#screen-title')?.focus({ preventScroll: true })
   }, [finishState, showStep])
@@ -58,8 +61,7 @@ export function ReflectionScreen({ completion, allowExternalAI, onBack, onSave, 
     setFinishState('saving')
     try {
       const outcome = await onSave(detail)
-      setSaveOutcome(outcome)
-      setFinishState('finished')
+      if (outcome === 'saved' || outcome === 'not-saved') onReturn()
     } catch {
       setFinishState('error')
     } finally {
@@ -80,8 +82,7 @@ export function ReflectionScreen({ completion, allowExternalAI, onBack, onSave, 
   }
 
   const continueWithoutSaving = () => {
-    setSaveOutcome('not-saved')
-    setFinishState('finished')
+    onReturn()
   }
 
   const chooseFit = (answer: ReflectionAnswer) => {
@@ -90,47 +91,29 @@ export function ReflectionScreen({ completion, allowExternalAI, onBack, onSave, 
     if (answer === 'no') setSelectedNeed(undefined)
   }
 
-  if (finishState === 'saving') {
-    return (
-      <div ref={screenRef} className="screen reflection-save-state" data-testid="reflection-saving-screen">
-        <span className="save-state-mark"><LoaderCircle size={28} aria-hidden="true" /></span>
-        <h1 id="screen-title" className="screen-title" tabIndex={-1}>{t.savingTitle}</h1>
-        <p className="screen-lede" role="status" aria-live="polite">{t.savingBody}</p>
-      </div>
-    )
-  }
-
   if (finishState === 'error') {
     return (
       <div ref={screenRef} className="screen reflection-save-state" data-testid="reflection-save-error-screen">
         <span className="save-state-mark is-error"><TriangleAlert size={28} aria-hidden="true" /></span>
-        <h1 id="screen-title" className="screen-title" tabIndex={-1}>{t.saveErrorTitle}</h1>
-        <p className="screen-lede" role="alert">{t.saveErrorBody}</p>
+        <h1 id="screen-title" className="screen-title" tabIndex={-1}>
+          {sessionCaptured ? t.detailSaveErrorTitle : t.baseSaveErrorTitle}
+        </h1>
+        <p className="screen-lede" role="alert">{sessionCaptured ? t.detailSaveErrorBody : t.saveErrorBody}</p>
         <div className="save-error-actions">
           <button type="button" className="primary-button" onClick={retrySave}>
             <RotateCcw size={18} aria-hidden="true" />{t.retrySave}
           </button>
-          <button type="button" className="text-button" onClick={continueWithoutSaving}>{t.continueWithoutSaving}</button>
+          <button type="button" className="text-button" onClick={continueWithoutSaving}>
+            {sessionCaptured ? t.finishWithoutDetails : t.continueWithoutSaving}
+          </button>
         </div>
-      </div>
-    )
-  }
-
-  if (finishState === 'finished') {
-    return (
-      <div ref={screenRef} className="screen reflection-close" data-testid="reflection-close-screen">
-        <span className="close-mark"><Check size={28} aria-hidden="true" /></span>
-        <h1 id="screen-title" className="screen-title" tabIndex={-1}>{t.closeTitle}</h1>
-        <p className="screen-lede">{t.closeBody}</p>
-        <p className="privacy-line">{saveOutcome === 'saved' ? t.saved : t.notSaved}</p>
-        <button type="button" className="primary-button mt-6" onClick={onReturn}>{t.returnToday}</button>
       </div>
     )
   }
 
   if (showStep) {
     return (
-      <div ref={screenRef} className="screen" data-testid="next-step-screen">
+      <div ref={screenRef} className="screen" data-testid="next-step-screen" aria-busy={finishState === 'saving'}>
         <ScreenHeader title={t.nextStep} onBack={() => setShowStep(false)} lede={t.nextStepChoicePrompt} />
         {selectedNeed && <p className="next-step-need"><Lightbulb size={18} aria-hidden="true" />{t.need}: {selectedNeed}</p>}
         <div className="next-step-options" role="group" aria-label={t.nextStepChoicePrompt}>
@@ -147,20 +130,48 @@ export function ReflectionScreen({ completion, allowExternalAI, onBack, onSave, 
             </button>
           ))}
         </div>
-        <button type="button" className="primary-button mt-5" disabled={!nextStep} onClick={() => finish(nextStep)}>
-          <Check size={19} aria-hidden="true" />{t.keepStep}
+        <button type="button" className="primary-button mt-5" disabled={!nextStep || finishState === 'saving'} onClick={() => finish(nextStep)}>
+          {finishState === 'saving' ? <LoaderCircle size={19} aria-hidden="true" /> : <Check size={19} aria-hidden="true" />}
+          {finishState === 'saving' ? t.finishing : t.keepStep}
         </button>
-        <button type="button" className="text-button w-full mt-2" onClick={() => finish()}>{t.done}</button>
+        <button type="button" className="text-button w-full mt-2" disabled={finishState === 'saving'} onClick={() => finish()}>{t.done}</button>
       </div>
     )
   }
 
   return (
-    <div ref={screenRef} className="screen" data-testid="reflection-screen">
+    <div ref={screenRef} className="screen" data-testid="reflection-screen" aria-busy={finishState === 'saving'}>
       <ScreenHeader onBack={onBack} eyebrow={t.eyebrow} title={t.title} />
 
       {completion.crisisTier !== 'none' && (
         <CrisisBanner tier={completion.crisisTier} crisisT={section('crisis')} showTemporalNote={completion.temporalEscalation} />
+      )}
+
+      {(completion.crisisTier === 'none' || saveState === 'error') && (
+        <div
+          className={`session-save-status is-${saveState}`}
+          role={saveState === 'error' ? 'alert' : 'status'}
+          aria-live="polite"
+        >
+          <span>
+            {saveState === 'saving' && <LoaderCircle size={17} aria-hidden="true" />}
+            {saveState === 'saved' && <Check size={17} aria-hidden="true" />}
+            {saveState === 'error' && <TriangleAlert size={17} aria-hidden="true" />}
+            {saveState === 'disabled' && <X size={17} aria-hidden="true" />}
+            {saveState === 'saving'
+              ? t.baseSaving
+              : saveState === 'saved'
+                ? t.baseSaved
+                : saveState === 'error'
+                  ? t.baseSaveError
+                  : t.baseNotSaved}
+          </span>
+          {saveState === 'error' && (
+            <button type="button" className="text-button" onClick={onRetryBaseSave}>
+              <RotateCcw size={16} aria-hidden="true" />{t.retrySave}
+            </button>
+          )}
+        </div>
       )}
 
       {requiresAcknowledge ? (
@@ -197,6 +208,13 @@ export function ReflectionScreen({ completion, allowExternalAI, onBack, onSave, 
             </section>
           ) : (
             <>
+              <div className="reflection-exit">
+                <button type="button" className="primary-button" disabled={finishState === 'saving'} onClick={() => finish()}>
+                  {finishState === 'saving' && <LoaderCircle size={18} aria-hidden="true" />}
+                  {finishState === 'saving' ? t.finishing : t.done}
+                </button>
+              </div>
+
               {needs.length > 0 && (
                 <fieldset className="need-choice">
                   <legend><Lightbulb size={19} aria-hidden="true" />{t.needPrompt}</legend>
@@ -221,8 +239,7 @@ export function ReflectionScreen({ completion, allowExternalAI, onBack, onSave, 
                 </fieldset>
               )}
 
-              <button type="button" className="primary-button mt-4" onClick={() => setShowStep(true)}>{t.nextStep}</button>
-              <button type="button" className="text-button w-full mt-1" onClick={() => finish()}><X size={17} aria-hidden="true" />{t.done}</button>
+              <button type="button" className="secondary-button mt-4" disabled={finishState === 'saving'} onClick={() => setShowStep(true)}>{t.nextStep}</button>
 
               {results[0]?.description?.[language] && (
                 <section className="meaning-block"><HeartHandshake size={21} aria-hidden="true" /><div><h2>{t.function}</h2><p>{results[0].description[language]}</p></div></section>

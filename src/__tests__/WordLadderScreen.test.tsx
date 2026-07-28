@@ -33,12 +33,12 @@ describe('WordLadderScreen', () => {
 
     await user.click(screen.getByRole('button', { name: 'Happy' }))
     await user.click(screen.getByRole('button', { name: 'Playful' }))
-    expect(screen.getByRole('button', { name: 'Use Happy' })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Use Playful' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Add Happy' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Add Playful' })).toBeInTheDocument()
 
     await user.click(screen.getByRole('button', { name: 'Back one level' }))
-    expect(screen.getByRole('button', { name: 'Use Happy' })).toBeInTheDocument()
-    expect(screen.queryByRole('button', { name: 'Use Playful' })).not.toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Add Happy' })).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'Add Playful' })).not.toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Playful' })).toBeInTheDocument()
 
     await user.click(screen.getByRole('button', { name: 'Back one level' }))
@@ -52,17 +52,35 @@ describe('WordLadderScreen', () => {
 
     await user.click(screen.getByRole('button', { name: 'Happy' }))
     await user.click(screen.getByRole('button', { name: 'Playful' }))
-    await user.click(screen.getByRole('button', { name: 'Use Happy' }))
+    await user.click(screen.getByRole('button', { name: 'Add Happy' }))
 
     const selected = screen.getByRole('region', { name: 'Selected words' })
     expect(within(selected).getByRole('button', { name: /happy/i })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Compare nearby words' })).toHaveAttribute('aria-expanded', 'false')
-    await user.click(screen.getByRole('button', { name: 'Use my current choice' }))
+    await user.click(screen.getByRole('button', { name: 'Continue with Happy' }))
 
     expect(onComplete).toHaveBeenCalledTimes(1)
     expect(onComplete.mock.calls[0][0]).toBe('wheel')
     expect(onComplete.mock.calls[0][1].map((emotion) => emotion.id)).toEqual(['happy'])
     expect(onComplete.mock.calls[0][2].map((result) => result.id)).toEqual(['happy'])
+  })
+
+  it('explains that an intermediary word can finish the check-in in one action', async () => {
+    const user = userEvent.setup()
+    const { onComplete } = renderScreen()
+
+    await user.click(screen.getByRole('button', { name: 'Happy' }))
+    await user.click(screen.getByRole('button', { name: 'Playful' }))
+
+    expect(screen.getByText('Any word in this path can be your answer.')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Add Playful' })).toHaveTextContent('Add Playful')
+    expect(screen.getByText('This word can be your answer')).toBeInTheDocument()
+    expect(screen.getByText('Or choose a more specific word below.')).toBeInTheDocument()
+    expect(screen.getByRole('region', { name: 'Playful' })).toHaveFocus()
+    await user.click(screen.getByRole('button', { name: 'Continue with Playful' }))
+
+    expect(onComplete).toHaveBeenCalledOnce()
+    expect(onComplete.mock.calls[0][1].map((emotion) => emotion.id)).toEqual(['playful'])
   })
 
   it('selects a precise leaf and allows removing it', async () => {
@@ -86,7 +104,7 @@ describe('WordLadderScreen', () => {
 
     await user.click(screen.getByRole('button', { name: 'Happy' }))
     await user.click(screen.getByRole('button', { name: 'Playful' }))
-    await user.click(screen.getByRole('button', { name: 'Use Happy' }))
+    await user.click(screen.getByRole('button', { name: 'Add Happy' }))
     await user.click(screen.getByRole('button', { name: 'Compare nearby words' }))
 
     expect(screen.queryByRole('button', { name: 'Compare with Happy' })).not.toBeInTheDocument()
@@ -120,10 +138,10 @@ describe('WordLadderScreen', () => {
     renderScreen()
 
     await user.click(screen.getByRole('button', { name: 'Fericit' }))
-    expect(screen.getByRole('button', { name: /folosiți fericit/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /adăugați fericit/i })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Înapoi cu un nivel' })).toBeInTheDocument()
 
-    await user.click(screen.getByRole('button', { name: 'Folosiți Fericit' }))
+    await user.click(screen.getByRole('button', { name: 'Adăugați Fericit' }))
     await user.click(screen.getByRole('button', { name: 'Comparați cuvinte apropiate' }))
     await user.click(screen.getByRole('button', { name: 'Comparați cu Trist' }))
     expect(screen.getByRole('group', { name: 'Fericit și Trist' })).toBeInTheDocument()

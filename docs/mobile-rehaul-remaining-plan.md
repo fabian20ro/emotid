@@ -1,6 +1,6 @@
 # Remaining Mobile Migration Plan
 
-Status: P10 product truthfulness complete, July 27, 2026.
+Status: P15 replayable introduction and simplified completion complete, July 29, 2026.
 
 ## Completed Since Last Update
 
@@ -25,8 +25,8 @@ Status: P10 product truthfulness complete, July 27, 2026.
   removable selections, semantic list controls, and bilingual browser coverage.
 - Added optional user-driven comparison between the selected word and one unranked sibling from
   the same visible level, using existing catalog descriptions and neutral wording.
-- Made inferred needs user-selectable in Reflection: one need starts selected, while multiple
-  suggestions require an explicit optional choice that persists into Journal and JSON export.
+- Made inferred needs user-selectable in Reflection: every suggestion starts unselected and an
+  explicit optional choice persists into Journal and JSON export.
 - Removed the unreachable modal-era Quick Check-in, results, history, settings, uncertainty,
   intervention, and sessions-only export presentation after tracing every production caller.
 - Replaced the mixed-responsibility Body Map with a route-owned staged flow and a
@@ -65,9 +65,9 @@ selection, dark contrast, mobile bounds, no-overlap geometry, and shared crisis 
 ## Completed: Make Needs User-Selectable
 
 Reflection now presents the deduplicated inferred-needs set as a removable single-select control.
-Exactly one need starts selected; multiple needs start empty. The existing optional `selectedNeed`
-field carries the choice through the shared save boundary into Journal detail and JSON export.
-No taxonomy, mapping layer, or next-step behavior changed.
+Every need starts unselected so model output cannot silently become a user answer. The existing
+optional `selectedNeed` field carries an explicit choice through the shared save boundary into
+Journal detail and JSON export. No taxonomy, mapping layer, or next-step behavior changed.
 
 **Tests:** no need, one need, deduplicated multiple needs, keyboard selection, clearing,
 save-disabled behavior, English/Romanian copy, session detail, JSON export, dark contrast, mobile
@@ -214,7 +214,8 @@ horizontal overflow, 48px-or-larger recovery actions, visible keyboard focus, an
 
 Every routed screen now exposes one programmatically focusable `h1`; the application `main`
 landmark is named by that heading and moves focus there after destination changes. Reflection
-also moves focus when saving, recovery, next-step, and completion replace the current view.
+also moves focus when recovery or next-step navigation replaces the current view. Inline saving
+does not move focus away from the action the user just invoked.
 Pending and failed writes announce only their relevant message instead of treating the entire
 screen and its actions as one live region.
 
@@ -344,7 +345,51 @@ Mobile Chrome cases. `npm run test:pwa` passes the production offline/update lif
 393x742 Playwright inspection covered onboarding plus the Body Compass review in light and dark;
 the evidence note renders at 14px/20.3px without clipping.
 
+## Completed: P14 Early Capture and Explicit Word Stopping
+
+The shared completion boundary now writes a base check-in as soon as a user commits an emotion.
+Reflection details update that same stable session ID and timestamp through a small ordered write
+queue. Revising a choice replaces the same entry; saving-disabled mode performs zero writes.
+Reflection exposes base-save progress, retry, and accurate detail-save failure copy without a
+blocking interstitial. Tier-4 support remains first in reading order and unchanged in behavior.
+
+Word Ladder now states that every visited word can be a final answer. The current intermediary has
+one prominent `Continue with {word}` action, the path exposes explicit `Add {word}` controls, and
+focus follows each level change. It reuses the existing analyzer through one small
+`analyzeSelections` hook method; no second model or wizard abstraction was added.
+
+Journal cards and detail distinguish chosen, suggested, confirmed, partial, rejected, and legacy
+results. Suggested, partial, and rejected model output is excluded from vocabulary and valence
+patterns while all records remain visible and crisis evaluation remains unchanged.
+
+## Completed: P15 Replayable Introduction and Simplified Completion
+
+Settings now has a Help section with a replay action for the existing introduction. Replay is a
+body-portaled, focus-trapped, Escape-dismissible dialog that returns to Settings and preserves
+language, theme, privacy, and onboarding state. The language selector remains available only
+during first-run setup, where it has product value.
+
+Reflection saves the committed check-in before optional questions and offers a visible one-tap
+`Done for now` action before inferred needs or next steps. Needs always require an explicit tap.
+Successful completion returns directly to Today; the redundant confirmation screen is gone.
+Pending saves keep the current context visible, disable duplicate submission, and do not steal
+focus. Romanian theme controls stack below their labels on narrow screens.
+
+**Verification:** `npm run check` passes 66 files and 618 tests, bilingual and psychological-copy
+audits, TypeScript, lint, and production build. `npm run test:e2e` passes all 170 Mobile Safari and
+Mobile Chrome cases, including 320x568 exit visibility, stable revision writes, intermediary-word
+completion, replay dismissal, and Romanian dark preferences. `npm run test:pwa` passes the
+production offline/update lifecycle with direct completion. Manual 393x742 dark inspection covered
+Reflection, Word Ladder, Romanian Settings, and introduction replay without clipping, collisions,
+or console errors.
+
 ## Remaining Product Quality Work
 
-1. P14: complete physical VoiceOver/Safari and TalkBack/Chrome release acceptance.
-2. P15: optimize bundle architecture only if real-device measurements justify it.
+1. P16, release priority: complete physical VoiceOver/Safari and TalkBack/Chrome acceptance using
+   the existing P9 script. Record spoken order, duplicate announcements, route focus, replay-dialog
+   focus, intermediary-word focus, and crisis priority. Fix only reproduced defects and add the
+   closest repeatable browser regression.
+2. P17, conditional: measure first-load and route-transition behavior on representative low/mid
+   mobile hardware. Define thresholds before changing code. Optimize the main bundle or the known
+   mixed static/dynamic somatic import only when a measured threshold fails; retain the current
+   architecture when it passes.
