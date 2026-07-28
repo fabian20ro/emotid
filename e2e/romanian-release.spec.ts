@@ -19,6 +19,11 @@ test.describe('Romanian release journeys', () => {
 
     await expect(page.getByRole('heading', { name: 'Ce ar putea fi aici' })).toBeVisible()
     await expect(page.locator('.emotion-heading')).toContainText('anxietate')
+    await expect(page.getByText(/păstrați doar cuvintele care se potrivesc experienței voastre/i)).toBeVisible()
+    const moreContext = page.locator('.more-context')
+    await moreContext.getByText('Mai mult context').click()
+    await expect(moreContext).toContainText(/cea mai apropiată potrivire dintre aceste sugestii/i)
+    await expect(moreContext).not.toContainText(/experimentezi un semnal|sistemul tău răspunde/i)
     await expect(page.getByRole('button', { name: 'ancorare, respiratie si prezenta' })).toHaveAttribute('aria-pressed', 'true')
     await finishReflection(page)
   })

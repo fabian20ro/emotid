@@ -251,6 +251,7 @@
   "reflectionScreen": {
     "eyebrow": "A reflection, not a verdict",
     "title": "What may be here",
+    "briefSynthesis": "may be among the possibilities here. Keep only the words that fit your experience.",
     "fit": "Does this fit your experience?",
     "yes": "Yes",
     "partly": "Partly",

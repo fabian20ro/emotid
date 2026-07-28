@@ -984,3 +984,32 @@ passes the two-build production lifecycle with 18 precache entries.
 patched direct minimums and the true Node floor, constrain stale transitive replacements narrowly,
 then require clean-install, peer, browser, and production lifecycle gates.
 **Promoted to Lessons Learned:** Yes — dependency peer cohorts and engine floors.
+
+---
+
+### [2026-07-28] Complete P12 psychological copy boundary
+
+**Context:** Reflection synthesis and the active high-distress catalog mixed model output with
+confident claims about causes, bodily mechanisms, identity, relational safety, and prescribed
+needs. Generated synthesis also parsed the first sentence of arbitrary catalog descriptions,
+making its certainty and review scope unpredictable.
+**What happened:**
+- Added a bilingual psychological copy contract grounded in user authority, explicit uncertainty,
+  trauma-informed choice, non-diagnostic somatic framing, and conditional crisis directness.
+- Separated all generated narratives and pleasant combinations into one typed bilingual module;
+  synthesis logic no longer copies catalog descriptions into generated text.
+- Moved the brief Reflection hypothesis from an inline language branch into paired i18n keys.
+- Rewrote all 12 `negative-high` descriptions in English and Romanian as tentative,
+  context-dependent possibilities with explicit limits on cause, severity, and risk inference.
+- Added executable contract tests plus English, Romanian, and high-distress Playwright assertions.
+  Crisis thresholds/gating, support resources, and Google AI Mode `udm=50` query semantics stayed
+  unchanged.
+**Outcome:** Success. `npm run check` passes 65 files and 604 tests. `npm run test:e2e` passes all
+160 Mobile Safari and Mobile Chrome cases. `npm run test:pwa` passes the production lifecycle; its
+first restricted launch hit the known macOS Mach-port denial and passed when rerun outside that
+process sandbox. Manual 393x742 inspection covered English light and Romanian dark Reflection
+states with no clipping or console errors.
+**Insight:** Catalog prose and generated psychological interpretation need different review
+boundaries. Typed, reviewed templates prevent unreviewed descriptions from becoming stronger
+claims through string extraction.
+**Promoted to Lessons Learned:** Yes — typed generated-copy boundary.

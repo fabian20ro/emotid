@@ -14,6 +14,12 @@
 
 ## Architecture & Design Decisions
 
+**[2026-07-28]** Generated psychological copy needs a typed boundary from catalog prose — Do not
+parse or splice emotion descriptions into generated narratives. Keep reviewed bilingual templates
+in one typed module, let model logic select templates, and test that arbitrary catalog prose cannot
+leak into synthesis. Catalog descriptions and generated interpretations have different review
+scope and certainty requirements.
+
 **[2026-07-22]** Preserve the external AI handoff contract during result-screen migrations — `allowExternalAI` gates a Google Search AI Mode link using `udm=50`; the existing localized `aiPrompt`/`aiPromptMultiple` templates receive only selected emotion names. Do not replace this with an API integration or alter query semantics without explicit product intent.
 
 **[2026-02-07]** Planning drift occurs when priority docs are inferred instead of read — Re-read `ANALYSIS.md` before ordering work. Quote exact section IDs/phase numbers when mapping priorities. Treat planning docs as authoritative artifacts.

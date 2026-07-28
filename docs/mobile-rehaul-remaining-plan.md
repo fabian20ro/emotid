@@ -295,9 +295,34 @@ TypeScript, and the Vite 7.3.6 / PWA 1.3.0 production build. `npm run test:e2e` 
 Mobile Safari and Mobile Chrome cases. `npm run test:pwa` passes the two-build production
 lifecycle with 18 precache entries.
 
+## Completed: P12 Psychological Copy Boundary
+
+Reflection and generated synthesis now follow a written bilingual psychological copy contract:
+model output is a set of rejectable possibilities, the user remains the authority, needs are
+options, and labels cannot establish diagnosis, cause, severity, danger, or self-harm intent.
+The contract records the distinct crisis and somatic boundaries plus its SAMHSA, WHO, bodily-map,
+and uncertainty-communication basis.
+
+Generated narrative copy moved into one typed module. Synthesis logic selects reviewed templates
+but no longer parses and repeats arbitrary catalog descriptions. Reflection's brief statement moved
+from an inline language branch into paired i18n keys. The 12 entries in `negative-high.json` were
+rewritten in English and Romanian to remove causal certainty, physiological overclaiming,
+prescribed needs, and identity judgments while retaining conditional support language.
+
+Executable contract tests keep the bounded inventory explicit, require uncertainty in both
+languages, reject known overclaiming patterns, and prove unreviewed descriptions cannot leak into
+generated synthesis. Full-catalog and somatic provenance review remain P13 work; P12 does not claim
+that the other 276 catalog entries have been clinically reviewed.
+
+**Verification:** `npm run check` passes 65 files and 604 tests, bilingual audits, TypeScript,
+lint, and the production build. `npm run test:e2e` passes all 160 Mobile Safari and Mobile Chrome
+cases, including rendered English/Romanian uncertainty and high-distress boundary assertions.
+`npm run test:pwa` passes the production offline/update lifecycle. Manual 393x742 inspection in
+English light and Romanian dark confirmed readable wrapping and no console errors. AI query
+semantics, crisis rules, support ordering, and gating are unchanged.
+
 ## Remaining Product Quality Work
 
-1. P12: establish the psychological copy contract and revise high-risk active descriptions.
-2. P13: review full catalog and somatic provenance plus safety-rule invariants.
-3. P14: complete physical VoiceOver/Safari and TalkBack/Chrome release acceptance.
-4. P15: optimize bundle architecture only if real-device measurements justify it.
+1. P13: review full catalog and somatic provenance plus safety-rule invariants.
+2. P14: complete physical VoiceOver/Safari and TalkBack/Chrome release acceptance.
+3. P15: optimize bundle architecture only if real-device measurements justify it.

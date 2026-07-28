@@ -251,6 +251,7 @@
   "reflectionScreen": {
     "eyebrow": "O reflecție, nu un verdict",
     "title": "Ce ar putea fi aici",
+    "briefSynthesis": "ar putea fi printre posibilitățile de aici. Păstrați doar cuvintele care se potrivesc experienței voastre.",
     "fit": "Se potrivește cu experiența voastră?",
     "yes": "Da",
     "partly": "Parțial",

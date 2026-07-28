@@ -68,6 +68,16 @@ function renderReflection(
 describe('ReflectionScreen need selection', () => {
   beforeEach(() => localStorage.clear())
 
+  it('frames generated labels as rejectable possibilities in both languages', () => {
+    renderReflection([result('anxiety')])
+    expect(screen.getByText('anxiety may be among the possibilities here. Keep only the words that fit your experience.')).toBeInTheDocument()
+  })
+
+  it('uses the same uncertainty and agency level in Romanian', () => {
+    renderReflection([result('anxietate')], { language: 'ro' })
+    expect(screen.getByText('anxietate ar putea fi printre posibilitățile de aici. Păstrați doar cuvintele care se potrivesc experienței voastre.')).toBeInTheDocument()
+  })
+
   it('omits need selection and saves no need when none are inferred', async () => {
     const user = userEvent.setup()
     const { onSave } = renderReflection([result('calm')])

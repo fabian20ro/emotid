@@ -37,10 +37,8 @@ export function ReflectionScreen({ completion, allowExternalAI, onBack, onSave, 
   const savingRef = useRef(false)
   const pendingDetailRef = useRef<ReflectionDetail | null>(null)
   const synthesis = useMemo(() => synthesize(results, language), [results, language])
-  const emotionNames = results.map((result) => result.label[language]).join(language === 'ro' ? ', ' : ', ')
-  const briefSynthesis = language === 'ro'
-    ? `${emotionNames} ar putea face parte din ceea ce este aici. Voi puteți aprecia cel mai bine ce se potrivește.`
-    : `${emotionNames} may be part of what is here. You are the best judge of what fits.`
+  const emotionNames = results.map((result) => result.label[language]).join(', ')
+  const briefSynthesis = `${emotionNames} ${t.briefSynthesis}`
   const requiresAcknowledge = completion.crisisTier === 'tier4' && !tier4Acknowledged
   const rejected = fit === 'no'
   const nextStepOptions = [t.stepPause, t.stepWrite, t.stepConnect]

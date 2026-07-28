@@ -53,7 +53,11 @@ test.describe('Primary check-in routes', () => {
   test('quick feeling reaches Meaning + Need and saves to Journal', async ({ page }) => {
     await completeQuick(page, 'anxiety')
     await expect(page.getByRole('heading', { name: 'What may be here' })).toBeVisible()
-    await expect(page.getByText(/best judge of what fits/i)).toBeVisible()
+    await expect(page.getByText(/keep only the words that fit your experience/i)).toBeVisible()
+    const moreContext = page.locator('.more-context')
+    await moreContext.getByText('More context').click()
+    await expect(moreContext).toContainText(/closest match among these suggestions/i)
+    await expect(moreContext).not.toContainText(/you are experiencing|your system is responding/i)
     await expect(page.getByRole('button', { name: 'grounding, breath, and present focus' })).toHaveAttribute('aria-pressed', 'true')
     await page.getByRole('button', { name: 'Yes' }).click()
     await finishReflection(page)
@@ -177,6 +181,7 @@ test.describe('Safety behavior through the UI', () => {
 
     await page.getByRole('button', { name: 'Continue to reflection' }).click()
     await expect(page.locator('.emotion-heading')).toContainText(/despair/i)
+    await expect(page.locator('.meaning-block')).toContainText(/word alone cannot show whether you are in danger/i)
     await expect(page.getByRole('group', { name: 'What feels most needed right now?' })).toBeVisible()
     await expect(page.getByRole('link', { name: 'Explore with AI' })).toBeVisible()
   })

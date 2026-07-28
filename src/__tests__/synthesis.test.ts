@@ -31,8 +31,7 @@ describe('synthesize', () => {
     expect(result.length).toBeGreaterThan(20)
     // Should mention the emotion name
     expect(result.toLowerCase()).toContain('joy')
-    // Single-emotion framing: clear signal
-    expect(result.toLowerCase()).toMatch(/clear|focused|single/)
+    expect(result.toLowerCase()).toMatch(/closest match|suggestion|fits/)
   })
 
   it('detects concordant pleasant emotions', () => {
@@ -77,8 +76,7 @@ describe('synthesize', () => {
       'en'
     )
 
-    // Should acknowledge the mix and normalize it
-    expect(result.toLowerCase()).toMatch(/both|mix|complex|together/)
+    expect(result.toLowerCase()).toMatch(/different directions|together/)
   })
 
   it('identifies high intensity pattern', () => {
@@ -95,7 +93,7 @@ describe('synthesize', () => {
       'en'
     )
 
-    expect(result.toLowerCase()).toMatch(/intense|strong|important|powerful/)
+    expect(result.toLowerCase()).toMatch(/high-energy|especially present/)
   })
 
   it('identifies low intensity pattern', () => {
@@ -112,7 +110,7 @@ describe('synthesize', () => {
       'en'
     )
 
-    expect(result.toLowerCase()).toMatch(/subtle|gentle|quiet|soft/)
+    expect(result.toLowerCase()).toMatch(/subtle|quieter/)
   })
 
   it('frames 3+ emotions as complexity', () => {
@@ -125,23 +123,22 @@ describe('synthesize', () => {
       'en'
     )
 
-    expect(result.toLowerCase()).toMatch(/multiple|several|complex|threads|layers/)
+    expect(result.toLowerCase()).toMatch(/several possibilities|do not need to accept/)
   })
 
-  it('weaves adaptive functions from descriptions', () => {
+  it('does not weave catalog descriptions into generated copy', () => {
     const result = synthesize(
       [
         makeResult({
           id: 'anger',
           label: { ro: 'furie', en: 'anger' },
-          description: { ro: '', en: 'Anger protects your boundaries and signals that something important is being threatened.' },
+          description: { ro: '', en: 'UNREVIEWED_CAUSAL_CLAIM' },
         }),
       ],
       'en'
     )
 
-    // Should reference the adaptive function
-    expect(result.length).toBeGreaterThan(30)
+    expect(result).not.toContain('UNREVIEWED_CAUSAL_CLAIM')
   })
 
   it('integrates needs into closing sentence', () => {
@@ -163,8 +160,7 @@ describe('synthesize', () => {
       'en'
     )
 
-    // Should mention at least one need
-    expect(result.toLowerCase()).toMatch(/sharing|safety|need/)
+    expect(result.toLowerCase()).toMatch(/sharing|safety|consider/)
   })
 
   it('produces Romanian output', () => {
@@ -220,10 +216,8 @@ describe('synthesize', () => {
       'en'
     )
 
-    // The combo template for joy+serenity contains distinctive phrasing
-    expect(result).toContain('settling into serenity')
-    // Should not fall through to generic concordantPleasant text
-    expect(result).not.toContain('harmonious blend of pleasant feelings')
+    expect(result).toContain('Joy and serenity appear together here')
+    expect(result).not.toContain('possible pleasant feelings')
   })
 
   it('uses concordantUnpleasantSevere when two high-distress emotions co-occur', () => {
@@ -235,7 +229,7 @@ describe('synthesize', () => {
       'en'
     )
 
-    expect(result).toContain('sounds painful')
-    expect(result).toContain('deserve support')
+    expect(result).toContain('may describe a painful experience')
+    expect(result).toContain('Support is available')
   })
 })

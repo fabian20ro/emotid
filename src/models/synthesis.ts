@@ -1,27 +1,10 @@
 import type { AnalysisResult } from './types'
 import { HIGH_DISTRESS_IDS } from './distress'
-
-type Lang = 'ro' | 'en'
-
-/** Specific pleasant-emotion combinations with richer narratives */
-const PLEASANT_COMBOS: Record<string, { en: string; ro: string }> = {
-  'joy+gratitude': {
-    en: 'Joy meeting gratitude — you are recognizing a gift in your life. This combination builds lasting satisfaction and deepens appreciation.',
-    ro: 'Bucuria intalneste recunostinta — recunosti un dar in viata ta. Aceasta combinatie construieste satisfactie durabila si aprofundeaza aprecierea.',
-  },
-  'love+trust': {
-    en: 'Love woven with trust — this is the experience of deep relational safety, the foundation of secure connection.',
-    ro: 'Iubirea impaletita cu increderea — aceasta este experienta sigurantei relationale profunde, fundamentul conectarii sigure.',
-  },
-  'joy+serenity': {
-    en: 'Joy settling into serenity — a state of quiet contentment. This is what wellbeing feels like when it has room to breathe.',
-    ro: 'Bucuria se asaza in serenitate — o stare de multumire linistita. Asa se simte bunastarea cand are loc sa respire.',
-  },
-  'gratitude+serenity': {
-    en: 'Gratitude in serenity — a peaceful recognition of what matters. This combination nourishes emotional resilience.',
-    ro: 'Recunostinta in serenitate — o recunoastere pasnica a ceea ce conteaza. Aceasta combinatie hraneste rezilienta emotionala.',
-  },
-}
+import {
+  pleasantCombinationCopy,
+  synthesisCopy,
+  type SynthesisLanguage,
+} from './synthesis-copy'
 
 interface ValenceProfile {
   hasPositive: boolean
@@ -36,7 +19,7 @@ interface IntensityProfile {
   isLow: boolean
 }
 
-function getLabel(result: AnalysisResult, lang: Lang): string {
+function getLabel(result: AnalysisResult, lang: SynthesisLanguage): string {
   return result.label[lang] || result.label.en || result.id
 }
 
@@ -78,101 +61,18 @@ function detectIntensity(results: AnalysisResult[]): IntensityProfile {
   }
 }
 
-function collectNeeds(results: AnalysisResult[], lang: Lang): string[] {
+function collectNeeds(results: AnalysisResult[], lang: SynthesisLanguage): string[] {
   return results
     .map((r) => r.needs?.[lang])
     .filter((n): n is string => !!n)
 }
 
-const templates = {
-  en: {
-    singleClear: (name: string) =>
-      `You are experiencing a clear, focused signal: ${name}. When a single emotion stands out this distinctly, it deserves your attention.`,
-    singleHighIntensity: (name: string) =>
-      `${name} is showing up with strong intensity — this points to something important that your system is responding to.`,
-    singleLowIntensity: (name: string) =>
-      `${name} is present as a subtle, gentle signal — your quiet noticing of it speaks to your awareness.`,
-    mixedValence: (names: string[]) =>
-      `You are holding both ${names.join(' and ')} together. This kind of complexity is natural and healthy — it reflects the richness of your inner experience.`,
-    concordantPleasant: (names: string[]) =>
-      `Your experience weaves together ${names.join(' and ')} — a harmonious blend of pleasant feelings.`,
-    concordantUnpleasant: (names: string[]) =>
-      `You are experiencing ${names.join(' and ')} together. These feelings often appear when something meaningful is at stake.`,
-    concordantUnpleasantSevere: (names: string[]) =>
-      `What you're experiencing — ${names.join(' and ')} — sounds painful. You deserve support.`,
-    complexityMultiple: (count: number) =>
-      `You are holding multiple emotional threads simultaneously — ${count} distinct feelings. This complexity is common and healthy, reflecting how your system processes layered experiences.`,
-    highIntensityGroup:
-      'The intensity of what you are feeling points to something important — your emotional system is responding strongly.',
-    lowIntensityGroup:
-      'These are soft, subtle signals. Your ability to notice them reflects attentive self-awareness.',
-    adaptiveFunction: (name: string, desc: string) =>
-      `Your ${name} may signal: ${desc}`,
-    needsClosing: (needs: string[]) => {
-      const unique = [...new Set(needs)]
-      if (unique.length === 0) return ''
-      if (unique.length === 1) return `Right now, you may need ${unique[0]}.`
-      if (unique.length === 2) return `Right now, you may need ${unique[0]} and ${unique[1]}.`
-      const last = unique.at(-1)
-      return `Right now, you may need ${unique.slice(0, -1).join(', ')}, and ${last}.`
-    },
-    needsClosingSevere: (needs: string[]) => {
-      const unique = [...new Set(needs)]
-      if (unique.length === 0) return ''
-      if (unique.length === 1) return `Right now, you deserve ${unique[0]}.`
-      if (unique.length === 2) return `Right now, you deserve ${unique[0]} and ${unique[1]}.`
-      const last = unique.at(-1)
-      return `Right now, you deserve ${unique.slice(0, -1).join(', ')}, and ${last}.`
-    },
-  },
-  ro: {
-    singleClear: (name: string) =>
-      `Experimentezi un semnal clar si focalizat: ${name}. Cand o singura emotie iese in evidenta atat de distinct, merita atentia ta.`,
-    singleHighIntensity: (name: string) =>
-      `${name} se manifesta cu o intensitate puternica — aceasta indica ceva important la care sistemul tau raspunde.`,
-    singleLowIntensity: (name: string) =>
-      `${name} este prezenta ca un semnal subtil si bland — observarea ei vorbeste despre constientizarea ta.`,
-    mixedValence: (names: string[]) =>
-      `Tii impreuna ${names.join(' si ')}. Aceasta complexitate este naturala si sanatoasa — reflecta bogatia experientei tale interioare.`,
-    concordantPleasant: (names: string[]) =>
-      `Experienta ta impleteste ${names.join(' si ')} — un amestec armonios de sentimente placute.`,
-    concordantUnpleasant: (names: string[]) =>
-      `Experimentezi ${names.join(' si ')} impreuna. Aceste sentimente apar adesea cand ceva semnificativ este in joc.`,
-    concordantUnpleasantSevere: (names: string[]) =>
-      `Ceea ce experimentezi — ${names.join(' si ')} — pare dureros. Meriti sprijin.`,
-    complexityMultiple: (count: number) =>
-      `Tii simultan mai multe fire emotionale — ${count} sentimente distincte. Aceasta complexitate este comuna si sanatoasa, reflectand modul in care sistemul tau proceseaza experiențe stratificate.`,
-    highIntensityGroup:
-      'Intensitatea a ceea ce simti indica ceva important — sistemul tau emotional raspunde puternic.',
-    lowIntensityGroup:
-      'Acestea sunt semnale subtile si blande. Capacitatea ta de a le observa reflecta o constientizare atenta.',
-    adaptiveFunction: (name: string, desc: string) =>
-      `${name} poate semnala: ${desc}`,
-    needsClosing: (needs: string[]) => {
-      const unique = [...new Set(needs)]
-      if (unique.length === 0) return ''
-      if (unique.length === 1) return `Acum, ai putea avea nevoie de ${unique[0]}.`
-      if (unique.length === 2) return `Acum, ai putea avea nevoie de ${unique[0]} si ${unique[1]}.`
-      const last = unique.at(-1)
-      return `Acum, ai putea avea nevoie de ${unique.slice(0, -1).join(', ')} si ${last}.`
-    },
-    needsClosingSevere: (needs: string[]) => {
-      const unique = [...new Set(needs)]
-      if (unique.length === 0) return ''
-      if (unique.length === 1) return `Acum, meriti ${unique[0]}.`
-      if (unique.length === 2) return `Acum, meriti ${unique[0]} si ${unique[1]}.`
-      const last = unique.at(-1)
-      return `Acum, meriti ${unique.slice(0, -1).join(', ')} si ${last}.`
-    },
-  },
-}
-
-function findPleasantCombo(ids: string[], lang: Lang): string | null {
+function findPleasantCombo(ids: string[], lang: SynthesisLanguage): string | null {
   const sorted = [...ids].sort()
   for (let i = 0; i < sorted.length - 1; i++) {
     for (let j = i + 1; j < sorted.length; j++) {
       const key = `${sorted[i]}+${sorted[j]}`
-      const combo = PLEASANT_COMBOS[key]
+      const combo = pleasantCombinationCopy[key]
       if (combo) return combo[lang]
     }
   }
@@ -183,10 +83,10 @@ function findPleasantCombo(ids: string[], lang: Lang): string | null {
  * Synthesize a narrative paragraph from analysis results.
  * Pure function — no side effects, no diagnostic language.
  */
-export function synthesize(results: AnalysisResult[], language: Lang): string {
+export function synthesize(results: AnalysisResult[], language: SynthesisLanguage): string {
   if (results.length === 0) return ''
 
-  const t = templates[language]
+  const t = synthesisCopy[language]
   const names = results.map((r) => getLabel(r, language))
   const valence = detectValence(results)
   const intensity = detectIntensity(results)
@@ -225,15 +125,6 @@ export function synthesize(results: AnalysisResult[], language: Lang): string {
     sentences.push(t.highIntensityGroup)
   } else if (intensity.isLow) {
     sentences.push(t.lowIntensityGroup)
-  }
-
-  const descriptive = results.filter((r) => r.description?.[language])
-  for (const r of descriptive.slice(0, 2)) {
-    const desc = r.description![language]
-    const firstSentence = desc.split(/[.!]/).filter(Boolean)[0]?.trim()
-    if (firstSentence && firstSentence.length > 10) {
-      sentences.push(t.adaptiveFunction(getLabel(r, language), firstSentence.toLowerCase()))
-    }
   }
 
   if (needs.length > 0) {

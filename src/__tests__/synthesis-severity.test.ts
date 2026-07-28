@@ -15,14 +15,14 @@ function makeResult(id: string, valence: number, arousal: number): AnalysisResul
 }
 
 describe('synthesis severity-aware tone', () => {
-  it('uses "sounds painful" for 2+ distress results (en)', () => {
+  it('offers conditional support for 2+ distress results (en)', () => {
     const results = [
       makeResult('despair', -0.8, 0.3),
       makeResult('helpless', -0.7, -0.2),
     ]
     const text = synthesize(results, 'en')
-    expect(text).toContain('sounds painful')
-    expect(text).toContain('deserve')
+    expect(text).toContain('may describe a painful experience')
+    expect(text).toContain('Support is available')
   })
 
   it('uses "something meaningful" for non-distress unpleasant results (en)', () => {
@@ -31,8 +31,8 @@ describe('synthesis severity-aware tone', () => {
       makeResult('tired', -0.2, -0.6),
     ]
     const text = synthesize(results, 'en')
-    expect(text).toContain('meaningful')
-    expect(text).not.toContain('sounds painful')
+    expect(text).toContain('something that matters')
+    expect(text).not.toContain('painful experience')
   })
 
   it('uses severe Romanian template for distress', () => {
@@ -41,14 +41,14 @@ describe('synthesis severity-aware tone', () => {
       makeResult('grief', -0.9, -0.1),
     ]
     const text = synthesize(results, 'ro')
-    expect(text).toContain('pare dureros')
-    expect(text).toContain('meriti')
+    expect(text).toContain('pot descrie o experiență dureroasă')
+    expect(text).toContain('Există sprijin')
   })
 
   it('single distress result does not trigger severe tone', () => {
     const results = [makeResult('despair', -0.8, 0.3)]
     const text = synthesize(results, 'en')
-    expect(text).not.toContain('sounds painful')
+    expect(text).not.toContain('painful experience')
   })
 
   it('returns empty string for no input', () => {
@@ -62,21 +62,21 @@ describe('synthesis severity-aware tone', () => {
       makeResult('sadness', -0.5, 0.1),
     ]
     const text = synthesize(results, 'en')
-    expect(text).toContain('holding both')
-    expect(text).toContain('complexity')
+    expect(text).toContain('appear together among the suggestions')
+    expect(text).toContain('different directions')
   })
 
   it('uses high-intensity template for a single strong arousal result (en)', () => {
     const results = [makeResult('anxiety', -0.4, 0.9)]
     const text = synthesize(results, 'en')
-    expect(text).toContain('strong intensity')
-    expect(text).not.toContain('sounds painful')
+    expect(text).toContain('high-energy')
+    expect(text).not.toContain('painful experience')
   })
 
   it('uses high-intensity template for a single strong arousal result (ro)', () => {
     const results = [makeResult('anxietate', -0.4, 0.9)]
     const text = synthesize(results, 'ro')
-    expect(text).toContain('intensitate puternica')
+    expect(text).toContain('energie ridicată')
     expect(text).not.toContain('dureros')
   })
 })
