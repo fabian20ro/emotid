@@ -59,6 +59,15 @@ test.describe('Body Compass staged route', () => {
 
     await page.getByRole('button', { name: /moderate/i }).click()
     await expect(page.getByRole('heading', { name: 'Review your body signals' })).toBeVisible()
+    await expect(page.getByTestId('body-evidence-note')).toContainText(
+      'Possible words come from broad group patterns and curated hypotheses.',
+    )
+    await expect(page.getByTestId('body-evidence-note')).toContainText(
+      'They cannot identify a cause, diagnosis, or what you feel.',
+    )
+    expect(await page.getByTestId('body-evidence-note').evaluate(
+      (element) => Number.parseFloat(getComputedStyle(element).fontSize),
+    )).toBeGreaterThanOrEqual(14)
     await page.getByRole('button', { name: 'See what might fit' }).click()
     await expect(page.getByTestId('reflection-screen')).toBeVisible()
     await expect(page.getByTestId('reflection-screen')).toContainText(/anxiety/i)

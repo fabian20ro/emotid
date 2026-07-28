@@ -1,9 +1,11 @@
 import { describe, expect, it } from 'vitest'
 import negativeHigh from '../models/catalog/negative-high.json'
+import en from '../i18n/en.json'
+import ro from '../i18n/ro.json'
 import { synthesize } from '../models/synthesis'
 import type { AnalysisResult } from '../models/types'
 
-const expectedHighDistressIds = [
+const expectedReviewedDescriptionIds = [
   'anxiety',
   'rage',
   'terror',
@@ -49,8 +51,11 @@ function makeResult(
 }
 
 describe('psychological copy contract', () => {
-  it('keeps the bounded high-distress inventory explicit', () => {
-    expect(Object.keys(negativeHigh)).toEqual(expectedHighDistressIds)
+  it('keeps the bounded reviewed-description inventory explicit', () => {
+    expect(Object.keys(negativeHigh)).toEqual(expectedReviewedDescriptionIds)
+    for (const emotion of Object.values(negativeHigh)) {
+      expect(emotion.descriptionStatus).toBe('reviewed')
+    }
   })
 
   it('keeps every high-distress description tentative in English and Romanian', () => {
@@ -104,5 +109,14 @@ describe('psychological copy contract', () => {
       for (const pattern of forbiddenEnglish) expect(english).not.toMatch(pattern)
       for (const pattern of forbiddenRomanian) expect(romanian).not.toMatch(pattern)
     }
+  })
+
+  it('keeps onboarding exploratory rather than causal or universal', () => {
+    expect(en.onboarding.screen2Title).toBe('Emotions can be explored with curiosity')
+    expect(en.onboarding.screen2Body).toContain('may draw attention')
+    expect(en.onboarding.screen2Body).toContain('notice what fits')
+    expect(ro.onboarding.screen2Title).toBe('Emoțiile pot fi explorate cu curiozitate')
+    expect(ro.onboarding.screen2Body).toContain('vă poate îndrepta atenția')
+    expect(ro.onboarding.screen2Body).toContain('observați ce se potrivește')
   })
 })

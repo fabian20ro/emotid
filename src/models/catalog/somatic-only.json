@@ -5,10 +5,6 @@
       "ro": "Reținere emoțională",
       "en": "Emotional holding"
     },
-    "description": {
-      "ro": "Maxilar încleștat, cuvinte reținute. Corpul poate reține ceea ce simți cu adevărat — ce anume ți-ar plăcea să exprimi?",
-      "en": "Clenched jaw, held-back words. Your body may be holding back what you truly feel — what would you like to express?"
-    },
     "needs": {
       "ro": "spatiu sigur de exprimare",
       "en": "safe space for expression"
@@ -20,10 +16,6 @@
     "label": {
       "ro": "Retragere emoțională",
       "en": "Emotional withdrawal"
-    },
-    "description": {
-      "ro": "Mâini amorțite, lipsă de senzație. Retragerea emoțională este un mecanism de protecție — corpul se protejează temporar de intensitate.",
-      "en": "Numb hands, lack of sensation. Emotional withdrawal is a protective mechanism — your body is temporarily shielding itself from intensity."
     },
     "needs": {
       "ro": "reconectare treptata si blandete",
@@ -37,10 +29,6 @@
       "ro": "Deconectare",
       "en": "Disconnection"
     },
-    "description": {
-      "ro": "Amorțeală în tălpi, senzație de plutire. Deconectarea este un mod natural prin care corpul gestionează momentele dificile — poți reveni treptat la senzații.",
-      "en": "Feet numbness, floating sensation. Disconnection is a natural way your body manages difficult moments — you can gently return to sensation."
-    },
     "needs": {
       "ro": "revenire blanda la senzatii",
       "en": "gentle return to sensation"
@@ -52,10 +40,6 @@
     "label": {
       "ro": "Copleșire",
       "en": "Overwhelm"
-    },
-    "description": {
-      "ro": "Greutate pe umeri, senzație de a purta lumea pe umeri. Copleșirea semnalează că ai nevoie de sprijin sau de a reduce sarcinile.",
-      "en": "Weight on shoulders, feeling of carrying the world. Overwhelm signals a need for support or to lighten your load."
     },
     "needs": {
       "ro": "sprijin si reducerea sarcinilor",
@@ -69,10 +53,6 @@
       "ro": "Epuizare",
       "en": "Exhaustion"
     },
-    "description": {
-      "ro": "Greutate în spate, oboseală profundă, lipsă de susținere. Epuizarea este semnalul corpului că resursele s-au consumat — ai nevoie de odihnă.",
-      "en": "Back heaviness, deep fatigue, lack of support. Exhaustion is your body's signal that resources are depleted — you need rest."
-    },
     "needs": {
       "ro": "odihna si sustinere",
       "en": "rest and support"
@@ -84,10 +64,6 @@
     "label": {
       "ro": "Stres",
       "en": "Stress"
-    },
-    "description": {
-      "ro": "Umeri ridicați, tensiune cronică, senzație de povară. Stresul te mobilizează pentru provocări — dar are nevoie și de pauze.",
-      "en": "Raised shoulders, chronic tension, sense of burden. Stress mobilizes you for challenges — but it also needs rest."
     },
     "needs": {
       "ro": "pauza si eliberare a tensiunii",
@@ -101,10 +77,6 @@
       "ro": "Ingrijorare",
       "en": "Worry"
     },
-    "description": {
-      "ro": "Tensiune persistentă în frunte, anticipare negativă. Îngrijorarea semnalează că îți pasă de ceva important.",
-      "en": "Persistent forehead tension, negative anticipation. Worry signals that you care about something important."
-    },
     "needs": {
       "ro": "redirectare spre prezent, nu viitor",
       "en": "present-moment focus and grounding"
@@ -116,10 +88,6 @@
     "label": {
       "ro": "Entuziasm",
       "en": "Excitement"
-    },
-    "description": {
-      "ro": "Furnicături în degete, energie în mâini, dorința de acțiune. Entuziasmul în mâini te pregătește să creezi și să acționezi.",
-      "en": "Finger tingling, hand energy, urge for action. Hand excitement prepares you to create and act."
     },
     "needs": {
       "ro": "creatie si actiune",
@@ -133,10 +101,6 @@
       "ro": "Tandrețe",
       "en": "Tenderness"
     },
-    "description": {
-      "ro": "Căldură în palme, dorința de a atinge cu grijă. Tandrețea în mâini reflectă impulsul de a oferi confort și protecție.",
-      "en": "Warm palms, desire to touch with care. Hand tenderness reflects the impulse to offer comfort and protection."
-    },
     "needs": {
       "ro": "exprimare blanda si apropiere",
       "en": "gentle expression and closeness"
@@ -148,10 +112,6 @@
     "label": {
       "ro": "Recunoștință",
       "en": "Gratitude"
-    },
-    "description": {
-      "ro": "Brațe ușoare, dorința de a oferi, energie caldă. Recunoștința în brațe exprimă impulsul de a dărui și de a te conecta.",
-      "en": "Light arms, desire to give, warm energy. Arm gratitude expresses the impulse to give and connect."
     },
     "needs": {
       "ro": "savurare si exprimare",
@@ -165,10 +125,6 @@
       "ro": "Frustrare",
       "en": "Frustration"
     },
-    "description": {
-      "ro": "Tensiune în mâini fără căldură, strângere a pumnilor. Frustrarea în mâini semnalează energia blocată — ai nevoie de acțiune, dar ceva te oprește.",
-      "en": "Hand tension without warmth, fist clenching. Hand frustration signals blocked energy — you need action, but something is stopping you."
-    },
     "needs": {
       "ro": "claritate si pasi mici",
       "en": "clarity and small steps"
@@ -180,10 +136,6 @@
     "label": {
       "ro": "Gelozie",
       "en": "Jealousy"
-    },
-    "description": {
-      "ro": "Tensiune în cap, gânduri obsesive, vigilență intensă. Gelozia semnalează teamă de pierdere în relațiile importante.",
-      "en": "Head tension, obsessive thoughts, intense vigilance. Jealousy signals fear of loss in important relationships."
     },
     "needs": {
       "ro": "siguranta relationala si comunicare",

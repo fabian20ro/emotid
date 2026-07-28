@@ -5,10 +5,6 @@
       "ro": "bucurie",
       "en": "joy"
     },
-    "description": {
-      "ro": "Bucuria este o emotie primara care semnaleaza ca nevoile tale fundamentale sunt satisfacute. Apare cand experimentezi conexiune, implinire sau reusita. Este combustibilul motivational al vietii — te deschide catre lume, iti amplifica creativitatea si intareste relatiile. Bucuria autentica nu depinde de circumstante externe perfecte, ci de capacitatea ta de a fi prezent si receptiv la ceea ce este bun in viata ta.",
-      "en": "Joy is a primary emotion signaling that your fundamental needs are being met. It arises when you experience connection, fulfillment, or achievement. It is life's motivational fuel — it opens you to the world, amplifies your creativity, and strengthens relationships. Authentic joy doesn't depend on perfect external circumstances, but on your capacity to be present and receptive to what is good in your life."
-    },
     "needs": {
       "ro": "partajare si exprimare",
       "en": "sharing and expression"
@@ -20,10 +16,6 @@
     "label": {
       "ro": "încredere",
       "en": "trust"
-    },
-    "description": {
-      "ro": "Increderea este emotia care face posibila conexiunea umana. Ea semnaleaza ca te simti suficient de sigur pentru a fi vulnerabil in prezenta celuilalt. Se construieste lent, prin experienta repetata a fiabilitatii, si se poate prabusi rapid. Increderea sanatoasa nu este naivitate — este o evaluare emotionala informata ca riscul relatiei merita asumat.",
-      "en": "Trust is the emotion that makes human connection possible. It signals that you feel safe enough to be vulnerable in the presence of another. It builds slowly, through repeated experience of reliability, and can collapse quickly. Healthy trust is not naivety — it is an informed emotional assessment that the risk of relationship is worth taking."
     },
     "needs": {
       "ro": "conexiune si reciprocitate",
@@ -37,10 +29,6 @@
       "ro": "frică",
       "en": "fear"
     },
-    "description": {
-      "ro": "Frica este sistemul tau de alarma primitiv — o emotie primara care te pregateste sa faci fata pericolului prin lupta, fuga sau inghetare. Este esentiala pentru supravietuire si te ajuta sa evaluezi riscuri. Frica devine problematica cand se activeaza disproportionat fata de amenintarea reala sau cand te blocheaza in evitare cronica.",
-      "en": "Fear is your primitive alarm system — a primary emotion that prepares you to face danger through fight, flight, or freeze. It is essential for survival and helps you assess risks. Fear becomes problematic when it activates disproportionately to the actual threat or when it locks you into chronic avoidance."
-    },
     "needs": {
       "ro": "siguranta si validare",
       "en": "safety and validation"
@@ -52,10 +40,6 @@
     "label": {
       "ro": "surprindere",
       "en": "surprise"
-    },
-    "description": {
-      "ro": "Surprinderea este emotia care apare cand realitatea nu se potriveste cu asteptarile tale. Este un moment de recalibrare cognitiva — o pauza scurta in care mintea se reseteaza pentru a integra informatia noua. Surprinderea in sine este neutra si extrem de scurta; ceea ce urmeaza dupa ea — bucurie, frica, furie — depinde de interpretarea evenimentului.",
-      "en": "Surprise is the emotion that arises when reality doesn't match your expectations. It is a moment of cognitive recalibration — a brief pause where the mind resets to integrate new information. Surprise itself is neutral and extremely brief; what follows it — joy, fear, anger — depends on your interpretation of the event."
     },
     "needs": {
       "ro": "pauza si orientare",
@@ -69,10 +53,6 @@
       "ro": "tristețe",
       "en": "sadness"
     },
-    "description": {
-      "ro": "Tristetea este raspunsul emotional la pierdere — de persoane, posibilitati, idealuri sau perioade ale vietii. Este un semnal ca ceva important pentru tine s-a schimbat sau a disparut. Tristetea indeplineste o functie vitala: te incetineste, te intoarce spre interior si invita reflectia. Prin tristete procesezi pierderea si te reorganizezi emotional.",
-      "en": "Sadness is the emotional response to loss — of people, possibilities, ideals, or periods of life. It signals that something important to you has changed or disappeared. Sadness serves a vital function: it slows you down, turns you inward, and invites reflection. Through sadness you process loss and reorganize emotionally."
-    },
     "needs": {
       "ro": "compasiune si spatiu",
       "en": "compassion and space"
@@ -84,10 +64,6 @@
     "label": {
       "ro": "dezgust",
       "en": "disgust"
-    },
-    "description": {
-      "ro": "Dezgustul este mecanismul tau de protectie impotriva a ceea ce este toxic — fizic, emotional sau moral. Initial a evoluat pentru a te feri de hrana contaminata, dar s-a extins la comportamente, idei si persoane pe care le percepi ca nocive. Dezgustul stabileste granite si protejeaza integritatea, dar poate deveni rigid si exclusivist daca nu este examinat constient.",
-      "en": "Disgust is your protective mechanism against what is toxic — physically, emotionally, or morally. It originally evolved to keep you away from contaminated food, but has expanded to behaviors, ideas, and people you perceive as harmful. Disgust establishes boundaries and protects integrity, but can become rigid and exclusionary if not examined consciously."
     },
     "needs": {
       "ro": "limite si distanta",
@@ -101,10 +77,6 @@
       "ro": "furie",
       "en": "anger"
     },
-    "description": {
-      "ro": "Furia este emotia care te mobilizeaza cand percepi o nedreptate, o incalcare a granitelor sau un obstacol in calea nevoilor tale. Este o forta de actiune puternica care iti da energie pentru a schimba ceea ce este gresit. Furia nu este inamicul tau — este un mesager. Problema nu este furia in sine, ci modul in care alegi sa actionezi sub influenta ei.",
-      "en": "Anger is the emotion that mobilizes you when you perceive injustice, a boundary violation, or an obstacle to your needs. It is a powerful force for action that gives you energy to change what is wrong. Anger is not your enemy — it is a messenger. The problem is not anger itself, but how you choose to act under its influence."
-    },
     "needs": {
       "ro": "limite si actiune",
       "en": "boundaries and action"
@@ -116,10 +88,6 @@
     "label": {
       "ro": "anticipare",
       "en": "anticipation"
-    },
-    "description": {
-      "ro": "Anticiparea este emotia orientata catre viitor — o stare de pregatire activa pentru ceea ce urmeaza. Este motorul planificarii si al sperantei, dar si al anxietatii cand devine excesiva. Anticiparea sanatoasa te ajuta sa te pregatesti fara sa te pierzi in scenarii imaginare. Ea te mentine angajat in viata si orientat catre scopuri.",
-      "en": "Anticipation is the future-oriented emotion — a state of active preparation for what's coming. It is the engine of planning and hope, but also of anxiety when it becomes excessive. Healthy anticipation helps you prepare without losing yourself in imaginary scenarios. It keeps you engaged in life and oriented toward goals."
     },
     "needs": {
       "ro": "ancorare si prezenta",

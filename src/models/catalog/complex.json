@@ -5,10 +5,6 @@
       "ro": "nostalgie",
       "en": "nostalgia"
     },
-    "description": {
-      "ro": "Nostalgia este diada seninatații si tristetii — o dor dulce-amar pentru momente, locuri sau persoane din trecut care au avut o semnificatie profunda. Ea iti reaminteste ce a contat cu adevarat si iti ancoreaza identitatea in povestea ta de viata. Nostalgia sanatoasa te reconecteaza cu valorile tale si iti ofera caldura; devine problematica doar cand te impiedica sa te angajezi in prezent.",
-      "en": "Nostalgia is the dyad of serenity and sadness — a gentle, bittersweet longing for moments, places, or people from the past that held deep significance. It reminds you of what truly mattered and anchors your identity in your life story. Healthy nostalgia reconnects you with your values and offers warmth; it becomes problematic only when it prevents you from engaging with the present."
-    },
     "needs": {
       "ro": "onorarea trecutului si ancorare in prezent",
       "en": "honoring the past and anchoring in the present"
@@ -21,10 +17,6 @@
       "ro": "Dor",
       "en": "Longing (dor)"
     },
-    "description": {
-      "ro": "Dorul este un concept emotional profund romanesc — un amestec dulce-amar de iubire, tristete si speranta indreptate catre cineva sau ceva absent. Dorul te conecteaza cu ceea ce conteaza cel mai mult pentru tine, chiar cand acel lucru este departe. Functia lui adaptiva este sa pastreze vie legatura interioara cu persoanele, locurile si momentele care ti-au modelat identitatea.",
-      "en": "Dor is a deeply Romanian emotional concept — a bittersweet blend of love, sadness, and hope directed toward someone or something absent. It connects you to what matters most, even when that thing is far away. Its adaptive function is to keep alive the inner bond with the people, places, and moments that have shaped your identity."
-    },
     "needs": {
       "ro": "recunoastere si conexiune",
       "en": "acknowledgment and connection"
@@ -36,10 +28,6 @@
     "label": {
       "ro": "venerație",
       "en": "awe"
-    },
-    "description": {
-      "ro": "Veneratia este diada fricii si surprinderii — o stare de uimire respectuoasa in fata a ceva mult mai mare decat tine. Combina sentimentul de a fi mic cu fascinatia pentru imens. Cercetarile arata ca experienta veneratiei reduce egocentrismul, creste generozitatea si imbunatateste bunastarea — este una dintre emotiile cele mai transformatoare.",
-      "en": "Awe is the dyad of fear and surprise — a state of respectful wonder before something much greater than yourself. It combines the feeling of being small with fascination for the immense. Research shows that experiencing awe reduces egocentrism, increases generosity, and improves wellbeing — it is one of the most transformative emotions."
     },
     "needs": {
       "ro": "deschidere si smerenie",

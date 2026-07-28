@@ -34,6 +34,24 @@ describe('Catalog integrity', () => {
     }
   })
 
+  it('exposes copy provenance for every runtime description', () => {
+    const entries = Object.values(emotionCatalog)
+    expect(entries.filter((entry) => entry.descriptionStatus === 'reviewed')).toHaveLength(12)
+    expect(entries.filter((entry) => entry.descriptionStatus === 'generated')).toHaveLength(276)
+  })
+
+  it('keeps generated descriptions exploratory and needs-aware', () => {
+    for (const entry of Object.values(emotionCatalog)) {
+      if (entry.descriptionStatus !== 'generated') continue
+      expect(entry.description.en, entry.id).toContain('one word to consider')
+      expect(entry.description.en, entry.id).toContain(entry.needs.en)
+      expect(entry.description.en, entry.id).toContain('Keep only what fits')
+      expect(entry.description.ro, entry.id).toContain('un cuvânt de luat în considerare')
+      expect(entry.description.ro, entry.id).toContain(entry.needs.ro)
+      expect(entry.description.ro, entry.id).toContain('Păstrați doar ce se potrivește')
+    }
+  })
+
   it('every entry has bilingual needs', () => {
     for (const [id, e] of Object.entries(emotionCatalog)) {
       expect(e.needs.en, `${id} missing en needs`).toBeTruthy()

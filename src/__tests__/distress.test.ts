@@ -1,5 +1,11 @@
 import { describe, it, expect } from 'vitest'
-import { getCrisisTier, HIGH_DISTRESS_IDS, TIER3_COMBOS, TIER4_COMBOS } from '../models/distress'
+import {
+  getCrisisTier,
+  HIGH_DISTRESS_IDS,
+  SAFETY_RULESET_VERSION,
+  TIER3_COMBOS,
+  TIER4_COMBOS,
+} from '../models/distress'
 
 describe('getCrisisTier', () => {
   it('returns none when no distress IDs present', () => {
@@ -57,7 +63,28 @@ describe('getCrisisTier', () => {
   })
 
   it('duplicates do not inflate tier beyond single-ID behavior', () => {
-    expect(getCrisisTier(['despair', 'despair'])).toBe('tier2')
+    expect(getCrisisTier(['despair', 'despair'])).toBe('tier1')
+    expect(getCrisisTier(['rage', 'rage', 'joy'])).toBe('tier1')
+  })
+
+  it('is invariant to order, duplicates, and non-distress padding', () => {
+    const inputs = [
+      ['despair', 'worthless', 'empty'],
+      ['empty', 'despair', 'worthless'],
+      ['joy', 'despair', 'worthless', 'empty', 'trust'],
+      ['empty', 'despair', 'worthless', 'despair', 'empty'],
+    ]
+    for (const input of inputs) expect(getCrisisTier(input)).toBe('tier4')
+  })
+
+  it('has a versioned and explicit high-distress inventory', () => {
+    expect(SAFETY_RULESET_VERSION).toBe('2026-07-29')
+    expect([...HIGH_DISTRESS_IDS]).toEqual([
+      'abandoned', 'anguished', 'apathetic', 'depressed', 'despair',
+      'distressed', 'empty', 'grief', 'helpless', 'hopeless', 'loathing',
+      'numb', 'panicked', 'powerless', 'rage', 'shame', 'terror',
+      'victimized', 'violated', 'worthless',
+    ])
   })
 
   it('includes expanded distress IDs', () => {
@@ -68,6 +95,7 @@ describe('getCrisisTier', () => {
 
   it('has valid TIER3_COMBOS referencing distress IDs', () => {
     for (const [a, b] of TIER3_COMBOS) {
+      expect(a).not.toBe(b)
       expect(HIGH_DISTRESS_IDS.has(a)).toBe(true)
       expect(HIGH_DISTRESS_IDS.has(b)).toBe(true)
     }
@@ -75,6 +103,7 @@ describe('getCrisisTier', () => {
 
   it('has valid TIER4_COMBOS referencing distress IDs', () => {
     for (const [a, b, c] of TIER4_COMBOS) {
+      expect(new Set([a, b, c]).size).toBe(3)
       expect(HIGH_DISTRESS_IDS.has(a)).toBe(true)
       expect(HIGH_DISTRESS_IDS.has(b)).toBe(true)
       expect(HIGH_DISTRESS_IDS.has(c)).toBe(true)

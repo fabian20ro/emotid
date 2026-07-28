@@ -29,8 +29,8 @@ export const somaticModel: EmotionModel<SomaticRegion> = {
   name: { ro: 'Harta corporala', en: 'Body Map' },
   shortName: { ro: 'Corp', en: 'Body' },
   description: {
-    ro: 'Harta corporala a emotiilor (bazat pe Nummenmaa et al., 2014) — identifica emotii prin senzatii fizice in 14 regiuni ale corpului',
-    en: 'Body Map of Emotions (based on Nummenmaa et al., 2014) — identify emotions through physical sensations in 14 body regions',
+    ro: 'Compară senzațiile selectate cu asocieri orientative și oferă cuvinte posibile, nu concluzii despre emoții sau cauze.',
+    en: 'Compares selected sensations with exploratory associations and offers possible words, not conclusions about emotions or causes.',
   },
   allEmotions,
 

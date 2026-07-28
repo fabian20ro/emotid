@@ -42,8 +42,8 @@
   "onboarding": {
     "screen1Title": "This is an exploration, not a test",
     "screen1Body": "There are no right or wrong answers. Emotions are complex and layered. Take your time — this is a space for curiosity, not judgment.",
-    "screen2Title": "Every emotion has a purpose",
-    "screen2Body": "No emotion is good or bad. Anger protects boundaries. Sadness helps process loss. Fear keeps you safe. Instead of asking \"what's wrong,\" ask \"what is my body telling me?\"",
+    "screen2Title": "Emotions can be explored with curiosity",
+    "screen2Body": "A feeling may draw attention to boundaries, loss, uncertainty, or something else entirely. Instead of looking for one correct explanation, notice what fits your experience and context.",
     "next": "Next",
     "back": "Back",
     "getStarted": "Get started"
@@ -202,6 +202,7 @@
     "intensityHint": "Use the closest estimate. Precision is not required.",
     "reviewTitle": "Review your body signals",
     "reviewLede": "Change anything that does not feel right before seeing possible words.",
+    "evidenceNote": "Possible words come from broad group patterns and curated hypotheses. They cannot identify a cause, diagnosis, or what you feel.",
     "review": "Review body signals",
     "addAnother": "Add another area",
     "chooseAnother": "Choose another area",

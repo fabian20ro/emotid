@@ -29,60 +29,29 @@
         "sensationType": "tension",
         "minIntensity": 1,
         "weight": 0.9,
-        "source": "clinical",
-        "contextDescription": {
-          "ro": "Umeri ridicați, tensiune cronică, senzație de povară. Stresul te mobilizează pentru provocări — dar are nevoie și de pauze.",
-          "en": "Raised shoulders, chronic tension, sense of burden. Stress mobilizes you for challenges — but it also needs rest."
-        },
-        "contextNeeds": {
-          "ro": "pauza si eliberare a tensiunii",
-          "en": "pause and tension release"
-        }
+        "source": "curated-hypothesis"
       },
       {
         "emotionId": "overwhelm",
         "sensationType": "heaviness",
         "minIntensity": 1,
         "weight": 0.8,
-        "source": "clinical",
-        "contextDescription": {
-          "ro": "Greutate pe umeri, senzație de a purta lumea pe umeri. Copleșirea semnalează că ai nevoie de sprijin sau de a reduce sarcinile.",
-          "en": "Weight on shoulders, feeling of carrying the world. Overwhelm signals a need for support or to lighten your load."
-        },
-        "contextNeeds": {
-          "ro": "sprijin si reducerea sarcinilor",
-          "en": "support and lightening the load"
-        }
+        "source": "curated-hypothesis"
       },
       {
         "emotionId": "anger",
         "sensationType": "tension",
         "minIntensity": 2,
         "weight": 0.6,
-        "source": "Nummenmaa2014",
-        "contextDescription": {
-          "ro": "Tensiune rigidă în umeri, postură defensivă. Furia în umeri pregătește corpul pentru protecție.",
-          "en": "Rigid shoulder tension, defensive posture. Shoulder anger prepares the body for protection."
-        },
-        "contextNeeds": {
-          "ro": "miscare si exprimare a limitelor",
-          "en": "movement and boundary expression"
-        }
+        "source": "curated-hypothesis",
+        "basis": "nummenmaa-2014-group-map"
       },
       {
         "emotionId": "relief",
         "sensationType": "lightness",
         "minIntensity": 1,
         "weight": 0.7,
-        "source": "clinical",
-        "contextDescription": {
-          "ro": "Umeri care coboară, eliberare bruscă a tensiunii. Ușurarea în umeri indică trecerea unei poveri — corpul se destinde.",
-          "en": "Shoulders dropping, sudden tension release. Shoulder relief indicates a burden has lifted — the body is unwinding."
-        },
-        "contextNeeds": {
-          "ro": "odihna si revenire",
-          "en": "rest and recovery"
-        }
+        "source": "curated-hypothesis"
       }
     ]
   },
@@ -115,37 +84,22 @@
         "sensationType": "heaviness",
         "minIntensity": 1,
         "weight": 0.7,
-        "source": "Nummenmaa2014",
-        "contextDescription": {
-          "ro": "Încovoiere, greutate în spate, postură închisă. Tristețea în spate reflectă nevoia de sprijin și compasiune.",
-          "en": "Hunching, back heaviness, closed posture. Back sadness reflects a need for support and compassion."
-        },
-        "contextNeeds": {
-          "ro": "sprijin si compasiune",
-          "en": "support and compassion"
-        }
+        "source": "curated-hypothesis",
+        "basis": "nummenmaa-2014-group-map"
       },
       {
         "emotionId": "overwhelm",
         "sensationType": "tension",
         "minIntensity": 1,
         "weight": 0.7,
-        "source": "clinical",
-        "contextDescription": {
-          "ro": "Tensiune între omoplați, senzație de comprimare. Copleșirea se poate manifesta ca rigiditate în spate — corpul arată că porți prea mult.",
-          "en": "Tension between shoulder blades, compression feeling. Overwhelm can show up as back stiffness — your body is telling you that you're carrying too much."
-        },
-        "contextNeeds": {
-          "ro": "delegare si pauza",
-          "en": "delegation and pause"
-        }
+        "source": "curated-hypothesis"
       },
       {
         "emotionId": "stress",
         "sensationType": "tension",
         "minIntensity": 2,
         "weight": 0.6,
-        "source": "clinical"
+        "source": "curated-hypothesis"
       }
     ]
   },
@@ -178,45 +132,22 @@
         "sensationType": "tension",
         "minIntensity": 1,
         "weight": 0.7,
-        "source": "clinical",
-        "contextDescription": {
-          "ro": "Tensiune lombară persistentă, rigiditate, disconfort. Stresul cronic în zona lombară semnalează nevoia de relaxare și recuperare.",
-          "en": "Persistent lower back tension, stiffness, discomfort. Chronic lower back stress signals a need for relaxation and recovery."
-        },
-        "contextNeeds": {
-          "ro": "relaxare si recuperare",
-          "en": "relaxation and recovery"
-        }
+        "source": "curated-hypothesis"
       },
       {
         "emotionId": "fear",
         "sensationType": "heaviness",
         "minIntensity": 2,
         "weight": 0.5,
-        "source": "Nummenmaa2014",
-        "contextDescription": {
-          "ro": "Senzație de instabilitate, slăbiciune lombară. Frica în zona lombară semnalează lipsa de siguranță și stabilitate.",
-          "en": "Feeling of instability, lower back weakness. Lower back fear signals a lack of safety and stability."
-        },
-        "contextNeeds": {
-          "ro": "stabilitate si siguranta",
-          "en": "stability and safety"
-        }
+        "source": "curated-hypothesis",
+        "basis": "nummenmaa-2014-group-map"
       },
       {
         "emotionId": "exhaustion",
         "sensationType": "heaviness",
         "minIntensity": 1,
         "weight": 0.7,
-        "source": "clinical",
-        "contextDescription": {
-          "ro": "Greutate în spate, oboseală profundă, lipsă de susținere. Epuizarea este semnalul corpului că resursele s-au consumat — ai nevoie de odihnă.",
-          "en": "Back heaviness, deep fatigue, lack of support. Exhaustion is your body's signal that resources are depleted — you need rest."
-        },
-        "contextNeeds": {
-          "ro": "odihna si sustinere",
-          "en": "rest and support"
-        }
+        "source": "curated-hypothesis"
       }
     ]
   }

@@ -7,15 +7,8 @@ interface EmotionSignal {
   sensationType: string;
   minIntensity: number;
   weight: number;
-  source: string;
-  contextDescription: {
-    ro: string;
-    en: string;
-  };
-  contextNeeds: {
-    ro: string;
-    en: string;
-  };
+  source: 'curated-hypothesis';
+  basis?: 'nummenmaa-2014-group-map';
 }
 
 interface SomaticPart {
@@ -47,6 +40,10 @@ test.each(bodyParts)('%s: signals have valid emotionIds and sensationTypes', (pa
     expect(typeof signal.minIntensity).toBe('number')
     expect(signal.weight).toBeDefined()
     expect(typeof signal.weight).toBe('number')
+    expect(signal.source).toBe('curated-hypothesis')
+    if (signal.basis) expect(signal.basis).toBe('nummenmaa-2014-group-map')
+    expect(signal).not.toHaveProperty('contextDescription')
+    expect(signal).not.toHaveProperty('contextNeeds')
   })
 })
 

@@ -40,7 +40,10 @@ scope and certainty requirements.
 
 **[2026-02-07]** Long `node -e` commands are brittle and expensive to debug — Quoting/syntax breakage in large inline commands causes repeated iterations. Move complex logic into script files. Reserve `node -e` for short commands only.
 
-**[2026-06-19]** Catalog regeneration must preserve curated copy — Model overlays primarily own topology and colors; they are not complete translation sources. `scripts/extract-catalog.cjs` must merge existing non-empty labels, descriptions, and needs, and support the current somatic `contextDescription`/`contextNeeds` schema before rewriting catalog JSON.
+**[2026-07-29]** Psychological source data needs fail-closed provenance — Unreviewed catalog prose
+must not look reviewed because it exists in a data file, and research-informed somatic curation
+must not be labeled clinical. Keep explicit provenance states, reject bypasses during loading and
+CI, and describe evidence at the narrowest level it actually supports.
 
 ## Testing & Quality
 
@@ -97,3 +100,8 @@ and a two-version update while asserting IndexedDB survival.
 **[2026-02-17] Archived [2026-07-28]** ESLint 10 blocked by TypeScript ESLint — Obsolete after
 TypeScript ESLint 8.65 added ESLint 10 support. The replacement lesson records the synchronized
 peer and Node-engine requirements.
+
+**[2026-06-19] Archived [2026-07-29]** Catalog regeneration must preserve curated copy — Replaced
+when the full-catalog audit found that presence was not evidence of review. Regeneration now
+preserves only descriptions explicitly marked `reviewed`, retains translated labels and needs,
+and rejects somatic context claims without provenance.

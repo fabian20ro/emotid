@@ -1,7 +1,7 @@
 # Psychological Copy Contract
 
-**Version:** 1.0
-**Date:** 2026-07-28
+**Version:** 1.1
+**Date:** 2026-07-29
 **Scope:** Reflection summaries, generated synthesis, emotion descriptions, inferred needs,
 somatic explanations, and crisis-adjacent copy.
 
@@ -89,6 +89,19 @@ They are not assessments. Crisis copy must:
 
 Changes to crisis rules, thresholds, combinations, ordering, or gating require explicit safety
 tests and a separate review.
+
+## Provenance States
+
+- `reviewed`: a bilingual description was reviewed against this contract and is stored in catalog
+  source data.
+- `generated`: runtime hydration creates bounded copy from the translated label and needs field.
+  It is an exploratory prompt, not a reviewed definition of that emotion.
+- `curated-hypothesis`: a somatic association is product curation, even when a group-level bodily
+  map informed it. Weights, intensity thresholds, and sensation types are not presented as
+  research-derived measures.
+
+Catalog loading and `npm run check-copy` fail closed when source data bypasses these states.
+See [Catalog and Somatic Provenance](catalog-and-somatic-provenance.md).
 
 ## Review Checklist
 

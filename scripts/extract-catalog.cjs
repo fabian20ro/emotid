@@ -22,14 +22,15 @@ function readJsonDir(dir) {
   return result
 }
 
-// Generated catalogs are also the curated source for translated labels,
-// descriptions, and needs. Model overlays mostly contain topology and colors;
-// regenerating from overlays alone must not erase curated copy.
+// Generated catalogs are also the curated source for translated labels and needs.
+// Reviewed descriptions remain only when explicitly marked; other descriptions are
+// generated at runtime by the catalog copy boundary.
 const existingCatalog = readJsonDir(CATALOG_DIR)
 
 const plutchik = readJsonDir(path.join(ROOT, 'src/models/plutchik/overlays'))
 const wheel = readJsonDir(path.join(ROOT, 'src/models/wheel/overlays'))
 const dimensional = JSON.parse(fs.readFileSync(path.join(ROOT, 'src/models/dimensional/overlay.json'), 'utf8'))
+const safetyRules = JSON.parse(fs.readFileSync(path.join(ROOT, 'src/models/safety-rules.json'), 'utf8'))
 
 // Extract somatic emotion signals
 const somaticSignals = new Map()
@@ -39,7 +40,7 @@ for (const f of fs.readdirSync(somaticDir).filter(f => f.endsWith('.json'))) {
   for (const region of Object.values(data)) {
     if (region.emotionSignals) {
       for (const signal of region.emotionSignals) {
-        if (!somaticSignals.has(signal.emotionId) && (signal.contextDescription || signal.emotionDescription)) {
+        if (!somaticSignals.has(signal.emotionId)) {
           somaticSignals.set(signal.emotionId, { ...signal, regionColor: region.color })
         }
       }
@@ -48,13 +49,7 @@ for (const f of fs.readdirSync(somaticDir).filter(f => f.endsWith('.json'))) {
 }
 
 // --- Distress tier mapping ---
-const HIGH_DISTRESS = new Set([
-  'despair', 'rage', 'terror', 'grief', 'shame', 'loathing',
-  'worthless', 'helpless', 'apathetic',
-  'empty', 'powerless', 'abandoned', 'victimized', 'numb',
-  'violated', 'depressed', 'distressed',
-  'hopeless', 'anguished', 'panicked',
-])
+const HIGH_DISTRESS = new Set(safetyRules.highDistressIds)
 const WATCH_DISTRESS = new Set(['self_blaming', 'unworthy', 'self_loathing'])
 
 // --- Build canonical entries ---
@@ -71,9 +66,12 @@ function makeCanonical(id, source, distressTier) {
   const entry = {
     id,
     label: localized(existing?.label, source.label, id),
-    description: localized(existing?.description, source.description),
     needs: localized(existing?.needs, source.needs),
-    color: source.color,
+    color: source.color || existing?.color,
+  }
+  if (existing?.descriptionStatus === 'reviewed' && existing.description) {
+    entry.description = existing.description
+    entry.descriptionStatus = 'reviewed'
   }
   if (distressTier) entry.distressTier = distressTier
   return entry
@@ -105,14 +103,10 @@ for (const [id, e] of Object.entries(plutchik)) {
   catalog[id] = makeCanonical(id, e, distressTierFor(id))
 }
 
-// 2. Wheel - use wheel data but prefer plutchik/dimensional description if richer
+// 2. Wheel
 for (const [id, e] of Object.entries(wheel)) {
   if (!catalog[id]) {
     catalog[id] = makeCanonical(id, e, distressTierFor(id))
-  }
-  // If wheel has a description but catalog doesn't, use wheel's
-  if (catalog[id].description.en === '' && e.description) {
-    catalog[id].description = e.description
   }
   if (catalog[id].needs.en === '' && e.needs) {
     catalog[id].needs = e.needs
@@ -123,10 +117,6 @@ for (const [id, e] of Object.entries(wheel)) {
 for (const [id, e] of Object.entries(dimensional)) {
   if (!catalog[id]) {
     catalog[id] = makeCanonical(id, e, distressTierFor(id))
-  }
-  // If dimensional has a richer description, prefer it
-  if (catalog[id].description.en === '' && e.description) {
-    catalog[id].description = e.description
   }
   if (catalog[id].needs.en === '' && e.needs) {
     catalog[id].needs = e.needs
@@ -139,8 +129,7 @@ for (const [id, signal] of somaticSignals) {
     const existing = existingCatalog[id]
     catalog[id] = makeCanonical(id, {
       label: signal.emotionLabel || existing?.label,
-      description: signal.contextDescription || signal.emotionDescription,
-      needs: signal.contextNeeds || signal.emotionNeeds,
+      needs: signal.emotionNeeds || existing?.needs,
       color: signal.emotionColor || existing?.color || signal.regionColor,
     })
     const tier = distressTierFor(id)
@@ -154,10 +143,6 @@ if (!catalog['numb']) {
   catalog['numb'] = {
     id: 'numb',
     label: { ro: 'Amorțeală', en: 'Numb' },
-    description: {
-      ro: 'Amorțeala emoțională este o stare de deconectare de la propriile sentimente — nu durere, nu bucurie, ci un gol protector. Poate fi un răspuns la suprasolicitare emoțională, traumă sau epuizare. Amorțeala este adesea un mecanism de protecție al minții care se activează când intensitatea emoțională depășește capacitatea de procesare. Nu este lipsă de sentimente, ci suspendarea lor temporară.',
-      en: 'Emotional numbness is a state of disconnection from your own feelings — not pain, not joy, but a protective void. It can be a response to emotional overload, trauma, or exhaustion. Numbness is often a protective mechanism of the mind that activates when emotional intensity exceeds processing capacity. It is not an absence of feelings, but their temporary suspension.',
-    },
     needs: {
       ro: 'reconectare treptată și siguranță',
       en: 'gradual reconnection and safety',

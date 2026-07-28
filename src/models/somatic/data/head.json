@@ -29,156 +29,89 @@
         "sensationType": "pressure",
         "minIntensity": 2,
         "weight": 0.8,
-        "source": "Nummenmaa2014",
-        "contextDescription": {
-          "ro": "Presiune sau căldură în cap, asociată cu frustrare intensă sau furie. Furia semnalează o limită importantă care a fost depășită.",
-          "en": "Pressure or heat in the head, associated with intense frustration or anger. Anger signals an important boundary that has been crossed."
-        },
-        "contextNeeds": {
-          "ro": "pauza si respiratie inainte de actiune",
-          "en": "pause and breathing before action"
-        }
+        "source": "curated-hypothesis",
+        "basis": "nummenmaa-2014-group-map"
       },
       {
         "emotionId": "anger",
         "sensationType": "warmth",
         "minIntensity": 2,
         "weight": 0.7,
-        "source": "Nummenmaa2014"
+        "source": "curated-hypothesis",
+        "basis": "nummenmaa-2014-group-map"
       },
       {
         "emotionId": "anxiety",
         "sensationType": "tension",
         "minIntensity": 1,
         "weight": 0.7,
-        "source": "clinical",
-        "contextDescription": {
-          "ro": "Tensiune în cap și frunte, gândire în cerc, dificultate de concentrare. Anxietatea este sistemul de alertă al corpului — te pregătește pentru o amenințare percepută.",
-          "en": "Tension in the head and forehead, racing thoughts, difficulty concentrating. Anxiety is your body's alert system — it's preparing you for a perceived threat."
-        },
-        "contextNeeds": {
-          "ro": "ancoraj in prezent si respiratie",
-          "en": "grounding in the present and breathing"
-        }
+        "source": "curated-hypothesis"
       },
       {
         "emotionId": "anxiety",
         "sensationType": "pressure",
         "minIntensity": 1,
         "weight": 0.6,
-        "source": "clinical"
+        "source": "curated-hypothesis"
       },
       {
         "emotionId": "sadness",
         "sensationType": "pressure",
         "minIntensity": 1,
         "weight": 0.8,
-        "source": "Nummenmaa2014",
-        "contextDescription": {
-          "ro": "Presiune în spatele ochilor, lacrimi, usturime. Tristețea semnalează pierderea a ceva valoros — lacrimile sunt un mod natural de procesare.",
-          "en": "Pressure behind the eyes, tears, stinging. Sadness signals the loss of something valued — tears are a natural way of processing."
-        },
-        "contextNeeds": {
-          "ro": "permisiune de a plange si compasiune",
-          "en": "permission to grieve and compassion"
-        }
+        "source": "curated-hypothesis",
+        "basis": "nummenmaa-2014-group-map"
       },
       {
         "emotionId": "sadness",
         "sensationType": "warmth",
         "minIntensity": 1,
         "weight": 0.7,
-        "source": "Nummenmaa2014"
+        "source": "curated-hypothesis",
+        "basis": "nummenmaa-2014-group-map"
       },
       {
         "emotionId": "grief",
         "sensationType": "pressure",
         "minIntensity": 2,
         "weight": 0.7,
-        "source": "clinical",
-        "contextDescription": {
-          "ro": "Presiune intensă în jurul ochilor, plâns necontrolat. Doliul este expresia profundă a atașamentului — arată cât de mult a contat.",
-          "en": "Intense pressure around eyes, uncontrollable crying. Grief is the deep expression of attachment — it shows how much it mattered."
-        },
-        "contextNeeds": {
-          "ro": "timp si spatiu pentru doliu",
-          "en": "time and space for mourning"
-        }
+        "source": "curated-hypothesis"
       },
       {
         "emotionId": "worry",
         "sensationType": "tension",
         "minIntensity": 2,
         "weight": 0.6,
-        "source": "clinical",
-        "contextDescription": {
-          "ro": "Tensiune persistentă în frunte, anticipare negativă. Îngrijorarea semnalează că îți pasă de ceva important.",
-          "en": "Persistent forehead tension, negative anticipation. Worry signals that you care about something important."
-        },
-        "contextNeeds": {
-          "ro": "redirectare spre prezent, nu viitor",
-          "en": "present-moment focus and grounding"
-        }
+        "source": "curated-hypothesis"
       },
       {
         "emotionId": "surprise",
         "sensationType": "tingling",
         "minIntensity": 1,
         "weight": 0.6,
-        "source": "Nummenmaa2014",
-        "contextDescription": {
-          "ro": "Ochi larg deschiși, furnicături, senzație de alertă. Surpriza deschide atenția pentru a procesa informații noi.",
-          "en": "Wide eyes, tingling, sense of alertness. Surprise opens your attention to process new information."
-        },
-        "contextNeeds": {
-          "ro": "timp de procesare si orientare",
-          "en": "processing time and orientation"
-        }
+        "source": "curated-hypothesis",
+        "basis": "nummenmaa-2014-group-map"
       },
       {
         "emotionId": "frustration",
         "sensationType": "tension",
         "minIntensity": 1,
         "weight": 0.5,
-        "source": "interpolated",
-        "contextDescription": {
-          "ro": "Tensiune în frunte și tâmple, presiune fără căldură. Frustrarea semnalează un obstacol între tine și un scop important.",
-          "en": "Forehead and temple tension, pressure without heat. Frustration signals an obstacle between you and an important goal."
-        },
-        "contextNeeds": {
-          "ro": "claritate si pasi mici",
-          "en": "clarity and small steps"
-        }
+        "source": "curated-hypothesis"
       },
       {
         "emotionId": "jealousy",
         "sensationType": "tension",
         "minIntensity": 2,
         "weight": 0.5,
-        "source": "interpolated",
-        "contextDescription": {
-          "ro": "Tensiune în cap, gânduri obsesive, vigilență intensă. Gelozia semnalează teamă de pierdere în relațiile importante.",
-          "en": "Head tension, obsessive thoughts, intense vigilance. Jealousy signals fear of loss in important relationships."
-        },
-        "contextNeeds": {
-          "ro": "siguranta relationala si comunicare",
-          "en": "relational safety and communication"
-        }
+        "source": "curated-hypothesis"
       },
       {
         "emotionId": "curiosity",
         "sensationType": "tingling",
         "minIntensity": 1,
         "weight": 0.5,
-        "source": "interpolated",
-        "contextDescription": {
-          "ro": "Ușoară activare în cap, atenție deschisă, senzație de vioiciune mentală. Curiozitatea semnalează deschiderea către necunoscut.",
-          "en": "Mild activation in the head, open attention, mental alertness. Curiosity signals openness to the unknown."
-        },
-        "contextNeeds": {
-          "ro": "explorare si siguranta",
-          "en": "exploration and safety"
-        }
+        "source": "curated-hypothesis"
       }
     ]
   },
@@ -212,52 +145,29 @@
         "sensationType": "tension",
         "minIntensity": 1,
         "weight": 0.9,
-        "source": "Nummenmaa2014",
-        "contextDescription": {
-          "ro": "Încleștare a maxilarului, scrâșnit din dinți, tensiune. Furia te mobilizează să aperi ceea ce contează pentru tine.",
-          "en": "Jaw clenching, teeth grinding, tension. Anger mobilizes you to defend what matters to you."
-        },
-        "contextNeeds": {
-          "ro": "exprimare si eliberare a tensiunii",
-          "en": "expression and tension release"
-        }
+        "source": "curated-hypothesis",
+        "basis": "nummenmaa-2014-group-map"
       },
       {
         "emotionId": "emotional-holding",
         "sensationType": "tension",
         "minIntensity": 2,
         "weight": 0.7,
-        "source": "clinical",
-        "contextDescription": {
-          "ro": "Maxilar încleștat, cuvinte reținute. Corpul poate reține ceea ce simți cu adevărat — ce anume ți-ar plăcea să exprimi?",
-          "en": "Clenched jaw, held-back words. Your body may be holding back what you truly feel — what would you like to express?"
-        },
-        "contextNeeds": {
-          "ro": "spatiu sigur de exprimare",
-          "en": "safe space for expression"
-        }
+        "source": "curated-hypothesis"
       },
       {
         "emotionId": "emotional-holding",
         "sensationType": "numbness",
         "minIntensity": 1,
         "weight": 0.5,
-        "source": "interpolated"
+        "source": "curated-hypothesis"
       },
       {
         "emotionId": "contempt",
         "sensationType": "tension",
         "minIntensity": 2,
         "weight": 0.6,
-        "source": "clinical",
-        "contextDescription": {
-          "ro": "Tensiune asimetrică în maxilar, strângerea buzelor, senzație de superioritate. Disprețul creează distanță emoțională — poate semnala o nevoie neîmplinită de respect.",
-          "en": "Asymmetric jaw tension, lip tightening, sense of superiority. Contempt creates emotional distance — it may signal an unmet need for respect."
-        },
-        "contextNeeds": {
-          "ro": "empatie si schimbare de perspectiva",
-          "en": "empathy and perspective shift"
-        }
+        "source": "curated-hypothesis"
       }
     ]
   },
@@ -290,88 +200,57 @@
         "sensationType": "pressure",
         "minIntensity": 1,
         "weight": 0.8,
-        "source": "clinical",
-        "contextDescription": {
-          "ro": "Nod în gât, dificultate de a înghiți, plâns reținut. Doliul în gât semnalează cuvinte nerostite sau pierdere neexprimată.",
-          "en": "Lump in throat, difficulty swallowing, held-back crying. Throat grief signals unspoken words or unexpressed loss."
-        },
-        "contextNeeds": {
-          "ro": "permisiune de a vorbi sau plange",
-          "en": "permission for expression and release"
-        }
+        "source": "curated-hypothesis"
       },
       {
         "emotionId": "shame",
         "sensationType": "tension",
         "minIntensity": 1,
         "weight": 0.7,
-        "source": "clinical",
-        "contextDescription": {
-          "ro": "Constricție în gât, dificultate de a vorbi, dorința de a te ascunde. Rușinea te protejează social — semnalează importanța apartenenței.",
-          "en": "Throat constriction, difficulty speaking, urge to hide. Shame protects you socially — it signals the importance of belonging."
-        },
-        "contextNeeds": {
-          "ro": "compasiune si acceptare",
-          "en": "compassion and acceptance"
-        }
+        "source": "curated-hypothesis"
       },
       {
         "emotionId": "emotional-holding",
         "sensationType": "tension",
         "minIntensity": 2,
         "weight": 0.6,
-        "source": "clinical",
-        "contextDescription": {
-          "ro": "Senzație de blocare în gât, cuvinte reținute. Reținerea emoțională poate indica sentimente care așteaptă să fie exprimate.",
-          "en": "Blocked feeling in throat, words held back. Emotional holding may point to feelings waiting to be expressed."
-        },
-        "contextNeeds": {
-          "ro": "exprimare treptata si sigura",
-          "en": "gradual and safe expression"
-        }
+        "source": "curated-hypothesis"
       },
       {
         "emotionId": "disgust",
         "sensationType": "churning",
         "minIntensity": 1,
         "weight": 0.5,
-        "source": "Nummenmaa2014",
-        "contextDescription": {
-          "ro": "Gât contractat, senzație de greață, refuz instinctiv. Dezgustul te protejează de ceea ce este nociv sau toxic.",
-          "en": "Contracted throat, nausea sensation, instinctive refusal. Disgust protects you from what is harmful or toxic."
-        },
-        "contextNeeds": {
-          "ro": "distanta de sursa si aer proaspat",
-          "en": "distance from source and fresh air"
-        }
+        "source": "curated-hypothesis",
+        "basis": "nummenmaa-2014-group-map"
       },
       {
         "emotionId": "anxiety",
         "sensationType": "constriction",
         "minIntensity": 1,
         "weight": 0.8,
-        "source": "clinical"
+        "source": "curated-hypothesis"
       },
       {
         "emotionId": "shame",
         "sensationType": "constriction",
         "minIntensity": 1,
         "weight": 0.7,
-        "source": "clinical"
+        "source": "curated-hypothesis"
       },
       {
         "emotionId": "grief",
         "sensationType": "constriction",
         "minIntensity": 1,
         "weight": 0.7,
-        "source": "clinical"
+        "source": "curated-hypothesis"
       },
       {
         "emotionId": "contempt",
         "sensationType": "tension",
         "minIntensity": 1,
         "weight": 0.5,
-        "source": "interpolated"
+        "source": "curated-hypothesis"
       }
     ]
   }

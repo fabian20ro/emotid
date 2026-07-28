@@ -1013,3 +1013,36 @@ states with no clipping or console errors.
 boundaries. Typed, reviewed templates prevent unreviewed descriptions from becoming stronger
 claims through string extraction.
 **Promoted to Lessons Learned:** Yes — typed generated-copy boundary.
+
+---
+
+### [2026-07-29] Complete P13 catalog and somatic provenance
+
+**Context:** The remaining 276 catalog descriptions had no explicit review provenance, somatic
+signals overstated research and clinical support, cross-body scoring inferred unsupported
+coherence, and duplicate selected IDs could inflate support-prompt prominence.
+**What happened:**
+- Added fail-closed catalog hydration: 12 reviewed bilingual descriptions stay explicit; 276
+  entries now receive one bounded, needs-aware exploratory template. Duplicate IDs, key
+  mismatches, and unreviewed source descriptions are rejected.
+- Reclassified every body association as a curated hypothesis, narrowed optional Nummenmaa
+  provenance to group-map influence, removed unsupported context claims and coherence
+  multipliers, and changed confidence-like labels to exploratory match language.
+- Added a bilingual Body Compass evidence boundary before analysis and increased its rendered
+  mobile size after Playwright inspection found the initial 12px treatment too weak.
+- Centralized the distress inventory and combinations in one versioned safety-rules file shared by
+  runtime and catalog extraction; deduplicated selected IDs and added order, padding, inventory,
+  and combination invariants.
+- Added `npm run check-copy` to CI-equivalent checks, made catalog extraction idempotent under the
+  new provenance model, removed the obsolete somatic migration script, and reconciled current and
+  historical architecture/psychology documents.
+- Manual onboarding review caught universal and body-as-authority language outside the initial
+  data audit. Replaced it in English and Romanian and extended the automated i18n copy scan.
+**Outcome:** Success. `npm run check` passes 65 files and 607 tests; `npm run test:e2e` passes all
+160 Mobile Safari and Mobile Chrome cases; `npm run test:pwa` passes the production lifecycle.
+Manual 393x742 light/dark Playwright inspection confirms the Body Compass evidence note at
+14px/20.3px without clipping. Catalog regeneration produces the same 288 entries on repeat runs.
+**Insight:** Provenance must be fail-closed and narrower than the supporting evidence. A rendered
+review remains necessary because repository-wide data audits can miss user-facing claims in
+onboarding and can underweight consequential copy through typography.
+**Promoted to Lessons Learned:** Yes — fail-closed psychological provenance.

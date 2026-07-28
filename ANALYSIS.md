@@ -462,7 +462,10 @@ I evaluate Emot-ID through the lens of:
 
 **S5.2 — Vocabulary tracking gamifies emotional literacy development.** The `computeVocabulary()` function (`src/data/vocabulary.ts`) tracks unique emotions identified and awards milestones at 5, 10, 15, 25, 40, 60 emotions. This is a well-calibrated gamification of emotional vocabulary expansion. The milestones are spaced appropriately — the early milestones (5, 10) come quickly to build motivation, while later milestones (40, 60) require sustained engagement.
 
-**S5.3 — Normalization messaging is developmentally appropriate.** The onboarding screen 2 ("Every emotion has a purpose. No emotion is good or bad.") and the DontKnowModal normalization message are excellent developmental scaffolds. They counter the common developmental arrest where children learn to categorize emotions as "good" (happy) or "bad" (angry) and carry this into adulthood. Framing every emotion as purposeful is the foundational insight of emotional intelligence.
+**S5.3 — Historical finding, superseded in P13.** The former universal framing ("Every emotion
+has a purpose. No emotion is good or bad.") implied certainty and assigned fixed functions.
+Onboarding now invites curiosity, names several possible contexts, and returns interpretive
+authority to the user.
 
 **S5.4 — The Wheel model's three levels mirror granularity development.** The Emotion Wheel's 3-level hierarchy (7 roots → subcategories → 135 leaf emotions) mirrors how emotional granularity develops: first distinguishing broad categories (happy vs. sad), then subcategories (happy → joyful vs. content), then specific states (content → serene vs. satisfied). The drill-down interaction makes this progression tangible.
 
@@ -548,11 +551,17 @@ I evaluate Emot-ID through the lens of:
 
 **S6.2 — Dimensional model faithfully represents Russell's circumplex.** The 38 emotions in `dimensional/data.json` are placed on valence (-1 to +1) × arousal (-1 to +1) axes, consistent with Russell's (1980) circumplex model. The five emotions added to fill the unpleasant-calm quadrant (apathetic, melancholic, resigned, pensive, contemplative) address a known limitation of the original circumplex — that it underrepresents low-arousal negative states, which are clinically important for depression detection.
 
-**S6.3 — Somatic model's body map data is grounded in Nummenmaa et al. (2014).** The emotion-signal mappings in `somatic/data.json` reference the sensation types and body regions identified in the landmark Nummenmaa et al. (2014) study on bodily topography of emotions. The expanded emotions (loneliness, tenderness, contempt, jealousy, frustration, relief, gratitude, hope, curiosity) are noted as having somatic signatures based on this research.
+**S6.3 — Historical finding, corrected in P13.** Nummenmaa et al. (2014) supports group-level
+self-reported activation/deactivation maps. It does not validate this app's sensation types,
+weights, thresholds, expanded emotion mappings, or individual conclusions. Signals are now marked
+as curated hypotheses, with a narrow optional group-map basis.
 
-**S6.4 — Scoring algorithm incorporates pattern coherence.** The somatic scoring (`src/models/somatic/scoring.ts`) applies a coherence bonus for multi-region convergence (1.2× for 2 body groups, 1.3× for 3, 1.4× for 4+). This captures the psychophysiological principle that emotions produce distributed bodily patterns — a single region tension is ambiguous, but tension in head + chest + stomach convergently signals anxiety.
+**S6.4 — Historical finding, corrected in P13.** The unsupported cross-body multiplier was
+removed. Matching contributions are additive and rank only the app's curated hypotheses.
 
-**S6.5 — Match strength labels use absolute floors, not just relative scores.** The `getMatchStrength()` function (`scoring.ts:18-24`) applies absolute score floors (`STRONG_FLOOR = 1.0`, `POSSIBLE_FLOOR = 0.6`) in addition to relative ratios. This prevents a single weak signal from being labeled "clear signal" just because it's the best of a weak set — an important psychometric consideration.
+**S6.5 — Match labels use relative and absolute floors.** The labels are now "closer match",
+"possible match", and "worth exploring." Floors affect ordering language but are not psychometric
+confidence measures.
 
 ### 6.3 Concerns & Risks
 
@@ -588,11 +597,10 @@ Severity: **LOW**
 
 ### 6.4 Recommendations
 
-**R6.1 (P1) — Document signal weight provenance.**
-For each emotion signal weight in `somatic/data.json`, add a `source` field documenting the basis: "Nummenmaa2014" for weights directly derived from the published body maps, "clinical" for weights based on clinical expertise, "interpolated" for weights estimated from related emotions. This enables future empirical calibration and makes the scoring transparent.
-
-Files to modify: `src/models/somatic/data.json`
-Estimate: ~4 hours (research + documentation)
+**R6.1 (P1) — Completed with a narrower provenance claim.**
+Every signal is `curated-hypothesis`; some record group-map influence separately. No weight is
+described as directly research-derived or clinical. See
+`docs/catalog-and-somatic-provenance.md`.
 
 **R6.2 (P2) — Consider merging constriction into tension.**
 Given the lack of empirical evidence for constriction as a distinct sensation modality, consider merging it back into tension with a qualifier. Alternatively, run a small user study (N=20) asking users to distinguish tension, pressure, and constriction in their chest area. If discrimination is poor, merge.

@@ -5,15 +5,16 @@
       "ro": "anxietate",
       "en": "anxiety"
     },
-    "description": {
-      "ro": "Anxietatea poate implica vigilență față de ce s-ar putea întâmpla, incertitudine sau dorința de mai mult control. Poate fi util să observați ce pare nesigur și dacă v-ar ajuta ancorarea, mai multe informații ori reasigurarea. Cuvântul singur nu stabilește cauza sau gravitatea trăirii.",
-      "en": "Anxiety can involve alertness about what might happen, uncertainty, or a wish for more control. It may help to notice what feels uncertain and whether grounding, more information, or reassurance would be useful. This word alone does not establish the cause or severity of the experience."
-    },
     "needs": {
       "ro": "ancorare, respiratie si prezenta",
       "en": "grounding, breath, and present focus"
     },
-    "color": "#A8D8A0"
+    "color": "#A8D8A0",
+    "description": {
+      "ro": "Anxietatea poate implica vigilență față de ce s-ar putea întâmpla, incertitudine sau dorința de mai mult control. Poate fi util să observați ce pare nesigur și dacă v-ar ajuta ancorarea, mai multe informații ori reasigurarea. Cuvântul singur nu stabilește cauza sau gravitatea trăirii.",
+      "en": "Anxiety can involve alertness about what might happen, uncertainty, or a wish for more control. It may help to notice what feels uncertain and whether grounding, more information, or reassurance would be useful. This word alone does not establish the cause or severity of the experience."
+    },
+    "descriptionStatus": "reviewed"
   },
   "rage": {
     "id": "rage",
@@ -21,15 +22,16 @@
       "ro": "mânie",
       "en": "rage"
     },
-    "description": {
-      "ro": "Mânia poate descrie furie foarte intensă, atenție îngustată și un impuls puternic de a acționa. Cuvântul nu stabilește de ce se întâmplă acest lucru sau ce veți face. Distanțarea de o acțiune imediată și căutarea sprijinului pot fi utile dacă siguranța pare incertă.",
-      "en": "Rage can describe very intense anger, narrowed attention, and a strong urge to act. The word does not establish why this is happening or what you will do. Creating distance from immediate action and seeking support may be useful if safety feels uncertain."
-    },
     "needs": {
       "ro": "containment si eliberare sigura",
       "en": "containment and safe release"
     },
     "color": "#E74C3C",
+    "description": {
+      "ro": "Mânia poate descrie furie foarte intensă, atenție îngustată și un impuls puternic de a acționa. Cuvântul nu stabilește de ce se întâmplă acest lucru sau ce veți face. Distanțarea de o acțiune imediată și căutarea sprijinului pot fi utile dacă siguranța pare incertă.",
+      "en": "Rage can describe very intense anger, narrowed attention, and a strong urge to act. The word does not establish why this is happening or what you will do. Creating distance from immediate action and seeking support may be useful if safety feels uncertain."
+    },
+    "descriptionStatus": "reviewed",
     "distressTier": "high"
   },
   "terror": {
@@ -38,15 +40,16 @@
       "ro": "teroare",
       "en": "terror"
     },
-    "description": {
-      "ro": "Teroarea poate descrie o frică copleșitoare și senzația unei amenințări imediate. Poate include reacții corporale puternice, dar acest cuvânt singur nu arată dacă există un pericol real. Dacă este posibil să fiți în pericol imediat, contactați serviciile de urgență.",
-      "en": "Terror can describe overwhelming fear and a sense of immediate threat. It may involve strong body reactions, but this word alone cannot show whether danger is present. If you may be in immediate danger, contact emergency services."
-    },
     "needs": {
       "ro": "siguranta imediata si co-reglare",
       "en": "immediate safety and co-regulation"
     },
     "color": "#68C898",
+    "description": {
+      "ro": "Teroarea poate descrie o frică copleșitoare și senzația unei amenințări imediate. Poate include reacții corporale puternice, dar acest cuvânt singur nu arată dacă există un pericol real. Dacă este posibil să fiți în pericol imediat, contactați serviciile de urgență.",
+      "en": "Terror can describe overwhelming fear and a sense of immediate threat. It may involve strong body reactions, but this word alone cannot show whether danger is present. If you may be in immediate danger, contact emergency services."
+    },
+    "descriptionStatus": "reviewed",
     "distressTier": "high"
   },
   "grief": {
@@ -55,15 +58,16 @@
       "ro": "durere",
       "en": "grief"
     },
-    "description": {
-      "ro": "Doliul poate urma multor tipuri de pierdere și se poate schimba în timp, fără să urmeze un singur traseu. Oamenii îl trăiesc diferit; nu există un termen sau o formă obligatorie. Conexiunea, spațiul personal, ritualul ori ajutorul practic pot fi utile, în funcție de ce vi se potrivește.",
-      "en": "Grief can follow many kinds of loss and may change over time rather than follow one path. People experience it differently; there is no required timetable or correct form. Connection, personal space, ritual, or practical support may help, depending on what fits."
-    },
     "needs": {
       "ro": "sprijin, timp si martori",
       "en": "support, time, and witness"
     },
     "color": "#3498DB",
+    "description": {
+      "ro": "Doliul poate urma multor tipuri de pierdere și se poate schimba în timp, fără să urmeze un singur traseu. Oamenii îl trăiesc diferit; nu există un termen sau o formă obligatorie. Conexiunea, spațiul personal, ritualul ori ajutorul practic pot fi utile, în funcție de ce vi se potrivește.",
+      "en": "Grief can follow many kinds of loss and may change over time rather than follow one path. People experience it differently; there is no required timetable or correct form. Connection, personal space, ritual, or practical support may help, depending on what fits."
+    },
+    "descriptionStatus": "reviewed",
     "distressTier": "high"
   },
   "shame": {
@@ -72,15 +76,16 @@
       "ro": "rușine",
       "en": "shame"
     },
-    "description": {
-      "ro": "Rușinea poate include senzația dureroasă că ceva la voi este inacceptabil, adesea împreună cu impulsul de a vă ascunde. Această senzație nu este o dovadă despre valoarea sau identitatea voastră. O conexiune sigură și lipsită de judecată poate ajuta, dacă și când o alegeți.",
-      "en": "Shame can involve a painful sense that something about you is unacceptable, often with an urge to hide. That feeling is not proof about your worth or identity. Safe, nonjudgmental connection may help if and when you choose it."
-    },
     "needs": {
       "ro": "conexiune si acceptare neconditionata",
       "en": "connection and unconditional acceptance"
     },
     "color": "#90C8A8",
+    "description": {
+      "ro": "Rușinea poate include senzația dureroasă că ceva la voi este inacceptabil, adesea împreună cu impulsul de a vă ascunde. Această senzație nu este o dovadă despre valoarea sau identitatea voastră. O conexiune sigură și lipsită de judecată poate ajuta, dacă și când o alegeți.",
+      "en": "Shame can involve a painful sense that something about you is unacceptable, often with an urge to hide. That feeling is not proof about your worth or identity. Safe, nonjudgmental connection may help if and when you choose it."
+    },
+    "descriptionStatus": "reviewed",
     "distressTier": "high"
   },
   "despair": {
@@ -89,15 +94,16 @@
       "ro": "disperare",
       "en": "despair"
     },
-    "description": {
-      "ro": "Disperarea poate include senzația că o îmbunătățire este greu de imaginat. Cuvântul singur nu arată dacă sunteți în pericol sau aveți gânduri de auto-vătămare. Dacă una dintre situații ar putea fi adevărată, există sprijin disponibil acum; altfel, puteți observa dacă v-ar ajuta contactul cu o persoană de încredere.",
-      "en": "Despair can involve feeling that improvement is hard to imagine. The word alone cannot show whether you are in danger or having thoughts of self-harm. If either may be true, support is available now; otherwise, consider whether contact with someone you trust would help."
-    },
     "needs": {
       "ro": "sprijin uman si ajutor profesional",
       "en": "human support and professional help"
     },
     "color": "#68A8B8",
+    "description": {
+      "ro": "Disperarea poate include senzația că o îmbunătățire este greu de imaginat. Cuvântul singur nu arată dacă sunteți în pericol sau aveți gânduri de auto-vătămare. Dacă una dintre situații ar putea fi adevărată, există sprijin disponibil acum; altfel, puteți observa dacă v-ar ajuta contactul cu o persoană de încredere.",
+      "en": "Despair can involve feeling that improvement is hard to imagine. The word alone cannot show whether you are in danger or having thoughts of self-harm. If either may be true, support is available now; otherwise, consider whether contact with someone you trust would help."
+    },
+    "descriptionStatus": "reviewed",
     "distressTier": "high"
   },
   "angry": {
@@ -106,15 +112,16 @@
       "ro": "Furios",
       "en": "Angry"
     },
-    "description": {
-      "ro": "Furia poate apărea în legătură cu o nedreptate percepută, un obiectiv blocat sau o limită încălcată. Poate aduce energie pentru un răspuns, dar nu prescrie o acțiune. Observați dacă situației voastre i se potrivesc distanțarea, o limită clară sau un pas deliberat.",
-      "en": "Anger can appear around perceived unfairness, blocked goals, or crossed boundaries. It may bring energy to respond, but it does not prescribe an action. Notice whether distance, a clear boundary, or a deliberate next step fits your situation."
-    },
     "needs": {
       "ro": "limite si actiune",
       "en": "boundaries and action"
     },
-    "color": "#E88888"
+    "color": "#E88888",
+    "description": {
+      "ro": "Furia poate apărea în legătură cu o nedreptate percepută, un obiectiv blocat sau o limită încălcată. Poate aduce energie pentru un răspuns, dar nu prescrie o acțiune. Observați dacă situației voastre i se potrivesc distanțarea, o limită clară sau un pas deliberat.",
+      "en": "Anger can appear around perceived unfairness, blocked goals, or crossed boundaries. It may bring energy to respond, but it does not prescribe an action. Notice whether distance, a clear boundary, or a deliberate next step fits your situation."
+    },
+    "descriptionStatus": "reviewed"
   },
   "frustrated": {
     "id": "frustrated",
@@ -122,15 +129,16 @@
       "ro": "Frustrat",
       "en": "Frustrated"
     },
-    "description": {
-      "ro": "Frustrarea poate apărea când progresul pare blocat sau efortul repetat nu funcționează. Poate aduce nerăbdare, tensiune ori impulsul de a renunța. O pauză, o abordare diferită sau sprijinul pot ajuta; păstrați doar ce vi se potrivește.",
-      "en": "Frustration can appear when progress feels blocked or repeated effort is not working. It may bring impatience, tension, or an urge to stop. A pause, a different approach, or support may help; keep only what fits."
-    },
     "needs": {
       "ro": "o abordare noua si rabdare",
       "en": "a new approach and patience"
     },
-    "color": "#EE9E9E"
+    "color": "#EE9E9E",
+    "description": {
+      "ro": "Frustrarea poate apărea când progresul pare blocat sau efortul repetat nu funcționează. Poate aduce nerăbdare, tensiune ori impulsul de a renunța. O pauză, o abordare diferită sau sprijinul pot ajuta; păstrați doar ce vi se potrivește.",
+      "en": "Frustration can appear when progress feels blocked or repeated effort is not working. It may bring impatience, tension, or an urge to stop. A pause, a different approach, or support may help; keep only what fits."
+    },
+    "descriptionStatus": "reviewed"
   },
   "stressed": {
     "id": "stressed",
@@ -138,15 +146,16 @@
       "ro": "Stresat",
       "en": "Stressed"
     },
-    "description": {
-      "ro": "Stresul poate include senzația că cerințele actuale depășesc timpul, energia sau sprijinul disponibil. Poate influența atenția, somnul ori corpul în moduri diferite. Reducerea unei cerințe, clarificarea unei limite sau cererea de ajutor pot merita luate în considerare.",
-      "en": "Stress can involve feeling that current demands exceed available time, energy, or support. It may affect attention, sleep, or the body in different ways. Reducing one demand, clarifying a limit, or asking for help may be worth considering."
-    },
     "needs": {
       "ro": "usurare si limite",
       "en": "relief and boundaries"
     },
-    "color": "#C4CCD4"
+    "color": "#C4CCD4",
+    "description": {
+      "ro": "Stresul poate include senzația că cerințele actuale depășesc timpul, energia sau sprijinul disponibil. Poate influența atenția, somnul ori corpul în moduri diferite. Reducerea unei cerințe, clarificarea unei limite sau cererea de ajutor pot merita luate în considerare.",
+      "en": "Stress can involve feeling that current demands exceed available time, energy, or support. It may affect attention, sleep, or the body in different ways. Reducing one demand, clarifying a limit, or asking for help may be worth considering."
+    },
+    "descriptionStatus": "reviewed"
   },
   "tense": {
     "id": "tense",
@@ -154,15 +163,16 @@
       "ro": "Tensionat",
       "en": "Tense"
     },
-    "description": {
-      "ro": "Tensiunea poate include mușchi încordați, maxilar strâns, umeri ridicați sau respirație superficială, deși oamenii o observă diferit. Poate însoți stresul, efortul, durerea ori alte experiențe; aplicația nu poate stabili cauza. Mișcarea blândă, odihna sau respirația mai lentă pot ajuta dacă vi se par sigure.",
-      "en": "Tension can involve muscle tightness, a clenched jaw, raised shoulders, or shallow breathing, though people notice it differently. It may accompany stress, effort, pain, or other experiences; this app cannot determine the cause. Gentle movement, rest, or slower breathing may help if they feel safe."
-    },
     "needs": {
       "ro": "relaxare si eliberare corporala",
       "en": "relaxation and bodily release"
     },
-    "color": "#D0D8E0"
+    "color": "#D0D8E0",
+    "description": {
+      "ro": "Tensiunea poate include mușchi încordați, maxilar strâns, umeri ridicați sau respirație superficială, deși oamenii o observă diferit. Poate însoți stresul, efortul, durerea ori alte experiențe; aplicația nu poate stabili cauza. Mișcarea blândă, odihna sau respirația mai lentă pot ajuta dacă vi se par sigure.",
+      "en": "Tension can involve muscle tightness, a clenched jaw, raised shoulders, or shallow breathing, though people notice it differently. It may accompany stress, effort, pain, or other experiences; this app cannot determine the cause. Gentle movement, rest, or slower breathing may help if they feel safe."
+    },
+    "descriptionStatus": "reviewed"
   },
   "nervous": {
     "id": "nervous",
@@ -170,15 +180,16 @@
       "ro": "Nervos",
       "en": "Nervous"
     },
-    "description": {
-      "ro": "Nervozitatea poate include neliniște, gânduri rapide sau tensiune corporală. Poate apărea înaintea unei incertitudini, a expunerii atenției sau a unei acțiuni anticipate, dar cuvântul nu stabilește cauza. Mișcarea, ancorarea sau o pauză pot ajuta dacă vi se potrivesc.",
-      "en": "Nervousness can involve restlessness, fast thoughts, or bodily tension. It may appear before uncertainty, attention from others, or anticipated action, but the word does not determine the cause. Movement, grounding, or a pause may help if they fit."
-    },
     "needs": {
       "ro": "calmare somatica si miscare",
       "en": "somatic calming and movement"
     },
-    "color": "#B0E0C0"
+    "color": "#B0E0C0",
+    "description": {
+      "ro": "Nervozitatea poate include neliniște, gânduri rapide sau tensiune corporală. Poate apărea înaintea unei incertitudini, a expunerii atenției sau a unei acțiuni anticipate, dar cuvântul nu stabilește cauza. Mișcarea, ancorarea sau o pauză pot ajuta dacă vi se potrivesc.",
+      "en": "Nervousness can involve restlessness, fast thoughts, or bodily tension. It may appear before uncertainty, attention from others, or anticipated action, but the word does not determine the cause. Movement, grounding, or a pause may help if they fit."
+    },
+    "descriptionStatus": "reviewed"
   },
   "distressed": {
     "id": "distressed",
@@ -186,15 +197,16 @@
       "ro": "tulburat",
       "en": "distressed"
     },
-    "description": {
-      "ro": "Starea de tulburare poate descrie o experiență dificilă sau greu de gestionat. Poate avea legătură cu multe situații, iar cuvântul singur nu stabilește urgența sau pericolul. Există sprijin dacă îl doriți; cereți ajutor imediat dacă este posibil să nu fiți în siguranță.",
-      "en": "Distress can describe an experience that feels difficult or hard to manage. It may relate to many situations, and the word alone cannot establish urgency or danger. Support is available if you want it; seek immediate help if you may be unsafe."
-    },
     "needs": {
       "ro": "sprijin si compassiune",
       "en": "support and compassion"
     },
     "color": "#B71C1C",
+    "description": {
+      "ro": "Starea de tulburare poate descrie o experiență dificilă sau greu de gestionat. Poate avea legătură cu multe situații, iar cuvântul singur nu stabilește urgența sau pericolul. Există sprijin dacă îl doriți; cereți ajutor imediat dacă este posibil să nu fiți în siguranță.",
+      "en": "Distress can describe an experience that feels difficult or hard to manage. It may relate to many situations, and the word alone cannot establish urgency or danger. Support is available if you want it; seek immediate help if you may be unsafe."
+    },
+    "descriptionStatus": "reviewed",
     "distressTier": "high"
   }
 }

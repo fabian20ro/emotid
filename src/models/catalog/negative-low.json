@@ -5,10 +5,6 @@
       "ro": "Plictisit",
       "en": "Bored"
     },
-    "description": {
-      "ro": "Plictiseala este semnalul ca stimularea actuala nu iti satisface nevoile de angajament si sens. Nu este un esec personal, ci un mesaj de la psihicul tau ca trebuie sa schimbi ceva. Plictiseala poate fi catalizatorul creativitatii si al schimbarii daca o asculti, sau poate duce la comportamente disfunctionale daca o anestezezi.",
-      "en": "Boredom is the signal that current stimulation doesn't satisfy your needs for engagement and meaning. It is not a personal failure, but a message from your psyche that something needs to change. Boredom can be the catalyst of creativity and change if you listen to it, or can lead to dysfunctional behaviors if you numb it."
-    },
     "needs": {
       "ro": "sens si stimulare",
       "en": "meaning and stimulation"
@@ -21,10 +17,6 @@
       "ro": "Singur",
       "en": "Lonely"
     },
-    "description": {
-      "ro": "Singuratatea este durerea de a fi deconectat — nu neaparat de a fi singur fizic, ci de a nu te simti vazut, inteles si conectat emotional. Singuratatea cronica este un factor de risc major pentru sanatate, comparable cu fumatul. Vindecarea singuratatii nu vine din a fi inconjurat de oameni, ci din a avea relatii in care te simti cu adevarat cunoscut.",
-      "en": "Loneliness is the pain of being disconnected — not necessarily being physically alone, but not feeling seen, understood, and emotionally connected. Chronic loneliness is a major health risk factor, comparable to smoking. Healing loneliness doesn't come from being surrounded by people, but from having relationships where you feel truly known."
-    },
     "needs": {
       "ro": "conexiune si prezenta",
       "en": "connection and presence"
@@ -36,10 +28,6 @@
     "label": {
       "ro": "Deprimat",
       "en": "Depressed"
-    },
-    "description": {
-      "ro": "Depresia este mai mult decat tristete — este o stare pervasiva de golire emotionala in care energia, motivatia si capacitatea de a simti placere se diminueaza semnificativ. Lumea pare gri, viitorul pare fara speranta si chiar activitatile obisnuite devin coplesitoare. Depresia este o conditie medicala reala care raspunde la tratament si nu ar trebui niciodata minimizata sau ignorata.",
-      "en": "Depression is more than sadness — it is a pervasive state of emotional emptiness where energy, motivation, and the capacity to feel pleasure diminish significantly. The world seems gray, the future seems hopeless, and even ordinary activities become overwhelming. Depression is a real medical condition that responds to treatment and should never be minimized or ignored."
     },
     "needs": {
       "ro": "sprijin profesional si rabdare",
@@ -54,10 +42,6 @@
       "ro": "Melancolic",
       "en": "Melancholic"
     },
-    "description": {
-      "ro": "Melancolia este o tristete reflectiva cu o calitate aproape estetica — nu disperare bruta, ci o constienta duios-dureroasa a trecerii timpului, a fragilitatii frumusetii si a naturii efemere a tuturor lucrurilor. Melancolia are o profunzime pe care tristetea obisnuita nu o are — te conecteaza cu ceva universal in experienta umana. Artistii, scriitorii si ganditorii au transformat melancolia in opera si intelegere. Nu este o stare de reparat, ci una de traversat cu atentie — ea iti ofera acces la straturi de simtire pe care graba le ignora.",
-      "en": "Melancholy is a reflective sadness with an almost aesthetic quality — not raw despair, but a tender-painful awareness of the passage of time, the fragility of beauty, and the ephemeral nature of all things. Melancholy has a depth that ordinary sadness lacks — it connects you to something universal in human experience. Artists, writers, and thinkers have transformed melancholy into work and understanding. It is not a state to fix, but one to traverse with attention — it gives you access to layers of feeling that haste ignores."
-    },
     "needs": {
       "ro": "contemplare si exprimare creativa",
       "en": "contemplation and creative expression"
@@ -69,10 +53,6 @@
     "label": {
       "ro": "Apatic",
       "en": "Apathetic"
-    },
-    "description": {
-      "ro": "Apatia este forma profunda a indeferentei — o stare in care nu mai ai energie, motivatie sau dorinta de a actiona. Este ca si cum motorul emotional s-a oprit. Apatia poate fi un simptom al depresiei, al epuizarii severe sau al pierderii de sens. Nu este lene — este o stare de suferinta care necesita compasiune si sprijin profesional.",
-      "en": "Apathy is the deep form of indifference — a state where you no longer have energy, motivation, or desire to act. It's as if the emotional engine has stopped. Apathy can be a symptom of depression, severe burnout, or loss of meaning. It is not laziness — it is a state of suffering that requires compassion and professional support."
     },
     "needs": {
       "ro": "compasiune si sprijin profesional",
@@ -87,10 +67,6 @@
       "ro": "Obosit",
       "en": "Tired"
     },
-    "description": {
-      "ro": "Oboseala emotionala este semnalul ca resursele tale sunt epuizate si ai nevoie de recuperare. Nu este doar fizica — poate fi oboseala de a pretinde, de a performa sau de a face fata stresului cronic. Oboseala ignorata duce la epuizare si la pierderea capacitatii de a simti. Odihna nu este lene, ci o necesitate pentru functionarea sanatoasa.",
-      "en": "Emotional tiredness is the signal that your resources are depleted and you need recovery. It is not just physical — it can be the fatigue of pretending, performing, or coping with chronic stress. Ignored tiredness leads to burnout and the loss of the capacity to feel. Rest is not laziness, but a necessity for healthy functioning."
-    },
     "needs": {
       "ro": "odihna si recuperare",
       "en": "rest and recovery"
@@ -103,10 +79,6 @@
       "ro": "Trist",
       "en": "Sad"
     },
-    "description": {
-      "ro": "Tristetea este raspunsul natural la pierdere si dezamagire — un semnal ca ceva important s-a schimbat sau a disparut din viata ta. Tristetea te incetineste, te intoarce spre interior si te invita sa procesezi ceea ce s-a intamplat. A-ti permite sa fii trist nu este slabiciune, ci curaj — inseamna ca esti dispus sa simti pe deplin ceea ce inseamna sa fii om.",
-      "en": "Sadness is the natural response to loss and disappointment — a signal that something important has changed or disappeared from your life. Sadness slows you down, turns you inward, and invites you to process what happened. Allowing yourself to be sad is not weakness, but courage — it means you're willing to fully feel what it means to be human."
-    },
     "needs": {
       "ro": "compasiune si spatiu",
       "en": "compassion and space"
@@ -118,10 +90,6 @@
     "label": {
       "ro": "Amorțit",
       "en": "Numb"
-    },
-    "description": {
-      "ro": "Amortirea emotionala este starea in care nu mai simti nimic — nici durere, nici bucurie. Este un mecanism de protectie al psihicului impotriva suferintei coplesitoare. Amortirea poate aparea dupa traume, pierderi majore sau stres cronic prelungit. Desi te protejeaza pe termen scurt, pe termen lung te deconecteaza de la viata si relatii. Revenirea la simtire necesita siguranta si rabdare.",
-      "en": "Emotional numbness is the state where you no longer feel anything — neither pain nor joy. It is a protective mechanism of the psyche against overwhelming suffering. Numbness can arise after traumas, major losses, or prolonged chronic stress. Though it protects you short-term, long-term it disconnects you from life and relationships. Returning to feeling requires safety and patience."
     },
     "needs": {
       "ro": "rabdare, siguranta si simtire blanda",
@@ -136,10 +104,6 @@
       "ro": "resemnat",
       "en": "resigned"
     },
-    "description": {
-      "ro": "Resemnarea este renuntarea la lupta — o acceptare pasiva ca lucrurile nu se vor schimba. Poate fi o forma de protectie dupa esecuri repetate, dar daca persista, poate impiedica cresterea si schimbarea.",
-      "en": "Resignation is giving up the fight — a passive acceptance that things won't change. It can be a form of protection after repeated failures, but if it persists, it may prevent growth and change."
-    },
     "needs": {
       "ro": "speranta si pasi mici",
       "en": "hope and small steps"
@@ -151,10 +115,6 @@
     "label": {
       "ro": "letargic",
       "en": "lethargic"
-    },
-    "description": {
-      "ro": "Letargia este o lipsa profunda de energie — corpul si mintea se opresc ca un mecanism de protectie. Poate semnala suprasolicitare prelungita.",
-      "en": "Lethargy is a profound lack of energy — body and mind shut down as a protection mechanism. It may signal prolonged overexertion."
     },
     "needs": {
       "ro": "odihna profunda si grija",
@@ -168,10 +128,6 @@
       "ro": "sumbru",
       "en": "gloomy"
     },
-    "description": {
-      "ro": "Starea sumbra este o umbrela de tristete pasiva — o perceptie ca lucrurile nu se vor imbunatati. Adesea precede o tranzitie sau o eliberare.",
-      "en": "Gloominess is a passive umbrella of sadness — a perception that things won't improve. It often precedes a transition or release."
-    },
     "needs": {
       "ro": "speranta si perspectiva",
       "en": "hope and perspective"
@@ -183,10 +139,6 @@
     "label": {
       "ro": "ganditor",
       "en": "pensive"
-    },
-    "description": {
-      "ro": "Starea de gandire este o reflectie calma cu o nota de tristete — un moment in care te opresti sa contempli ce s-a intamplat sau ce ar putea fi. Este o poarta catre intelepciune daca nu se transforma in ruminatie.",
-      "en": "Pensiveness is a quiet reflection tinged with sadness — a moment where you pause to contemplate what has happened or what could be. It is a gateway to wisdom if it doesn't turn into rumination."
     },
     "needs": {
       "ro": "spatiu si claritate",

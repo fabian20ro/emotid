@@ -1,61 +1,40 @@
-import { emotionCatalog } from './catalog'
+import safetyRules from './safety-rules.json'
 
-/** Emotion IDs considered high-distress — derived from catalog distressTier */
-export const HIGH_DISTRESS_IDS = new Set(
-  Object.values(emotionCatalog)
-    .filter((e) => e.distressTier === 'high')
-    .map((e) => e.id)
-)
+export const SAFETY_RULESET_VERSION = safetyRules.version
 
-/** Specific combinations that indicate tier 3 (most severe) crisis */
-export const TIER3_COMBOS: ReadonlyArray<readonly [string, string]> = [
-  ['despair', 'helpless'],
-  ['despair', 'worthless'],
-  ['despair', 'empty'],
-  ['grief', 'helpless'],
-  ['grief', 'worthless'],
-  ['shame', 'loathing'],
-  ['shame', 'worthless'],
-  ['rage', 'helpless'],
-  ['depressed', 'helpless'],
-  ['depressed', 'worthless'],
-  ['despair', 'hopeless'],
-  ['depressed', 'hopeless'],
-]
+/**
+ * Words that make support more visible. This explicit list is a product safety rule,
+ * not a risk assessment or a conclusion about the user's state.
+ */
+export const HIGH_DISTRESS_IDS: ReadonlySet<string> = new Set(safetyRules.highDistressIds)
 
-/** Specific high-risk triples that indicate tier 4 crisis */
-export const TIER4_COMBOS: ReadonlyArray<readonly [string, string, string]> = [
-  ['despair', 'worthless', 'empty'],
-  ['helpless', 'numb', 'abandoned'],
-  ['despair', 'helpless', 'numb'],
-  ['shame', 'worthless', 'empty'],
-  ['depressed', 'worthless', 'helpless'],
-  ['despair', 'hopeless', 'empty'],
-  ['depressed', 'hopeless', 'worthless'],
-]
+/** Word pairs that make the conditional support prompt more prominent. */
+export const TIER3_COMBOS: ReadonlyArray<readonly [string, string]> =
+  safetyRules.tier3Combos.map(([first, second]) => [first, second] as const)
+
+/** Word triples that place support before reflection until acknowledged. */
+export const TIER4_COMBOS: ReadonlyArray<readonly [string, string, string]> =
+  safetyRules.tier4Combos.map(([first, second, third]) => [first, second, third] as const)
 
 export type CrisisTier = 'none' | 'tier1' | 'tier2' | 'tier3' | 'tier4'
 
 /**
- * Determine crisis tier from analysis results.
- * - tier1: 1 match — warm invitation
- * - tier2: 2+ matches — amber alert
- * - tier3: specific severe pairs — most direct
- * - tier4: high-risk triples — emergency language + explicit acknowledgment
+ * Determine support-prompt prominence from selected result IDs.
+ * Labels cannot establish severity, danger, or self-harm intent.
  */
 export function getCrisisTier(resultIds: string[]): CrisisTier {
-  const distressIds = resultIds.filter((id) => HIGH_DISTRESS_IDS.has(id))
+  const distressIds = [...new Set(resultIds.filter((id) => HIGH_DISTRESS_IDS.has(id)))]
 
   if (distressIds.length === 0) return 'none'
 
-  // Check tier 4 triples first (highest severity)
+  // Check tier 4 triples first (highest prompt prominence).
   for (const [a, b, c] of TIER4_COMBOS) {
     if (distressIds.includes(a) && distressIds.includes(b) && distressIds.includes(c)) {
       return 'tier4'
     }
   }
 
-  // Check tier 3 combos
+  // Check tier 3 combinations.
   for (const [a, b] of TIER3_COMBOS) {
     if (distressIds.includes(a) && distressIds.includes(b)) {
       return 'tier3'

@@ -5,10 +5,6 @@
       "ro": "Tradat",
       "en": "Betrayed"
     },
-    "description": {
-      "ro": "Tradarea este ruptura devastatoare a increderii de catre cineva in care aveai incredere profunda. Combina socul descoperirii cu furia si durerea pierderii relatiei asa cum o cunosteai. Tradarea poate modifica fundamental modul in care te raportezi la incredere in viitor. Vindecarea este posibila dar lenta si necesita doliu, restabilirea granitelor si, uneori, iertare.",
-      "en": "Betrayal is the devastating rupture of trust by someone in whom you had deep trust. It combines the shock of discovery with anger and the pain of losing the relationship as you knew it. Betrayal can fundamentally change how you relate to trust in the future. Healing is possible but slow and requires grieving, reestablishing boundaries, and sometimes forgiveness."
-    },
     "needs": {
       "ro": "timp, limite si doliu",
       "en": "time, boundaries, and grieving"
@@ -20,10 +16,6 @@
     "label": {
       "ro": "Plin de resentimente",
       "en": "Resentful"
-    },
-    "description": {
-      "ro": "Resentimentul este furia care a fost inghitita dar nu digerata — o ranchiuna tacuta care se acumuleaza cu fiecare noua nedreptate perceputa. Te simti victimizat dar nu exprimi. Resentimentul este toxic pentru ca te tine legat de trecut si de persoana care te-a ranit. Eliberarea vine prin exprimarea directa a nevoilor si prin procesarea furiei.",
-      "en": "Resentment is anger that was swallowed but not digested — a silent grudge that accumulates with each new perceived injustice. You feel victimized but don't express it. Resentment is toxic because it keeps you tied to the past and to the person who hurt you. Release comes through direct expression of needs and processing anger."
     },
     "needs": {
       "ro": "exprimarea directa a nevoilor",
@@ -37,10 +29,6 @@
       "ro": "Inselat",
       "en": "Deceived"
     },
-    "description": {
-      "ro": "Sentimentul de a fi inselat este furia specifica care apare cand descoperi ca cineva ti-a prezentat deliberat o realitate falsa — te-a mintit, te-a manipulat sau ti-a ascuns adevarul. Este diferit de tradare, care implica ruperea loialitatii; insalarea este despre realitatea care se dovedeste a fi fost construita. Furia inselaciunii vine din pierderea increderii in propria perceptie — nu doar ca celalalt a gresit, ci ca tu ai fost facut sa crezi ceva fals.",
-      "en": "The feeling of being deceived is the specific anger that arises when you discover someone deliberately presented you with a false reality — they lied to you, manipulated you, or hid the truth from you. It is different from betrayal, which implies broken loyalty; deception is about reality that turns out to have been constructed. The anger of deception comes from losing trust in your own perception — not just that the other person was wrong, but that you were made to believe something false."
-    },
     "needs": {
       "ro": "adevar si repararea increderii",
       "en": "truth and trust repair"
@@ -52,10 +40,6 @@
     "label": {
       "ro": "Lipsa de respect",
       "en": "Disrespected"
-    },
-    "description": {
-      "ro": "A fi tratat cu lipsa de respect inseamna ca demnitatea ta a fost ignorata sau incalcata. Cineva ti-a comunicat, explicit sau implicit, ca nu contezi suficient. Lipsa de respect activeaza o furie legitima de protectie a sinelui. Raspunsul sanatos este asertivitatea calma — a numi ce s-a intamplat si a cere schimbarea comportamentului.",
-      "en": "Being disrespected means your dignity was ignored or violated. Someone communicated, explicitly or implicitly, that you don't matter enough. Disrespect activates legitimate anger in protection of the self. The healthy response is calm assertiveness — naming what happened and requesting a change in behavior."
     },
     "needs": {
       "ro": "asertivitate si demnitate restabilita",
@@ -69,10 +53,6 @@
       "ro": "Ridiculizat",
       "en": "Ridiculed"
     },
-    "description": {
-      "ro": "Ridiculizarea este o forma de agresiune sociala in care esti transformat in obiect de ras. Combina umilirea cu izolarea — esti scos din grup prin deriziune. Ridiculizarea lasa rani adanci in stima de sine si poate genera fie retragere sociala, fie furie intensa. Vindecarea include validarea durerii si reconstruirea sentimentului de valoare.",
-      "en": "Ridicule is a form of social aggression where you are turned into an object of laughter. It combines humiliation with isolation — you are expelled from the group through mockery. Ridicule leaves deep wounds in self-esteem and can generate either social withdrawal or intense anger. Healing includes validating the pain and rebuilding the sense of worth."
-    },
     "needs": {
       "ro": "validare si reconstruirea valorii",
       "en": "validation and rebuilding worth"
@@ -84,10 +64,6 @@
     "label": {
       "ro": "Degradat",
       "en": "Degraded"
-    },
-    "description": {
-      "ro": "Degradarea este forma cea mai profunda a umilirii — experienta de a fi tratat ca fiind sub nivelul uman, de a ti se nega demnitatea fundamentala. Nu este doar lipsa de respect sau batjocura, ci o negare sistematica a valorii tale ca fiinta umana. Aceasta experienta provoaca o furie intensa amestecata cu socul de a fi dezumanizat. Degradarea lasa rani adanci care necesita reparare constienta a stimei de sine si recunoastere externa a demnitatii tale.",
-      "en": "Degradation is the deepest form of humiliation — the experience of being treated as beneath human level, of having your fundamental dignity denied. It is not just disrespect or mockery, but a systematic denial of your worth as a human being. This experience provokes intense anger mixed with the shock of being dehumanized. Degradation leaves deep wounds that require conscious repair of self-esteem and external recognition of your dignity."
     },
     "needs": {
       "ro": "demnitate si recunoastere",
@@ -101,10 +77,6 @@
       "ro": "Indignat",
       "en": "Indignant"
     },
-    "description": {
-      "ro": "Indignarea este furia morala — reactia la ceva profund nedrept sau incorect. Este emotia care spune 'nu ar trebui sa fie asa' cu o convingere puternica. Indignarea sanatoasa te motiveaza sa actionezi pentru dreptate. Devine problematica cand se transforma in superioritate morala sau in furie cronica.",
-      "en": "Indignation is moral anger — the reaction to something profoundly unfair or incorrect. It is the emotion that says 'it shouldn't be this way' with strong conviction. Healthy indignation motivates you to act for justice. It becomes problematic when it transforms into moral superiority or chronic rage."
-    },
     "needs": {
       "ro": "dreptate si actiune constructiva",
       "en": "justice and constructive action"
@@ -116,10 +88,6 @@
     "label": {
       "ro": "Violat",
       "en": "Violated"
-    },
-    "description": {
-      "ro": "A te simti violat inseamna ca o limita fundamentala a fost transgresta fara consimtamantul tau — fizic, emotional sau moral. Este una dintre cele mai devastatoare experiente, care ataca sentimentul de siguranta si de control asupra propriei persoane. Vindecarea este un proces lung care necesita sprijin profesional, validare si restabilirea treptata a sentimentului de agentivitate.",
-      "en": "Feeling violated means a fundamental boundary was transgressed without your consent — physically, emotionally, or morally. It is one of the most devastating experiences, attacking the sense of safety and control over your own person. Healing is a long process requiring professional support, validation, and gradual restoration of the sense of agency."
     },
     "needs": {
       "ro": "sprijin profesional si siguranta restabilita",
@@ -134,10 +102,6 @@
       "ro": "Furibund",
       "en": "Furious"
     },
-    "description": {
-      "ro": "A fi furibund este intensitatea maxima a furiei — o stare in care energia agresiva iti copleseste toate celelalte procese. Corpul tremura, fata se incinge si simti nevoia imperioasa de distrugere. In aceasta stare, capacitatea de gandire rationala este sever diminuata. Este esential sa recunosti aceasta stare si sa te retragi inainte de a actiona.",
-      "en": "Being furious is the maximum intensity of anger — a state where aggressive energy overwhelms all other processes. The body trembles, the face burns, and you feel an imperious need for destruction. In this state, rational thinking capacity is severely diminished. It is essential to recognize this state and withdraw before acting."
-    },
     "needs": {
       "ro": "retragere imediata si calmare",
       "en": "immediate withdrawal and cooling down"
@@ -149,10 +113,6 @@
     "label": {
       "ro": "Gelos",
       "en": "Jealous"
-    },
-    "description": {
-      "ro": "Gelozia este frica de a pierde ceva pretios — de obicei o relatie — in favoarea unui rival. Combina iubirea, frica si furia intr-un amestec volatil. Gelozia moderata poate semnala investitie emotionala autentica. Gelozia excesiva reflecta insecuritate profunda si nevoia de control. Lucrul cu gelozia incepe cu examinarea fricilor subiacente.",
-      "en": "Jealousy is the fear of losing something precious — usually a relationship — to a rival. It combines love, fear, and anger in a volatile mix. Moderate jealousy can signal authentic emotional investment. Excessive jealousy reflects deep insecurity and the need for control. Working with jealousy begins with examining the underlying fears."
     },
     "needs": {
       "ro": "examinarea fricilor si reasigurare",
@@ -166,10 +126,6 @@
       "ro": "Turbat de furie",
       "en": "Enraged"
     },
-    "description": {
-      "ro": "Furia extrema este starea in care minia a depasit orice capacitate de control — simti ca esti consumat complet de o energie distructiva care cere eliberare imediata. Corpul tremura, vederea se ingusteaza si gandirea rationala dispare aproape complet. Este o stare periculoasa nu pentru ca emotia in sine ar fi gresita, ci pentru ca actiunile luate in aceasta stare sunt aproape intotdeauna disproportionate. Prioritatea absoluta este pauza — orice actiune poate astepta pana cand corpul se calmeaza.",
-      "en": "Rage is the state where anger has exceeded all capacity for control — you feel completely consumed by a destructive energy that demands immediate release. The body trembles, vision narrows, and rational thinking nearly disappears. It is a dangerous state not because the emotion itself is wrong, but because actions taken in this state are almost always disproportionate. The absolute priority is pause — any action can wait until the body calms down."
-    },
     "needs": {
       "ro": "pauza imediata si descarcare fizica sigura",
       "en": "immediate pause and safe physical discharge"
@@ -181,10 +137,6 @@
     "label": {
       "ro": "Rauvoitor",
       "en": "Spiteful"
-    },
-    "description": {
-      "ro": "Rauvointa este amaraciunea transformata in dorinta activa de a face rau — nu doar ca suferi, ci vrei ca si celalalt sa sufere. Este furia care a trecut de la aparare la atac si de la reactie la intentie. Rauvointa iti ofera o iluzie de putere si de dreptate, dar in realitate te leaga mai strans de durerea care a generat-o. A recunoaste rauvointa in tine nu este un esec moral, ci un semnal ca porti o rana neingrijita care cere atentie, nu razbunare.",
-      "en": "Spite is bitterness transformed into the active desire to cause harm — you are not just suffering, but want the other to suffer too. It is anger that has moved from defense to attack and from reaction to intention. Spite gives you an illusion of power and justice, but in reality it binds you more tightly to the pain that generated it. Recognizing spite in yourself is not a moral failure, but a signal that you carry an untended wound that needs attention, not revenge."
     },
     "needs": {
       "ro": "ingrijirea ranii si eliberare",
@@ -198,10 +150,6 @@
       "ro": "Dornic de razbunare",
       "en": "Vengeful"
     },
-    "description": {
-      "ro": "Dorinta de razbunare este preocuparea strategica sustinuta de a restabili echilibrul prin pedepsirea celui care te-a ranit. Spre deosebire de rauvointa, care este reactiva si impulsiva, razbunarea este planificata si raspunde unei logici interne de dreptate. Te gandesti mereu la cum sa raspunzi, la cum sa echilibrezi balanta. Aceasta preocupare iti consuma resurse emotionale enorme si te tine ancorat in trecut. Vindecarea nu inseamna ca nedreptatea nu a contat, ci ca alegi sa nu iti mai sacrifici prezentul pentru a pedepsi trecutul.",
-      "en": "Vengefulness is the sustained strategic preoccupation with restoring balance by punishing the one who hurt you. Unlike spite, which is reactive and impulsive, vengeance is planned and responds to an internal logic of justice. You constantly think about how to respond, how to even the scales. This preoccupation consumes enormous emotional resources and keeps you anchored in the past. Healing does not mean the injustice didn't matter, but that you choose to no longer sacrifice your present to punish the past."
-    },
     "needs": {
       "ro": "dreptate si eliberarea trecutului",
       "en": "justice and releasing the past"
@@ -213,10 +161,6 @@
     "label": {
       "ro": "Tratat cu condescendenta",
       "en": "Patronized"
-    },
-    "description": {
-      "ro": "A fi tratat cu condescendenta este o umilire subtila si greu de contestat — cineva iti vorbeste de parca ar fi superior, iti explica ce deja stii sau iti ofera ajutor pe care nu l-ai cerut, totul sub masca bunatatii. Este o agresiune pasiva care iti neaga competenta si autonomia. Furia pe care o simti este legitima — instinctul tau iti spune ca egalitatea ta a fost negata. Raspunsul sanatos este asertivitatea calma — a numi ce s-a intamplat fara a escalada conflictul.",
-      "en": "Being patronized is a subtle and hard-to-contest humiliation — someone speaks to you as if they were superior, explains what you already know, or offers help you didn't ask for, all under the guise of kindness. It is a passive aggression that denies your competence and autonomy. The anger you feel is legitimate — your instinct tells you that your equality was denied. The healthy response is calm assertiveness — naming what happened without escalating the conflict."
     },
     "needs": {
       "ro": "recunoasterea competentei si egalitate",
@@ -230,10 +174,6 @@
       "ro": "Provocat",
       "en": "Provoked"
     },
-    "description": {
-      "ro": "A fi provocat inseamna ca cineva ti-a activat intentionat furia sau frustrarea. Te simti manipulat si reactionezi defensiv. Provocarea functioneaza prin exploatarea punctelor tale sensibile. Capacitatea de a nu reactiona automat la provocare este un semn de maturitate emotionala — inseamna ca tu alegi raspunsul, nu provocatorul.",
-      "en": "Being provoked means someone intentionally activated your anger or frustration. You feel manipulated and react defensively. Provocation works by exploiting your sensitive points. The capacity not to react automatically to provocation is a sign of emotional maturity — it means you choose the response, not the provocateur."
-    },
     "needs": {
       "ro": "autoreglare si alegere constienta",
       "en": "self-regulation and conscious choice"
@@ -245,10 +185,6 @@
     "label": {
       "ro": "Ostil",
       "en": "Hostile"
-    },
-    "description": {
-      "ro": "Ostilitatea este o predispozitie generalizata de agresiune — o stare in care percepi lumea ca ostila si reactionezi cu atac preventiv. Este furia cronicizata care a devenit un mod de a fi. Ostilitatea este un factor de risc major pentru sanatatea cardiovasculara si pentru izolarea sociala. Lucrul terapeutic vizeaza randurile profunde sub armura agresiva.",
-      "en": "Hostility is a generalized predisposition to aggression — a state where you perceive the world as hostile and react with preemptive attack. It is chronified anger that has become a way of being. Hostility is a major risk factor for cardiovascular health and social isolation. Therapeutic work targets the deep wounds beneath the aggressive armor."
     },
     "needs": {
       "ro": "sustinere terapeutica si vulnerabilitate",
@@ -262,10 +198,6 @@
       "ro": "Infuriat",
       "en": "Infuriated"
     },
-    "description": {
-      "ro": "A fi infuriat este o furia intensa provocata de o frustrare care se acumuleaza dincolo de limita suportabilului. Este punctul de fierbere la care rabdarea se epuizeaza complet. Infurierea este adesea disproportionata fata de evenimentul declansator, deoarece include furia neexprimata din situatii anterioare.",
-      "en": "Being infuriated is intense anger provoked by frustration accumulating beyond the limit of tolerance. It is the boiling point at which patience is completely exhausted. Infuriation is often disproportionate to the triggering event, because it includes unexpressed anger from previous situations."
-    },
     "needs": {
       "ro": "descarcare si exprimarea nevoilor neindeplinite",
       "en": "discharge and expressing unmet needs"
@@ -277,10 +209,6 @@
     "label": {
       "ro": "Enervat",
       "en": "Annoyed"
-    },
-    "description": {
-      "ro": "Enervarea este o iritare de suprafata care semnaleaza ca ceva mic dar persistent te deranjeaza. Este furia in forma ei cea mai cotidiana. Enervarea repetata merita atentie — poate indica limite neclare, nevoi nesatisfacute sau o toleranta redusa din cauza stresului acumulat. Adesea, ceea ce te enerveaza la altii te deranjeaza si la tine.",
-      "en": "Annoyance is a surface irritation signaling that something small but persistent bothers you. It is anger in its most everyday form. Repeated annoyance deserves attention — it may indicate unclear boundaries, unmet needs, or reduced tolerance from accumulated stress. Often, what annoys you in others also bothers you in yourself."
     },
     "needs": {
       "ro": "limite clare si verificare interioara",
@@ -294,10 +222,6 @@
       "ro": "Exasperat",
       "en": "Exasperated"
     },
-    "description": {
-      "ro": "Exasperarea este frustrarea care s-a acumulat prin repetitie — acelasi obstacol, aceeasi problema, aceeasi situatie care se repeta pana cand rabdarea ta se epuizeaza complet. Nu este furia brusca, ci uzura lenta a tolerantei. Exasperarea este un semnal ca o abordare fundamental diferita este necesara — nu mai mult efort pe acelasi drum, ci un drum nou. Recunoaste-o ca pe o invitatie la schimbare, nu ca pe un esec al rabdarii tale.",
-      "en": "Exasperation is frustration that has accumulated through repetition — the same obstacle, the same problem, the same situation repeating until your patience is completely depleted. It is not sudden anger, but the slow wearing down of tolerance. Exasperation is a signal that a fundamentally different approach is needed — not more effort on the same path, but a new path. Recognize it as an invitation to change, not as a failure of your patience."
-    },
     "needs": {
       "ro": "o abordare noua si sustinere",
       "en": "a new approach and support"
@@ -309,10 +233,6 @@
     "label": {
       "ro": "Retras",
       "en": "Withdrawn"
-    },
-    "description": {
-      "ro": "Retragerea este miscarea de a te indeparta emotional sau fizic de situatii si de oameni. Poate fi o strategie sanatoasa de autoprotectie sau un semn de depresie si izolare. Retragerea devine problematica cand este cronica si inlocuieste comunicarea directa. In spatele retragerii se ascund adesea rani nevindecate si frica de a fi ranit din nou.",
-      "en": "Withdrawal is the movement of distancing yourself emotionally or physically from situations and people. It can be a healthy self-protective strategy or a sign of depression and isolation. Withdrawal becomes problematic when it's chronic and replaces direct communication. Behind withdrawal often hide unhealed wounds and fear of being hurt again."
     },
     "needs": {
       "ro": "reconectare sigura in ritmul propriu",
@@ -326,10 +246,6 @@
       "ro": "Detasat",
       "en": "Detached"
     },
-    "description": {
-      "ro": "Detasarea este deconectarea emotionala constienta sau semiconstienta de la ceea ce se intampla in jurul tau — esti prezent fizic dar absent emotional, observi fara sa participi cu adevarat. Spre deosebire de amorteala, care este involuntara, detasarea poate fi o strategie deliberata de protectie dupa rani repetate. Insa cand devine cronica, te izoleaza de intimitate, de bucurie si de capacitatea de a fi cu adevarat prezent in relatii.",
-      "en": "Detachment is the conscious or semi-conscious emotional disconnection from what is happening around you — you are physically present but emotionally absent, observing without truly participating. Unlike numbness, which is involuntary, detachment can be a deliberate protective strategy after repeated wounds. However, when it becomes chronic, it isolates you from intimacy, joy, and the ability to be truly present in relationships."
-    },
     "needs": {
       "ro": "reconectare treptata si siguranta",
       "en": "gradual reconnection and safety"
@@ -341,10 +257,6 @@
     "label": {
       "ro": "Sceptic",
       "en": "Skeptical"
-    },
-    "description": {
-      "ro": "Scepticismul este tendinta de a pune la indoiala si de a nu accepta lucrurile la valoarea lor de suprafata. Poate reflecta gandire critica sanatoasa sau poate masca frica de a fi pacalit sau dezamagit din nou. Scepticismul constructiv te protejeaza de manipulare; scepticismul toxic te impiedica sa te conectezi si sa ai incredere.",
-      "en": "Skepticism is the tendency to question and not accept things at face value. It can reflect healthy critical thinking or can mask the fear of being fooled or disappointed again. Constructive skepticism protects you from manipulation; toxic skepticism prevents you from connecting and trusting."
     },
     "needs": {
       "ro": "discernamant si deschidere catre incredere",
@@ -358,10 +270,6 @@
       "ro": "Disprețuitor",
       "en": "Dismissive"
     },
-    "description": {
-      "ro": "A fi dipretuitor inseamna a invalida sau minimiza experienta, opiniile sau sentimentele celorlalti. Este o forma de distantare care iti permite sa eviti angajamentul emotional. Dispretul poate masca insecuritate sau superioritate compensatorie. In relatii, comportamentul dipretuitor este profund ranitor si erodeaza conexiunea.",
-      "en": "Being dismissive means invalidating or minimizing the experience, opinions, or feelings of others. It is a form of distancing that allows you to avoid emotional engagement. Dismissiveness can mask insecurity or compensatory superiority. In relationships, dismissive behavior is deeply hurtful and erodes connection."
-    },
     "needs": {
       "ro": "constientizare de sine si implicare autentica",
       "en": "self-awareness and genuine engagement"
@@ -373,10 +281,6 @@
     "label": {
       "ro": "Sfidator",
       "en": "Defiant"
-    },
-    "description": {
-      "ro": "Sfidarea este refuzul mandru de a te supune — o rezistenta activa fata de autoritate, control sau asteptari pe care le percepi ca nedrepte sau constrangatoare. Spre deosebire de agresivitatea bruta, sfidarea are o componenta de demnitate — spui 'nu' nu din ura, ci din convingerea ca ai dreptul de a alege. Sfidarea sanatoasa iti protejeaza autonomia; sfidarea cronica te poate izola si te impiedica sa primesti sprijinul de care ai nevoie. Intrebarea esentiala este: rezist pentru ca acest lucru conteaza, sau rezist din obisnuinta?",
-      "en": "Defiance is the proud refusal to submit — an active resistance to authority, control, or expectations you perceive as unjust or constraining. Unlike brute aggression, defiance has a component of dignity — you say 'no' not out of hatred, but from the conviction that you have the right to choose. Healthy defiance protects your autonomy; chronic defiance can isolate you and prevent you from receiving the support you need. The essential question is: am I resisting because this matters, or am I resisting out of habit?"
     },
     "needs": {
       "ro": "autonomie si respect reciproc",
@@ -390,10 +294,6 @@
       "ro": "Combativ",
       "en": "Combative"
     },
-    "description": {
-      "ro": "Combativitatea este disponibilitatea activa de a te lupta — nu astepti provocarea, ci o cauti. Esti incordat, alert si gata de confruntare. Aceasta stare poate fi adaptativa in contexte competitive sau cand trebuie sa iti aperi drepturile, dar devine problematica cand transformi fiecare interactiune intr-o batalie. Combativitatea cronica epuizeaza relatiile si te lasa izolat intr-o lume care pare mereu ostila. A recunoaste ca nu toate situatiile sunt lupte este un semn de forta, nu de slabiciune.",
-      "en": "Combativeness is the active readiness to fight — you don't wait for provocation, you seek it. You are tense, alert, and ready for confrontation. This state can be adaptive in competitive contexts or when you need to defend your rights, but becomes problematic when you turn every interaction into a battle. Chronic combativeness exhausts relationships and leaves you isolated in a world that always seems hostile. Recognizing that not all situations are fights is a sign of strength, not weakness."
-    },
     "needs": {
       "ro": "discernamant si canalizare",
       "en": "discernment and channeling"
@@ -405,10 +305,6 @@
     "label": {
       "ro": "Clocotind",
       "en": "Seething"
-    },
-    "description": {
-      "ro": "A clocoti este experienta furiei intense reprimate — fierbi pe interior dar nu exprimi nimic pe exterior. Fiecare cuvant pe care nu il spui si fiecare gest pe care il retii adauga presiune. Corpul se incinge, gandurile devin repetitive si razbunaitoare, si simti ca esti pe punctul de a exploda. Clocotirea este periculoasa nu prin furia in sine, ci prin presiunea acumulata — cand explozia vine, este adesea disproportionata si distructiva. Eliberarea treptata si constienta a furiei este mult mai sanatoasa decat asteptarea pana la punctul de fierbere.",
-      "en": "Seething is the experience of intense suppressed anger — you are boiling inside but expressing nothing on the outside. Every word you don't say and every gesture you hold back adds pressure. The body heats up, thoughts become repetitive and vengeful, and you feel you are on the verge of exploding. Seething is dangerous not because of the anger itself, but because of the accumulated pressure — when the explosion comes, it is often disproportionate and destructive. Gradual, conscious release of anger is far healthier than waiting until the boiling point."
     },
     "needs": {
       "ro": "exprimare treptata si sigura",
@@ -422,10 +318,6 @@
       "ro": "Saturat",
       "en": "Fed up"
     },
-    "description": {
-      "ro": "A fi saturat este momentul in care frustrarea acumulata se transforma in hotarare — nu mai esti doar frustrat, ci ai ajuns la limita si esti gata sa schimbi ceva. Este punctul de cotitura in care toleranta se epuizeaza si energia furiei se canalizeaza spre actiune. A fi saturat poate fi un catalizator puternic al schimbarii — este momentul in care spui 'destul' si incepi sa actionezi. Provocarea este sa actionezi cu claritate, nu cu impulsivitate.",
-      "en": "Being fed up is the moment when accumulated frustration transforms into resolve — you are no longer just frustrated, but have reached your limit and are ready to change something. It is the turning point where tolerance is exhausted and the energy of anger channels toward action. Being fed up can be a powerful catalyst for change — it is the moment you say 'enough' and begin to act. The challenge is to act with clarity, not impulsivity."
-    },
     "needs": {
       "ro": "actiune cu claritate si hotarare",
       "en": "action with clarity and resolve"
@@ -437,10 +329,6 @@
     "label": {
       "ro": "Cinic",
       "en": "Cynical"
-    },
-    "description": {
-      "ro": "Cinismul este convingerea amara ca oamenii sunt fundamental egoisti si ca motivele lor sunt intotdeauna interesate. Este o forma de dezgust amestecata cu anticipare negativa — te astepti mereu la ce este mai rau de la ceilalti si interpreti fiecare gest generos ca avand o agenda ascunsa. Cinismul este adesea o armura construita dupa dezamagiri repetate — te protejeaza de a fi ranit din nou, dar te izoleaza de conexiune si de frumusetea relatiilor umane. Sub cinic se ascunde adesea un idealist ranit.",
-      "en": "Cynicism is the bitter conviction that people are fundamentally selfish and that their motives are always self-interested. It is a form of disgust mixed with negative anticipation — you always expect the worst from others and interpret every generous gesture as having a hidden agenda. Cynicism is often an armor built after repeated disappointments — it protects you from being hurt again, but isolates you from connection and the beauty of human relationships. Under the cynic often hides a wounded idealist."
     },
     "needs": {
       "ro": "experienta pozitiva si deschidere treptata",
@@ -454,10 +342,6 @@
       "ro": "Autocritic",
       "en": "Self-critical"
     },
-    "description": {
-      "ro": "Autocritica este furia indreptata catre interior — o voce interioara severa care te judeca, te evalueaza si te gaseste mereu insuficient. Este criticul intern care transforma fiecare greseala intr-o confirmare a inadecvarii tale. Autocritica moderata te ajuta sa cresti si sa te corectezi. Autocritica cronica si severa este o forma de agresiune fata de sine care erodeaza stima de sine si poate duce la depresie. Antidotul nu este eliminarea vocii critice, ci adaugarea unei voci la fel de puternice de autocompasiune.",
-      "en": "Self-criticism is anger directed inward — a harsh inner voice that judges you, evaluates you, and always finds you insufficient. It is the inner critic that turns every mistake into a confirmation of your inadequacy. Moderate self-criticism helps you grow and self-correct. Chronic and severe self-criticism is a form of aggression against yourself that erodes self-esteem and can lead to depression. The antidote is not eliminating the critical voice, but adding an equally strong voice of self-compassion."
-    },
     "needs": {
       "ro": "autocompasiune si echilibru intern",
       "en": "self-compassion and inner balance"
@@ -469,10 +353,6 @@
     "label": {
       "ro": "Pasiv-agresiv",
       "en": "Passive-aggressive"
-    },
-    "description": {
-      "ro": "Pasiv-agresivitatea este furia exprimata prin mijloace indirecte — sarcasm, tacere punitivia, amanare intentionata sau conformism aparent urmat de sabotaj subtil. Este un stil de comunicare invatat in medii unde exprimarea directa a furiei nu era sigura. Nu este manipulare constienta, ci un mod de a spune 'sunt furios' fara a risca conflictul deschis. Recunoasterea propriei pasiv-agresivitati este primul pas spre comunicare directa — a invata ca este sigur sa spui ce simti, chiar daca este incomod.",
-      "en": "Passive aggression is anger expressed through indirect means — sarcasm, punitive silence, intentional delay, or apparent compliance followed by subtle sabotage. It is a communication style learned in environments where direct expression of anger was not safe. It is not conscious manipulation, but a way of saying 'I am angry' without risking open conflict. Recognizing your own passive aggression is the first step toward direct communication — learning that it is safe to say what you feel, even if it is uncomfortable."
     },
     "needs": {
       "ro": "siguranta pentru exprimare directa",
@@ -486,10 +366,6 @@
       "ro": "Somnoros",
       "en": "Sleepy"
     },
-    "description": {
-      "ro": "Somnolenta este semnalul primar al corpului ca necesita odihna si regenerare. Poate fi pur fiziologica sau poate reflecta o retragere emotionala — o dorinta inconstienta de a te deconecta de la o realitate suprasolicitanta. Somnolenta persistenta in contexte nepotrivite merita investigata, deoarece poate indica depresie sau epuizare emotionala.",
-      "en": "Sleepiness is the body's primary signal that it needs rest and regeneration. It can be purely physiological or can reflect an emotional withdrawal — an unconscious desire to disconnect from an overwhelming reality. Persistent sleepiness in inappropriate contexts deserves investigation, as it may indicate depression or emotional exhaustion."
-    },
     "needs": {
       "ro": "permisiunea de a te odihni",
       "en": "permission to rest"
@@ -501,10 +377,6 @@
     "label": {
       "ro": "Neconcentrat",
       "en": "Unfocused"
-    },
-    "description": {
-      "ro": "Lipsa de concentrare este incapacitatea de a-ti directiona si mentine atentia pe un singur lucru. Poate semnala oboseala, supraincarcare cognitiva sau evitarea emotionala a ceva dificil. Mintea ta iti spune ca ceva nu este in regula — fie ai nevoie de pauza, fie exista o emotie nesupravizata care iti cere atentia.",
-      "en": "Unfocusedness is the inability to direct and maintain your attention on a single thing. It can signal fatigue, cognitive overload, or emotional avoidance of something difficult. Your mind is telling you something isn't right — either you need a break, or there's an unsupervised emotion demanding your attention."
     },
     "needs": {
       "ro": "o pauza si cerinte reduse",
@@ -518,10 +390,6 @@
       "ro": "Coplesit",
       "en": "Overwhelmed"
     },
-    "description": {
-      "ro": "A fi coplesit inseamna ca volumul cerintelor a depasit capacitatea ta de procesare. Te simti ingropat, incapabil sa stabilesti prioritati si paralizat de multimea sarcinilor. Coplesirea este un semnal ca trebuie sa te opresti, sa respiri si sa ceri ajutor. Nu este un semn de slabiciune, ci de onestitate fata de limitele umane reale.",
-      "en": "Being overwhelmed means that the volume of demands has exceeded your processing capacity. You feel buried, unable to prioritize, and paralyzed by the multitude of tasks. Overwhelm is a signal that you need to stop, breathe, and ask for help. It is not a sign of weakness, but of honesty about real human limits."
-    },
     "needs": {
       "ro": "sustinere si pasi mai mici",
       "en": "support and smaller steps"
@@ -533,10 +401,6 @@
     "label": {
       "ro": "Scapat de sub control",
       "en": "Out of control"
-    },
-    "description": {
-      "ro": "Sentimentul de a fi scapat de sub control este experienta terifianta ca nu mai poti influenta directia vietii tale. Evenimentele te depasesc, deciziile ti se iau de altii si te simti ca un pasager in propria existenta. Aceasta stare activeaza anxietatea profunda si necesita recastigarea agentivitatii, pas cu pas, incepand cu lucrurile mici.",
-      "en": "Feeling out of control is the terrifying experience that you can no longer influence the direction of your life. Events overwhelm you, decisions are made by others, and you feel like a passenger in your own existence. This state activates deep anxiety and requires regaining agency, step by step, starting with small things."
     },
     "needs": {
       "ro": "o actiune mica controlabila",
@@ -550,10 +414,6 @@
       "ro": "Presat",
       "en": "Pressured"
     },
-    "description": {
-      "ro": "Presiunea este senzatia de a fi impins din toate directiile — de timp, de asteptari sau de responsabilitati. Te simti comprimat si fara spatiu de miscare. Presiunea moderata poate stimula performanta, dar presiunea cronica duce la epuizare si la pierderea bucuriei. Este esential sa identifici ce presiuni sunt reale si care sunt auto-impuse.",
-      "en": "Pressure is the sensation of being pushed from all directions — by time, expectations, or responsibilities. You feel compressed and without room to move. Moderate pressure can stimulate performance, but chronic pressure leads to burnout and loss of joy. It is essential to identify which pressures are real and which are self-imposed."
-    },
     "needs": {
       "ro": "spatiu si asteptari realiste",
       "en": "space and realistic expectations"
@@ -565,10 +425,6 @@
     "label": {
       "ro": "Grabit",
       "en": "Rushed"
-    },
-    "description": {
-      "ro": "Graba este senzatia ca timpul curge mai repede decat poti actiona — o urgenta constanta care nu iti permite sa fii prezent. In graba, calitatea gandurilor, relatiilor si deciziilor se deterioreaza. Graba cronica este adesea o fugire de sine — daca te opresti, trebuie sa te confrunti cu ce simti cu adevarat.",
-      "en": "Feeling rushed is the sensation that time flows faster than you can act — a constant urgency that doesn't allow you to be present. In a rush, the quality of thoughts, relationships, and decisions deteriorates. Chronic rushing is often a flight from the self — if you stop, you must confront what you truly feel."
     },
     "needs": {
       "ro": "incetinire si prezenta",
@@ -582,10 +438,6 @@
       "ro": "Indiferent",
       "en": "Indifferent"
     },
-    "description": {
-      "ro": "Indiferenta este absenta investitiei emotionale — nimic nu te mai atrage si nimic nu te mai deranjeaza. Poate fi o protectie temporara dupa suprasolicitare emotionala sau un semn ingrijorator de detasare cronica. Indiferenta prelungita erodeaza relatiile si sensul vietii. Recuperarea incepe cu reconectarea treptata la lucruri mici care iti trezesc simtirea.",
-      "en": "Indifference is the absence of emotional investment — nothing attracts you anymore and nothing disturbs you. It can be temporary protection after emotional overload or a concerning sign of chronic detachment. Prolonged indifference erodes relationships and life's meaning. Recovery begins with gradual reconnection to small things that awaken your feeling."
-    },
     "needs": {
       "ro": "reconectare blanda si curiozitate",
       "en": "gentle reconnection and curiosity"
@@ -597,10 +449,6 @@
     "label": {
       "ro": "Epuizat",
       "en": "Drained"
-    },
-    "description": {
-      "ro": "Epuizarea este starea in care rezervele tale emotionale si energetice au fost consumate complet — nu mai ai din ce da. Este mai profunda decat oboseala obisnuita; este sentimentul ca s-a cerut prea mult de la tine, prea mult timp, fara reumplere. Epuizarea este un semnal de alarma ca echilibrul dintre dare si primire s-a rupt si ca ai nevoie urgenta de recuperare.",
-      "en": "Feeling drained is the state where your emotional and energetic reserves have been completely consumed — you have nothing left to give. It is deeper than ordinary tiredness; it is the feeling that too much has been demanded of you, for too long, without replenishment. Being drained is an alarm signal that the balance between giving and receiving has broken and you urgently need recovery."
     },
     "needs": {
       "ro": "reumplere si protejare",
@@ -614,10 +462,6 @@
       "ro": "Suprasolicitat",
       "en": "Overloaded"
     },
-    "description": {
-      "ro": "Suprasolicitarea este senzatia ca ai prea multe lucruri deodata — informatii, sarcini, cerinte, stimuli — si capacitatea ta de procesare a fost depasita. Nu este vorba de dificultatea lucrurilor, ci de volumul lor. Mintea se simte ca un circuit supraincarcat care este pe punctul de a se deconecta. Suprasolicitarea este un semnal ca trebuie sa reduci, nu sa accelerezi — sa scoti din lista, nu sa adaugi strategii noi.",
-      "en": "Feeling overloaded is the sensation of having too many things at once — information, tasks, demands, stimuli — and your processing capacity has been exceeded. It is not about the difficulty of things, but their volume. The mind feels like an overloaded circuit on the verge of shutting down. Being overloaded is a signal that you need to reduce, not accelerate — to remove from the list, not add new strategies."
-    },
     "needs": {
       "ro": "reducere si simplificare",
       "en": "reduction and simplification"
@@ -629,10 +473,6 @@
     "label": {
       "ro": "Nelinistit",
       "en": "Restless"
-    },
-    "description": {
-      "ro": "Nelinistea din substimulare este o agitatie difuza care apare cand energia ta nu are unde sa se duca — vrei ceva, dar nu stii ce. Este plictiseala transformata in tensiune corporala: nu poti sta locului, nu te poti concentra, dar nici nu gasesti ceva care sa te angajeze. Aceasta stare este un semnal ca ai nevoie de stimulare cu sens — nu de orice distragere, ci de ceva care sa iti capteze cu adevarat atentia.",
-      "en": "Restlessness from understimulation is a diffuse agitation that arises when your energy has nowhere to go — you want something, but you do not know what. It is boredom transformed into bodily tension: you cannot sit still, you cannot focus, yet you cannot find anything that engages you. This state is a signal that you need meaningful stimulation — not just any distraction, but something that truly captures your attention and channels your energy."
     },
     "needs": {
       "ro": "stimulare cu sens si directie",
@@ -646,10 +486,6 @@
       "ro": "Epuizat profesional",
       "en": "Burned out"
     },
-    "description": {
-      "ro": "Epuizarea profesionala este starea de golire emotionala care apare dupa o perioada prelungita de suprasolicitare fara recuperare suficienta — nu doar oboseala, ci pierderea capacitatii de a mai simti motivatie, empatie sau satisfactie in legatura cu munca ta. Simti ca dai din ce nu mai ai. Epuizarea profesionala nu este un esec personal, ci semnalul ca echilibrul dintre dare si primire s-a rupt fundamental. Recuperarea necesita nu doar odihna, ci o reevaluare profunda a modului in care iti investesti resursele emotionale.",
-      "en": "Burnout is the state of emotional emptying that occurs after a prolonged period of overexertion without sufficient recovery — not just fatigue, but the loss of the capacity to feel motivation, empathy, or satisfaction regarding your work. You feel you are giving from what you no longer have. Burnout is not a personal failure, but a signal that the balance between giving and receiving has fundamentally broken. Recovery requires not just rest, but a deep reassessment of how you invest your emotional resources."
-    },
     "needs": {
       "ro": "odihna profunda si reevaluare",
       "en": "deep rest and reassessment"
@@ -661,10 +497,6 @@
     "label": {
       "ro": "Cu nervii intinsi",
       "en": "On edge"
-    },
-    "description": {
-      "ro": "A fi cu nervii intinsi este starea de hipervigilenta iritabila in care orice mic stimul te poate face sa explodezi — esti stresat pana la limita si nu mai ai niciun tampon emotional intre tine si lume. Te simti ca un arc intins la maxim, gata sa sara la orice atingere. Aceasta stare combina oboseala cu alerta si semnaleaza ca rezervele tale emotionale sunt aproape epuizate. Ai nevoie urgent de reducerea stimulilor si de un spatiu sigur in care sa te decompresezi.",
-      "en": "Being on edge is a state of hypervigilant irritability where any small stimulus can make you snap — you are stressed to the limit with no emotional buffer left between you and the world. You feel like a spring stretched to maximum, ready to leap at any touch. This state combines fatigue with alertness and signals that your emotional reserves are nearly depleted. You urgently need stimulus reduction and a safe space to decompress."
     },
     "needs": {
       "ro": "reducerea stimulilor si spatiu sigur",
@@ -678,10 +510,6 @@
       "ro": "Irascibil",
       "en": "Irritable"
     },
-    "description": {
-      "ro": "Irascibilitatea este pragul scazut de toleranta care apare cand stresul ti-a epuizat resursele — lucruri care in mod normal nu te-ar deranja acum te enerveaza intens. Este furia la suprafata, gata sa izbucneasca la cea mai mica provocare. Irascibilitatea nu este despre ceilalti — este despre starea ta interioara de suprasolicitate. Este un semnal ca ai acumulat prea multa tensiune fara sa o eliberezi. In loc sa te invinuiesti pentru reactiile tale, recunoaste-le ca un semn ca ai nevoie de grija.",
-      "en": "Irritability is the lowered tolerance threshold that appears when stress has depleted your resources — things that normally wouldn't bother you now intensely annoy you. It is anger at the surface, ready to erupt at the slightest provocation. Irritability is not about others — it is about your inner state of overload. It is a signal that you have accumulated too much tension without releasing it. Instead of blaming yourself for your reactions, recognize them as a sign that you need care."
-    },
     "needs": {
       "ro": "descarcare si autocompasiune",
       "en": "discharge and self-compassion"
@@ -693,10 +521,6 @@
     "label": {
       "ro": "Tulbure",
       "en": "Foggy"
-    },
-    "description": {
-      "ro": "Ceata mentala este starea in care gandurile devin opace si lente — ca si cum ai privi lumea prin sticla aburita. Nu poti gandi clar, nu poti lua decizii si totul pare deconectat si indepartat. Ceata mentala poate fi semnalul oboselii acumulate, al stresului cronic sau al supraincarcarii emotionale. Nu este lipsa de inteligenta, ci un creier care cere o pauza. Claritatea revine cand ii oferi corpului si mintii repausul de care au nevoie.",
-      "en": "Mental fog is the state where thoughts become opaque and slow — as if you were looking at the world through steamed glass. You cannot think clearly, you cannot make decisions, and everything seems disconnected and distant. Mental fog can signal accumulated fatigue, chronic stress, or emotional overload. It is not a lack of intelligence, but a brain asking for a break. Clarity returns when you give your body and mind the rest they need."
     },
     "needs": {
       "ro": "odihna si simplificare",
@@ -710,10 +534,6 @@
       "ro": "Blocat",
       "en": "Stuck"
     },
-    "description": {
-      "ro": "A te simti blocat este frustrarea tacuta a stagnarii — vrei sa mergi inainte dar nu gasesti cum. Nu este lipsa de dorinta, ci lipsa de directie sau de energie. Simti ca te invartesti in cerc sau ca stai pe loc in timp ce viata trece pe langa tine. Blocajul poate semnala un conflict intern nerezolvat, frica de esec sau nevoia de o perspectiva noua. Deblocarea vine rareori din efort mai mare pe acelasi drum — vine din a incerca o directie diferita sau din a cere ajutor.",
-      "en": "Feeling stuck is the quiet frustration of stagnation — you want to move forward but cannot find how. It is not a lack of desire, but a lack of direction or energy. You feel you are going in circles or standing still while life passes you by. Being stuck can signal an unresolved internal conflict, fear of failure, or the need for a new perspective. Unblocking rarely comes from greater effort on the same path — it comes from trying a different direction or asking for help."
-    },
     "needs": {
       "ro": "perspectiva noua si un prim pas",
       "en": "new perspective and a first step"
@@ -725,10 +545,6 @@
     "label": {
       "ro": "Critic",
       "en": "Judgmental"
-    },
-    "description": {
-      "ro": "A fi critic in mod judicativ inseamna a evalua constant pe ceilalti prin prisma standardelor tale, adesea fara compasiune sau intelegere a contextului lor. Este o pozitie de superioritate morala care iti ofera iluzia controlului. Judecata cronica adesea reflecta o severitate la fel de mare fata de tine insuti — critica exterioara mascheaza autocritica interioara.",
-      "en": "Being judgmental means constantly evaluating others through the lens of your standards, often without compassion or understanding of their context. It is a position of moral superiority that gives you the illusion of control. Chronic judgment often reflects equally great severity toward yourself — external criticism masks internal self-criticism."
     },
     "needs": {
       "ro": "examinare de sine si compasiune",
@@ -742,10 +558,6 @@
       "ro": "Ingrozit",
       "en": "Appalled"
     },
-    "description": {
-      "ro": "A fi ingrozit este reactia la ceva atat de grav sau de gresit incat iti taie respiratia. Combina socul moral cu dezgustul profund. Este emotia care apare in fata cruzimii, coruptiei sau a incalcarilor grave ale demnitatii umane. Ingrozirea te poate mobiliza catre actiune sau te poate paraliza sub greutatea a ceea ce ai descoperit.",
-      "en": "Being appalled is the reaction to something so grave or wrong it takes your breath away. It combines moral shock with deep disgust. It is the emotion that arises in the face of cruelty, corruption, or grave violations of human dignity. Being appalled can mobilize you toward action or paralyze you under the weight of what you've discovered."
-    },
     "needs": {
       "ro": "claritate morala si raspuns cu scop",
       "en": "moral clarity and purposeful response"
@@ -757,10 +569,6 @@
     "label": {
       "ro": "Revoltat",
       "en": "Revolted"
-    },
-    "description": {
-      "ro": "Revolta este furia amestecata cu dezgustul — refuzul vehement de a accepta o situatie pe care o percepi ca profund nedreapta sau gresita. Revolta te impinge sa te opui, sa protestezi si sa lupti pentru schimbare. Este emotia care sta la baza miscarilor sociale si a transformarilor colective. Revolta sanatoasa este indreptata spre sisteme, nu spre persoane.",
-      "en": "Revolt is anger mixed with disgust — the vehement refusal to accept a situation you perceive as profoundly unfair or wrong. Revolt pushes you to oppose, protest, and fight for change. It is the emotion underlying social movements and collective transformations. Healthy revolt is directed toward systems, not toward individuals."
     },
     "needs": {
       "ro": "actiune constructiva si dreptate",
@@ -774,10 +582,6 @@
       "ro": "Greata",
       "en": "Nauseated"
     },
-    "description": {
-      "ro": "Greata emotionala este raspunsul corporal al dezgustului la intensitate maxima — stomacul se rastoarna, corpul vrea sa expulzeze ceea ce este toxic. Poate fi provocata de imagini, comportamente sau situatii care iti incalca profund valorile. Greata iti reaminteste ca corpul si mintea sunt inseparabile — dezgustul psihologic se manifesta fizic.",
-      "en": "Emotional nausea is the bodily response of disgust at maximum intensity — the stomach turns, the body wants to expel what is toxic. It can be provoked by images, behaviors, or situations that deeply violate your values. Nausea reminds you that body and mind are inseparable — psychological disgust manifests physically."
-    },
     "needs": {
       "ro": "distanta fizica si ancorare",
       "en": "physical distance and grounding"
@@ -789,10 +593,6 @@
     "label": {
       "ro": "Detestabil",
       "en": "Detestable"
-    },
-    "description": {
-      "ro": "A simti ca ceva este detestabil inseamna a experimenta o repulsie totala si o condamnare fara echivoc. Este forma cea mai intensa a dezgustului moral. Cand ceva ti se pare detestabil, nu mai vezi nuante — doar respingere absoluta. Aceasta intensitate poate fi justificata in fata raului evident, dar necesita examinare constienta pentru a nu deveni dezumanizare.",
-      "en": "Feeling something is detestable means experiencing total revulsion and unequivocal condemnation. It is the most intense form of moral disgust. When something seems detestable to you, you no longer see nuances — only absolute rejection. This intensity can be justified in the face of evident evil, but requires conscious examination to avoid becoming dehumanization."
     },
     "needs": {
       "ro": "discernamant si examinare constienta",
@@ -806,10 +606,6 @@
       "ro": "Ezitant",
       "en": "Hesitant"
     },
-    "description": {
-      "ro": "Ezitarea este oscilarea intre actiune si retragere — vrei sa te apropii dar ceva te respinge. Este un semnal ca exista un conflict intern intre dorinta si aversiune. Ezitarea te protejeaza de actiuni premature, dar poate deveni paralizanta daca nu este rezolvata. Ascultarea ambelor parti ale conflictului interior aduce de obicei claritate.",
-      "en": "Hesitance is the oscillation between action and withdrawal — you want to approach but something repels you. It is a signal that an internal conflict exists between desire and aversion. Hesitance protects you from premature actions, but can become paralyzing if unresolved. Listening to both sides of the inner conflict usually brings clarity."
-    },
     "needs": {
       "ro": "ascultarea ambelor parti si claritate",
       "en": "listening to both sides and clarity"
@@ -821,10 +617,6 @@
     "label": {
       "ro": "Oripilat",
       "en": "Horrified"
-    },
-    "description": {
-      "ro": "Oripilarea este combinatia de groaza si dezgust — reactia la ceva atat de monstruos incat te copleseste pe toate planurile. Mintea refuza sa accepte ceea ce percepe si corpul reactioneaza cu soc. Oripilarea poate lasa amprente emotionale profunde si poate necesita procesare terapeutica pentru a fi integrata fara a te traumatiza.",
-      "en": "Being horrified is the combination of horror and disgust — the reaction to something so monstrous it overwhelms you on all levels. The mind refuses to accept what it perceives and the body reacts with shock. Being horrified can leave deep emotional imprints and may require therapeutic processing to be integrated without traumatizing you."
     },
     "needs": {
       "ro": "sprijin de procesare si siguranta",
@@ -838,10 +630,6 @@
       "ro": "Dispretitor",
       "en": "Contemptuous"
     },
-    "description": {
-      "ro": "Dispretul este o forma rece de dezgust combinata cu superioritate morala — nu doar dezaprobi pe cineva, ci il privesti de sus, ca si cum nu ar merita consideratia ta. Cercetarile lui Gottman arata ca dispretul este unul dintre cele mai corozive moduri de a relationa, pentru ca dezumanizeaza persoana din fata ta. Dispretul iti semnaleaza ca ceva iti incalca profund valorile, dar forma lui distantata te impiedica sa comunici eficient. A recunoaste dispretul in tine este un pas curajos — te invita sa examinezi daca judecata ta protejeaza cu adevarat ceva important sau daca a devenit un zid.",
-      "en": "Contempt is a cold form of disgust combined with moral superiority — you don't just disapprove of someone, you look down on them as though they are beneath your consideration. Gottman's research shows that contempt is one of the most corrosive ways of relating, because it dehumanizes the person in front of you. Contempt signals that something deeply violates your values, but its distancing form prevents you from communicating effectively. Recognizing contempt in yourself is a courageous step — it invites you to examine whether your judgment truly protects something important or has become a wall."
-    },
     "needs": {
       "ro": "examinare de sine si reconectare",
       "en": "self-examination and reconnection"
@@ -853,10 +641,6 @@
     "label": {
       "ro": "Scarbit",
       "en": "Repulsed"
-    },
-    "description": {
-      "ro": "Scarba este reactia viscerala pura de respingere — un raspuns intens, aproape fizic, in care corpul tau spune \"indeparteaza asta de mine\" inainte ca mintea sa apuce sa analizeze situatia. Stomacul se contracta, pielea se infioara, tot corpul se retrage instinctiv. Scarba este unul dintre cele mai vechi mecanisme de protectie ale organismului, aparandu-te de ceea ce percepi ca toxic sau contaminant. Intensitatea ei iti arata ca o limita importanta a fost atinsa.",
-      "en": "Repulsion is the pure visceral rejection response — an intense, almost physical reaction in which your body says 'get this away from me' before your mind has time to analyze the situation. Your stomach contracts, your skin crawls, your whole body recoils instinctively. Repulsion is one of the oldest protective mechanisms of the organism, defending you from what you perceive as toxic or contaminating. Its intensity shows you that an important boundary has been reached."
     },
     "needs": {
       "ro": "distanta imediata si siguranta",
@@ -870,10 +654,6 @@
       "ro": "Ingretosat",
       "en": "Sickened"
     },
-    "description": {
-      "ro": "Ingretosarea este revulsia morala cu aparitie lenta — nu un soc brusc, ci o dezamagire care se adanceste pe masura ce descoperi dimensiunea reala a ceea ce s-a intamplat. Stomacul se strange, o greata difuza se instaleaza si simti ca ceva s-a alterat iremediabil. Ingretosarea apare cand cineva iti dezvaluie un caracter pe care nu il banueai — nu un singur gest gresit, ci un pattern de comportament care iti provoaca repulsie crescanda. Este semnalul ca valorile tale fundamentale au fost incalcate la un nivel profund.",
-      "en": "Being sickened is a slow-dawning moral revulsion — not a sudden shock, but a disappointment that deepens as you discover the real dimension of what happened. The stomach tightens, a diffuse nausea sets in, and you feel that something has been irremediably altered. Being sickened occurs when someone reveals a character you hadn't suspected — not a single wrong gesture, but a pattern of behavior that provokes increasing revulsion. It is the signal that your fundamental values have been violated at a deep level."
-    },
     "needs": {
       "ro": "distanta si procesare morala",
       "en": "distance and moral processing"
@@ -886,10 +666,6 @@
       "ro": "Scandalizat",
       "en": "Scandalized"
     },
-    "description": {
-      "ro": "Scandalizarea este socul moral in fata incalcarii flagrante a normelor sociale sau etice — nu doar dezamagire, ci indignare amestecata cu dezgust in fata a ceva ce nu ar fi trebuit sa se intample. Este reactia ta cand limitele acceptabilului sunt incalcate in mod public sau vizibil. Scandalizarea are o componenta sociala puternica — simti nevoia de a numi ce s-a intamplat si de a restabili standardele. Provocarea este sa folosesti aceasta energie pentru actiune constructiva, nu doar pentru indignare sterila.",
-      "en": "Being scandalized is the moral shock at the flagrant violation of social or ethical norms — not just disappointment, but indignation mixed with disgust at something that should not have happened. It is your reaction when the limits of acceptability are violated publicly or visibly. Being scandalized has a strong social component — you feel the need to name what happened and to restore standards. The challenge is to use this energy for constructive action, not just sterile indignation."
-    },
     "needs": {
       "ro": "restabilirea standardelor si actiune",
       "en": "restoring standards and action"
@@ -901,10 +677,6 @@
     "label": {
       "ro": "Autodezgust",
       "en": "Self-loathing"
-    },
-    "description": {
-      "ro": "Autodezgustul este dezgustul intors catre interior — o repulsie fata de propria persoana care iti face sa vrei sa fugi de tine insuti. Nu este doar autocritica sau nemultumire de sine, ci o respingere viscerala a ceea ce esti sau a ceea ce ai facut. Autodezgustul este una dintre cele mai dureroase stari emotionale si poate fi un semn al depresiei sau al traumei. Este important sa stii ca aceasta emotie, oricat de coplesitoare, nu reflecta realitatea ta — reflecta o rana care are nevoie de vindecare. Sprijinul profesional poate fi esential in procesarea autodezgustului.",
-      "en": "Self-loathing is disgust turned inward — a revulsion toward your own person that makes you want to flee from yourself. It is not just self-criticism or dissatisfaction with yourself, but a visceral rejection of what you are or what you have done. Self-loathing is one of the most painful emotional states and can be a sign of depression or trauma. It is important to know that this emotion, however overwhelming, does not reflect your reality — it reflects a wound that needs healing. Professional support can be essential in processing self-loathing."
     },
     "needs": {
       "ro": "sprijin profesional si autocompasiune",
@@ -919,10 +691,6 @@
       "ro": "Intinat",
       "en": "Tainted"
     },
-    "description": {
-      "ro": "A te simti intinat este senzatia de a fi fost contaminat sau murdarit de o experienta — ca si cum ceva toxic ti-a patruns sub piele si nu il poti spala. Nu este o realitate fizica, dar se simte la fel de real: simti ca ceva din tine a fost alterat de contactul cu ceva profund respingator. Intinarea poate aparea dupa expunerea la cruzime, coruptie sau abuz. Vindecarea incepe cu separarea sinelui de experienta — ceea ce ti s-a intamplat nu te defineste si nu te contamineaza permanent.",
-      "en": "Feeling tainted is the sensation of having been contaminated or soiled by an experience — as if something toxic has penetrated under your skin and you cannot wash it off. It is not a physical reality, but it feels just as real: you sense that something in you has been altered by contact with something deeply repulsive. Feeling tainted can appear after exposure to cruelty, corruption, or abuse. Healing begins with separating the self from the experience — what happened to you does not define you and does not permanently contaminate you."
-    },
     "needs": {
       "ro": "purificare simbolica si separare de experienta",
       "en": "symbolic purification and separation from experience"
@@ -935,10 +703,6 @@
       "ro": "Respingator",
       "en": "Repugnant"
     },
-    "description": {
-      "ro": "Sentimentul de repugnanta este respingerea pe multiple niveluri simultan — estetic, visceral si moral. Nu este doar dezgust fizic sau doar condamnare morala, ci ambele impreuna, amplificate reciproc. Este reactia la ceva ce iti ofenseaza toate simturile si toate valorile deodata. Repugnanta iti semnaleaza o incompatibilitate fundamentala cu ceea ce ai intalnit. Aceasta intensitate merita examinare constienta — este reactia proportionala cu realitatea, sau frica ta o amplifica?",
-      "en": "The feeling of repugnance is rejection on multiple levels simultaneously — aesthetic, visceral, and moral. It is not just physical disgust or just moral condemnation, but both together, mutually amplified. It is the reaction to something that offends all your senses and all your values at once. Repugnance signals a fundamental incompatibility with what you have encountered. This intensity deserves conscious examination — is the reaction proportional to reality, or is your fear amplifying it?"
-    },
     "needs": {
       "ro": "distanta si examinare constienta",
       "en": "distance and conscious examination"
@@ -950,10 +714,6 @@
     "label": {
       "ro": "Neajutorat",
       "en": "Helpless"
-    },
-    "description": {
-      "ro": "Neputinta este starea in care simti ca nu poti face nimic pentru a schimba o situatie dureroasa. Este una dintre cele mai debilitante experiente emotionale, pentru ca ataca insusi sentimentul de agentivitate. Neputinta invatata — convingerea ca efortul tau nu conteaza — este un factor central in depresie. Recuperarea incepe cu pasi mici si controlabili.",
-      "en": "Helplessness is the state where you feel you can do nothing to change a painful situation. It is one of the most debilitating emotional experiences, because it attacks the very sense of agency. Learned helplessness — the conviction that your effort doesn't matter — is a central factor in depression. Recovery begins with small, controllable steps."
     },
     "needs": {
       "ro": "un pas mic si sustinere",
@@ -968,10 +728,6 @@
       "ro": "Infricosat",
       "en": "Frightened"
     },
-    "description": {
-      "ro": "A fi infricosat este o stare de frica intensa si sustinuta in care pericolul pare coplesitor si resursele tale insuficiente. Corpul este in alerta maxima, dar te simti paralizat de magnitudinea amenintarii. Infricosarea necesita un spatiu de siguranta si prezenta unui aliat care te poate ajuta sa iti reglezi sistemul nervos.",
-      "en": "Being frightened is a state of intense and sustained fear where danger seems overwhelming and your resources insufficient. The body is on maximum alert, but you feel paralyzed by the magnitude of the threat. Fright requires a safe space and the presence of an ally who can help you regulate your nervous system."
-    },
     "needs": {
       "ro": "un spatiu sigur si un aliat calm",
       "en": "a safe space and a calming ally"
@@ -983,10 +739,6 @@
     "label": {
       "ro": "Panicat",
       "en": "Panicked"
-    },
-    "description": {
-      "ro": "Panica este momentul in care frica devine atat de intensa incat gandirea rationala se prabuseste — sistemul de lupta-sau-fugi preia controlul complet. Corpul se inunda cu adrenalina, respiratia devine rapida si superficiala, iar capacitatea de a lua decizii clare dispare temporar. Panica este un raspuns normal la amenintari percepute ca extreme, nu un semn de slabiciune. Primul pas in gestionarea panicii este sa iti amintesti ca este o stare temporara care va trece.",
-      "en": "Panic is the moment when fear becomes so intense that rational thinking collapses — the fight-or-flight system takes complete control. The body floods with adrenaline, breathing becomes rapid and shallow, and the ability to make clear decisions temporarily vanishes. Panic is a normal response to threats perceived as extreme, not a sign of weakness. The first step in managing panic is to remember that it is a temporary state that will pass."
     },
     "needs": {
       "ro": "ancorare si calmare imediata",
@@ -1001,10 +753,6 @@
       "ro": "Coplesit",
       "en": "Overwhelmed"
     },
-    "description": {
-      "ro": "A fi coplesit de frica inseamna ca intensitatea anxietatii a depasit capacitatea ta de a o gestiona. Totul pare amenintator, nu mai poti gandi clar si simti ca te ineci emotional. Aceasta stare necesita interventie imediata de calmare — respiratie lenta, grounding fizic si prezenta unei persoane de incredere care te ancoreaza.",
-      "en": "Being overwhelmed by fear means the intensity of anxiety has exceeded your capacity to manage it. Everything seems threatening, you can no longer think clearly, and you feel emotionally drowning. This state requires immediate calming intervention — slow breathing, physical grounding, and the presence of a trusted person who anchors you."
-    },
     "needs": {
       "ro": "ancorare, respiratie si prezenta",
       "en": "grounding, breathing, and presence"
@@ -1016,10 +764,6 @@
     "label": {
       "ro": "Ingrijorat",
       "en": "Worried"
-    },
-    "description": {
-      "ro": "Ingrijorarea este gandirea repetitiva despre potentiale probleme viitoare — un dialog intern in care mintea construieste scenarii negative si incearca sa le rezolve preventiv. Ingrijorarea moderata este adaptativa si te ajuta sa planifici. Ingrijorarea cronica este o forma de anxietate care te epuizeaza fara a produce solutii reale.",
-      "en": "Worry is repetitive thinking about potential future problems — an internal dialogue where the mind constructs negative scenarios and tries to solve them preventively. Moderate worry is adaptive and helps you plan. Chronic worry is a form of anxiety that exhausts you without producing real solutions."
     },
     "needs": {
       "ro": "reasigurare si un plan concret",
@@ -1033,10 +777,6 @@
       "ro": "Cu presimtiri",
       "en": "Apprehensive"
     },
-    "description": {
-      "ro": "Temerea este nelinistitea vaga, anticipativa, care apare cand simti ca ceva ar putea merge prost, fara sa poti numi exact ce. Este anxietatea in forma ei cea mai difuza — o senzatie de fond ca ceva nu este in regula, care coloreaza tot ce faci fara sa aiba un obiect clar. Temerea este de fapt sistemul tau de alerta care functioneaza la intensitate scazuta, scanand orizontul pentru potentiale probleme.",
-      "en": "Apprehension is the vague, anticipatory unease that arises when you sense something might go wrong, without being able to name exactly what. It is anxiety in its most diffuse form — a background sensation that something is not right, coloring everything you do without having a clear object. Apprehension is actually your alert system functioning at low intensity, scanning the horizon for potential problems."
-    },
     "needs": {
       "ro": "reasigurare si ancorare in prezent",
       "en": "reassurance and grounding in the present"
@@ -1048,10 +788,6 @@
     "label": {
       "ro": "Inadecvat",
       "en": "Inadequate"
-    },
-    "description": {
-      "ro": "Sentimentul de inadecvare este convingerea dureroasa ca nu esti suficient — nu destul de bun, de destept, de frumos sau de capabil. Este o evaluare interna severa care te compara constant cu un standard imposibil. Inadecvarea este adesea ecoul unor voci critice internalizate din copilarie. Vindecarea vine prin compasiune fata de sine si revizuirea standardelor.",
-      "en": "The feeling of inadequacy is the painful conviction that you are not enough — not good enough, smart enough, beautiful enough, or capable enough. It is a harsh internal evaluation constantly comparing you to an impossible standard. Inadequacy is often the echo of critical voices internalized from childhood. Healing comes through self-compassion and revising standards."
     },
     "needs": {
       "ro": "auto-compasiune si standarde realiste",
@@ -1065,10 +801,6 @@
       "ro": "Plin de indoieli",
       "en": "Self-Doubting"
     },
-    "description": {
-      "ro": "Indoiala de sine este punerea sub semnul intrebarii a propriei judecati, perceptii si decizii — nu te simti inadecvat sau inferior, ci nesigur daca poti avea incredere in propria ta evaluare a lucrurilor. Este vocea interioara care intreaba mereu \"dar daca gresesc?\" chiar si atunci cand ai motive sa ai incredere in tine. Indoiala de sine devine problematica cand te blocheaza in inactiune, dar in doze mici este un semn de umilitate si deschidere catre invatare.",
-      "en": "Self-doubt is the questioning of your own judgment, perceptions, and decisions — you do not feel inadequate or inferior, but uncertain whether you can trust your own evaluation of things. It is the inner voice that constantly asks 'what if I am wrong?' even when you have reason to trust yourself. Self-doubt becomes problematic when it blocks you into inaction, but in small doses it is a sign of humility and openness to learning."
-    },
     "needs": {
       "ro": "validare si incredere treptata",
       "en": "validation and gradual confidence"
@@ -1080,10 +812,6 @@
     "label": {
       "ro": "Groaza",
       "en": "Dread"
-    },
-    "description": {
-      "ro": "Groaza este frica orientata catre viitor — nu o reactie la un pericol prezent, ci anticiparea unui lucru rau care pare inevitabil. Simti o greutate in piept si o certitudine sumbra ca ceva teribil se apropie, chiar daca nu il poti vedea clar. Groaza este diferita de ingrijorare prin intensitatea ei viscerala — nu gandesti despre pericol, ci il simti in tot corpul. Aceasta emotie iti semnaleaza ca ai nevoie de sprijin si de o perspectiva lucida care sa testeze daca amenintarea este reala sau amplificata de frica.",
-      "en": "Dread is fear oriented toward the future — not a reaction to a present danger, but the anticipation of something bad that seems inevitable. You feel a heaviness in your chest and a somber certainty that something terrible is approaching, even if you cannot see it clearly. Dread differs from worry by its visceral intensity — you do not think about danger, you feel it in your entire body. This emotion signals that you need support and a lucid perspective to test whether the threat is real or amplified by fear."
     },
     "needs": {
       "ro": "perspectiva lucida si ancorare in prezent",
@@ -1097,10 +825,6 @@
       "ro": "Paralizat",
       "en": "Paralyzed"
     },
-    "description": {
-      "ro": "Paralizarea este raspunsul de inghetare al corpului in fata fricii — nici fugire, nici luptare, ci imobilizare completa. Mintea se goleste, corpul se rigidizeaza si nu poti actiona chiar daca stii ce ar trebui sa faci. Este un mecanism de aparare ancestral, la fel de valid ca luptarea sau fugirea, dar care devine problematic cand se activeaza in situatii care nu sunt realmente amenintatoare. Iesirea din paralizie incepe cu miscari mici — un deget, o respiratie, un sunet — care iti reamintesc corpului ca are optiuni.",
-      "en": "Paralysis is the body's freeze response to fear — neither flight nor fight, but complete immobilization. The mind empties, the body stiffens, and you cannot act even though you know what you should do. It is an ancestral defense mechanism, as valid as fighting or fleeing, but becomes problematic when activated in situations that are not truly threatening. Breaking out of paralysis begins with small movements — a finger, a breath, a sound — reminding your body that it has options."
-    },
     "needs": {
       "ro": "miscari mici si siguranta graduala",
       "en": "small movements and gradual safety"
@@ -1112,10 +836,6 @@
     "label": {
       "ro": "Obsedat",
       "en": "Obsessive"
-    },
-    "description": {
-      "ro": "Starea obsesiva este buclarea anxioasa a mintii pe aceeasi gandire — o grijire repetitiva care nu duce nicaieri, dar pe care nu o poti opri. Mintea revine mereu la aceeasi tema, aceeasi frica, aceeasi intrebare fara raspuns, ca un disc stricat. Aceasta nu este o tulburare, ci un mod in care anxietatea se manifesta cand se intensifica — mintea incearca sa rezolve ceva ce nu poate fi rezolvat prin gandire. Iesirea din bucla vine prin ancorare in corp, prin actiune concreta si prin acceptarea incertitudinii.",
-      "en": "The obsessive state is the anxious looping of the mind on the same thought — a repetitive worrying that leads nowhere but which you cannot stop. The mind returns again and again to the same theme, the same fear, the same unanswered question, like a broken record. This is not a disorder, but a way anxiety manifests when it intensifies — the mind tries to solve something that cannot be solved through thinking. Breaking the loop comes through grounding in the body, concrete action, and accepting uncertainty."
     },
     "needs": {
       "ro": "ancorare corporala si acceptarea incertitudinii",
@@ -1129,10 +849,6 @@
       "ro": "Stanjenit",
       "en": "Self-conscious"
     },
-    "description": {
-      "ro": "Stanjenirea este constiinta acuta de sine in context social — senzatia ca toti ochii sunt pe tine si ca fiecare gest, cuvant sau expresie este observat si evaluat. Te simti expus si vulnerabil sub o lupa invizibila. Aceasta hipercontientizare de sine iti distorsioneaza perceptia — crezi ca altii te observa mult mai mult decat o fac in realitate. Stanjenirea este de fapt un semn ca iti pasa de felul in care te prezinti, dar devine limitativa cand te impiedica sa fii spontan si autentic.",
-      "en": "Self-consciousness is the acute awareness of oneself in a social context — the sensation that all eyes are on you and that every gesture, word, or expression is being observed and evaluated. You feel exposed and vulnerable under an invisible magnifying glass. This hyper-self-awareness distorts your perception — you believe others notice you far more than they actually do. Self-consciousness is actually a sign that you care about how you present yourself, but becomes limiting when it prevents you from being spontaneous and authentic."
-    },
     "needs": {
       "ro": "acceptare de sine si siguranta sociala",
       "en": "self-acceptance and social safety"
@@ -1144,10 +860,6 @@
     "label": {
       "ro": "Lipsit de valoare",
       "en": "Worthless"
-    },
-    "description": {
-      "ro": "A te simti lipsit de valoare este una dintre cele mai dureroase stari emotionale — convingerea ca existenta ta nu conteaza si ca nimeni nu ar observa daca ai disparea. Este un simptom central al depresiei severe si un semnal de alarma care necesita sprijin imediat. Valoarea ta nu depinde de productivitate sau de aprecierea altora.",
-      "en": "Feeling worthless is one of the most painful emotional states — the conviction that your existence doesn't matter and that nobody would notice if you disappeared. It is a central symptom of severe depression and an alarm signal requiring immediate support. Your value does not depend on productivity or others' appreciation."
     },
     "needs": {
       "ro": "sustinere imediata si conexiune",
@@ -1162,10 +874,6 @@
       "ro": "Nesemnificativ",
       "en": "Insignificant"
     },
-    "description": {
-      "ro": "A te simti nesemnificativ este experienta de a fi invizibil — prezenta ta nu pare sa faca vreo diferenta si vocea ta nu este auzita. Este o forma de minimizare a sinelui care poate fi invatata in medii unde ai fost ignorat sau marginalizat. Recuperarea inseamna sa inveti ca fiecare persoana are un impact, chiar daca nu il vede imediat.",
-      "en": "Feeling insignificant is the experience of being invisible — your presence doesn't seem to make any difference and your voice isn't heard. It is a form of self-minimization that can be learned in environments where you were ignored or marginalized. Recovery means learning that every person has an impact, even if they don't see it immediately."
-    },
     "needs": {
       "ro": "a fi vazut si recunoscut",
       "en": "being seen and acknowledged"
@@ -1177,10 +885,6 @@
     "label": {
       "ro": "Exclus",
       "en": "Excluded"
-    },
-    "description": {
-      "ro": "Excluderea este experienta dureroasa de a fi lasat pe dinafara — nu esti invitat, nu esti inclus si nu apartii grupului. Creierul uman este programat sa perceapa excluderea ca o amenintare existentiala, deoarece apartinerea la grup a fost esentiala pentru supravietuire. Durerea excluderii este reala si merita validare si compasiune.",
-      "en": "Exclusion is the painful experience of being left out — you're not invited, not included, and you don't belong to the group. The human brain is programmed to perceive exclusion as an existential threat, because group belonging was essential for survival. The pain of exclusion is real and deserves validation and compassion."
     },
     "needs": {
       "ro": "incluziune si compasiune",
@@ -1194,10 +898,6 @@
       "ro": "Persecutat",
       "en": "Persecuted"
     },
-    "description": {
-      "ro": "A te simti persecutat este convingerea ca esti tinta intentionata a ostilitatii celorlalti. Poate reflecta o experienta reala de discriminare sau abuz, sau poate fi o proiectie a fricii interioare asupra lumii externe. Diferentierea intre persecutia reala si cea perceputa este esentiala si necesita adesea sprijin terapeutic calificat.",
-      "en": "Feeling persecuted is the conviction that you are the intentional target of others' hostility. It can reflect a real experience of discrimination or abuse, or can be a projection of inner fear onto the external world. Differentiating between real and perceived persecution is essential and often requires qualified therapeutic support."
-    },
     "needs": {
       "ro": "siguranta si sprijin de incredere",
       "en": "safety and trusted support"
@@ -1209,10 +909,6 @@
     "label": {
       "ro": "Nedorit",
       "en": "Unwanted"
-    },
-    "description": {
-      "ro": "Sentimentul de a fi nedorit este durerea intima a respingerii personale — nu doar exclus dintr-un grup, ci nevrut de oamenii care conteaza cel mai mult pentru tine. Este senzatia ca prezenta ta nu este binevenita sau ca cineva apropiat ti-ar prefera absenta. Aceasta durere atinge rani profunde legate de atasament si valoare personala. A recunoaste ca te simti nedorit este un prim pas curajos catre a cauta relatiile care te primesc cu adevarat.",
-      "en": "Feeling unwanted is the intimate pain of personal rejection — not just excluded from a group, but not desired by the people who matter most to you. It is the sensation that your presence is not welcome or that someone close would prefer your absence. This pain touches deep wounds related to attachment and personal worth. Recognizing that you feel unwanted is a courageous first step toward seeking relationships that truly welcome you."
     },
     "needs": {
       "ro": "conexiune autentica si acceptare",
@@ -1226,10 +922,6 @@
       "ro": "Expus",
       "en": "Exposed"
     },
-    "description": {
-      "ro": "A te simti expus este senzatia ca esti vulnerabil si vizibil fara protectie — ca si cum armura ta emotionala a fost inlaturata si toata lumea poate vedea ce incerci sa ascunzi. Poate aparea dupa un esec public, o dezvaluire nedorita sau o situatie in care granitele tale au fost incalcate. Vindecarea vine prin restabilirea sentimentului de siguranta si control.",
-      "en": "Feeling exposed is the sensation of being vulnerable and visible without protection — as if your emotional armor has been removed and everyone can see what you're trying to hide. It can arise after a public failure, an unwanted disclosure, or a situation where your boundaries were violated. Healing comes through restoring the sense of safety and control."
-    },
     "needs": {
       "ro": "siguranta si limite restabilite",
       "en": "safety and restored boundaries"
@@ -1241,10 +933,6 @@
     "label": {
       "ro": "In garda",
       "en": "On Guard"
-    },
-    "description": {
-      "ro": "A fi in garda este starea de vigilenta activa in care scanezi constant mediul pentru amenintari — corpul este tensionat, simturile sunt ascutite si esti gata sa reactionezi la orice semnal de pericol. Spre deosebire de nervozitate, care este interna si agitata, starea de garda este orientata spre exterior si mobilizata. Aceasta hipervigilenta este un raspuns adaptativ in situatii reale de pericol, dar devine epuizanta cand persista in absenta amenintarii concrete.",
-      "en": "Being on guard is the state of active vigilance where you constantly scan the environment for threats — the body is tense, senses are sharpened, and you are ready to react to any danger signal. Unlike nervousness, which is internal and agitated, being on guard is outward-oriented and mobilized. This hypervigilance is an adaptive response in real danger situations, but becomes exhausting when it persists in the absence of concrete threat."
     },
     "needs": {
       "ro": "siguranta confirmata si relaxare",
@@ -1258,10 +946,6 @@
       "ro": "Mic",
       "en": "Small"
     },
-    "description": {
-      "ro": "A te simti mic este experienta somatica a diminuarii — corpul se face ghem, vocea scade, privirea se coboara si simti ca ocupi prea mult spatiu in lume. Nu este doar o metafora: te simti fizic redus, ca si cum ai putea disparea. Aceasta senzatie apare in fata autoritatii, criticii sau a situatiilor care iti reamintesc de momente din copilarie cand erai cu adevarat mic si fara putere. Recuperarea incepe cu ocuparea constienta a spatiului tau — ridicarea capului, deschiderea umerilor, amintirea ca ai dreptul sa fii aici.",
-      "en": "Feeling small is the somatic experience of diminishment — the body curls up, the voice drops, the gaze lowers, and you feel you take up too much space in the world. It is not just a metaphor: you feel physically reduced, as if you could disappear. This sensation appears in the face of authority, criticism, or situations that remind you of childhood moments when you were truly small and powerless. Recovery begins with consciously occupying your space — lifting your head, opening your shoulders, remembering that you have the right to be here."
-    },
     "needs": {
       "ro": "reocuparea spatiului si afirmarea prezentei",
       "en": "reclaiming space and affirming presence"
@@ -1273,10 +957,6 @@
     "label": {
       "ro": "Instrainat",
       "en": "Alienated"
-    },
-    "description": {
-      "ro": "Instrainarea este sentimentul profund ca nu apartii nicaieri — nu doar ca esti exclus dintr-un grup, ci ca esti fundamental diferit de ceilalti intr-un mod care pare de neponte. Este singuratate amplificata de convingerea ca diferenta ta este permanenta si ireductibila. Instrainarea poate fi dureroasa, dar poate fi si o poarta — recunoasterea ca cauti un loc in care sa fii primit asa cum esti, nu un loc in care sa te potrivesti fortandu-te.",
-      "en": "Alienation is the deep feeling that you belong nowhere — not just that you are excluded from a group, but that you are fundamentally different from others in a way that seems unbridgeable. It is loneliness amplified by the conviction that your difference is permanent and irreducible. Alienation can be painful, but it can also be a gateway — the recognition that you are searching for a place where you are received as you are, not a place where you fit by forcing yourself."
     },
     "needs": {
       "ro": "apartinere autentica si acceptarea diferentei",
@@ -1290,10 +970,6 @@
       "ro": "Suspicios",
       "en": "Suspicious"
     },
-    "description": {
-      "ro": "Suspiciunea este neincrederea activa — nu doar absenta increderii, ci cautarea activa a semnelor de pericol sau inselaciune in comportamentul celorlalti. Mintea interpreteaza gesturile ambigue ca amenintari si construieste scenarii de tradare. Suspiciunea poate fi un raspuns adaptativ dupa experiente reale de inselatorie, dar devine toxica cand coloreaza toate relatiile. Vindecarea nu inseamna sa devii naiv, ci sa inveti sa diferentiezi intre precautie sanatoasa si proiectia fricii tale asupra celorlalti.",
-      "en": "Suspicion is active distrust — not just the absence of trust, but the active search for signs of danger or deception in others' behavior. The mind interprets ambiguous gestures as threats and constructs scenarios of betrayal. Suspicion can be an adaptive response after real experiences of being deceived, but becomes toxic when it colors all relationships. Healing does not mean becoming naive, but learning to differentiate between healthy caution and the projection of your fear onto others."
-    },
     "needs": {
       "ro": "discernamant si experienta de incredere",
       "en": "discernment and trust experience"
@@ -1305,10 +981,6 @@
     "label": {
       "ro": "Prins in capcana",
       "en": "Trapped"
-    },
-    "description": {
-      "ro": "A te simti prins in capcana este perceptia ca nu exista iesire — esti blocat intr-o situatie, relatie sau circumstanta de care nu poti scapa. Peretii se strang, optiunile dispar si senzatia de claustrofobie emotionala devine coplesitoare. Sentimentul de a fi captiv activeaza frica primitiva si disperarea. Este important sa stii ca aceasta senzatie este adesea mai restransa decat realitatea — frica inchide perspective pe care un ochi calm le-ar putea vedea. Primul pas este sa respiri si sa cauti o singura optiune, oricat de mica.",
-      "en": "Feeling trapped is the perception that there is no way out — you are stuck in a situation, relationship, or circumstance you cannot escape. The walls close in, options disappear, and the sensation of emotional claustrophobia becomes overwhelming. Feeling captive activates primitive fear and desperation. It is important to know that this sensation is often more restrictive than reality — fear closes perspectives that a calm eye could see. The first step is to breathe and look for a single option, however small."
     },
     "needs": {
       "ro": "o optiune si perspectiva",
@@ -1322,10 +994,6 @@
       "ro": "Entuziasmat",
       "en": "Energized"
     },
-    "description": {
-      "ro": "Entuziasmul este o stare de activare emotionala intensa si placuta — corpul este plin de energie, mintea este viva si simti un impuls puternic catre actiune sau experienta. Este forma cea mai vitala a starii de joc, unde creativitatea si spontaneitatea se manifesta la intensitate maxima.",
-      "en": "Energized is a state of intense and pleasurable emotional activation — the body is full of energy, the mind is alive, and you feel a strong impulse toward action or experience. It is the most vital form of playfulness, where creativity and spontaneity manifest at maximum intensity."
-    },
     "needs": {
       "ro": "exprimare si miscare",
       "en": "expression and movement"
@@ -1337,10 +1005,6 @@
     "label": {
       "ro": "Obraznic",
       "en": "Cheeky"
-    },
-    "description": {
-      "ro": "Obraznicia este o forma jucausa de sfidare — un umor subtil de transgresiune care testeaza limitele conventiilor fara a rani. Este expresia unui sine care se simte suficient de sigur pentru a fi nonconformist. Obraznicia sanatoasa aduce lejeritate in relatii si sparge tiparele rigide ale interactiunilor formale.",
-      "en": "Cheekiness is a playful form of defiance — a subtle humor of transgression that tests the boundaries of convention without causing harm. It is the expression of a self that feels safe enough to be nonconformist. Healthy cheekiness brings lightness to relationships and breaks the rigid patterns of formal interactions."
     },
     "needs": {
       "ro": "spatiu de joc si permisiune",
@@ -1354,10 +1018,6 @@
       "ro": "Zburdalnic",
       "en": "Silly"
     },
-    "description": {
-      "ro": "Starea de zburdalnie este momentul in care te eliberezi complet de nevoia de a fi luat in serios — te lasi purtat de absurd, de spontaneitate si de bucuria pura a prostiilor. Este o forma de joaca in care renunti la autocontrol si iti permiti sa fii ridicol fara jena. Zburdalnia sanatoasa este un semn de siguranta emotionala: doar cand te simti suficient de liber poti renunta la imagine si te poti bucura fara filtru.",
-      "en": "Silliness is the moment when you completely free yourself from the need to be taken seriously — you let yourself be carried by absurdity, spontaneity, and the pure joy of goofiness. It is a form of play where you release self-consciousness and allow yourself to be ridiculous without embarrassment. Healthy silliness is a sign of emotional safety: only when you feel free enough can you let go of your image and enjoy without filter."
-    },
     "needs": {
       "ro": "permisiune si lipsa judecatii",
       "en": "permission and freedom from judgment"
@@ -1369,10 +1029,6 @@
     "label": {
       "ro": "Liber",
       "en": "Free"
-    },
-    "description": {
-      "ro": "Libertatea emotionala este experienta de a nu fi constrins — nici de circumstante externe, nici de blocaje interioare. Te simti capabil sa alegi, sa te exprimi si sa te misti in directia care ti se potriveste. Libertatea autentica include si responsabilitatea pentru alegerile tale, nu doar absenta restrictiilor.",
-      "en": "Emotional freedom is the experience of being unconstrained — neither by external circumstances nor by internal blockages. You feel capable of choosing, expressing yourself, and moving in the direction that suits you. Authentic freedom also includes responsibility for your choices, not just the absence of restrictions."
     },
     "needs": {
       "ro": "spatiu deschis si autonomie",
@@ -1386,10 +1042,6 @@
       "ro": "Bucuros",
       "en": "Joyful"
     },
-    "description": {
-      "ro": "Bucuria este o explozie calda de fericire care te umple complet — o stare de plenitudine emotionala in care viata pare frumoasa si plina de sens. Este mai intensa decat multumirea si mai sustinuta decat incantarea. Bucuria autentiva iradeaza si catre ceilalti, fiind una dintre cele mai contagioase emotii pozitive.",
-      "en": "Joyfulness is a warm explosion of happiness that fills you completely — a state of emotional fullness where life seems beautiful and meaningful. It is more intense than contentment and more sustained than delight. Authentic joy radiates toward others as well, being one of the most contagious positive emotions."
-    },
     "needs": {
       "ro": "partajare si celebrare",
       "en": "sharing and celebration"
@@ -1401,10 +1053,6 @@
     "label": {
       "ro": "Curios",
       "en": "Curious"
-    },
-    "description": {
-      "ro": "Curiozitatea este impulsul de a sti, de a intelege si de a descoperi. Este mintea ta in starea ei cea mai deschisa si mai receptiva. Curiozitatea te scoate din zona de confort si te duce catre crestere. In relatii, curiozitatea fata de experienta celuilalt este una dintre cele mai puternice forme de respect si iubire.",
-      "en": "Curiosity is the impulse to know, understand, and discover. It is your mind in its most open and receptive state. Curiosity takes you out of your comfort zone and leads you toward growth. In relationships, curiosity about the other's experience is one of the most powerful forms of respect and love."
     },
     "needs": {
       "ro": "noutate si explorare",
@@ -1418,10 +1066,6 @@
       "ro": "Iscoditor",
       "en": "Inquisitive"
     },
-    "description": {
-      "ro": "Iscodirea este forma persistenta si activa a curiozitatii — nu doar vrei sa stii, ci urmaresti raspunsuri cu determinare. Este energia cercetatorului interior care nu se multumeste cu suprafata lucrurilor. Iscodirea sanatoasa respecta granitele celorlalti; cea nesanatoasa le incalca sub pretextul cunoasterii.",
-      "en": "Inquisitiveness is the persistent and active form of curiosity — you don't just want to know, but pursue answers with determination. It is the energy of the inner researcher who isn't satisfied with the surface of things. Healthy inquisitiveness respects others' boundaries; unhealthy inquisitiveness violates them under the pretext of knowledge."
-    },
     "needs": {
       "ro": "raspunsuri si profunzime",
       "en": "answers and depth"
@@ -1433,10 +1077,6 @@
     "label": {
       "ro": "De succes",
       "en": "Successful"
-    },
-    "description": {
-      "ro": "Sentimentul de succes este confirmarea emotionala ca ai atins un obiectiv important si ca efortul tau a dat roade. Este o validare profunda a competentei tale. Succesul autentic se masoara nu doar in rezultate externe, ci si in sentimentul de coerenta intre ceea ce faci si ceea ce valorezi.",
-      "en": "The feeling of success is the emotional confirmation that you've reached an important goal and your effort has borne fruit. It is a deep validation of your competence. Authentic success is measured not only in external results, but also in the feeling of coherence between what you do and what you value."
     },
     "needs": {
       "ro": "recunoastere si odihna",
@@ -1450,10 +1090,6 @@
       "ro": "Increzator",
       "en": "Confident"
     },
-    "description": {
-      "ro": "Increderea in sine este convingerea interioara ca ai resursele necesare pentru a face fata provocarilor vietii. Nu inseamna absenta indoielii, ci capacitatea de a actiona in ciuda ei. Increderea sanatoasa se construieste prin experienta repetata a depasirii obstacolelor, nu prin negarea vulnerabilitatilor.",
-      "en": "Self-confidence is the inner conviction that you have the necessary resources to face life's challenges. It doesn't mean the absence of doubt, but the capacity to act despite it. Healthy confidence is built through repeated experience of overcoming obstacles, not through denying vulnerabilities."
-    },
     "needs": {
       "ro": "incredere in sine si provocari noi",
       "en": "trust in self and new challenges"
@@ -1465,10 +1101,6 @@
     "label": {
       "ro": "Implinit",
       "en": "Accomplished"
-    },
-    "description": {
-      "ro": "Sentimentul de implinire este privirea retrospectiva asupra unui drum parcurs — recunoasterea profunda ca ai depus efort, ai crescut si ai dus ceva la bun sfarsit. Este mai mult decat succesul momentan; este integrarea intregii experiente intr-un sentiment de completare si stapanire. Implinirea sanatoasa include si recunoasterea pretului platit si a lectiilor invatate, nu doar a rezultatului final.",
-      "en": "The feeling of accomplishment is looking back over a path traveled — the deep recognition that you invested effort, grew, and brought something to completion. It is more than momentary success; it is the integration of the entire experience into a sense of completion and mastery. Healthy accomplishment also includes recognizing the price paid and the lessons learned, not just the final result."
     },
     "needs": {
       "ro": "recunoastere si integrare",
@@ -1482,10 +1114,6 @@
       "ro": "Respectat",
       "en": "Respected"
     },
-    "description": {
-      "ro": "A te simti respectat inseamna sa stii ca ceilalti iti recunosc demnitatea, opiniile si granitele. Respectul din exterior iti confirma valoarea sociala si iti intareste sentimentul de apartinere. Cand esti respectat, te simti vazut si auzit — doua nevoi fundamentale ale fiintei umane.",
-      "en": "Feeling respected means knowing that others recognize your dignity, opinions, and boundaries. External respect confirms your social value and strengthens your sense of belonging. When you are respected, you feel seen and heard — two fundamental needs of the human being."
-    },
     "needs": {
       "ro": "demnitate si a fi auzit",
       "en": "dignity and being heard"
@@ -1497,10 +1125,6 @@
     "label": {
       "ro": "Valorizat",
       "en": "Valued"
-    },
-    "description": {
-      "ro": "A te simti valorizat este experienta profunda ca contribui cu ceva important si ca prezenta ta conteaza. Este mai mult decat a fi respectat — este sa stii ca lumea ar fi mai saraca fara tine. Sentimentul de a fi valorizat hraneste stima de sine si te motiveaza sa continui sa oferi din ceea ce ai mai bun.",
-      "en": "Feeling valued is the deep experience that you contribute something important and that your presence matters. It is more than being respected — it is knowing that the world would be poorer without you. The feeling of being valued nourishes self-esteem and motivates you to continue offering your best."
     },
     "needs": {
       "ro": "apreciere si scop",
@@ -1514,10 +1138,6 @@
       "ro": "Inclus",
       "en": "Included"
     },
-    "description": {
-      "ro": "Sentimentul de a fi inclus este experienta calda de a apartine — stii ca esti parte dintr-un grup, o comunitate sau un proiect care te accepta si te vrea acolo. Este una dintre nevoile umane cele mai fundamentale, legata de supravietuirea noastra ca specie sociala. Cand te simti inclus, anxietatea sociala se diminueaza si poti contribui autentic, stiind ca locul tau este asigurat.",
-      "en": "The feeling of being included is the warm experience of belonging — you know you are part of a group, a community, or a project that accepts you and wants you there. It is one of the most fundamental human needs, tied to our survival as a social species. When you feel included, social anxiety diminishes and you can contribute authentically, knowing your place is secure."
-    },
     "needs": {
       "ro": "apartinere si confirmare",
       "en": "belonging and confirmation"
@@ -1529,10 +1149,6 @@
     "label": {
       "ro": "Binecuvantat",
       "en": "Blessed"
-    },
-    "description": {
-      "ro": "Sentimentul de binecuvantare este experienta coplesitoare a abundentei nemeritate — momentul in care realizezi ca ai primit mai mult decat ai cerut sau ai asteptat. Este o multumire adanca amestecata cu uimire si smerenie. Spre deosebire de recunostinta, care este orientata catre un gest specific, binecuvantarea este un sentiment difuz de a fi purtat de viata. Acest sentiment nu depinde de credinta religioasa — el apare ori de cate ori viata depaseste asteptarile tale intr-un mod care te umple de gratitudine.",
-      "en": "The feeling of being blessed is the overwhelming experience of unearned abundance — the moment when you realize you have received more than you asked for or expected. It is a deep contentment mixed with wonder and humility. Unlike thankfulness, which is directed toward a specific gesture, blessedness is a diffuse sense of being carried by life. This feeling does not depend on religious belief — it arises whenever life exceeds your expectations in a way that fills you with gratitude."
     },
     "needs": {
       "ro": "smerenie si savurare",
@@ -1546,10 +1162,6 @@
       "ro": "Fascinat",
       "en": "Fascinated"
     },
-    "description": {
-      "ro": "Fascinatia este o captare completa a atentiei de catre ceva care te uimeste sau te intriga profund. Este mai intensa decat curiozitatea obisnuita — in fascinatie, obiectul interesului tau pare sa straluceasca si sa atraga tot focusul tau fara efort. Este pragul unei stari de flux, momentul in care treci de la a alege sa fii atent la a nu te putea opri din a fi atent. Functia ei adaptiva este sa te ghideze catre domeniile in care ai cel mai mare potential de invatare si crestere.",
-      "en": "Fascination is the complete capture of your attention by something that awes or deeply intrigues you. It is more intense than ordinary curiosity — in fascination, the object of your interest seems to glow and draw all your focus effortlessly. It is the threshold of a flow state, the moment when you shift from choosing to pay attention to being unable to stop paying attention. Its adaptive function is to guide you toward the domains where you have the greatest potential for learning and growth."
-    },
     "needs": {
       "ro": "imersiune si timp neintrerupt",
       "en": "immersion and uninterrupted time"
@@ -1561,10 +1173,6 @@
     "label": {
       "ro": "Captivat",
       "en": "Absorbed"
-    },
-    "description": {
-      "ro": "Absorbtia este starea de imersiune completa in care constientizarea de sine si simtul timpului se estompeaza — esti atat de angajat in ceea ce faci incat restul lumii pare sa dispara. Spre deosebire de fascinatie, care este un prag de captare, absorbtia este deja in interiorul experientei: nu mai observi ca esti atent, pur si simplu esti acolo. Este forma cea mai profunda a interesului, aproape de ceea ce psihologul Csikszentmihalyi numea flux.",
-      "en": "Absorption is the state of complete immersion in which self-awareness and the sense of time fade — you are so engaged in what you are doing that the rest of the world seems to disappear. Unlike fascination, which is a threshold of capture, absorption is already inside the experience: you no longer notice you are paying attention, you simply are there. It is the deepest form of interest, close to what psychologist Csikszentmihalyi called flow."
     },
     "needs": {
       "ro": "continuitate si lipsa intreruperilor",
@@ -1578,10 +1186,6 @@
       "ro": "Demn",
       "en": "Worthy"
     },
-    "description": {
-      "ro": "Sentimentul de demnitate este recunoasterea interioara ca ai valoare intrinseca — nu pentru ceea ce ai realizat, ci pentru ceea ce esti. Spre deosebire de succesul care vine din performanta sau de increderea care vine din competenta, demnitatea este anterioara oricarei dovezi. Este vocea interioara care spune: merit sa fiu aici, merit sa fiu tratat cu respect. Functia ei adaptiva este sa protejeze granitele personale si sa sustina alegerile care te onoreaza. Demnitatea sanatoasa este opusul rusinii.",
-      "en": "The feeling of worthiness is the inner recognition that you have intrinsic value — not for what you have accomplished, but for who you are. Unlike success, which comes from performance, or confidence, which comes from competence, worthiness precedes any evidence. It is the inner voice that says: I deserve to be here, I deserve to be treated with respect. Its adaptive function is to protect personal boundaries and sustain choices that honor you. Healthy worthiness is the opposite of shame."
-    },
     "needs": {
       "ro": "validare si auto-compasiune",
       "en": "validation and self-compassion"
@@ -1593,10 +1197,6 @@
     "label": {
       "ro": "Curajos",
       "en": "Courageous"
-    },
-    "description": {
-      "ro": "Curajul nu este absenta fricii, ci alegerea constienta de a actiona in ciuda ei. Este capacitatea de a merge inainte cand totul in tine vrea sa se retraga. Curajul emotional — sa fii vulnerabil, sa spui adevarul, sa ceri ajutor — este adesea mai dificil decat curajul fizic si la fel de necesar.",
-      "en": "Courage is not the absence of fear, but the conscious choice to act despite it. It is the capacity to move forward when everything in you wants to retreat. Emotional courage — being vulnerable, speaking the truth, asking for help — is often more difficult than physical courage and equally necessary."
     },
     "needs": {
       "ro": "sustinere si spatiu de actiune",
@@ -1610,10 +1210,6 @@
       "ro": "Creativ",
       "en": "Creative"
     },
-    "description": {
-      "ro": "Creativitatea este capacitatea de a vedea conexiuni noi si de a genera ceva care nu exista inca. Este expresia libertatii interioare si a jocului cu posibilitati. Starea creativa apare cand te simti suficient de sigur pentru a risca esecul si suficient de curios pentru a explora necunoscutul. Creativitatea nu este un talent rar, ci o capacitate umana universala.",
-      "en": "Creativity is the capacity to see new connections and generate something that doesn't yet exist. It is the expression of inner freedom and the play with possibilities. The creative state arises when you feel safe enough to risk failure and curious enough to explore the unknown. Creativity is not a rare talent, but a universal human capacity."
-    },
     "needs": {
       "ro": "inspiratie si libertate de a experimenta",
       "en": "inspiration and freedom to experiment"
@@ -1625,10 +1221,6 @@
     "label": {
       "ro": "Hotarat",
       "en": "Determined"
-    },
-    "description": {
-      "ro": "Hotararea este forta volitiva care te tine pe drum cand obstacolele apar — o rezolvare interioara clara si neclintita de a continua, indiferent de dificultati. Nu este rigiditate, ci angajament constient fata de un scop care conteaza cu adevarat pentru tine. Hotararea sanatoasa include si flexibilitatea de a-ti ajusta metoda, nu doar tenacitatea de a persista.",
-      "en": "Determination is the volitional force that keeps you on course when obstacles appear — a clear and unwavering inner resolve to continue regardless of difficulty. It is not rigidity, but conscious commitment to a goal that truly matters to you. Healthy determination also includes the flexibility to adjust your method, not just the tenacity to persist."
     },
     "needs": {
       "ro": "claritate si perseverenta",
@@ -1642,10 +1234,6 @@
       "ro": "Iubitor",
       "en": "Loving"
     },
-    "description": {
-      "ro": "A fi iubitor este o stare activa de grija si devotament — nu doar primesti iubire, ci o oferi constient si generos. Este capacitatea de a vedea frumusetea si valoarea celuilalt si de a actiona in consecinta. Starea de iubire te deschide, te face vulnerabil si te conecteaza la ceea ce este cel mai profund uman in tine.",
-      "en": "Being loving is an active state of care and devotion — you don't just receive love, but offer it consciously and generously. It is the capacity to see the beauty and value of the other and to act accordingly. The loving state opens you, makes you vulnerable, and connects you to what is most deeply human in you."
-    },
     "needs": {
       "ro": "reciprocitate si prezenta",
       "en": "reciprocity and presence"
@@ -1657,10 +1245,6 @@
     "label": {
       "ro": "Recunoscator",
       "en": "Thankful"
-    },
-    "description": {
-      "ro": "Recunostinta este capacitatea de a recunoaste si aprecia binele din viata ta — de la darurile mari pana la gesturile marunte. Cercetarile arata ca practica recunostintei reduce depresia, imbunatateste somnul si intareste relatiile. Recunostinta autentica nu este o obligatie sociala, ci o deschidere a inimii catre abundenta care exista deja.",
-      "en": "Thankfulness is the capacity to recognize and appreciate the good in your life — from great gifts to small gestures. Research shows that gratitude practice reduces depression, improves sleep, and strengthens relationships. Authentic thankfulness is not a social obligation, but an opening of the heart to the abundance that already exists."
     },
     "needs": {
       "ro": "savurare si exprimare",
@@ -1674,10 +1258,6 @@
       "ro": "Armonios",
       "en": "Harmonious"
     },
-    "description": {
-      "ro": "Armonia interioara este starea in care toate partile tale — gandurile, emotiile, valorile si actiunile — se simt aliniate si coerente. Nu mai exista conflicte interne care sa te traga in directii diferite. Este o pace care vine din integrare, nu din evitare. Armonia nu inseamna absenta complexitatii, ci capacitatea de a tine impreuna toate aspectele experientei tale intr-un echilibru care te sustine.",
-      "en": "Inner harmony is the state where all your parts — thoughts, emotions, values, and actions — feel aligned and coherent. There are no longer internal conflicts pulling you in different directions. It is a peace that comes from integration, not avoidance. Harmony does not mean the absence of complexity, but the capacity to hold all aspects of your experience together in a balance that sustains you."
-    },
     "needs": {
       "ro": "coerenta si echilibru",
       "en": "coherence and balance"
@@ -1689,10 +1269,6 @@
     "label": {
       "ro": "Sensibil",
       "en": "Sensitive"
-    },
-    "description": {
-      "ro": "Sensibilitatea este capacitatea de a percepe nuante subtile — ale propriilor emotii, ale celorlalti si ale mediului. Este un dar care aduce profunzime experientei, dar care poate fi si coplesitor. Persoanele sensibile proceseaza informatia mai profund si reactioneaza mai intens. Sensibilitatea necesita ingrijire constienta si granite sanatoase.",
-      "en": "Sensitivity is the capacity to perceive subtle nuances — of your own emotions, of others, and of the environment. It is a gift that brings depth to experience, but can also be overwhelming. Sensitive people process information more deeply and react more intensely. Sensitivity requires conscious care and healthy boundaries."
     },
     "needs": {
       "ro": "blandete si limite",
@@ -1706,10 +1282,6 @@
       "ro": "Intim",
       "en": "Intimate"
     },
-    "description": {
-      "ro": "Intimitatea este experienta de a fi complet deschis si vulnerabil in prezenta cuiva in care ai incredere totala. Este cea mai profunda forma de conexiune umana — spatiul in care poti fi complet tu insuti fara masca. Intimitatea se construieste lent, prin momente repetate de vulnerabilitate reciproca si raspuns empatic.",
-      "en": "Intimacy is the experience of being completely open and vulnerable in the presence of someone you fully trust. It is the deepest form of human connection — the space where you can be completely yourself without a mask. Intimacy is built slowly, through repeated moments of mutual vulnerability and empathic response."
-    },
     "needs": {
       "ro": "incredere si vulnerabilitate",
       "en": "trust and vulnerability"
@@ -1721,10 +1293,6 @@
     "label": {
       "ro": "Inspirat",
       "en": "Inspired"
-    },
-    "description": {
-      "ro": "Inspiratia este momentul in care ceva din exterior aprinde o flacara in interior — simti un elan creativ, o viziune clara sau o motivatie puternica de a actiona. Este emotia care te conecteaza cu un sens mai mare decat tine. Inspiratia nu poate fi fortata, dar poate fi cultivata prin expunerea la frumusete, idei noi si oameni autentici.",
-      "en": "Inspiration is the moment when something external ignites a flame within — you feel a creative impulse, a clear vision, or a powerful motivation to act. It is the emotion that connects you to a meaning greater than yourself. Inspiration cannot be forced, but can be cultivated through exposure to beauty, new ideas, and authentic people."
     },
     "needs": {
       "ro": "exprimare creativa si actiune",
@@ -1738,10 +1306,6 @@
       "ro": "Deschis",
       "en": "Open"
     },
-    "description": {
-      "ro": "Deschiderea este disponibilitatea de a primi experienta noua fara filtrele obisnuite ale judecatii si prejudecatii. Este o stare de receptivitate in care mintea si inima nu sunt aparate, ci accesibile. Deschiderea iti permite sa inveti, sa te schimbi si sa te conectezi cu diversitatea vietii.",
-      "en": "Openness is the willingness to receive new experience without the usual filters of judgment and prejudice. It is a state of receptivity where the mind and heart are not defended, but accessible. Openness allows you to learn, change, and connect with the diversity of life."
-    },
     "needs": {
       "ro": "acceptare si experienta noua",
       "en": "acceptance and new experience"
@@ -1753,10 +1317,6 @@
     "label": {
       "ro": "Plin de speranta",
       "en": "Hopeful"
-    },
-    "description": {
-      "ro": "Speranta este credinta linistita ca lucrurile se pot imbunatati — nu o certitudine, ci o deschidere catre posibilitate chiar si atunci cand prezentul este dificil. Este miezul optimismului, resursa interioara care te sustine in perioadele de incertitudine si tranzitie. Speranta nu neaga suferinta prezenta, ci refuza sa o considere permanenta. Cercetarile arata ca speranta este unul dintre cei mai puternici predictori ai rezilientei psihologice.",
-      "en": "Hope is the quiet belief that things can improve — not a certainty, but an openness to possibility even when the present is difficult. It is the core of optimism, the inner resource that sustains you through periods of uncertainty and transition. Hope does not deny present suffering, but refuses to consider it permanent. Research shows that hope is one of the strongest predictors of psychological resilience."
     },
     "needs": {
       "ro": "posibilitate si rabdare",
@@ -1770,10 +1330,6 @@
       "ro": "Indraznet",
       "en": "Brave"
     },
-    "description": {
-      "ro": "Indrazneala este curajul momentului — un impuls de a actiona cand totul in tine ezita. Nu este lipsa fricii, ci decizia de a face un pas inainte in ciuda ei. Spre deosebire de curajul sustinut, indrazneala este o sclipire de hotarare care apare in momente critice — cand trebuie sa vorbesti, sa sari sau sa te expui. Este vocea interioara care spune 'acum' cand frica spune 'nu inca'. Indrazneala iti aminteste ca esti mai puternic decat crezi in momentele care conteaza.",
-      "en": "Bravery is the courage of the moment — an impulse to act when everything in you hesitates. It is not the absence of fear, but the decision to step forward despite it. Unlike sustained courage, bravery is a flash of resolve that emerges at critical moments — when you need to speak up, leap, or expose yourself. It is the inner voice saying 'now' when fear says 'not yet'. Bravery reminds you that you are stronger than you think in the moments that matter."
-    },
     "needs": {
       "ro": "sustinere si recunoastere",
       "en": "support and recognition"
@@ -1785,10 +1341,6 @@
     "label": {
       "ro": "In siguranta",
       "en": "Safe"
-    },
-    "description": {
-      "ro": "Siguranta resimtita este starea fundamentala in care corpul si mintea ta stiu ca nu esti amenintat — nu prin gandire, ci prin simtire. Este ceea ce teoria polivagala numeste activarea sistemului vagal ventral: respiratia se calmeaza, muschii se relaxeaza si esti capabil de conexiune sociala autentica. Siguranta nu este absenta pericolului, ci prezenta unei increderi profunde ca poti face fata. Este fundatia pe care se construiesc toate celelalte emotii pozitive.",
-      "en": "Felt safety is the foundational state where your body and mind know you are not threatened — not through thinking, but through feeling. It is what polyvagal theory calls ventral vagal activation: breathing calms, muscles relax, and you are capable of authentic social connection. Safety is not the absence of danger, but the presence of a deep trust that you can cope. It is the foundation upon which all other positive emotions are built."
     },
     "needs": {
       "ro": "stabilitate si predictibilitate",
@@ -1802,10 +1354,6 @@
       "ro": "Dezamagit",
       "en": "Disappointed"
     },
-    "description": {
-      "ro": "Dezamagirea in contextul tristetii este durerea calma a asteptarilor neimplinite — nu furia, ci doliul pentru ceea ce ar fi putut fi. Este acceptarea trista ca realitatea nu corespunde sperantelor tale. Dezamagirea repetata poate eroda optimismul si increderea. Procesarea constientea a dezamagirii include ajustarea asteptarilor fara a renunta la speranta.",
-      "en": "Disappointment in the context of sadness is the calm pain of unfulfilled expectations — not anger, but grief for what could have been. It is the sad acceptance that reality doesn't match your hopes. Repeated disappointment can erode optimism and trust. Conscious processing of disappointment includes adjusting expectations without giving up hope."
-    },
     "needs": {
       "ro": "ajustarea sperantelor si doliu bland",
       "en": "adjusting hopes and gentle grieving"
@@ -1818,10 +1366,6 @@
       "ro": "Ranit profund",
       "en": "Wounded"
     },
-    "description": {
-      "ro": "A te simti ranit profund este experienta unei dureri emotionale ascutite provocate de cuvintele sau actiunile cuiva — nu o dezamagire difuza, ci o rana precisa care te atinge intr-un loc vulnerabil. Simti ca cineva a trecut prin apararea ta si a lovit intr-un punct sensibil pe care poate nici nu stiai ca il ai. Aceasta durere este un semnal ca relatia cu acea persoana conteaza — nu ne pot rani profund decat cei carora le-am acordat importanta. Vindecarea incepe cu recunoasterea ranei, nu cu minimizarea ei.",
-      "en": "Feeling deeply wounded is the experience of a sharp emotional pain caused by someone's words or actions — not a diffuse disappointment, but a precise wound that reaches a vulnerable place. You feel that someone got past your defenses and struck a sensitive point you may not even have known you had. This pain is a signal that your relationship with that person matters — only those we've given importance to can wound us deeply. Healing begins with acknowledging the wound, not minimizing it."
-    },
     "needs": {
       "ro": "recunoastere si ingrijire blanda",
       "en": "acknowledgment and gentle care"
@@ -1833,10 +1377,6 @@
     "label": {
       "ro": "Gol",
       "en": "Empty"
-    },
-    "description": {
-      "ro": "Golul emotional este absenta dureroasa a sentimentului — o stare in care interiorul tau pare vid si deconectat de viata. Nu durere, nu bucurie — doar un spatiu pustiu. Golul poate fi un simptom al depresiei, al dezlegarii de sine sau al pierderii sensului. Recuperarea vine prin reconectarea treptata cu corpul, cu natura si cu relatiile care te ancoreaza.",
-      "en": "Emotional emptiness is the painful absence of feeling — a state where your interior seems void and disconnected from life. No pain, no joy — just a barren space. Emptiness can be a symptom of depression, disconnection from self, or loss of meaning. Recovery comes through gradual reconnection with the body, nature, and relationships that anchor you."
     },
     "needs": {
       "ro": "reconectare senzoriala si prezenta",
@@ -1851,10 +1391,6 @@
       "ro": "Deznadajduit",
       "en": "Hopeless"
     },
-    "description": {
-      "ro": "Deznadejdea este convingerea ca lucrurile nu se vor imbunatati niciodata — viitorul pare inchis, iar orice efort pare zadarnic. Este important sa stii ca deznadejdea este un semnal emotional, nu un adevar despre viitorul tau. Creierul, cand este epuizat sau coplesit, produce aceasta senzatie de impas total ca mecanism de conservare a energiei. Deznadejdea iti spune ca ai nevoie de sprijin si de o perspectiva pe care nu o poti gasi singur in acest moment — nu ca situatia ta este cu adevarat fara iesire.",
-      "en": "Hopelessness is the conviction that things will never get better — the future seems closed and any effort seems futile. It is important to know that hopelessness is an emotional signal, not a truth about your future. The brain, when exhausted or overwhelmed, produces this sensation of total impasse as an energy conservation mechanism. Hopelessness tells you that you need support and a perspective you cannot find alone right now — not that your situation is truly without exit."
-    },
     "needs": {
       "ro": "sprijin si o perspectiva noua",
       "en": "support and a new perspective"
@@ -1868,10 +1404,6 @@
       "ro": "Plin de remuscari",
       "en": "Remorseful"
     },
-    "description": {
-      "ro": "Remuscarea este forma profunda a vinovatiei — nu doar stii ca ai gresit, ci simti in tot corpul greutatea a ceea ce ai facut. Este emotia care te face sa vrei sa intorci timpul si sa repari ce ai stricat. Remuscarea autentica este necesara pentru reparatie si iertare, dar trebuie sa duca la actiune, nu sa ramana o auto-pedepsire perpetua.",
-      "en": "Remorse is the deep form of guilt — you don't just know you were wrong, but feel in your entire body the weight of what you did. It is the emotion that makes you want to turn back time and repair what you broke. Authentic remorse is necessary for repair and forgiveness, but it must lead to action, not remain perpetual self-punishment."
-    },
     "needs": {
       "ro": "actiune reparatorie si auto-iertare",
       "en": "reparative action and self-forgiveness"
@@ -1883,10 +1415,6 @@
     "label": {
       "ro": "Rusinat",
       "en": "Ashamed"
-    },
-    "description": {
-      "ro": "Rusinea este convingerea dureroasa ca esti defect in esenta ta — nu ca ai facut ceva gresit, ci ca esti ceva gresit. Este una dintre cele mai dureroase emotii umane, care te face sa vrei sa dispari sau sa te ascunzi. Rusinea toxica isi are originile in experienta de a nu fi fost acceptat neconditionat. Vindecarea vine prin relatii in care esti primit complet.",
-      "en": "Shame is the painful conviction that you are defective at your core — not that you did something wrong, but that you are something wrong. It is one of the most painful human emotions, making you want to disappear or hide. Toxic shame originates in the experience of not having been unconditionally accepted. Healing comes through relationships where you are fully received."
     },
     "needs": {
       "ro": "acceptare neconditionata si apartinere",
@@ -1900,10 +1428,6 @@
       "ro": "Plin de regret",
       "en": "Regretful"
     },
-    "description": {
-      "ro": "Regretul este reflectia calma si dureroasa ca ai fi putut actiona altfel — o constientizare lipsita de dramatismul remuscarii sau de prabusirea rusinii, dar nu mai putin reala. Privesti inapoi si vezi clar ce ai fi putut face diferit, si aceasta claritate vine cu o tristete lina. Regretul este de fapt un semn de maturitate emotionala — inseamna ca ai crescut suficient incat sa vezi lucrurile dintr-o perspectiva pe care nu o aveai atunci. El te poate ghida spre alegeri mai aliniate cu valorile tale.",
-      "en": "Regret is the calm, painful reflection that you could have acted differently — an awareness that lacks the drama of remorse or the collapse of shame, but is no less real. You look back and clearly see what you could have done differently, and this clarity comes with a gentle sadness. Regret is actually a sign of emotional maturity — it means you have grown enough to see things from a perspective you didn't have then. It can guide you toward choices more aligned with your values."
-    },
     "needs": {
       "ro": "acceptare si invatare din experienta",
       "en": "acceptance and learning from experience"
@@ -1915,10 +1439,6 @@
     "label": {
       "ro": "Cu inima franta",
       "en": "Heartbroken"
-    },
-    "description": {
-      "ro": "Inima franta este durerea pura a unei legaturi care s-a rupt — nu o dezamagire sau o rana, ci prabusirea unui pod relational pe care te bazai. Simti o durere fizica in piept, ca si cum ceva s-a rupt cu adevarat inauntrul tau. Lumea pare golita de culoare si de sens. Inima franta este pretul iubirii — nu poti avea una fara riscul celeilalte. Vindecarea nu inseamna sa uiti, ci sa inveti sa traiesti cu cicatricea si sa iti deschizi din nou inima cand esti gata.",
-      "en": "Heartbreak is the pure pain of a bond that has been severed — not a disappointment or a wound, but the collapse of a relational bridge you depended on. You feel a physical pain in your chest, as if something truly broke inside you. The world seems emptied of color and meaning. Heartbreak is the price of love — you cannot have one without risking the other. Healing does not mean forgetting, but learning to live with the scar and opening your heart again when you are ready."
     },
     "needs": {
       "ro": "timp, doliu si prezenta",
@@ -1932,10 +1452,6 @@
       "ro": "Secatuit",
       "en": "Depleted"
     },
-    "description": {
-      "ro": "Secatuirea este epuizarea resurselor emotionale dupa o perioada prelungita de dare fara primire — ai oferit empatie, grija si energie pana cand nu a mai ramas nimic. Nu este oboseala obisnuita, ci golirea pana la fund a rezervorului emotional. Secatuirea apare frecvent la cei care au grija de altii — parinti, ingrijitori, terapeuti, profesori. Recuperarea necesita nu doar odihna, ci si primirea constienta a grijii de la altii — invatarea ca si tu meriti sa fii ingrijit.",
-      "en": "Depletion is the exhaustion of emotional resources after a prolonged period of giving without receiving — you offered empathy, care, and energy until nothing remained. It is not ordinary fatigue, but the draining to the bottom of the emotional reservoir. Depletion frequently occurs in caregivers — parents, caretakers, therapists, teachers. Recovery requires not just rest, but consciously receiving care from others — learning that you too deserve to be cared for."
-    },
     "needs": {
       "ro": "primire si reumplere",
       "en": "receiving and replenishment"
@@ -1947,10 +1463,6 @@
     "label": {
       "ro": "Autocondamnator",
       "en": "Self-blaming"
-    },
-    "description": {
-      "ro": "Autocondamnarea este tendinta persistenta de a-ti atribui vina pentru lucruri care nu sunt integral sau deloc responsabilitatea ta. Nu este vinovatie sanatoasa, ci o distorsiune cognitiva in care devii tinta propriei furii — 'totul este vina mea' devine un refren intern care te erodeaza. Autocondamnarea este adesea invatata in medii unde erai facut responsabil pentru emotiile si comportamentele altora. Vindecarea vine prin discernamant — inveti sa diferentiezi intre responsabilitate reala si vina preluata.",
-      "en": "Self-blame is the persistent tendency to attribute fault to yourself for things that are not entirely or at all your responsibility. It is not healthy guilt, but a cognitive distortion where you become the target of your own fury — 'everything is my fault' becomes an internal refrain that erodes you. Self-blame is often learned in environments where you were made responsible for others' emotions and behaviors. Healing comes through discernment — learning to differentiate between real responsibility and assumed blame."
     },
     "needs": {
       "ro": "discernamant si eliberare de vina preluata",
@@ -1965,10 +1477,6 @@
       "ro": "Nedemn",
       "en": "Unworthy"
     },
-    "description": {
-      "ro": "A te simti nedemn este convingerea dureroasa ca nu meriti binele din viata ta — nu pentru ca ai facut ceva specific gresit, ci pentru ca simti o inadecvare morala fundamentala. 'Nu merit sa fiu iubit', 'nu merit aceasta sansa', 'nu merit sa fiu fericit' — aceste ganduri reflecta o vinovatie difuza care nu are un obiect clar. Nedemnitatea este adesea ecoul unor mesaje internalizate din copilarie. Vindecarea vine prin experienta repetata ca esti primit si acceptat fara conditii — ca meritarea nu este un prerequisit al iubirii.",
-      "en": "Feeling unworthy is the painful conviction that you don't deserve the good in your life — not because you did something specifically wrong, but because you feel a fundamental moral inadequacy. 'I don't deserve to be loved', 'I don't deserve this chance', 'I don't deserve to be happy' — these thoughts reflect a diffuse guilt without a clear object. Unworthiness is often the echo of messages internalized from childhood. Healing comes through repeated experience of being received and accepted without conditions — that deserving is not a prerequisite of love."
-    },
     "needs": {
       "ro": "acceptare neconditionata si experienta de merit",
       "en": "unconditional acceptance and experience of deservingness"
@@ -1981,10 +1489,6 @@
     "label": {
       "ro": "Neputincios",
       "en": "Powerless"
-    },
-    "description": {
-      "ro": "Neputinta este experienta devastatoare ca nu poti influenta sau schimba o situatie care te face sa suferi. Este opusul agentivitatii — simti ca viata ti se intampla si tu nu ai niciun control. Neputinta invatata este un factor central in depresie. Recuperarea incepe cu identificarea oricat de mic a unui lucru pe care il poti controla si actionarea asupra lui.",
-      "en": "Powerlessness is the devastating experience that you cannot influence or change a situation that causes you suffering. It is the opposite of agency — you feel that life happens to you and you have no control. Learned helplessness is a central factor in depression. Recovery begins with identifying however small a thing you can control and acting on it."
     },
     "needs": {
       "ro": "un pas mic controlabil",
@@ -1999,10 +1503,6 @@
       "ro": "Chinuit",
       "en": "Anguished"
     },
-    "description": {
-      "ro": "Chinul emotional este durerea psihica atat de intensa incat devine fizica — o suferinta bruta, nediferentiata, care pare ca iti rascoleste tot interiorul. Nu poti gandi clar, nu poti functiona, nu poti pune cuvinte pe ceea ce simti. Corpul se incordeaza, respiratia devine grea, si totul pare sa doara in acelasi timp. Chinul este un semnal ca ai fost impins dincolo de capacitatea ta curenta de a face fata — nu este o slabiciune, ci o suprasolicitare a sistemului tau emotional care cere ajutor imediat.",
-      "en": "Emotional anguish is psychological pain so intense it becomes physical — a raw, undifferentiated suffering that seems to tear through your entire being. You cannot think clearly, you cannot function, you cannot put words to what you feel. The body tenses, breathing becomes heavy, and everything seems to hurt at once. Anguish is a signal that you have been pushed beyond your current capacity to cope — it is not a weakness, but an overload of your emotional system that calls for immediate help."
-    },
     "needs": {
       "ro": "prezenta umana si siguranta imediata",
       "en": "human presence and immediate safety"
@@ -2016,10 +1516,6 @@
       "ro": "Fragil",
       "en": "Fragile"
     },
-    "description": {
-      "ro": "Fragilitatea este starea in care te simti ca te-ai putea rupe la cel mai mic impact — emotional, psihologic sau relational. Esti intact dar pe muchie. Fragilitatea apare dupa perioade de stres intens, pierdere sau trauma. Nu este slabiciune permanenta, ci o stare temporara care cere grija, rabdare si protejarea constienta a resurselor limitate.",
-      "en": "Fragility is the state where you feel you could break at the slightest impact — emotionally, psychologically, or relationally. You are intact but on the edge. Fragility appears after periods of intense stress, loss, or trauma. It is not permanent weakness, but a temporary state that requires care, patience, and conscious protection of limited resources."
-    },
     "needs": {
       "ro": "blandete si odihna protejata",
       "en": "gentleness and protected rest"
@@ -2031,10 +1527,6 @@
     "label": {
       "ro": "Victimizat",
       "en": "Victimized"
-    },
-    "description": {
-      "ro": "A te simti victimizat este experienta ca ti s-a facut o nedreptate de catre forte mai puternice decat tine. Poate reflecta o realitate obiectiva de abuz sau poate deveni o pozitie existentiala din care refuzi sa iesi. Victimizarea reala merita validare si sprijin. Identitatea de victima permanenta, insa, te blocheaza in neputinta si te impiedica sa iti recastigi puterea.",
-      "en": "Feeling victimized is the experience that injustice was done to you by forces more powerful than yourself. It can reflect an objective reality of abuse or can become an existential position you refuse to leave. Real victimization deserves validation and support. Permanent victim identity, however, locks you in helplessness and prevents you from reclaiming your power."
     },
     "needs": {
       "ro": "validare si recapatarea agentivitatii",
@@ -2049,10 +1541,6 @@
       "ro": "Fara aparare",
       "en": "Defenseless"
     },
-    "description": {
-      "ro": "A te simti fara aparare este experienta de a fi expus fara niciun strat de protectie — mecanismele tale obisnuite de aparare, fie ca sunt rationale, emotionale sau relationale, sunt indisponibile sau epuizate. Nu este fragilitatea de a fi aproape de punctul de rupere, ci senzatia de a fi complet descoperit in fata a ceea ce vine. Aceasta stare apare adesea dupa perioade in care ai fost nevoit sa fii puternic prea mult timp. A recunoaste ca esti fara aparare este un act de onestitate care deschide drumul catre a primi ajutorul de care ai nevoie.",
-      "en": "Feeling defenseless is the experience of being exposed without any layer of protection — your usual defense mechanisms, whether rational, emotional, or relational, are unavailable or exhausted. It is not the fragility of being close to a breaking point, but the sensation of being completely uncovered in the face of whatever comes. This state often appears after periods where you had to be strong for too long. Recognizing that you are defenseless is an act of honesty that opens the path to receiving the help you need."
-    },
     "needs": {
       "ro": "protectie si sprijin extern",
       "en": "protection and external support"
@@ -2064,10 +1552,6 @@
     "label": {
       "ro": "Abandonat",
       "en": "Abandoned"
-    },
-    "description": {
-      "ro": "Abandonul este una dintre cele mai profunde rani emotionale — experienta ca cineva esential a plecat si te-a lasat singur cand aveai cea mai mare nevoie. Abandonul din copilarie lasa amprente care se reactiveaza in relatiile adulte. Frica de abandon poate duce la atasament anxios, dependenta sau, paradoxal, la evitarea completa a intimatatii.",
-      "en": "Abandonment is one of the deepest emotional wounds — the experience that someone essential left and left you alone when you needed them most. Childhood abandonment leaves imprints that reactivate in adult relationships. Fear of abandonment can lead to anxious attachment, dependency, or paradoxically, complete avoidance of intimacy."
     },
     "needs": {
       "ro": "atasament sigur si legaturi reparatorii",
@@ -2082,10 +1566,6 @@
       "ro": "Izolat",
       "en": "Isolated"
     },
-    "description": {
-      "ro": "Izolarea este starea de separare completa de ceilalti — nu doar fizica, ci si emotionala si existentiala. Te simti singur intr-un mod care pare permanent si fara scapare. Izolarea cronica este una dintre cele mai mari amenintari la sanatatea mentala si fizica. Drumul inapoi catre conexiune incepe cu un singur pas — un mesaj, un apel, o mana intinsa.",
-      "en": "Isolation is the state of complete separation from others — not just physical, but emotional and existential. You feel alone in a way that seems permanent and without escape. Chronic isolation is one of the greatest threats to mental and physical health. The road back to connection begins with a single step — a message, a call, an outstretched hand."
-    },
     "needs": {
       "ro": "un pas mic catre conexiune",
       "en": "one small step toward connection"
@@ -2097,10 +1577,6 @@
     "label": {
       "ro": "Singuratate",
       "en": "Loneliness"
-    },
-    "description": {
-      "ro": "Singuratatea este semnalul emotional ca nevoia ta fundamentala de apartenenta si conexiune autentica nu este implinita. Spre deosebire de izolare, singuratatea poate aparea chiar si in mijlocul multimii — este despre calitatea legaturilor, nu despre cantitate. Functia ei adaptiva este sa te motiveze sa cauti relatii autentice si sa investesti in legaturi care iti hranesc sufletul.",
-      "en": "Loneliness is the emotional signal that your fundamental need for belonging and authentic connection is unmet. Unlike isolation, loneliness can arise even in a crowd — it is about the quality of bonds, not quantity. Its adaptive function is to motivate you to seek genuine relationships and invest in connections that nourish your soul."
     },
     "needs": {
       "ro": "conexiune autentica si apartenenta",
@@ -2114,10 +1590,6 @@
       "ro": "Devastat",
       "en": "Devastated"
     },
-    "description": {
-      "ro": "Devastarea este starea de soc emotional dupa o pierdere sau o catastrofa care ti-a daramat lumea — nu doar tristete, ci prabusirea structurii pe care ti-ai construit viata. Peisajul interior arata ca dupa un cutremur: nimic nu mai e la locul lui si nu stii de unde sa incepi sa reconstruiesti. Devastarea este un raspuns normal la pierderi anormale. Nu trebuie sa stii cum sa faci fata — trebuie doar sa lasi pe cineva sa fie langa tine in timp ce peisajul se aseaza.",
-      "en": "Devastation is the state of emotional shock after a loss or catastrophe that has demolished your world — not just sadness, but the collapse of the structure on which you built your life. The inner landscape looks like after an earthquake: nothing is in its place and you don't know where to begin rebuilding. Devastation is a normal response to abnormal losses. You don't need to know how to cope — you just need to let someone be beside you while the landscape settles."
-    },
     "needs": {
       "ro": "prezenta umana si timp",
       "en": "human presence and time"
@@ -2129,10 +1601,6 @@
     "label": {
       "ro": "Pustiit",
       "en": "Desolate"
-    },
-    "description": {
-      "ro": "Pustiirea este starea de golire totala care urmeaza dupa ce totul a fost luat — nu mai exista durere acuta, ci un peisaj interior arid, fara contur si fara viata. Este ca un camp dupa incendiu — cenusa si tacere. Pustiirea este diferita de gol prin calitatea ei de dupa-catastrofa — nu lipsa sentimentului, ci ceea ce ramane dupa ce valurile de durere s-au retras. In aceasta ariditate aparenta, semintele noului inceput inca exista — dar au nevoie de rabdare si de ploaie blanda, nu de forta.",
-      "en": "Desolation is the state of total emptying that follows after everything has been taken — there is no longer acute pain, but an arid inner landscape, without contour and without life. It is like a field after fire — ash and silence. Desolation is different from emptiness in its post-catastrophe quality — not the absence of feeling, but what remains after the waves of pain have receded. In this apparent aridity, the seeds of a new beginning still exist — but they need patience and gentle rain, not force."
     },
     "needs": {
       "ro": "rabdare si hranire blanda",
@@ -2146,10 +1614,6 @@
       "ro": "Jenat",
       "en": "Embarrassed"
     },
-    "description": {
-      "ro": "Jena in contextul tristetii este o rusine blanda amestecata cu vulnerabilitate — te simti expus intr-un mod care te face sa vrei sa te ascunzi. Este sentimentul de a fi vazut intr-un moment de slabiciune sau de a fi facut ceva stangaci. Jena este tranzitorie si de obicei disproportionata fata de situatie — altii o observa mult mai putin decat crezi.",
-      "en": "Embarrassment in the context of sadness is a mild shame mixed with vulnerability — you feel exposed in a way that makes you want to hide. It is the feeling of being seen in a moment of weakness or having done something clumsy. Embarrassment is transient and usually disproportionate to the situation — others notice it far less than you think."
-    },
     "needs": {
       "ro": "reasigurare si perspectiva",
       "en": "reassurance and perspective"
@@ -2161,10 +1625,6 @@
     "label": {
       "ro": "Inferior",
       "en": "Inferior"
-    },
-    "description": {
-      "ro": "Sentimentul de inferioritate in contextul tristetii este durerea tacuta a comparatiei — te vezi constant mai putin decat ceilalti si aceasta convingere iti coloreaza toata experienta. Nu este furie, ci resemnare trista. Este ecoul vocilor critice care ti-au spus ca nu esti destul. Vindecarea incepe cu recunoasterea ca valoarea ta nu se masoara prin comparatie.",
-      "en": "The feeling of inferiority in the context of sadness is the quiet pain of comparison — you constantly see yourself as less than others and this conviction colors all your experience. It's not anger, but sad resignation. It is the echo of critical voices that told you you're not enough. Healing begins with recognizing that your value is not measured by comparison."
     },
     "needs": {
       "ro": "afirmarea valorii inerente",
@@ -2178,10 +1638,6 @@
       "ro": "Smerit",
       "en": "Humbled"
     },
-    "description": {
-      "ro": "Smerenia este deflarea demna a egoului in fata realitatii — nu umilire, ci recunoasterea calma ca ai supraestimat ceva in tine sau in situatie. Este o tristete lina amestecata cu claritate — vezi lucrurile asa cum sunt, nu cum ai vrut sa fie. Smerenia doare, dar este curata — nu te distruge, ci te aseaza pe un fundament mai solid. Este emotia care inlocuieste mandria cu autenticitate si care te deschide catre invatare si crestere reala.",
-      "en": "Being humbled is the dignified deflation of the ego in the face of reality — not humiliation, but the calm recognition that you overestimated something in yourself or in the situation. It is a gentle sadness mixed with clarity — you see things as they are, not as you wanted them to be. Being humbled hurts, but it is clean — it doesn't destroy you, but places you on a more solid foundation. It is the emotion that replaces pride with authenticity and opens you to learning and real growth."
-    },
     "needs": {
       "ro": "acceptare si fundament nou",
       "en": "acceptance and new foundation"
@@ -2193,10 +1649,6 @@
     "label": {
       "ro": "Socat",
       "en": "Shocked"
-    },
-    "description": {
-      "ro": "Socul emotional este o stare de blocare cauzata de un eveniment extrem de neasteptat si coplesitor. Mintea se opreste, corpul amorteeste si realitatea pare ireala. Socul este un mecanism de protectie care iti permite sa procesezi treptat ceea ce ar fi insuportabil deodata. Vindecarea dupa soc necesita timp, siguranta si sustinere.",
-      "en": "Emotional shock is a state of shutdown caused by an extremely unexpected and overwhelming event. The mind stops, the body numbs, and reality seems unreal. Shock is a protective mechanism that allows you to gradually process what would be unbearable all at once. Recovery from shock requires time, safety, and support."
     },
     "needs": {
       "ro": "siguranta, timp si sustinere",
@@ -2210,10 +1662,6 @@
       "ro": "Consternat",
       "en": "Dismayed"
     },
-    "description": {
-      "ro": "Consternarea este amestecul de surpriza si dezamagire profunda — descoperi ceva care iti demoleaza asteptarile intr-un mod dureros. Este momentul in care realizezi ca situatia este mult mai grava decat anticipai. Consternarea te poate mobiliza catre actiune sau te poate paraliza — depinde de resursele tale interioare.",
-      "en": "Dismay is the mix of surprise and deep disappointment — you discover something that demolishes your expectations in a painful way. It is the moment when you realize the situation is much worse than anticipated. Dismay can mobilize you toward action or paralyze you — it depends on your inner resources."
-    },
     "needs": {
       "ro": "validare si reasigurare",
       "en": "validation and reassurance"
@@ -2225,10 +1673,6 @@
     "label": {
       "ro": "Deziluzionat",
       "en": "Disillusioned"
-    },
-    "description": {
-      "ro": "Deziluzionarea este pierderea dureroasa a unei credinte sau idealuri care ti-au dat sens. Descoperi ca ceva sau cineva nu este ceea ce credeai. Desi dureroasa, deziluzionarea poate fi eliberatoare — te forteaza sa te confrunti cu realitatea si sa construiesti pe fundamente mai solide. Maturizarea include inevitabil momente de deziluzionare.",
-      "en": "Disillusionment is the painful loss of a belief or ideal that gave you meaning. You discover that something or someone is not what you believed. Though painful, disillusionment can be liberating — it forces you to confront reality and build on more solid foundations. Maturation inevitably includes moments of disillusionment."
     },
     "needs": {
       "ro": "onestitate si timp pentru doliu",
@@ -2242,10 +1686,6 @@
       "ro": "Perplex",
       "en": "Perplexed"
     },
-    "description": {
-      "ro": "Perplexitatea este o confuzie profunda in care nu doar nu intelegi, ci nici nu stii cum sa incepi sa intelegi. Este mintea blocata in fata complexitatii sau contradictiei. Perplexitatea poate fi un semn ca problema necesita o abordare complet noua sau ca ai nevoie de perspectiva altcuiva pentru a vedea ce iti scapa.",
-      "en": "Perplexity is a deep confusion where you not only don't understand, but don't even know how to begin understanding. It is the mind blocked in the face of complexity or contradiction. Perplexity can be a sign that the problem requires a completely new approach or that you need someone else's perspective to see what you're missing."
-    },
     "needs": {
       "ro": "ghidare si o perspectiva noua",
       "en": "guidance and a fresh perspective"
@@ -2257,10 +1697,6 @@
     "label": {
       "ro": "Stupefiat",
       "en": "Astonished"
-    },
-    "description": {
-      "ro": "Stupefierea este o uimire atat de intensa incat te lasa fara cuvinte si fara ganduri. Este momentul de suspendare totala a proceselor obisnuite, in care esti complet absorbit de ceea ce percepi. Stupefierea poate fi provocata atat de frumusete extrema, cat si de oroare — este intensitatea, nu valenta, care o defineste.",
-      "en": "Astonishment is amazement so intense it leaves you speechless and thoughtless. It is the moment of total suspension of ordinary processes, where you are completely absorbed by what you perceive. Astonishment can be provoked by both extreme beauty and horror — it is the intensity, not the valence, that defines it."
     },
     "needs": {
       "ro": "liniste si spatiu de procesare",
@@ -2274,10 +1710,6 @@
       "ro": "Nerabdator",
       "en": "Eager"
     },
-    "description": {
-      "ro": "Nerabdarea pozitiva este dorinta intensa de a incepe, de a ajunge sau de a experimenta ceva ce astepti cu entuziasm. Este energia anticiparii concentrate intr-un impuls catre actiune. Nerabdarea te mentine angajat si orientat catre viitor, dar necesita echilibru cu rabdarea pentru a nu te epuiza sau a lua decizii pripite.",
-      "en": "Eagerness is the intense desire to begin, arrive, or experience something you await with enthusiasm. It is the energy of anticipation concentrated into an impulse toward action. Eagerness keeps you engaged and future-oriented, but requires balance with patience to avoid exhaustion or hasty decisions."
-    },
     "needs": {
       "ro": "actiune si energie canalizata",
       "en": "action and channeled energy"
@@ -2289,10 +1721,6 @@
     "label": {
       "ro": "Energic",
       "en": "Energetic"
-    },
-    "description": {
-      "ro": "Energia emotionala este o stare de vitalitate ridicata in care corpul si mintea sunt complet activate si gata de actiune. Te simti capabil de orice si oboseala pare absenta. Energia nu este doar fizica — este o stare de angajament total cu viata. Perioadele de energie mare trebuie echilibrate cu recuperare constienta.",
-      "en": "Emotional energy is a state of heightened vitality where body and mind are fully activated and ready for action. You feel capable of anything and fatigue seems absent. Energy is not just physical — it is a state of total engagement with life. Periods of high energy must be balanced with conscious recovery."
     },
     "needs": {
       "ro": "miscare si activitate cu scop",
@@ -2306,10 +1734,6 @@
       "ro": "Zguduit",
       "en": "Jolted"
     },
-    "description": {
-      "ro": "Zguduirea este reactia fiziologica pura de tresarire — corpul tau se activeaza brusc inainte ca mintea sa apuce sa evalueze ce s-a intamplat. Inima bate mai repede, muschii se contracta si atentia se fixeaza instantaneu pe sursa stimulului. Este reflexul de orientare in forma sa cea mai intensa si mai rapida, un mecanism de supravietuire care te pregateste pentru orice ar urma.",
-      "en": "Being jolted is the pure physiological startle response — your body snaps to attention before your mind has time to evaluate what happened. The heart beats faster, muscles tense, and attention locks instantly onto the source of the stimulus. It is the orienting reflex in its most intense and rapid form, a survival mechanism preparing you for whatever comes next."
-    },
     "needs": {
       "ro": "siguranta si reancorare",
       "en": "safety and re-grounding"
@@ -2321,10 +1745,6 @@
     "label": {
       "ro": "Dezorientat",
       "en": "Disoriented"
-    },
-    "description": {
-      "ro": "Dezorientarea este pierderea reperelor obisnuite — nu mai stii exact unde te afli, ce se intampla sau cum ai ajuns aici. Poate fi spatiala, temporala sau identitara, si aduce cu sine un sentiment de instabilitate si nesiguranta. Dezorientarea apare cand realitatea se schimba mai repede decat te poti adapta sau cand informatiile contrazic tot ce credeai ca stii. Este un semnal ca ai nevoie de repere noi si de timp pentru a te recalibra.",
-      "en": "Disorientation is the loss of familiar reference points — you no longer know exactly where you are, what is happening, or how you got here. It can be spatial, temporal, or identity-related, and brings with it a sense of instability and uncertainty. Disorientation occurs when reality shifts faster than you can adapt or when information contradicts everything you thought you knew. It is a signal that you need new anchors and time to recalibrate."
     },
     "needs": {
       "ro": "repere si orientare",
@@ -2338,10 +1758,6 @@
       "ro": "Exaltat",
       "en": "Thrilled"
     },
-    "description": {
-      "ro": "Exaltarea este varful entuziasmului — o stare de excitare atat de intensa incat aproape ca te copleseste. Corpul vibreaza, respiratia se accelereaza si simti un val care te ridica deasupra cotidianului. Este momentul in care anticiparea se intalneste cu realitatea si rezultatul depaseste asteptarile. Exaltarea este scurta prin natura ei, ceea ce o face si mai pretioasa — este emotia care transforma momentele obisnuite in amintiri de neuitat.",
-      "en": "Being thrilled is the peak of excitement — a state of arousal so intense it nearly overwhelms you. The body vibrates, breathing quickens, and you feel a wave lifting you above the ordinary. It is the moment when anticipation meets reality and the result exceeds expectations. Thrill is brief by nature, which makes it all the more precious — it is the emotion that transforms ordinary moments into unforgettable memories."
-    },
     "needs": {
       "ro": "exprimare si savurare",
       "en": "expression and savoring"
@@ -2353,10 +1769,6 @@
     "label": {
       "ro": "Impresionat",
       "en": "Impressed"
-    },
-    "description": {
-      "ro": "A fi impresionat este uimirea indreptata catre o persoana — recunosti in altcineva o calitate, o realizare sau o capacitate care iti depaseste asteptarile. Este amestecul de surpriza cu admiratie care te face sa privesti cu alti ochi pe cel din fata ta. A fi impresionat te deschide catre invatare si inspiratie — recunosti ca cineva a reusit ceva ce merita atentia ta. Este o emotie care te conecteaza cu excelenta si te motiveaza sa cresti.",
-      "en": "Being impressed is amazement directed toward a person — you recognize in someone a quality, achievement, or capacity that exceeds your expectations. It is the blend of surprise with admiration that makes you see the person before you in a new light. Being impressed opens you to learning and inspiration — you recognize that someone achieved something worthy of your attention. It is an emotion that connects you with excellence and motivates you to grow."
     },
     "needs": {
       "ro": "recunoastere si inspiratie",
@@ -2370,10 +1782,6 @@
       "ro": "Fara cuvinte",
       "en": "Speechless"
     },
-    "description": {
-      "ro": "A ramane fara cuvinte este momentul in care experienta depaseste capacitatea limbajului de a o captura — esti atat de coplesit de ceea ce simti incat nu gasesti cuvinte. Nu este lipsa de vocabular, ci recunoasterea ca unele momente sunt mai mari decat orice expresie verbala. Este o forma de uimire care iti reduce mintea la tacere respectuoasa, lasand loc simtirii pure. A fi fara cuvinte este un semn ca ai intalnit ceva cu adevarat extraordinar.",
-      "en": "Being speechless is the moment when experience exceeds language's capacity to capture it — you are so overwhelmed by what you feel that you cannot find words. It is not a lack of vocabulary, but the recognition that some moments are larger than any verbal expression. It is a form of amazement that reduces your mind to respectful silence, making room for pure feeling. Being speechless is a sign that you have encountered something truly extraordinary."
-    },
     "needs": {
       "ro": "tacere si procesare",
       "en": "silence and processing"
@@ -2386,10 +1794,6 @@
       "ro": "Emotionat",
       "en": "Moved"
     },
-    "description": {
-      "ro": "A fi emotionat este experienta de a fi atins in profunzimea fiintei tale de ceva frumos, autentic sau neasteptat de bun — un gest de bunatate, o poveste de curaj, un moment de vulnerabilitate partajata. Ochii se umezesc, gatul se strange si simti o caldura care iti umple pieptul. A fi emotionat este surpriza amestecata cu gingasia — descoperi ca lumea poate fi mai frumoasa decat te asteptai. Este una dintre emotiile care ne reamintesc de ce merita sa fim umani.",
-      "en": "Being moved is the experience of being touched in the depths of your being by something beautiful, authentic, or unexpectedly good — a gesture of kindness, a story of courage, a moment of shared vulnerability. Eyes moisten, throat tightens, and you feel a warmth filling your chest. Being moved is surprise blended with tenderness — you discover the world can be more beautiful than you expected. It is one of the emotions that reminds us why it is worth being human."
-    },
     "needs": {
       "ro": "savurare si partajare",
       "en": "savoring and sharing"
@@ -2401,10 +1805,6 @@
     "label": {
       "ro": "Electrizat",
       "en": "Electrified"
-    },
-    "description": {
-      "ro": "A fi electrizat este un soc pozitiv de energie care te traverseaza ca un fulger — un entuziasm brusc si intens care iti activeaza intreg corpul intr-o clipa. Pielea se infioara, pulsul se accelereaza si simti un val de posibilitate care te ridica. Spre deosebire de entuziasmul sustinut, electrizarea este momentana si fulgeratoare — o descarcaere de excitare pura care vine si trece rapid, lasand in urma un sentiment de vitalitate si disponibilitate pentru actiune.",
-      "en": "Being electrified is a positive shock of energy that traverses you like lightning — a sudden and intense enthusiasm that activates your entire body in an instant. Skin tingles, pulse quickens, and you feel a wave of possibility lifting you up. Unlike sustained excitement, electrification is momentary and flash-like — a discharge of pure arousal that comes and goes quickly, leaving behind a feeling of vitality and readiness for action."
     },
     "needs": {
       "ro": "exprimare si actiune imediata",

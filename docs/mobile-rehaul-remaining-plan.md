@@ -321,8 +321,30 @@ cases, including rendered English/Romanian uncertainty and high-distress boundar
 English light and Romanian dark confirmed readable wrapping and no console errors. AI query
 semantics, crisis rules, support ordering, and gating are unchanged.
 
+## Completed: P13 Catalog and Somatic Provenance
+
+The catalog now distinguishes reviewed source descriptions from bounded runtime-generated copy.
+Twelve bilingual descriptions retain explicit reviewed provenance; the other 276 legacy
+definitions were removed and hydrate through one needs-aware exploratory template. Duplicate IDs,
+key mismatches, and unreviewed source descriptions fail closed.
+
+Body Compass signal data now records every association as a curated hypothesis. Group-map basis is
+recorded narrowly where applicable; unsupported local descriptions and needs were removed. Scoring
+is additive without a cross-body coherence multiplier, and the rendered review step explains that
+results cannot identify cause, diagnosis, or the user's feeling.
+
+Safety rules moved to one versioned data source shared by runtime evaluation and catalog
+regeneration. Duplicate selections cannot inflate prompt prominence; order, padding, inventory,
+and combination invariants have explicit tests. `npm run check-copy` enforces catalog, somatic,
+and safety provenance in CI.
+
+**Verification:** `npm run check` passes 65 files and 607 tests, bilingual/provenance audits,
+TypeScript, lint, and the production build. `npm run test:e2e` passes all 160 Mobile Safari and
+Mobile Chrome cases. `npm run test:pwa` passes the production offline/update lifecycle. Manual
+393x742 Playwright inspection covered onboarding plus the Body Compass review in light and dark;
+the evidence note renders at 14px/20.3px without clipping.
+
 ## Remaining Product Quality Work
 
-1. P13: review full catalog and somatic provenance plus safety-rule invariants.
-2. P14: complete physical VoiceOver/Safari and TalkBack/Chrome release acceptance.
-3. P15: optimize bundle architecture only if real-device measurements justify it.
+1. P14: complete physical VoiceOver/Safari and TalkBack/Chrome release acceptance.
+2. P15: optimize bundle architecture only if real-device measurements justify it.

@@ -1,7 +1,7 @@
 # Implementation Plan: Canonical Emotion Registry
 
 **Date**: 2026-02-27
-**Status**: Complete (all 7 phases)
+**Status**: Complete (all 7 phases; provenance amended 2026-07-29)
 **Supersedes**: IMPROVEMENT_PLAN.md Multi-Tree section (now part of Phase 5)
 
 ## Problem
@@ -35,9 +35,12 @@ BaseEmotion and EmotionModel interfaces unchanged. The catalog is an internal as
 
 - **Plutchik "joy" ≠ Wheel "happy" ≠ Dimensional "happy"**: Different theoretical constructs → separate canonical entries. Only emotions with the SAME ID and SAME psychological construct share a canonical entry.
 - **Model colors override canonical color**: Each model's color scheme serves its visualization. The canonical color is only used in cross-model contexts (Quick Check-in, session history).
-- **Somatic `contextDescription`**: Body-region-specific framing stays in somatic data files. Not duplication — it's genuinely different from the canonical description.
+- **Somatic provenance**: Signals are curated hypotheses. They cannot carry local descriptions or
+  needs; results use the canonical exploratory copy boundary.
 - **Wheel `parents: string[]`** replaces `parent: string`. Drill-down tracks navigation path in `ModelState.custom.navPath` to show correct breadcrumbs.
-- **`distressTier` on canonical entries**: `'high'` replaces hardcoded `HIGH_DISTRESS_IDS`. `TIER3_COMBOS`/`TIER4_COMBOS` stay as explicit config (combination risk is clinical judgment, not an individual property).
+- **Versioned safety rules**: `safety-rules.json` is the explicit source for high-distress IDs and
+  tier combinations. Tiers control support-prompt prominence; they are product rules, not clinical
+  judgments or conclusions about an individual.
 
 ## Phases
 

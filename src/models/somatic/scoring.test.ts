@@ -19,9 +19,7 @@ describe('scoreSomaticSelections', () => {
           sensationType: 'pressure',
           minIntensity: 2,
           weight: 1.0,
-          source: 'clinical',
-          contextDescription: { ro: 'desc', en: 'desc' },
-          contextNeeds: { ro: 'needs', en: 'needs' }
+          source: 'curated-hypothesis'
         }
       ]
     }] as unknown as SomaticSelection[]
@@ -32,7 +30,7 @@ describe('scoreSomaticSelections', () => {
     expect(results[0].score).toBe(2.0)
   })
 
-  it('should apply coherence bonus when multiple body groups are selected', () => {
+  it('should add contributions without inferring cross-body coherence', () => {
     const selections = [
       {
         group: 'head',
@@ -43,7 +41,7 @@ describe('scoreSomaticSelections', () => {
           sensationType: 'pressure',
           minIntensity: 2,
           weight: 1.0,
-          source: 'clinical'
+          source: 'curated-hypothesis'
         }]
       },
       {
@@ -55,17 +53,17 @@ describe('scoreSomaticSelections', () => {
           sensationType: 'pressure',
           minIntensity: 2,
           weight: 1.0,
-          source: 'clinical'
+          source: 'curated-hypothesis'
         }]
       }
     ] as unknown as SomaticSelection[]
 
     const results = scoreSomaticSelections(selections)
     expect(results).toHaveLength(1)
-    expect(results[0].score).toBeCloseTo(4.8)
+    expect(results[0].score).toBeCloseTo(4.0)
   })
 
-  it('should not apply bonus if all selections are from the same body group', () => {
+  it('should add contributions from the same body group', () => {
     const selections = [
       {
         group: 'head',
@@ -76,7 +74,7 @@ describe('scoreSomaticSelections', () => {
           sensationType: 'pressure',
           minIntensity: 2,
           weight: 1.0,
-          source: 'clinical'
+          source: 'curated-hypothesis'
         }]
       },
       {
@@ -88,7 +86,7 @@ describe('scoreSomaticSelections', () => {
           sensationType: 'pressure',
           minIntensity: 2,
           weight: 1.0,
-          source: 'clinical'
+          source: 'curated-hypothesis'
         }]
       }
     ] as unknown as SomaticSelection[]
@@ -109,14 +107,14 @@ describe('scoreSomaticSelections', () => {
           sensationType: 'tension',
           minIntensity: 1,
           weight: 5.0,
-          source: 'clinical'
+          source: 'curated-hypothesis'
         },
         {
           emotionId: 'calm',
           sensationType: 'pressure',
           minIntensity: 2,
           weight: 1.0,
-          source: 'clinical'
+          source: 'curated-hypothesis'
         }
       ]
     }] as unknown as SomaticSelection[]
@@ -138,14 +136,14 @@ describe('scoreSomaticSelections', () => {
           sensationType: 'pressure',
           minIntensity: 2,
           weight: 3.0,
-          source: 'clinical'
+          source: 'curated-hypothesis'
         },
         {
           emotionId: 'calm',
           sensationType: 'pressure',
           minIntensity: 1,
           weight: 1.5,
-          source: 'clinical'
+          source: 'curated-hypothesis'
         }
       ]
     }] as unknown as SomaticSelection[]
@@ -167,7 +165,7 @@ describe('scoreSomaticSelections', () => {
           sensationType: 'pressure',
           minIntensity: 3,
           weight: 5.0,
-          source: 'clinical'
+          source: 'curated-hypothesis'
         }
       ]
     }] as unknown as SomaticSelection[]

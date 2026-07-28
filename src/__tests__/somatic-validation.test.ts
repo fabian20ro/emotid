@@ -7,7 +7,7 @@ type RegionMap = Record<string, SomaticRegion>
 
 const regions = somaticData as unknown as RegionMap
 
-const NUNMENMAA_EMOTIONS = ['anger', 'fear', 'disgust', 'sadness', 'surprise'] as const
+const GROUP_MAP_INFORMED_EMOTIONS = ['anger', 'fear', 'disgust', 'sadness', 'surprise'] as const
 
 function buildPatternSelections(emotionId: string): SomaticSelection[] {
   const matches: Array<{
@@ -20,7 +20,7 @@ function buildPatternSelections(emotionId: string): SomaticSelection[] {
   for (const region of Object.values(regions)) {
     for (const signal of region.emotionSignals) {
       if (signal.emotionId !== emotionId) continue
-      if (signal.source !== 'Nummenmaa2014') continue
+      if (signal.basis !== 'nummenmaa-2014-group-map') continue
       matches.push({
         region,
         sensationType: signal.sensationType,
@@ -40,9 +40,9 @@ function buildPatternSelections(emotionId: string): SomaticSelection[] {
     }))
 }
 
-describe('somatic scoring validation against Nummenmaa-derived patterns', () => {
-  for (const emotionId of NUNMENMAA_EMOTIONS) {
-    it(`keeps "${emotionId}" in top results for its own activation pattern`, () => {
+describe('group-map-informed somatic hypothesis regression', () => {
+  for (const emotionId of GROUP_MAP_INFORMED_EMOTIONS) {
+    it(`keeps "${emotionId}" in top results for its curated pattern`, () => {
       const selections = buildPatternSelections(emotionId)
       expect(selections.length).toBeGreaterThan(0)
 
@@ -55,7 +55,7 @@ describe('somatic scoring validation against Nummenmaa-derived patterns', () => 
       expect(rank).toBeLessThan(3)
     })
 
-    it(`ranks "${emotionId}" first when its own Nummenmaa-derived pattern is selected`, () => {
+    it(`ranks "${emotionId}" first when its own curated pattern is selected`, () => {
       const selections = buildPatternSelections(emotionId)
       expect(selections.length).toBeGreaterThan(0)
 

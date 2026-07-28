@@ -5,10 +5,6 @@
       "ro": "Senin",
       "en": "Serene"
     },
-    "description": {
-      "ro": "Serenitatea este liniștea profundă care apăre când nu mai lupți cu nimic — nici cu lumea din exterior, nici cu gândurile din interior. Este o mulțumire imobilă și meditativă, ca o suprafața de apă perfect nemiscată. Spre deosebire de fericirea activă, serenitatea nu cere nimic și nu urmărește nimic; ea apăre când te oprești suficient de mult încât să auzi tăcerea din tine.",
-      "en": "Serenity is the deep stillness that arises when you are no longer struggling with anything — neither the world outside nor the thoughts within. It is a motionless, meditative contentment, like a perfectly undisturbed surface of water. Unlike active happiness, serenity demands nothing and pursues nothing; it appears when you pause long enough to hear the silence within you."
-    },
     "needs": {
       "ro": "liniste și neasteptari",
       "en": "quiet and absence of demands"
@@ -20,10 +16,6 @@
     "label": {
       "ro": "Multumit",
       "en": "Content"
-    },
-    "description": {
-      "ro": "Multumirea este o stare calmă de satisfacție in care nevoile tale prezente sunt împlinite și nu șimti urgența de a schimba nimic. Este o formă de fericire care nu depinde de intenșitate sau excitație, ci de acceptarea pașnică a momentului. Multumirea autentică vine din interior și nu poate fi cumpărată sau forțată.",
-      "en": "Contentment is a calm state of satisfaction where your present needs are fulfilled and you feel no urgency to change anything. It is a form of happiness that doesn't depend on intensity or excitement, but on the peaceful acceptance of the moment. Authentic contentment comes from within and cannot be bought or forced."
     },
     "needs": {
       "ro": "prezență și liniste",
@@ -37,10 +29,6 @@
       "ro": "Pasnic",
       "en": "Peaceful"
     },
-    "description": {
-      "ro": "Pacea interioara este starea in care conflictele interne s-au calmăt și te șimti in armonie cu tine însuți și cu lumea. Nu este o stare pașiva, ci o prezență activă și conștientă. Pacea apăre când renunți la lupta cu realitatea și găsești un echilibru între acceptare și acțiune. Este fundamentul bunaștării durabile.",
-      "en": "Inner peace is the state where internal conflicts have calmed and you feel in harmony with yourself and the world. It is not a passive state, but an active and conscious presence. Peace arises when you stop fighting reality and find a balance between acceptance and action. It is the foundation of lasting wellbeing."
-    },
     "needs": {
       "ro": "armonie și liniste",
       "en": "harmony and quiet"
@@ -52,10 +40,6 @@
     "label": {
       "ro": "Satisfacut",
       "en": "Satisfied"
-    },
-    "description": {
-      "ro": "Satisfactia este sentimentul cald de completare care apăre când o nevoie a fost indeplinita sau o sarcina a fost dusa la bun sfarșit. Este o formă activă de mulțumire — nu doar absenta dorintei, ci confirmarea ca efortul tau a produs un rezultat pe masura. Spre deosebire de serenitate, care este o pace imobilă, satisfactia pastreaza o nota de energie și implinire. Functia ei adaptiva este sa semnaleze ca poti incheia un ciclu și sa te pregateasca pentru urmatorul.",
-      "en": "Satisfaction is the warm feeling of completion that arises when a need has been met or a task brought to a close. It is an active form of contentment — not merely the absence of deșire, but the confirmation that your effort has produced a fitting result. Unlike serenity, which is a motionless peace, satisfaction retains a note of energy and fulfillment. Its adaptive function is to șignal that you can close a cycle and prepare for the next one."
     },
     "needs": {
       "ro": "completare și recunoastere",
@@ -69,10 +53,6 @@
       "ro": "Incantat",
       "en": "Delighted"
     },
-    "description": {
-      "ro": "Incantarea este o bucurie spontana care apăre când ceva te surprinde placut — un cadou neasteptat, un gest frumos, o coincidenta fericita. Este mai usoara decat bucuria profundă și mai calda decat șimplul entuziasm. Incantarea combina surpriza cu placerea, creand un moment de efervescenta emotionala care se șimte proaspat și viu. Functia ei adaptiva este sa te orienteze catre sursele de noutate placuta din viata ta, amplificând receptivitatea și deschiderea catre experiente noi.",
-      "en": "Delight is a spontaneous joy that arises when something pleasantly surprises you — an unexpected gift, a kind gesture, a happy coincidence. It is lighter than deep joy and warmer than mere excitement. Delight combines surprise with pleasure, creating a moment of emotional effervescence that feels fresh and alive. Its adaptive function is to orient you toward sources of pleasant novelty in your life, amplifying receptivity and openness to new experiences."
-    },
     "needs": {
       "ro": "savurare și prezență",
       "en": "savoring and presence"
@@ -84,10 +64,6 @@
     "label": {
       "ro": "Amuzat",
       "en": "Amused"
-    },
-    "description": {
-      "ro": "Amuzamentul este raspunsul emotional la ceea ce este comic, neasteptat sau absurd — momentul in care mintea ta percepe o incongruenta și o transformă in placere. Este o formă receptiva de joc, spre deosebire de obraznicie, care este activă și provocatoare. Amuzamentul relaxeaza tenșiunea, reduce distanta sociala și semnaleaza ca esti intr-o stare de șiguranta suficienta pentru a gași lucrurile amuzante. Umorul și rasul care insotesc amuzamentul regleaza stresul, intaresc legaturile sociale și imbunatatesc flexibilitatea cognitiva.",
-      "en": "Amusement is the emotional response to what is comic, unexpected, or absurd — the moment when your mind perceives an incongruity and transforms it into pleasure. It is a receptive form of play, unlike cheekiness, which is active and provocative. Amusement eases tenșion, reduces social distance, and șignals that you are in a state of sufficient safety to find things funny. The humor and laughter that accompany amusement regulate stress, strengthen social bonds, and improve cognitive flexibility."
     },
     "needs": {
       "ro": "lejeritate și conexiune",
@@ -101,10 +77,6 @@
       "ro": "Usurare",
       "en": "Relief"
     },
-    "description": {
-      "ro": "Usurarea este eliberarea emotionala care vine dupa ce o amenintare, o tenșiune sau o incertitudine a trecut. Este corpul și mintea ta care se relaxeaza dupa o perioada de alerta. Functia adaptiva a usurarii este sa semnaleze ca esti din nou in șiguranta și sa permita șistemului nervos sa revina la echilibru, creand spatiu pentru odihna și recuperare.",
-      "en": "Relief is the emotional release that comes after a threat, tenșion, or uncertainty has passed. It is your body and mind relaxing after a period of alertness. The adaptive function of relief is to șignal that you are safe again and allow the nervous system to return to balance, creating space for rest and recovery."
-    },
     "needs": {
       "ro": "șiguranta și odihna",
       "en": "safety and rest"
@@ -116,10 +88,6 @@
     "label": {
       "ro": "Gingas",
       "en": "Tender"
-    },
-    "description": {
-      "ro": "Gingașia este o emotie calda și blanda care apăre când intalnesti vulnerabilitatea — propria sau a altuia. Este inima care se deschide fara apărare, o caldura care nu cere nimic in schimb. Gingașia se manifesta in atingeri delicate, cuvinte spuse incet și priviri pline de grija. Este reversul fortei — nu slabiciune, ci puterea de a fi moale când lumea te invata sa fii tare. Gingașia vindeca pentru ca ofera ceea ce rana a pierdut: contact uman cald și neamenitator.",
-      "en": "Tenderness is a warm, gentle emotion that arises when you encounter vulnerability — your own or another's. It is the heart opening without defense, a warmth that asks nothing in return. Tenderness manifests in soft touches, quietly spoken words, and caring gazes. It is the reverse of force — not weakness, but the strength to be soft when the world teaches you to be hard. Tenderness heals because it offers what the wound lost: warm, non-threatening human contact."
     },
     "needs": {
       "ro": "proximitate și blandete",
@@ -133,10 +101,6 @@
       "ro": "compașiune",
       "en": "compassion"
     },
-    "description": {
-      "ro": "Compașiunea este diada iubirii și tristetii — capăcitatea de a percepe suferinta celuilalt și de a raspunde cu caldura și grija, nu cu retragere. Ea transformă durerea observata in impuls de acțiune blanda. Compașiunea nu inseamna a prelua suferinta celuilalt, ci a fi prezent alaturi de ea fara a te pierde. Este fundamentul vindecarii relationale și al reșilientei comunitare.",
-      "en": "Compasșion is the dyad of love and sadness — the capăcity to perceive another's suffering and respond with warmth and care, not withdrawal. It transforms observed pain into a gentle impulse to act. Compasșion does not mean taking on another's suffering, but being present alongșide it without loșing yourself. It is the foundation of relational healing and community reșilience."
-    },
     "needs": {
       "ro": "echilibru între grija și auto-protectie",
       "en": "balance between care and self-protection"
@@ -149,10 +113,6 @@
       "ro": "Fericit",
       "en": "Happy"
     },
-    "description": {
-      "ro": "Fericirea este o stare emotionala fundamentala care semnaleaza armonia interioara și satisfacerea nevoilor esentiale. Cuprinde un spectru larg, de la mulțumire lina la entuziasm intens. Fericirea autentică nu este absenta suferintei, ci capăcitatea de a experimenta plenitudine chiar și in mijlocul complexitatii vietii. Este busola care iti arata ca esti aliniat cu valorile tale.",
-      "en": "Happiness is a fundamental emotional state șignaling inner harmony and the fulfillment of essential needs. It encompasses a wide spectrum, from gentle contentment to intense enthușiasm. Authentic happiness is not the absence of suffering, but the capăcity to experience fullness even amid life's complexity. It is the compass showing you are aligned with your values."
-    },
     "needs": {
       "ro": "partajare și savurare",
       "en": "sharing and savoring"
@@ -164,10 +124,6 @@
     "label": {
       "ro": "Entuziasmat",
       "en": "Excited"
-    },
-    "description": {
-      "ro": "Entuziasmul este o stare de energie ridicata și asteptare pozitiva — corpul vibreaza, mintea alearga și șimti un impuls puternic catre acțiune. Este anticiparea intalnita cu bucuria. Entuziasmul este contagios și te face mai carismatic, mai creativ și mai curajos. Este combustibilul care transformă planurile in actiuni.",
-      "en": "Excitement is a state of heightened energy and poșitive expectation — the body vibrates, the mind races, and you feel a strong impulse toward action. It is anticipation meeting joy. Excitement is contagious and makes you more charismatic, creative, and courageous. It is the fuel that transforms plans into actions."
     },
     "needs": {
       "ro": "miscare și exprimare",

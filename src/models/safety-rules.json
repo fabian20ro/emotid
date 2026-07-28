@@ -1,0 +1,48 @@
+{
+  "version": "2026-07-29",
+  "highDistressIds": [
+    "abandoned",
+    "anguished",
+    "apathetic",
+    "depressed",
+    "despair",
+    "distressed",
+    "empty",
+    "grief",
+    "helpless",
+    "hopeless",
+    "loathing",
+    "numb",
+    "panicked",
+    "powerless",
+    "rage",
+    "shame",
+    "terror",
+    "victimized",
+    "violated",
+    "worthless"
+  ],
+  "tier3Combos": [
+    ["despair", "helpless"],
+    ["despair", "worthless"],
+    ["despair", "empty"],
+    ["grief", "helpless"],
+    ["grief", "worthless"],
+    ["shame", "loathing"],
+    ["shame", "worthless"],
+    ["rage", "helpless"],
+    ["depressed", "helpless"],
+    ["depressed", "worthless"],
+    ["despair", "hopeless"],
+    ["depressed", "hopeless"]
+  ],
+  "tier4Combos": [
+    ["despair", "worthless", "empty"],
+    ["helpless", "numb", "abandoned"],
+    ["despair", "helpless", "numb"],
+    ["shame", "worthless", "empty"],
+    ["depressed", "worthless", "helpless"],
+    ["despair", "hopeless", "empty"],
+    ["depressed", "hopeless", "worthless"]
+  ]
+}

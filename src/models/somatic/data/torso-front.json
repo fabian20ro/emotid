@@ -31,208 +31,113 @@
         "sensationType": "tension",
         "minIntensity": 1,
         "weight": 0.9,
-        "source": "clinical",
-        "contextDescription": {
-          "ro": "Constricție în piept, dificultate de a respira, inimă bate rapid. Anxietatea în piept pregătește corpul pentru acțiune.",
-          "en": "Chest tightness, difficulty breathing, racing heart. Chest anxiety prepares your body for action."
-        },
-        "contextNeeds": {
-          "ro": "respiratie lenta si siguranta",
-          "en": "slow breathing and safety"
-        }
+        "source": "curated-hypothesis"
       },
       {
         "emotionId": "love",
         "sensationType": "warmth",
         "minIntensity": 1,
         "weight": 0.9,
-        "source": "clinical",
-        "contextDescription": {
-          "ro": "Căldură în piept, senzație de deschidere, plenitudine. Iubirea semnalează conexiune și siguranță în relație.",
-          "en": "Chest warmth, sense of openness, fullness. Love signals connection and safety in relationship."
-        },
-        "contextNeeds": {
-          "ro": "savurare si prezenta",
-          "en": "savoring and presence"
-        }
+        "source": "curated-hypothesis"
       },
       {
         "emotionId": "grief",
         "sensationType": "heaviness",
         "minIntensity": 1,
         "weight": 0.9,
-        "source": "clinical",
-        "contextDescription": {
-          "ro": "Greutate în piept, senzație de gol, durere profundă. Doliul este măsura iubirii — durerea reflectă profunzimea legăturii.",
-          "en": "Chest heaviness, emptiness, deep ache. Grief is the measure of love — the pain reflects the depth of the bond."
-        },
-        "contextNeeds": {
-          "ro": "compasiune si prezenta blanda",
-          "en": "compassion and gentle presence"
-        }
+        "source": "curated-hypothesis"
       },
       {
         "emotionId": "fear",
         "sensationType": "pressure",
         "minIntensity": 2,
         "weight": 0.8,
-        "source": "Nummenmaa2014",
-        "contextDescription": {
-          "ro": "Presiune în piept, inimă bate tare, respirație scurtă. Frica activează răspunsul de supraviețuire — corpul se pregătește să te protejeze.",
-          "en": "Chest pressure, pounding heart, shortness of breath. Fear activates the survival response — your body is preparing to protect you."
-        },
-        "contextNeeds": {
-          "ro": "siguranta si respiratie profunda",
-          "en": "safety and deep breathing"
-        }
+        "source": "curated-hypothesis",
+        "basis": "nummenmaa-2014-group-map"
       },
       {
         "emotionId": "joy",
         "sensationType": "lightness",
         "minIntensity": 1,
         "weight": 0.8,
-        "source": "clinical",
-        "contextDescription": {
-          "ro": "Senzație de ușurință în piept, deschidere, energie caldă. Bucuria semnalează că ești aliniat cu ceea ce contează pentru tine.",
-          "en": "Lightness in chest, openness, warm energy. Joy signals that you are aligned with what matters to you."
-        },
-        "contextNeeds": {
-          "ro": "savurare si exprimare libera",
-          "en": "savoring and free expression"
-        }
+        "source": "curated-hypothesis"
       },
       {
         "emotionId": "pride",
         "sensationType": "warmth",
         "minIntensity": 2,
         "weight": 0.6,
-        "source": "clinical",
-        "contextDescription": {
-          "ro": "Piept expansiv, senzație de plenitudine caldă. Mândria celebrează realizările tale și consolidează stima de sine.",
-          "en": "Expansive chest, warm fullness sensation. Pride celebrates your accomplishments and reinforces self-worth."
-        },
-        "contextNeeds": {
-          "ro": "recunoastere si celebrare",
-          "en": "acknowledgment and celebration"
-        }
+        "source": "curated-hypothesis"
       },
       {
         "emotionId": "excitement",
         "sensationType": "tingling",
         "minIntensity": 1,
         "weight": 0.7,
-        "source": "clinical",
-        "contextDescription": {
-          "ro": "Furnicături în piept, energie efervescentă, anticipare plăcută. Entuziasmul te motivează spre experiențe noi.",
-          "en": "Chest tingling, effervescent energy, pleasant anticipation. Excitement motivates you toward new experiences."
-        },
-        "contextNeeds": {
-          "ro": "canalizare in actiune si savurare",
-          "en": "channeling into action and savoring"
-        }
+        "source": "curated-hypothesis"
       },
       {
         "emotionId": "anxiety",
         "sensationType": "constriction",
         "minIntensity": 1,
         "weight": 0.7,
-        "source": "clinical"
+        "source": "curated-hypothesis"
       },
       {
         "emotionId": "grief",
         "sensationType": "constriction",
         "minIntensity": 2,
         "weight": 0.7,
-        "source": "clinical"
+        "source": "curated-hypothesis"
       },
       {
         "emotionId": "loneliness",
         "sensationType": "heaviness",
         "minIntensity": 1,
         "weight": 0.7,
-        "source": "clinical",
-        "contextDescription": {
-          "ro": "Gol în piept, răceală, senzație de vid. Singurătatea semnalează nevoia profundă de conectare — ești creat pentru relații.",
-          "en": "Chest hollowness, coldness, feeling of emptiness. Loneliness signals the deep need for connection — you are wired for relationship."
-        },
-        "contextNeeds": {
-          "ro": "conexiune si prezenta umana",
-          "en": "connection and human presence"
-        }
+        "source": "curated-hypothesis"
       },
       {
         "emotionId": "tenderness",
         "sensationType": "warmth",
         "minIntensity": 1,
         "weight": 0.6,
-        "source": "clinical",
-        "contextDescription": {
-          "ro": "Căldură moale în piept, senzație de deschidere blândă, dorința de a proteja. Tandrețea semnalează grija autentică și legătura profundă.",
-          "en": "Soft warmth in chest, gentle opening sensation, desire to protect. Tenderness signals genuine care and deep bonding."
-        },
-        "contextNeeds": {
-          "ro": "exprimare blanda si apropiere",
-          "en": "gentle expression and closeness"
-        }
+        "source": "curated-hypothesis"
       },
       {
         "emotionId": "gratitude",
         "sensationType": "warmth",
         "minIntensity": 1,
         "weight": 0.5,
-        "source": "interpolated",
-        "contextDescription": {
-          "ro": "Căldură moderată în piept, senzație de plenitudine liniștită. Recunoștința amplifică bunăstarea — cercetările arată că practicarea ei consolidează reziliența emoțională.",
-          "en": "Moderate chest warmth, quiet fullness sensation. Gratitude amplifies wellbeing — research shows practicing it strengthens emotional resilience."
-        },
-        "contextNeeds": {
-          "ro": "savurare si exprimare",
-          "en": "savoring and expression"
-        }
+        "source": "curated-hypothesis"
       },
       {
         "emotionId": "hope",
         "sensationType": "lightness",
         "minIntensity": 1,
         "weight": 0.6,
-        "source": "clinical",
-        "contextDescription": {
-          "ro": "Ușurință în piept, deschidere orientată înainte, energie subtilă. Speranța semnalează că viitorul merită efortul — este resursa care susține acțiunea în ciuda incertitudinii.",
-          "en": "Chest lightness, forward-oriented opening, subtle energy. Hope signals that the future is worth the effort — it sustains action despite uncertainty."
-        },
-        "contextNeeds": {
-          "ro": "rabdare si pasi mici",
-          "en": "patience and small steps"
-        }
+        "source": "curated-hypothesis"
       },
       {
         "emotionId": "relief",
         "sensationType": "lightness",
         "minIntensity": 1,
         "weight": 0.7,
-        "source": "clinical",
-        "contextDescription": {
-          "ro": "Deschidere bruscă în piept, expirație profundă, eliberarea tensiunii. Ușurarea semnalează trecerea unei amenințări — corpul revine la siguranță.",
-          "en": "Sudden chest opening, deep exhale, tension release. Relief signals that a threat has passed — the body returns to safety."
-        },
-        "contextNeeds": {
-          "ro": "odihna si revenire",
-          "en": "rest and recovery"
-        }
+        "source": "curated-hypothesis"
       },
       {
         "emotionId": "curiosity",
         "sensationType": "lightness",
         "minIntensity": 1,
         "weight": 0.4,
-        "source": "interpolated"
+        "source": "curated-hypothesis"
       },
       {
         "emotionId": "jealousy",
         "sensationType": "pressure",
         "minIntensity": 2,
         "weight": 0.6,
-        "source": "clinical"
+        "source": "curated-hypothesis"
       }
     ]
   },
@@ -268,104 +173,58 @@
         "sensationType": "churning",
         "minIntensity": 1,
         "weight": 0.8,
-        "source": "Nummenmaa2014",
-        "contextDescription": {
-          "ro": "Nod în stomac, senzația de gol, fluturi în stomac. Frica viscerală te avertizează asupra unui pericol — ascultă-ți instinctele.",
-          "en": "Pit in stomach, sinking feeling, butterflies. Gut fear warns you about danger — listen to your instincts."
-        },
-        "contextNeeds": {
-          "ro": "siguranta si respiratie abdominala",
-          "en": "safety and belly breathing"
-        }
+        "source": "curated-hypothesis",
+        "basis": "nummenmaa-2014-group-map"
       },
       {
         "emotionId": "anxiety",
         "sensationType": "tension",
         "minIntensity": 1,
         "weight": 0.8,
-        "source": "clinical",
-        "contextDescription": {
-          "ro": "Tensiune abdominală, senzație de nod, neliniște fizică. Anxietatea abdominală reflectă incertitudine — corpul cere claritate.",
-          "en": "Abdominal tension, knotted feeling, physical unease. Gut anxiety reflects uncertainty — your body is asking for clarity."
-        },
-        "contextNeeds": {
-          "ro": "claritate si ancoraj fizic",
-          "en": "clarity and physical grounding"
-        }
+        "source": "curated-hypothesis"
       },
       {
         "emotionId": "disgust",
         "sensationType": "churning",
         "minIntensity": 2,
         "weight": 0.9,
-        "source": "Nummenmaa2014",
-        "contextDescription": {
-          "ro": "Greață, stomac răscolit, reflex de vomitare. Dezgustul protejează prin respingerea a ceea ce este toxic sau dăunător.",
-          "en": "Nausea, churning stomach, gagging reflex. Disgust protects by rejecting what is toxic or harmful."
-        },
-        "contextNeeds": {
-          "ro": "distanta si aer curat",
-          "en": "distance and clean air"
-        }
+        "source": "curated-hypothesis",
+        "basis": "nummenmaa-2014-group-map"
       },
       {
         "emotionId": "excitement",
         "sensationType": "tingling",
         "minIntensity": 1,
         "weight": 0.7,
-        "source": "clinical",
-        "contextDescription": {
-          "ro": "Fluturi în stomac, energie nervoasă plăcută. Entuziasmul visceral semnalează anticipare pozitivă.",
-          "en": "Butterflies in stomach, pleasant nervous energy. Gut excitement signals positive anticipation."
-        },
-        "contextNeeds": {
-          "ro": "miscare si exprimare",
-          "en": "movement and expression"
-        }
+        "source": "curated-hypothesis"
       },
       {
         "emotionId": "guilt",
         "sensationType": "heaviness",
         "minIntensity": 1,
         "weight": 0.7,
-        "source": "clinical",
-        "contextDescription": {
-          "ro": "Greutate în stomac, senzație de nod, disconfort persistent. Vinovăția semnalează că valorile tale au fost încălcate — este un impuls de reparare.",
-          "en": "Stomach heaviness, knotted feeling, persistent discomfort. Guilt signals that your values were violated — it's an impulse toward repair."
-        },
-        "contextNeeds": {
-          "ro": "reparare si auto-compasiune",
-          "en": "repair and self-compassion"
-        }
+        "source": "curated-hypothesis"
       },
       {
         "emotionId": "anxiety",
         "sensationType": "constriction",
         "minIntensity": 1,
         "weight": 0.6,
-        "source": "clinical"
+        "source": "curated-hypothesis"
       },
       {
         "emotionId": "jealousy",
         "sensationType": "churning",
         "minIntensity": 1,
         "weight": 0.7,
-        "source": "clinical",
-        "contextDescription": {
-          "ro": "Stomac răscolit, senzație de nod, neliniște viscerală. Gelozia este un semnal de alarmă privind siguranța relațională — arată cât de mult contează legătura.",
-          "en": "Churning stomach, knotted feeling, visceral unease. Jealousy is an alarm signal about relational safety — it shows how much the bond matters."
-        },
-        "contextNeeds": {
-          "ro": "siguranta relationala si comunicare",
-          "en": "relational safety and communication"
-        }
+        "source": "curated-hypothesis"
       },
       {
         "emotionId": "loneliness",
         "sensationType": "heaviness",
         "minIntensity": 1,
         "weight": 0.5,
-        "source": "interpolated"
+        "source": "curated-hypothesis"
       }
     ]
   }

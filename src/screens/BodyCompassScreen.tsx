@@ -187,6 +187,7 @@ export function BodyCompassScreen({ onBack, onComplete }: BodyCompassScreenProps
 
       {step === 'review' && (
         <>
+          <p className="body-stage-hint body-evidence-note" data-testid="body-evidence-note">{t.evidenceNote}</p>
           <div className="body-review-list" aria-live="polite">
             {selections.map((selection) => (
               <div className="body-signal-card" key={selection.id} data-testid={`body-signal-${selection.id}`}>

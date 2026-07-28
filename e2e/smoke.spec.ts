@@ -6,7 +6,7 @@ test.describe('First run and shell', () => {
     await page.goto('/')
     await expect(page.getByRole('dialog')).toContainText(/exploration, not a test/i)
     await page.getByRole('button', { name: 'Next' }).click()
-    await expect(page.getByRole('dialog')).toContainText(/every emotion has a purpose/i)
+    await expect(page.getByRole('dialog')).toContainText(/emotions can be explored with curiosity/i)
     await page.getByRole('button', { name: 'Next' }).click()
     await expect(page.getByRole('heading', { name: 'Privacy & data' })).toBeVisible()
     await expect(page.getByRole('dialog')).not.toContainText(/Plutchik|Emotion Wheel/)

@@ -6,7 +6,7 @@ function makeSignal(overrides: Partial<EmotionSignal> & Pick<EmotionSignal, 'emo
   return {
     minIntensity: 1,
     weight: 1,
-    source: 'clinical',
+    source: 'curated-hypothesis',
     ...overrides,
   }
 }
@@ -82,11 +82,10 @@ describe('scoreSomaticSelections', () => {
 
     expect(results).toHaveLength(1)
     expect(results[0].id).toBe('anxiety')
-    // Both from same group (torso), no coherence bonus
     expect(results[0].score).toBeCloseTo(0.6 * 2 + 0.4 * 3)
   })
 
-  it('applies coherence bonus when emotion matched from 2+ body groups', () => {
+  it('adds signals from multiple body groups without a coherence multiplier', () => {
     const chestSignal = makeSignal({ emotionId: 'anxiety', sensationType: 'tension', weight: 0.6 })
     const legSignal = makeSignal({ emotionId: 'anxiety', sensationType: 'tingling', weight: 0.4 })
 
@@ -97,22 +96,21 @@ describe('scoreSomaticSelections', () => {
 
     expect(results).toHaveLength(1)
     expect(results[0].id).toBe('anxiety')
-    // Cross-group: (0.6*2 + 0.4*3) * 1.2 = 2.88
-    expect(results[0].score).toBeCloseTo((0.6 * 2 + 0.4 * 3) * 1.2)
+    expect(results[0].score).toBeCloseTo(0.6 * 2 + 0.4 * 3)
   })
 
   it('returns correct match strength for different ratios and scores', () => {
-    // Test case 1: Strong signal (ratio >= 0.7 and score >= 1.0)
+    // Test case 1: Closer match (ratio >= 0.7 and score >= 1.0)
     const signal1 = makeSignal({ emotionId: 'anxiety', sensationType: 'tension', weight: 2.0 })
     const selection1 = makeSelection('chest', 'tension', 2, [signal1])
     const results1 = scoreSomaticSelections([selection1])
-    expect(results1[0].matchStrength).toEqual({ ro: 'semnal clar', en: 'clear signal' })
+    expect(results1[0].matchStrength).toEqual({ ro: 'potrivire mai apropiată', en: 'closer match' })
 
-    // Test case 2: Possible connection (ratio >= 0.4 and score >= 0.6)
+    // Test case 2: Possible match (ratio >= 0.4 and score >= 0.6)
     const signal2 = makeSignal({ emotionId: 'anxiety', sensationType: 'tension', weight: 0.4 })
     const selection2 = makeSelection('chest', 'tension', 2, [signal2])
     const results2 = scoreSomaticSelections([selection2])
-    expect(results2[0].matchStrength).toEqual({ ro: 'conexiune posibilă', en: 'possible connection' })
+    expect(results2[0].matchStrength).toEqual({ ro: 'potrivire posibilă', en: 'possible match' })
 
     // Test case 3: Worth exploring (else)
     const signal3 = makeSignal({ emotionId: 'anxiety', sensationType: 'tension', weight: 0.55 })
@@ -165,7 +163,7 @@ describe('scoreSomaticSelections', () => {
     const results = scoreSomaticSelections([selection])
 
     const strong = results.find(r => r.id === 'joy')
-    expect(strong?.matchStrength.en).toBe('clear signal')
+    expect(strong?.matchStrength.en).toBe('closer match')
 
     const weak = results.find(r => r.id === 'calm')
     expect(weak?.matchStrength.en).toBe('worth exploring')
@@ -177,54 +175,19 @@ describe('scoreSomaticSelections', () => {
     const results = scoreSomaticSelections([selection])
 
     // maxScore = 1.0 * 3 = 3.0. ratio = 1.0. score = 3.0.
-    // ratio >= 0.7 && score >= 1.0 -> 'clear signal'
-    expect(results[0].matchStrength.en).toBe('clear signal')
+    // ratio >= 0.7 && score >= 1.0 -> 'closer match'
+    expect(results[0].matchStrength.en).toBe('closer match')
   })
 
-  it('uses context-specific description and needs when signal provides them', () => {
-    const signal = makeSignal({
-      emotionId: 'anxiety',
-      sensationType: 'tension',
-      weight: 1.0,
-      contextDescription: { ro: 'descriere locală', en: 'local description' },
-      contextNeeds: { ro: 'nevoie locală', en: 'local need' },
-    })
+  it('uses canonical catalog copy rather than somatic causal claims', () => {
+    const signal = makeSignal({ emotionId: 'joy', sensationType: 'tension', weight: 1.0 })
     const selection = makeSelection('chest', 'tension', 2, [signal])
 
     const results = scoreSomaticSelections([selection])
 
-    expect(results[0].description).toEqual({ ro: 'descriere locală', en: 'local description' })
-    expect(results[0].needs).toEqual({ ro: 'nevoie locală', en: 'local need' })
-  })
-
-  it('uses canonical catalog description when signal has no context override', () => {
-    const signal = makeSignal({ emotionId: 'anxiety', sensationType: 'tension', weight: 1.0 })
-    const selection = makeSelection('chest', 'tension', 2, [signal])
-
-    const results = scoreSomaticSelections([selection])
-
-    // When context overrides are absent, canonical catalog data is used (rich description)
-    expect(results[0].description).toBeDefined()
-    expect(typeof results[0].description!.ro).toBe('string')
-    expect(results[0].description!.ro.length).toBeGreaterThan(10)
-    expect(results[0].needs).toBeDefined()
-  })
-
-  it('prefers context overrides over canonical catalog data', () => {
-    const signal = makeSignal({
-      emotionId: 'anxiety',
-      sensationType: 'tension',
-      weight: 1.0,
-      contextDescription: { ro: 'scurtă descriere', en: 'short desc' },
-      contextNeeds: { ro: 'scurtă nevoie', en: 'short need' },
-    })
-    const selection = makeSelection('chest', 'tension', 2, [signal])
-
-    const results = scoreSomaticSelections([selection])
-
-    // Context overrides must win over catalog data
-    expect(results[0].description!.ro).toBe('scurtă descriere')
-    expect(results[0].needs!.ro).toBe('scurtă nevoie')
+    expect(results[0].description?.en).toContain('one word to consider')
+    expect(results[0].description?.en).toContain('Keep only what fits')
+    expect(results[0].needs?.en).toBeTruthy()
   })
 
   it('downgrades match strength if score is below the threshold despite high ratio', () => {
@@ -239,20 +202,20 @@ describe('scoreSomaticSelections', () => {
     expect(results).toHaveLength(0)
   })
 
-  it('handles the "possible connection" threshold correctly', () => {
+  it('handles the possible-match threshold correctly', () => {
     const signal = makeSignal({ emotionId: 'joy', sensationType: 'lightness', weight: 0.5 })
     const selection = makeSelection('chest', 'lightness', 2, [signal])
     const results = scoreSomaticSelections([selection])
 
     // maxScore = 0.5 * 2 = 1.0. ratio = 1.0. score = 1.0.
-    // ratio >= 0.7 && score >= 1.0 -> 'clear signal'
-    expect(results[0].matchStrength.en).toBe('clear signal')
+    // ratio >= 0.7 && score >= 1.0 -> 'closer match'
+    expect(results[0].matchStrength.en).toBe('closer match')
 
     // Try score=0.8, maxScore=1.0 -> ratio=0.8, score=0.8
-    // ratio >= 0.4 and score >= 0.6 -> 'possible connection'
+    // ratio >= 0.4 and score >= 0.6 -> 'possible match'
     const signal2 = makeSignal({ emotionId: 'joy', sensationType: 'lightness', weight: 0.4 })
     const selection2 = makeSelection('chest', 'lightness', 2, [signal2])
     const results2 = scoreSomaticSelections([selection2])
-    expect(results2[0].matchStrength.en).toBe('possible connection')
+    expect(results2[0].matchStrength.en).toBe('possible match')
   })
 })

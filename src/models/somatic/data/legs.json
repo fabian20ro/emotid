@@ -29,67 +29,37 @@
         "sensationType": "lightness",
         "minIntensity": 1,
         "weight": 0.6,
-        "source": "clinical",
-        "contextDescription": {
-          "ro": "Picioare ușoare, dorința de a sări, energie debordantă. Bucuria în picioare te invită la mișcare și celebrare.",
-          "en": "Light legs, urge to jump, overflowing energy. Leg joy invites movement and celebration."
-        },
-        "contextNeeds": {
-          "ro": "miscare si celebrare",
-          "en": "movement and celebration"
-        }
+        "source": "curated-hypothesis"
       },
       {
         "emotionId": "sadness",
         "sensationType": "heaviness",
         "minIntensity": 1,
         "weight": 0.7,
-        "source": "Nummenmaa2014",
-        "contextDescription": {
-          "ro": "Picioare grele, slăbiciune, lipsă de voință de a te mișca. Tristețea în picioare reflectă pierderea motivației — respectă-ți ritmul.",
-          "en": "Heavy legs, weakness, lack of will to move. Leg sadness reflects lost motivation — honor your pace."
-        },
-        "contextNeeds": {
-          "ro": "respect pentru ritm si odihna",
-          "en": "respect for pace and rest"
-        }
+        "source": "curated-hypothesis",
+        "basis": "nummenmaa-2014-group-map"
       },
       {
         "emotionId": "anxiety",
         "sensationType": "tingling",
         "minIntensity": 1,
         "weight": 0.6,
-        "source": "clinical",
-        "contextDescription": {
-          "ro": "Neliniște în picioare, dorința de a fugi, tremur. Anxietatea în picioare activează răspunsul de fugă — corpul se pregătește.",
-          "en": "Restless legs, urge to flee, trembling. Leg anxiety activates the flight response — your body is preparing."
-        },
-        "contextNeeds": {
-          "ro": "miscare si ancoraj",
-          "en": "movement and grounding"
-        }
+        "source": "curated-hypothesis"
       },
       {
         "emotionId": "fear",
         "sensationType": "numbness",
         "minIntensity": 2,
         "weight": 0.6,
-        "source": "Nummenmaa2014",
-        "contextDescription": {
-          "ro": "Picioare tremurânde, senzație de a fi paralizat, slăbiciune. Frica în picioare este răspunsul de înghețare — corpul se protejează prin imobilitate.",
-          "en": "Trembling legs, feeling paralyzed, weakness. Leg fear is the freeze response — your body protects itself through stillness."
-        },
-        "contextNeeds": {
-          "ro": "siguranta si revenire treptata",
-          "en": "safety and gradual return"
-        }
+        "source": "curated-hypothesis",
+        "basis": "nummenmaa-2014-group-map"
       },
       {
         "emotionId": "relief",
         "sensationType": "lightness",
         "minIntensity": 1,
         "weight": 0.5,
-        "source": "interpolated"
+        "source": "curated-hypothesis"
       }
     ]
   },
@@ -123,45 +93,21 @@
         "sensationType": "warmth",
         "minIntensity": 1,
         "weight": 0.8,
-        "source": "clinical",
-        "contextDescription": {
-          "ro": "Senzație de stabilitate, conectare cu prezentul, liniște interioară. Calmul este un semnal că te simți în siguranță și prezent.",
-          "en": "Feeling of stability, connection with the present, inner peace. Calm signals that you feel safe and grounded in the moment."
-        },
-        "contextNeeds": {
-          "ro": "savurare si prezenta",
-          "en": "savoring and presence"
-        }
+        "source": "curated-hypothesis"
       },
       {
         "emotionId": "anxiety",
         "sensationType": "tingling",
         "minIntensity": 1,
         "weight": 0.5,
-        "source": "interpolated",
-        "contextDescription": {
-          "ro": "Furnicături în tălpi, dorința de a fugi, neliniște. Anxietatea în tălpi semnalează nevoia de mișcare sau schimbare.",
-          "en": "Tingling in feet, urge to run, restlessness. Foot anxiety signals a need for movement or change."
-        },
-        "contextNeeds": {
-          "ro": "impamantare si mers constient",
-          "en": "grounding and mindful walking"
-        }
+        "source": "curated-hypothesis"
       },
       {
         "emotionId": "disconnection",
         "sensationType": "numbness",
         "minIntensity": 1,
         "weight": 0.4,
-        "source": "interpolated",
-        "contextDescription": {
-          "ro": "Amorțeală în tălpi, senzație de plutire. Deconectarea este un mod natural prin care corpul gestionează momentele dificile — poți reveni treptat la senzații.",
-          "en": "Feet numbness, floating sensation. Disconnection is a natural way your body manages difficult moments — you can gently return to sensation."
-        },
-        "contextNeeds": {
-          "ro": "revenire blanda la senzatii",
-          "en": "gentle return to sensation"
-        }
+        "source": "curated-hypothesis"
       }
     ]
   }

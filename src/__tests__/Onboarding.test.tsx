@@ -34,7 +34,7 @@ describe('Onboarding', () => {
     renderOnboarding()
 
     await user.click(screen.getByRole('button', { name: /next/i }))
-    expect(screen.getByText(/every emotion has a purpose/i)).toBeInTheDocument()
+    expect(screen.getByText(/emotions can be explored with curiosity/i)).toBeInTheDocument()
 
     await user.click(screen.getByRole('button', { name: /next/i }))
     expect(screen.getByRole('heading', { name: /privacy & data/i })).toBeInTheDocument()

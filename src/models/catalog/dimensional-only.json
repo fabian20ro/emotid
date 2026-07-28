@@ -5,10 +5,6 @@
       "ro": "exaltat",
       "en": "elated"
     },
-    "description": {
-      "ro": "Exaltarea este o bucurie intensa care apare cand ceva depaseste asteptarile. Este o stare de varf care celebreaza reusita si conexiunea.",
-      "en": "Elation is intense joy that arises when something exceeds expectations. It is a peak state that celebrates achievement and connection."
-    },
     "needs": {
       "ro": "partajare si ancorare",
       "en": "sharing and grounding"
@@ -20,10 +16,6 @@
     "label": {
       "ro": "alert",
       "en": "alert"
-    },
-    "description": {
-      "ro": "Starea de alerta este o vigilenta placuta — o claritate mentala care te face prezent si receptiv la ceea ce se intampla.",
-      "en": "Alertness is a pleasant vigilance — a mental clarity that makes you present and receptive to what is happening."
     },
     "needs": {
       "ro": "focalizare si directie",
@@ -37,10 +29,6 @@
       "ro": "entuziast",
       "en": "enthusiastic"
     },
-    "description": {
-      "ro": "Entuziasmul este o pasiune activa care te energizeaza si te conecteaza cu scopul tau. Este combustibilul motivatiei intrinsece.",
-      "en": "Enthusiasm is an active passion that energizes you and connects you with your purpose. It is the fuel of intrinsic motivation."
-    },
     "needs": {
       "ro": "exprimare si sustinere",
       "en": "expression and support"
@@ -52,10 +40,6 @@
     "label": {
       "ro": "calm",
       "en": "calm"
-    },
-    "description": {
-      "ro": "Calmul este o stare de echilibru in care nu exista amenintari si corpul se relaxeaza. Este baza siguranta din care poti explora lumea.",
-      "en": "Calm is a state of balance where there are no threats and the body relaxes. It is the safe foundation from which you can explore the world."
     },
     "needs": {
       "ro": "mentinere si protejare",
@@ -69,10 +53,6 @@
       "ro": "relaxat",
       "en": "relaxed"
     },
-    "description": {
-      "ro": "Relaxarea este o eliberare a tensiunii — corpul si mintea se deschid cand sistemul nervos parasimpatic preia controlul.",
-      "en": "Relaxation is a release of tension — body and mind open when the parasympathetic nervous system takes over."
-    },
     "needs": {
       "ro": "spatiu si odihna",
       "en": "space and rest"
@@ -85,10 +65,6 @@
       "ro": "infricosat",
       "en": "afraid"
     },
-    "description": {
-      "ro": "Frica este sistemul tau de alarma — semnaleaza un pericol perceput si te pregateste sa te protejezi. Este o emotie fundamentala de supravietuire.",
-      "en": "Fear is your alarm system — it signals a perceived danger and prepares you to protect yourself. It is a fundamental survival emotion."
-    },
     "needs": {
       "ro": "siguranta si reasigurare",
       "en": "safety and reassurance"
@@ -100,10 +76,6 @@
     "label": {
       "ro": "contemplativ",
       "en": "contemplative"
-    },
-    "description": {
-      "ro": "Contemplarea este o stare de observare calma si deschisa — o privire larga asupra vietii care nu cauta raspunsuri imediate. Este spatiul in care se naste intelegerea profunda si acceptarea.",
-      "en": "Contemplation is a state of calm, open observation — a wide gaze at life that doesn't seek immediate answers. It is the space where deep understanding and acceptance are born."
     },
     "needs": {
       "ro": "liniste si timp",

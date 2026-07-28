@@ -410,6 +410,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .body-progress li.is-complete { color: var(--teal); }
 .body-progress li.is-complete > span { border-color: var(--teal); background: var(--teal-soft); }
 .body-stage-hint { margin: 0 0 8px; color: var(--ink-muted); font-size: 12px; line-height: 1.4; }
+.body-evidence-note { font-size: 14px; line-height: 1.45; }
 .body-side-switch { width: min(220px, calc(100% - 16px)); margin: 8px auto 2px; background: var(--surface-raised); }
 .body-side-switch button { flex: 1; min-height: 44px; }
 .body-region-map { width: 100%; min-height: 0; padding: 2px 6px 8px; display: flex; }

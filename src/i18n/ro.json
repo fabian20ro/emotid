@@ -42,8 +42,8 @@
   "onboarding": {
     "screen1Title": "Aceasta este o explorare, nu un test",
     "screen1Body": "Nu există răspunsuri corecte sau greșite. Emoțiile sunt complexe și stratificate. Luați-vă timpul — acesta este un spațiu pentru curiozitate, nu pentru judecată.",
-    "screen2Title": "Fiecare emoție are un scop",
-    "screen2Body": "Nicio emoție nu este bună sau rea. Furia protejează limitele. Tristetea ajută la procesarea pierderii. Frica vă menține în siguranță. În loc să întrebați \"ce este în neregulă\", întrebați \"ce îmi transmite corpul meu?\"",
+    "screen2Title": "Emoțiile pot fi explorate cu curiozitate",
+    "screen2Body": "O trăire vă poate îndrepta atenția către limite, pierdere, incertitudine sau cu totul altceva. În loc să căutați o singură explicație corectă, observați ce se potrivește experienței și contextului vostru.",
     "next": "Înainte",
     "back": "Înapoi",
     "getStarted": "Începeți"
@@ -202,6 +202,7 @@
     "intensityHint": "Folosiți estimarea cea mai apropiată. Nu este necesară precizia.",
     "reviewTitle": "Verificați semnalele corpului",
     "reviewLede": "Schimbați orice nu pare potrivit înainte de a vedea cuvintele posibile.",
+    "evidenceNote": "Cuvintele posibile provin din tipare generale de grup și ipoteze selectate. Nu pot identifica o cauză, un diagnostic sau ceea ce simțiți.",
     "review": "Verificați semnalele corpului",
     "addAnother": "Adăugați altă zonă",
     "chooseAnother": "Alegeți altă zonă",

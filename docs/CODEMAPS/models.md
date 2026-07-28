@@ -1,16 +1,19 @@
 # Emotion Models Codemap
 
-**Last Updated:** 2026-07-24
+**Last Updated:** 2026-07-29
 **Location:** `src/models/`
 
 ## Architecture: Catalog + Overlays
 
-All emotions have one canonical entry in `src/models/catalog/*.json` (id, label, description, needs, color, distressTier). Each model adds only model-specific metadata in overlay files. At module load, each model's `index.ts` merges catalog base + overlay into fully hydrated model-specific types.
+All emotions have one canonical source entry in `src/models/catalog/*.json`. Source entries own
+the ID, label, needs, color, and optional distress tier. Only explicitly reviewed descriptions are
+stored. At module load, the catalog hydrates every other entry with bounded exploratory copy and
+records `descriptionStatus: "reviewed" | "generated"`.
 
 ```
-catalog/*.json  →  Single source of truth for every emotion
-    ↓
-model/index.ts  →  getCanonicalEmotion(id) + overlay → hydrated ModelEmotion
+catalog/*.json  -> fail-closed copy hydration -> canonical runtime emotion
+    |
+model/index.ts  -> getCanonicalEmotion(id) + overlay -> hydrated ModelEmotion
 ```
 
 ## Type Hierarchy
@@ -32,15 +35,22 @@ BaseEmotion { id, label, description?, needs?, color, intensity? }
 |-------|---------|---------------|
 | **Plutchik** | 8 primaries spawn related emotions; selected pairs combine into dyads | BubbleField |
 | **Wheel** | 3-level hierarchical tree; drill down from general to specific | BubbleField |
-| **Somatic** | Identify emotions through physical body sensations; weighted signal scoring | BodyRegionMap |
+| **Somatic** | Compare selected sensations with exploratory word associations | BodyRegionMap |
 | **Dimensional** | 2D valence × arousal field; pointer/arrow placement finds nearest emotions | DimensionalField |
 
 ## Non-Obvious Design Decisions
 
 ### Catalog is the single source of truth
 
-`distress.ts` derives distress tiers from catalog entries (no hardcoded sets).
-The Today quick-start emotions also resolve directly from the catalog.
+The Today quick-start emotions resolve directly from the catalog. Catalog loading rejects duplicate
+IDs, key/ID mismatches, and descriptions without explicit reviewed provenance.
+
+### Safety rules are versioned data
+
+`safety-rules.json` is the single source for the explicit high-distress inventory and tier-3/tier-4
+combinations. `distress.ts` evaluates it deterministically after deduplicating selected IDs.
+The same inventory drives catalog extraction. These tiers control support-prompt prominence; they
+are not severity, diagnosis, danger, or self-harm assessments.
 
 ### Model overlay colors override canonical colors
 
@@ -48,9 +58,13 @@ The canonical color is used for cross-model contexts such as Today and the
 journal. Each model overlay provides its own color for model-specific
 visualizations.
 
-### Somatic `contextDescription` is not duplication
+### Somatic provenance is deliberately narrow
 
-Somatic signals have an optional `contextDescription` that provides body-region-specific framing ("Pressure or heat in the head, associated with anger"). This is distinct from the canonical description and is NOT a duplicate. Scoring.ts resolves `contextDescription ?? canonical.description` at runtime.
+Every signal is marked `curated-hypothesis`. Optional
+`basis: "nummenmaa-2014-group-map"` means only that a broad group-level activation/deactivation
+pattern informed curation. It does not validate the sensation type, intensity threshold, weight,
+cause, or an individual emotional conclusion. Somatic results always use canonical exploratory
+copy; signals cannot provide local causal descriptions.
 
 ### Wheel multi-parent (`parents: string[]`)
 
@@ -60,9 +74,12 @@ Emotions like `embarrassed` appear under multiple L1 branches (both `hurt` and `
 
 Old suffixed IDs (`embarrassed_sad`, `embarrassed_disg`, `inferior_fear`, etc.) were collapsed into single canonical entries with multiple parents. Level-mismatched pairs (`overwhelmed` L1 vs `overwhelmed_bad` L2, `disappointed_disg` L1 vs `disappointed_sad` L2) remain separate because they serve different structural roles.
 
-### Somatic Scoring Nuances
+### Somatic scoring
 
-The coherence bonus rewards cross-body-group consistency (multi-region patterns score higher than single-region). Match strength labeling uses both ratio-to-top-scorer AND absolute score floors — high ratio alone isn't enough for "clear signal" if the absolute score is low.
+Matching signals contribute `weight * selectedIntensity` and are added without a cross-body
+coherence multiplier. Match labels compare relative and absolute score floors, but remain
+"closer match", "possible match", or "worth exploring". Scores rank curated hypotheses; they are
+not confidence values.
 
 ### Constriction as Distinct Sensation
 
@@ -84,3 +101,4 @@ Ekman facial, Parrott hierarchy, contrasting pairs, image-based wheel, master co
 
 - [Architecture](architecture.md) — Registry wiring, state management, data flow
 - [Frontend](frontend.md) — Visualization components that render model data
+- [Catalog and Somatic Provenance](../catalog-and-somatic-provenance.md) — Evidence and review limits

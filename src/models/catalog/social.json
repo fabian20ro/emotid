@@ -5,10 +5,6 @@
       "ro": "dispreț",
       "en": "contempt"
     },
-    "description": {
-      "ro": "Dispretul este diada dezgustului si furiei — o combinatie de respingere morala si indignare care te pozitioneaza deasupra celuilalt. Cercetarile lui Gottman au demonstrat ca dispretul este cel mai toxic predictor al destramare relationale. Dispretul ridica un zid intre tine si celalalt, eliminand posibilitatea empatiei si reparatiei.",
-      "en": "Contempt is the dyad of disgust and anger — a combination of moral rejection and indignation that positions you above the other. Gottman's research has shown that contempt is the most toxic predictor of relational dissolution. Contempt raises a wall between you and the other, eliminating the possibility of empathy and repair."
-    },
     "needs": {
       "ro": "empatie si schimbare de perspectiva",
       "en": "empathy and perspective-taking"
