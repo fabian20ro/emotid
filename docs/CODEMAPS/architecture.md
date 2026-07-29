@@ -1,6 +1,6 @@
 # Architecture Codemap
 
-**Last Updated:** 2026-07-24
+**Last Updated:** 2026-07-30
 
 ## Component Tree
 
@@ -15,7 +15,11 @@ main.tsx -> StrictMode > LanguageProvider > App
 
 Check-in rendering is split by route: affect and Plutchik share
 `ModelCheckInScreen`; words use `WordLadderScreen`; body uses
-`BodyCompassScreen`. Visualizations are resolved from the model registry.
+`BodyCompassScreen`. The typed check-in feature registry loads each screen and
+its concrete model together, then injects the model into the screen. Visualizations
+are resolved from the model registry. Other non-primary destinations are React
+lazy entries; `App` remains the eager completion, crisis, reflection, and
+persistence controller.
 
 ## Non-Obvious Patterns
 
@@ -44,7 +48,16 @@ and Plutchik completion rather than testing only one route.
 
 ### Model Loading Strategy
 
-Plutchik, Wheel, and Dimensional are eagerly loaded into the model cache at module time. Somatic (the default model) is the only lazy-loaded model — first render requires an async import.
+Every model has one promise-cached dynamic loader. The check-in feature boundary
+loads the route screen, model, and applicable visualization in parallel and
+injects the loaded model explicitly. Screens never depend on hidden cache timing.
+Today imports a bounded six-emotion catalog view rather than hydrating the full
+288-entry model catalog. Production manifest budgets assert the feature chunks
+remain deferred.
+
+Deferred screen fallback copy remains bilingual. `AppShell` observes delayed
+content and focuses the real destination heading when it appears instead of
+leaving focus on a temporary loading status.
 
 ## Related Codemaps
 

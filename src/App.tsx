@@ -1,21 +1,11 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { lazy, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { MotionConfig } from 'framer-motion'
 import { AppShell } from './components/AppShell'
 import { Onboarding } from './components/Onboarding'
-import { GranularityTraining } from './components/GranularityTraining'
-import { ChainAnalysis } from './components/ChainAnalysis'
+import { CheckInFeatureBoundary } from './components/CheckInFeatureBoundary'
+import { LazyRouteBoundary } from './components/LazyRouteBoundary'
 import { TodayScreen } from './screens/TodayScreen'
 import { ArrivalScreen } from './screens/ArrivalScreen'
-import { ModelCheckInScreen } from './screens/ModelCheckInScreen'
-import { BodyCompassScreen } from './screens/BodyCompassScreen'
-import { WordLadderScreen } from './screens/WordLadderScreen'
-import { ReflectionScreen } from './screens/ReflectionScreen'
-import { ExploreScreen } from './screens/ExploreScreen'
-import { JournalScreen } from './screens/JournalScreen'
-import { SessionDetailScreen } from './screens/SessionDetailScreen'
-import { SettingsScreen } from './screens/SettingsScreen'
-import { PrivacyDataScreen } from './screens/PrivacyDataScreen'
-import { SupportScreen } from './screens/SupportScreen'
 import { useAppNavigation } from './hooks/useAppNavigation'
 import { useSessionHistory } from './hooks/useSessionHistory'
 import { useChainAnalysis } from './hooks/useChainAnalysis'
@@ -28,6 +18,44 @@ import { escalateCrisisTier, hasTemporalCrisisPattern } from './data/temporal-cr
 import type { AnalysisResult, BaseEmotion } from './models/types'
 import type { CheckInCompletion, CheckInRoute, AppTab, ReflectionDetail, ReflectionSaveOutcome, SessionSaveState } from './navigation/types'
 import type { Session } from './data/types'
+import { preloadCheckInFeature } from './features/check-in/registry'
+
+const ReflectionScreen = lazy(async () => {
+  const module = await import('./screens/ReflectionScreen')
+  return { default: module.ReflectionScreen }
+})
+const ExploreScreen = lazy(async () => {
+  const module = await import('./screens/ExploreScreen')
+  return { default: module.ExploreScreen }
+})
+const JournalScreen = lazy(async () => {
+  const module = await import('./screens/JournalScreen')
+  return { default: module.JournalScreen }
+})
+const SessionDetailScreen = lazy(async () => {
+  const module = await import('./screens/SessionDetailScreen')
+  return { default: module.SessionDetailScreen }
+})
+const SettingsScreen = lazy(async () => {
+  const module = await import('./screens/SettingsScreen')
+  return { default: module.SettingsScreen }
+})
+const PrivacyDataScreen = lazy(async () => {
+  const module = await import('./screens/PrivacyDataScreen')
+  return { default: module.PrivacyDataScreen }
+})
+const SupportScreen = lazy(async () => {
+  const module = await import('./screens/SupportScreen')
+  return { default: module.SupportScreen }
+})
+const GranularityTraining = lazy(async () => {
+  const module = await import('./components/GranularityTraining')
+  return { default: module.GranularityTraining }
+})
+const ChainAnalysis = lazy(async () => {
+  const module = await import('./components/ChainAnalysis')
+  return { default: module.ChainAnalysis }
+})
 
 export default function App() {
   const { setLanguage } = useLanguage()
@@ -77,6 +105,7 @@ export default function App() {
   }, [])
 
   const startRoute = useCallback((route: Exclude<CheckInRoute, 'quick'>) => {
+    preloadCheckInFeature(route)
     setCompletion(null)
     activeSessionRef.current = null
     latestWriteRef.current = null
@@ -204,34 +233,44 @@ export default function App() {
       case 'arrival':
         return <ArrivalScreen onBack={navigation.back} onChoose={startRoute} />
       case 'check-in':
-        return destination.route === 'body'
-          ? <BodyCompassScreen onBack={navigation.back} onComplete={(modelId, selections, results) => complete('body', modelId, selections, results)} />
-          : destination.route === 'words'
-            ? <WordLadderScreen onBack={navigation.back} onComplete={(modelId, selections, results) => complete('words', modelId, selections, results)} />
-          : <ModelCheckInScreen route={destination.route} onBack={navigation.back} onComplete={(modelId, selections, results) => complete(destination.route, modelId, selections, results)} />
+        return (
+          <CheckInFeatureBoundary
+            route={destination.route}
+            onBack={navigation.back}
+            onComplete={(modelId, selections, results) => complete(destination.route, modelId, selections, results)}
+          />
+        )
       case 'reflection':
         return completion
-          ? <ReflectionScreen completion={completion} allowExternalAI={allowExternalAI} saveState={sessionSaveState} sessionCaptured={sessionCaptured} onBack={navigation.back} onRetryBaseSave={retryBaseSave} onSave={saveReflection} onReturn={returnToday} />
+          ? (
+            <LazyRouteBoundary>
+              <ReflectionScreen completion={completion} allowExternalAI={allowExternalAI} saveState={sessionSaveState} sessionCaptured={sessionCaptured} onBack={navigation.back} onRetryBaseSave={retryBaseSave} onSave={saveReflection} onReturn={returnToday} />
+            </LazyRouteBoundary>
+          )
           : <TodayScreen sessions={sessions} saveSessions={saveSessions} onStart={() => navigation.navigate({ name: 'arrival' })} onQuickComplete={completeQuick} onOpenJournal={() => navigation.reset({ name: 'journal' })} />
       case 'explore':
-        return <ExploreScreen onChoose={startRoute} onPractice={() => navigation.navigate({ name: 'granularity' })} />
+        return <LazyRouteBoundary><ExploreScreen onChoose={startRoute} onPractice={() => navigation.navigate({ name: 'granularity' })} /></LazyRouteBoundary>
       case 'journal':
-        return <JournalScreen sessions={sessions} loading={sessionsLoading} error={sessionsError} saveSessions={saveSessions} onOpenSession={(sessionId) => navigation.navigate({ name: 'session', sessionId })} onOpenChain={() => navigation.navigate({ name: 'chain' })} />
+        return <LazyRouteBoundary><JournalScreen sessions={sessions} loading={sessionsLoading} error={sessionsError} saveSessions={saveSessions} onOpenSession={(sessionId) => navigation.navigate({ name: 'session', sessionId })} onOpenChain={() => navigation.navigate({ name: 'chain' })} /></LazyRouteBoundary>
       case 'session':
-        return <SessionDetailScreen session={sessions.find((session) => session.id === destination.sessionId)} onBack={navigation.back} />
+        return <LazyRouteBoundary><SessionDetailScreen session={sessions.find((session) => session.id === destination.sessionId)} onBack={navigation.back} /></LazyRouteBoundary>
       case 'settings':
-        return <SettingsScreen theme={theme} onBack={navigation.back} onThemeChange={setTheme} onOpenPrivacy={() => navigation.navigate({ name: 'privacy' })} onOpenSupport={() => navigation.navigate({ name: 'support' })} onReplayIntroduction={(trigger) => {
-          onboardingReturnFocusRef.current = trigger
-          setOnboardingMode('replay')
-        }} />
+        return (
+          <LazyRouteBoundary>
+            <SettingsScreen theme={theme} onBack={navigation.back} onThemeChange={setTheme} onOpenPrivacy={() => navigation.navigate({ name: 'privacy' })} onOpenSupport={() => navigation.navigate({ name: 'support' })} onReplayIntroduction={(trigger) => {
+              onboardingReturnFocusRef.current = trigger
+              setOnboardingMode('replay')
+            }} />
+          </LazyRouteBoundary>
+        )
       case 'privacy':
-        return <PrivacyDataScreen saveSessions={saveSessions} allowExternalAI={allowExternalAI} onBack={navigation.back} onSaveSessionsChange={setSaving} onExternalAIChange={setExternalAI} onExport={exportData} onClear={clearData} />
+        return <LazyRouteBoundary><PrivacyDataScreen saveSessions={saveSessions} allowExternalAI={allowExternalAI} onBack={navigation.back} onSaveSessionsChange={setSaving} onExternalAIChange={setExternalAI} onExport={exportData} onClear={clearData} /></LazyRouteBoundary>
       case 'support':
-        return <SupportScreen onBack={navigation.back} />
+        return <LazyRouteBoundary><SupportScreen onBack={navigation.back} /></LazyRouteBoundary>
       case 'granularity':
-        return <GranularityTraining isOpen onClose={navigation.back} />
+        return <LazyRouteBoundary><GranularityTraining isOpen onClose={navigation.back} /></LazyRouteBoundary>
       case 'chain':
-        return <ChainAnalysis isOpen onClose={navigation.back} entries={chainEntries} loading={chainLoading} onSave={saveChainEntry} onClearAll={clearAllChains} />
+        return <LazyRouteBoundary><ChainAnalysis isOpen onClose={navigation.back} entries={chainEntries} loading={chainLoading} onSave={saveChainEntry} onClearAll={clearAllChains} /></LazyRouteBoundary>
       default:
         return null
     }

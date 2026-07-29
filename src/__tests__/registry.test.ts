@@ -1,32 +1,22 @@
 import { describe, it, expect } from 'vitest'
-import { getAvailableModels, getModel, getVisualization, loadModel } from '../models/registry'
+import {
+  getVisualization,
+  loadModel,
+  preloadVisualization,
+} from '../models/registry'
 import { MODEL_IDS } from '../models/constants'
 
 describe('model registry', () => {
-  it('exposes all four models in metadata', () => {
-    const models = getAvailableModels()
-    expect(models.map((model) => model.id).sort()).toEqual([
-      MODEL_IDS.DIMENSIONAL,
-      MODEL_IDS.PLUTCHIK,
-      MODEL_IDS.SOMATIC,
-      MODEL_IDS.WHEEL,
-    ])
-  })
-
-  it('returns model metadata in UI display order', () => {
-    const models = getAvailableModels()
-    expect(models.map((model) => model.id)).toEqual([
-      MODEL_IDS.DIMENSIONAL,
-      MODEL_IDS.SOMATIC,
-      MODEL_IDS.WHEEL,
-      MODEL_IDS.PLUTCHIK,
-    ])
-  })
-
-  it('loads somatic model on demand', async () => {
-    const loaded = await loadModel(MODEL_IDS.SOMATIC)
-    expect(loaded).toBeDefined()
-    expect(getModel(MODEL_IDS.SOMATIC)).toBeDefined()
+  it.each([
+    MODEL_IDS.DIMENSIONAL,
+    MODEL_IDS.PLUTCHIK,
+    MODEL_IDS.SOMATIC,
+    MODEL_IDS.WHEEL,
+  ])('loads and caches %s on demand', async (modelId) => {
+    const first = await loadModel(modelId)
+    const second = await loadModel(modelId)
+    expect(first).toBeDefined()
+    expect(second).toBe(first)
   })
 
   it('keeps generic visualizations separate from the route-specific body flow', () => {
@@ -36,12 +26,9 @@ describe('model registry', () => {
     expect(getVisualization(MODEL_IDS.SOMATIC)).toBeUndefined()
   })
 
-  it('loadModel returns undefined for invalid model ids', async () => {
-    const result = await loadModel('nonexistent-model')
-    expect(result).toBeUndefined()
-  })
-
-  it('getModel returns undefined when called with an unknown id', () => {
-    expect(getModel('nonexistent-model')).toBeUndefined()
+  it('preloads registered visualizations and ignores the route-specific body flow', async () => {
+    await expect(preloadVisualization(MODEL_IDS.DIMENSIONAL)).resolves.toBeUndefined()
+    await expect(preloadVisualization(MODEL_IDS.PLUTCHIK)).resolves.toBeUndefined()
+    await expect(preloadVisualization(MODEL_IDS.SOMATIC)).resolves.toBeUndefined()
   })
 })

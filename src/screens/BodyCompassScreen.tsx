@@ -7,7 +7,7 @@ import { MODEL_IDS } from '../models/constants'
 import { INTENSITY_LABELS, SENSATION_CONFIG } from '../models/somatic/display'
 import type { SomaticRegion, SomaticSelection, SensationType } from '../models/somatic/types'
 import type { BodySide } from '../components/BodyRegionMap'
-import type { AnalysisResult, BaseEmotion } from '../models/types'
+import type { AnalysisResult, BaseEmotion, EmotionModel } from '../models/types'
 
 type BodyStep = 'region' | 'sensation' | 'intensity' | 'review'
 
@@ -17,6 +17,7 @@ const BodyRegionMap = lazy(async () => {
 })
 
 interface BodyCompassScreenProps {
+  model: EmotionModel<BaseEmotion>
   onBack: () => void
   onComplete: (modelId: string, selections: BaseEmotion[], results: AnalysisResult[]) => void
 }
@@ -25,11 +26,11 @@ function isSomaticSelection(selection: BaseEmotion): selection is SomaticSelecti
   return 'selectedSensation' in selection && 'selectedIntensity' in selection
 }
 
-export function BodyCompassScreen({ onBack, onComplete }: BodyCompassScreenProps) {
+export function BodyCompassScreen({ model: emotionModel, onBack, onComplete }: BodyCompassScreenProps) {
   const { language, section } = useLanguage()
   const t = section('bodyCompass')
   const somaticT = section('somatic')
-  const model = useEmotionModel(MODEL_IDS.SOMATIC)
+  const model = useEmotionModel(emotionModel)
   const [step, setStep] = useState<BodyStep>('region')
   const [activeRegion, setActiveRegion] = useState<SomaticRegion | null>(null)
   const [draftSensation, setDraftSensation] = useState<SensationType | null>(null)

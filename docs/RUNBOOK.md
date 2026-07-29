@@ -58,6 +58,11 @@ Common problems:
 
 No server-side monitoring. Health indicators:
 - GitHub Actions build status
+- Production manifest budgets: `npm run check-performance`
+- Diagnostic production mobile trace: `npm run test:performance`
 - Manual testing on 393×742 viewport
 - Keyboard-only navigation through full flow
 - Crisis path: select distress emotions → verify banner appears
+
+See `docs/release-quality-gates.md` for physical mobile-performance thresholds and the mandatory
+VoiceOver/Safari plus TalkBack/Chrome acceptance script.

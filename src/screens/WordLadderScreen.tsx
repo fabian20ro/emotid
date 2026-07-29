@@ -4,9 +4,10 @@ import { ScreenHeader } from '../components/ScreenHeader'
 import { useLanguage } from '../context/LanguageContext'
 import { useEmotionModel } from '../hooks/useEmotionModel'
 import { MODEL_IDS } from '../models/constants'
-import type { AnalysisResult, BaseEmotion, ModelState } from '../models/types'
+import type { AnalysisResult, BaseEmotion, EmotionModel, ModelState } from '../models/types'
 
 interface WordLadderScreenProps {
+  model: EmotionModel<BaseEmotion>
   onBack: () => void
   onComplete: (modelId: string, selections: BaseEmotion[], results: AnalysisResult[]) => void
 }
@@ -30,11 +31,11 @@ function hasChildren(emotion: BaseEmotion): emotion is LadderEmotion {
   return Boolean((emotion as LadderEmotion).children?.length)
 }
 
-export function WordLadderScreen({ onBack, onComplete }: WordLadderScreenProps) {
+export function WordLadderScreen({ model: emotionModel, onBack, onComplete }: WordLadderScreenProps) {
   const { language, section } = useLanguage()
   const t = section('wordLadder')
   const selectionT = section('selectionBar')
-  const model = useEmotionModel(MODEL_IDS.WHEEL)
+  const model = useEmotionModel(emotionModel)
   const [path, setPath] = useState<BaseEmotion[]>([])
   const [history, setHistory] = useState<LadderSnapshot[]>([])
   const [comparisonContext, setComparisonContext] = useState<ComparisonContext | null>(null)

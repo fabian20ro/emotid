@@ -42,6 +42,9 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Check production performance budgets
+        run: npm run check-performance
+
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium webkit
 
@@ -50,6 +53,18 @@ jobs:
 
       - name: Verify production PWA lifecycle
         run: npm run test:pwa
+
+      - name: Record production mobile performance
+        run: npm run test:performance:run
+
+      - name: Upload performance summary
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: performance-summary
+          path: test-results/performance/
+          if-no-files-found: warn
+          retention-days: 14
 
       - name: Upload Playwright report on failure
         if: failure()

@@ -48,9 +48,12 @@ npm run dev
 npm run check
 npm run test:e2e
 npm run test:pwa
+npm run test:performance
 ```
 
 `npm run check` covers lint, unit/integration tests, bilingual audits, TypeScript, and the production build. Playwright covers Mobile Safari and Mobile Chrome; the PWA suite exercises the production service worker, offline reopen, automatic update, and local-data survival.
+The production performance probe records cold startup, first feature opening, transfer size, and
+long tasks; deterministic manifest and precache budgets run in `npm run check`.
 
 ## Method Context
 

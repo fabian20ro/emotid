@@ -6,6 +6,14 @@
   "offline": {
     "message": "Sunteți offline. Emot-ID folosește conținutul salvat local pe acest dispozitiv."
   },
+  "routeLoading": {
+    "title": "Se deschide acest spațiu",
+    "body": "Alegerile rămân pe acest dispozitiv cât timp se pregătește această parte din Emot-ID.",
+    "errorTitle": "Acest spațiu nu s-a putut deschide",
+    "errorBody": "Este posibil ca fișierele salvate ale aplicației să nu fie disponibile. Încercați din nou sau reveniți la ecranul anterior.",
+    "retry": "Încercați din nou",
+    "back": "Înapoi"
+  },
   "selectionBar": {
     "title": "Selecțiile tale",
     "empty": "Nicio selecție",

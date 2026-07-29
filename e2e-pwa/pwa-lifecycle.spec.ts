@@ -62,6 +62,9 @@ test('offline reopen and automatic update preserve local check-ins', async ({ co
     return paths
   })
   expect(cachedPaths).toContain('/emot-id/index.html')
+  expect(cachedPaths.some((path) => path.includes('/assets/BodyCompassScreen-'))).toBe(true)
+  expect(cachedPaths.some((path) => path.includes('/assets/ModelCheckInScreen-'))).toBe(true)
+  expect(cachedPaths.some((path) => path.includes('/assets/WordLadderScreen-'))).toBe(true)
   expect(cachedPaths.some((path) => path.includes('/assets/PlutchikWheel-'))).toBe(true)
   expect(cachedPaths.some((path) => path.includes('/assets/DimensionalField-'))).toBe(true)
 

@@ -14,6 +14,11 @@
 
 ## Architecture & Design Decisions
 
+**[2026-07-30]** Lazy feature screens need explicit loaded dependencies — Loading a screen and its
+model in parallel is insufficient if the screen then relies on a hidden module cache. Let the
+feature boundary inject the concrete loaded engine so screen state stays synchronous, direct tests
+remain deterministic, and retry/loading behavior has one owner.
+
 **[2026-07-29]** Model output becomes user history only after an explicit commitment — Persist the
 user's committed input early, but keep inferred labels, needs, and actions optional. Derived
 suggestions that are unconfirmed, partial, or rejected may remain visible in the Journal for

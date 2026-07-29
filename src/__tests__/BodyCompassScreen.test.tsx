@@ -4,13 +4,14 @@ import userEvent from '@testing-library/user-event'
 import { BodyCompassScreen } from '../screens/BodyCompassScreen'
 import { LanguageProvider } from '../context/LanguageContext'
 import type { AnalysisResult, BaseEmotion } from '../models/types'
+import { somaticModel } from '../models/somatic'
 
 function renderScreen() {
   const onBack = vi.fn()
   const onComplete = vi.fn<(modelId: string, selections: BaseEmotion[], results: AnalysisResult[]) => void>()
   render(
     <LanguageProvider>
-      <BodyCompassScreen onBack={onBack} onComplete={onComplete} />
+      <BodyCompassScreen model={somaticModel} onBack={onBack} onComplete={onComplete} />
     </LanguageProvider>
   )
   return { onBack, onComplete }

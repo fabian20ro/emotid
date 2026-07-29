@@ -1,6 +1,6 @@
 # Frontend Codemap
 
-**Last Updated:** 2026-07-27
+**Last Updated:** 2026-07-30
 
 ## Component Tree
 
@@ -31,6 +31,11 @@ App (src/App.tsx)
 `*` Confirmation uses `ModalShell`, portaled to `document.body` with focus trapping.
 `**` Generic visualizations resolve through the model registry. The somatic route owns
 `BodyRegionMap` directly because region activation must continue through its staged flow.
+
+Today and Arrival are eager. Check-in features load through
+`CheckInFeatureBoundary`; Reflection and utility destinations use
+`LazyRouteBoundary`. Both boundaries expose bilingual loading/failure states,
+and delayed destination headings receive route focus after their chunk renders.
 
 ## Non-Obvious Behaviors
 

@@ -5,11 +5,12 @@ import { useEmotionModel } from '../hooks/useEmotionModel'
 import { MODEL_IDS } from '../models/constants'
 import { ModelVisualization } from '../components/ModelVisualization'
 import { ScreenHeader } from '../components/ScreenHeader'
-import type { AnalysisResult, BaseEmotion } from '../models/types'
+import type { AnalysisResult, BaseEmotion, EmotionModel } from '../models/types'
 import type { CheckInRoute } from '../navigation/types'
 
 interface ModelCheckInScreenProps {
   route: Extract<CheckInRoute, 'affect' | 'plutchik'>
+  model: EmotionModel<BaseEmotion>
   onBack: () => void
   onComplete: (modelId: string, selections: BaseEmotion[], results: AnalysisResult[]) => void
 }
@@ -19,10 +20,10 @@ const MODEL_BY_ROUTE = {
   plutchik: MODEL_IDS.PLUTCHIK,
 } as const
 
-export function ModelCheckInScreen({ route, onBack, onComplete }: ModelCheckInScreenProps) {
+export function ModelCheckInScreen({ route, model: emotionModel, onBack, onComplete }: ModelCheckInScreenProps) {
   const { language, section } = useLanguage()
   const modelId = MODEL_BY_ROUTE[route]
-  const model = useEmotionModel(modelId)
+  const model = useEmotionModel(emotionModel)
   const affectT = section('affectMap')
   const plutchikT = section('plutchik')
 

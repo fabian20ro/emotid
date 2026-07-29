@@ -50,6 +50,7 @@ export default defineConfig({
   ],
   base: '/emot-id/',
   build: {
+    manifest: true,
     rollupOptions: {
       output: {
         manualChunks(id) {
@@ -58,15 +59,6 @@ export default defineConfig({
           }
           if (id.includes('node_modules/framer-motion')) {
             return 'vendor-motion'
-          }
-          if (id.includes('/src/models/wheel/data.json')) {
-            return 'model-wheel-data'
-          }
-          if (id.includes('/src/models/plutchik/data.json')) {
-            return 'model-plutchik-data'
-          }
-          if (id.includes('/src/models/dimensional/data.json')) {
-            return 'model-dimensional-data'
           }
           return undefined
         },

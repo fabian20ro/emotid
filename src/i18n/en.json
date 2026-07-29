@@ -6,6 +6,14 @@
   "offline": {
     "message": "You are offline. Emot-ID is using cached content on this device."
   },
+  "routeLoading": {
+    "title": "Opening this space",
+    "body": "Your choices stay on this device while this part of Emot-ID gets ready.",
+    "errorTitle": "This space could not open",
+    "errorBody": "The saved app files may be unavailable. Try again or return to the previous screen.",
+    "retry": "Try again",
+    "back": "Go back"
+  },
   "selectionBar": {
     "title": "Your selections",
     "empty": "No selection",

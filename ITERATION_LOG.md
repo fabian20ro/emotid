@@ -1113,3 +1113,32 @@ content. Physical synthesized-speech and gesture acceptance remains an explicit 
 `document.activeElement`; rendered geometry also needs numeric coverage when build-time CSS
 processing can remove dynamically named selectors.
 **Promoted to Lessons Learned:** Yes — explicit mobile dialog opener.
+
+---
+
+### [2026-07-30] Complete P17 lazy feature boundaries and performance evidence
+
+**Context:** Performance had no repeatable production evidence. Every destination and model engine
+joined the startup graph; Today hydrated the complete model catalog for six quick choices; the
+registry's somatic dynamic import was unreachable; stale manual chunk rules referenced deleted
+files.
+**What happened:**
+- Added one typed check-in feature registry that parallel-loads each screen, concrete model, and
+  visualization, injects the engine explicitly, caches successful promises, and exposes bilingual
+  loading/failure recovery.
+- Deferred Reflection and utility destinations, preserved route-heading focus across delayed
+  rendering, and split Today onto a provenance-preserving quick catalog boundary.
+- Removed the production-unused model-selection hook, the dual sync/async screen dependency, and
+  stale model-data chunk rules.
+- Added Vite manifest output, deterministic initial/entry/precache budgets, a production Mobile
+  Chrome timing probe with CI artifacts, deferred-route focus coverage, and unvisited-route PWA
+  cache assertions.
+- Documented physical performance targets and the unautomatable VoiceOver/Safari plus
+  TalkBack/Chrome release script.
+**Outcome:** Main app JavaScript fell from 69.10 to 32.87 kB gzip; total initial JavaScript fell from
+about 169.7 to 133.51 kB gzip. Full offline precache remains complete at 904.72 KiB. All 68 test
+files and 620 tests pass; 176 Mobile Safari/Chrome cases and the production PWA lifecycle pass.
+Physical hardware timing and synthesized-speech acceptance remain open device gates.
+**Insight:** A lazy boundary must inject its loaded dependency; a hidden cache contract creates
+timing-dependent screens and brittle direct tests.
+**Promoted to Lessons Learned:** Yes — explicit dependencies at lazy feature boundaries.

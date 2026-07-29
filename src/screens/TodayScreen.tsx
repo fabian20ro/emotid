@@ -1,10 +1,8 @@
 import { ArrowRight, Check, LockKeyhole } from 'lucide-react'
 import { useLanguage } from '../context/LanguageContext'
-import { getCanonicalEmotion } from '../models/catalog'
+import { quickEmotions } from '../models/catalog/quick'
 import type { AnalysisResult, BaseEmotion } from '../models/types'
 import type { Session } from '../data/types'
-
-const QUICK_IDS = ['anxiety', 'sadness', 'anger', 'joy', 'numb', 'overwhelmed'] as const
 
 interface TodayScreenProps {
   sessions: Session[]
@@ -18,7 +16,6 @@ export function TodayScreen({ sessions, saveSessions, onStart, onQuickComplete, 
   const { language, section } = useLanguage()
   const t = section('today')
   const recent = sessions[0]
-  const quick = QUICK_IDS.map(getCanonicalEmotion).filter((item): item is NonNullable<typeof item> => Boolean(item))
 
   return (
     <div className="screen" data-testid="today-screen">
@@ -35,7 +32,7 @@ export function TodayScreen({ sessions, saveSessions, onStart, onQuickComplete, 
         <h2 id="quick-title" className="section-heading">{t.quickTitle}</h2>
         <p className="muted text-sm mt-0 mb-3">{t.quickPrompt}</p>
         <div className="quick-strip">
-          {quick.map((emotion) => (
+          {quickEmotions.map((emotion) => (
             <button
               type="button"
               key={emotion.id}

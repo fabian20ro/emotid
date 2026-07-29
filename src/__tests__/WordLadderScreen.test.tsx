@@ -4,13 +4,14 @@ import userEvent from '@testing-library/user-event'
 import { LanguageProvider } from '../context/LanguageContext'
 import { WordLadderScreen } from '../screens/WordLadderScreen'
 import type { AnalysisResult, BaseEmotion } from '../models/types'
+import { wheelModel } from '../models/wheel'
 
 function renderScreen() {
   const onBack = vi.fn()
   const onComplete = vi.fn<(modelId: string, selections: BaseEmotion[], results: AnalysisResult[]) => void>()
   render(
     <LanguageProvider>
-      <WordLadderScreen onBack={onBack} onComplete={onComplete} />
+      <WordLadderScreen model={wheelModel} onBack={onBack} onComplete={onComplete} />
     </LanguageProvider>,
   )
   return { onBack, onComplete }

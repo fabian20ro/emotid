@@ -37,8 +37,21 @@ export function AppShell({
   ]
 
   useEffect(() => {
-    contentRef.current?.scrollTo({ top: 0, left: 0 })
-    contentRef.current?.querySelector<HTMLElement>('#screen-title')?.focus({ preventScroll: true })
+    const content = contentRef.current
+    if (!content) return
+    content.scrollTo({ top: 0, left: 0 })
+
+    let focusedHeading: HTMLElement | null = null
+    const focusDestinationHeading = () => {
+      const heading = content.querySelector<HTMLElement>('#screen-title[tabindex="-1"]')
+      if (!heading || heading === focusedHeading) return
+      heading.focus({ preventScroll: true })
+      focusedHeading = heading
+    }
+    focusDestinationHeading()
+    const observer = new MutationObserver(focusDestinationHeading)
+    observer.observe(content, { childList: true, subtree: true })
+    return () => observer.disconnect()
   }, [screenKey])
 
   return (

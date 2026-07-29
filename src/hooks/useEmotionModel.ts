@@ -1,50 +1,20 @@
 import { useState, useMemo, useCallback, useEffect, useRef } from 'react'
-import type { BaseEmotion, AnalysisResult, ModelState } from '../models/types'
-import { getModel, loadModel, defaultModelId } from '../models/registry'
+import type { BaseEmotion, AnalysisResult, EmotionModel, ModelState } from '../models/types'
 
-export function useEmotionModel(modelId: string = defaultModelId) {
-  const [model, setModel] = useState(() => getModel(modelId) ?? null)
-
+export function useEmotionModel(model: EmotionModel<BaseEmotion>) {
   const [selections, setSelections] = useState<BaseEmotion[]>([])
-  const [modelState, setModelState] = useState<ModelState>(() => model?.initialState ?? { visibleEmotionIds: new Map(), currentGeneration: 0 })
-  const [modelReady, setModelReady] = useState(() => Boolean(model))
+  const [modelState, setModelState] = useState<ModelState>(() => model.initialState)
   const selectionsRef = useRef(selections)
   useEffect(() => {
     selectionsRef.current = selections
   }, [selections])
 
   useEffect(() => {
-    let active = true
     setSelections([])
-    const cached = getModel(modelId)
-    if (cached) {
-      setModel(cached)
-      setModelState(cached.initialState)
-      setModelReady(true)
-      return () => {
-        active = false
-      }
-    }
-
-    setModel(null)
-    setModelReady(false)
-    setModelState({ visibleEmotionIds: new Map(), currentGeneration: 0 })
-    void loadModel(modelId).then((loaded) => {
-      if (!active || !loaded) return
-      setModel(loaded)
-      setModelState(loaded.initialState)
-      setModelReady(true)
-    })
-
-    return () => {
-      active = false
-    }
-  }, [modelId])
-
-  const noopAnalyze = useCallback((): AnalysisResult[] => [], [])
+    setModelState(model.initialState)
+  }, [model])
 
   const visibleEmotions = useMemo(() => {
-    if (!model) return []
     const ids = Array.from(modelState.visibleEmotionIds.keys())
     return ids
       .map((id) => model.allEmotions[id])
@@ -53,7 +23,6 @@ export function useEmotionModel(modelId: string = defaultModelId) {
 
   const sizes = useMemo(() => {
     const map = new Map<string, 'small' | 'medium' | 'large'>()
-    if (!model) return map
     for (const id of modelState.visibleEmotionIds.keys()) {
       map.set(id, model.getEmotionSize?.(id, modelState) ?? 'medium')
     }
@@ -62,7 +31,6 @@ export function useEmotionModel(modelId: string = defaultModelId) {
 
   const handleSelect = useCallback(
     (emotion: BaseEmotion) => {
-      if (!model) return
       setModelState((prevState) => {
         const effect = model.onSelect(emotion, prevState, selectionsRef.current)
 
@@ -82,7 +50,6 @@ export function useEmotionModel(modelId: string = defaultModelId) {
 
   const handleDeselect = useCallback(
     (emotion: BaseEmotion) => {
-      if (!model) return
       setModelState((prevState) => {
         const effect = model.onDeselect(emotion, prevState)
 
@@ -99,14 +66,13 @@ export function useEmotionModel(modelId: string = defaultModelId) {
   )
 
   const handleClear = useCallback(() => {
-    if (!model) return
     setSelections([])
     setModelState(model.onClear())
   }, [model])
 
   // Derive breadcrumb path by walking the parent chain from any visible emotion
   const breadcrumbPath = useMemo(() => {
-    if (!model || modelState.currentGeneration === 0) return []
+    if (modelState.currentGeneration === 0) return []
     const firstId = modelState.visibleEmotionIds.keys().next().value
     if (!firstId) return []
     const path: BaseEmotion[] = []
@@ -125,7 +91,6 @@ export function useEmotionModel(modelId: string = defaultModelId) {
   // Select a breadcrumb emotion (branch node) and reset to root
   const handleBreadcrumbSelect = useCallback(
     (emotion: BaseEmotion) => {
-      if (!model) return
       setSelections((prev) =>
         prev.find((e) => e.id === emotion.id) ? prev : [...prev, emotion]
       )
@@ -140,22 +105,19 @@ export function useEmotionModel(modelId: string = defaultModelId) {
   }, [])
 
   const combos = useMemo(() => {
-    if (!model) return []
     return selections.length < 2 ? [] : model.analyze(selections).filter((r) => r.componentLabels)
   }, [model, selections])
 
   const analyze = useCallback((): AnalysisResult[] => {
-    if (!model) return noopAnalyze()
     return model.analyze(selections)
-  }, [model, selections, noopAnalyze])
+  }, [model, selections])
 
   const analyzeSelections = useCallback((candidateSelections: BaseEmotion[]): AnalysisResult[] => {
-    if (!model) return noopAnalyze()
     return model.analyze(candidateSelections)
-  }, [model, noopAnalyze])
+  }, [model])
 
   return {
-    modelReady,
+    modelReady: true,
     selections,
     modelState,
     visibleEmotions,

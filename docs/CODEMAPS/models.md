@@ -93,9 +93,13 @@ When numbness is reported across 3+ body groups, the somatic model offers a grou
 
 Extra unpleasant-calm emotions were added to reduce quadrant sparsity. `lonely` and `resigned` coordinates were adjusted to reduce overlap in that quadrant.
 
-### Planned Models
+### Model extension boundary
 
-Ekman facial, Parrott hierarchy, contrasting pairs, image-based wheel, master combination. See `registry.ts` for the extension pattern.
+Add the engine and optional visualization loader to `registry.ts`, then map the
+user-facing route in `features/check-in/registry.tsx`. The feature loader owns
+screen/model readiness; analyzers remain independent of React and `App` retains
+the shared completion and safety boundary. Do not add a plugin framework or
+global model-selection state for one new model.
 
 ## Related Codemaps
 

@@ -1,7 +1,7 @@
 # Remaining Mobile Migration Plan
 
-Status: P16 browser-observable assistive-technology hardening complete; physical-device acceptance
-remains, July 29, 2026.
+Status: P17 lazy feature boundaries and repeatable performance evidence complete; physical-device
+assistive-technology and hardware timing acceptance remain, July 30, 2026.
 
 ## Completed Since Last Update
 
@@ -413,7 +413,31 @@ Mobile Chrome cases; `npm run test:pwa` passes the production offline/update lif
    words, save recovery, and tier-4 support. Fix only device-reproduced defects and add the closest
    browser-observable regression. Playwright cannot validate synthesized speech or screen-reader
    gesture behavior, so this remains explicitly unclaimed.
-2. P17, conditional: measure first-load and route-transition behavior on representative low/mid
-   mobile hardware. Define thresholds before changing code. Optimize the main bundle or the known
-   mixed static/dynamic somatic import only when a measured threshold fails; retain the current
-   architecture when it passes.
+2. Run the documented production timing probe on representative low/mid mobile hardware and record
+   the physical results. CI retains a diagnostic proxy and deterministic bundle budgets, but shared
+   runners are not release-device evidence.
+
+## Completed: P17 Lazy Feature Boundaries and Performance Evidence
+
+The measured production graph showed that `App` eagerly imported every destination, Today hydrated
+the full model catalog for six quick choices, and the model registry statically imported every
+engine while exposing an unreachable somatic dynamic branch. Main application JavaScript was 69.10
+kB gzip and initial JavaScript was approximately 169.7 kB gzip.
+
+A typed check-in feature registry now loads each route screen, concrete model, and applicable
+visualization together. The loaded model is injected explicitly, keeping `useEmotionModel`
+synchronous and removing hidden cache timing. Reflection and utility destinations are deferred,
+Today has a provenance-preserving six-emotion catalog boundary, and delayed headings receive focus
+after their chunk renders. Stale model-data chunk rules and the production-unused model-selection
+hook were removed.
+
+The production app entry is now 32.87 kB gzip and total initial JavaScript is 133.51 kB gzip. Full
+offline precache remains complete at 904.72 KiB, up from 895.11 KiB because more revisioned chunks
+carry independent module wrappers. Manifest gates cap initial JS, entry JS, and production asset
+size and require every primary feature screen to stay dynamic. A production Mobile Chrome probe
+records startup, all four first-route opens, bytes, resources, and long tasks as a CI artifact.
+
+**Verification:** 68 test files and 620 tests pass; the two-engine browser matrix passes 176 cases;
+the production PWA lifecycle verifies unvisited primary route chunks, offline reopen, automatic
+update, and local-data survival. Physical-device timing and synthesized-speech acceptance are not
+claimed.
