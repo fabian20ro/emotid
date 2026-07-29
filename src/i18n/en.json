@@ -48,7 +48,8 @@
     "back": "Back",
     "getStarted": "Get started",
     "done": "Done",
-    "close": "Close introduction"
+    "close": "Close introduction",
+    "progress": "Introduction progress"
   },
   "firstHint": {
     "somatic": "Tap where you notice a sensation",

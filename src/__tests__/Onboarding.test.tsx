@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Onboarding } from '../components/Onboarding'
 import { LanguageProvider } from '../context/LanguageContext'
@@ -27,6 +27,7 @@ describe('Onboarding', () => {
     renderOnboarding()
     expect(screen.getByRole('dialog')).toHaveAttribute('aria-modal', 'true')
     expect(screen.getByText(/not a test/i)).toBeInTheDocument()
+    expect(screen.getByRole('progressbar', { name: 'Introduction progress' })).toHaveAttribute('aria-valuenow', '1')
   })
 
   it('moves through purpose and local privacy in three steps', async () => {
@@ -34,7 +35,8 @@ describe('Onboarding', () => {
     renderOnboarding()
 
     await user.click(screen.getByRole('button', { name: /next/i }))
-    expect(screen.getByText(/emotions can be explored with curiosity/i)).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /emotions can be explored with curiosity/i })).toHaveFocus()
+    expect(screen.getByRole('progressbar')).toHaveAttribute('aria-valuenow', '2')
 
     await user.click(screen.getByRole('button', { name: /next/i }))
     expect(screen.getByRole('heading', { name: /privacy & data/i })).toBeInTheDocument()
@@ -96,15 +98,22 @@ describe('Onboarding', () => {
     const user = userEvent.setup()
     const onComplete = vi.fn()
     const onClose = vi.fn()
+    const host = document.createElement('div')
+    document.body.appendChild(host)
     render(
       <LanguageProvider>
+        <button type="button">Replay trigger</button>
         <Onboarding mode="replay" onComplete={onComplete} onClose={onClose} />
       </LanguageProvider>,
+      { container: host },
     )
 
+    await waitFor(() => expect(screen.getByRole('heading', { name: /not a test/i })).toHaveFocus())
+    expect(screen.getByRole('dialog').parentElement).toBe(document.body)
     expect(screen.queryByRole('group', { name: 'Language' })).not.toBeInTheDocument()
     await user.click(screen.getByRole('button', { name: 'Close introduction' }))
     expect(onClose).toHaveBeenCalledOnce()
     expect(setItemSpy).not.toHaveBeenCalledWith(storage.KEYS.onboarded, 'true')
+    host.remove()
   })
 })

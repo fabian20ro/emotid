@@ -48,7 +48,8 @@
     "back": "Înapoi",
     "getStarted": "Începeți",
     "done": "Gata",
-    "close": "Închideți introducerea"
+    "close": "Închideți introducerea",
+    "progress": "Progresul introducerii"
   },
   "firstHint": {
     "somatic": "Atingeți zona unde observați o senzație",

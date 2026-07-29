@@ -183,7 +183,8 @@ describe('ReflectionScreen need selection', () => {
   it('keeps safety support ahead of storage and suppresses routine save status', () => {
     renderReflection([result('despair')], { crisisTier: 'tier4', saveState: 'saved' })
 
-    expect(screen.getByRole('alert')).toHaveClass('crisis-banner')
+    expect(screen.getByRole('alert')).toHaveClass('crisis-message')
+    expect(screen.getByRole('alert').closest('.crisis-banner')).toBeInTheDocument()
     expect(screen.queryByText('Check-in saved. Everything below is optional.')).not.toBeInTheDocument()
   })
 

@@ -1081,3 +1081,35 @@ Romanian Settings, and replay with no clipping, collisions, or console errors.
 **Insight:** Persist the user's explicit commitment early; model-derived enrichment remains
 optional and cannot become either a selected answer or a personal pattern without confirmation.
 **Promoted to Lessons Learned:** Yes — explicit commitment boundary for model output.
+
+---
+
+### [2026-07-29] Complete P16 browser-observable assistive-technology hardening
+
+**Context:** Physical VoiceOver/TalkBack acceptance remained after P9. Browser accessibility-tree
+inspection reproduced skipped onboarding explanations, an unnamed Word Ladder focus target, an
+over-broad crisis alert, and replay that replaced rather than retained its Settings context.
+**What happened:**
+- Focused every onboarding step heading, added localized semantic progress, and kept replay as a
+  full-viewport body portal over an inert, assistive-hidden Settings surface.
+- Extended the shared focus trap with explicit initial and return targets, stable callback handling,
+  React development-effect resilience, and delayed restoration after the background is interactive.
+- Passed the replay opener explicitly because Mobile Safari touch activation does not reliably
+  focus buttons; verified trigger restoration in both browser engines.
+- Focused Word Ladder's direct intermediary completion button and attached the alternative
+  more-specific path as its accessible description.
+- Narrowed crisis live alerts to the safety message while keeping verified resources immediately
+  next in deterministic reading order; tiers, gating, and support actions are unchanged.
+- Added repeatable first-run/replay, touch return, full-viewport, intermediary focus, crisis scope,
+  keyboard trap, route focus, save-recovery, and reflow assertions.
+- Manual 393x742 inspection caught Tailwind dropping a dynamic compound overlay selector; moved
+  fixed portal geometry to the component and added numeric viewport-bound coverage.
+**Outcome:** Success. `npm run check` passes 66 files and 618 tests. `npm run test:e2e` passes all
+174 Mobile Safari and Mobile Chrome cases. `npm run test:pwa` passes the production offline/update
+lifecycle after the known macOS Mach-port sandbox denial was rerun outside that process sandbox.
+Manual 393x742 inspection confirms the corrected full-viewport replay with no exposed background
+content. Physical synthesized-speech and gesture acceptance remains an explicit device gate.
+**Insight:** Focus restoration must use the action that opened an overlay, not an assumption about
+`document.activeElement`; rendered geometry also needs numeric coverage when build-time CSS
+processing can remove dynamically named selectors.
+**Promoted to Lessons Learned:** Yes — explicit mobile dialog opener.

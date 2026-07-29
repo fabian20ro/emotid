@@ -31,6 +31,17 @@ async function placeFeeling(page: Page) {
 }
 
 test.describe('Critical journey semantics and focus', () => {
+  test('introduction exposes progress and focuses each new explanation', async ({ page }) => {
+    await page.goto('/')
+
+    const dialog = page.getByRole('dialog')
+    await expect(dialog.getByRole('heading', { name: 'This is an exploration, not a test' })).toBeFocused()
+    await expect(dialog.getByRole('progressbar', { name: 'Introduction progress' })).toHaveAttribute('aria-valuenow', '1')
+    await dialog.getByRole('button', { name: 'Next' }).click()
+    await expect(dialog.getByRole('heading', { name: 'Emotions can be explored with curiosity' })).toBeFocused()
+    await expect(dialog.getByRole('progressbar')).toHaveAttribute('aria-valuenow', '2')
+  })
+
   for (const language of ['en', 'ro'] as const) {
     test(`${language} announces meaningful destinations through the Affect journey`, async ({ page }) => {
       await openApp(page, { language })
@@ -71,6 +82,19 @@ test.describe('Critical journey semantics and focus', () => {
 
     await page.getByRole('button', { name: 'Try saving again' }).click()
     await expectScreenSemantics(page, /how are you feeling/i)
+  })
+
+  test('intermediary words focus the direct completion choice', async ({ page }) => {
+    await openApp(page)
+    await openArrival(page)
+    await page.getByTestId('arrival-words').click()
+    await page.getByRole('button', { name: 'Happy', exact: true }).click()
+    await page.getByRole('button', { name: 'Playful', exact: true }).click()
+
+    const stop = page.getByRole('region', { name: 'This word can be your answer: Playful' })
+    const finish = stop.getByRole('button', { name: 'Continue with Playful' })
+    await expect(finish).toBeFocused()
+    await expect(finish).toHaveAccessibleDescription('Or choose a more specific word below.')
   })
 })
 

@@ -8,7 +8,7 @@ interface SettingsScreenProps {
   onThemeChange: (theme: 'light' | 'dark') => void
   onOpenPrivacy: () => void
   onOpenSupport: () => void
-  onReplayIntroduction: () => void
+  onReplayIntroduction: (trigger: HTMLButtonElement) => void
 }
 
 function Toggle({ checked, label, onChange, disabled = false }: { checked: boolean; label: string; onChange: (checked: boolean) => void; disabled?: boolean }) {
@@ -59,7 +59,7 @@ export function SettingsScreen({ theme, onBack, onThemeChange, onOpenPrivacy, on
 
       <h2 className="section-heading">{t.help}</h2>
       <div className="settings-list">
-        <button type="button" className="settings-link" onClick={onReplayIntroduction}><RotateCcw size={20} aria-hidden="true" /><span>{t.replayIntroduction}</span><ChevronRight size={18} aria-hidden="true" /></button>
+        <button type="button" className="settings-link" onClick={(event) => onReplayIntroduction(event.currentTarget)}><RotateCcw size={20} aria-hidden="true" /><span>{t.replayIntroduction}</span><ChevronRight size={18} aria-hidden="true" /></button>
         <button type="button" className="settings-link" onClick={onOpenSupport}><LifeBuoy size={20} aria-hidden="true" /><span>{t.support}</span><ChevronRight size={18} aria-hidden="true" /></button>
       </div>
     </div>

@@ -1,27 +1,50 @@
-import { useEffect, useRef } from 'react'
+import { useLayoutEffect, useRef, type RefObject } from 'react'
 
 const FOCUSABLE_SELECTOR =
   'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
 
-export function useFocusTrap(active: boolean, onClose?: () => void) {
+export function useFocusTrap(
+  active: boolean,
+  onClose?: () => void,
+  initialFocusRef?: RefObject<HTMLElement | null>,
+  returnFocusRef?: RefObject<HTMLElement | null>,
+) {
   const containerRef = useRef<HTMLDivElement>(null)
   const previousFocusRef = useRef<HTMLElement | null>(null)
+  const restoreTimerRef = useRef<number | null>(null)
+  const onCloseRef = useRef(onClose)
+  const initialFocusTargetRef = useRef(initialFocusRef)
+  const explicitReturnFocusRef = useRef(returnFocusRef)
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    onCloseRef.current = onClose
+    initialFocusTargetRef.current = initialFocusRef
+    explicitReturnFocusRef.current = returnFocusRef
+  }, [initialFocusRef, onClose, returnFocusRef])
+
+  useLayoutEffect(() => {
     if (!active) return
 
-    previousFocusRef.current = document.activeElement as HTMLElement | null
+    if (restoreTimerRef.current !== null) {
+      window.clearTimeout(restoreTimerRef.current)
+      restoreTimerRef.current = null
+    }
 
     const container = containerRef.current
+    const activeElement = document.activeElement as HTMLElement | null
+    if (!activeElement || !container?.contains(activeElement)) {
+      previousFocusRef.current = explicitReturnFocusRef.current?.current ?? activeElement
+    }
+    const initialFocusTarget = initialFocusTargetRef.current?.current
     if (container) {
       const firstFocusable = container.querySelector<HTMLElement>(FOCUSABLE_SELECTOR)
-      firstFocusable?.focus()
+      ;(initialFocusTarget ?? firstFocusable)?.focus()
     }
 
     function handleKeyDown(e: KeyboardEvent) {
       if (e.key === 'Escape') {
         e.stopPropagation()
-        onClose?.()
+        onCloseRef.current?.()
         return
       }
 
@@ -42,7 +65,7 @@ export function useFocusTrap(active: boolean, onClose?: () => void) {
         return
       }
 
-      if (e.shiftKey && activeEl === firstEl) {
+      if (e.shiftKey && (activeEl === firstEl || activeEl === initialFocusTarget)) {
         e.preventDefault()
         lastEl.focus()
       } else if (!e.shiftKey && activeEl === lastEl) {
@@ -55,9 +78,13 @@ export function useFocusTrap(active: boolean, onClose?: () => void) {
 
     return () => {
       document.removeEventListener('keydown', handleKeyDown)
-      previousFocusRef.current?.focus()
+      const previousFocus = previousFocusRef.current
+      restoreTimerRef.current = window.setTimeout(() => {
+        restoreTimerRef.current = null
+        if (previousFocus?.isConnected) previousFocus.focus()
+      }, 0)
     }
-  }, [active, onClose])
+  }, [active])
 
   return containerRef
 }

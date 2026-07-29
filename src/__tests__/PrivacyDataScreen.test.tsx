@@ -48,7 +48,7 @@ describe('PrivacyDataScreen', () => {
     await user.keyboard('{Escape}')
 
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
-    expect(trigger).toHaveFocus()
+    await waitFor(() => expect(trigger).toHaveFocus())
   })
 
   it('reports export failures without opening a download', async () => {

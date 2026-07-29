@@ -25,8 +25,8 @@ export function CrisisBanner({
   const isTier4 = tier === 'tier4'
 
   return (
-    <div className={`crisis-banner${isTier4 ? ' is-tier4' : ''}`} role="alert" aria-live="polite">
-      <p className="crisis-message">{message}</p>
+    <div className={`crisis-banner${isTier4 ? ' is-tier4' : ''}`}>
+      <p className="crisis-message" role="alert">{message}</p>
       <div className="crisis-resources">
         <a href="tel:+40374456420" className="crisis-resource">
           <Phone size={19} aria-hidden="true" />

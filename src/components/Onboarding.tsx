@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useRef, useState, type RefObject } from 'react'
+import { createPortal } from 'react-dom'
 import { ArrowLeft, ArrowRight, Compass, HeartHandshake, LockKeyhole, X } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { useLanguage } from '../context/LanguageContext'
@@ -9,14 +10,21 @@ interface OnboardingProps {
   mode?: 'initial' | 'replay'
   onComplete: () => void
   onClose?: () => void
+  returnFocusRef?: RefObject<HTMLElement | null>
 }
 
-export function Onboarding({ mode = 'initial', onComplete, onClose }: OnboardingProps) {
+export function Onboarding({ mode = 'initial', onComplete, onClose, returnFocusRef }: OnboardingProps) {
   const { section, language, setLanguage } = useLanguage()
   const t = section('onboarding')
   const privacyT = section('privacyData')
   const [step, setStep] = useState(0)
-  const focusTrapRef = useFocusTrap(true)
+  const headingRef = useRef<HTMLHeadingElement>(null)
+  const focusTrapRef = useFocusTrap(
+    true,
+    mode === 'replay' ? onClose : undefined,
+    headingRef,
+    mode === 'replay' ? returnFocusRef : undefined,
+  )
 
   const screens = [
     { title: t.screen1Title, body: t.screen1Body, Icon: Compass },
@@ -25,6 +33,10 @@ export function Onboarding({ mode = 'initial', onComplete, onClose }: Onboarding
   ]
   const isLast = step === screens.length - 1
   const current = screens[step]
+
+  useLayoutEffect(() => {
+    headingRef.current?.focus({ preventScroll: true })
+  }, [step])
 
   const finish = useCallback(() => {
     if (mode === 'initial') storage.set('onboarded', 'true')
@@ -40,8 +52,14 @@ export function Onboarding({ mode = 'initial', onComplete, onClose }: Onboarding
     return () => window.removeEventListener('keydown', closeOnEscape)
   }, [mode, onClose])
 
-  return (
-    <div className="onboarding" role="dialog" aria-modal="true" aria-labelledby="onboarding-title">
+  const content = (
+    <div
+      className="onboarding"
+      style={mode === 'replay' ? { position: 'fixed', inset: 0, zIndex: 'var(--z-onboarding)' } : undefined}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="onboarding-title"
+    >
       <div ref={focusTrapRef} className="onboarding-panel">
         <div className="onboarding-header">
           <div className="onboarding-brand">Emot-ID</div>
@@ -51,13 +69,20 @@ export function Onboarding({ mode = 'initial', onComplete, onClose }: Onboarding
             </button>
           )}
         </div>
-        <div className="onboarding-progress" aria-label={`${step + 1}/${screens.length}`}>
+        <div
+          className="onboarding-progress"
+          role="progressbar"
+          aria-label={t.progress}
+          aria-valuemin={1}
+          aria-valuemax={screens.length}
+          aria-valuenow={step + 1}
+        >
           {screens.map((_, index) => <span key={index} data-step={index} className={index === step ? 'is-active' : ''} />)}
         </div>
 
         <motion.div key={step} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="onboarding-copy">
           <span className="onboarding-icon"><current.Icon size={27} aria-hidden="true" /></span>
-          <h1 id="onboarding-title">{current.title}</h1>
+          <h1 ref={headingRef} id="onboarding-title" tabIndex={-1}>{current.title}</h1>
           <p>{current.body}</p>
           {isLast && mode === 'initial' && (
             <div className="segmented onboarding-language" role="group" aria-label={section('settingsScreen').language}>
@@ -81,4 +106,8 @@ export function Onboarding({ mode = 'initial', onComplete, onClose }: Onboarding
       </div>
     </div>
   )
+
+  return mode === 'replay' && typeof document !== 'undefined'
+    ? createPortal(content, document.body)
+    : content
 }

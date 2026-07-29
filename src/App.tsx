@@ -42,6 +42,7 @@ export default function App() {
   const latestWriteRef = useRef<Promise<void> | null>(null)
   const latestBaseWriteRef = useRef<Promise<void> | null>(null)
   const completionInFlightRef = useRef(false)
+  const onboardingReturnFocusRef = useRef<HTMLElement | null>(null)
 
   const { sessions, loading: sessionsLoading, error: sessionsError, save: saveSession, clearAll: clearAllSessions } = useSessionHistory()
   const { entries: chainEntries, loading: chainLoading, save: saveChainEntry, clearAll: clearAllChains } = useChainAnalysis()
@@ -219,7 +220,10 @@ export default function App() {
       case 'session':
         return <SessionDetailScreen session={sessions.find((session) => session.id === destination.sessionId)} onBack={navigation.back} />
       case 'settings':
-        return <SettingsScreen theme={theme} onBack={navigation.back} onThemeChange={setTheme} onOpenPrivacy={() => navigation.navigate({ name: 'privacy' })} onOpenSupport={() => navigation.navigate({ name: 'support' })} onReplayIntroduction={() => setOnboardingMode('replay')} />
+        return <SettingsScreen theme={theme} onBack={navigation.back} onThemeChange={setTheme} onOpenPrivacy={() => navigation.navigate({ name: 'privacy' })} onOpenSupport={() => navigation.navigate({ name: 'support' })} onReplayIntroduction={(trigger) => {
+          onboardingReturnFocusRef.current = trigger
+          setOnboardingMode('replay')
+        }} />
       case 'privacy':
         return <PrivacyDataScreen saveSessions={saveSessions} allowExternalAI={allowExternalAI} onBack={navigation.back} onSaveSessionsChange={setSaving} onExternalAIChange={setExternalAI} onExport={exportData} onClear={clearData} />
       case 'support':
@@ -233,10 +237,10 @@ export default function App() {
     }
   }, [allowExternalAI, chainEntries, chainLoading, clearAllChains, clearData, complete, completeQuick, completion, destination, exportData, navigation, retryBaseSave, returnToday, saveChainEntry, saveReflection, saveSessions, sessionCaptured, sessionSaveState, sessions, sessionsError, sessionsLoading, setExternalAI, setSaving, startRoute, theme])
 
-  if (onboardingMode) {
+  if (onboardingMode === 'initial') {
     return (
       <MotionConfig reducedMotion="user">
-        <Onboarding mode={onboardingMode} onComplete={() => setOnboardingMode(null)} onClose={onboardingMode === 'replay' ? () => setOnboardingMode(null) : undefined} />
+        <Onboarding mode="initial" onComplete={() => setOnboardingMode(null)} />
       </MotionConfig>
     )
   }
@@ -246,6 +250,7 @@ export default function App() {
       <AppShell
         activeTab={activeTab}
         isOffline={isOffline}
+        isBlocked={onboardingMode === 'replay'}
         showTabs={showTabs}
         showSettings={destination.name !== 'check-in' && destination.name !== 'reflection'}
         screenKey={`${destination.name}:${destination.name === 'check-in' ? destination.route : destination.name === 'session' ? destination.sessionId : ''}`}
@@ -254,6 +259,14 @@ export default function App() {
       >
         {content}
       </AppShell>
+      {onboardingMode === 'replay' && (
+        <Onboarding
+          mode="replay"
+          onComplete={() => setOnboardingMode(null)}
+          onClose={() => setOnboardingMode(null)}
+          returnFocusRef={onboardingReturnFocusRef}
+        />
+      )}
     </MotionConfig>
   )
 }

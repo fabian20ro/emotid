@@ -169,15 +169,16 @@ test.describe('Safety behavior through the UI', () => {
     await page.locator('.route-action button').click()
     await expect(page.getByRole('button', { name: 'Settings' })).toHaveCount(0)
     const alert = page.getByRole('alert')
+    const support = page.locator('.crisis-banner')
     await expect(alert).toBeVisible()
     await expect(page.locator('.emotion-heading')).not.toBeVisible()
     await expect(page.getByRole('group', { name: 'What feels most needed right now?' })).toHaveCount(0)
     await expect(page.getByRole('link', { name: 'Explore with AI' })).toHaveCount(0)
     await expect(alert).toContainText(/do not tell Emot-ID whether you are in danger/i)
-    await expect(alert.getByRole('link', { name: /deprehub/i })).toHaveAttribute('href', 'tel:+40374456420')
+    await expect(support.getByRole('link', { name: /deprehub/i })).toHaveAttribute('href', 'tel:+40374456420')
     await expect(page.getByRole('button', { name: 'Continue to reflection' })).toBeVisible()
 
-    const alertBox = await alert.boundingBox()
+    const alertBox = await support.boundingBox()
     const ackBox = await page.getByRole('button', { name: 'Continue to reflection' }).boundingBox()
     expect(alertBox!.y).toBeLessThan(ackBox!.y)
 

@@ -76,7 +76,9 @@ describe('WordLadderScreen', () => {
     expect(screen.getByRole('button', { name: 'Add Playful' })).toHaveTextContent('Add Playful')
     expect(screen.getByText('This word can be your answer')).toBeInTheDocument()
     expect(screen.getByText('Or choose a more specific word below.')).toBeInTheDocument()
-    expect(screen.getByRole('region', { name: 'Playful' })).toHaveFocus()
+    expect(screen.getByRole('region', { name: 'This word can be your answer: Playful' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Continue with Playful' })).toHaveFocus()
+    expect(screen.getByRole('button', { name: 'Continue with Playful' })).toHaveAccessibleDescription('Or choose a more specific word below.')
     await user.click(screen.getByRole('button', { name: 'Continue with Playful' }))
 
     expect(onComplete).toHaveBeenCalledOnce()

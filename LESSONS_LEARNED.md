@@ -52,6 +52,12 @@ CI, and describe evidence at the narrowest level it actually supports.
 
 ## Testing & Quality
 
+**[2026-07-29]** Mobile dialog focus return needs an explicit opener — Mobile Safari does not
+reliably make a tapped button `document.activeElement`, so a trap cannot always infer where focus
+must return. Pass the opener explicitly for touch-triggered overlays, preserve it across React
+development-effect replays, restore only after the background becomes interactive, and verify the
+same contract in WebKit and Chromium.
+
 **[2026-07-22]** Theme colors need paired semantic foreground and background tokens — Reusing white text on a lightened dark-theme accent produced a 2.03:1 contrast ratio. Validate computed foreground/background contrast in real browser states, including overlays and post-action screens, rather than checking token values alone.
 
 **[2026-02-07]** Preference tests become flaky when bypassing storage facade — Direct `localStorage` writes did not align with app read path. Mock/assert through `storage.get()` for behavior tests. Keep direct `localStorage` assertions for storage-layer tests only.

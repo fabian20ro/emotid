@@ -9,6 +9,7 @@ interface AppShellProps {
   isOffline: boolean
   showTabs?: boolean
   screenKey: string
+  isBlocked?: boolean
   showSettings?: boolean
   onTabChange: (tab: AppTab) => void
   onOpenSettings: () => void
@@ -18,6 +19,7 @@ export function AppShell({
   activeTab,
   children,
   isOffline,
+  isBlocked = false,
   showTabs = true,
   showSettings = true,
   screenKey,
@@ -40,7 +42,7 @@ export function AppShell({
   }, [screenKey])
 
   return (
-    <div className="app-shell">
+    <div className="app-shell" aria-hidden={isBlocked || undefined} inert={isBlocked || undefined}>
       <header className="app-header">
         <div>
           <strong className="app-wordmark">Emot-ID</strong>

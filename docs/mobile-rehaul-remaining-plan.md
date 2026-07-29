@@ -1,6 +1,7 @@
 # Remaining Mobile Migration Plan
 
-Status: P15 replayable introduction and simplified completion complete, July 29, 2026.
+Status: P16 browser-observable assistive-technology hardening complete; physical-device acceptance
+remains, July 29, 2026.
 
 ## Completed Since Last Update
 
@@ -383,12 +384,35 @@ production offline/update lifecycle with direct completion. Manual 393x742 dark 
 Reflection, Word Ladder, Romanian Settings, and introduction replay without clipping, collisions,
 or console errors.
 
+## Completed: P16 Browser-Observable Assistive-Technology Hardening
+
+Onboarding now focuses each new explanation instead of leaving focus on Next or Close, and exposes
+localized semantic progress. Replay is a true body portal over retained Settings; the background is
+inert and hidden from assistive navigation, the dialog fills the visual viewport, focus remains
+trapped, and close returns to the exact touch or keyboard trigger. The shared trap preserves its
+original return target across React development-effect replays and background rerenders.
+
+Word Ladder now focuses the direct `Continue with {word}` decision after every hierarchy change.
+Its concise label and description expose both available choices without placing focus on an unnamed
+region. Crisis support keeps the same deterministic tier and gating logic while limiting the live
+alert to the safety message; telephone and international support remain immediately next in reading
+order instead of being repeated as part of one large announcement.
+
+**Verification:** repeatable Mobile Safari and Mobile Chrome coverage asserts first-run and replay
+heading focus, localized progress, body portal/inert isolation, full-viewport bounds, touch-trigger
+focus restoration, intermediary-word decision focus, concise crisis alerts, resource order, route
+focus, save recovery, keyboard trapping, and 200% reflow equivalence. Manual 393x742 inspection
+caught and fixed a processed-CSS gap that initially left replay in normal document flow.
+`npm run check` passes 66 files and 618 tests; `npm run test:e2e` passes all 174 Mobile Safari and
+Mobile Chrome cases; `npm run test:pwa` passes the production offline/update lifecycle.
+
 ## Remaining Product Quality Work
 
-1. P16, release priority: complete physical VoiceOver/Safari and TalkBack/Chrome acceptance using
-   the existing P9 script. Record spoken order, duplicate announcements, route focus, replay-dialog
-   focus, intermediary-word focus, and crisis priority. Fix only reproduced defects and add the
-   closest repeatable browser regression.
+1. P16 physical release gate: run VoiceOver/Safari on an Apple device and TalkBack/Chrome on
+   Android. Record actual speech for route headings, replay steps and return focus, intermediary
+   words, save recovery, and tier-4 support. Fix only device-reproduced defects and add the closest
+   browser-observable regression. Playwright cannot validate synthesized speech or screen-reader
+   gesture behavior, so this remains explicitly unclaimed.
 2. P17, conditional: measure first-load and route-transition behavior on representative low/mid
    mobile hardware. Define thresholds before changing code. Optimize the main bundle or the known
    mixed static/dynamic somatic import only when a measured threshold fails; retain the current

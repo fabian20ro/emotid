@@ -40,7 +40,7 @@ export function WordLadderScreen({ onBack, onComplete }: WordLadderScreenProps) 
   const [comparisonContext, setComparisonContext] = useState<ComparisonContext | null>(null)
   const [comparison, setComparison] = useState<BaseEmotion | null>(null)
   const [comparisonOpen, setComparisonOpen] = useState(false)
-  const stopChoiceRef = useRef<HTMLElement>(null)
+  const stopChoiceRef = useRef<HTMLButtonElement>(null)
 
   useLayoutEffect(() => {
     if (path.length > 0) stopChoiceRef.current?.focus({ preventScroll: true })
@@ -148,14 +148,23 @@ export function WordLadderScreen({ onBack, onComplete }: WordLadderScreenProps) 
                 <ArrowLeft size={17} aria-hidden="true" />{t.backLevel}
               </button>
             </section>
-            <section ref={stopChoiceRef} className="word-stop-choice" aria-labelledby="word-stop-title" tabIndex={-1}>
+            <section
+              className="word-stop-choice"
+              aria-label={`${t.stopHere}: ${path[path.length - 1].label[language]}`}
+            >
               <span>{t.stopHere}</span>
               <strong id="word-stop-title">{path[path.length - 1].label[language]}</strong>
-              <button type="button" className="primary-button" onClick={() => finishWithPathEmotion(path[path.length - 1])}>
+              <button
+                ref={stopChoiceRef}
+                type="button"
+                className="primary-button"
+                aria-describedby="word-more-specific"
+                onClick={() => finishWithPathEmotion(path[path.length - 1])}
+              >
                 {t.continueWith.replace('{word}', path[path.length - 1].label[language])}
                 <ChevronRight size={19} aria-hidden="true" />
               </button>
-              <p>{t.moreSpecific}</p>
+              <p id="word-more-specific">{t.moreSpecific}</p>
             </section>
           </>
         )}
