@@ -37,6 +37,7 @@ test.describe('Crisis boundary by completion route', () => {
 
   test('Quick routes a high-distress word through support', async ({ page }) => {
     await page.getByTestId('quick-feeling-numb').click()
+    await page.getByTestId('quick-continue').click()
     await expect(page.locator('.emotion-heading')).toContainText('Numb')
     await expectSupportBoundary(page)
   })

@@ -1142,3 +1142,31 @@ Physical hardware timing and synthesized-speech acceptance remain open device ga
 **Insight:** A lazy boundary must inject its loaded dependency; a hidden cache contract creates
 timing-dependent screens and brittle direct tests.
 **Promoted to Lessons Learned:** Yes — explicit dependencies at lazy feature boundaries.
+
+---
+
+### [2026-07-30] Complete P18 workflow boundary and P19 first-contact UX
+
+**Context:** `App` still owned completion, safety escalation, revision identity, ordered writes,
+retry state, and Reflection navigation. Quick words committed on first tap, guided support was last
+on Arrival, the priority placement route was third, and the untouched Affect Map looked empty.
+**What happened:**
+- Extracted a pure completion builder, discriminated workflow reducer, ordered persistence hook,
+  and deferred presentation host while preserving one safety boundary for every route.
+- Added direct tests for temporal escalation disclosure, saving-off zero writes, stable retry
+  identity, base/detail ordering, and stale-write status protection.
+- Made Quick selection reversible and explicit before one localized Continue action; normalized
+  quick-label casing.
+- Reordered Arrival to Guide, Place, Words, Body and highlighted the guided path.
+- Added a visible Affect placement prompt and readable initial axis labels without changing
+  placement, suggestions, or selection semantics.
+- Updated all browser and PWA journeys to the explicit Quick commitment. The first PWA run exposed
+  one stale immediate-completion setup; adding the Continue action fixed it and the complete
+  lifecycle passed.
+**Outcome:** Success. `npm run check` passes 72 files and 631 tests. The full Playwright matrix
+passes 180 Mobile Safari/Chrome cases. PWA and performance suites pass. Entry JavaScript is 31.95
+kB gzip; total initial JavaScript is 132.59 kB gzip; precache is 909.15 KiB. Manual `393x742`
+inspection found no overlap or console errors.
+**Insight:** Workflow extraction must preserve write recency explicitly; final state alone cannot
+distinguish a stale base success from a newer revision failure.
+**Promoted to Lessons Learned:** Yes — workflow write-recency semantics.

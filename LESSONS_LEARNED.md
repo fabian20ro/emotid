@@ -14,6 +14,12 @@
 
 ## Architecture & Design Decisions
 
+**[2026-07-30]** Workflow extraction must preserve recency, not only final values — Ordered
+persistence can have an older base write and a newer revision write in flight together. Model
+workflow status with explicit events, carry whether a resolved write is still latest, and test that
+an older success cannot hide a newer failure. Keep safety construction pure and shared by every
+entry route.
+
 **[2026-07-30]** Lazy feature screens need explicit loaded dependencies — Loading a screen and its
 model in parallel is insufficient if the screen then relies on a hidden module cache. Let the
 feature boundary inject the concrete loaded engine so screen state stays synchronous, direct tests

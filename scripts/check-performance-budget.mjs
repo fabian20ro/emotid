@@ -49,6 +49,7 @@ const dynamicEntries = Object.entries(manifest)
   .sort((a, b) => a.source.localeCompare(b.source))
 
 const requiredDynamicSources = [
+  'src/features/check-in/workflow/CheckInFlowHost.tsx',
   'src/screens/BodyCompassScreen.tsx',
   'src/screens/JournalScreen.tsx',
   'src/screens/ModelCheckInScreen.tsx',

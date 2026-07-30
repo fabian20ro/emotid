@@ -18,6 +18,23 @@ async function expectGuideInBounds(page: Page) {
 }
 
 test.describe('Arrival guide', () => {
+  test('keeps guided support and priority placement in the first viewport', async ({ page }) => {
+    await openApp(page)
+    await openArrival(page)
+
+    const routeIds = await page.locator('.route-grid > [data-testid]').evaluateAll(
+      (elements) => elements.map((element) => element.getAttribute('data-testid')),
+    )
+    expect(routeIds).toEqual([
+      'arrival-unsure',
+      'arrival-affect',
+      'arrival-words',
+      'arrival-body',
+    ])
+    await expect(page.getByTestId('arrival-unsure')).toBeInViewport()
+    await expect(page.getByTestId('arrival-affect')).toBeInViewport()
+  })
+
   test('supports keyboard navigation, exact Back, and direct handoff', async ({ page }) => {
     await openApp(page, { theme: 'dark' })
     await openArrival(page)

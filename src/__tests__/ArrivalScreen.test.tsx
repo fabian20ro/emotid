@@ -42,6 +42,20 @@ describe('ArrivalScreen guide', () => {
     expect(onChoose).toHaveBeenCalledWith('words')
   })
 
+  it('puts guided support first and the placement route before other direct methods', () => {
+    renderArrival()
+    const routes = screen.getByTestId('arrival-unsure').parentElement
+    const routeIds = Array.from(routes?.querySelectorAll('[data-testid]') ?? [])
+      .map((element) => element.getAttribute('data-testid'))
+
+    expect(routeIds).toEqual([
+      'arrival-unsure',
+      'arrival-affect',
+      'arrival-words',
+      'arrival-body',
+    ])
+  })
+
   it('hands a clear body signal directly to Body Compass', async () => {
     const user = userEvent.setup()
     const { onChoose } = renderArrival()

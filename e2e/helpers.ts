@@ -21,6 +21,7 @@ export async function openArrival(page: Page) {
 
 export async function completeQuick(page: Page, emotionId = 'anxiety') {
   await page.getByTestId(`quick-feeling-${emotionId}`).click()
+  await page.getByTestId('quick-continue').click()
   await expect(page.getByTestId('reflection-screen')).toBeVisible()
 }
 

@@ -199,19 +199,43 @@ function DimensionalFieldBase({ emotions, onSelect, onDeselect, selections = [],
             stroke="var(--affect-grid)" strokeWidth={1}
           />
 
+          {!hasInteracted && (
+            <g aria-hidden="true" pointerEvents="none" data-testid="affect-placement-hint">
+              <rect
+                x={92}
+                y={274}
+                width={316}
+                height={48}
+                rx={24}
+                fill="var(--surface-raised)"
+                stroke="var(--line)"
+              />
+              <text
+                x={FIELD_SIZE / 2}
+                y={304}
+                fill="var(--affect-axis)"
+                fontSize={18}
+                fontWeight={700}
+                textAnchor="middle"
+              >
+                {dimensionalT.placeHint}
+              </text>
+            </g>
+          )}
+
           {/* Axis labels */}
           {showAxisLabels && (
             <>
-              <text x={PADDING} y={FIELD_SIZE / 2 - 6} fill="var(--affect-axis)" fontSize={13} textAnchor="start">
+              <text x={PADDING} y={FIELD_SIZE / 2 - 8} fill="var(--affect-axis)" fontSize={18} textAnchor="start">
                 {dimensionalT.unpleasant}
               </text>
-              <text x={FIELD_SIZE - PADDING} y={FIELD_SIZE / 2 - 6} fill="var(--affect-axis)" fontSize={13} textAnchor="end">
+              <text x={FIELD_SIZE - PADDING} y={FIELD_SIZE / 2 - 8} fill="var(--affect-axis)" fontSize={18} textAnchor="end">
                 {dimensionalT.pleasant}
               </text>
-              <text x={FIELD_SIZE / 2} y={PADDING - 8} fill="var(--affect-axis)" fontSize={13} textAnchor="middle">
+              <text x={FIELD_SIZE / 2} y={PADDING - 8} fill="var(--affect-axis)" fontSize={18} textAnchor="middle">
                 {dimensionalT.moreEnergy}
               </text>
-              <text x={FIELD_SIZE / 2} y={FIELD_SIZE - PADDING + 18} fill="var(--affect-axis)" fontSize={13} textAnchor="middle">
+              <text x={FIELD_SIZE / 2} y={FIELD_SIZE - PADDING + 22} fill="var(--affect-axis)" fontSize={18} textAnchor="middle">
                 {dimensionalT.lessEnergy}
               </text>
             </>

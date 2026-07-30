@@ -73,6 +73,7 @@ test.describe('Critical journey semantics and focus', () => {
     })
     await openApp(page)
     await page.getByTestId('quick-feeling-anxiety').click()
+    await page.getByTestId('quick-continue').click()
     await page.getByRole('button', { name: 'Done for now' }).click()
 
     await expectScreenSemantics(page, /the latest details were not saved/i, false)

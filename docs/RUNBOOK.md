@@ -43,7 +43,7 @@ If `idb-keyval` fails (e.g., private browsing), the app gracefully degrades — 
 
 ### Mobile layout issues
 
-**Target viewport**: 393×742 (Pixel 9a Chrome). Also verify 320×604 (smallest phone).
+**Target viewport**: 393×742. Also verify 320×568, 360×800, and 430×932.
 
 Common problems:
 

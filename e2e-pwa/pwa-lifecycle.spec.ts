@@ -50,6 +50,7 @@ test('offline reopen and automatic update preserve local check-ins', async ({ co
 
   await waitForServiceWorkerControl(page)
   await page.getByTestId('quick-feeling-anxiety').click()
+  await page.getByTestId('quick-continue').click()
   await page.getByRole('button', { name: 'Done for now' }).click()
   await expect(page.getByTestId('today-screen')).toBeVisible()
 
@@ -63,6 +64,7 @@ test('offline reopen and automatic update preserve local check-ins', async ({ co
   })
   expect(cachedPaths).toContain('/emot-id/index.html')
   expect(cachedPaths.some((path) => path.includes('/assets/BodyCompassScreen-'))).toBe(true)
+  expect(cachedPaths.some((path) => path.includes('/assets/CheckInFlowHost-'))).toBe(true)
   expect(cachedPaths.some((path) => path.includes('/assets/ModelCheckInScreen-'))).toBe(true)
   expect(cachedPaths.some((path) => path.includes('/assets/WordLadderScreen-'))).toBe(true)
   expect(cachedPaths.some((path) => path.includes('/assets/PlutchikWheel-'))).toBe(true)

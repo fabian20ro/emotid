@@ -441,3 +441,52 @@ records startup, all four first-route opens, bytes, resources, and long tasks as
 the production PWA lifecycle verifies unvisited primary route chunks, offline reopen, automatic
 update, and local-data survival. Physical-device timing and synthesized-speech acceptance are not
 claimed.
+
+## Completed: P18 Typed Check-In Workflow Boundary
+
+Completion, safety escalation, revision identity, ordered persistence, retry, and finish state now
+belong to one typed workflow feature instead of `App`. `buildCheckInCompletion` is the pure shared
+safety boundary; a small discriminated reducer represents idle, reflecting, saving, saved,
+disabled, and failed states; `useCheckInWorkflow` owns the write queue and stale-promise guards.
+The deferred `CheckInFlowHost` owns Arrival, route, and Reflection presentation without adding a
+global store, generic dependency container, or workflow framework.
+
+Focused tests prove temporal disclosure only appears when history actually raises the displayed
+tier, saving-disabled mode performs zero writes, base retries retain identity, optional details
+wait for the base write, and an older base success cannot hide a newer write failure. All Quick,
+Body, Affect, Words, and Plutchik completion still converges through the same deterministic safety
+and persistence boundary.
+
+## Completed: P19 Explicit Commitment and First-Contact UX
+
+Quick words now enter a visible, reversible selected state and require one explicit localized
+Continue action before navigation or persistence. Labels use consistent lowercase presentation.
+Arrival leads with the highlighted guided route, places the product-priority Affect Map second,
+then offers Words and Body. Guide and Place both remain in the first `393x742` viewport.
+
+The progressive Affect Map now has a centered pre-interaction placement prompt and larger axis
+labels, then removes the prompt when placement reveals nearby words. Pointer and keyboard behavior,
+suggestion selection, and psychological copy remain unchanged.
+
+The production entry is 31.95 kB gzip and total initial JavaScript is 132.59 kB gzip. Full offline
+precache remains complete at 909.15 KiB. The diagnostic mobile proxy recorded 43.6 ms startup,
+118.7-375 ms primary first-route opens, and no long tasks.
+
+**Verification:** 72 test files and 631 tests pass with bilingual and psychological-copy audits.
+The two-engine browser matrix passes 180 Mobile Safari/Chrome cases across 320x568, 360x800,
+393x742, and 430x932. The production PWA lifecycle verifies the deferred workflow host and
+unvisited model chunks, offline reopen, update, and local-data survival. The production performance
+probe passes. Manual `393x742` inspection covered Quick selection, Arrival hierarchy, and the
+Affect empty state with zero browser errors or warnings.
+
+## Remaining After P19
+
+1. Run the documented VoiceOver/Safari, TalkBack/Chrome, and representative low/mid Android
+   performance release gates. Browser automation cannot claim synthesized speech or physical
+   gesture behavior.
+2. P20 Journal autonomy: connect existing repository deletion to one-entry confirmation and avoid
+   presenting sparse counts as established personal patterns.
+3. P21 navigation and repository truth: make browser forward/reset deterministic, reconcile the
+   historical `ANALYSIS.md`, and remove dormant contracts without approved product scope.
+4. Keep the deeper Body Compass redesign deferred until the higher-impact Journal and navigation
+   work is complete.

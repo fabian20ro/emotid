@@ -51,6 +51,7 @@ test.describe('Reflection trust boundary', () => {
     await page.getByRole('button', { name: 'RO', exact: true }).click()
     await page.getByRole('button', { name: 'Înapoi' }).click()
     await page.getByTestId('quick-feeling-anxiety').click()
+    await page.getByTestId('quick-continue').click()
     await page.getByRole('button', { name: 'Nu prea' }).click()
 
     const panel = page.locator('.mismatch-panel')

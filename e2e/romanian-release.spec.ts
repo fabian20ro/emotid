@@ -16,6 +16,7 @@ test.describe('Romanian release journeys', () => {
   test('Quick reaches a localized reflection and close state', async ({ page }) => {
     await openRomanianApp(page)
     await page.getByTestId('quick-feeling-anxiety').click()
+    await page.getByTestId('quick-continue').click()
 
     await expect(page.getByRole('heading', { name: 'Ce ar putea fi aici' })).toBeVisible()
     await expect(page.locator('.emotion-heading')).toContainText('anxietate')
@@ -98,6 +99,7 @@ test.describe('Romanian release journeys', () => {
   test('Journal opens a saved Romanian reflection', async ({ page }) => {
     await openRomanianApp(page)
     await page.getByTestId('quick-feeling-joy').click()
+    await page.getByTestId('quick-continue').click()
     await finishReflection(page)
 
     await page.getByRole('button', { name: 'Jurnal', exact: true }).click()

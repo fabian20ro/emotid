@@ -16,6 +16,8 @@ test.describe('Keyboard-only primary journeys', () => {
 
   test('Quick and Reflection complete without pointer input', async ({ page }) => {
     await activate(page.getByTestId('quick-feeling-joy'))
+    await expect(page.getByTestId('quick-feeling-joy')).toHaveAttribute('aria-pressed', 'true')
+    await activate(page.getByTestId('quick-continue'))
     await expect(page.getByTestId('reflection-screen')).toBeVisible()
     await activate(page.getByRole('button', { name: 'Yes' }), 'Space')
     await activate(page.getByRole('button', { name: 'Done for now' }))
@@ -110,6 +112,7 @@ test('reduced motion, offline recovery, and save-disabled behavior remain functi
   await page.getByRole('button', { name: 'Back' }).click()
   await page.getByRole('button', { name: 'Back' }).click()
   await page.getByTestId('quick-feeling-joy').click()
+  await page.getByTestId('quick-continue').click()
   await finishReflection(page)
   await page.getByRole('button', { name: 'Journal', exact: true }).click()
   await expect(page.getByText('No saved check-ins yet')).toBeVisible()

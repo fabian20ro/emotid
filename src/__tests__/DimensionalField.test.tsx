@@ -93,6 +93,9 @@ describe('DimensionalField', () => {
     expect(screen.getByText('Unpleasant')).toBeInTheDocument()
     expect(screen.getByText('More energy')).toBeInTheDocument()
     expect(screen.getByText('Less energy')).toBeInTheDocument()
+    expect(screen.getByTestId('affect-placement-hint')).toHaveTextContent(
+      'Tap anywhere to place the feeling',
+    )
   })
 
   it('keeps axis labels visible after interacting with the field', () => {
@@ -194,6 +197,7 @@ describe('DimensionalField', () => {
     } as DOMRect)
 
     fireEvent.click(svg, { clientX: 150, clientY: 240 })
+    expect(screen.queryByTestId('affect-placement-hint')).not.toBeInTheDocument()
     const tray = screen.getByTestId('dimensional-suggestion-tray')
     expect(tray).toBeInTheDocument()
     expect(tray.className).not.toContain('absolute')

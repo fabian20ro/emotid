@@ -8,8 +8,9 @@
 App (src/App.tsx)
  +-- Onboarding                   # 3-step first-run overlay
  +-- AppShell                     # Persistent header, content, bottom tabs
- +-- TodayScreen                  # Quick emotions and recent reflection
- +-- ArrivalScreen                # Route chooser
+ +-- TodayScreen                  # Explicit quick commitment and recent reflection
+ +-- CheckInFlowHost*             # Arrival, check-in, Reflection workflow
+ |    +-- ArrivalScreen           # Guided-first route chooser
  +-- ModelCheckInScreen           # Affect map and Plutchik flows
  |    +-- Visualization**
  |         +-- PlutchikWheel      # Stable two-emotion combination wheel
@@ -32,10 +33,15 @@ App (src/App.tsx)
 `**` Generic visualizations resolve through the model registry. The somatic route owns
 `BodyRegionMap` directly because region activation must continue through its staged flow.
 
-Today and Arrival are eager. Check-in features load through
-`CheckInFeatureBoundary`; Reflection and utility destinations use
+Today is eager. `CheckInFlowHost`, Arrival, route implementations, Reflection,
+and utility destinations are deferred. Route implementations load through
+`CheckInFeatureBoundary`; host and utility destinations use
 `LazyRouteBoundary`. Both boundaries expose bilingual loading/failure states,
 and delayed destination headings receive route focus after their chunk renders.
+
+`*` `useCheckInWorkflow` owns completion and persistence state outside the
+presentation host so every input route, including Quick, reaches one auditable
+safety and write boundary.
 
 ## Non-Obvious Behaviors
 
@@ -63,7 +69,9 @@ Labels use a greedy sort-and-bump algorithm (sort by y then x, bump by `MIN_GAP=
 Suggestion chips render in a normal-flow tray below the plot (not overlay) to avoid obscuring dots.
 Pointer placement and arrow-key placement share `placeAt`, so both update the crosshair, live
 directional readout, and same three nearest suggestions. The focusable SVG exposes localized
-nonvisual keyboard instructions and a visible semantic focus ring.
+nonvisual keyboard instructions and a visible semantic focus ring. Before placement, a centered
+prompt makes the otherwise empty progressive field visibly actionable; axis labels use a readable
+mobile scale.
 
 ### SelectionBar Reserved Height
 

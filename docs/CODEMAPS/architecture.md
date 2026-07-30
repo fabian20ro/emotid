@@ -17,9 +17,11 @@ Check-in rendering is split by route: affect and Plutchik share
 `ModelCheckInScreen`; words use `WordLadderScreen`; body uses
 `BodyCompassScreen`. The typed check-in feature registry loads each screen and
 its concrete model together, then injects the model into the screen. Visualizations
-are resolved from the model registry. Other non-primary destinations are React
-lazy entries; `App` remains the eager completion, crisis, reflection, and
-persistence controller.
+are resolved from the model registry. The deferred `CheckInFlowHost` owns
+Arrival, route, and Reflection presentation. `useCheckInWorkflow` owns the
+shared completion, crisis, revision identity, ordered persistence, retry, and
+finish lifecycle; `App` wires that feature to navigation and preferences.
+Other non-primary destinations remain React lazy entries.
 
 ## Non-Obvious Patterns
 
@@ -53,11 +55,20 @@ loads the route screen, model, and applicable visualization in parallel and
 injects the loaded model explicitly. Screens never depend on hidden cache timing.
 Today imports a bounded six-emotion catalog view rather than hydrating the full
 288-entry model catalog. Production manifest budgets assert the feature chunks
-remain deferred.
+and `CheckInFlowHost` remain deferred.
 
 Deferred screen fallback copy remains bilingual. `AppShell` observes delayed
 content and focuses the real destination heading when it appears instead of
 leaving focus on a temporary loading status.
+
+### Check-In Workflow State
+
+`buildCheckInCompletion` is the pure safety/temporal boundary.
+`checkInWorkflowReducer` exposes idle, reflecting, saving, saved, disabled, and
+failed states without a global state library. `useCheckInWorkflow` owns the
+ordered write queue and guards stale base writes so an older successful write
+cannot hide a newer revision failure. Saving-disabled mode performs no
+repository write.
 
 ## Related Codemaps
 

@@ -29,9 +29,9 @@ export function ArrivalScreen({ onBack, onChoose }: ArrivalScreenProps) {
   const [guideStep, setGuideStep] = useState<'closed' | 'body' | 'placement'>('closed')
 
   const routes = [
+    { id: 'affect' as const, title: t.affect, hint: t.affectHint, Icon: Crosshair, tone: 'var(--mustard-soft)', color: 'var(--mustard)' },
     { id: 'words' as const, title: t.words, hint: t.wordsHint, Icon: ListTree, tone: 'var(--blue-soft)', color: 'var(--blue)' },
     { id: 'body' as const, title: t.body, hint: t.bodyHint, Icon: Activity, tone: 'var(--coral-soft)', color: 'var(--coral)' },
-    { id: 'affect' as const, title: t.affect, hint: t.affectHint, Icon: Crosshair, tone: 'var(--mustard-soft)', color: 'var(--mustard)' },
   ]
 
   const showAllRoutes = () => setGuideStep('closed')
@@ -111,6 +111,12 @@ export function ArrivalScreen({ onBack, onChoose }: ArrivalScreenProps) {
       <ScreenHeader onBack={onBack} eyebrow={t.eyebrow} title={t.title} lede={t.lede} />
 
       <div className="route-grid">
+        <button type="button" className="route-card route-card-recommended" data-testid="arrival-unsure" onClick={() => setGuideStep('body')}>
+          <span className="route-icon" style={{ background: 'var(--teal-soft)', color: 'var(--teal)' }}><Sparkles size={22} aria-hidden="true" /></span>
+          <span className="route-copy"><strong>{t.unsure}</strong><span>{t.unsureHint}</span></span>
+          <ArrowRight size={18} className="muted" aria-hidden="true" />
+        </button>
+
         {routes.map(({ id, title, hint, Icon, tone, color }) => (
           <button type="button" className="route-card" key={id} data-testid={`arrival-${id}`} onClick={() => onChoose(id)}>
             <span className="route-icon" style={{ background: tone, color }}><Icon size={22} aria-hidden="true" /></span>
@@ -118,12 +124,6 @@ export function ArrivalScreen({ onBack, onChoose }: ArrivalScreenProps) {
             <ArrowRight size={18} className="muted" aria-hidden="true" />
           </button>
         ))}
-
-        <button type="button" className="route-card" data-testid="arrival-unsure" onClick={() => setGuideStep('body')}>
-          <span className="route-icon" style={{ background: 'var(--teal-soft)', color: 'var(--teal)' }}><Sparkles size={22} aria-hidden="true" /></span>
-          <span className="route-copy"><strong>{t.unsure}</strong><span>{t.unsureHint}</span></span>
-          <ArrowRight size={18} className="muted" aria-hidden="true" />
-        </button>
       </div>
     </div>
   )

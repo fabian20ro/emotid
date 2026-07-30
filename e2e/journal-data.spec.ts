@@ -5,6 +5,7 @@ import { openApp, openArrival } from './helpers'
 
 async function saveQuickReflectionWithNextStep(page: Page) {
   await page.getByTestId('quick-feeling-anxiety').click()
+  await page.getByTestId('quick-continue').click()
   await page.getByRole('button', { name: 'Yes' }).click()
   await page.getByRole('button', { name: 'grounding, breath, and present focus' }).click()
   await page.getByRole('button', { name: 'Try one small step' }).click()

@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { ArrowRight, Check, LockKeyhole } from 'lucide-react'
 import { useLanguage } from '../context/LanguageContext'
 import { quickEmotions } from '../models/catalog/quick'
@@ -16,6 +17,21 @@ export function TodayScreen({ sessions, saveSessions, onStart, onQuickComplete, 
   const { language, section } = useLanguage()
   const t = section('today')
   const recent = sessions[0]
+  const [quickSelection, setQuickSelection] = useState<BaseEmotion | null>(null)
+  const quickLabel = quickSelection?.label[language].toLocaleLowerCase(
+    language === 'ro' ? 'ro-RO' : 'en-US',
+  )
+
+  const continueQuick = () => {
+    if (!quickSelection) return
+    onQuickComplete(quickSelection, {
+      id: quickSelection.id,
+      label: quickSelection.label,
+      color: quickSelection.color,
+      description: quickSelection.description,
+      needs: quickSelection.needs,
+    })
+  }
 
   return (
     <div className="screen" data-testid="today-screen">
@@ -37,19 +53,28 @@ export function TodayScreen({ sessions, saveSessions, onStart, onQuickComplete, 
               type="button"
               key={emotion.id}
               data-testid={`quick-feeling-${emotion.id}`}
-              onClick={() => onQuickComplete(emotion, {
-                id: emotion.id,
-                label: emotion.label,
-                color: emotion.color,
-                description: emotion.description,
-                needs: emotion.needs,
-              })}
+              className={quickSelection?.id === emotion.id ? 'is-selected' : ''}
+              aria-pressed={quickSelection?.id === emotion.id}
+              onClick={() => setQuickSelection(
+                quickSelection?.id === emotion.id ? null : emotion,
+              )}
             >
               <span className="quick-dot" style={{ backgroundColor: emotion.color }} aria-hidden="true" />
-              {emotion.label[language]}
+              {emotion.label[language].toLocaleLowerCase(language === 'ro' ? 'ro-RO' : 'en-US')}
             </button>
           ))}
         </div>
+        {quickSelection && (
+          <button
+            type="button"
+            className="primary-button quick-continue"
+            data-testid="quick-continue"
+            onClick={continueQuick}
+          >
+            {t.quickContinue.replace('{emotion}', quickLabel ?? '')}
+            <ArrowRight size={18} aria-hidden="true" />
+          </button>
+        )}
       </section>
 
       <section aria-labelledby="recent-title">

@@ -6,8 +6,8 @@ Privacy-first PWA for exploring emotions through words, body sensations, and aff
 
 ## Product Flow
 
-- **Today** offers a quick starting point and recent local reflections.
-- **Arrival** routes by what feels easiest to notice: body, placement, words, or guided uncertainty.
+- **Today** offers a quick selectable word with one explicit Continue action and recent local reflections.
+- **Arrival** leads with guided uncertainty, then placement, words, or body signals.
 - **Body Compass** records a region, sensation, and intensity before suggesting possible words.
 - **Affect Map** places a state by energy and pleasantness.
 - **Word Ladder** moves from broad feeling families toward more precise language.

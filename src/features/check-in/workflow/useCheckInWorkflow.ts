@@ -1,0 +1,150 @@
+import { useCallback, useReducer, useRef } from 'react'
+import { addReflectionDetail, createSession } from '../../../data/session'
+import type { Session } from '../../../data/types'
+import type { AnalysisResult, BaseEmotion } from '../../../models/types'
+import type {
+  CheckInRoute,
+  ReflectionDetail,
+  ReflectionSaveOutcome,
+} from '../../../navigation/types'
+import { buildCheckInCompletion } from './build-completion'
+import {
+  checkInWorkflowReducer,
+  INITIAL_CHECK_IN_WORKFLOW_STATE,
+} from './reducer'
+
+interface UseCheckInWorkflowOptions {
+  sessions: Session[]
+  saveSessions: boolean
+  saveSession: (session: Session) => Promise<void>
+  onShowReflection: () => void
+  onReturnToday: () => void
+}
+
+export function useCheckInWorkflow({
+  sessions,
+  saveSessions,
+  saveSession,
+  onShowReflection,
+  onReturnToday,
+}: UseCheckInWorkflowOptions) {
+  const [state, dispatch] = useReducer(
+    checkInWorkflowReducer,
+    INITIAL_CHECK_IN_WORKFLOW_STATE,
+  )
+  const activeSessionRef = useRef<Session | null>(null)
+  const sessionWriteRef = useRef<Promise<void>>(Promise.resolve())
+  const latestWriteRef = useRef<Promise<void> | null>(null)
+  const latestBaseWriteRef = useRef<Promise<void> | null>(null)
+  const completionInFlightRef = useRef(false)
+
+  const reset = useCallback(() => {
+    activeSessionRef.current = null
+    latestWriteRef.current = null
+    latestBaseWriteRef.current = null
+    completionInFlightRef.current = false
+    dispatch({ type: 'reset' })
+  }, [])
+
+  const queueSessionSave = useCallback((session: Session) => {
+    const write = sessionWriteRef.current
+      .catch(() => undefined)
+      .then(() => saveSession(session))
+    sessionWriteRef.current = write
+    latestWriteRef.current = write
+    return write
+  }, [saveSession])
+
+  const persistBaseSession = useCallback((session: Session) => {
+    if (!saveSessions) return
+
+    dispatch({ type: 'save-started' })
+    const write = queueSessionSave(session)
+    latestBaseWriteRef.current = write
+    void write.then(
+      () => {
+        if (latestBaseWriteRef.current !== write) return
+        dispatch({
+          type: 'base-saved',
+          isLatestWrite: latestWriteRef.current === write,
+        })
+      },
+      () => {
+        if (latestBaseWriteRef.current === write) {
+          dispatch({ type: 'write-failed' })
+        }
+      },
+    )
+  }, [queueSessionSave, saveSessions])
+
+  const complete = useCallback((
+    route: CheckInRoute,
+    modelId: string,
+    selections: BaseEmotion[],
+    results: AnalysisResult[],
+  ) => {
+    if (selections.length === 0 || results.length === 0 || completionInFlightRef.current) {
+      return false
+    }
+
+    completionInFlightRef.current = true
+    const completion = buildCheckInCompletion(
+      { route, modelId, selections, results },
+      sessions,
+    )
+    const existing = activeSessionRef.current
+    const session = createSession(
+      completion,
+      existing ? { id: existing.id, timestamp: existing.timestamp } : undefined,
+    )
+    activeSessionRef.current = session
+    dispatch({ type: 'completed', completion, saveEnabled: saveSessions })
+    persistBaseSession(session)
+    onShowReflection()
+    window.setTimeout(() => {
+      completionInFlightRef.current = false
+    }, 0)
+    return true
+  }, [onShowReflection, persistBaseSession, saveSessions, sessions])
+
+  const saveReflection = useCallback(async (
+    detail: ReflectionDetail,
+  ): Promise<ReflectionSaveOutcome> => {
+    const session = activeSessionRef.current
+    if (!session || !saveSessions) return 'not-saved'
+
+    const updated = addReflectionDetail(session, detail)
+    const write = queueSessionSave(updated)
+    try {
+      await write
+      activeSessionRef.current = updated
+      if (latestWriteRef.current === write) {
+        dispatch({ type: 'write-succeeded' })
+      }
+      return 'saved'
+    } catch (error) {
+      if (latestWriteRef.current === write) {
+        dispatch({ type: 'write-failed' })
+      }
+      throw error
+    }
+  }, [queueSessionSave, saveSessions])
+
+  const retryBaseSave = useCallback(() => {
+    if (activeSessionRef.current) persistBaseSession(activeSessionRef.current)
+  }, [persistBaseSession])
+
+  const finish = useCallback(() => {
+    reset()
+    onReturnToday()
+  }, [onReturnToday, reset])
+
+  return {
+    state,
+    begin: reset,
+    complete,
+    saveReflection,
+    retryBaseSave,
+    finish,
+  }
+}

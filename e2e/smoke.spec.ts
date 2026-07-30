@@ -50,6 +50,22 @@ test.describe('First run and shell', () => {
 test.describe('Primary check-in routes', () => {
   test.beforeEach(async ({ page }) => openApp(page))
 
+  test('Quick requires one explicit commitment after selection', async ({ page }) => {
+    const anxiety = page.getByTestId('quick-feeling-anxiety')
+    await anxiety.click()
+
+    await expect(page.getByTestId('today-screen')).toBeVisible()
+    await expect(page.getByTestId('reflection-screen')).toHaveCount(0)
+    await expect(anxiety).toHaveAttribute('aria-pressed', 'true')
+    await expect(page.getByRole('button', { name: 'Continue with anxiety' })).toBeInViewport()
+
+    await page.getByTestId('quick-feeling-joy').click()
+    await expect(anxiety).toHaveAttribute('aria-pressed', 'false')
+    await expect(page.getByRole('button', { name: 'Continue with joy' })).toBeVisible()
+    await page.getByTestId('quick-continue').click()
+    await expect(page.getByTestId('reflection-screen')).toBeVisible()
+  })
+
   test('quick feeling reaches Meaning + Need and saves to Journal', async ({ page }) => {
     await completeQuick(page, 'anxiety')
     await expect(page.getByRole('heading', { name: 'What may be here' })).toBeVisible()
@@ -104,9 +120,13 @@ test.describe('Primary check-in routes', () => {
     await page.getByTestId('arrival-affect').click()
     const plot = page.getByTestId('dimensional-plot-container').locator('svg')
     await expect(plot).toBeVisible()
+    await expect(page.getByTestId('affect-placement-hint')).toBeVisible()
+    const axisLabel = page.getByText('Unpleasant', { exact: true })
+    expect((await axisLabel.boundingBox())!.height).toBeGreaterThanOrEqual(11)
     const box = await plot.boundingBox()
     expect(box).not.toBeNull()
     await plot.click({ position: { x: box!.width * 0.7, y: box!.height * 0.25 }, force: true })
+    await expect(page.getByTestId('affect-placement-hint')).toHaveCount(0)
     await expect(page.getByTestId('affect-readout')).toBeVisible()
     const tray = page.getByTestId('dimensional-suggestion-tray')
     const firstSuggestion = tray.locator('.dimensional-suggestion-chip').first()
