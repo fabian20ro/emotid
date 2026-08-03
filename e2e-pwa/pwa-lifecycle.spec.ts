@@ -22,7 +22,7 @@ test('offline reopen and automatic update preserve local check-ins', async ({ co
     localStorage.setItem('emot-id-language', 'en')
     localStorage.setItem('emot-id-save-sessions', 'true')
   })
-  await page.goto('/emot-id/')
+  await page.goto('/emotid/')
   await expect(page.getByTestId('today-screen')).toBeVisible()
   await expect(page.locator('html')).toHaveAttribute('data-app-version', 'v1')
 
@@ -33,10 +33,10 @@ test('offline reopen and automatic update preserve local check-ins', async ({ co
     name: 'Emot-ID',
     short_name: 'Emot-ID',
     description: 'Explore emotions through words, body sensations, and affect mapping.',
-    id: '/emot-id/',
+    id: '/emotid/',
     display: 'standalone',
-    scope: '/emot-id/',
-    start_url: '/emot-id/',
+    scope: '/emotid/',
+    start_url: '/emotid/',
   })
   expect(manifest.icons).toEqual(expect.arrayContaining([
     expect.objectContaining({ src: 'icon-192.png', sizes: '192x192' }),
@@ -46,7 +46,7 @@ test('offline reopen and automatic update preserve local check-ins', async ({ co
     'content',
     'Emot-ID helps you explore emotions through words, body sensations, and affect mapping.',
   )
-  await expect(page.locator('link[rel="icon"]')).toHaveAttribute('href', '/emot-id/icon-192.png')
+  await expect(page.locator('link[rel="icon"]')).toHaveAttribute('href', '/emotid/icon-192.png')
 
   await waitForServiceWorkerControl(page)
   await page.getByTestId('quick-feeling-anxiety').click()
@@ -62,7 +62,7 @@ test('offline reopen and automatic update preserve local check-ins', async ({ co
     }
     return paths
   })
-  expect(cachedPaths).toContain('/emot-id/index.html')
+  expect(cachedPaths).toContain('/emotid/index.html')
   expect(cachedPaths.some((path) => path.includes('/assets/BodyCompassScreen-'))).toBe(true)
   expect(cachedPaths.some((path) => path.includes('/assets/CheckInFlowHost-'))).toBe(true)
   expect(cachedPaths.some((path) => path.includes('/assets/ModelCheckInScreen-'))).toBe(true)
@@ -73,7 +73,7 @@ test('offline reopen and automatic update preserve local check-ins', async ({ co
   await context.setOffline(true)
   await page.close()
   const offlinePage = await context.newPage()
-  await offlinePage.goto('http://127.0.0.1:4174/emot-id/')
+  await offlinePage.goto('http://127.0.0.1:4174/emotid/')
   await expect(offlinePage.getByTestId('today-screen')).toBeVisible()
   await expect(offlinePage.getByRole('status')).toContainText(/offline/i)
 
@@ -93,7 +93,7 @@ test('offline reopen and automatic update preserve local check-ins', async ({ co
   }))
   await request.post('http://127.0.0.1:4174/__pwa-test/version')
   await offlinePage.evaluate(async () => {
-    const registration = await navigator.serviceWorker.getRegistration('/emot-id/')
+    const registration = await navigator.serviceWorker.getRegistration('/emotid/')
     if (!registration) throw new Error('Missing service worker registration')
     await registration.update()
   })

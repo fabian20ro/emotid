@@ -204,7 +204,7 @@ This is appropriate for the current complexity level. The app has no cross-cutti
 **Implemented:**
 - Service worker via `vite-plugin-pwa` for offline caching
 - Manifest with icons, theme color, display mode
-- Deployed to GitHub Pages at `/emot-id/`
+- Deployed to GitHub Pages at `/emotid/`
 
 **Not yet implemented:**
 - Offline indicator (user doesn't know when they're using cached content)

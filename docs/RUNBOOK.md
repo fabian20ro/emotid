@@ -4,8 +4,8 @@
 
 Client-only PWA. No backend. All data in browser (localStorage + IndexedDB).
 
-- **Production:** `https://fabian20ro.github.io/emot-id/`
-- **Local dev:** `http://localhost:5173/emot-id/`
+- **Production:** `https://fabian20ro.github.io/emotid/`
+- **Local dev:** `http://localhost:5173/emotid/`
 - **Deploy:** automatic via GitHub Actions on push to `main`
 
 ## Common Tasks

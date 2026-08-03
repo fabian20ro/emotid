@@ -1170,3 +1170,31 @@ inspection found no overlap or console errors.
 **Insight:** Workflow extraction must preserve write recency explicitly; final state alone cannot
 distinguish a stale base success from a newer revision failure.
 **Promoted to Lessons Learned:** Yes — workflow write-recency semantics.
+
+---
+
+### [2026-08-03] Diagnose disabled GitHub transport and migration options
+
+**Context:** GitHub HTTPS fetch/pull returned `Your repository is disabled` and HTTP 403.
+**What happened:**
+- Confirmed clean local checkout, intact object database, and `main` one commit ahead of the last
+  fetched remote head.
+- Confirmed GitHub web and API access remain readable with repository admin permission while Git
+  upload-pack access is blocked; REST metadata still reports `disabled: false`.
+- Inventoried migration scope: 131 pull requests, 33 remote branches, no issues, releases, tags,
+  stars, forks, repository secrets, or variables; GitHub Pages uses the `/emot-id/` path.
+- The support ticket exposed an account-to-organization-to-account rename cycle affecting 12
+  retired owner/repository tuples. Renaming the existing repository preserved ID `1144714166` but
+  did not restore Git transport, proving the disable state followed the repository ID.
+- Created and verified a full 83-ref bundle, retained the disabled repository and its 131 pull
+  requests as `emotid-disabled-archive`, and created a fresh `emotid` repository.
+- Updated package, Pages, PWA, test, and documentation paths while retaining `Emot-ID` branding and
+  existing browser storage identifiers.
+**Outcome:** Fresh repository migration completed with the disabled repository retained as an
+archive; local origin now targets `fabian20ro/emotid`. `npm run check` passes 72 files and 631
+tests, all audits, production build, and performance budgets. The PWA lifecycle passes after the
+known macOS Mach-port sandbox denial was rerun outside that process sandbox.
+**Insight:** Owner/repository tuple retirement and repository Git-transport disabling are distinct:
+a rename can escape a retired tuple but cannot clear a transport disable flag attached to the
+repository ID. Test transport after rename before relying on metadata preservation.
+**Promoted to Lessons Learned:** Yes — GitHub namespace retirement and transport state.

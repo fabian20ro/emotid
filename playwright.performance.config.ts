@@ -9,7 +9,7 @@ export default defineConfig({
   reporter: [['line']],
   outputDir: 'test-results/performance',
   use: {
-    baseURL: 'http://127.0.0.1:4175/emot-id/',
+    baseURL: 'http://127.0.0.1:4175/emotid/',
     serviceWorkers: 'block',
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
@@ -22,7 +22,7 @@ export default defineConfig({
   ],
   webServer: {
     command: 'npm run preview -- --host 127.0.0.1 --port 4175',
-    url: 'http://127.0.0.1:4175/emot-id/',
+    url: 'http://127.0.0.1:4175/emotid/',
     reuseExistingServer: false,
     timeout: 60_000,
   },

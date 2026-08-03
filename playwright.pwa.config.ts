@@ -10,7 +10,7 @@ export default defineConfig({
   outputDir: 'test-results/pwa',
   use: {
     ...devices['Desktop Chrome'],
-    baseURL: 'http://127.0.0.1:4174/emot-id/',
+    baseURL: 'http://127.0.0.1:4174/emotid/',
     serviceWorkers: 'allow',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',

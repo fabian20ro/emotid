@@ -47,13 +47,13 @@ const server = createServer((request, response) => {
     return
   }
 
-  if (!url.pathname.startsWith('/emot-id/')) {
+  if (!url.pathname.startsWith('/emotid/')) {
     send(response, 404, 'Not found')
     return
   }
 
   const versionRoot = resolve(root, activeVersion)
-  const relativePath = decodeURIComponent(url.pathname.slice('/emot-id/'.length)) || 'index.html'
+  const relativePath = decodeURIComponent(url.pathname.slice('/emotid/'.length)) || 'index.html'
   let filePath = resolve(versionRoot, relativePath)
 
   if (!filePath.startsWith(`${versionRoot}${sep}`) && filePath !== versionRoot) {
@@ -69,7 +69,7 @@ const server = createServer((request, response) => {
   response.writeHead(200, {
     'Cache-Control': filePath.endsWith('sw.js') ? 'no-store' : 'no-cache',
     'Content-Type': contentTypes[extension] ?? 'application/octet-stream',
-    ...(filePath.endsWith('sw.js') ? { 'Service-Worker-Allowed': '/emot-id/' } : {}),
+    ...(filePath.endsWith('sw.js') ? { 'Service-Worker-Allowed': '/emotid/' } : {}),
   })
   createReadStream(filePath).pipe(response)
 })

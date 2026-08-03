@@ -9,7 +9,7 @@ export default defineConfig({
   workers: 1,
   reporter: 'html',
   use: {
-    baseURL: process.env.BASE_URL ?? 'http://localhost:5173/emot-id/',
+    baseURL: process.env.BASE_URL ?? 'http://localhost:5173/emotid/',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
   },
@@ -25,7 +25,7 @@ export default defineConfig({
   ],
   webServer: {
     command: 'npm run dev',
-    url: 'http://localhost:5173/emot-id/',
+    url: 'http://localhost:5173/emotid/',
     reuseExistingServer: !process.env.CI,
   },
 })

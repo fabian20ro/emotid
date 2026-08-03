@@ -3,8 +3,8 @@
 ## Setup
 
 ```bash
-git clone https://github.com/fabian20ro/emot-id.git
-cd emot-id
+git clone https://github.com/fabian20ro/emotid.git
+cd emotid
 npm install
 ```
 
@@ -12,7 +12,7 @@ npm install
 
 | Command | Description |
 |---------|-------------|
-| `npm run dev` | Start Vite dev server (`http://localhost:5173/emot-id/`) |
+| `npm run dev` | Start Vite dev server (`http://localhost:5173/emotid/`) |
 | `npm run build` | TypeScript check + Vite production build |
 | `npm test` | Run all unit tests once (Vitest) |
 | `npm run test:watch` | Run unit tests in watch mode |

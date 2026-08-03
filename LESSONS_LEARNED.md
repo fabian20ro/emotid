@@ -96,6 +96,14 @@ and a two-version update while asserting IndexedDB survival.
 
 ## Dependencies & External Services
 
+**[2026-08-03]** GitHub namespace retirement and Git transport state can diverge — Account or
+organization renames can permanently retire heavily used `OWNER/REPOSITORY` combinations. A live
+repository may remain readable through the web and REST API with `disabled: false` while smart
+HTTP returns `Your repository is disabled`; renaming that repository may not help when the block
+follows its repository ID. Before owner changes, inventory affected repositories and create full
+ref bundles. During recovery, verify `git ls-remote` after every rename; if the block follows the
+ID, retain the repository as a metadata archive and publish a fresh repository ID.
+
 **[2026-07-26]** Safety contacts require current source verification before becoming actionable — Do not preserve a phone number merely because it already exists in copy or tests. Verify the country, service, availability, and dialing format through the hotline lookup source, then update links, bilingual copy, and deterministic tests together.
 
 **[2026-02-07]** Documentation accuracy depends on source verification — Stale behavior statements required follow-up fixes. Verify implementation details against actual source before writing docs. Map each doc claim to file/function evidence.

@@ -1,6 +1,6 @@
 # Emot-ID
 
-> **[Try the live app](https://fabian20ro.github.io/emot-id)**
+> **[Try the live app](https://fabian20ro.github.io/emotid/)**
 
 Privacy-first PWA for exploring emotions through words, body sensations, and affect mapping.
 
