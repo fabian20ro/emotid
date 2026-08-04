@@ -63,6 +63,11 @@ CI, and describe evidence at the narrowest level it actually supports.
 
 ## Testing & Quality
 
+**[2026-08-03]** Longitudinal UI needs an explicit evidence threshold — One or two observations are
+entries, not a personal pattern. Keep the minimum in a pure selector, hide aggregate summaries
+below it, use non-conclusive copy at and above it, and test both sides of the threshold plus the
+transition after deletion.
+
 **[2026-07-29]** Mobile dialog focus return needs an explicit opener — Mobile Safari does not
 reliably make a tapped button `document.activeElement`, so a trap cannot always infer where focus
 must return. Pass the opener explicitly for touch-triggered overlays, preserve it across React

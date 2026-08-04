@@ -1,6 +1,6 @@
 # Architecture Codemap
 
-**Last Updated:** 2026-07-30
+**Last Updated:** 2026-08-03
 
 ## Component Tree
 
@@ -69,6 +69,14 @@ failed states without a global state library. `useCheckInWorkflow` owns the
 ordered write queue and guards stale base writes so an older successful write
 cannot hide a newer revision failure. Saving-disabled mode performs no
 repository write.
+
+### Journal Autonomy
+
+Journal pattern presentation uses a pure minimum-evidence selector; it does not add derived state
+to IndexedDB. Session Detail calls an injected delete callback, while `App` composes the existing
+history repository operation with route replacement after success. This keeps persistence,
+presentation, and navigation separately testable without a second repository abstraction or a
+global journal store.
 
 ## Related Codemaps
 

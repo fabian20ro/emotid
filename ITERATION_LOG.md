@@ -1198,3 +1198,26 @@ known macOS Mach-port sandbox denial was rerun outside that process sandbox.
 a rename can escape a retired tuple but cannot clear a transport disable flag attached to the
 repository ID. Test transport after rename before relying on metadata preservation.
 **Promoted to Lessons Learned:** Yes — GitHub namespace retirement and transport state.
+
+---
+
+### [2026-08-03] Complete P20 Journal autonomy
+
+**Context:** Journal presented sparse counts as patterns and supported only all-data deletion, so a
+person could neither control one sensitive entry nor distinguish observations from evidence.
+**What happened:**
+- Added a pure three-session evidence threshold and bilingual early-history state while preserving
+  immediate access to every individual entry.
+- Connected Session Detail to the existing exact-record repository deletion, with a portaled,
+  focus-trapped confirmation, pending/failure states, cancellation focus restoration, and
+  post-success Journal focus.
+- Used red-first unit, component, repository, and browser tests; the browser journey verifies dark
+  contrast, mobile bounds, body portal placement, exact deletion, and persistence after reload.
+- Manually inspected the narrow mobile flow and stacked confirmation actions after finding a
+  wrapped destructive label.
+**Outcome:** P20 complete. Full unit/integration, two-engine Playwright, production PWA, build,
+copy, lint, type, and performance gates pass. No persistence schema, safety logic, global state, or
+new confirmation abstraction was introduced.
+**Insight:** Longitudinal presentation should encode its evidence floor independently from storage,
+and deletion tests must cover the threshold transition rather than only repository removal.
+**Promoted to Lessons Learned:** Yes — explicit longitudinal evidence thresholds.

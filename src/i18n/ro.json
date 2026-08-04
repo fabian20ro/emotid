@@ -323,10 +323,12 @@
   "journalScreen": {
     "eyebrow": "Jurnal",
     "title": "Firul vostru emoțional",
-    "lede": "Tiparele sunt observații, nu scoruri. Totul rămâne pe acest dispozitiv.",
+    "lede": "Înregistrările salvate și rezumatele simple rămân pe acest dispozitiv. Oferă context, nu concluzii despre voi.",
     "emptyTitle": "Nicio verificare salvată încă",
     "emptyBody": "Când salvarea este activă, verificările încheiate vor apărea aici.",
-    "patterns": "Tipare pe care le puteți observa",
+    "patterns": "Ce a apărut până acum",
+    "earlyTitle": "Primele voastre verificări",
+    "earlyBody": "Fiecare verificare poate fi utilă și separat. Rezumatul apare după cel puțin trei verificări salvate.",
     "recent": "Verificări recente",
     "unpack": "Desfaceți un moment",
     "open": "Deschideți verificarea",
@@ -357,7 +359,14 @@
       "partial": "Cuvinte care s-au potrivit parțial",
       "rejected": "Cuvinte care nu s-au potrivit",
       "legacy": "Rezultat salvat"
-    }
+    },
+    "delete": "Ștergeți această verificare",
+    "confirmTitle": "Ștergeți această verificare?",
+    "confirmBody": "Doar această verificare salvată va fi eliminată de pe dispozitiv. Acțiunea nu poate fi anulată.",
+    "cancel": "Anulați",
+    "confirmAction": "Ștergeți verificarea",
+    "deleting": "Se șterge…",
+    "deleteError": "Această verificare nu a putut fi ștearsă. Celelalte înregistrări nu au fost modificate."
   },
   "settingsScreen": {
     "title": "Setări",

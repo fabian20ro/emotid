@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { LanguageProvider } from '../context/LanguageContext'
 import { JournalScreen } from '../screens/JournalScreen'
 import { SessionDetailScreen } from '../screens/SessionDetailScreen'
@@ -37,7 +38,11 @@ describe('Journal data display', () => {
   it('localizes stored body region patterns from raw IDs', () => {
     withLanguage(
       <JournalScreen
-        sessions={[bodySession()]}
+        sessions={[
+          bodySession(),
+          bodySession({ id: 'session-2' }),
+          bodySession({ id: 'session-3' }),
+        ]}
         loading={false}
         saveSessions
         onOpenSession={vi.fn()}
@@ -46,8 +51,8 @@ describe('Journal data display', () => {
       'ro',
     )
 
-    expect(screen.getByText('Piept (1)')).toBeInTheDocument()
-    expect(screen.queryByText('chest (1)')).not.toBeInTheDocument()
+    expect(screen.getByText('Piept (3)')).toBeInTheDocument()
+    expect(screen.queryByText('chest (3)')).not.toBeInTheDocument()
   })
 
   it('shows explicit loading, error, and empty states', () => {
@@ -70,7 +75,7 @@ describe('Journal data display', () => {
   it('shows localized body signals, selected need, and next step without mutating the record', () => {
     const session = bodySession()
     const before = structuredClone(session)
-    withLanguage(<SessionDetailScreen session={session} onBack={vi.fn()} />, 'ro')
+    withLanguage(<SessionDetailScreen session={session} onBack={vi.fn()} onDelete={vi.fn()} />, 'ro')
 
     expect(screen.getByText('Semnale corporale')).toBeInTheDocument()
     expect(screen.getByText('Piept')).toBeInTheDocument()
@@ -88,7 +93,7 @@ describe('Journal data display', () => {
       selectedNeed: undefined,
       nextStep: undefined,
     })
-    withLanguage(<SessionDetailScreen session={oldSession} onBack={vi.fn()} />)
+    withLanguage(<SessionDetailScreen session={oldSession} onBack={vi.fn()} onDelete={vi.fn()} />)
 
     expect(screen.getByText('anxiety')).toBeInTheDocument()
     expect(screen.getByText('This check-in was saved before these details were available.')).toBeInTheDocument()
@@ -99,9 +104,78 @@ describe('Journal data display', () => {
       reflectionAnswer: undefined,
       selectedNeed: undefined,
       nextStep: undefined,
-    })} onBack={vi.fn()} />)
+    })} onBack={vi.fn()} onDelete={vi.fn()} />)
 
     expect(screen.getByText('Possible words')).toBeInTheDocument()
     expect(screen.queryByText(/optional reflection details/i)).not.toBeInTheDocument()
+  })
+
+  it('keeps sparse history as individual entries instead of presenting patterns', () => {
+    const props = {
+      loading: false,
+      saveSessions: true,
+      onOpenSession: vi.fn(),
+      onOpenChain: vi.fn(),
+    }
+    const { rerender } = withLanguage(
+      <JournalScreen {...props} sessions={[bodySession(), bodySession({ id: 'session-2' })]} />,
+    )
+
+    expect(screen.getByRole('heading', { name: 'Your first check-ins' })).toBeInTheDocument()
+    expect(screen.queryByRole('heading', { name: 'What has appeared so far' })).not.toBeInTheDocument()
+    expect(document.querySelector('.journal-stats')).not.toBeInTheDocument()
+
+    rerender(
+      <LanguageProvider>
+        <JournalScreen
+          {...props}
+          sessions={[
+            bodySession(),
+            bodySession({ id: 'session-2' }),
+            bodySession({ id: 'session-3' }),
+          ]}
+        />
+      </LanguageProvider>,
+    )
+
+    expect(screen.getByRole('heading', { name: 'What has appeared so far' })).toBeInTheDocument()
+    expect(document.querySelector('.journal-stats')).toBeInTheDocument()
+  })
+
+  it('deletes only after confirmation and restores focus when cancelled', async () => {
+    const user = userEvent.setup()
+    const onDelete = vi.fn().mockResolvedValue(undefined)
+    withLanguage(<SessionDetailScreen session={bodySession()} onBack={vi.fn()} onDelete={onDelete} />)
+
+    const trigger = screen.getByRole('button', { name: 'Delete this check-in' })
+    await user.click(trigger)
+
+    const dialog = screen.getByRole('dialog', { name: 'Delete this check-in?' })
+    expect(dialog.parentElement?.parentElement).toBe(document.body)
+    expect(screen.getByRole('button', { name: 'Cancel' })).toHaveFocus()
+    expect(onDelete).not.toHaveBeenCalled()
+
+    await user.click(screen.getByRole('button', { name: 'Cancel' }))
+    await waitFor(() => expect(trigger).toHaveFocus())
+    expect(onDelete).not.toHaveBeenCalled()
+
+    await user.click(trigger)
+    await user.click(screen.getByRole('button', { name: 'Delete check-in' }))
+    await waitFor(() => expect(onDelete).toHaveBeenCalledWith('session-1'))
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+  })
+
+  it('keeps the confirmation available when deletion fails', async () => {
+    const user = userEvent.setup()
+    const onDelete = vi.fn().mockRejectedValue(new Error('write failed'))
+    withLanguage(<SessionDetailScreen session={bodySession()} onBack={vi.fn()} onDelete={onDelete} />)
+
+    await user.click(screen.getByRole('button', { name: 'Delete this check-in' }))
+    await user.click(screen.getByRole('button', { name: 'Delete check-in' }))
+
+    expect(await screen.findByRole('alert')).toHaveTextContent(
+      'This check-in could not be deleted. Your other entries were not changed.',
+    )
+    expect(screen.getByRole('dialog', { name: 'Delete this check-in?' })).toBeInTheDocument()
   })
 })

@@ -13,7 +13,8 @@ Privacy-first PWA for exploring emotions through words, body sensations, and aff
 - **Word Ladder** moves from broad feeling families toward more precise language.
 - **Plutchik** explores possible blends between two primary emotions.
 - **Reflection** presents tentative meaning, an explicit fit check, optional needs, and a user-chosen next step.
-- **Journal** keeps optional local reflections and guided chain-analysis entries.
+- **Journal** keeps optional local reflections and guided chain-analysis entries, delays aggregate
+  summaries until three saved check-ins, and supports deletion of one check-in at a time.
 
 ## Features
 

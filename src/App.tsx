@@ -60,7 +60,7 @@ export default function App() {
   const [isOffline, setIsOffline] = useState(() => typeof navigator !== 'undefined' && !navigator.onLine)
   const onboardingReturnFocusRef = useRef<HTMLElement | null>(null)
 
-  const { sessions, loading: sessionsLoading, error: sessionsError, save: saveSession, clearAll: clearAllSessions } = useSessionHistory()
+  const { sessions, loading: sessionsLoading, error: sessionsError, save: saveSession, remove: removeSession, clearAll: clearAllSessions } = useSessionHistory()
   const { entries: chainEntries, loading: chainLoading, save: saveChainEntry, clearAll: clearAllChains } = useChainAnalysis()
   const [saveSessions, setSaveSessions] = useState(() => storage.get('saveSessions') !== 'false')
   const [allowExternalAI, setAllowExternalAI] = useState(() => storage.get('allowExternalAI') !== 'false')
@@ -158,6 +158,11 @@ export default function App() {
     setTheme('light')
   }, [clearAllChains, clearAllSessions, setExternalAI, setLanguage, setSaving])
 
+  const deleteJournalSession = useCallback(async (sessionId: string) => {
+    await removeSession(sessionId)
+    navigation.replace({ name: 'journal' })
+  }, [navigation, removeSession])
+
   const destination = navigation.destination
   const activeTab: AppTab | null = destination.name === 'today' || destination.name === 'explore' || destination.name === 'journal' ? destination.name : null
   const showTabs = destination.name === 'today' || destination.name === 'explore' || destination.name === 'journal' || destination.name === 'arrival'
@@ -182,7 +187,7 @@ export default function App() {
       case 'journal':
         return <LazyRouteBoundary><JournalScreen sessions={sessions} loading={sessionsLoading} error={sessionsError} saveSessions={saveSessions} onOpenSession={(sessionId) => navigation.navigate({ name: 'session', sessionId })} onOpenChain={() => navigation.navigate({ name: 'chain' })} /></LazyRouteBoundary>
       case 'session':
-        return <LazyRouteBoundary><SessionDetailScreen session={sessions.find((session) => session.id === destination.sessionId)} onBack={navigation.back} /></LazyRouteBoundary>
+        return <LazyRouteBoundary><SessionDetailScreen session={sessions.find((session) => session.id === destination.sessionId)} onBack={navigation.back} onDelete={deleteJournalSession} /></LazyRouteBoundary>
       case 'settings':
         return (
           <LazyRouteBoundary>
@@ -203,7 +208,7 @@ export default function App() {
       default:
         return null
     }
-  }, [allowExternalAI, chainEntries, chainLoading, clearAllChains, clearData, completeCheckIn, completeQuick, completion, destination, exportData, finishCheckIn, navigation, retryBaseSave, saveChainEntry, saveReflection, saveSessions, sessionCaptured, sessionSaveState, sessions, sessionsError, sessionsLoading, setExternalAI, setSaving, startRoute, theme])
+  }, [allowExternalAI, chainEntries, chainLoading, clearAllChains, clearData, completeCheckIn, completeQuick, completion, deleteJournalSession, destination, exportData, finishCheckIn, navigation, retryBaseSave, saveChainEntry, saveReflection, saveSessions, sessionCaptured, sessionSaveState, sessions, sessionsError, sessionsLoading, setExternalAI, setSaving, startRoute, theme])
 
   if (onboardingMode === 'initial') {
     return (

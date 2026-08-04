@@ -323,10 +323,12 @@
   "journalScreen": {
     "eyebrow": "Journal",
     "title": "Your emotional thread",
-    "lede": "Patterns are observations, not scores. Everything remains on this device.",
+    "lede": "Saved entries and simple summaries stay on this device. They offer context, not conclusions about you.",
     "emptyTitle": "No saved check-ins yet",
     "emptyBody": "When saving is on, completed check-ins will appear here.",
-    "patterns": "Patterns you can notice",
+    "patterns": "What has appeared so far",
+    "earlyTitle": "Your first check-ins",
+    "earlyBody": "Each check-in can be useful on its own. The summary appears after at least three saved check-ins.",
     "recent": "Recent check-ins",
     "unpack": "Unpack a moment",
     "open": "Open check-in",
@@ -357,7 +359,14 @@
       "partial": "Words that partly fit",
       "rejected": "Words that did not fit",
       "legacy": "Saved result"
-    }
+    },
+    "delete": "Delete this check-in",
+    "confirmTitle": "Delete this check-in?",
+    "confirmBody": "Only this saved check-in will be removed from this device. This cannot be undone.",
+    "cancel": "Cancel",
+    "confirmAction": "Delete check-in",
+    "deleting": "Deleting…",
+    "deleteError": "This check-in could not be deleted. Your other entries were not changed."
   },
   "settingsScreen": {
     "title": "Settings",

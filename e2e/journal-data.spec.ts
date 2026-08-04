@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises'
 import { expect, test, type Page } from '@playwright/test'
 import { expectAccessibleTextContrast } from './contrast'
-import { openApp, openArrival } from './helpers'
+import { completeQuick, finishReflection, openApp, openArrival } from './helpers'
 
 async function saveQuickReflectionWithNextStep(page: Page) {
   await page.getByTestId('quick-feeling-anxiety').click()
@@ -25,6 +25,49 @@ async function saveChainEntry(page: Page) {
 }
 
 test.describe('Journal data trust', () => {
+  test('keeps early history tentative and deletes exactly one selected check-in', async ({ page }) => {
+    await openApp(page, { theme: 'dark' })
+    await completeQuick(page, 'anxiety')
+    await finishReflection(page)
+    await completeQuick(page, 'joy')
+    await finishReflection(page)
+
+    await page.getByRole('button', { name: 'Journal', exact: true }).click()
+    await expect(page.getByRole('heading', { name: 'Your first check-ins' })).toBeVisible()
+    await expect(page.locator('.journal-stats')).toHaveCount(0)
+
+    await page.getByRole('button', { name: /Open check-in: joy/i }).click()
+    const deleteTrigger = page.getByRole('button', { name: 'Delete this check-in' })
+    await deleteTrigger.click()
+
+    const dialog = page.getByRole('dialog', { name: 'Delete this check-in?' })
+    await expect(dialog).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Cancel' })).toBeFocused()
+    await expectAccessibleTextContrast(page, 'dark single-check-in confirmation')
+    const dialogBox = await dialog.boundingBox()
+    expect(dialogBox!.x).toBeGreaterThanOrEqual(16)
+    expect(dialogBox!.x + dialogBox!.width).toBeLessThanOrEqual(page.viewportSize()!.width - 16)
+    expect(dialogBox!.y).toBeGreaterThanOrEqual(16)
+    expect(dialogBox!.y + dialogBox!.height).toBeLessThanOrEqual(page.viewportSize()!.height - 16)
+    expect(await page.locator('.dialog-viewport').evaluate((element) => element.parentElement === document.body)).toBe(true)
+
+    await page.getByRole('button', { name: 'Cancel' }).click()
+    await expect(deleteTrigger).toBeFocused()
+    await expect(page.getByTestId('session-detail-screen')).toContainText('joy')
+
+    await deleteTrigger.click()
+    await page.getByRole('button', { name: 'Delete check-in' }).click()
+    await expect(page.getByTestId('journal-screen')).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Your emotional thread' })).toBeFocused()
+    await expect(page.getByRole('button', { name: /Open check-in: anxiety/i })).toBeVisible()
+    await expect(page.getByRole('button', { name: /Open check-in: joy/i })).toHaveCount(0)
+
+    await page.reload()
+    await page.getByRole('button', { name: 'Journal', exact: true }).click()
+    await expect(page.getByRole('button', { name: /Open check-in: anxiety/i })).toBeVisible()
+    await expect(page.getByRole('button', { name: /Open check-in: joy/i })).toHaveCount(0)
+  })
+
   test('exports sessions, chain entries, and preferences, then deletes all local data', async ({ page }) => {
     await openApp(page)
     await page.evaluate(() => {
@@ -110,7 +153,7 @@ test.describe('Journal data trust', () => {
     await expect(page.getByTestId('today-screen')).toBeVisible()
 
     await page.getByRole('button', { name: 'Jurnal', exact: true }).click()
-    await expect(page.getByText('Piept (1)')).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Primele voastre verificări' })).toBeVisible()
     await page.locator('.journal-list button').click()
     await expect(page.getByTestId('session-detail-screen')).toContainText('Semnale corporale')
     await expect(page.getByTestId('session-detail-screen')).toContainText('Piept')

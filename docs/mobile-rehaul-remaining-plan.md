@@ -1,7 +1,7 @@
 # Remaining Mobile Migration Plan
 
-Status: P17 lazy feature boundaries and repeatable performance evidence complete; physical-device
-assistive-technology and hardware timing acceptance remain, July 30, 2026.
+Status: P20 Journal autonomy complete; physical-device assistive-technology and hardware timing
+acceptance remain, August 3, 2026.
 
 ## Completed Since Last Update
 
@@ -490,3 +490,36 @@ Affect empty state with zero browser errors or warnings.
    historical `ANALYSIS.md`, and remove dormant contracts without approved product scope.
 4. Keep the deeper Body Compass redesign deferred until the higher-impact Journal and navigation
    work is complete.
+
+## Completed: P20 Journal Autonomy
+
+Journal no longer presents one or two observations as a personal pattern. A pure evidence selector
+hides aggregate counts until three saved check-ins and replaces them with a concise early-history
+state; individual entries remain immediately useful and accessible. At the threshold, the existing
+summaries appear under neutral, non-conclusive wording.
+
+Session Detail now offers one-entry deletion through the existing repository operation. A portaled,
+focus-trapped confirmation starts on Cancel, restores the trigger when cancelled, blocks duplicate
+submissions, preserves the dialog with an inline error on failure, and returns focus to Journal
+only after successful deletion. No datastore, journal store, or generic confirmation framework was
+added.
+
+**Verification:** TDD began with failing selector, sparse-history, confirmation, exact-record, and
+browser persistence cases. The complete unit/integration suite, bilingual and psychological-copy
+audits, TypeScript, lint, production build, two-engine Playwright matrix, focused dark/mobile
+deletion journey, production PWA lifecycle, and performance budgets pass. Manual mobile inspection
+caught and fixed a wrapped destructive action by stacking confirmation actions at narrow widths.
+
+## Remaining After P20
+
+1. Run the documented VoiceOver/Safari and TalkBack/Chrome acceptance script on physical devices,
+   including Journal confirmation speech, cancellation focus return, failure announcement, and
+   successful route focus.
+2. Run the production timing probe on representative low- and mid-range mobile hardware; retain CI
+   metrics as regression signals, not physical-device evidence.
+3. P21 navigation and repository truth: make browser forward/reset deterministic, reconcile the
+   historical `ANALYSIS.md`, and remove only contracts proven dormant by production and test usage.
+4. Reclaim production asset-budget margin before adding another large feature boundary; prefer
+   removing obsolete assets or contracts over changing the cap.
+5. Keep the deeper Body Compass redesign deferred until navigation truth and physical release gates
+   are complete.

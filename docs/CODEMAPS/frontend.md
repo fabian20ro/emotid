@@ -1,6 +1,6 @@
 # Frontend Codemap
 
-**Last Updated:** 2026-07-30
+**Last Updated:** 2026-08-03
 
 ## Component Tree
 
@@ -20,8 +20,8 @@ App (src/App.tsx)
  |    +-- BodyRegionMap           # Lazy-loaded, presentation-only region map
  +-- ReflectionScreen             # Results, crisis support, needs, next step
  +-- ExploreScreen                # Route and practice entry points
- +-- JournalScreen                # Sessions, summaries, chain entry
- +-- SessionDetailScreen          # Saved reflection details
+ +-- JournalScreen                # Sessions, evidence-gated summaries, chain entry
+ +-- SessionDetailScreen          # Saved reflection details and one-entry deletion*
  +-- SettingsScreen               # Language, appearance, utility routes
  +-- PrivacyDataScreen            # Storage, export, destructive confirmation*
  +-- SupportScreen                # Crisis and product boundaries
@@ -29,7 +29,7 @@ App (src/App.tsx)
  +-- ChainAnalysis                # Full-screen DBT worksheet
 ```
 
-`*` Confirmation uses `ModalShell`, portaled to `document.body` with focus trapping.
+`*` Destructive confirmations use `ModalShell`, portaled to `document.body` with focus trapping.
 `**` Generic visualizations resolve through the model registry. The somatic route owns
 `BodyRegionMap` directly because region activation must continue through its staged flow.
 
@@ -76,6 +76,18 @@ mobile scale.
 ### SelectionBar Reserved Height
 
 SelectionBar maintains a fixed `52px` reserved height even when empty, preventing visualization area reflow on first selection.
+
+### Journal Evidence and Deletion
+
+`hasJournalPatternEvidence` is the single threshold for aggregate Journal summaries. Fewer than
+three saved check-ins show an early-history explanation and the individual entries only; three or
+more reveal counts and recurring dimensions. The threshold controls presentation, not storage or
+emotion interpretation.
+
+Session Detail delegates one-entry deletion to the existing `useSessionHistory.remove` operation.
+The destructive confirmation is portaled and focus-trapped, reports repository failures in place,
+and returns to Journal only after the exact record is deleted. `App` owns that navigation change;
+the detail screen owns confirmation state.
 
 ## Related Codemaps
 
