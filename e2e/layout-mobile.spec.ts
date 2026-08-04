@@ -111,13 +111,16 @@ for (const viewport of viewports) {
       expect(svgBox!.y + svgBox!.height).toBeLessThanOrEqual(stageBox!.y + stageBox!.height + 1)
 
       const sideButtons = page.locator('.body-side-switch button')
-      await expect(sideButtons).toHaveCount(2)
+      await expect(sideButtons).toHaveCount(3)
       for (let index = 0; index < await sideButtons.count(); index++) {
         expect((await sideButtons.nth(index).boundingBox())!.height).toBeGreaterThanOrEqual(44)
       }
       await expect(page.locator('[data-region]:not([data-region$="-hit"])')).toHaveCount(10)
       await page.getByRole('button', { name: 'Back', exact: true }).nth(1).click()
       await expect(page.locator('[data-region]:not([data-region$="-hit"])')).toHaveCount(8)
+      await page.getByRole('button', { name: 'List' }).click()
+      await expect(page.getByTestId('bodymap-root')).toHaveCount(0)
+      await expect(page.getByRole('group', { name: 'Body areas' })).toBeInViewport()
       await expectNoHorizontalOverflow(page)
     })
   })

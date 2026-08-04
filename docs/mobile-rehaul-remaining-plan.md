@@ -550,13 +550,38 @@ and performance probe pass. Initial JavaScript is 132,877 bytes gzip, entry Java
 bytes gzip, precache is 833.10 KiB, and the diagnostic probe reports 46.5 ms startup, 121-375.2 ms
 first-route opens, and no long tasks.
 
-## Remaining After P21
+## Completed: P22 Body Compass Usability
+
+Body Compass now offers Front, Back, and List as equivalent region-selection modes. List mode uses
+ordinary semantic buttons grouped by body area and replaces the visual map rather than duplicating
+its accessibility tree. Every mode enters the same region -> sensation -> intensity sequence.
+
+Completing intensity now commits the signal immediately, returns to region selection, and focuses
+the inline signal summary. Edit, remove, add-another, the evidence limitation, and the one results
+action remain available without a mandatory review screen. The picker reads the fixed anatomy
+catalog, so removed regions remain available for selection. The results action is normal-flow on
+compact screens so it cannot obscure the saved signal or evidence.
+
+Somatic analysis now validates enriched selections through one fail-closed boundary. Incomplete or
+invalid region records produce no analysis rather than reaching scoring through an unchecked cast.
+The taxonomy, curated signal weights, persistence format, shared completion controller, and crisis
+semantics are unchanged.
+
+**Verification:** red-first unit, component, and Mobile Chrome tests reproduced the unchecked
+analysis input and missing List mode. `npm run check` passes 71 files and 580 tests. All 186
+Mobile Safari/Chrome cases, the production PWA lifecycle, and the performance proxy pass. Manual
+Playwright inspection covered map/list and saved-signal states at `393x742`, plus the compact dark
+state at `320x568`; a sticky-action overlap found during inspection was fixed and regression-tested.
+Browser automation does not close the physical screen-reader gate.
+
+## Remaining After P22
 
 1. Run the documented VoiceOver/Safari and TalkBack/Chrome acceptance script on physical devices,
-   now including browser Back/Forward, reset behavior, and Journal deletion focus.
+   now including Body Compass mode announcements and saved-signal focus, browser Back/Forward,
+   reset behavior, and Journal deletion focus.
 2. Run cold-start and first-route measurements on representative low- and mid-range Android
    hardware. CI remains a diagnostic proxy, not physical-device evidence.
-3. Plan the deferred Body Compass redesign from observed usability gaps and physical assistive-tech
-   findings before changing its model or interaction sequence.
+3. Fix only defects reproduced by those physical-device journeys, adding the closest deterministic
+   browser regression without claiming synthesized-speech coverage.
 4. Address the existing Node `module.register()` and stale Browserslist-data warnings in a bounded
    dependency-maintenance iteration; they are non-blocking and not P21 regressions.

@@ -1,15 +1,20 @@
-import { lazy, Suspense, useState } from 'react'
-import { Check, ChevronRight, Pencil, Plus, Trash2 } from 'lucide-react'
+import { lazy, Suspense, useLayoutEffect, useRef, useState } from 'react'
+import { Check, ChevronRight, Pencil, Trash2 } from 'lucide-react'
 import { ScreenHeader } from '../components/ScreenHeader'
 import { useLanguage } from '../context/LanguageContext'
 import { useEmotionModel } from '../hooks/useEmotionModel'
 import { MODEL_IDS } from '../models/constants'
 import { INTENSITY_LABELS, SENSATION_CONFIG } from '../models/somatic/display'
-import type { SomaticRegion, SomaticSelection, SensationType } from '../models/somatic/types'
+import { isCompleteSomaticSelection } from '../models/somatic/scoring'
+import type { BodyGroup, SomaticRegion, SomaticSelection, SensationType } from '../models/somatic/types'
 import type { BodySide } from '../components/BodyRegionMap'
 import type { AnalysisResult, BaseEmotion, EmotionModel } from '../models/types'
 
-type BodyStep = 'region' | 'sensation' | 'intensity' | 'review'
+type BodyStep = 'region' | 'sensation' | 'intensity'
+type BodyPickerMode = BodySide | 'list'
+type FocusTarget = { kind: 'signal'; id: string } | { kind: 'picker' } | null
+
+const BODY_GROUPS: BodyGroup[] = ['head', 'torso', 'arms', 'legs']
 
 const BodyRegionMap = lazy(async () => {
   const module = await import('../components/BodyRegionMap')
@@ -22,10 +27,6 @@ interface BodyCompassScreenProps {
   onComplete: (modelId: string, selections: BaseEmotion[], results: AnalysisResult[]) => void
 }
 
-function isSomaticSelection(selection: BaseEmotion): selection is SomaticSelection {
-  return 'selectedSensation' in selection && 'selectedIntensity' in selection
-}
-
 export function BodyCompassScreen({ model: emotionModel, onBack, onComplete }: BodyCompassScreenProps) {
   const { language, section } = useLanguage()
   const t = section('bodyCompass')
@@ -34,9 +35,28 @@ export function BodyCompassScreen({ model: emotionModel, onBack, onComplete }: B
   const [step, setStep] = useState<BodyStep>('region')
   const [activeRegion, setActiveRegion] = useState<SomaticRegion | null>(null)
   const [draftSensation, setDraftSensation] = useState<SensationType | null>(null)
-  const [bodySide, setBodySide] = useState<BodySide>('front')
-  const selections = model.selections.filter(isSomaticSelection)
-  const regions = model.visibleEmotions as SomaticRegion[]
+  const [pickerMode, setPickerMode] = useState<BodyPickerMode>('front')
+  const [focusTarget, setFocusTarget] = useState<FocusTarget>(null)
+  const pickerRef = useRef<HTMLDivElement>(null)
+  const signalRefs = useRef(new Map<string, HTMLDivElement>())
+  const selections = model.selections.filter(isCompleteSomaticSelection)
+  const regions = Object.values(emotionModel.allEmotions) as SomaticRegion[]
+  const groupLabels: Record<BodyGroup, string> = {
+    head: t.groupHead,
+    torso: t.groupTorso,
+    arms: t.groupArms,
+    legs: t.groupLegs,
+  }
+
+  useLayoutEffect(() => {
+    if (step !== 'region' || !focusTarget) return
+    const target = focusTarget.kind === 'signal'
+      ? signalRefs.current.get(focusTarget.id)
+      : pickerRef.current
+    if (!target) return
+    target.focus()
+    setFocusTarget(null)
+  }, [focusTarget, selections, step])
 
   const startRegion = (region: SomaticRegion) => {
     const existing = selections.find((selection) => selection.id === region.id)
@@ -58,12 +78,16 @@ export function BodyCompassScreen({ model: emotionModel, onBack, onComplete }: B
       selectedIntensity,
     }
     model.handleSelect(selection)
-    setStep('review')
+    setActiveRegion(null)
+    setDraftSensation(null)
+    setFocusTarget({ kind: 'signal', id: selection.id })
+    setStep('region')
   }
 
   const returnToRegions = () => {
     setActiveRegion(null)
     setDraftSensation(null)
+    setFocusTarget({ kind: 'picker' })
     setStep('region')
   }
 
@@ -74,8 +98,9 @@ export function BodyCompassScreen({ model: emotionModel, onBack, onComplete }: B
   }
 
   const removeSelection = (selection: SomaticSelection) => {
+    const nextSelection = selections.find((candidate) => candidate.id !== selection.id)
     model.handleDeselect(selection)
-    if (selections.length === 1) returnToRegions()
+    setFocusTarget(nextSelection ? { kind: 'signal', id: nextSelection.id } : { kind: 'picker' })
   }
 
   const finish = () => {
@@ -89,13 +114,11 @@ export function BodyCompassScreen({ model: emotionModel, onBack, onComplete }: B
     region: t.title,
     sensation: somaticT.pickSensation,
     intensity: somaticT.pickIntensity,
-    review: t.reviewTitle,
   }
   const ledes: Record<BodyStep, string> = {
     region: t.lede,
     sensation: t.sensationHint.replace('{region}', activeRegion?.label[language].toLowerCase() ?? ''),
     intensity: t.intensityHint,
-    review: t.reviewLede,
   }
   const stepNumber = step === 'region' ? 1 : step === 'sensation' ? 2 : 3
 
@@ -106,8 +129,8 @@ export function BodyCompassScreen({ model: emotionModel, onBack, onComplete }: B
       <ol className="body-progress" aria-label={t.progress}>
         {([t.region, t.sensation, t.intensity] as const).map((label, index) => {
           const number = index + 1
-          const complete = step === 'review' || number < stepNumber
-          const current = step !== 'review' && number === stepNumber
+          const complete = number < stepNumber
+          const current = number === stepNumber
           return (
             <li key={label} className={complete ? 'is-complete' : current ? 'is-current' : ''} aria-current={current ? 'step' : undefined}>
               <span>{complete ? <Check size={13} aria-hidden="true" /> : number}</span>
@@ -120,34 +143,98 @@ export function BodyCompassScreen({ model: emotionModel, onBack, onComplete }: B
       {step === 'region' && (
         <>
           <p className="body-stage-hint">{t.regionHint}</p>
-          <div className="model-stage model-stage-body">
-            <div className="body-side-switch segmented" role="group" aria-label={somaticT.bodySide}>
-              <button type="button" className={bodySide === 'front' ? 'is-active' : ''} aria-pressed={bodySide === 'front'} onClick={() => setBodySide('front')}>
+          <div className={`model-stage model-stage-body${pickerMode === 'list' ? ' is-list' : ''}`}>
+            <div ref={pickerRef} tabIndex={-1} className="body-side-switch segmented" role="group" aria-label={somaticT.bodySide}>
+              <button type="button" className={pickerMode === 'front' ? 'is-active' : ''} aria-pressed={pickerMode === 'front'} onClick={() => setPickerMode('front')}>
                 {somaticT.front}
               </button>
-              <button type="button" className={bodySide === 'back' ? 'is-active' : ''} aria-pressed={bodySide === 'back'} onClick={() => setBodySide('back')}>
+              <button type="button" className={pickerMode === 'back' ? 'is-active' : ''} aria-pressed={pickerMode === 'back'} onClick={() => setPickerMode('back')}>
                 {somaticT.back}
               </button>
+              <button type="button" className={pickerMode === 'list' ? 'is-active' : ''} aria-pressed={pickerMode === 'list'} onClick={() => setPickerMode('list')}>
+                {t.list}
+              </button>
             </div>
-            {model.modelReady ? (
+            {pickerMode === 'list' ? (
+              <div className="body-region-list" role="group" aria-label={t.areasLabel}>
+                {BODY_GROUPS.map((group) => {
+                  const groupRegions = regions.filter((region) => region.group === group)
+                  if (groupRegions.length === 0) return null
+                  return (
+                    <section key={group}>
+                      <h2>{groupLabels[group]}</h2>
+                      <div>
+                        {groupRegions.map((region) => {
+                          const selection = selections.find((candidate) => candidate.id === region.id)
+                          return (
+                            <button
+                              type="button"
+                              key={region.id}
+                              aria-label={region.label[language]}
+                              aria-pressed={Boolean(selection)}
+                              className={selection ? 'is-selected' : ''}
+                              onClick={() => startRegion(region)}
+                            >
+                              <span className="body-list-swatch" style={{ background: region.color }} aria-hidden="true" />
+                              <span>
+                                <strong>{region.label[language]}</strong>
+                                {selection && <small>{SENSATION_CONFIG[selection.selectedSensation].label[language]} - {INTENSITY_LABELS[selection.selectedIntensity][language]}</small>}
+                              </span>
+                              <ChevronRight size={18} aria-hidden="true" />
+                            </button>
+                          )
+                        })}
+                      </div>
+                    </section>
+                  )
+                })}
+              </div>
+            ) : model.modelReady ? (
               <Suspense fallback={<div className="model-loading">...</div>}>
                 <BodyRegionMap
                   regions={regions}
                   selections={selections}
-                  side={bodySide}
+                  side={pickerMode}
                   onRegionActivate={startRegion}
                 />
               </Suspense>
             ) : <div className="model-loading">...</div>}
           </div>
-          <div className="body-region-actions">
-            {selections.length > 0 && (
-              <button type="button" className="primary-button" onClick={() => setStep('review')}>
-                {t.review}<ChevronRight size={19} aria-hidden="true" />
-              </button>
-            )}
-            <button type="button" className="text-button" onClick={onBack}>{t.notNow}</button>
-          </div>
+          {selections.length === 0 && <div className="body-region-actions"><button type="button" className="text-button" onClick={onBack}>{t.notNow}</button></div>}
+
+          {selections.length > 0 && (
+            <section className="body-signal-section" aria-labelledby="body-signals-title">
+              <h2 id="body-signals-title">{t.signalsTitle}</h2>
+              <div className="body-signal-list" aria-live="polite">
+                {selections.map((selection) => (
+                  <div
+                    ref={(node) => {
+                      if (node) signalRefs.current.set(selection.id, node)
+                      else signalRefs.current.delete(selection.id)
+                    }}
+                    tabIndex={-1}
+                    className="body-signal-card"
+                    key={selection.id}
+                    data-testid={`body-signal-${selection.id}`}
+                  >
+                    <span className="body-signal-swatch" style={{ background: selection.color }} aria-hidden="true" />
+                    <span className="body-signal-copy">
+                      <strong>{selection.label[language]}</strong>
+                      <small>{SENSATION_CONFIG[selection.selectedSensation].label[language]} - {INTENSITY_LABELS[selection.selectedIntensity][language]}</small>
+                    </span>
+                    <button type="button" className="icon-button" aria-label={`${t.edit} ${selection.label[language]}`} onClick={() => startRegion(selection)}><Pencil size={17} aria-hidden="true" /></button>
+                    <button type="button" className="icon-button" aria-label={`${t.remove} ${selection.label[language]}`} onClick={() => removeSelection(selection)}><Trash2 size={17} aria-hidden="true" /></button>
+                  </div>
+                ))}
+              </div>
+              <p className="body-stage-hint body-evidence-note" data-testid="body-evidence-note">{t.evidenceNote}</p>
+              <div className="route-action">
+                <button type="button" className="primary-button" onClick={finish}>
+                  {t.continue}<ChevronRight size={19} aria-hidden="true" />
+                </button>
+              </div>
+            </section>
+          )}
         </>
       )}
 
@@ -186,30 +273,6 @@ export function BodyCompassScreen({ model: emotionModel, onBack, onComplete }: B
         </div>
       )}
 
-      {step === 'review' && (
-        <>
-          <p className="body-stage-hint body-evidence-note" data-testid="body-evidence-note">{t.evidenceNote}</p>
-          <div className="body-review-list" aria-live="polite">
-            {selections.map((selection) => (
-              <div className="body-signal-card" key={selection.id} data-testid={`body-signal-${selection.id}`}>
-                <span className="body-signal-swatch" style={{ background: selection.color }} aria-hidden="true" />
-                <span className="body-signal-copy">
-                  <strong>{selection.label[language]}</strong>
-                  <small>{SENSATION_CONFIG[selection.selectedSensation].label[language]} - {INTENSITY_LABELS[selection.selectedIntensity][language]}</small>
-                </span>
-                <button type="button" className="icon-button" aria-label={`${t.edit} ${selection.label[language]}`} onClick={() => startRegion(selection)}><Pencil size={17} aria-hidden="true" /></button>
-                <button type="button" className="icon-button" aria-label={`${t.remove} ${selection.label[language]}`} onClick={() => removeSelection(selection)}><Trash2 size={17} aria-hidden="true" /></button>
-              </div>
-            ))}
-          </div>
-          <button type="button" className="secondary-button body-add" onClick={returnToRegions}><Plus size={18} aria-hidden="true" />{t.addAnother}</button>
-          <div className="route-action">
-            <button type="button" className="primary-button" disabled={selections.length === 0} onClick={finish}>
-              {t.continue}<ChevronRight size={19} aria-hidden="true" />
-            </button>
-          </div>
-        </>
-      )}
     </div>
   )
 }

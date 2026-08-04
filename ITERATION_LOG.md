@@ -1246,3 +1246,31 @@ of 960,000 bytes, down 80,835 bytes; CSS is down 8.28 kB. The proxy reports 46.5
 generations are the smallest deterministic model. Dead Tailwind-scanned source can cost production
 CSS even when its JavaScript is tree-shaken.
 **Promoted to Lessons Learned:** Yes — browser History snapshots and reset generations.
+
+---
+
+### [2026-08-04] Complete P22 Body Compass usability
+
+**Context:** Body Compass exposed only an SVG map, forced a separate review stage after every
+signal, and passed enriched region records into analysis through an unchecked cast. This made
+non-visual region selection unclear, interrupted multi-area entry, and trusted an implicit runtime
+contract.
+**What happened:**
+- Added one semantic List alternative beside Front and Back; every mode shares the same region,
+  sensation, and intensity flow and the list replaces rather than duplicates the map tree.
+- Removed the mandatory review stage. Intensity commits immediately, returns to the picker, focuses
+  the inline signal, and keeps edit/remove/add-more plus one results action in the same context.
+- Decoupled the fixed anatomy picker from transient model visibility so removal never makes an area
+  unavailable for the rest of the check-in.
+- Added a fail-closed somatic analysis boundary and derived the sensation type from one runtime
+  value list, removing the unchecked model cast.
+- Reworked English and Romanian Body Compass copy and added compact responsive/dark/focus styles.
+- During manual `320x568` dark inspection, found the sticky results action covering inline content;
+  moved it into normal flow and added a two-engine geometry/style regression.
+**Outcome:** Success. `npm run check` passes 71 files and 580 tests. All 186 Mobile Safari/Chrome
+cases, the production PWA lifecycle, and the performance proxy pass. Manual Playwright
+inspection covered `393x742` map/list/signal states and `320x568` dark compact rendering with zero
+console errors and no horizontal overflow. Physical VoiceOver/TalkBack acceptance remains open.
+**Insight:** Enriched psychological selections need one runtime-validating boundary before scoring;
+alternate visual and semantic selectors should converge on one activation flow.
+**Promoted to Lessons Learned:** Yes — fail-closed enriched-input analysis.

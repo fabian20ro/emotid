@@ -38,8 +38,11 @@ describe('BodyCompassScreen', () => {
     await user.click(screen.getByRole('button', { name: /moderate/i }))
 
     const signal = screen.getByTestId('body-signal-chest')
+    expect(screen.getByRole('heading', { name: 'Where do you notice a body sensation?' })).toBeInTheDocument()
     expect(signal).toHaveTextContent('Chest')
     expect(signal).toHaveTextContent('Tension - Moderate')
+    expect(signal).toHaveFocus()
+    expect(screen.queryByRole('heading', { name: 'Review your body signals' })).not.toBeInTheDocument()
     await user.click(screen.getByRole('button', { name: 'See what might fit' }))
 
     expect(onComplete).toHaveBeenCalledTimes(1)
@@ -49,7 +52,7 @@ describe('BodyCompassScreen', () => {
     expect(results.some((result) => result.id === 'anxiety')).toBe(true)
   })
 
-  it('switches body sides and activates a region by keyboard without an overlay', async () => {
+  it('offers front, back, and semantic list selection through one region flow', async () => {
     const user = userEvent.setup()
     renderScreen()
     await screen.findByTestId('bodymap-root')
@@ -65,8 +68,10 @@ describe('BodyCompassScreen', () => {
     expect(document.querySelector('[data-region="upper-back"]')).toBeInTheDocument()
     expect(document.querySelector('[data-region="chest"]')).not.toBeInTheDocument()
 
-    await user.click(within(sideSwitcher).getByRole('button', { name: 'Front' }))
-    const chest = screen.getByRole('button', { name: 'Chest' })
+    await user.click(within(sideSwitcher).getByRole('button', { name: 'List' }))
+    expect(screen.queryByTestId('bodymap-root')).not.toBeInTheDocument()
+    const list = screen.getByRole('group', { name: 'Body areas' })
+    const chest = within(list).getByRole('button', { name: 'Chest' })
     chest.focus()
     await user.keyboard('{Enter}')
     expect(screen.getByRole('heading', { name: 'What do you feel here?' })).toBeInTheDocument()
@@ -83,17 +88,19 @@ describe('BodyCompassScreen', () => {
     expect(screen.getByRole('heading', { name: 'What do you feel here?' })).toBeInTheDocument()
 
     await user.click(screen.getByRole('button', { name: 'Choose another area' }))
-    expect(screen.getByRole('heading', { name: 'Where do you notice it?' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Where do you notice a body sensation?' })).toBeInTheDocument()
     expect(onBack).not.toHaveBeenCalled()
   })
 
-  it('edits a region in place and removes it from review', async () => {
+  it('edits and removes an inline signal while keeping the region available', async () => {
     const user = userEvent.setup()
     const { onComplete } = renderScreen()
 
     await chooseChest(user)
     await user.click(screen.getByRole('button', { name: /tension/i }))
     await user.click(screen.getByRole('button', { name: /mild/i }))
+
+    expect(screen.getByTestId('body-signal-chest')).toHaveFocus()
 
     await user.click(screen.getByRole('button', { name: 'Edit Chest' }))
     await user.click(screen.getByRole('button', { name: /warmth/i }))
@@ -108,9 +115,10 @@ describe('BodyCompassScreen', () => {
     onComplete.mockClear()
     await user.click(screen.getByRole('button', { name: 'Edit Chest' }))
     await user.click(screen.getByRole('button', { name: 'Choose another area' }))
-    await user.click(screen.getByRole('button', { name: 'Review body signals' }))
     await user.click(within(screen.getByTestId('body-signal-chest')).getByRole('button', { name: 'Remove Chest' }))
-    expect(screen.getByRole('heading', { name: 'Where do you notice it?' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Where do you notice a body sensation?' })).toBeInTheDocument()
     expect(screen.queryByTestId('body-signal-chest')).not.toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: 'List' }))
+    expect(within(screen.getByRole('group', { name: 'Body areas' })).getByRole('button', { name: 'Chest' })).toBeInTheDocument()
   })
 })

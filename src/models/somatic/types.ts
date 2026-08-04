@@ -2,16 +2,19 @@ import type { BaseEmotion } from '../types'
 
 export type BodyGroup = 'head' | 'torso' | 'arms' | 'legs'
 
-export type SensationType =
-  | 'tension'
-  | 'warmth'
-  | 'heaviness'
-  | 'lightness'
-  | 'tingling'
-  | 'numbness'
-  | 'churning'
-  | 'pressure'
-  | 'constriction'
+export const SENSATION_TYPES = [
+  'tension',
+  'warmth',
+  'heaviness',
+  'lightness',
+  'tingling',
+  'numbness',
+  'churning',
+  'pressure',
+  'constriction',
+] as const
+
+export type SensationType = typeof SENSATION_TYPES[number]
 
 export interface EmotionSignal {
   emotionId: string

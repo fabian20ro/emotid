@@ -1,8 +1,21 @@
 import { describe, it, expect } from 'vitest'
-import { scoreSomaticSelections } from './scoring'
+import { analyzeSomaticSelections, scoreSomaticSelections } from './scoring'
+import { somaticRegions } from './index'
 import type { SomaticSelection } from './types'
 
 describe('scoreSomaticSelections', () => {
+  it('rejects incomplete or invalid body signals at the analysis boundary', () => {
+    const chest = somaticRegions.chest
+    const invalidIntensity = {
+      ...chest,
+      selectedSensation: 'tension',
+      selectedIntensity: 4,
+    }
+
+    expect(analyzeSomaticSelections([chest])).toEqual([])
+    expect(analyzeSomaticSelections([invalidIntensity])).toEqual([])
+  })
+
   it('should return an empty array if no selections are provided', () => {
     const results = scoreSomaticSelections([])
     expect(results).toEqual([])

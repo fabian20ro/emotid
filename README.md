@@ -8,7 +8,8 @@ Privacy-first PWA for exploring emotions through words, body sensations, and aff
 
 - **Today** offers a quick selectable word with one explicit Continue action and recent local reflections.
 - **Arrival** leads with guided uncertainty, then placement, words, or body signals.
-- **Body Compass** records a region, sensation, and intensity before suggesting possible words.
+- **Body Compass** offers front, back, and accessible list selection, then records a sensation and
+  intensity before suggesting possible words.
 - **Affect Map** places a state by energy and pleasantness.
 - **Word Ladder** moves from broad feeling families toward more precise language.
 - **Plutchik** explores possible blends between two primary emotions.

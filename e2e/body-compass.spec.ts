@@ -45,7 +45,7 @@ async function expectBodyLabelContrast(page: Page, state: string) {
 test.describe('Body Compass staged route', () => {
   test.beforeEach(async ({ page }) => openApp(page))
 
-  test('moves through area, sensation, intensity, and review into Reflection', async ({ page }) => {
+  test('moves through area, sensation, and intensity into inline completion and Reflection', async ({ page }) => {
     await openBodyCompass(page)
     await expect(page.locator('.body-progress [aria-current="step"]')).toContainText('Area')
 
@@ -58,7 +58,8 @@ test.describe('Body Compass staged route', () => {
     await expect(page.locator('.body-progress [aria-current="step"]')).toContainText('Intensity')
 
     await page.getByRole('button', { name: /moderate/i }).click()
-    await expect(page.getByRole('heading', { name: 'Review your body signals' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Where do you notice a body sensation?' })).toBeVisible()
+    await expect(page.getByTestId('body-signal-chest')).toBeFocused()
     await expect(page.getByTestId('body-evidence-note')).toContainText(
       'Possible words come from broad group patterns and curated hypotheses.',
     )
@@ -90,6 +91,45 @@ test.describe('Body Compass staged route', () => {
     await expect(page.getByRole('dialog')).toHaveCount(0)
   })
 
+  test('offers a semantic region list without duplicating the visual map', async ({ page }) => {
+    await openBodyCompass(page)
+    await page.getByRole('button', { name: 'List' }).click()
+
+    await expect(page.getByTestId('bodymap-root')).toHaveCount(0)
+    const list = page.getByRole('group', { name: 'Body areas' })
+    const chest = list.getByRole('button', { name: 'Chest' })
+    await expect(chest).toHaveAttribute('aria-pressed', 'false')
+    await chest.focus()
+    await page.keyboard.press('Enter')
+    await expect(page.getByRole('heading', { name: 'What do you feel here?' })).toBeVisible()
+  })
+
+  test('keeps the inline signal, evidence, and action in document order on compact screens', async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 568 })
+    await openBodyCompass(page)
+    await page.getByRole('button', { name: 'List' }).click()
+    await page.getByRole('group', { name: 'Body areas' }).getByRole('button', { name: 'Chest' }).click()
+    await page.getByRole('button', { name: 'Tension' }).click()
+    await page.getByRole('button', { name: /moderate/i }).click()
+
+    const signal = page.getByTestId('body-signal-chest')
+    const evidence = page.getByTestId('body-evidence-note')
+    const action = page.getByRole('button', { name: 'See what might fit' })
+    await evidence.scrollIntoViewIfNeeded()
+    expect(await action.locator('..').evaluate((element) => getComputedStyle(element).position)).toBe('static')
+
+    const [signalBox, evidenceBox, actionBox] = await Promise.all([
+      signal.boundingBox(),
+      evidence.boundingBox(),
+      action.boundingBox(),
+    ])
+    expect(signalBox).not.toBeNull()
+    expect(evidenceBox).not.toBeNull()
+    expect(actionBox).not.toBeNull()
+    expect(signalBox!.y + signalBox!.height).toBeLessThanOrEqual(evidenceBox!.y)
+    expect(evidenceBox!.y + evidenceBox!.height).toBeLessThanOrEqual(actionBox!.y)
+  })
+
   test('supports body side, step back, draft skip, and a no-signal exit', async ({ page }) => {
     await openBodyCompass(page)
     await page.getByRole('button', { name: 'Back', exact: true }).nth(1).click()
@@ -102,7 +142,7 @@ test.describe('Body Compass staged route', () => {
     await expect(page.getByRole('heading', { name: 'What do you feel here?' })).toBeVisible()
 
     await page.getByRole('button', { name: 'Choose another area' }).click()
-    await expect(page.getByRole('heading', { name: 'Where do you notice it?' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Where do you notice a body sensation?' })).toBeVisible()
     await page.getByRole('button', { name: 'I do not notice anything right now' }).click()
     await expect(page.getByTestId('arrival-screen')).toBeVisible()
   })
@@ -117,7 +157,6 @@ test.describe('Body Compass staged route', () => {
     await expect(page.getByTestId('body-signal-chest')).toContainText('Warmth - Strong')
     await expect(page.locator('[data-testid="body-signal-chest"]')).toHaveCount(1)
 
-    await page.getByRole('button', { name: 'Add another area' }).click()
     await page.getByRole('button', { name: 'Stomach' }).click()
     await page.getByRole('button', { name: 'Tension' }).click()
     await page.getByRole('button', { name: /moderate/i }).click()

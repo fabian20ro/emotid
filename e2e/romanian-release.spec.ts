@@ -37,7 +37,8 @@ test.describe('Romanian release journeys', () => {
     await page.getByRole('button', { name: 'Piept' }).click()
     await page.getByRole('button', { name: 'Tensiune' }).click()
     await page.getByRole('button', { name: /Moderată/i }).click()
-    await expect(page.getByRole('heading', { name: 'Verificați semnalele corpului' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Unde observați o senzație în corp?' })).toBeVisible()
+    await expect(page.getByTestId('body-signal-chest')).toBeFocused()
     await expect(page.getByTestId('body-evidence-note')).toContainText(
       'Cuvintele posibile provin din tipare generale de grup și ipoteze selectate.',
     )

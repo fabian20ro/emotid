@@ -1,7 +1,7 @@
 import type { EmotionModel, ModelState, SelectionEffect, AnalysisResult } from '../types'
 import { MODEL_IDS } from '../constants'
-import type { SomaticRegion, SomaticSelection } from './types'
-import { scoreSomaticSelections } from './scoring'
+import type { SomaticRegion } from './types'
+import { analyzeSomaticSelections } from './scoring'
 import headData from './data/head.json'
 import torsoFrontData from './data/torso-front.json'
 import torsoBackData from './data/torso-back.json'
@@ -78,10 +78,7 @@ export const somaticModel: EmotionModel<SomaticRegion> = {
   },
 
   analyze(selections: SomaticRegion[]): AnalysisResult[] {
-    // Cast to SomaticSelection — BodyCompassScreen enriches region selections
-    // with selectedSensation and selectedIntensity before they reach here
-    const somaticSelections = selections as SomaticSelection[]
-    return scoreSomaticSelections(somaticSelections)
+    return analyzeSomaticSelections(selections)
   },
 
   getEmotionSize(_emotionId: string, _state: ModelState): 'small' | 'medium' | 'large' {

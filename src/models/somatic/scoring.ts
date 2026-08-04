@@ -1,6 +1,6 @@
-import type { AnalysisResult } from '../types'
+import type { AnalysisResult, BaseEmotion } from '../types'
 import { getCanonicalEmotion } from '../catalog'
-import type { SomaticSelection } from './types'
+import { SENSATION_TYPES, type SomaticSelection } from './types'
 
 interface ScoredEmotion extends AnalysisResult {
   score: number
@@ -13,6 +13,21 @@ const MAX_RESULTS = 4
 /** Absolute score floor: if the best score is below this, downgrade all labels */
 const STRONG_FLOOR = 1.0
 const POSSIBLE_FLOOR = 0.6
+const VALID_SENSATIONS = new Set<string>(SENSATION_TYPES)
+const VALID_INTENSITIES = new Set([1, 2, 3])
+
+export function isCompleteSomaticSelection(selection: BaseEmotion): selection is SomaticSelection {
+  const candidate = selection as Partial<SomaticSelection>
+  return typeof candidate.selectedSensation === 'string'
+    && VALID_SENSATIONS.has(candidate.selectedSensation)
+    && typeof candidate.selectedIntensity === 'number'
+    && VALID_INTENSITIES.has(candidate.selectedIntensity)
+    && Array.isArray(candidate.emotionSignals)
+}
+
+export function analyzeSomaticSelections(selections: readonly BaseEmotion[]): ScoredEmotion[] {
+  return scoreSomaticSelections(selections.filter(isCompleteSomaticSelection))
+}
 
 function getMatchStrength(score: number, maxScore: number): { ro: string; en: string } {
   const ratio = maxScore > 0 ? score / maxScore : 0
@@ -21,7 +36,7 @@ function getMatchStrength(score: number, maxScore: number): { ro: string; en: st
   return { ro: 'merită explorat', en: 'worth exploring' }
 }
 
-export function scoreSomaticSelections(selections: SomaticSelection[]): ScoredEmotion[] {
+export function scoreSomaticSelections(selections: readonly SomaticSelection[]): ScoredEmotion[] {
   if (selections.length === 0) return []
 
   const emotionScores = new Map<

@@ -53,9 +53,14 @@ For each combination, run:
    to the exact replay trigger.
 3. Affect route: destination heading announced, field instructions discoverable, suggestions
    announced after placement.
-4. Word Ladder: intermediary word and both decisions announced; direct completion receives focus.
-5. Save recovery: pending status is polite, failure is announced once, Retry receives normal focus.
-6. Tier-4 support fixture: safety message precedes resources; reflection remains unavailable before
+4. Body Compass: Front, Back, and List modes are distinguishable; list regions are operable; the
+   saved signal receives focus; edit, remove, add-another, evidence, and completion remain
+   discoverable without duplicate map/list announcements.
+5. Word Ladder: intermediary word and both decisions announced; direct completion receives focus.
+6. Save recovery: pending status is polite, failure is announced once, Retry receives normal focus.
+7. Browser history and Journal deletion: Back/Forward restore exact destinations; deleting one
+   entry returns focus to the Journal without reviving stale routes.
+8. Tier-4 support fixture: safety message precedes resources; reflection remains unavailable before
    acknowledgment; resource labels and links are actionable.
 
 Record:
