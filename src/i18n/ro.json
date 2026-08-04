@@ -15,18 +15,9 @@
     "back": "Înapoi"
   },
   "selectionBar": {
-    "title": "Selecțiile tale",
-    "empty": "Nicio selecție",
-    "clear": "Ștergeți tot",
-    "cleared": "Șterse",
-    "undo": "Anulați"
+    "clear": "Ștergeți tot"
   },
   "analyze": {
-    "button": "Analizați",
-    "buttonDisabledSomatic": "Atingeți o zonă a corpului unde observați o senzație",
-    "buttonDisabledDimensional": "Atingeți pătratul unde vă încadrați pe cele două axe",
-    "buttonDisabledDefault": "Selectați o emoție care rezonează cu voi",
-    "resultPrefix": "Selecțiile voastre",
     "exploreAI": "Explorați cu AI",
     "aiPrompt": "Simt {emotions}. Ce înseamnă această emoție și cum o pot înțelege mai bine?",
     "aiPromptMultiple": "Simt o combinație de {emotions}. Cum se leagă aceste emoții și ce ar putea însemna?",
@@ -58,12 +49,6 @@
     "done": "Gata",
     "close": "Închideți introducerea",
     "progress": "Progresul introducerii"
-  },
-  "firstHint": {
-    "somatic": "Atingeți zona unde observați o senzație",
-    "wheel": "Atingeți o emoție care rezonează cu voi",
-    "plutchik": "Atingeți o emoție pentru a vedea cum se conectează",
-    "dimensional": "Atingeți unde simțiți că se află starea voastră"
   },
   "somatic": {
     "pickSensation": "Ce simțiți aici?",
@@ -146,10 +131,6 @@
     "readoutUnpleasant": "mai neplăcut",
     "nearby": "Care cuvânt apropiat vi se potrivește cel mai bine?",
     "clearPlacement": "Ștergeți plasarea"
-  },
-  "wheelBreadcrumb": {
-    "label": "Calea de navigare a emoțiilor",
-    "selectAndReturn": "Selectați {emotion} și reveniți la început"
   },
   "navigation": {
     "today": "Astăzi",

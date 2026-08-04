@@ -14,6 +14,11 @@
 
 ## Architecture & Design Decisions
 
+**[2026-08-04]** Same-document browser navigation needs snapshots, not depth counters — A
+`popstate` event does not say whether traversal moved backward or forward. Store and validate the
+typed destination stack in every History entry, restore that exact snapshot, and rotate a
+generation when a tab reset must invalidate older workflow entries.
+
 **[2026-07-30]** Workflow extraction must preserve recency, not only final values — Ordered
 persistence can have an older base write and a newer revision write in flight together. Model
 workflow status with explicit events, carry whether a resolved write is still latest, and test that

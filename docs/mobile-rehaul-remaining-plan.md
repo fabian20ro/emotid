@@ -1,7 +1,7 @@
 # Remaining Mobile Migration Plan
 
-Status: P20 Journal autonomy complete; physical-device assistive-technology and hardware timing
-acceptance remain, August 3, 2026.
+Status: P21 deterministic navigation and repository truth complete; physical-device
+assistive-technology and hardware timing acceptance remain, August 4, 2026.
 
 ## Completed Since Last Update
 
@@ -523,3 +523,40 @@ caught and fixed a wrapped destructive action by stacking confirmation actions a
    removing obsolete assets or contracts over changing the cap.
 5. Keep the deeper Body Compass redesign deferred until navigation truth and physical release gates
    are complete.
+
+## Completed: P21 Deterministic Navigation and Repository Truth
+
+Browser history entries now carry validated snapshots of the typed destination stack instead of a
+depth counter. Back and Forward restore the exact screen and payload, including nested utility and
+session destinations. Resetting to a tab rotates a navigation generation, so traversing an older
+browser entry cannot revive an abandoned check-in or detail route. Reload still begins at Today;
+no URL router, global store, or persisted draft format was added.
+
+Repository cleanup removed seven production modules with no production importers and three test
+files that exercised only two of those dead controls. Their unreachable i18n keys were removed in
+English and Romanian; legacy preference fields remain in export/reset behavior for existing local
+data compatibility. `ANALYSIS.md` now has an August 2026 disposition table and explicitly points to
+this plan and the codemaps as current sources of truth.
+
+The three PWA PNG icons were recompressed losslessly. Decoded pixel hashes match the originals and
+the production PWA lifecycle accepts the new assets. Production CSS fell from 62.53 to 54.25 kB,
+and total production assets fell from 952,455 to 871,620 bytes without increasing a budget.
+
+**Verification:** red-first hook and Mobile Chrome tests reproduced Forward returning Today. Four
+focused hook tests cover exact Back/Forward restoration, payloads, malformed state, replacement,
+and reset generations. `npm run check` passes 71 active files and 579 tests; removed tests covered
+only unreachable modules. The full 182-case Mobile Safari/Chrome matrix, production PWA lifecycle,
+and performance probe pass. Initial JavaScript is 132,877 bytes gzip, entry JavaScript is 32,236
+bytes gzip, precache is 833.10 KiB, and the diagnostic probe reports 46.5 ms startup, 121-375.2 ms
+first-route opens, and no long tasks.
+
+## Remaining After P21
+
+1. Run the documented VoiceOver/Safari and TalkBack/Chrome acceptance script on physical devices,
+   now including browser Back/Forward, reset behavior, and Journal deletion focus.
+2. Run cold-start and first-route measurements on representative low- and mid-range Android
+   hardware. CI remains a diagnostic proxy, not physical-device evidence.
+3. Plan the deferred Body Compass redesign from observed usability gaps and physical assistive-tech
+   findings before changing its model or interaction sequence.
+4. Address the existing Node `module.register()` and stale Browserslist-data warnings in a bounded
+   dependency-maintenance iteration; they are non-blocking and not P21 regressions.

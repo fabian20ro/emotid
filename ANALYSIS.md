@@ -7,6 +7,27 @@
 > Historical baseline audit. File references and implementation findings describe the February
 > 2026 codebase; current migration status is tracked in `docs/mobile-rehaul-remaining-plan.md`.
 
+## Current Disposition — August 2026
+
+This document is retained as the original multidisciplinary audit, not as current architecture or
+an executable backlog. Its component names, line references, test counts, phase order, and proposed
+files must not be used to plan changes without checking the current source and migration plan.
+
+| Baseline recommendation | Current disposition |
+|---|---|
+| Tier-4 support, temporal disclosure, graduated crisis access | Implemented through one deterministic shared workflow; safety semantics remain explicitly tested. |
+| Quick check-in, emotional granularity practice, and chain analysis | Implemented as optional routed experiences. |
+| Model-first navigation and first-launch model choice | Superseded by experience-first Arrival and Quick entry; named theories remain optional Explore tools. |
+| Modal result/history/settings workspace | Replaced by Today, Reflection, Journal, Settings, and utility screens with typed navigation. |
+| Lazy model loading and offline visibility | Implemented with explicit feature boundaries, production budgets, and PWA lifecycle tests. |
+| Progression nudges, reminders, effectiveness tracking, and simple-language mode | Not approved current scope; these require separate product, privacy, and psychological review. |
+| Deeper somatic/body redesign | Deferred until navigation truth and physical-device acceptance are complete. |
+| Master combination model | Rejected because the underlying emotion frameworks are not interchangeable scoring systems. |
+
+The active sequence and verification evidence live in
+[`docs/mobile-rehaul-remaining-plan.md`](docs/mobile-rehaul-remaining-plan.md); current structure
+lives in [`docs/CODEMAPS/architecture.md`](docs/CODEMAPS/architecture.md).
+
 ---
 
 ## Table of Contents

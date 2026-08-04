@@ -1221,3 +1221,28 @@ new confirmation abstraction was introduced.
 **Insight:** Longitudinal presentation should encode its evidence floor independently from storage,
 and deletion tests must cover the threshold transition rather than only repository removal.
 **Promoted to Lessons Learned:** Yes — explicit longitudinal evidence thresholds.
+
+---
+
+### [2026-08-04] Complete P21 deterministic navigation and repository truth
+
+**Context:** Browser history stored only stack depth and every `popstate` removed one route, making
+Forward behave like Back. The historical audit still looked actionable, dead legacy UI remained in
+source/tests, and production assets had only 7,545 bytes of budget margin.
+**What happened:**
+- Added validated typed stack snapshots to History entries and reset generations that prevent stale
+  check-in or utility routes from returning after a tab reset.
+- Used red-first hook and Playwright coverage for exact Back/Forward, nested destinations, payloads,
+  malformed state, replacement, and reset traversal.
+- Removed seven modules with zero production importers, their three isolated legacy test files, and
+  bilingual keys with no remaining callers; retained old preference export/reset compatibility.
+- Reconciled `ANALYSIS.md` through a current disposition table and living-document links.
+- Recompressed all PWA PNG icons losslessly; decoded hashes stayed identical.
+**Outcome:** `npm run check` passes 71 active files and 579 tests. All 182 Mobile Safari/Chrome
+cases, the production PWA lifecycle, and the performance proxy pass. Production assets are 871,620
+of 960,000 bytes, down 80,835 bytes; CSS is down 8.28 kB. The proxy reports 46.5 ms startup,
+121-375.2 ms first-route opens, and no long tasks.
+**Insight:** History direction cannot be inferred from `popstate`; exact snapshots plus reset
+generations are the smallest deterministic model. Dead Tailwind-scanned source can cost production
+CSS even when its JavaScript is tree-shaken.
+**Promoted to Lessons Learned:** Yes — browser History snapshots and reset generations.

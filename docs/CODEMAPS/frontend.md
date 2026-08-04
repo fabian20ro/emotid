@@ -1,6 +1,6 @@
 # Frontend Codemap
 
-**Last Updated:** 2026-08-03
+**Last Updated:** 2026-08-04
 
 ## Component Tree
 
@@ -72,10 +72,6 @@ directional readout, and same three nearest suggestions. The focusable SVG expos
 nonvisual keyboard instructions and a visible semantic focus ring. Before placement, a centered
 prompt makes the otherwise empty progressive field visibly actionable; axis labels use a readable
 mobile scale.
-
-### SelectionBar Reserved Height
-
-SelectionBar maintains a fixed `52px` reserved height even when empty, preventing visualization area reflow on first selection.
 
 ### Journal Evidence and Deletion
 

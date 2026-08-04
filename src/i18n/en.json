@@ -15,18 +15,9 @@
     "back": "Go back"
   },
   "selectionBar": {
-    "title": "Your selections",
-    "empty": "No selection",
-    "clear": "Clear all",
-    "cleared": "Cleared",
-    "undo": "Undo"
+    "clear": "Clear all"
   },
   "analyze": {
-    "button": "Analyze",
-    "buttonDisabledSomatic": "Tap a body area where you notice a sensation",
-    "buttonDisabledDimensional": "Tap the square where your state fits on the two axes",
-    "buttonDisabledDefault": "Select an emotion that resonates with you",
-    "resultPrefix": "Your selections",
     "exploreAI": "Explore with AI",
     "aiPrompt": "I feel {emotions}. What does this emotion mean and how can I understand it better?",
     "aiPromptMultiple": "I feel a combination of {emotions}. How do these emotions relate and what might this mean?",
@@ -58,12 +49,6 @@
     "done": "Done",
     "close": "Close introduction",
     "progress": "Introduction progress"
-  },
-  "firstHint": {
-    "somatic": "Tap where you notice a sensation",
-    "wheel": "Tap an emotion that resonates with you",
-    "plutchik": "Tap an emotion to see how it connects",
-    "dimensional": "Tap where your state feels located"
   },
   "somatic": {
     "pickSensation": "What do you feel here?",
@@ -146,10 +131,6 @@
     "readoutUnpleasant": "more unpleasant",
     "nearby": "Which nearby word feels closest?",
     "clearPlacement": "Clear placement"
-  },
-  "wheelBreadcrumb": {
-    "label": "Emotion navigation path",
-    "selectAndReturn": "Select {emotion} and return to start"
   },
   "navigation": {
     "today": "Today",

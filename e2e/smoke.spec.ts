@@ -14,14 +14,33 @@ test.describe('First run and shell', () => {
     await expect(page.getByTestId('today-screen')).toBeVisible()
   })
 
-  test('navigates Today, Explore, Journal and supports browser Back', async ({ page }) => {
+  test('restores exact destinations with browser Back and Forward', async ({ page }) => {
     await openApp(page)
     await page.getByRole('button', { name: 'Start a check-in' }).click()
     await expect(page.getByTestId('arrival-screen')).toBeVisible()
     await page.goBack()
     await expect(page.getByTestId('today-screen')).toBeVisible()
 
+    await page.goForward()
+    await expect(page.getByTestId('arrival-screen')).toBeVisible()
+
     await page.getByRole('button', { name: 'Explore' }).click()
+    await expect(page.getByTestId('explore-screen')).toBeVisible()
+    await page.goBack()
+    await expect(page.getByTestId('explore-screen')).toBeVisible()
+    await page.goForward()
+    await expect(page.getByTestId('explore-screen')).toBeVisible()
+
+    await page.getByRole('button', { name: 'Settings' }).click()
+    await page.getByRole('button', { name: 'Privacy & data' }).click()
+    await expect(page.getByTestId('privacy-screen')).toBeVisible()
+    await page.goBack()
+    await expect(page.getByRole('heading', { name: 'Settings' })).toBeVisible()
+    await page.goForward()
+    await expect(page.getByTestId('privacy-screen')).toBeVisible()
+
+    await page.goBack()
+    await page.goBack()
     await expect(page.getByTestId('explore-screen')).toBeVisible()
     await page.getByRole('button', { name: 'Journal', exact: true }).click()
     await expect(page.getByTestId('journal-screen')).toBeVisible()

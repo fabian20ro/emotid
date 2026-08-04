@@ -32,7 +32,7 @@ test('Romanian values should be different from English values', () => {
     str.toLowerCase().startsWith('...') ||
     str.toLowerCase().endsWith('...');
 
-  const knownIdentical = ['app.title', 'app.subtitle', 'app de', 'app.languageRo', 'app.languageEn', 'selectionBar.clear', 'selectionBar.cleared', 'selectionBar.undo', 'onboarding.next', 'onboarding.back', 'menu.languageRo', 'menu.languageEn', 'onboarding.getStarted', 'menu.model'];
+  const knownIdentical = ['app.title', 'app.subtitle', 'app de', 'app.languageRo', 'app.languageEn', 'selectionBar.clear', 'onboarding.next', 'onboarding.back', 'menu.languageRo', 'menu.languageEn', 'onboarding.getStarted', 'menu.model'];
 
   const checkDifferences = (objEn: Record<string, unknown>, objRo: Record<string, unknown>, prefix = '') => {
     for (const key in objEn) {

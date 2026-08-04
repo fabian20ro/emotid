@@ -1,6 +1,6 @@
 # Architecture Codemap
 
-**Last Updated:** 2026-08-03
+**Last Updated:** 2026-08-04
 
 ## Component Tree
 
@@ -77,6 +77,16 @@ to IndexedDB. Session Detail calls an injected delete callback, while `App` comp
 history repository operation with route replacement after success. This keeps persistence,
 presentation, and navigation separately testable without a second repository abstraction or a
 global journal store.
+
+### Browser History
+
+`useAppNavigation` remains the single navigation owner. Each same-document History entry stores a
+validated snapshot of the typed destination stack, allowing browser Back and Forward to restore the
+exact route and route payload. Tab resets rotate a navigation ID; entries from an older ID are
+replaced with the current root instead of reviving an abandoned check-in or utility route.
+
+History state is intentionally ephemeral. Reload starts at Today, and route state carries only
+destination names and IDs. No URL router, persistence layer, or global navigation store is needed.
 
 ## Related Codemaps
 
