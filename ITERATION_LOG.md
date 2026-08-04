@@ -1274,3 +1274,34 @@ console errors and no horizontal overflow. Physical VoiceOver/TalkBack acceptanc
 **Insight:** Enriched psychological selections need one runtime-validating boundary before scoring;
 alternate visual and semantic selectors should converge on one activation flow.
 **Promoted to Lessons Learned:** Yes — fail-closed enriched-input analysis.
+
+---
+
+### [2026-08-04] Complete P23 release-candidate baseline and evidence contract
+
+**Context:** Node 26 builds and Playwright workers emitted `module.register()` deprecations,
+Browserslist data was stale, Chromium warned about missing standards PWA capability metadata, and
+the remaining physical VoiceOver/TalkBack and Android timing gates had no candidate-bound evidence
+record.
+**What happened:**
+- Added a red-first document contract for standards plus Apple PWA capability metadata and verified
+  both declarations in the production offline/update lifecycle.
+- Upgraded the synchronized Tailwind cohort to 4.3.3, Playwright to 1.62.1, and Browserslist data;
+  traced build and test entrypoints to prove both deprecated loader owners were removed.
+- Added one physical evidence template covering candidate identity, bilingual browser/installed-PWA
+  VoiceOver and TalkBack journeys, three-run Android medians, temporary DevTools-only save failure
+  and tier-4 fixtures, defect disposition, and sign-off.
+- Adapted upgraded-browser tests with explicit IndexedDB completion gates and direct offline network
+  proof. Enriched the performance artifact with activation and per-resource timing, then used a
+  page-side readiness mark so matcher polling could not inflate route timing.
+- Inspected Today, Arrival, Affect, Body List, and Plutchik at `393x742` light and `320x568` dark;
+  every capture had exact viewport width and no console error or warning.
+**Outcome:** `npm run check` passes 72 files and 581 tests; all 186 Mobile Safari/Chrome cases, the
+production PWA lifecycle, and the performance proxy pass. Initial JavaScript is 132,914 bytes gzip;
+production assets are 874,828 of 960,000 bytes. The proxy reports about 50 ms startup, 35 ms
+Body/Affect/Words, 324 ms Plutchik, and no long tasks. Production dependency audit findings: zero.
+Physical synthesized-speech, installed-device, and low/mid Android timing acceptance remains open.
+**Insight:** Deprecations must be traced per executable entrypoint, and deterministic browser tests
+must gate the event they care about rather than sleeping around it.
+**Promoted to Lessons Learned:** Yes — entrypoint-specific deprecation tracing and explicit async
+event gates.

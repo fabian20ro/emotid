@@ -1,7 +1,11 @@
 import { expect, test, type Page } from '@playwright/test'
 import { completeQuick, openApp, openArrival } from './helpers'
 
-type InstrumentedWindow = Window & { __sessionPutAttempts: number }
+type InstrumentedWindow = Window & {
+  __pendingSessionTransactions: number
+  __releaseSessionTransactions: () => void
+  __sessionPutAttempts: number
+}
 
 async function instrumentSessionWrites(page: Page, failures: number) {
   await page.addInitScript(({ failureCount }) => {
@@ -37,28 +41,42 @@ async function failSessionWriteAttempts(page: Page, failedAttempts: number[]) {
   }, { attempts: failedAttempts })
 }
 
-async function delayTransactionCompletion(page: Page, delayMs: number) {
-  await page.addInitScript(({ delay }) => {
-    const descriptor = Object.getOwnPropertyDescriptor(IDBTransaction.prototype, 'oncomplete')
-    if (!descriptor?.get || !descriptor.set) return
+async function holdTransactionCompletions(page: Page) {
+  await page.addInitScript(() => {
+    const target = window as InstrumentedWindow
+    const originalTransaction = IDBDatabase.prototype.transaction
+    const handlers = new WeakMap<IDBTransaction, ((this: IDBTransaction, event: Event) => unknown) | null>()
+    const pending: Array<() => void> = []
+    target.__pendingSessionTransactions = 0
 
-    Object.defineProperty(IDBTransaction.prototype, 'oncomplete', {
-      configurable: true,
-      get() {
-        return descriptor.get!.call(this)
-      },
-      set(handler: ((this: IDBTransaction, event: Event) => unknown) | null) {
-        descriptor.set!.call(
-          this,
-          handler
-            ? function delayedCompletion(this: IDBTransaction, event: Event) {
-                window.setTimeout(() => handler.call(this, event), delay)
-              }
-            : null,
-        )
-      },
-    })
-  }, { delay: delayMs })
+    target.__releaseSessionTransactions = () => {
+      target.__pendingSessionTransactions = 0
+      pending.splice(0).forEach((complete) => complete())
+    }
+
+    IDBDatabase.prototype.transaction = function transaction(
+      ...args: Parameters<IDBDatabase['transaction']>
+    ) {
+      const current = Reflect.apply(originalTransaction, this, args) as IDBTransaction
+      Object.defineProperty(current, 'oncomplete', {
+        configurable: true,
+        get() {
+          return handlers.get(current) ?? null
+        },
+        set(handler: ((this: IDBTransaction, event: Event) => unknown) | null) {
+          handlers.set(current, handler)
+          if (handler) {
+            current.addEventListener('complete', function controlledCompletion(event) {
+              const complete = () => handler.call(current, event)
+              pending.push(complete)
+              target.__pendingSessionTransactions = pending.length
+            }, { once: true })
+          }
+        },
+      })
+      return current
+    } as IDBDatabase['transaction']
+  })
 }
 
 async function putAttempts(page: Page) {
@@ -80,12 +98,16 @@ test.describe('Reflection persistence trust', () => {
 
   test('captures the check-in before optional reflection and ignores rapid duplicate submissions', async ({ page }) => {
     await instrumentSessionWrites(page, 0)
-    await delayTransactionCompletion(page, 500)
+    await holdTransactionCompletions(page)
     await openApp(page)
     await completeQuick(page, 'anxiety')
 
     await expect(page.locator('.session-save-status')).toContainText('Saving your check-in')
     await expect.poll(() => putAttempts(page)).toBe(1)
+    await expect.poll(() => page.evaluate(
+      () => (window as InstrumentedWindow).__pendingSessionTransactions,
+    )).toBe(1)
+    await page.evaluate(() => (window as InstrumentedWindow).__releaseSessionTransactions())
     await expect(page.locator('.session-save-status')).toContainText('Check-in saved')
 
     await page.getByRole('button', { name: 'Done for now' }).evaluate((button) => {
@@ -95,8 +117,12 @@ test.describe('Reflection persistence trust', () => {
     })
 
     await expect(page.getByTestId('reflection-screen')).toHaveAttribute('aria-busy', 'true')
-    await expect(page.getByTestId('today-screen')).toBeVisible()
     await expect.poll(() => putAttempts(page)).toBe(2)
+    await expect.poll(() => page.evaluate(
+      () => (window as InstrumentedWindow).__pendingSessionTransactions,
+    )).toBe(1)
+    await page.evaluate(() => (window as InstrumentedWindow).__releaseSessionTransactions())
+    await expect(page.getByTestId('today-screen')).toBeVisible()
     await page.getByRole('button', { name: 'Journal', exact: true }).click()
     await expect(page.locator('.journal-list button')).toHaveCount(1)
   })
@@ -170,16 +196,24 @@ test.describe('Reflection persistence trust', () => {
 
   test('does not treat an older saved choice as capture of a failed revision', async ({ page }) => {
     await failSessionWriteAttempts(page, [2, 3])
-    await delayTransactionCompletion(page, 500)
+    await holdTransactionCompletions(page)
     await openApp(page)
     await openArrival(page)
     await page.getByTestId('arrival-words').click()
     await page.getByRole('button', { name: 'Happy' }).click()
     await page.getByRole('button', { name: 'Continue with Happy' }).click()
+    await expect(page.locator('.session-save-status')).toContainText('Saving your check-in')
+    await expect.poll(() => putAttempts(page)).toBe(1)
+    await expect.poll(() => page.evaluate(
+      () => (window as InstrumentedWindow).__pendingSessionTransactions,
+    )).toBe(1)
 
     await page.getByRole('button', { name: 'Back' }).click()
     await page.getByRole('button', { name: 'Sad' }).click()
     await page.getByRole('button', { name: 'Continue with Sad' }).click()
+    await expect(page.locator('.session-save-status')).toContainText('Saving your check-in')
+    await page.evaluate(() => (window as InstrumentedWindow).__releaseSessionTransactions())
+    await expect.poll(() => putAttempts(page)).toBe(2)
     await expect(page.locator('.session-save-status')).toContainText('latest selection has not been saved yet')
 
     await page.getByRole('button', { name: 'Done for now' }).click()

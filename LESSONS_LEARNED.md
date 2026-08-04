@@ -111,6 +111,12 @@ and a two-version update while asserting IndexedDB survival.
 
 ## Dependencies & External Services
 
+**[2026-08-04]** Trace deprecations through every executable entrypoint — A production build and a
+browser-test worker can call the same deprecated Node API through different owners. Run traced
+focused commands for each affected entrypoint, upgrade direct/synchronized cohorts at their
+owners, and verify the resolved tree; do not infer that one clean build or a warning suppression
+fixes the runner.
+
 **[2026-08-03]** GitHub namespace retirement and Git transport state can diverge — Account or
 organization renames can permanently retire heavily used `OWNER/REPOSITORY` combinations. A live
 repository may remain readable through the web and REST API with `disabled: false` while smart
@@ -130,6 +136,11 @@ ID, retain the repository as a metadata archive and publish a fresh repository I
 **[2026-04-11]** Vitest packages must move together — Upgrading `vitest` without matching `@vitest/coverage-v8` left `package-lock.json` with incompatible peers and broke `npm ci` in CI. Treat `vitest` and `@vitest/*` helpers as a synchronized set; regenerate the lockfile and verify with fresh `npm ci`.
 
 ## Process & Workflow
+
+**[2026-08-04]** Async browser races need explicit event gates, not fixed delays — Browser and
+runner upgrades change how quickly a transient state can disappear. Hold the actual completion
+event, assert the pending state and operation count, then release it explicitly. Keep page-native
+timestamps separate from Playwright matcher polling when collecting performance evidence.
 
 **[2026-03-29]** Keep `AGENTS.md` in the ROM layer only — if a fact is discoverable from code, docs, configs, or tests, keep it out of bootstrap memory. Put repeated corrections in `LESSONS_LEARNED.md`; keep raw single-session observations in `ITERATION_LOG.md`.
 

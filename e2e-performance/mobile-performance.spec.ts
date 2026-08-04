@@ -2,11 +2,18 @@ import { writeFile } from 'node:fs/promises'
 import { expect, test, type Page, type TestInfo } from '@playwright/test'
 
 interface BrowserMetrics {
+  activationMs?: number
   durationMs: number
   transferBytes: number
   decodedBytes: number
   longTasks: Array<{ startTime: number; duration: number }>
-  resources: string[]
+  resources: Array<{
+    path: string
+    startTime: number
+    duration: number
+    transferBytes: number
+    decodedBytes: number
+  }>
 }
 
 async function prepare(page: Page) {
@@ -47,7 +54,13 @@ async function snapshot(page: Page, startTime: number): Promise<BrowserMetrics> 
       transferBytes: relevant.reduce((total, entry) => total + entry.transferSize, 0),
       decodedBytes: relevant.reduce((total, entry) => total + entry.decodedBodySize, 0),
       longTasks: (metricsWindow.__emotIdLongTasks ?? []).filter((entry) => entry.startTime >= start),
-      resources: relevant.map((entry) => new URL(entry.name).pathname),
+      resources: relevant.map((entry) => ({
+        path: new URL(entry.name).pathname,
+        startTime: entry.startTime,
+        duration: entry.duration,
+        transferBytes: entry.transferSize,
+        decodedBytes: entry.decodedBodySize,
+      })),
     }
   }, startTime)
 }
@@ -68,10 +81,31 @@ async function measureRoute(
     await page.getByRole('button', { name: /start a check-in/i }).click()
     await expect(page.getByTestId('arrival-screen')).toBeVisible()
   }
+  const routeTrigger = page.getByTestId(`${route === 'plutchik' ? 'explore' : 'arrival'}-${route}`)
+  await routeTrigger.click({ trial: true })
+  await page.evaluate((testId) => {
+    const metricsWindow = window as typeof window & { __emotIdRouteReadyAt?: number }
+    delete metricsWindow.__emotIdRouteReadyAt
+    const observer = new MutationObserver(() => {
+      if (!document.querySelector(`[data-testid="${testId}"]`)) return
+      metricsWindow.__emotIdRouteReadyAt = performance.now()
+      observer.disconnect()
+    })
+    observer.observe(document.body, { childList: true, subtree: true })
+  }, `${route}-screen`)
   const start = await page.evaluate(() => performance.now())
-  await page.getByTestId(`${route === 'plutchik' ? 'explore' : 'arrival'}-${route}`).click()
+  await routeTrigger.click()
+  const activated = await page.evaluate(() => performance.now())
   await expect(page.getByTestId(`${route}-screen`)).toBeVisible()
-  return snapshot(page, start)
+  const ready = await page.evaluate(() => (
+    window as typeof window & { __emotIdRouteReadyAt?: number }
+  ).__emotIdRouteReadyAt)
+  const metrics = await snapshot(page, start)
+  return {
+    ...metrics,
+    activationMs: activated - start,
+    durationMs: ready === undefined ? metrics.durationMs : ready - start,
+  }
 }
 
 async function attachSummary(testInfo: TestInfo, summary: unknown) {

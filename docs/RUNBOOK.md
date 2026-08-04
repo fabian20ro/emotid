@@ -66,3 +66,18 @@ No server-side monitoring. Health indicators:
 
 See `docs/release-quality-gates.md` for physical mobile-performance thresholds and the mandatory
 VoiceOver/Safari plus TalkBack/Chrome acceptance script.
+
+## Release Candidate Evidence
+
+1. Record the candidate SHA, deployed URL, workflow URL, and device inventory in
+   `docs/physical-release-evidence.md`.
+2. Run `npm ci`, `npm ls`, `npm audit --omit=dev`, and every automated gate from
+   `docs/release-quality-gates.md` against that SHA.
+3. Complete the bilingual browser/installed-PWA VoiceOver and TalkBack matrix on physical devices.
+4. Complete three cold/warm performance runs on representative low- and mid-tier Android devices.
+5. Fix only reproduced failures, add the closest deterministic regression, redeploy, and retest the
+   failed physical row.
+
+Do not sign off synthesized speech, screen-reader gestures, installed behavior, or hardware timing
+from Playwright. The template's console fixtures are temporary inspection tools and must never
+become production query parameters or runtime test hooks.

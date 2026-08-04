@@ -46,6 +46,8 @@ test('offline reopen and automatic update preserve local check-ins', async ({ co
     'content',
     'Emot-ID helps you explore emotions through words, body sensations, and affect mapping.',
   )
+  await expect(page.locator('meta[name="mobile-web-app-capable"]')).toHaveAttribute('content', 'yes')
+  await expect(page.locator('meta[name="apple-mobile-web-app-capable"]')).toHaveAttribute('content', 'yes')
   await expect(page.locator('link[rel="icon"]')).toHaveAttribute('href', '/emotid/icon-192.png')
 
   await waitForServiceWorkerControl(page)
@@ -70,11 +72,24 @@ test('offline reopen and automatic update preserve local check-ins', async ({ co
   expect(cachedPaths.some((path) => path.includes('/assets/PlutchikWheel-'))).toBe(true)
   expect(cachedPaths.some((path) => path.includes('/assets/DimensionalField-'))).toBe(true)
 
-  await context.setOffline(true)
   await page.close()
   const offlinePage = await context.newPage()
+  await context.setOffline(true)
   await offlinePage.goto('http://127.0.0.1:4174/emotid/')
   await expect(offlinePage.getByTestId('today-screen')).toBeVisible()
+  const networkIsOffline = await offlinePage.evaluate(async () => {
+    try {
+      await fetch('http://127.0.0.1:4174/__pwa-test/version', { cache: 'no-store' })
+      return false
+    } catch {
+      return true
+    }
+  })
+  expect(networkIsOffline).toBe(true)
+  await offlinePage.evaluate(() => {
+    // Chromium can emulate failed requests on a new target without updating navigator.onLine.
+    if (navigator.onLine) window.dispatchEvent(new Event('offline'))
+  })
   await expect(offlinePage.getByRole('status')).toContainText(/offline/i)
 
   await offlinePage.getByRole('button', { name: 'Journal', exact: true }).click()

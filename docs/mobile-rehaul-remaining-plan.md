@@ -585,3 +585,37 @@ Browser automation does not close the physical screen-reader gate.
    browser regression without claiming synthesized-speech coverage.
 4. Address the existing Node `module.register()` and stale Browserslist-data warnings in a bounded
    dependency-maintenance iteration; they are non-blocking and not P21 regressions.
+
+## Completed: P23 Release-Candidate Baseline and Evidence Contract
+
+Tailwind CSS, its Vite integration, and its internal Node loader now resolve to the synchronized
+4.3.3 release. The loader uses Node's current synchronous registration path, removing the traced
+`module.register()` deprecation without suppression or a direct dependency on Tailwind internals.
+Playwright 1.62.1 removes the same deprecated loader path from test workers. Browserslist
+compatibility data is current, and the standards `mobile-web-app-capable` declaration now
+accompanies the existing Apple declaration with unit and production-PWA coverage.
+
+One physical release-evidence template now defines the exact commit/device matrix, all eight
+bilingual VoiceOver/Safari and TalkBack/Chrome journeys, browser and installed-PWA modes, three-run
+Android timing tables, artifact references, temporary DevTools-only failure fixtures, defect
+disposition, and sign-off. It adds no production test hook, telemetry, backend, or runtime branch.
+
+**Verification:** clean `npm ci`, synchronized dependency-tree inspection, zero production audit
+findings, and traced production/Playwright entrypoints pass without `module.register()` or stale
+Browserslist warnings. `npm run check` passes 72 files and 581 tests; the complete 186-case Mobile
+Safari/Chrome matrix, production PWA lifecycle, metadata contract, and performance probe pass.
+Initial JavaScript is 132,914 bytes gzip and production assets are 874,828 of 960,000 bytes. The
+browser-native diagnostic proxy records about 50 ms startup, 35 ms Body/Affect/Words, 324 ms
+Plutchik, and no long tasks. Screenshot inspection covers light `393x742` and dark `320x568`
+states without console messages or horizontal overflow. Physical acceptance remains open.
+
+## Remaining After P23
+
+1. Complete the evidence template on physical VoiceOver/Safari and TalkBack/Chrome devices for the
+   exact deployed candidate, in English and Romanian, in browser and installed-PWA modes.
+2. Record three-run medians on representative low- and mid-tier Android hardware; attach raw traces
+   or 60 fps recordings and compare them with the documented targets.
+3. Fix only failures reproduced on the named device combination. Start each fix with the closest
+   deterministic browser regression, then rerun automated gates and the failed physical row.
+4. Sign off the release only when the physical matrix, hardware timing, automated workflow, and
+   release-blocking defect table are complete. Keep product expansion out of this closure phase.

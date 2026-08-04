@@ -38,6 +38,9 @@ Use the median for the release decision.
 If a target fails, profile that journey before changing code. Do not replace timing evidence with
 bundle-size inference.
 
+Record all three raw runs, medians, environment details, and artifact references in
+`docs/physical-release-evidence.md`. Run against the exact deployed commit being released.
+
 ## Physical Assistive-Technology Acceptance
 
 Playwright cannot validate synthesized speech, rotor/local-context navigation, or screen-reader
@@ -46,7 +49,8 @@ gestures. Complete both combinations:
 1. VoiceOver with Safari on an Apple device.
 2. TalkBack with Chrome on Android.
 
-For each combination, run:
+For each combination, run every journey in English and Romanian, in Safari/Chrome and the installed
+PWA:
 
 1. First-run introduction: every step title, explanation, and progress announced once and in order.
 2. Settings replay: background unavailable, dialog bounded, swipe navigation trapped, Close returns
@@ -77,3 +81,7 @@ Record:
 
 Fix only reproduced defects. Add the closest browser-observable regression without claiming that it
 tests synthesized speech. This gate remains open until both physical combinations pass.
+
+Use `docs/physical-release-evidence.md` as the release record. It contains the complete language,
+browser/installed-mode matrix, performance table, evidence fields, and temporary DevTools-only save
+failure fixture.
