@@ -512,8 +512,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .emotion-heading i { width: 9px; height: 9px; border-radius: 50%; }
 .reflection-screen .emotion-heading { margin-top: 16px; }
 .reflection-synthesis { margin: 0 0 16px; font-size: 16px; line-height: 1.5; }
-.reflection-actions { margin-top: 4px; display: grid; gap: 8px; }
-.reflection-actions button { width: 100%; }
+.reflection-actions { margin-top: 4px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.reflection-actions button { min-width: 0; width: 100%; padding-inline: 10px; }
 .reflection-exploration-screen .screen-lede { margin-bottom: 20px; }
 .reflection-exploration-finish { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line); }
 .reflection-exploration-finish .primary-button { width: 100%; }
@@ -646,6 +646,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 @media (max-width: 359px) {
   .screen-title { font-size: 27px; }
   .quick-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .reflection-actions button { font-size: 14px; line-height: 1.2; }
 }
 
 @media (max-width: 430px) {

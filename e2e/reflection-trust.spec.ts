@@ -1,5 +1,22 @@
-import { expect, test } from '@playwright/test'
+import { expect, test, type Page } from '@playwright/test'
 import { completeQuick, openApp } from './helpers'
+
+async function expectCompactActions(page: Page, doneName: string, exploreName: string) {
+  const done = page.getByRole('button', { name: doneName })
+  const explore = page.getByRole('button', { name: exploreName })
+  await expect(done).toBeInViewport()
+  await expect(explore).toBeInViewport()
+  const [doneBox, exploreBox] = await Promise.all([done.boundingBox(), explore.boundingBox()])
+  expect(doneBox).not.toBeNull()
+  expect(exploreBox).not.toBeNull()
+  expect(Math.abs(doneBox!.y - exploreBox!.y)).toBeLessThan(1)
+  for (const box of [doneBox!, exploreBox!]) {
+    expect(box.x).toBeGreaterThanOrEqual(16)
+    expect(box.x + box.width).toBeLessThanOrEqual(304)
+    expect(box.height).toBeGreaterThanOrEqual(48)
+  }
+  return { done, explore }
+}
 
 test.describe('Reflection trust boundary', () => {
   test.beforeEach(async ({ page }) => openApp(page))
@@ -55,15 +72,7 @@ test.describe('Reflection trust boundary', () => {
     await expect(page.getByRole('group', { name: 'What feels most needed right now?' })).toHaveCount(0)
     await expect(page.getByRole('link', { name: 'Explore with AI' })).toHaveCount(0)
 
-    const done = page.getByRole('button', { name: 'Done for now' })
-    const explore = page.getByRole('button', { name: 'Explore further' })
-    await expect(done).toBeInViewport()
-    await expect(explore).toBeInViewport()
-    for (const action of [done, explore]) {
-      const box = await action.boundingBox()
-      expect(box!.x).toBeGreaterThanOrEqual(16)
-      expect(box!.x + box!.width).toBeLessThanOrEqual(304)
-    }
+    const { explore } = await expectCompactActions(page, 'Done for now', 'Explore further')
 
     await explore.focus()
     await page.keyboard.press('Enter')
@@ -73,6 +82,17 @@ test.describe('Reflection trust boundary', () => {
 
     await page.getByRole('button', { name: 'Back' }).click()
     await expect(explore).toBeFocused()
+  })
+
+  test('keeps Romanian compact actions readable without scrolling', async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 568 })
+    await page.getByRole('button', { name: 'Settings' }).click()
+    await page.getByRole('button', { name: 'RO', exact: true }).click()
+    await page.getByRole('button', { name: 'Înapoi' }).click()
+    await page.getByTestId('quick-feeling-anxiety').click()
+    await page.getByTestId('quick-continue').click()
+
+    await expectCompactActions(page, 'Gata pentru acum', 'Explorați mai mult')
   })
 
   test('Romanian mismatch recovery remains in bounds', async ({ page }) => {

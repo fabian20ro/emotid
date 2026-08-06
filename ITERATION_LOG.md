@@ -1515,3 +1515,25 @@ performance proxy pass.
 "not reviewed" from "reviewed and intentionally omitted," so it causes repeated work or pressure
 to invent a mapping.
 **Promoted to Lessons Learned:** No — first occurrence; retain in the iteration record.
+
+---
+
+### [2026-08-07] Keep both compact Reflection choices in the first viewport
+
+**Context:** The complete local browser suite passed after the guidance migration, but the GitHub
+runner consistently placed the secondary Reflection action below a 320x568 viewport in both
+Mobile Safari and Mobile Chrome.
+**What happened:**
+- Inspected the failed workflow log, report screenshots, and traces instead of weakening the
+  viewport contract.
+- Added a red-first geometry assertion requiring the primary exit and optional exploration action
+  to share one row, remain within horizontal bounds, and retain at least a 48px target height.
+- Changed the two compact actions to equal grid columns and tightened only their narrow-screen
+  typography; added the same viewport contract for the longer Romanian labels.
+**Outcome:** `npm run check` passes 73 Vitest files and 590 tests. All 192 Mobile Safari/Chrome
+Playwright cases, the production PWA lifecycle, and the mobile performance proxy pass locally.
+**Insight:** Existing viewport-visibility guidance applies: critical compact choices need measured
+geometry in every supported locale, because environment-specific font metrics can expose an extra
+row that a local visibility-only run misses.
+**Promoted to Lessons Learned:** No — covered by the existing mobile viewport visibility and
+measurement lessons.
