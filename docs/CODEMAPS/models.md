@@ -1,14 +1,15 @@
 # Emotion Models Codemap
 
-**Last Updated:** 2026-07-29
+**Last Updated:** 2026-08-07
 **Location:** `src/models/`
 
 ## Architecture: Catalog + Overlays
 
 All emotions have one canonical source entry in `src/models/catalog/*.json`. Source entries own
-the ID, label, needs, color, and optional distress tier. Only explicitly reviewed descriptions are
-stored. At module load, the catalog hydrates every other entry with bounded exploratory copy and
-records `descriptionStatus: "reviewed" | "generated"`.
+the ID, label, color, and optional distress tier. Only explicitly reviewed descriptions and
+controlled guidance decisions are stored. At module load, the catalog resolves reviewed need IDs
+through `guidance/need-options.json`; `needId: null` and missing provenance both expose no inferred
+need, while preserving distinct source-level audit states.
 
 ```
 catalog/*.json  -> fail-closed copy hydration -> canonical runtime emotion
@@ -43,7 +44,8 @@ BaseEmotion { id, label, description?, needs?, color, intensity? }
 ### Catalog is the single source of truth
 
 The Today quick-start emotions resolve directly from the catalog. Catalog loading rejects duplicate
-IDs, key/ID mismatches, and descriptions without explicit reviewed provenance.
+IDs, key/ID mismatches, raw per-entry needs, unknown need references, and descriptions without
+explicit reviewed provenance.
 
 ### Safety rules are versioned data
 
@@ -63,8 +65,8 @@ visualizations.
 Every signal is marked `curated-hypothesis`. Optional
 `basis: "nummenmaa-2014-group-map"` means only that a broad group-level activation/deactivation
 pattern informed curation. It does not validate the sensation type, intensity threshold, weight,
-cause, or an individual emotional conclusion. Somatic results always use canonical exploratory
-copy; signals cannot provide local causal descriptions.
+cause, or an individual emotional conclusion. Somatic results may use only canonical reviewed
+guidance; signals cannot provide local causal descriptions.
 
 ### Wheel multi-parent (`parents: string[]`)
 

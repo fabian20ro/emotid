@@ -8,14 +8,18 @@ export interface CanonicalEmotionSource {
   label: LocalizedText
   description?: LocalizedText
   descriptionStatus?: 'reviewed'
-  needs: LocalizedText
+  guidance?: {
+    status: 'reviewed'
+    needId: string | null
+  }
   color: string
   distressTier?: 'watch' | 'high'
   parent?: string
   parents?: string[]
 }
 
-export interface CanonicalEmotion extends Omit<CanonicalEmotionSource, 'description' | 'descriptionStatus'> {
-  description: LocalizedText
-  descriptionStatus: 'reviewed' | 'generated'
+export interface CanonicalEmotion extends Omit<CanonicalEmotionSource, 'guidance'> {
+  needs?: LocalizedText
+  needId?: string
+  guidanceStatus?: 'reviewed'
 }

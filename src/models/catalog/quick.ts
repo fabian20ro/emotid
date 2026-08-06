@@ -2,17 +2,11 @@ import negativeHigh from './negative-high.json'
 import negativeLow from './negative-low.json'
 import primaryAffects from './primary-affects.json'
 import wheelBranches from './wheel-branches.json'
+import quickEmotionIds from './guidance/quick-emotion-ids.json'
 import { hydrateCatalogEmotion } from './hydrate'
 import type { CanonicalEmotion, CanonicalEmotionSource } from './types'
 
-export const QUICK_EMOTION_IDS = [
-  'anxiety',
-  'sadness',
-  'anger',
-  'joy',
-  'numb',
-  'overwhelmed',
-] as const
+export const QUICK_EMOTION_IDS: readonly string[] = quickEmotionIds
 
 const quickSources: Array<[string, Record<string, CanonicalEmotionSource>]> = [
   ['primary-affects.json', primaryAffects as Record<string, CanonicalEmotionSource>],

@@ -179,15 +179,24 @@ describe('scoreSomaticSelections', () => {
     expect(results[0].matchStrength.en).toBe('closer match')
   })
 
-  it('uses canonical catalog copy rather than somatic causal claims', () => {
+  it('does not manufacture canonical guidance or somatic causal claims', () => {
     const signal = makeSignal({ emotionId: 'joy', sensationType: 'tension', weight: 1.0 })
     const selection = makeSelection('chest', 'tension', 2, [signal])
 
     const results = scoreSomaticSelections([selection])
 
-    expect(results[0].description?.en).toContain('one word to consider')
-    expect(results[0].description?.en).toContain('Keep only what fits')
-    expect(results[0].needs?.en).toBeTruthy()
+    expect(results[0].description).toBeUndefined()
+    expect(results[0].needs).toBeUndefined()
+  })
+
+  it('exposes only reviewed controlled guidance for a somatic suggestion', () => {
+    const signal = makeSignal({ emotionId: 'exhaustion', sensationType: 'heaviness', weight: 1.0 })
+    const selection = makeSelection('shoulders', 'heaviness', 2, [signal])
+
+    const results = scoreSomaticSelections([selection])
+
+    expect(results[0].description).toBeUndefined()
+    expect(results[0].needs).toEqual({ en: 'rest', ro: 'odihnă' })
   })
 
   it('downgrades match strength if score is below the threshold despite high ratio', () => {

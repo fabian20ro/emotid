@@ -41,17 +41,19 @@ describe('dimensional data', () => {
     }
   })
 
-  it('all emotions have bilingual descriptions', () => {
+  it('all exposed descriptions are bilingual', () => {
     for (const e of emotions) {
-      expect(e.description?.en).toBeTruthy()
-      expect(e.description?.ro).toBeTruthy()
+      if (!e.description) continue
+      expect(e.description.en).toBeTruthy()
+      expect(e.description.ro).toBeTruthy()
     }
   })
 
-  it('all emotions have bilingual needs', () => {
+  it('all exposed needs are bilingual', () => {
     for (const e of emotions) {
-      expect(e.needs?.en).toBeTruthy()
-      expect(e.needs?.ro).toBeTruthy()
+      if (!e.needs) continue
+      expect(e.needs.en).toBeTruthy()
+      expect(e.needs.ro).toBeTruthy()
     }
   })
 

@@ -56,7 +56,7 @@ describe('catalog integrity', () => {
   it('should have required fields on every catalog entry', () => {
     // Sanity check: every emotion must have the core shape. A missing field in
     // one source would surface as a UI crash; this test keeps that visible.
-    const requiredFields = ['id', 'label', 'description', 'needs', 'color']
+    const requiredFields = ['id', 'label', 'color']
 
     for (const [id, entry] of Object.entries(emotionCatalog)) {
       expect(id).toBe(entry.id)
@@ -65,10 +65,16 @@ describe('catalog integrity', () => {
       }
       expect(typeof entry.label.ro).toBe('string')
       expect(typeof entry.label.en).toBe('string')
-      expect(typeof entry.description.ro).toBe('string')
-      expect(typeof entry.description.en).toBe('string')
-      expect(typeof entry.needs.ro).toBe('string')
-      expect(typeof entry.needs.en).toBe('string')
+      if (entry.description) {
+        expect(typeof entry.description.ro).toBe('string')
+        expect(typeof entry.description.en).toBe('string')
+        expect(entry.descriptionStatus).toBe('reviewed')
+      }
+      if (entry.needs) {
+        expect(typeof entry.needs.ro).toBe('string')
+        expect(typeof entry.needs.en).toBe('string')
+        expect(entry.guidanceStatus).toBe('reviewed')
+      }
     }
   })
 })

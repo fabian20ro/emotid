@@ -5,11 +5,11 @@
       "ro": "Reținere emoțională",
       "en": "Emotional holding"
     },
-    "needs": {
-      "ro": "spatiu sigur de exprimare",
-      "en": "safe space for expression"
-    },
-    "color": "#6b7280"
+    "color": "#6b7280",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "emotional-withdrawal": {
     "id": "emotional-withdrawal",
@@ -17,11 +17,11 @@
       "ro": "Retragere emoțională",
       "en": "Emotional withdrawal"
     },
-    "needs": {
-      "ro": "reconectare treptata si blandete",
-      "en": "gradual reconnection and gentleness"
-    },
-    "color": "#9ca3af"
+    "color": "#9ca3af",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "disconnection": {
     "id": "disconnection",
@@ -29,11 +29,11 @@
       "ro": "Deconectare",
       "en": "Disconnection"
     },
-    "needs": {
-      "ro": "revenire blanda la senzatii",
-      "en": "gentle return to sensation"
-    },
-    "color": "#d1d5db"
+    "color": "#d1d5db",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "overwhelm": {
     "id": "overwhelm",
@@ -41,11 +41,11 @@
       "ro": "Copleșire",
       "en": "Overwhelm"
     },
-    "needs": {
-      "ro": "sprijin si reducerea sarcinilor",
-      "en": "support and lightening the load"
-    },
-    "color": "#78716c"
+    "color": "#78716c",
+    "guidance": {
+      "status": "reviewed",
+      "needId": "relief"
+    }
   },
   "exhaustion": {
     "id": "exhaustion",
@@ -53,11 +53,11 @@
       "ro": "Epuizare",
       "en": "Exhaustion"
     },
-    "needs": {
-      "ro": "odihna si sustinere",
-      "en": "rest and support"
-    },
-    "color": "#6b7280"
+    "color": "#6b7280",
+    "guidance": {
+      "status": "reviewed",
+      "needId": "rest"
+    }
   },
   "stress": {
     "id": "stress",
@@ -65,11 +65,11 @@
       "ro": "Stres",
       "en": "Stress"
     },
-    "needs": {
-      "ro": "pauza si eliberare a tensiunii",
-      "en": "pause and tension release"
-    },
-    "color": "#ef4444"
+    "color": "#ef4444",
+    "guidance": {
+      "status": "reviewed",
+      "needId": "relief"
+    }
   },
   "worry": {
     "id": "worry",
@@ -77,11 +77,11 @@
       "ro": "Ingrijorare",
       "en": "Worry"
     },
-    "needs": {
-      "ro": "redirectare spre prezent, nu viitor",
-      "en": "present-moment focus and grounding"
-    },
-    "color": "#a78bfa"
+    "color": "#a78bfa",
+    "guidance": {
+      "status": "reviewed",
+      "needId": "grounding"
+    }
   },
   "excitement": {
     "id": "excitement",
@@ -89,11 +89,11 @@
       "ro": "Entuziasm",
       "en": "Excitement"
     },
-    "needs": {
-      "ro": "creatie si actiune",
-      "en": "creation and action"
-    },
-    "color": "#f97316"
+    "color": "#f97316",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "tenderness": {
     "id": "tenderness",
@@ -101,11 +101,11 @@
       "ro": "Tandrețe",
       "en": "Tenderness"
     },
-    "needs": {
-      "ro": "exprimare blanda si apropiere",
-      "en": "gentle expression and closeness"
-    },
-    "color": "#f48fb1"
+    "color": "#f48fb1",
+    "guidance": {
+      "status": "reviewed",
+      "needId": "connection"
+    }
   },
   "gratitude": {
     "id": "gratitude",
@@ -113,11 +113,11 @@
       "ro": "Recunoștință",
       "en": "Gratitude"
     },
-    "needs": {
-      "ro": "savurare si exprimare",
-      "en": "savoring and expression"
-    },
-    "color": "#66bb6a"
+    "color": "#66bb6a",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "frustration": {
     "id": "frustration",
@@ -125,11 +125,11 @@
       "ro": "Frustrare",
       "en": "Frustration"
     },
-    "needs": {
-      "ro": "claritate si pasi mici",
-      "en": "clarity and small steps"
-    },
-    "color": "#e57373"
+    "color": "#e57373",
+    "guidance": {
+      "status": "reviewed",
+      "needId": "flexibility"
+    }
   },
   "jealousy": {
     "id": "jealousy",
@@ -137,10 +137,10 @@
       "ro": "Gelozie",
       "en": "Jealousy"
     },
-    "needs": {
-      "ro": "siguranta relationala si comunicare",
-      "en": "relational safety and communication"
-    },
-    "color": "#7e57c2"
+    "color": "#7e57c2",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   }
 }

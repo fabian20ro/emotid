@@ -9,4 +9,15 @@ describe('quick emotion catalog boundary', () => {
       expect(emotion).toEqual(getCanonicalEmotion(emotion.id))
     }
   })
+
+  it('exposes only the reviewed Quick need suggestions', () => {
+    expect(Object.fromEntries(quickEmotions.map(({ id, needId }) => [id, needId]))).toEqual({
+      anxiety: 'grounding',
+      sadness: 'compassion',
+      anger: 'boundaries',
+      joy: undefined,
+      numb: undefined,
+      overwhelmed: 'relief',
+    })
+  })
 })

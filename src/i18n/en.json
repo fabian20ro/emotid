@@ -250,10 +250,10 @@
     "continue": "Reflect on this combination"
   },
   "reflectionScreen": {
-    "eyebrow": "A reflection, not a verdict",
-    "title": "What may be here",
-    "briefSynthesis": "may be among the possibilities here. Keep only the words that fit your experience.",
-    "fit": "Does this fit your experience?",
+    "eyebrow": "A possibility, not a verdict",
+    "title": "What seems to fit?",
+    "briefSynthesis": "may be close. Keep only what fits your experience.",
+    "fit": "How close is this?",
     "yes": "Yes",
     "partly": "Partly",
     "no": "Not really",
@@ -263,6 +263,8 @@
     "needHint": "Keep the suggestion that fits best, or leave this open.",
     "nextStep": "Try one small step",
     "done": "Done for now",
+    "exploreMore": "Explore further",
+    "exploreHint": "Choose only what feels useful. Everything here is optional.",
     "more": "More context",
     "acknowledge": "Continue to reflection",
     "partlyHint": "Keep only what feels useful. You can revise your selection or continue treating these as possibilities.",

@@ -7,14 +7,14 @@ evidence only: it cannot pass the physical assistive-technology or Android perfo
 
 | Field | Value |
 | --- | --- |
-| Status | OPEN |
-| Commit SHA | |
-| Production URL | |
-| Tested build/version | |
-| Tester | |
-| Test dates | |
-| Automated workflow URL | |
-| Automated artifact name | |
+| Status | PARTIAL - Android profile complete; full AT and low-tier gates open |
+| Commit SHA | `ce9f3b6c0e59500347d26e822e5965b9413a11ae` |
+| Production URL | `https://fabian20ro.github.io/emotid/` |
+| Tested build/version | `index-DhlYI_OF.js`; `index-BqNKVqyQ.css` (exact local production-build match) |
+| Tester | Codex, supervised by repository owner |
+| Test dates | 2026-08-04 |
+| Automated workflow URL | `https://github.com/fabian20ro/emotid/actions/runs/30890866852` (`Push on main`, successful) |
+| Automated artifact name | None published by this workflow |
 
 Release decision: `PASS` only when every required row below passes or has a linked, accepted defect
 disposition. Record failures as observed; do not reinterpret missing evidence as a pass.
@@ -24,8 +24,8 @@ disposition. Record failures as observed; do not reinterpret missing evidence as
 | ID | Device | OS | Browser/version | Assistive technology/version | Installed PWA or browser | Notes |
 | --- | --- | --- | --- | --- | --- | --- |
 | Apple | | | Safari | VoiceOver | Both | |
-| Android AT | | | Chrome | TalkBack | Both | |
-| Android mid | | | Chrome | Not required | Browser | |
+| Android AT | Google Pixel 6a | Android 15 / API 35 / `BP1A.250505.005` | Chrome 150.0.7871.187 | TalkBack 17.0.1 | Both | 1080x2400; CSS 411px; DPR 2.625; font scale 1.0 |
+| Android mid | Google Pixel 6a | Android 15 / API 35 / `BP1A.250505.005` | Chrome 150.0.7871.187 | Not required | Browser | AC powered; 100% battery; 29.8 C; default motion and display scaling |
 | Android low | | | Chrome | Not required | Browser | |
 
 Record display/text scaling, zoom, reduced motion, network, battery state, and thermal state when
@@ -44,10 +44,14 @@ one mode may be marked not applicable only with a reason.
 | Apple / VoiceOver | RO | Browser | | | | | | | | | |
 | Apple / VoiceOver | EN | Installed | | | | | | | | | |
 | Apple / VoiceOver | RO | Installed | | | | | | | | | |
-| Android / TalkBack | EN | Browser | | | | | | | | | |
-| Android / TalkBack | RO | Browser | | | | | | | | | |
-| Android / TalkBack | EN | Installed | | | | | | | | | |
-| Android / TalkBack | RO | Installed | | | | | | | | | |
+| Android / TalkBack | EN | Browser | P | S | S | S | S | S | S | S | PARTIAL |
+| Android / TalkBack | RO | Browser | S | S | S | S | S | S | S | S | SUPPORTING ONLY |
+| Android / TalkBack | EN | Installed | S | S | S | S | S | S | S | S | SUPPORTING ONLY |
+| Android / TalkBack | RO | Installed | S | S | S | S | S | S | S | S | SUPPORTING ONLY |
+
+`S` means the physical Chrome process passed the functional journey and exposed the expected
+accessibility tree, but controls were activated through DevTools. `P` adds a genuine TalkBack
+external-keyboard focus pilot but is still short of the complete spoken/gesture journey.
 
 ### Required Journeys
 
@@ -68,6 +72,9 @@ one mode may be marked not applicable only with a reason.
    abandoned route; delete Cancel returns to its trigger; successful delete returns to Journal.
 8. **J8 Tier-4 support:** the safety message precedes resources; reflection details remain
    unavailable before acknowledgment; support links are actionable and not redundantly announced.
+9. **J9 Reflection disclosure:** the compact result keeps inferred needs and AI absent, direct
+   finish and exploration stay in the first viewport, exploration focuses its heading, and Back
+   restores focus to the disclosure trigger.
 
 ### Journey Observations
 
@@ -75,7 +82,10 @@ Add one row for each matrix failure and for any pass needing evidence beyond the
 
 | Device/language/mode | Journey | Spoken order | Focus/gesture behavior | Duplicate/missing speech | Evidence | Result |
 | --- | --- | --- | --- | --- | --- | --- |
-| | | | | | | |
+| Android / EN / Browser | J1 first screen | TalkBack requested accessibility speech while focus moved from heading to explanation; no retained audio transcript | Real AOA USB keyboard; green TalkBack focus moved in document order | Not fully assessed | `.reports/android-physical/2026-08-04T15-23-00-talkback-pilot/` | PARTIAL |
+| Android / EN+RO / Browser | J1-J8 | Not assessed by direct speech capture | Physical Chrome, direct DevTools activation, accessibility snapshots and device screenshots | Not assessed | `.reports/android-physical/2026-08-04T20-04-02-041Z-browser/` | SUPPORTING PASS |
+| Android / EN+RO / Installed | J1-J8 | Not assessed by direct speech capture | Installed WebAPK, standalone display mode, direct DevTools activation, accessibility snapshots and device screenshots | Not assessed | `.reports/android-physical/2026-08-04T20-03-14-228Z-installed/` | SUPPORTING PASS |
+| Pixel 6a / EN+RO / Browser | J9 local P25 candidate | Not assessed by direct speech capture | Physical Chrome `411x808`; default/exploration DOM, viewport geometry, heading focus, and focus return verified through DevTools | Not assessed | `.reports/android-physical/2026-08-05T04-48-27-416Z-browser/` | SUPPORTING PASS |
 
 Evidence can be a timestamped screen recording, audio recording, screenshot, or exact written
 transcript. Do not record private journal content.
@@ -88,13 +98,13 @@ OS update, thermal warning, incoming call, or accidental gesture. Use the median
 
 | Device | Measurement | Run 1 ms | Run 2 ms | Run 3 ms | Median ms | Target ms | Result/evidence |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | --- |
-| Mid | Cold launch to usable Today | | | | | 2500 | |
-| Mid | First Body open | | | | | 500 | |
-| Mid | First Affect open | | | | | 500 | |
-| Mid | First Words open | | | | | 500 | |
-| Mid | First Plutchik open | | | | | 500 | |
-| Mid | Warm route return, worst case | | | | | 150 | |
-| Mid | Longest interaction-blocking task | | | | | 200 | |
+| Mid | Cold launch to usable Today | 1173 | 935 | 1162 | 1162 | 2500 | PASS |
+| Mid | First Body open | 393.0 | 127.3 | 295.2 | 295.2 | 500 | PASS |
+| Mid | First Affect open | 224.5 | 126.0 | 239.1 | 224.5 | 500 | PASS |
+| Mid | First Words open | 217.6 | 119.2 | 228.8 | 217.6 | 500 | PASS |
+| Mid | First Plutchik open | 349.0 | 142.8 | 349.2 | 349.0 | 500 | PASS |
+| Mid | Warm route return, worst case | 40.4 | 38.6 | 41.1 | 40.4 | 150 | PASS |
+| Mid | Longest interaction-blocking task | 0 | 0 | 0 | 0 | 200 | PASS |
 | Low | Cold launch to usable Today | | | | | 4000 | |
 | Low | First Body open | | | | | 900 | |
 | Low | First Affect open | | | | | 900 | |
@@ -102,6 +112,11 @@ OS update, thermal warning, incoming call, or accidental gesture. Use the median
 | Low | First Plutchik open | | | | | 900 | |
 | Low | Warm route return, worst case | | | | | 150 | |
 | Low | Longest interaction-blocking task | | | | | 200 | |
+
+Mid-tier raw MP4 recordings, Chrome traces, Perfetto traces, screenshots, and the JSON report are
+under `.reports/android-physical/2026-08-04T20-04-49-869Z-browser/`. Recording did not change
+the measured intervals; Chrome trace timestamps own route timing and Perfetto supplies device-level
+startup evidence.
 
 For elapsed time, record a Chrome DevTools Performance trace or a 60 fps screen recording from the
 initiating action until the destination is visible and operable. For blocking time, inspect the
@@ -153,12 +168,14 @@ replace physical speech, gesture, installed-PWA, or hardware-timing evidence.
 
 | Gate | Result | Evidence |
 | --- | --- | --- |
-| Automated workflow | | |
-| VoiceOver / Safari | | |
-| TalkBack / Chrome | | |
-| Installed PWA | | |
-| Mid-tier Android performance | | |
-| Low-tier Android performance | | |
-| Open release-blocking defects | | |
+| Automated workflow | PASS | `Push on main` run `30890866852`, exact candidate SHA, successful |
+| VoiceOver / Safari | OPEN | Apple device not tested |
+| TalkBack / Chrome | PARTIAL | Full supporting matrix plus one genuine focus-order pilot; spoken/gesture matrix open |
+| Installed PWA | SUPPORTING PASS | All J1-J8 in EN/RO; genuine TalkBack interaction matrix open |
+| Mid-tier Android performance | PASS | Pixel 6a three-run traces and recordings |
+| Low-tier Android performance | OPEN | A distinct representative low-tier device is still required |
+| Open release-blocking defects | NONE REPRODUCED | Open evidence gates remain release-blocking |
 
-Final decision and rationale:
+Final decision and rationale: **NOT READY FOR PHYSICAL SIGN-OFF.** The tested Pixel 6a profile has
+no reproduced functional or performance defect. VoiceOver/Safari, the complete retained TalkBack
+speech/gesture matrix, and a distinct low-tier Android performance profile remain required.

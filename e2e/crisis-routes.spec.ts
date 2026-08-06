@@ -1,7 +1,10 @@
 import { expect, test, type Page } from '@playwright/test'
 import { openApp, openArrival } from './helpers'
 
-async function expectSupportBoundary(page: Page, options: { tier4?: boolean } = {}) {
+async function expectSupportBoundary(
+  page: Page,
+  options: { tier4?: boolean; emotion?: RegExp; reviewedGuidance?: boolean } = {},
+) {
   const alert = page.getByRole('alert')
   const support = page.locator('.crisis-banner')
   await expect(alert).toBeVisible()
@@ -22,7 +25,15 @@ async function expectSupportBoundary(page: Page, options: { tier4?: boolean } = 
   }
 
   await expect(page.locator('.emotion-heading')).toBeVisible()
-  await expect(page.getByRole('group', { name: 'What feels most needed right now?' })).toBeVisible()
+  if (options.emotion) await expect(page.locator('.emotion-heading')).toContainText(options.emotion)
+  await expect(page.getByRole('group', { name: 'What feels most needed right now?' })).toHaveCount(0)
+  await page.getByRole('button', { name: 'Explore further' }).click()
+  const needs = page.getByRole('group', { name: 'What feels most needed right now?' })
+  if (options.reviewedGuidance === false) {
+    await expect(needs).toHaveCount(0)
+  } else {
+    await expect(needs).toBeVisible()
+  }
 }
 
 async function chooseWord(page: Page, name: string | RegExp) {
@@ -39,7 +50,7 @@ test.describe('Crisis boundary by completion route', () => {
     await page.getByTestId('quick-feeling-numb').click()
     await page.getByTestId('quick-continue').click()
     await expect(page.locator('.emotion-heading')).toContainText('Numb')
-    await expectSupportBoundary(page)
+    await expectSupportBoundary(page, { reviewedGuidance: false })
   })
 
   test('Body routes a high-distress somatic result through support', async ({ page }) => {
@@ -83,8 +94,7 @@ test.describe('Crisis boundary by completion route', () => {
     await chooseWord(page, /^worthless/i)
     await page.locator('.route-action button').click()
 
-    await expectSupportBoundary(page, { tier4: true })
-    await expect(page.locator('.emotion-heading')).toContainText(/despair/i)
+    await expectSupportBoundary(page, { tier4: true, emotion: /despair/i })
   })
 
   test('Plutchik routes a high-distress dyad through support', async ({ page }) => {

@@ -5,10 +5,10 @@
       "ro": "dispreț",
       "en": "contempt"
     },
-    "needs": {
-      "ro": "empatie si schimbare de perspectiva",
-      "en": "empathy and perspective-taking"
-    },
-    "color": "#795548"
+    "color": "#795548",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   }
 }

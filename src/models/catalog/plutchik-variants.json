@@ -5,10 +5,6 @@
       "ro": "seninătate",
       "en": "serenity"
     },
-    "needs": {
-      "ro": "prezenta si savurare",
-      "en": "presence and savoring"
-    },
     "color": "#FFF59D"
   },
   "ecstasy": {
@@ -16,10 +12,6 @@
     "label": {
       "ro": "extaz",
       "en": "ecstasy"
-    },
-    "needs": {
-      "ro": "ancorare si partajare",
-      "en": "grounding and sharing"
     },
     "color": "#FFD700"
   },
@@ -29,10 +21,6 @@
       "ro": "acceptare",
       "en": "acceptance"
     },
-    "needs": {
-      "ro": "liniste si rabdare",
-      "en": "stillness and patience"
-    },
     "color": "#C8F7DC"
   },
   "admiration": {
@@ -40,10 +28,6 @@
     "label": {
       "ro": "admirație",
       "en": "admiration"
-    },
-    "needs": {
-      "ro": "inspiratie si crestere personala",
-      "en": "inspiration and self-growth"
     },
     "color": "#7DD9A8"
   },
@@ -53,10 +37,6 @@
       "ro": "îngrijorare",
       "en": "apprehension"
     },
-    "needs": {
-      "ro": "reasigurare si ancorare",
-      "en": "reassurance and grounding"
-    },
     "color": "#A8E8C8"
   },
   "distraction": {
@@ -64,10 +44,6 @@
     "label": {
       "ro": "distragere",
       "en": "distraction"
-    },
-    "needs": {
-      "ro": "concentrare si redirectionare blanda",
-      "en": "focus and gentle redirection"
     },
     "color": "#A8E8FF"
   },
@@ -77,10 +53,6 @@
       "ro": "uimire",
       "en": "amazement"
     },
-    "needs": {
-      "ro": "liniste si integrare",
-      "en": "stillness and integration"
-    },
     "color": "#5FC8E8"
   },
   "pensiveness": {
@@ -88,10 +60,6 @@
     "label": {
       "ro": "melancolie",
       "en": "pensiveness"
-    },
-    "needs": {
-      "ro": "companie blanda si reflectie",
-      "en": "gentle company and reflection"
     },
     "color": "#85C1E9"
   },
@@ -101,10 +69,6 @@
       "ro": "plictiseală",
       "en": "boredom"
     },
-    "needs": {
-      "ro": "stimulare si sens",
-      "en": "stimulation and meaning"
-    },
     "color": "#D2B4DE"
   },
   "loathing": {
@@ -112,10 +76,6 @@
     "label": {
       "ro": "scârbă",
       "en": "loathing"
-    },
-    "needs": {
-      "ro": "distanta si auto-compasiune",
-      "en": "distance and self-compassion"
     },
     "color": "#9B59B6",
     "distressTier": "high"
@@ -126,10 +86,6 @@
       "ro": "iritare",
       "en": "annoyance"
     },
-    "needs": {
-      "ro": "recunoastere si mici ajustari",
-      "en": "acknowledgment and small adjustments"
-    },
     "color": "#FF9999"
   },
   "interest": {
@@ -137,10 +93,6 @@
     "label": {
       "ro": "interes",
       "en": "interest"
-    },
-    "needs": {
-      "ro": "explorare si libertate",
-      "en": "exploration and freedom"
     },
     "color": "#FFC8A0"
   },
@@ -150,10 +102,6 @@
       "ro": "vigilență",
       "en": "vigilance"
     },
-    "needs": {
-      "ro": "odihna si reasigurare",
-      "en": "rest and reassurance"
-    },
     "color": "#FF8C42"
   },
   "love": {
@@ -162,21 +110,17 @@
       "ro": "iubire",
       "en": "love"
     },
-    "needs": {
-      "ro": "grija si vulnerabilitate",
-      "en": "nurturing and vulnerability"
-    },
-    "color": "#FFD1DC"
+    "color": "#FFD1DC",
+    "guidance": {
+      "status": "reviewed",
+      "needId": "connection"
+    }
   },
   "submission": {
     "id": "submission",
     "label": {
       "ro": "supunere",
       "en": "submission"
-    },
-    "needs": {
-      "ro": "autonomie si incredere in sine",
-      "en": "autonomy and self-trust"
     },
     "color": "#98E8C8"
   },
@@ -186,10 +130,6 @@
       "ro": "dezaprobare",
       "en": "disapproval"
     },
-    "needs": {
-      "ro": "claritate si reevaluare",
-      "en": "clarity and re-evaluation"
-    },
     "color": "#7BB8E8"
   },
   "remorse": {
@@ -197,10 +137,6 @@
     "label": {
       "ro": "remușcare",
       "en": "remorse"
-    },
-    "needs": {
-      "ro": "reparatie si auto-iertare",
-      "en": "repair and self-forgiveness"
     },
     "color": "#9B8DC8"
   },
@@ -210,10 +146,6 @@
       "ro": "agresivitate",
       "en": "aggression"
     },
-    "needs": {
-      "ro": "canalizare si asertivitate",
-      "en": "channeling and assertiveness"
-    },
     "color": "#FF8860"
   },
   "optimism": {
@@ -221,10 +153,6 @@
     "label": {
       "ro": "optimism",
       "en": "optimism"
-    },
-    "needs": {
-      "ro": "planificare si celebrare",
-      "en": "planning and celebration"
     },
     "color": "#FFD080"
   },
@@ -234,21 +162,17 @@
       "ro": "speranță",
       "en": "hope"
     },
-    "needs": {
-      "ro": "rabdare si pasi mici",
-      "en": "patience and small steps"
-    },
-    "color": "#C8E8A8"
+    "color": "#C8E8A8",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "ambivalence": {
     "id": "ambivalence",
     "label": {
       "ro": "ambivalență",
       "en": "ambivalence"
-    },
-    "needs": {
-      "ro": "toleranta si explorare rabdatoare",
-      "en": "tolerance and patient exploration"
     },
     "color": "#B8C8A8"
   },
@@ -258,10 +182,6 @@
       "ro": "înghețare",
       "en": "frozenness"
     },
-    "needs": {
-      "ro": "siguranta, caldura si miscare blanda",
-      "en": "safety, warmth, and gentle movement"
-    },
     "color": "#78B898"
   },
   "confusion": {
@@ -269,10 +189,6 @@
     "label": {
       "ro": "confuzie",
       "en": "confusion"
-    },
-    "needs": {
-      "ro": "structura si investigare rabdatoare",
-      "en": "structure and patient inquiry"
     },
     "color": "#98C8D8"
   },
@@ -282,21 +198,17 @@
       "ro": "vinovăție",
       "en": "guilt"
     },
-    "needs": {
-      "ro": "auto-permisiune si claritate morala",
-      "en": "self-permission and moral clarity"
-    },
-    "color": "#C8D888"
+    "color": "#C8D888",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "bittersweetness": {
     "id": "bittersweetness",
     "label": {
       "ro": "dulce-amărui",
       "en": "bittersweetness"
-    },
-    "needs": {
-      "ro": "sustinerea blanda a ambelor adevaruri",
-      "en": "holding both truths gently"
     },
     "color": "#C8A8D8"
   },
@@ -306,21 +218,17 @@
       "ro": "curiozitate",
       "en": "curiosity"
     },
-    "needs": {
-      "ro": "explorare si siguranta",
-      "en": "exploration and safety"
-    },
-    "color": "#88D8D8"
+    "color": "#88D8D8",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "outrage": {
     "id": "outrage",
     "label": {
       "ro": "indignare",
       "en": "outrage"
-    },
-    "needs": {
-      "ro": "dreptate si canalizare constructiva",
-      "en": "justice and constructive channeling"
     },
     "color": "#E87878"
   },
@@ -330,10 +238,6 @@
       "ro": "invidie",
       "en": "envy"
     },
-    "needs": {
-      "ro": "valoare proprie si aspiratie onesta",
-      "en": "self-worth and honest aspiration"
-    },
     "color": "#7898C8"
   },
   "cynicism": {
@@ -341,10 +245,6 @@
     "label": {
       "ro": "cinism",
       "en": "cynicism"
-    },
-    "needs": {
-      "ro": "incredere reinnoita si speranta blanda",
-      "en": "renewed trust and gentle hope"
     },
     "color": "#C898A8"
   },
@@ -354,21 +254,17 @@
       "ro": "mândrie",
       "en": "pride"
     },
-    "needs": {
-      "ro": "recunoastere si incredere ancorata",
-      "en": "recognition and grounded confidence"
-    },
-    "color": "#FFB868"
+    "color": "#FFB868",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "sentimentality": {
     "id": "sentimentality",
     "label": {
       "ro": "sentimentalism",
       "en": "sentimentality"
-    },
-    "needs": {
-      "ro": "onorarea trecutului si angajare in prezent",
-      "en": "honoring the past and engaging the present"
     },
     "color": "#A8C8D8"
   },
@@ -378,10 +274,6 @@
       "ro": "dominanță",
       "en": "dominance"
     },
-    "needs": {
-      "ro": "empatie si impartirea puterii",
-      "en": "empathy and shared power"
-    },
     "color": "#D89888"
   },
   "delight": {
@@ -389,10 +281,6 @@
     "label": {
       "ro": "încântare",
       "en": "delight"
-    },
-    "needs": {
-      "ro": "savurare si partajare",
-      "en": "savoring and sharing"
     },
     "color": "#FFE898"
   },
@@ -402,10 +290,6 @@
       "ro": "pesimism",
       "en": "pessimism"
     },
-    "needs": {
-      "ro": "provocare blanda si mici victorii",
-      "en": "gentle challenge and small wins"
-    },
     "color": "#8898C8"
   },
   "morbidness": {
@@ -413,10 +297,6 @@
     "label": {
       "ro": "morbiditate",
       "en": "morbidness"
-    },
-    "needs": {
-      "ro": "integrare si exprimare creativa",
-      "en": "integration and creative expression"
     },
     "color": "#C8A0C8"
   },
@@ -426,10 +306,6 @@
       "ro": "neîncredere",
       "en": "unbelief"
     },
-    "needs": {
-      "ro": "timp si acceptare treptata",
-      "en": "time and gradual acceptance"
-    },
     "color": "#A898C8"
   },
   "ruthlessness": {
@@ -437,10 +313,6 @@
     "label": {
       "ro": "neîndurare",
       "en": "ruthlessness"
-    },
-    "needs": {
-      "ro": "empatie si reancorare relationala",
-      "en": "empathy and relational re-anchoring"
     },
     "color": "#FF7850"
   }

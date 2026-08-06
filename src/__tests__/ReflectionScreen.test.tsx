@@ -77,7 +77,7 @@ describe('ReflectionScreen need selection', () => {
 
   it('frames generated labels as rejectable possibilities in both languages', () => {
     renderReflection([result('anxiety')])
-    expect(screen.getByText('anxiety may be among the possibilities here. Keep only the words that fit your experience.')).toBeInTheDocument()
+    expect(screen.getByText('anxiety may be close. Keep only what fits your experience.')).toBeInTheDocument()
   })
 
   it('makes the direct exit primary and records no inferred need without a tap', async () => {
@@ -85,18 +85,41 @@ describe('ReflectionScreen need selection', () => {
     const need = { en: 'quiet and rest', ro: 'liniște și odihnă' }
     const { onSave } = renderReflection([result('tired', need)])
     const done = screen.getByRole('button', { name: 'Done for now' })
-    const step = screen.getByRole('button', { name: 'Try one small step' })
+    const explore = screen.getByRole('button', { name: 'Explore further' })
 
     expect(done).toHaveClass('primary-button')
-    expect(step).toHaveClass('secondary-button')
-    expect(done.compareDocumentPosition(step) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+    expect(explore).toHaveClass('secondary-button')
+    expect(done.compareDocumentPosition(explore) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+    expect(screen.queryByRole('button', { name: 'Try one small step' })).not.toBeInTheDocument()
     await user.click(done)
     expect(onSave).toHaveBeenCalledWith(expect.objectContaining({ selectedNeed: undefined }))
   })
 
+  it('keeps inferred guidance behind explicit exploration and restores disclosure focus', async () => {
+    const user = userEvent.setup()
+    const need = { en: 'quiet and rest', ro: 'liniște și odihnă' }
+    renderReflection([result('tired', need)], { allowExternalAI: true })
+
+    const explore = screen.getByRole('button', { name: 'Explore further' })
+    expect(screen.queryByRole('button', { name: need.en })).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'Try one small step' })).not.toBeInTheDocument()
+    expect(screen.queryByRole('link', { name: 'Explore with AI' })).not.toBeInTheDocument()
+
+    await user.click(explore)
+    expect(screen.getByTestId('reflection-exploration-screen')).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Explore further' })).toHaveFocus()
+    expect(screen.getByRole('button', { name: need.en })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Try one small step' })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Explore with AI' })).toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: 'Back' }))
+    expect(screen.getByTestId('reflection-screen')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Explore further' })).toHaveFocus()
+  })
+
   it('uses the same uncertainty and agency level in Romanian', () => {
     renderReflection([result('anxietate')], { language: 'ro' })
-    expect(screen.getByText('anxietate ar putea fi printre posibilitățile de aici. Păstrați doar cuvintele care se potrivesc experienței voastre.')).toBeInTheDocument()
+    expect(screen.getByText('anxietate ar putea fi aproape. Păstrați doar ce se potrivește experienței de acum.')).toBeInTheDocument()
   })
 
   it('omits need selection and saves no need when none are inferred', async () => {
@@ -113,6 +136,7 @@ describe('ReflectionScreen need selection', () => {
     const user = userEvent.setup()
     const need = { en: 'quiet and rest', ro: 'liniște și odihnă' }
     const { onSave } = renderReflection([result('tired', need)])
+    await user.click(screen.getByRole('button', { name: 'Explore further' }))
     const option = screen.getByRole('button', { name: need.en })
 
     expect(option).toHaveAttribute('aria-pressed', 'false')
@@ -127,6 +151,7 @@ describe('ReflectionScreen need selection', () => {
     const quiet = { en: 'quiet and rest', ro: 'liniște și odihnă' }
     const support = { en: 'human support', ro: 'sprijin uman' }
     const { onSave } = renderReflection([result('tired', quiet), result('drained', quiet), result('sad', support)])
+    await user.click(screen.getByRole('button', { name: 'Explore further' }))
     const quietOption = screen.getByRole('button', { name: quiet.en })
     const supportOption = screen.getByRole('button', { name: support.en })
 
@@ -158,6 +183,7 @@ describe('ReflectionScreen need selection', () => {
       [result('obosit', first), result('trist', second)],
       { language: 'ro', saveSessions: false },
     )
+    await user.click(screen.getByRole('button', { name: 'Explorați mai mult' }))
     const option = screen.getByRole('button', { name: second.ro })
 
     option.focus()
@@ -176,6 +202,8 @@ describe('ReflectionScreen need selection', () => {
     expect(screen.queryByRole('group', { name: 'What feels most needed right now?' })).not.toBeInTheDocument()
     await user.click(screen.getByRole('button', { name: 'Continue to reflection' }))
 
+    expect(screen.queryByRole('group', { name: 'What feels most needed right now?' })).not.toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: 'Explore further' }))
     expect(screen.getByRole('group', { name: 'What feels most needed right now?' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: need.en })).toHaveAttribute('aria-pressed', 'false')
   })
@@ -193,7 +221,7 @@ describe('ReflectionScreen need selection', () => {
     const need = { en: 'quiet and rest', ro: 'liniște și odihnă' }
     const { onSave, onBack } = renderReflection([result('anxiety', need)], { allowExternalAI: true })
 
-    expect(screen.getByRole('button', { name: need.en })).toHaveAttribute('aria-pressed', 'false')
+    expect(screen.queryByRole('button', { name: need.en })).not.toBeInTheDocument()
     await user.click(screen.getByRole('button', { name: 'Not really' }))
 
     expect(screen.getByRole('heading', { name: 'The result does not fit' })).toBeInTheDocument()
@@ -218,6 +246,7 @@ describe('ReflectionScreen need selection', () => {
 
     await user.click(screen.getByRole('button', { name: 'Partly' }))
     expect(screen.getByText(/treating these as possibilities/i)).toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: 'Explore further' }))
     await user.click(screen.getByRole('button', { name: 'Try one small step' }))
 
     expect(screen.queryByText(/approach what feels scary/i)).not.toBeInTheDocument()
@@ -235,8 +264,10 @@ describe('ReflectionScreen need selection', () => {
     })
   })
 
-  it('shows the Google handoff disclosure beside the unchanged external action', () => {
+  it('shows the Google handoff disclosure beside the unchanged external action', async () => {
+    const user = userEvent.setup()
     renderReflection([result('anxiety')], { allowExternalAI: true })
+    await user.click(screen.getByRole('button', { name: 'Explore further' }))
 
     const link = screen.getByRole('link', { name: 'Explore with AI' })
     expect(link).toHaveAttribute('href', expect.stringContaining('https://www.google.com/search?udm=50&q='))

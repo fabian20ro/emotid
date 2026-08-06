@@ -18,14 +18,17 @@ test.describe('Romanian release journeys', () => {
     await page.getByTestId('quick-feeling-anxiety').click()
     await page.getByTestId('quick-continue').click()
 
-    await expect(page.getByRole('heading', { name: 'Ce ar putea fi aici' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Ce pare să se potrivească?' })).toBeVisible()
     await expect(page.locator('.emotion-heading')).toContainText('anxietate')
-    await expect(page.getByText(/păstrați doar cuvintele care se potrivesc experienței voastre/i)).toBeVisible()
+    await expect(page.getByText(/ar putea fi aproape. Păstrați doar ce se potrivește experienței de acum/i)).toBeVisible()
+    await expect(page.locator('.more-context')).toHaveCount(0)
+    await expect(page.getByRole('button', { name: 'ancorare', exact: true })).toHaveCount(0)
+    await page.getByRole('button', { name: 'Explorați mai mult' }).click()
     const moreContext = page.locator('.more-context')
     await moreContext.getByText('Mai mult context').click()
     await expect(moreContext).toContainText(/cea mai apropiată potrivire dintre aceste sugestii/i)
     await expect(moreContext).not.toContainText(/experimentezi un semnal|sistemul tău răspunde/i)
-    await expect(page.getByRole('button', { name: 'ancorare, respiratie si prezenta' })).toHaveAttribute('aria-pressed', 'false')
+    await expect(page.getByRole('button', { name: 'ancorare', exact: true })).toHaveAttribute('aria-pressed', 'false')
     await finishReflection(page)
   })
 
@@ -48,7 +51,7 @@ test.describe('Romanian release journeys', () => {
     await page.locator('.route-action button').click()
 
     await expect(page.getByTestId('reflection-screen')).toBeVisible()
-    await expect(page.getByRole('heading', { name: 'Ce ar putea fi aici' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Ce pare să se potrivească?' })).toBeVisible()
   })
 
   test('Affect Map supports a localized keyboard placement journey', async ({ page }) => {

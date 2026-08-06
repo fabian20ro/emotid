@@ -1,8 +1,8 @@
 # Psychological Copy Contract
 
-**Version:** 1.1
-**Date:** 2026-07-29
-**Scope:** Reflection summaries, generated synthesis, emotion descriptions, inferred needs,
+**Version:** 1.2
+**Date:** 2026-08-07
+**Scope:** Reflection summaries, catalog synthesis, emotion descriptions, inferred needs,
 somatic explanations, and crisis-adjacent copy.
 
 ## Product Boundary
@@ -92,10 +92,11 @@ tests and a separate review.
 
 ## Provenance States
 
-- `reviewed`: a bilingual description was reviewed against this contract and is stored in catalog
-  source data.
-- `generated`: runtime hydration creates bounded copy from the translated label and needs field.
-  It is an exploratory prompt, not a reviewed definition of that emotion.
+- `reviewed`: a bilingual description or controlled need decision was reviewed against this
+  contract and is stored in catalog source data. `needId: null` records an intentional
+  no-suggestion decision without exposing runtime guidance.
+- absent: runtime hydration exposes no description or inferred need when reviewed provenance is
+  missing. It does not synthesize psychological guidance from labels or legacy free text.
 - `curated-hypothesis`: a somatic association is product curation, even when a group-level bodily
   map informed it. Weights, intensity thresholds, and sensation types are not presented as
   research-derived measures.
@@ -106,7 +107,7 @@ See [Catalog and Somatic Provenance](catalog-and-somatic-provenance.md).
 ## Review Checklist
 
 - English and Romanian changed together.
-- Generated language uses uncertainty and preserves rejection.
+- Suggested language uses uncertainty and preserves rejection.
 - No diagnosis, causal certainty, trait judgment, or unsupported physiological mechanism.
 - Suggested need/action remains optional and context-dependent.
 - Crisis directness is conditional and does not infer danger from labels.

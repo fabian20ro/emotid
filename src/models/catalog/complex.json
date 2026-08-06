@@ -5,10 +5,6 @@
       "ro": "nostalgie",
       "en": "nostalgia"
     },
-    "needs": {
-      "ro": "onorarea trecutului si ancorare in prezent",
-      "en": "honoring the past and anchoring in the present"
-    },
     "color": "#AB47BC"
   },
   "dor": {
@@ -17,10 +13,6 @@
       "ro": "Dor",
       "en": "Longing (dor)"
     },
-    "needs": {
-      "ro": "recunoastere si conexiune",
-      "en": "acknowledgment and connection"
-    },
     "color": "#7E57C2"
   },
   "awe": {
@@ -28,10 +20,6 @@
     "label": {
       "ro": "venerație",
       "en": "awe"
-    },
-    "needs": {
-      "ro": "deschidere si smerenie",
-      "en": "openness and humility"
     },
     "color": "#7FD8D8"
   }

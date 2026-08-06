@@ -1,0 +1,46 @@
+{
+  "boundaries": {
+    "en": "boundaries",
+    "ro": "limite"
+  },
+  "compassion": {
+    "en": "compassion",
+    "ro": "compasiune"
+  },
+  "connection": {
+    "en": "safe connection",
+    "ro": "conexiune sigură"
+  },
+  "flexibility": {
+    "en": "flexibility",
+    "ro": "flexibilitate"
+  },
+  "grounding": {
+    "en": "grounding",
+    "ro": "ancorare"
+  },
+  "physical-ease": {
+    "en": "physical ease",
+    "ro": "destindere corporală"
+  },
+  "relief": {
+    "en": "relief",
+    "ro": "ușurare"
+  },
+  "rest": {
+    "en": "rest",
+    "ro": "odihnă"
+  },
+  "safety": {
+    "en": "a sense of safety",
+    "ro": "un sentiment de siguranță"
+  },
+  "space": {
+    "en": "space",
+    "ro": "spațiu"
+  },
+  "support": {
+    "en": "support",
+    "ro": "sprijin"
+  }
+}

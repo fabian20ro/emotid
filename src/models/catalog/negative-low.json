@@ -5,10 +5,6 @@
       "ro": "Plictisit",
       "en": "Bored"
     },
-    "needs": {
-      "ro": "sens si stimulare",
-      "en": "meaning and stimulation"
-    },
     "color": "#C4CCD4"
   },
   "lonely": {
@@ -17,10 +13,6 @@
       "ro": "Singur",
       "en": "Lonely"
     },
-    "needs": {
-      "ro": "conexiune si prezenta",
-      "en": "connection and presence"
-    },
     "color": "#9CB8DA"
   },
   "depressed": {
@@ -28,10 +20,6 @@
     "label": {
       "ro": "Deprimat",
       "en": "Depressed"
-    },
-    "needs": {
-      "ro": "sprijin profesional si rabdare",
-      "en": "professional support and patience"
     },
     "color": "#9CB8DA",
     "distressTier": "high"
@@ -42,10 +30,6 @@
       "ro": "Melancolic",
       "en": "Melancholic"
     },
-    "needs": {
-      "ro": "contemplare si exprimare creativa",
-      "en": "contemplation and creative expression"
-    },
     "color": "#B0C8E4"
   },
   "apathetic": {
@@ -53,10 +37,6 @@
     "label": {
       "ro": "Apatic",
       "en": "Apathetic"
-    },
-    "needs": {
-      "ro": "compasiune si sprijin profesional",
-      "en": "compassion and professional support"
     },
     "color": "#D0D8E0",
     "distressTier": "high"
@@ -67,10 +47,6 @@
       "ro": "Obosit",
       "en": "Tired"
     },
-    "needs": {
-      "ro": "odihna si recuperare",
-      "en": "rest and recovery"
-    },
     "color": "#C4CCD4"
   },
   "sad": {
@@ -78,10 +54,6 @@
     "label": {
       "ro": "Trist",
       "en": "Sad"
-    },
-    "needs": {
-      "ro": "compasiune si spatiu",
-      "en": "compassion and space"
     },
     "color": "#88A8D0"
   },
@@ -91,22 +63,18 @@
       "ro": "Amorțit",
       "en": "Numb"
     },
-    "needs": {
-      "ro": "rabdare, siguranta si simtire blanda",
-      "en": "patience, safety, and gentle feeling"
-    },
     "color": "#F4B4B4",
-    "distressTier": "high"
+    "distressTier": "high",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "resigned": {
     "id": "resigned",
     "label": {
       "ro": "resemnat",
       "en": "resigned"
-    },
-    "needs": {
-      "ro": "speranta si pasi mici",
-      "en": "hope and small steps"
     },
     "color": "#9575CD"
   },
@@ -116,10 +84,6 @@
       "ro": "letargic",
       "en": "lethargic"
     },
-    "needs": {
-      "ro": "odihna profunda si grija",
-      "en": "deep rest and care"
-    },
     "color": "#7E57C2"
   },
   "gloomy": {
@@ -128,10 +92,6 @@
       "ro": "sumbru",
       "en": "gloomy"
     },
-    "needs": {
-      "ro": "speranta si perspectiva",
-      "en": "hope and perspective"
-    },
     "color": "#673AB7"
   },
   "pensive": {
@@ -139,10 +99,6 @@
     "label": {
       "ro": "ganditor",
       "en": "pensive"
-    },
-    "needs": {
-      "ro": "spatiu si claritate",
-      "en": "space and clarity"
     },
     "color": "#9FA8DA"
   }

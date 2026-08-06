@@ -55,7 +55,7 @@ test.describe('Critical journey semantics and focus', () => {
       await expectScreenSemantics(page, /place the feeling|plasați starea/i, false)
 
       await placeFeeling(page)
-      await expectScreenSemantics(page, /what may be here|ce ar putea fi aici/i, false)
+      await expectScreenSemantics(page, /what seems to fit|ce pare să se potrivească/i, false)
     })
   }
 

@@ -18,11 +18,10 @@ describe('new dimensional emotions (Phase 3.3)', () => {
     }
   })
 
-  it('all new emotions have bilingual descriptions', () => {
+  it('does not manufacture descriptions for unaudited emotions', () => {
     for (const id of NEW_EMOTION_IDS) {
       const emotion = dimensionalModel.allEmotions[id]
-      expect(emotion.description?.en, `${id} missing en description`).toBeTruthy()
-      expect(emotion.description?.ro, `${id} missing ro description`).toBeTruthy()
+      expect(emotion.description, `${id} leaked an unreviewed description`).toBeUndefined()
     }
   })
 
@@ -64,14 +63,8 @@ describe('new dimensional emotions (Phase 3.3)', () => {
       expect(r.id).toBe(id)
       expect(r.label.en).toBeTruthy()
       expect(r.label.ro).toBeTruthy()
-      // needs is the actionable guidance shown to users — must not be empty
-      expect(r.needs).toBeDefined()
-      if (r.needs && typeof r.needs === 'object') {
-        const en = (r.needs as { en?: string }).en
-        const ro = (r.needs as { ro?: string }).ro
-        expect(en, `${id} needs.en must not be empty`).toBeTruthy()
-        expect(ro, `${id} needs.ro must not be empty`).toBeTruthy()
-      }
+      expect(r.needs, `${id} leaked unreviewed needs`).toBeUndefined()
+      expect(r.description, `${id} leaked an unreviewed description`).toBeUndefined()
     }
   })
 

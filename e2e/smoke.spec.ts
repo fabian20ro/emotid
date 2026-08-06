@@ -87,23 +87,26 @@ test.describe('Primary check-in routes', () => {
 
   test('quick feeling reaches Meaning + Need and saves to Journal', async ({ page }) => {
     await completeQuick(page, 'anxiety')
-    await expect(page.getByRole('heading', { name: 'What may be here' })).toBeVisible()
-    await expect(page.getByText(/keep only the words that fit your experience/i)).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'What seems to fit?' })).toBeVisible()
+    await expect(page.getByText(/may be close. Keep only what fits your experience/i)).toBeVisible()
+    await expect(page.locator('.more-context')).toHaveCount(0)
+    await expect(page.getByRole('button', { name: 'grounding', exact: true })).toHaveCount(0)
+    await page.getByRole('button', { name: 'Yes' }).click()
+    await page.getByRole('button', { name: 'Explore further' }).click()
     const moreContext = page.locator('.more-context')
     await moreContext.getByText('More context').click()
     await expect(moreContext).toContainText(/closest match among these suggestions/i)
     await expect(moreContext).not.toContainText(/you are experiencing|your system is responding/i)
-    const need = page.getByRole('button', { name: 'grounding, breath, and present focus' })
+    const need = page.getByRole('button', { name: 'grounding', exact: true })
     await expect(need).toHaveAttribute('aria-pressed', 'false')
     await need.click()
-    await page.getByRole('button', { name: 'Yes' }).click()
     await finishReflection(page)
 
     await page.getByRole('button', { name: 'Journal', exact: true }).click()
     await expect(page.getByTestId('journal-screen')).toContainText(/anxiety/i)
     await page.getByRole('button', { name: /open check-in: anxiety/i }).click()
     await expect(page.getByTestId('session-detail-screen')).toContainText(/yes/i)
-    await expect(page.getByTestId('session-detail-screen')).toContainText('grounding, breath, and present focus')
+    await expect(page.getByTestId('session-detail-screen')).toContainText('grounding')
   })
 
   test('does not persist when local saving is disabled', async ({ page }) => {
@@ -224,7 +227,11 @@ test.describe('Safety behavior through the UI', () => {
 
     await page.getByRole('button', { name: 'Continue to reflection' }).click()
     await expect(page.locator('.emotion-heading')).toContainText(/despair/i)
-    await expect(page.locator('.meaning-block')).toContainText(/word alone cannot show whether you are in danger/i)
+    await expect(page.locator('.meaning-block')).toHaveCount(0)
+    await expect(page.getByRole('group', { name: 'What feels most needed right now?' })).toHaveCount(0)
+    await expect(page.getByRole('link', { name: 'Explore with AI' })).toHaveCount(0)
+    await page.getByRole('button', { name: 'Explore further' }).click()
+    await expect(page.locator('.meaning-block')).toContainText(/label alone does not establish cause, severity, danger/i)
     await expect(page.getByRole('group', { name: 'What feels most needed right now?' })).toBeVisible()
     await expect(page.getByRole('link', { name: 'Explore with AI' })).toBeVisible()
   })
@@ -234,6 +241,8 @@ test.describe('Privacy and support destinations', () => {
   test('allows the existing Google AI Mode link by default and persists opt-out', async ({ page }) => {
     await openApp(page)
     await completeQuick(page, 'anxiety')
+    await expect(page.getByRole('link', { name: 'Explore with AI' })).toHaveCount(0)
+    await page.getByRole('button', { name: 'Explore further' }).click()
     const link = page.getByRole('link', { name: 'Explore with AI' })
     await expect(link).toBeVisible()
     await expect(link).toHaveAttribute('target', '_blank')
@@ -248,6 +257,8 @@ test.describe('Privacy and support destinations', () => {
     await expect(page.getByText(/not a substitute for professional support/i)).toBeVisible()
 
     await page.getByRole('button', { name: 'Back' }).click()
+    await expect(page.getByTestId('reflection-screen')).toBeVisible()
+    await page.getByRole('button', { name: 'Back' }).click()
     await expect(page.getByTestId('today-screen')).toBeVisible()
     await page.getByRole('button', { name: 'Settings' }).click()
     await page.getByRole('button', { name: 'Privacy & data' }).click()
@@ -258,6 +269,7 @@ test.describe('Privacy and support destinations', () => {
 
     await page.reload()
     await completeQuick(page, 'joy')
+    await page.getByRole('button', { name: 'Explore further' }).click()
     await expect(page.getByRole('link', { name: 'Explore with AI' })).toHaveCount(0)
     await expect(page.getByText(/external AI search is off/i)).toBeVisible()
   })

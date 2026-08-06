@@ -5,10 +5,6 @@
       "ro": "Tradat",
       "en": "Betrayed"
     },
-    "needs": {
-      "ro": "timp, limite si doliu",
-      "en": "time, boundaries, and grieving"
-    },
     "color": "#F4B4B4"
   },
   "resentful": {
@@ -16,10 +12,6 @@
     "label": {
       "ro": "Plin de resentimente",
       "en": "Resentful"
-    },
-    "needs": {
-      "ro": "exprimarea directa a nevoilor",
-      "en": "direct expression of needs"
     },
     "color": "#F4B4B4"
   },
@@ -29,10 +21,6 @@
       "ro": "Inselat",
       "en": "Deceived"
     },
-    "needs": {
-      "ro": "adevar si repararea increderii",
-      "en": "truth and trust repair"
-    },
     "color": "#F4B4B4"
   },
   "disrespected": {
@@ -40,10 +28,6 @@
     "label": {
       "ro": "Lipsa de respect",
       "en": "Disrespected"
-    },
-    "needs": {
-      "ro": "asertivitate si demnitate restabilita",
-      "en": "assertiveness and restored dignity"
     },
     "color": "#F4B4B4"
   },
@@ -53,10 +37,6 @@
       "ro": "Ridiculizat",
       "en": "Ridiculed"
     },
-    "needs": {
-      "ro": "validare si reconstruirea valorii",
-      "en": "validation and rebuilding worth"
-    },
     "color": "#F4B4B4"
   },
   "degraded": {
@@ -64,10 +44,6 @@
     "label": {
       "ro": "Degradat",
       "en": "Degraded"
-    },
-    "needs": {
-      "ro": "demnitate si recunoastere",
-      "en": "dignity and recognition"
     },
     "color": "#F4B4B4"
   },
@@ -77,10 +53,6 @@
       "ro": "Indignat",
       "en": "Indignant"
     },
-    "needs": {
-      "ro": "dreptate si actiune constructiva",
-      "en": "justice and constructive action"
-    },
     "color": "#F4B4B4"
   },
   "violated": {
@@ -88,10 +60,6 @@
     "label": {
       "ro": "Violat",
       "en": "Violated"
-    },
-    "needs": {
-      "ro": "sprijin profesional si siguranta restabilita",
-      "en": "professional support and restored safety"
     },
     "color": "#F4B4B4",
     "distressTier": "high"
@@ -102,10 +70,6 @@
       "ro": "Furibund",
       "en": "Furious"
     },
-    "needs": {
-      "ro": "retragere imediata si calmare",
-      "en": "immediate withdrawal and cooling down"
-    },
     "color": "#F4B4B4"
   },
   "jealous": {
@@ -113,10 +77,6 @@
     "label": {
       "ro": "Gelos",
       "en": "Jealous"
-    },
-    "needs": {
-      "ro": "examinarea fricilor si reasigurare",
-      "en": "examining fears and reassurance"
     },
     "color": "#F4B4B4"
   },
@@ -126,10 +86,6 @@
       "ro": "Turbat de furie",
       "en": "Enraged"
     },
-    "needs": {
-      "ro": "pauza imediata si descarcare fizica sigura",
-      "en": "immediate pause and safe physical discharge"
-    },
     "color": "#F4B4B4"
   },
   "spiteful": {
@@ -137,10 +93,6 @@
     "label": {
       "ro": "Rauvoitor",
       "en": "Spiteful"
-    },
-    "needs": {
-      "ro": "ingrijirea ranii si eliberare",
-      "en": "tending the wound and release"
     },
     "color": "#F4B4B4"
   },
@@ -150,10 +102,6 @@
       "ro": "Dornic de razbunare",
       "en": "Vengeful"
     },
-    "needs": {
-      "ro": "dreptate si eliberarea trecutului",
-      "en": "justice and releasing the past"
-    },
     "color": "#F4B4B4"
   },
   "patronized": {
@@ -161,10 +109,6 @@
     "label": {
       "ro": "Tratat cu condescendenta",
       "en": "Patronized"
-    },
-    "needs": {
-      "ro": "recunoasterea competentei si egalitate",
-      "en": "recognition of competence and equality"
     },
     "color": "#F4B4B4"
   },
@@ -174,10 +118,6 @@
       "ro": "Provocat",
       "en": "Provoked"
     },
-    "needs": {
-      "ro": "autoreglare si alegere constienta",
-      "en": "self-regulation and conscious choice"
-    },
     "color": "#F4B4B4"
   },
   "hostile": {
@@ -185,10 +125,6 @@
     "label": {
       "ro": "Ostil",
       "en": "Hostile"
-    },
-    "needs": {
-      "ro": "sustinere terapeutica si vulnerabilitate",
-      "en": "therapeutic support and vulnerability"
     },
     "color": "#F4B4B4"
   },
@@ -198,10 +134,6 @@
       "ro": "Infuriat",
       "en": "Infuriated"
     },
-    "needs": {
-      "ro": "descarcare si exprimarea nevoilor neindeplinite",
-      "en": "discharge and expressing unmet needs"
-    },
     "color": "#F4B4B4"
   },
   "annoyed": {
@@ -209,10 +141,6 @@
     "label": {
       "ro": "Enervat",
       "en": "Annoyed"
-    },
-    "needs": {
-      "ro": "limite clare si verificare interioara",
-      "en": "clear boundaries and self-check"
     },
     "color": "#F4B4B4"
   },
@@ -222,10 +150,6 @@
       "ro": "Exasperat",
       "en": "Exasperated"
     },
-    "needs": {
-      "ro": "o abordare noua si sustinere",
-      "en": "a new approach and support"
-    },
     "color": "#F4B4B4"
   },
   "withdrawn": {
@@ -233,10 +157,6 @@
     "label": {
       "ro": "Retras",
       "en": "Withdrawn"
-    },
-    "needs": {
-      "ro": "reconectare sigura in ritmul propriu",
-      "en": "safe reconnection at own pace"
     },
     "color": "#F4B4B4"
   },
@@ -246,10 +166,6 @@
       "ro": "Detasat",
       "en": "Detached"
     },
-    "needs": {
-      "ro": "reconectare treptata si siguranta",
-      "en": "gradual reconnection and safety"
-    },
     "color": "#F4B4B4"
   },
   "skeptical": {
@@ -257,10 +173,6 @@
     "label": {
       "ro": "Sceptic",
       "en": "Skeptical"
-    },
-    "needs": {
-      "ro": "discernamant si deschidere catre incredere",
-      "en": "discernment and openness to trust"
     },
     "color": "#F4B4B4"
   },
@@ -270,10 +182,6 @@
       "ro": "Disprețuitor",
       "en": "Dismissive"
     },
-    "needs": {
-      "ro": "constientizare de sine si implicare autentica",
-      "en": "self-awareness and genuine engagement"
-    },
     "color": "#F4B4B4"
   },
   "defiant": {
@@ -281,10 +189,6 @@
     "label": {
       "ro": "Sfidator",
       "en": "Defiant"
-    },
-    "needs": {
-      "ro": "autonomie si respect reciproc",
-      "en": "autonomy and mutual respect"
     },
     "color": "#F4B4B4"
   },
@@ -294,10 +198,6 @@
       "ro": "Combativ",
       "en": "Combative"
     },
-    "needs": {
-      "ro": "discernamant si canalizare",
-      "en": "discernment and channeling"
-    },
     "color": "#F4B4B4"
   },
   "seething": {
@@ -305,10 +205,6 @@
     "label": {
       "ro": "Clocotind",
       "en": "Seething"
-    },
-    "needs": {
-      "ro": "exprimare treptata si sigura",
-      "en": "gradual and safe expression"
     },
     "color": "#F4B4B4"
   },
@@ -318,10 +214,6 @@
       "ro": "Saturat",
       "en": "Fed up"
     },
-    "needs": {
-      "ro": "actiune cu claritate si hotarare",
-      "en": "action with clarity and resolve"
-    },
     "color": "#F4B4B4"
   },
   "cynical": {
@@ -329,10 +221,6 @@
     "label": {
       "ro": "Cinic",
       "en": "Cynical"
-    },
-    "needs": {
-      "ro": "experienta pozitiva si deschidere treptata",
-      "en": "positive experience and gradual openness"
     },
     "color": "#F4B4B4"
   },
@@ -342,10 +230,6 @@
       "ro": "Autocritic",
       "en": "Self-critical"
     },
-    "needs": {
-      "ro": "autocompasiune si echilibru intern",
-      "en": "self-compassion and inner balance"
-    },
     "color": "#F4B4B4"
   },
   "passive_aggressive": {
@@ -353,10 +237,6 @@
     "label": {
       "ro": "Pasiv-agresiv",
       "en": "Passive-aggressive"
-    },
-    "needs": {
-      "ro": "siguranta pentru exprimare directa",
-      "en": "safety for direct expression"
     },
     "color": "#F4B4B4"
   },
@@ -366,10 +246,6 @@
       "ro": "Somnoros",
       "en": "Sleepy"
     },
-    "needs": {
-      "ro": "permisiunea de a te odihni",
-      "en": "permission to rest"
-    },
     "color": "#D0D8E0"
   },
   "unfocused": {
@@ -377,10 +253,6 @@
     "label": {
       "ro": "Neconcentrat",
       "en": "Unfocused"
-    },
-    "needs": {
-      "ro": "o pauza si cerinte reduse",
-      "en": "a break and reduced demands"
     },
     "color": "#D0D8E0"
   },
@@ -390,10 +262,6 @@
       "ro": "Coplesit",
       "en": "Overwhelmed"
     },
-    "needs": {
-      "ro": "sustinere si pasi mai mici",
-      "en": "support and smaller steps"
-    },
     "color": "#D0D8E0"
   },
   "out_of_control": {
@@ -401,10 +269,6 @@
     "label": {
       "ro": "Scapat de sub control",
       "en": "Out of control"
-    },
-    "needs": {
-      "ro": "o actiune mica controlabila",
-      "en": "one small controllable action"
     },
     "color": "#D0D8E0"
   },
@@ -414,10 +278,6 @@
       "ro": "Presat",
       "en": "Pressured"
     },
-    "needs": {
-      "ro": "spatiu si asteptari realiste",
-      "en": "space and realistic expectations"
-    },
     "color": "#D0D8E0"
   },
   "rushed": {
@@ -425,10 +285,6 @@
     "label": {
       "ro": "Grabit",
       "en": "Rushed"
-    },
-    "needs": {
-      "ro": "incetinire si prezenta",
-      "en": "slowing down and presence"
     },
     "color": "#D0D8E0"
   },
@@ -438,10 +294,6 @@
       "ro": "Indiferent",
       "en": "Indifferent"
     },
-    "needs": {
-      "ro": "reconectare blanda si curiozitate",
-      "en": "gentle reconnection and curiosity"
-    },
     "color": "#D0D8E0"
   },
   "drained": {
@@ -449,10 +301,6 @@
     "label": {
       "ro": "Epuizat",
       "en": "Drained"
-    },
-    "needs": {
-      "ro": "reumplere si protejare",
-      "en": "replenishment and protection"
     },
     "color": "#D0D8E0"
   },
@@ -462,10 +310,6 @@
       "ro": "Suprasolicitat",
       "en": "Overloaded"
     },
-    "needs": {
-      "ro": "reducere si simplificare",
-      "en": "reduction and simplification"
-    },
     "color": "#D0D8E0"
   },
   "restless": {
@@ -473,10 +317,6 @@
     "label": {
       "ro": "Nelinistit",
       "en": "Restless"
-    },
-    "needs": {
-      "ro": "stimulare cu sens si directie",
-      "en": "meaningful stimulation and direction"
     },
     "color": "#D0D8E0"
   },
@@ -486,10 +326,6 @@
       "ro": "Epuizat profesional",
       "en": "Burned out"
     },
-    "needs": {
-      "ro": "odihna profunda si reevaluare",
-      "en": "deep rest and reassessment"
-    },
     "color": "#D0D8E0"
   },
   "on_edge": {
@@ -497,10 +333,6 @@
     "label": {
       "ro": "Cu nervii intinsi",
       "en": "On edge"
-    },
-    "needs": {
-      "ro": "reducerea stimulilor si spatiu sigur",
-      "en": "stimulus reduction and safe space"
     },
     "color": "#D0D8E0"
   },
@@ -510,10 +342,6 @@
       "ro": "Irascibil",
       "en": "Irritable"
     },
-    "needs": {
-      "ro": "descarcare si autocompasiune",
-      "en": "discharge and self-compassion"
-    },
     "color": "#D0D8E0"
   },
   "foggy": {
@@ -521,10 +349,6 @@
     "label": {
       "ro": "Tulbure",
       "en": "Foggy"
-    },
-    "needs": {
-      "ro": "odihna si simplificare",
-      "en": "rest and simplification"
     },
     "color": "#D0D8E0"
   },
@@ -534,10 +358,6 @@
       "ro": "Blocat",
       "en": "Stuck"
     },
-    "needs": {
-      "ro": "perspectiva noua si un prim pas",
-      "en": "new perspective and a first step"
-    },
     "color": "#D0D8E0"
   },
   "judgmental": {
@@ -545,10 +365,6 @@
     "label": {
       "ro": "Critic",
       "en": "Judgmental"
-    },
-    "needs": {
-      "ro": "examinare de sine si compasiune",
-      "en": "self-examination and compassion"
     },
     "color": "#E0B4D8"
   },
@@ -558,10 +374,6 @@
       "ro": "Ingrozit",
       "en": "Appalled"
     },
-    "needs": {
-      "ro": "claritate morala si raspuns cu scop",
-      "en": "moral clarity and purposeful response"
-    },
     "color": "#E0B4D8"
   },
   "revolted": {
@@ -569,10 +381,6 @@
     "label": {
       "ro": "Revoltat",
       "en": "Revolted"
-    },
-    "needs": {
-      "ro": "actiune constructiva si dreptate",
-      "en": "constructive action and justice"
     },
     "color": "#E0B4D8"
   },
@@ -582,10 +390,6 @@
       "ro": "Greata",
       "en": "Nauseated"
     },
-    "needs": {
-      "ro": "distanta fizica si ancorare",
-      "en": "physical distance and grounding"
-    },
     "color": "#E0B4D8"
   },
   "detestable": {
@@ -593,10 +397,6 @@
     "label": {
       "ro": "Detestabil",
       "en": "Detestable"
-    },
-    "needs": {
-      "ro": "discernamant si examinare constienta",
-      "en": "discernment and conscious examination"
     },
     "color": "#E0B4D8"
   },
@@ -606,10 +406,6 @@
       "ro": "Ezitant",
       "en": "Hesitant"
     },
-    "needs": {
-      "ro": "ascultarea ambelor parti si claritate",
-      "en": "listening to both sides and clarity"
-    },
     "color": "#E0B4D8"
   },
   "horrified": {
@@ -617,10 +413,6 @@
     "label": {
       "ro": "Oripilat",
       "en": "Horrified"
-    },
-    "needs": {
-      "ro": "sprijin de procesare si siguranta",
-      "en": "processing support and safety"
     },
     "color": "#E0B4D8"
   },
@@ -630,10 +422,6 @@
       "ro": "Dispretitor",
       "en": "Contemptuous"
     },
-    "needs": {
-      "ro": "examinare de sine si reconectare",
-      "en": "self-examination and reconnection"
-    },
     "color": "#E0B4D8"
   },
   "repulsed": {
@@ -641,10 +429,6 @@
     "label": {
       "ro": "Scarbit",
       "en": "Repulsed"
-    },
-    "needs": {
-      "ro": "distanta imediata si siguranta",
-      "en": "immediate distance and safety"
     },
     "color": "#E0B4D8"
   },
@@ -654,10 +438,6 @@
       "ro": "Ingretosat",
       "en": "Sickened"
     },
-    "needs": {
-      "ro": "distanta si procesare morala",
-      "en": "distance and moral processing"
-    },
     "color": "#E0B4D8"
   },
   "scandalized": {
@@ -666,10 +446,6 @@
       "ro": "Scandalizat",
       "en": "Scandalized"
     },
-    "needs": {
-      "ro": "restabilirea standardelor si actiune",
-      "en": "restoring standards and action"
-    },
     "color": "#E0B4D8"
   },
   "self_loathing": {
@@ -677,10 +453,6 @@
     "label": {
       "ro": "Autodezgust",
       "en": "Self-loathing"
-    },
-    "needs": {
-      "ro": "sprijin profesional si autocompasiune",
-      "en": "professional support and self-compassion"
     },
     "color": "#E0B4D8",
     "distressTier": "watch"
@@ -691,10 +463,6 @@
       "ro": "Intinat",
       "en": "Tainted"
     },
-    "needs": {
-      "ro": "purificare simbolica si separare de experienta",
-      "en": "symbolic purification and separation from experience"
-    },
     "color": "#E0B4D8"
   },
   "repugnant": {
@@ -703,10 +471,6 @@
       "ro": "Respingator",
       "en": "Repugnant"
     },
-    "needs": {
-      "ro": "distanta si examinare constienta",
-      "en": "distance and conscious examination"
-    },
     "color": "#E0B4D8"
   },
   "helpless": {
@@ -714,10 +478,6 @@
     "label": {
       "ro": "Neajutorat",
       "en": "Helpless"
-    },
-    "needs": {
-      "ro": "un pas mic si sustinere",
-      "en": "one small step and support"
     },
     "color": "#B0E0C0",
     "distressTier": "high"
@@ -728,10 +488,6 @@
       "ro": "Infricosat",
       "en": "Frightened"
     },
-    "needs": {
-      "ro": "un spatiu sigur si un aliat calm",
-      "en": "a safe space and a calming ally"
-    },
     "color": "#B0E0C0"
   },
   "panicked": {
@@ -739,10 +495,6 @@
     "label": {
       "ro": "Panicat",
       "en": "Panicked"
-    },
-    "needs": {
-      "ro": "ancorare si calmare imediata",
-      "en": "grounding and immediate calming"
     },
     "color": "#B0E0C0",
     "distressTier": "high"
@@ -753,10 +505,6 @@
       "ro": "Coplesit",
       "en": "Overwhelmed"
     },
-    "needs": {
-      "ro": "ancorare, respiratie si prezenta",
-      "en": "grounding, breathing, and presence"
-    },
     "color": "#B0E0C0"
   },
   "worried": {
@@ -764,10 +512,6 @@
     "label": {
       "ro": "Ingrijorat",
       "en": "Worried"
-    },
-    "needs": {
-      "ro": "reasigurare si un plan concret",
-      "en": "reassurance and a concrete plan"
     },
     "color": "#B0E0C0"
   },
@@ -777,10 +521,6 @@
       "ro": "Cu presimtiri",
       "en": "Apprehensive"
     },
-    "needs": {
-      "ro": "reasigurare si ancorare in prezent",
-      "en": "reassurance and grounding in the present"
-    },
     "color": "#B0E0C0"
   },
   "inadequate": {
@@ -788,10 +528,6 @@
     "label": {
       "ro": "Inadecvat",
       "en": "Inadequate"
-    },
-    "needs": {
-      "ro": "auto-compasiune si standarde realiste",
-      "en": "self-compassion and realistic standards"
     },
     "color": "#B0E0C0"
   },
@@ -801,10 +537,6 @@
       "ro": "Plin de indoieli",
       "en": "Self-Doubting"
     },
-    "needs": {
-      "ro": "validare si incredere treptata",
-      "en": "validation and gradual confidence"
-    },
     "color": "#B0E0C0"
   },
   "dread": {
@@ -812,10 +544,6 @@
     "label": {
       "ro": "Groaza",
       "en": "Dread"
-    },
-    "needs": {
-      "ro": "perspectiva lucida si ancorare in prezent",
-      "en": "lucid perspective and grounding in the present"
     },
     "color": "#B0E0C0"
   },
@@ -825,10 +553,6 @@
       "ro": "Paralizat",
       "en": "Paralyzed"
     },
-    "needs": {
-      "ro": "miscari mici si siguranta graduala",
-      "en": "small movements and gradual safety"
-    },
     "color": "#B0E0C0"
   },
   "obsessive": {
@@ -836,10 +560,6 @@
     "label": {
       "ro": "Obsedat",
       "en": "Obsessive"
-    },
-    "needs": {
-      "ro": "ancorare corporala si acceptarea incertitudinii",
-      "en": "bodily grounding and accepting uncertainty"
     },
     "color": "#B0E0C0"
   },
@@ -849,10 +569,6 @@
       "ro": "Stanjenit",
       "en": "Self-conscious"
     },
-    "needs": {
-      "ro": "acceptare de sine si siguranta sociala",
-      "en": "self-acceptance and social safety"
-    },
     "color": "#B0E0C0"
   },
   "worthless": {
@@ -860,10 +576,6 @@
     "label": {
       "ro": "Lipsit de valoare",
       "en": "Worthless"
-    },
-    "needs": {
-      "ro": "sustinere imediata si conexiune",
-      "en": "immediate support and connection"
     },
     "color": "#B0E0C0",
     "distressTier": "high"
@@ -874,10 +586,6 @@
       "ro": "Nesemnificativ",
       "en": "Insignificant"
     },
-    "needs": {
-      "ro": "a fi vazut si recunoscut",
-      "en": "being seen and acknowledged"
-    },
     "color": "#B0E0C0"
   },
   "excluded": {
@@ -885,10 +593,6 @@
     "label": {
       "ro": "Exclus",
       "en": "Excluded"
-    },
-    "needs": {
-      "ro": "incluziune si compasiune",
-      "en": "inclusion and compassion"
     },
     "color": "#B0E0C0"
   },
@@ -898,10 +602,6 @@
       "ro": "Persecutat",
       "en": "Persecuted"
     },
-    "needs": {
-      "ro": "siguranta si sprijin de incredere",
-      "en": "safety and trusted support"
-    },
     "color": "#B0E0C0"
   },
   "unwanted": {
@@ -909,10 +609,6 @@
     "label": {
       "ro": "Nedorit",
       "en": "Unwanted"
-    },
-    "needs": {
-      "ro": "conexiune autentica si acceptare",
-      "en": "authentic connection and acceptance"
     },
     "color": "#B0E0C0"
   },
@@ -922,10 +618,6 @@
       "ro": "Expus",
       "en": "Exposed"
     },
-    "needs": {
-      "ro": "siguranta si limite restabilite",
-      "en": "safety and restored boundaries"
-    },
     "color": "#B0E0C0"
   },
   "on_guard": {
@@ -933,10 +625,6 @@
     "label": {
       "ro": "In garda",
       "en": "On Guard"
-    },
-    "needs": {
-      "ro": "siguranta confirmata si relaxare",
-      "en": "confirmed safety and relaxation"
     },
     "color": "#B0E0C0"
   },
@@ -946,10 +634,6 @@
       "ro": "Mic",
       "en": "Small"
     },
-    "needs": {
-      "ro": "reocuparea spatiului si afirmarea prezentei",
-      "en": "reclaiming space and affirming presence"
-    },
     "color": "#B0E0C0"
   },
   "alienated": {
@@ -957,10 +641,6 @@
     "label": {
       "ro": "Instrainat",
       "en": "Alienated"
-    },
-    "needs": {
-      "ro": "apartinere autentica si acceptarea diferentei",
-      "en": "authentic belonging and acceptance of difference"
     },
     "color": "#B0E0C0"
   },
@@ -970,10 +650,6 @@
       "ro": "Suspicios",
       "en": "Suspicious"
     },
-    "needs": {
-      "ro": "discernamant si experienta de incredere",
-      "en": "discernment and trust experience"
-    },
     "color": "#B0E0C0"
   },
   "trapped": {
@@ -981,10 +657,6 @@
     "label": {
       "ro": "Prins in capcana",
       "en": "Trapped"
-    },
-    "needs": {
-      "ro": "o optiune si perspectiva",
-      "en": "one option and perspective"
     },
     "color": "#B0E0C0"
   },
@@ -994,10 +666,6 @@
       "ro": "Entuziasmat",
       "en": "Energized"
     },
-    "needs": {
-      "ro": "exprimare si miscare",
-      "en": "expression and movement"
-    },
     "color": "#FFF0A0"
   },
   "cheeky": {
@@ -1005,10 +673,6 @@
     "label": {
       "ro": "Obraznic",
       "en": "Cheeky"
-    },
-    "needs": {
-      "ro": "spatiu de joc si permisiune",
-      "en": "playful space and permission"
     },
     "color": "#FFF0A0"
   },
@@ -1018,10 +682,6 @@
       "ro": "Zburdalnic",
       "en": "Silly"
     },
-    "needs": {
-      "ro": "permisiune si lipsa judecatii",
-      "en": "permission and freedom from judgment"
-    },
     "color": "#FFF0A0"
   },
   "free": {
@@ -1029,10 +689,6 @@
     "label": {
       "ro": "Liber",
       "en": "Free"
-    },
-    "needs": {
-      "ro": "spatiu deschis si autonomie",
-      "en": "open space and autonomy"
     },
     "color": "#FFF0A0"
   },
@@ -1042,10 +698,6 @@
       "ro": "Bucuros",
       "en": "Joyful"
     },
-    "needs": {
-      "ro": "partajare si celebrare",
-      "en": "sharing and celebration"
-    },
     "color": "#FFF0A0"
   },
   "curious": {
@@ -1053,10 +705,6 @@
     "label": {
       "ro": "Curios",
       "en": "Curious"
-    },
-    "needs": {
-      "ro": "noutate si explorare",
-      "en": "novelty and exploration"
     },
     "color": "#FFF0A0"
   },
@@ -1066,10 +714,6 @@
       "ro": "Iscoditor",
       "en": "Inquisitive"
     },
-    "needs": {
-      "ro": "raspunsuri si profunzime",
-      "en": "answers and depth"
-    },
     "color": "#FFF0A0"
   },
   "successful": {
@@ -1077,10 +721,6 @@
     "label": {
       "ro": "De succes",
       "en": "Successful"
-    },
-    "needs": {
-      "ro": "recunoastere si odihna",
-      "en": "acknowledgment and rest"
     },
     "color": "#FFF0A0"
   },
@@ -1090,10 +730,6 @@
       "ro": "Increzator",
       "en": "Confident"
     },
-    "needs": {
-      "ro": "incredere in sine si provocari noi",
-      "en": "trust in self and new challenges"
-    },
     "color": "#FFF0A0"
   },
   "accomplished": {
@@ -1101,10 +737,6 @@
     "label": {
       "ro": "Implinit",
       "en": "Accomplished"
-    },
-    "needs": {
-      "ro": "recunoastere si integrare",
-      "en": "recognition and integration"
     },
     "color": "#FFF0A0"
   },
@@ -1114,10 +746,6 @@
       "ro": "Respectat",
       "en": "Respected"
     },
-    "needs": {
-      "ro": "demnitate si a fi auzit",
-      "en": "dignity and being heard"
-    },
     "color": "#FFF0A0"
   },
   "valued": {
@@ -1125,10 +753,6 @@
     "label": {
       "ro": "Valorizat",
       "en": "Valued"
-    },
-    "needs": {
-      "ro": "apreciere si scop",
-      "en": "appreciation and purpose"
     },
     "color": "#FFF0A0"
   },
@@ -1138,10 +762,6 @@
       "ro": "Inclus",
       "en": "Included"
     },
-    "needs": {
-      "ro": "apartinere si confirmare",
-      "en": "belonging and confirmation"
-    },
     "color": "#FFF0A0"
   },
   "blessed": {
@@ -1149,10 +769,6 @@
     "label": {
       "ro": "Binecuvantat",
       "en": "Blessed"
-    },
-    "needs": {
-      "ro": "smerenie si savurare",
-      "en": "humility and savoring"
     },
     "color": "#FFF0A0"
   },
@@ -1162,10 +778,6 @@
       "ro": "Fascinat",
       "en": "Fascinated"
     },
-    "needs": {
-      "ro": "imersiune si timp neintrerupt",
-      "en": "immersion and uninterrupted time"
-    },
     "color": "#FFF0A0"
   },
   "absorbed": {
@@ -1173,10 +785,6 @@
     "label": {
       "ro": "Captivat",
       "en": "Absorbed"
-    },
-    "needs": {
-      "ro": "continuitate si lipsa intreruperilor",
-      "en": "continuity and freedom from interruption"
     },
     "color": "#FFF0A0"
   },
@@ -1186,10 +794,6 @@
       "ro": "Demn",
       "en": "Worthy"
     },
-    "needs": {
-      "ro": "validare si auto-compasiune",
-      "en": "validation and self-compassion"
-    },
     "color": "#FFF0A0"
   },
   "courageous": {
@@ -1197,10 +801,6 @@
     "label": {
       "ro": "Curajos",
       "en": "Courageous"
-    },
-    "needs": {
-      "ro": "sustinere si spatiu de actiune",
-      "en": "support and space to act"
     },
     "color": "#FFF0A0"
   },
@@ -1210,10 +810,6 @@
       "ro": "Creativ",
       "en": "Creative"
     },
-    "needs": {
-      "ro": "inspiratie si libertate de a experimenta",
-      "en": "inspiration and freedom to experiment"
-    },
     "color": "#FFF0A0"
   },
   "determined": {
@@ -1221,10 +817,6 @@
     "label": {
       "ro": "Hotarat",
       "en": "Determined"
-    },
-    "needs": {
-      "ro": "claritate si perseverenta",
-      "en": "clarity and perseverance"
     },
     "color": "#FFF0A0"
   },
@@ -1234,10 +826,6 @@
       "ro": "Iubitor",
       "en": "Loving"
     },
-    "needs": {
-      "ro": "reciprocitate si prezenta",
-      "en": "reciprocity and presence"
-    },
     "color": "#FFF0A0"
   },
   "thankful": {
@@ -1245,10 +833,6 @@
     "label": {
       "ro": "Recunoscator",
       "en": "Thankful"
-    },
-    "needs": {
-      "ro": "savurare si exprimare",
-      "en": "savoring and expression"
     },
     "color": "#FFF0A0"
   },
@@ -1258,10 +842,6 @@
       "ro": "Armonios",
       "en": "Harmonious"
     },
-    "needs": {
-      "ro": "coerenta si echilibru",
-      "en": "coherence and balance"
-    },
     "color": "#FFF0A0"
   },
   "sensitive": {
@@ -1269,10 +849,6 @@
     "label": {
       "ro": "Sensibil",
       "en": "Sensitive"
-    },
-    "needs": {
-      "ro": "blandete si limite",
-      "en": "gentleness and boundaries"
     },
     "color": "#FFF0A0"
   },
@@ -1282,10 +858,6 @@
       "ro": "Intim",
       "en": "Intimate"
     },
-    "needs": {
-      "ro": "incredere si vulnerabilitate",
-      "en": "trust and vulnerability"
-    },
     "color": "#FFF0A0"
   },
   "inspired": {
@@ -1293,10 +865,6 @@
     "label": {
       "ro": "Inspirat",
       "en": "Inspired"
-    },
-    "needs": {
-      "ro": "exprimare creativa si actiune",
-      "en": "creative expression and action"
     },
     "color": "#FFF0A0"
   },
@@ -1306,10 +874,6 @@
       "ro": "Deschis",
       "en": "Open"
     },
-    "needs": {
-      "ro": "acceptare si experienta noua",
-      "en": "acceptance and new experience"
-    },
     "color": "#FFF0A0"
   },
   "hopeful": {
@@ -1317,10 +881,6 @@
     "label": {
       "ro": "Plin de speranta",
       "en": "Hopeful"
-    },
-    "needs": {
-      "ro": "posibilitate si rabdare",
-      "en": "possibility and patience"
     },
     "color": "#FFF0A0"
   },
@@ -1330,10 +890,6 @@
       "ro": "Indraznet",
       "en": "Brave"
     },
-    "needs": {
-      "ro": "sustinere si recunoastere",
-      "en": "support and recognition"
-    },
     "color": "#FFF0A0"
   },
   "safe": {
@@ -1341,10 +897,6 @@
     "label": {
       "ro": "In siguranta",
       "en": "Safe"
-    },
-    "needs": {
-      "ro": "stabilitate si predictibilitate",
-      "en": "stability and predictability"
     },
     "color": "#FFF0A0"
   },
@@ -1354,10 +906,6 @@
       "ro": "Dezamagit",
       "en": "Disappointed"
     },
-    "needs": {
-      "ro": "ajustarea sperantelor si doliu bland",
-      "en": "adjusting hopes and gentle grieving"
-    },
     "color": "#B0C8E4"
   },
   "wounded": {
@@ -1366,10 +914,6 @@
       "ro": "Ranit profund",
       "en": "Wounded"
     },
-    "needs": {
-      "ro": "recunoastere si ingrijire blanda",
-      "en": "acknowledgment and gentle care"
-    },
     "color": "#B0C8E4"
   },
   "empty": {
@@ -1377,10 +921,6 @@
     "label": {
       "ro": "Gol",
       "en": "Empty"
-    },
-    "needs": {
-      "ro": "reconectare senzoriala si prezenta",
-      "en": "sensory reconnection and presence"
     },
     "color": "#B0C8E4",
     "distressTier": "high"
@@ -1391,10 +931,6 @@
       "ro": "Deznadajduit",
       "en": "Hopeless"
     },
-    "needs": {
-      "ro": "sprijin si o perspectiva noua",
-      "en": "support and a new perspective"
-    },
     "color": "#B0C8E4",
     "distressTier": "high"
   },
@@ -1404,10 +940,6 @@
       "ro": "Plin de remuscari",
       "en": "Remorseful"
     },
-    "needs": {
-      "ro": "actiune reparatorie si auto-iertare",
-      "en": "reparative action and self-forgiveness"
-    },
     "color": "#B0C8E4"
   },
   "ashamed": {
@@ -1415,10 +947,6 @@
     "label": {
       "ro": "Rusinat",
       "en": "Ashamed"
-    },
-    "needs": {
-      "ro": "acceptare neconditionata si apartinere",
-      "en": "unconditional acceptance and belonging"
     },
     "color": "#B0C8E4"
   },
@@ -1428,10 +956,6 @@
       "ro": "Plin de regret",
       "en": "Regretful"
     },
-    "needs": {
-      "ro": "acceptare si invatare din experienta",
-      "en": "acceptance and learning from experience"
-    },
     "color": "#B0C8E4"
   },
   "heartbroken": {
@@ -1439,10 +963,6 @@
     "label": {
       "ro": "Cu inima franta",
       "en": "Heartbroken"
-    },
-    "needs": {
-      "ro": "timp, doliu si prezenta",
-      "en": "time, grieving, and presence"
     },
     "color": "#B0C8E4"
   },
@@ -1452,10 +972,6 @@
       "ro": "Secatuit",
       "en": "Depleted"
     },
-    "needs": {
-      "ro": "primire si reumplere",
-      "en": "receiving and replenishment"
-    },
     "color": "#B0C8E4"
   },
   "self_blaming": {
@@ -1463,10 +979,6 @@
     "label": {
       "ro": "Autocondamnator",
       "en": "Self-blaming"
-    },
-    "needs": {
-      "ro": "discernamant si eliberare de vina preluata",
-      "en": "discernment and release from assumed blame"
     },
     "color": "#B0C8E4",
     "distressTier": "watch"
@@ -1477,10 +989,6 @@
       "ro": "Nedemn",
       "en": "Unworthy"
     },
-    "needs": {
-      "ro": "acceptare neconditionata si experienta de merit",
-      "en": "unconditional acceptance and experience of deservingness"
-    },
     "color": "#B0C8E4",
     "distressTier": "watch"
   },
@@ -1489,10 +997,6 @@
     "label": {
       "ro": "Neputincios",
       "en": "Powerless"
-    },
-    "needs": {
-      "ro": "un pas mic controlabil",
-      "en": "one small controllable step"
     },
     "color": "#B0C8E4",
     "distressTier": "high"
@@ -1503,10 +1007,6 @@
       "ro": "Chinuit",
       "en": "Anguished"
     },
-    "needs": {
-      "ro": "prezenta umana si siguranta imediata",
-      "en": "human presence and immediate safety"
-    },
     "color": "#B0C8E4",
     "distressTier": "high"
   },
@@ -1516,10 +1016,6 @@
       "ro": "Fragil",
       "en": "Fragile"
     },
-    "needs": {
-      "ro": "blandete si odihna protejata",
-      "en": "gentleness and protected rest"
-    },
     "color": "#B0C8E4"
   },
   "victimized": {
@@ -1527,10 +1023,6 @@
     "label": {
       "ro": "Victimizat",
       "en": "Victimized"
-    },
-    "needs": {
-      "ro": "validare si recapatarea agentivitatii",
-      "en": "validation and reclaiming agency"
     },
     "color": "#B0C8E4",
     "distressTier": "high"
@@ -1541,10 +1033,6 @@
       "ro": "Fara aparare",
       "en": "Defenseless"
     },
-    "needs": {
-      "ro": "protectie si sprijin extern",
-      "en": "protection and external support"
-    },
     "color": "#B0C8E4"
   },
   "abandoned": {
@@ -1552,10 +1040,6 @@
     "label": {
       "ro": "Abandonat",
       "en": "Abandoned"
-    },
-    "needs": {
-      "ro": "atasament sigur si legaturi reparatorii",
-      "en": "safe attachment and reparative bonds"
     },
     "color": "#B0C8E4",
     "distressTier": "high"
@@ -1566,10 +1050,6 @@
       "ro": "Izolat",
       "en": "Isolated"
     },
-    "needs": {
-      "ro": "un pas mic catre conexiune",
-      "en": "one small step toward connection"
-    },
     "color": "#B0C8E4"
   },
   "loneliness": {
@@ -1578,21 +1058,17 @@
       "ro": "Singuratate",
       "en": "Loneliness"
     },
-    "needs": {
-      "ro": "conexiune autentica si apartenenta",
-      "en": "authentic connection and belonging"
-    },
-    "color": "#5C6BC0"
+    "color": "#5C6BC0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": "connection"
+    }
   },
   "devastated": {
     "id": "devastated",
     "label": {
       "ro": "Devastat",
       "en": "Devastated"
-    },
-    "needs": {
-      "ro": "prezenta umana si timp",
-      "en": "human presence and time"
     },
     "color": "#B0C8E4"
   },
@@ -1602,10 +1078,6 @@
       "ro": "Pustiit",
       "en": "Desolate"
     },
-    "needs": {
-      "ro": "rabdare si hranire blanda",
-      "en": "patience and gentle nourishment"
-    },
     "color": "#B0C8E4"
   },
   "embarrassed": {
@@ -1613,10 +1085,6 @@
     "label": {
       "ro": "Jenat",
       "en": "Embarrassed"
-    },
-    "needs": {
-      "ro": "reasigurare si perspectiva",
-      "en": "reassurance and perspective"
     },
     "color": "#B0C8E4"
   },
@@ -1626,10 +1094,6 @@
       "ro": "Inferior",
       "en": "Inferior"
     },
-    "needs": {
-      "ro": "afirmarea valorii inerente",
-      "en": "affirmation of inherent worth"
-    },
     "color": "#B0C8E4"
   },
   "humbled": {
@@ -1637,10 +1101,6 @@
     "label": {
       "ro": "Smerit",
       "en": "Humbled"
-    },
-    "needs": {
-      "ro": "acceptare si fundament nou",
-      "en": "acceptance and new foundation"
     },
     "color": "#B0C8E4"
   },
@@ -1650,10 +1110,6 @@
       "ro": "Socat",
       "en": "Shocked"
     },
-    "needs": {
-      "ro": "siguranta, timp si sustinere",
-      "en": "safety, time, and support"
-    },
     "color": "#C8E8CC"
   },
   "dismayed": {
@@ -1661,10 +1117,6 @@
     "label": {
       "ro": "Consternat",
       "en": "Dismayed"
-    },
-    "needs": {
-      "ro": "validare si reasigurare",
-      "en": "validation and reassurance"
     },
     "color": "#C8E8CC"
   },
@@ -1674,10 +1126,6 @@
       "ro": "Deziluzionat",
       "en": "Disillusioned"
     },
-    "needs": {
-      "ro": "onestitate si timp pentru doliu",
-      "en": "honesty and time to grieve"
-    },
     "color": "#C8E8CC"
   },
   "perplexed": {
@@ -1685,10 +1133,6 @@
     "label": {
       "ro": "Perplex",
       "en": "Perplexed"
-    },
-    "needs": {
-      "ro": "ghidare si o perspectiva noua",
-      "en": "guidance and a fresh perspective"
     },
     "color": "#C8E8CC"
   },
@@ -1698,10 +1142,6 @@
       "ro": "Stupefiat",
       "en": "Astonished"
     },
-    "needs": {
-      "ro": "liniste si spatiu de procesare",
-      "en": "stillness and space to process"
-    },
     "color": "#C8E8CC"
   },
   "eager": {
@@ -1709,10 +1149,6 @@
     "label": {
       "ro": "Nerabdator",
       "en": "Eager"
-    },
-    "needs": {
-      "ro": "actiune si energie canalizata",
-      "en": "action and channeled energy"
     },
     "color": "#C8E8CC"
   },
@@ -1722,10 +1158,6 @@
       "ro": "Energic",
       "en": "Energetic"
     },
-    "needs": {
-      "ro": "miscare si activitate cu scop",
-      "en": "movement and purposeful activity"
-    },
     "color": "#C8E8CC"
   },
   "jolted": {
@@ -1733,10 +1165,6 @@
     "label": {
       "ro": "Zguduit",
       "en": "Jolted"
-    },
-    "needs": {
-      "ro": "siguranta si reancorare",
-      "en": "safety and re-grounding"
     },
     "color": "#C8E8CC"
   },
@@ -1746,10 +1174,6 @@
       "ro": "Dezorientat",
       "en": "Disoriented"
     },
-    "needs": {
-      "ro": "repere si orientare",
-      "en": "anchors and orientation"
-    },
     "color": "#C8E8CC"
   },
   "thrilled": {
@@ -1757,10 +1181,6 @@
     "label": {
       "ro": "Exaltat",
       "en": "Thrilled"
-    },
-    "needs": {
-      "ro": "exprimare si savurare",
-      "en": "expression and savoring"
     },
     "color": "#C8E8CC"
   },
@@ -1770,10 +1190,6 @@
       "ro": "Impresionat",
       "en": "Impressed"
     },
-    "needs": {
-      "ro": "recunoastere si inspiratie",
-      "en": "recognition and inspiration"
-    },
     "color": "#C8E8CC"
   },
   "speechless": {
@@ -1781,10 +1197,6 @@
     "label": {
       "ro": "Fara cuvinte",
       "en": "Speechless"
-    },
-    "needs": {
-      "ro": "tacere si procesare",
-      "en": "silence and processing"
     },
     "color": "#C8E8CC"
   },
@@ -1794,10 +1206,6 @@
       "ro": "Emotionat",
       "en": "Moved"
     },
-    "needs": {
-      "ro": "savurare si partajare",
-      "en": "savoring and sharing"
-    },
     "color": "#C8E8CC"
   },
   "electrified": {
@@ -1805,10 +1213,6 @@
     "label": {
       "ro": "Electrizat",
       "en": "Electrified"
-    },
-    "needs": {
-      "ro": "exprimare si actiune imediata",
-      "en": "expression and immediate action"
     },
     "color": "#C8E8CC"
   }

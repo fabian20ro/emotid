@@ -1,7 +1,7 @@
 # Remaining Mobile Migration Plan
 
-Status: P21 deterministic navigation and repository truth complete; physical-device
-assistive-technology and hardware timing acceptance remain, August 4, 2026.
+Status: P24 Android physical profile partially complete; full assistive-technology and low-tier
+hardware acceptance remain, August 4, 2026.
 
 ## Completed Since Last Update
 
@@ -325,10 +325,11 @@ semantics, crisis rules, support ordering, and gating are unchanged.
 
 ## Completed: P13 Catalog and Somatic Provenance
 
-The catalog now distinguishes reviewed source descriptions from bounded runtime-generated copy.
-Twelve bilingual descriptions retain explicit reviewed provenance; the other 276 legacy
-definitions were removed and hydrate through one needs-aware exploratory template. Duplicate IDs,
-key mismatches, and unreviewed source descriptions fail closed.
+At P13, the catalog distinguished reviewed source descriptions from bounded runtime-generated copy.
+Twelve bilingual descriptions retained explicit reviewed provenance; the other 276 legacy
+definitions were removed and hydrated through one needs-aware exploratory template. Duplicate IDs,
+key mismatches, and unreviewed source descriptions failed closed. P26 later removed that generated
+template and raw needs entirely: absent reviewed provenance now produces no runtime guidance.
 
 Body Compass signal data now records every association as a curated hypothesis. Group-map basis is
 recorded narrowly where applicable; unsupported local descriptions and needs were removed. Scoring
@@ -619,3 +620,121 @@ states without console messages or horizontal overflow. Physical acceptance rema
    deterministic browser regression, then rerun automated gates and the failed physical row.
 4. Sign off the release only when the physical matrix, hardware timing, automated workflow, and
    release-blocking defect table are complete. Keep product expansion out of this closure phase.
+
+## P24 Android Physical Acceptance - Partial
+
+The exact deployed `ce9f3b6` candidate was exercised on a Pixel 6a running Android 15 / API 35,
+Chrome 150, and TalkBack 17.0.1. The production JavaScript and CSS asset names match a local build.
+Chrome remained signed out; no account identity or private journal content entered retained
+evidence.
+
+A device-only harness now runs J1-J8 in English and Romanian against physical Chrome in browser and
+installed-WebAPK modes. It resets local state, captures device screenshots and accessibility trees,
+and reports `SUPPORTING_PASS`; DevTools activation means these results cannot claim synthesized
+speech or physical gesture acceptance. All 32 supporting journey combinations passed.
+
+One genuine TalkBack pilot used an AOA USB keyboard that Android classified as external. Focus
+moved from the onboarding heading to its explanation in document order. Android accessibility
+speech activity was present, but no audio transcript was retained, so this remains partial rather
+than a completed TalkBack row.
+
+The Pixel 6a mid-tier performance profile passed all documented targets across three process-cold
+runs. Median startup was 1,162 ms; first Body, Affect, Words, and Plutchik opens were 295.2, 224.5,
+217.6, and 349.0 ms; worst warm return was 40.4 ms; no long task was observed. Raw device video,
+Chrome trace, and Perfetto evidence is retained locally under `.reports/android-physical/`.
+
+## Remaining After P24 Android Pass
+
+1. Complete and retain the full TalkBack spoken-order, duplicate-announcement, gesture, activation,
+   and focus-return matrix for J1-J8 in English and Romanian, in browser and installed-PWA modes.
+2. Run the same physical matrix with VoiceOver and Safari on an Apple device.
+3. Run the documented three-run production measurements on a distinct representative low-tier
+   Android device; do not relabel the Pixel 6a as two hardware profiles.
+4. Fix only defects reproduced by those open physical rows. Add the closest deterministic browser
+   regression, rerun the automated gates, and retest the failed physical row.
+
+## Completed: P25 Reflection Choice and Progressive Disclosure
+
+Reflection now opens as one compact decision surface: tentative emotion words, a short fit check,
+one primary finish action, and one secondary exploration action. Inferred needs, next steps,
+meaning copy, expanded context, and the external AI handoff are absent from the default DOM and
+appear only after an explicit choice to explore. Returning from exploration restores focus to its
+trigger. Rejection still clears inferred guidance; tier-4 support still gates all reflection
+content before acknowledgement; persistence and save recovery retain their existing contracts.
+
+English and Romanian copy now frames the result as a possibility and asks how close it feels,
+without treating the model output as an explanation of the person. The direct finish action and
+optional exploration both remain in the first `320x568` viewport. Dark mode uses the established
+semantic token pairs; no new component framework, route, persistence field, or workflow state
+machine was added.
+
+**Verification:** TDD began with a failing component contract for hidden inferred guidance,
+explicit disclosure, and focus return. `npm run check` passes 72 files and 582 tests. The complete
+188-case Mobile Safari/Chrome matrix passes, including bilingual, dark-mode, keyboard, `200%`
+reflow, compact viewport, persistence, and all crisis-route boundaries. The production PWA
+lifecycle and performance proxy pass; budgets remain at 132,943 bytes initial JavaScript gzip and
+875,917 of 960,000 production asset bytes. Playwright screenshot review covered English light,
+English dark, and Romanian dark Reflection plus the optional exploration at `393x742` with no
+overflow or contrast defect. The focused physical J9 harness is ready for the local candidate;
+English and Romanian both pass on the Pixel 6a browser at a `411x808` CSS viewport. Device
+screenshots and accessibility trees are retained under
+`.reports/android-physical/2026-08-05T04-48-27-416Z-browser/`.
+
+## Remaining After P25
+
+1. Repeat focused J9 against the exact deployed candidate after publication. Keep the completed
+   local supporting evidence distinct from real TalkBack speech and gesture acceptance.
+2. P26 catalog trust audit: review inferred needs and descriptions across every reachable emotion
+   with a psychologist, remove causal or prescriptive overreach, and keep one auditable catalog
+   source. Start with deterministic catalog tests; do not add personalization or generation.
+3. Complete retained TalkBack EN/RO browser and installed-PWA speech/gesture rows, then the
+   VoiceOver/Safari matrix. These remain release-acceptance gaps, not browser-test gaps.
+4. Run the existing production timing protocol on a distinct low-tier Android device. Do not
+   relabel the Pixel 6a as both low- and mid-tier evidence.
+5. Keep further workflow expansion out until P26 and physical acceptance close. Fix only defects
+   reproduced by the catalog audit or named physical rows.
+
+## P26 In Progress: Controlled Guidance Provenance
+
+The first P26 increment adds one provider-neutral Node utility that creates stable catalog batches,
+builds the shared psychologist prompt, and validates candidate JSON. Model output cannot claim
+`reviewed`; validation requires one decision per known ID, complete English and Romanian copy,
+supported fields, mobile word limits, and the same forbidden psychological patterns used by the CI
+copy audit. No model SDK, network behavior, runtime dependency, or automatic catalog writer was
+added.
+
+The first 12-entry `negative-high.json` batch was sent through one Gemini Flash High call. Its
+candidate output passed structural validation but failed domain approval: several changes were
+orthography-only duplication better solved by controlled `needId` values, several retained
+prescriptive or maximal framing, and one Romanian description contained a typo.
+
+The next increment added 10 controlled bilingual need options and fail-closed hydration. All 12
+entries now have explicit reviewed `needId` mappings; the other 276 entries expose no description
+or inferred need. Raw legacy needs, unknown need references, and unreviewed guidance fail loading
+and CI. One bounded Luna Max call on `despair` and `terror` failed deterministic validation; domain
+review used only its useful boundary observation and applied revised bilingual descriptions.
+
+**Verification:** seven review-utility contract tests, five hydration tests, the exact 12-entry
+mapping contract, the complete unit/type/lint/copy/build gate, and 188 Mobile Safari/Chrome cases
+pass. Runtime guidance remains explicit, optional, and behind Explore.
+
+**Next:** review the deduplicated unreviewed emotions reachable through Quick and Body Compass.
+Reuse existing need options; add one only when the batch demonstrates a missing atomic concept.
+Keep model escalation to disputed descriptions and apply no provider output without domain review.
+
+### P26 Quick + Body Guidance Complete
+
+The review utility now derives a cross-source, deduplicated Quick + Body Compass batch from one
+shared Quick ID file and the somatic signal data. The batch contained 29 unresolved IDs. One Luna
+Max advisory review reduced an intentionally broad draft to 13 approved mappings and one new
+controlled option, `rest / odihnă`.
+
+Sixteen ambiguous labels now record `needId: null`: reviewed, intentionally no suggestion, and
+absent at runtime. This avoids repeatedly auditing the same cases without turning `joy`, `numb`,
+withdrawal, guilt, contempt, or surprise into unsupported emotion-to-need conclusions. Across the
+catalog there are now 41 reviewed decisions, 25 visible mappings, and 11 controlled bilingual
+options. Regenerating the Quick + Body batch returns zero unresolved entries.
+
+**Next:** derive the remaining route inventories in exposure order: Affect Map, then Plutchik and
+Word Ladder. Keep descriptions as a separate review field; do not expand need vocabulary merely to
+force complete coverage.

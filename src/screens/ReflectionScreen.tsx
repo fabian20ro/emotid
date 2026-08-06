@@ -32,10 +32,12 @@ export function ReflectionScreen({ completion, allowExternalAI, saveState, sessi
   const [fit, setFit] = useState<ReflectionAnswer | undefined>()
   const [selectedNeed, setSelectedNeed] = useState<string | undefined>()
   const [tier4Acknowledged, setTier4Acknowledged] = useState(false)
+  const [showExploration, setShowExploration] = useState(false)
   const [showStep, setShowStep] = useState(false)
   const [finishState, setFinishState] = useState<FinishState>('idle')
   const [nextStep, setNextStep] = useState<string | undefined>()
   const screenRef = useRef<HTMLDivElement>(null)
+  const restoreExplorationTriggerRef = useRef(false)
   const savingRef = useRef(false)
   const pendingDetailRef = useRef<ReflectionDetail | null>(null)
   const synthesis = useMemo(() => synthesize(results, language), [results, language])
@@ -51,8 +53,13 @@ export function ReflectionScreen({ completion, allowExternalAI, saveState, sessi
   useLayoutEffect(() => {
     if (finishState === 'saving') return
     screenRef.current?.scrollIntoView?.({ block: 'start' })
+    if (restoreExplorationTriggerRef.current) {
+      restoreExplorationTriggerRef.current = false
+      screenRef.current?.querySelector<HTMLElement>('[data-testid="reflection-explore-more"]')?.focus({ preventScroll: true })
+      return
+    }
     screenRef.current?.querySelector<HTMLElement>('#screen-title')?.focus({ preventScroll: true })
-  }, [finishState, showStep])
+  }, [finishState, showExploration, showStep])
 
   const attemptSave = async (detail: ReflectionDetail) => {
     if (savingRef.current) return
@@ -89,6 +96,11 @@ export function ReflectionScreen({ completion, allowExternalAI, saveState, sessi
     setFit(answer)
     setNextStep(undefined)
     if (answer === 'no') setSelectedNeed(undefined)
+  }
+
+  const closeExploration = () => {
+    restoreExplorationTriggerRef.current = true
+    setShowExploration(false)
   }
 
   if (finishState === 'error') {
@@ -139,8 +151,71 @@ export function ReflectionScreen({ completion, allowExternalAI, saveState, sessi
     )
   }
 
+  if (showExploration) {
+    return (
+      <div ref={screenRef} className="screen reflection-exploration-screen" data-testid="reflection-exploration-screen" aria-busy={finishState === 'saving'}>
+        <ScreenHeader title={t.exploreMore} onBack={closeExploration} lede={t.exploreHint} />
+
+        {needs.length > 0 && (
+          <fieldset className="need-choice">
+            <legend><Lightbulb size={19} aria-hidden="true" />{t.needPrompt}</legend>
+            <p>{t.needHint}</p>
+            <div>
+              {needs.map((need) => {
+                const active = selectedNeed === need
+                return (
+                  <button
+                    type="button"
+                    key={need}
+                    className={active ? 'is-active' : ''}
+                    aria-pressed={active}
+                    onClick={() => setSelectedNeed(active ? undefined : need)}
+                  >
+                    <span className="need-choice-mark" aria-hidden="true">{active && <Check size={16} />}</span>
+                    <span>{need}</span>
+                  </button>
+                )
+              })}
+            </div>
+          </fieldset>
+        )}
+
+        <button type="button" className="secondary-button" disabled={finishState === 'saving'} onClick={() => setShowStep(true)}>{t.nextStep}</button>
+
+        {results[0]?.description?.[language] && (
+          <section className="meaning-block"><HeartHandshake size={21} aria-hidden="true" /><div><h2>{t.function}</h2><p>{results[0].description[language]}</p></div></section>
+        )}
+
+        <details className="more-context">
+          <summary>{t.more}<ChevronDown size={18} aria-hidden="true" /></summary>
+          <p>{synthesis}</p>
+          {results.map((result) => <p key={result.id}><strong>{result.label[language]}:</strong> {result.description?.[language] ?? result.needs?.[language]}</p>)}
+        </details>
+
+        {aiLink ? (
+          <div className="external-ai-action">
+            <a className="secondary-button external-ai-link" href={aiLink} target="_blank" rel="noopener noreferrer">
+              {analyzeT.exploreAI}<ExternalLink size={18} aria-hidden="true" />
+            </a>
+            <p>{analyzeT.aiDisclosure}</p>
+            <small>{analyzeT.aiWarning}</small>
+          </div>
+        ) : (
+          <p className="external-ai-disabled">{analyzeT.externalAIDisabled}</p>
+        )}
+
+        <div className="reflection-exploration-finish">
+          <button type="button" className="primary-button" disabled={finishState === 'saving'} onClick={() => finish()}>
+            {finishState === 'saving' && <LoaderCircle size={18} aria-hidden="true" />}
+            {finishState === 'saving' ? t.finishing : t.done}
+          </button>
+        </div>
+      </div>
+    )
+  }
+
   return (
-    <div ref={screenRef} className="screen" data-testid="reflection-screen" aria-busy={finishState === 'saving'}>
+    <div ref={screenRef} className="screen reflection-screen" data-testid="reflection-screen" aria-busy={finishState === 'saving'}>
       <ScreenHeader onBack={onBack} eyebrow={t.eyebrow} title={t.title} />
 
       {completion.crisisTier !== 'none' && (
@@ -208,60 +283,21 @@ export function ReflectionScreen({ completion, allowExternalAI, saveState, sessi
             </section>
           ) : (
             <>
-              <div className="reflection-exit">
+              <div className="reflection-actions">
                 <button type="button" className="primary-button" disabled={finishState === 'saving'} onClick={() => finish()}>
                   {finishState === 'saving' && <LoaderCircle size={18} aria-hidden="true" />}
                   {finishState === 'saving' ? t.finishing : t.done}
                 </button>
+                <button
+                  type="button"
+                  className="secondary-button"
+                  data-testid="reflection-explore-more"
+                  disabled={finishState === 'saving'}
+                  onClick={() => setShowExploration(true)}
+                >
+                  {t.exploreMore}
+                </button>
               </div>
-
-              {needs.length > 0 && (
-                <fieldset className="need-choice">
-                  <legend><Lightbulb size={19} aria-hidden="true" />{t.needPrompt}</legend>
-                  <p>{t.needHint}</p>
-                  <div>
-                    {needs.map((need) => {
-                      const active = selectedNeed === need
-                      return (
-                        <button
-                          type="button"
-                          key={need}
-                          className={active ? 'is-active' : ''}
-                          aria-pressed={active}
-                          onClick={() => setSelectedNeed(active ? undefined : need)}
-                        >
-                          <span className="need-choice-mark" aria-hidden="true">{active && <Check size={16} />}</span>
-                          <span>{need}</span>
-                        </button>
-                      )
-                    })}
-                  </div>
-                </fieldset>
-              )}
-
-              <button type="button" className="secondary-button mt-4" disabled={finishState === 'saving'} onClick={() => setShowStep(true)}>{t.nextStep}</button>
-
-              {results[0]?.description?.[language] && (
-                <section className="meaning-block"><HeartHandshake size={21} aria-hidden="true" /><div><h2>{t.function}</h2><p>{results[0].description[language]}</p></div></section>
-              )}
-
-              <details className="more-context">
-                <summary>{t.more}<ChevronDown size={18} aria-hidden="true" /></summary>
-                <p>{synthesis}</p>
-                {results.map((result) => <p key={result.id}><strong>{result.label[language]}:</strong> {result.description?.[language] ?? result.needs?.[language]}</p>)}
-              </details>
-
-              {aiLink ? (
-                <div className="external-ai-action">
-                  <a className="secondary-button external-ai-link" href={aiLink} target="_blank" rel="noopener noreferrer">
-                    {analyzeT.exploreAI}<ExternalLink size={18} aria-hidden="true" />
-                  </a>
-                  <p>{analyzeT.aiDisclosure}</p>
-                  <small>{analyzeT.aiWarning}</small>
-                </div>
-              ) : (
-                <p className="external-ai-disabled">{analyzeT.externalAIDisabled}</p>
-              )}
             </>
           )}
         </>

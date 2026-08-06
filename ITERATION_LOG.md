@@ -1305,3 +1305,213 @@ Physical synthesized-speech, installed-device, and low/mid Android timing accept
 must gate the event they care about rather than sleeping around it.
 **Promoted to Lessons Learned:** Yes — entrypoint-specific deprecation tracing and explicit async
 event gates.
+
+---
+
+### [2026-08-04] Prepare unlimited local Android device testing
+
+**Context:** P24 required real TalkBack, installed-PWA, and Android hardware evidence, but no
+unmetered physical-device control existed and commercial device clouds imposed usage limits.
+**What happened:**
+- Installed Android Platform Tools 37.0.1, Android SDK command-line/build tools, the emulator
+  binary required by diagnostics, scrcpy 4.1, Appium 3.6.0, and UiAutomator2 8.2.2; reused existing
+  Java 21 and ffmpeg.
+- Added one shared shell environment sourced by login and interactive zsh shells; Appium doctor
+  now reports zero required fixes.
+- Detected the connected Pixel 6a over USB; authorization remains a physical confirmation on the
+  phone after its Android update.
+- Added a repeatable Pixel developer-mode, authorization, TalkBack, validation, and teardown guide.
+**Outcome:** The Mac-side Android physical-test stack is installed without a hosted account or
+minute limit. Device execution waits only for the Pixel's USB-debugging authorization.
+**Insight:** An unlimited physical acceptance setup means locally owned hardware; keep optional
+native-app bundle and alternate-streaming dependencies out of a web-PWA toolchain.
+**Promoted to Lessons Learned:** No — first occurrence.
+
+### [2026-08-04] Run P24 Android physical acceptance
+
+**Context:** The release candidate needed physical Android browser, installed-PWA, TalkBack, and
+hardware timing evidence. The owner could not remain beside the phone, so the run had to stay
+unattended without weakening the evidence contract.
+**What happened:**
+- Matched deployed assets to local commit `ce9f3b6`, installed the production WebAPK, and ran J1-J8
+  in English and Romanian in browser and standalone modes on a Pixel 6a / Android 15 / Chrome 150.
+- Added a device-only harness that captures accessibility trees, device screenshots, traces,
+  Perfetto data, and recordings while labeling DevTools-driven journeys `SUPPORTING_PASS`.
+- Kept physical artifacts under `.reports/android-physical/`; Playwright owns and cleans
+  `test-results/`, so the two evidence lifecycles cannot share an output root.
+- Removed a language-reset race exposed by the installed-PWA Romanian J7 run: reset now stops app
+  JavaScript on a same-origin manifest document, clears and writes storage there, then starts one
+  fresh candidate navigation. The complete installed and browser matrices passed afterward.
+- Made the harness reject locked-device capture, reject performance capture with TalkBack active,
+  recover interrupted installed-app launches, validate journey filters, and exit nonzero when any
+  journey fails.
+- Used a real AOA USB keyboard to make Android expose an external input device; genuine TalkBack
+  focus moved from the onboarding heading to its explanation in document order.
+- Ran and repeated three process-cold performance samples after hardening recorder teardown. Final
+  median startup was 1,162 ms; first-route medians were 217.6-349.0 ms, worst warm return was 40.4
+  ms, and no long task was observed.
+- Kept Chrome signed out, excluded account identity and private journal content, and documented the
+  remaining VoiceOver, TalkBack speech/gesture, and distinct low-tier gates.
+- Linked the exact successful `Push on main` workflow for the deployed candidate; that workflow
+  publishes no retained Actions artifact.
+**Outcome:** The Pixel 6a mid-tier performance profile passes. All 32 physical-browser functional
+and semantic combinations pass as supporting evidence. One genuine TalkBack focus-order pilot
+passes; full retained speech/gesture acceptance remains open. No product defect was reproduced.
+`npm run check` passes 72 files and 581 tests; all 186 Mobile Safari/Chrome cases pass. The
+production PWA lifecycle and performance proxy pass after rerunning outside the known macOS
+Mach-port sandbox. The final physical performance harness rerun exits cleanly with all artifacts.
+**Insight:** A test running on physical hardware still bypasses a screen reader when DevTools owns
+activation; input provenance and retained spoken output are part of the acceptance result.
+**Promoted to Lessons Learned:** Yes — physical browser versus assistive-technology evidence.
+
+---
+
+### [2026-08-04] Simplify Reflection with explicit exploration
+
+**Context:** Reflection mixed the core result, fit decision, inferred needs, suggested action,
+meaning, context, and external AI on one long surface. The next priority was to lower cognitive
+load and reduce the authority implied by generated psychological guidance.
+**What happened:**
+- Started with a failing component test, then split Reflection into a compact result/fit/finish
+  surface and an explicitly opened exploration surface.
+- Kept inferred needs, next steps, meaning, context, and AI absent from the default DOM; restored
+  focus to the disclosure trigger on Back.
+- Reframed English and Romanian copy around tentative fit and preserved rejection, early capture,
+  save recovery, and tier-4 acknowledgement semantics.
+- Migrated all browser journeys, adding compact-viewport geometry, keyboard focus, dark contrast,
+  bilingual, persistence, and every crisis-route disclosure assertion.
+- Added configurable candidate URLs and focused J9 to the physical Android harness so local or
+  deployed Reflection can be checked without changing production configuration.
+- Inspected English light/dark, Romanian dark, and optional exploration screenshots at `393x742`.
+**Outcome:** Product and automated verification succeeded. `npm run check` passes 72 files and 582
+tests; all 188 Mobile Safari/Chrome cases, the production PWA lifecycle, and performance proxy
+pass. Physical J9 is pending because the connected Pixel is locked.
+**Insight:** Psychological interpretation should be user-pulled, not result-pushed; a direct exit
+must remain visually primary and functionally complete.
+**Promoted to Lessons Learned:** Yes — explicit agency boundary for inferred guidance.
+
+---
+
+### [2026-08-05] Close P25 physical Reflection verification
+
+**Context:** P25 automated and visual gates passed, but focused Pixel evidence remained blocked
+while the connected device was locked.
+**What happened:**
+- Exposed the local `4173` candidate through `adb reverse`, temporarily kept the charging Pixel
+  awake, and ran J9 in English and Romanian on physical Chrome.
+- Verified the compact result hides needs and AI, keeps Done and Explore in the first viewport,
+  focuses the exploration heading, reveals optional guidance only there, and restores Explore
+  focus on Back.
+- Retained device screenshots and accessibility trees for both default and exploration states.
+- Investigated a suspected Romanian button artefact with a stable second device screenshot and
+  live DOM/computed-style inspection; it was the normal circumflex of capital `Î`, not a render
+  defect.
+**Outcome:** Pixel 6a / Android 15 / Chrome 150 passes J9 in EN and RO at `411x808` as supporting
+physical-browser evidence. No P25 defect reproduced. Real TalkBack speech/gesture acceptance and
+deployed-candidate repetition remain separate release gates.
+**Insight:** Inspect apparent physical screenshot defects against a stable recapture and live DOM
+before changing UI; diacritics and transient raster frames can resemble stray controls.
+**Promoted to Lessons Learned:** No — first occurrence.
+
+---
+
+### [2026-08-05] Compare bounded model-assisted psychological copy review
+
+**Context:** P26 needs a scalable bilingual catalog audit, but external-model quotas are small and
+generated psychological guidance cannot be treated as reviewed copy.
+**What happened:**
+- Sent the same four public catalog entries and one-change-per-entry rubric to one
+  `gpt-5.6-luna` max-effort call and one `gemini-3.6-flash-high` high-effort call.
+- Kept both runs advisory-only: no repository tools, no file edits, no diagnosis or treatment.
+- Luna consistently preserved uncertainty and agency, but used 11,873 tokens and produced copy too
+  long for direct mobile use. Gemini was concise and identified useful wording risks, but introduced
+  a Romanian typo and unsupported causal certainty for numbness.
+- Accepted neither output into the catalog; compared them as candidate-generation evidence only.
+**Outcome:** Luna is the stronger sparse reviewer/arbiter; Gemini Flash is the more efficient first
+pass. Recommended workflow: bounded batches, deterministic checks, blind human/domain review, and
+explicit provenance before any runtime guidance.
+**Insight:** Strong persona prompting improves issue discovery but does not establish psychological
+review; even good model output can introduce causal overreach or bilingual defects.
+**Promoted to Lessons Learned:** No — already covered by fail-closed psychological provenance.
+
+---
+
+### [2026-08-06] Start P26 with a deterministic guidance-review boundary
+
+**Context:** The catalog audit needed a quota-efficient multi-model workflow without duplicating
+policy or allowing generated psychological copy to enter runtime as reviewed guidance.
+**What happened:**
+- Added one dependency-free Node utility for stable batch creation, one psychologist prompt, strict
+  candidate validation, and explicit provider separation.
+- Began red-first with missing-module and semantic-policy failures; six contract tests now cover the
+  12-entry first batch, provenance, completeness, duplicates, unknown IDs, bilingual copy, forbidden
+  claims, and mobile word limits.
+- Extracted the CI forbidden-copy patterns into one CommonJS policy shared by the existing catalog
+  audit and the new candidate validator.
+- Used one Gemini Flash High call on `negative-high.json`; retained its result only under ignored
+  reports. Structural validation passed, but domain review approved no automatic catalog changes.
+- Reserved Luna quota because disputed needs should first map to a controlled vocabulary; applying
+  isolated orthographic edits now would create avoidable churn.
+**Outcome:** `npm run check` passes 72 files and 582 tests, all copy/i18n gates, lint, TypeScript,
+production PWA build, and performance budgets. Runtime catalog, UI, safety, and persistence are
+unchanged, so browser journeys were not rerun.
+**Insight:** Provider-neutral candidate artifacts plus a shared deterministic policy make model
+assistance replaceable and auditable; structural validity remains deliberately weaker than domain
+approval.
+**Promoted to Lessons Learned:** No — reinforces the existing fail-closed provenance lesson.
+
+---
+
+### [2026-08-07] Add controlled needs and fail-closed catalog guidance
+
+**Context:** P26 had a deterministic model-review boundary, but catalog hydration still generated
+psychological guidance from unreviewed free text. The first reviewed batch needed a small reusable
+bilingual vocabulary and explicit source provenance.
+**What happened:**
+- Began with failing hydration tests, then added 10 controlled bilingual need options and explicit
+  reviewed `needId` references.
+- Mapped the 12 `negative-high.json` entries and removed raw needs from all 288 source entries.
+  The remaining 276 entries now expose no description or inferred need.
+- Made hydration and the CI copy audit reject raw needs, unknown references, unsupported statuses,
+  and unreviewed descriptions; fixed the exact approved mapping in a regression test.
+- Upgraded the provider-neutral review schema to accept controlled IDs or bilingual description
+  changes and added quota-efficient `--ids` subsets.
+- Used one Luna Max call only for `despair` and `terror`. The validator rejected its terror wording;
+  no retry was spent. Domain review applied revised bilingual descriptions while deterministic
+  crisis UI retained ownership of urgent support.
+- Updated component and browser contracts so absent unreviewed guidance leaves no empty need group,
+  while reviewed guidance remains optional behind Explore and persists unchanged.
+**Outcome:** `npm run check` passes 73 Vitest files and 587 tests, TypeScript, lint, bilingual and
+psychological-copy audits, the production PWA build, and performance budgets. All 188 Mobile
+Safari/Chrome Playwright cases, the production PWA lifecycle, and the standalone mobile
+performance proxy pass.
+**Insight:** A controlled vocabulary removes duplicated translation and orthography drift, while
+fail-closed hydration makes incomplete review visible as absence rather than invented authority.
+**Promoted to Lessons Learned:** No — concrete application of the existing fail-closed provenance
+lesson.
+
+---
+
+### [2026-08-07] Complete the Quick and Body Compass guidance review
+
+**Context:** The next P26 batch crossed several catalog files and needed to distinguish unresolved
+guidance from a reviewed decision to offer no suggestion.
+**What happened:**
+- Began with a failing cross-source batch test, moved Quick IDs into one small JSON source, and
+  derived Body Compass IDs directly from somatic signals.
+- Built one deterministic 32-ID reachable inventory: three existing reviewed entries and 29 new
+  decisions, deduplicated by canonical ID.
+- Used one Luna Max psychologist subagent to challenge a broad draft. Domain review accepted 13
+  mappings, added only `rest / odihnă`, and rejected 16 ambiguous or prescriptive inferences.
+- Added `needId: null` as explicit reviewed no-suggestion provenance. Hydration exposes nothing for
+  null decisions, while the review builder no longer queues them again.
+- Made safety wording natural in both languages and added exact catalog, Quick, somatic, hydration,
+  copy-audit, and browser contracts.
+**Outcome:** The catalog contains 41 reviewed decisions, 25 runtime mappings, 11 controlled need
+options, and zero unresolved Quick + Body Compass entries. `npm run check` passes 73 Vitest files
+and 590 tests; all 190 Mobile Safari/Chrome cases, the production PWA lifecycle, and the mobile
+performance proxy pass.
+**Insight:** Fail-closed review needs an explicit negative decision. Absence alone cannot distinguish
+"not reviewed" from "reviewed and intentionally omitted," so it causes repeated work or pressure
+to invent a mapping.
+**Promoted to Lessons Learned:** No — first occurrence; retain in the iteration record.

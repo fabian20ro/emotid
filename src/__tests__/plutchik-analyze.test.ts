@@ -74,11 +74,9 @@ describe('plutchikModel.analyze', () => {
     expect(dyadResults.length).toBeGreaterThanOrEqual(1)
   })
 
-  it('passes description through for dyad results', () => {
+  it('does not manufacture a description for an unaudited dyad', () => {
     // joy + trust = love
     const results = analyze(['joy', 'trust'])
-    expect(results[0].description).toBeDefined()
-    expect(results[0].description?.ro).toBeDefined()
-    expect(results[0].description?.en).toBeDefined()
+    expect(results[0].description).toBeUndefined()
   })
 })

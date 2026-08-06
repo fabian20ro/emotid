@@ -1,6 +1,6 @@
 # Catalog and Somatic Provenance
 
-**Date:** 2026-07-29
+**Date:** 2026-08-07
 
 ## Product Claim
 
@@ -13,13 +13,19 @@ diagnosis, severity, danger, or needed intervention.
 The runtime catalog contains 288 entries:
 
 - 12 bilingual descriptions are explicitly marked `reviewed`;
-- 276 entries receive a short `generated` description from their translated label and needs field;
-- unreviewed source descriptions are rejected during catalog loading and `npm run check-copy`;
+- 41 entries have an explicit reviewed guidance decision: 25 map to one of 11 controlled bilingual
+  need options and 16 intentionally use `needId: null`;
+- 263 entries expose no inferred need, including the 16 reviewed no-suggestion decisions;
+- the 12 reviewed bilingual descriptions remain independent from guidance decisions;
+- raw per-entry needs, unreviewed descriptions, and unknown need references are rejected during
+  catalog loading and `npm run check-copy`;
 - duplicate IDs and source key/ID mismatches fail during catalog assembly.
 
-Generated descriptions deliberately avoid defining the emotion. They name one word to consider,
-show associated needs as options, and return authority to the user. Adding reviewed prose requires
-both languages, explicit `descriptionStatus: "reviewed"`, and copy-contract tests.
+Adding guidance requires a known controlled `needId`, `guidance.status: "reviewed"`, and domain
+review. A reviewed decision to expose no suggestion uses `needId: null`, which remains absent at
+runtime but prevents repeat review. Adding descriptive prose requires both languages, explicit
+`descriptionStatus: "reviewed"`, and copy-contract tests. Missing provenance fails closed instead
+of synthesizing user-facing psychological guidance.
 
 ## Body Compass
 

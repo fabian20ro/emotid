@@ -510,9 +510,13 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .emotion-heading { margin: 20px 0 12px; display: flex; flex-wrap: wrap; gap: 7px; }
 .emotion-heading span { min-height: 34px; padding: 6px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-raised); display: inline-flex; align-items: center; gap: 7px; font-weight: 680; }
 .emotion-heading i { width: 9px; height: 9px; border-radius: 50%; }
-.reflection-synthesis { margin: 0 0 20px; font-size: 17px; line-height: 1.62; }
-.reflection-exit { position: sticky; z-index: 2; bottom: 0; margin: 0 -2px 18px; padding: 8px 2px max(8px, env(safe-area-inset-bottom)); border-top: 1px solid var(--line); background: var(--surface); }
-.reflection-exit .primary-button { width: 100%; }
+.reflection-screen .emotion-heading { margin-top: 16px; }
+.reflection-synthesis { margin: 0 0 16px; font-size: 16px; line-height: 1.5; }
+.reflection-actions { margin-top: 4px; display: grid; gap: 8px; }
+.reflection-actions button { width: 100%; }
+.reflection-exploration-screen .screen-lede { margin-bottom: 20px; }
+.reflection-exploration-finish { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line); }
+.reflection-exploration-finish .primary-button { width: 100%; }
 .session-save-status { min-height: 44px; margin: 14px 0 18px; padding: 9px 11px; border-left: 3px solid var(--teal); background: var(--teal-soft); color: var(--ink); display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 13px; line-height: 1.4; }
 .session-save-status > span { display: inline-flex; align-items: center; gap: 7px; }
 .session-save-status svg { flex: 0 0 auto; }

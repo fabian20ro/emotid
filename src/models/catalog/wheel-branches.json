@@ -5,10 +5,6 @@
       "ro": "Rau",
       "en": "Bad"
     },
-    "needs": {
-      "ro": "atentie si explorare blanda",
-      "en": "attention and gentle exploration"
-    },
     "color": "#B8C0C8"
   },
   "disgusted": {
@@ -16,10 +12,6 @@
     "label": {
       "ro": "Dezgustat",
       "en": "Disgusted"
-    },
-    "needs": {
-      "ro": "distanta si integritate",
-      "en": "distance and integrity"
     },
     "color": "#C888B8"
   },
@@ -29,10 +21,6 @@
       "ro": "Temator",
       "en": "Fearful"
     },
-    "needs": {
-      "ro": "siguranta si reasigurare",
-      "en": "safety and reassurance"
-    },
     "color": "#88C8A0"
   },
   "surprised": {
@@ -40,10 +28,6 @@
     "label": {
       "ro": "Surprins",
       "en": "Surprised"
-    },
-    "needs": {
-      "ro": "pauza si orientare",
-      "en": "pause and orientation"
     },
     "color": "#A8D8B0"
   },
@@ -53,10 +37,6 @@
       "ro": "Dezamagit",
       "en": "Let down"
     },
-    "needs": {
-      "ro": "comunicare onesta si reparatie",
-      "en": "honest communication and repair"
-    },
     "color": "#EE9E9E"
   },
   "humiliated": {
@@ -64,10 +44,6 @@
     "label": {
       "ro": "Umilit",
       "en": "Humiliated"
-    },
-    "needs": {
-      "ro": "demnitate si validare",
-      "en": "dignity and validation"
     },
     "color": "#EE9E9E"
   },
@@ -77,10 +53,6 @@
       "ro": "Amarât",
       "en": "Bitter"
     },
-    "needs": {
-      "ro": "doliu si eliberare",
-      "en": "grieving and release"
-    },
     "color": "#EE9E9E"
   },
   "mad": {
@@ -88,10 +60,6 @@
     "label": {
       "ro": "Nebun de furie",
       "en": "Mad"
-    },
-    "needs": {
-      "ro": "pauza imediata si descarcare sigura",
-      "en": "immediate pause and safe discharge"
     },
     "color": "#EE9E9E"
   },
@@ -101,10 +69,6 @@
       "ro": "Agresiv",
       "en": "Aggressive"
     },
-    "needs": {
-      "ro": "exprimare canalizata si continere",
-      "en": "channeled expression and containment"
-    },
     "color": "#EE9E9E"
   },
   "distant": {
@@ -112,10 +76,6 @@
     "label": {
       "ro": "Distant",
       "en": "Distant"
-    },
-    "needs": {
-      "ro": "reconectare treptata si siguranta",
-      "en": "gradual reconnection and safety"
     },
     "color": "#EE9E9E"
   },
@@ -125,10 +85,6 @@
       "ro": "Critic",
       "en": "Critical"
     },
-    "needs": {
-      "ro": "constientizare de sine si empatie",
-      "en": "self-awareness and empathy"
-    },
     "color": "#EE9E9E"
   },
   "overwhelmed": {
@@ -137,21 +93,17 @@
       "ro": "Coplesit",
       "en": "Overwhelmed"
     },
-    "needs": {
-      "ro": "usurare si prioritizare",
-      "en": "relief and prioritization"
-    },
-    "color": "#C4CCD4"
+    "color": "#C4CCD4",
+    "guidance": {
+      "status": "reviewed",
+      "needId": "relief"
+    }
   },
   "disapproving": {
     "id": "disapproving",
     "label": {
       "ro": "Dezaprobator",
       "en": "Disapproving"
-    },
-    "needs": {
-      "ro": "standarde clare si exprimare respectuoasa",
-      "en": "clear standards and respectful expression"
     },
     "color": "#D49ECA"
   },
@@ -161,10 +113,6 @@
       "ro": "Dezamagit",
       "en": "Disappointed"
     },
-    "needs": {
-      "ro": "spatiu de procesare si retragere",
-      "en": "space to process and withdrawal"
-    },
     "color": "#D49ECA"
   },
   "awful": {
@@ -172,10 +120,6 @@
     "label": {
       "ro": "Groaznic",
       "en": "Awful"
-    },
-    "needs": {
-      "ro": "grija si compasiune",
-      "en": "care and compassion"
     },
     "color": "#D49ECA"
   },
@@ -185,10 +129,6 @@
       "ro": "Respins",
       "en": "Repelled"
     },
-    "needs": {
-      "ro": "distanta si discernamant",
-      "en": "distance and discernment"
-    },
     "color": "#D49ECA"
   },
   "scared": {
@@ -196,10 +136,6 @@
     "label": {
       "ro": "Speriat",
       "en": "Scared"
-    },
-    "needs": {
-      "ro": "protectie si o prezenta sigura",
-      "en": "protection and a safe presence"
     },
     "color": "#9CD4B0"
   },
@@ -209,10 +145,6 @@
       "ro": "Anxios",
       "en": "Anxious"
     },
-    "needs": {
-      "ro": "ancorare si calmare",
-      "en": "grounding and soothing"
-    },
     "color": "#9CD4B0"
   },
   "insecure": {
@@ -220,10 +152,6 @@
     "label": {
       "ro": "Nesigur",
       "en": "Insecure"
-    },
-    "needs": {
-      "ro": "validare si sustinere constanta",
-      "en": "validation and steady support"
     },
     "color": "#9CD4B0"
   },
@@ -233,10 +161,6 @@
       "ro": "Slab",
       "en": "Weak"
     },
-    "needs": {
-      "ro": "compasiune si victorii mici",
-      "en": "compassion and small victories"
-    },
     "color": "#9CD4B0"
   },
   "rejected": {
@@ -244,10 +168,6 @@
     "label": {
       "ro": "Respins",
       "en": "Rejected"
-    },
-    "needs": {
-      "ro": "apartinere si conexiune sigura",
-      "en": "belonging and safe connection"
     },
     "color": "#9CD4B0"
   },
@@ -257,10 +177,6 @@
       "ro": "Amenintat",
       "en": "Threatened"
     },
-    "needs": {
-      "ro": "siguranta si limite",
-      "en": "safety and boundaries"
-    },
     "color": "#9CD4B0"
   },
   "playful": {
@@ -268,10 +184,6 @@
     "label": {
       "ro": "Jucaus",
       "en": "Playful"
-    },
-    "needs": {
-      "ro": "libertate si spontaneitate",
-      "en": "freedom and spontaneity"
     },
     "color": "#FFE57F"
   },
@@ -281,10 +193,6 @@
       "ro": "Interesat",
       "en": "Interested"
     },
-    "needs": {
-      "ro": "explorare si stimulare",
-      "en": "exploration and stimulation"
-    },
     "color": "#FFE57F"
   },
   "proud": {
@@ -292,10 +200,6 @@
     "label": {
       "ro": "Mandru",
       "en": "Proud"
-    },
-    "needs": {
-      "ro": "recunoastere si celebrare",
-      "en": "recognition and celebration"
     },
     "color": "#FFE57F"
   },
@@ -305,10 +209,6 @@
       "ro": "Acceptat",
       "en": "Accepted"
     },
-    "needs": {
-      "ro": "apartinere si validare",
-      "en": "belonging and validation"
-    },
     "color": "#FFE57F"
   },
   "powerful": {
@@ -316,10 +216,6 @@
     "label": {
       "ro": "Puternic",
       "en": "Powerful"
-    },
-    "needs": {
-      "ro": "agentivitate si provocare",
-      "en": "agency and challenge"
     },
     "color": "#FFE57F"
   },
@@ -329,10 +225,6 @@
       "ro": "Incredere",
       "en": "Trusting"
     },
-    "needs": {
-      "ro": "siguranta si deschidere",
-      "en": "safety and openness"
-    },
     "color": "#FFE57F"
   },
   "optimistic": {
@@ -340,10 +232,6 @@
     "label": {
       "ro": "Optimist",
       "en": "Optimistic"
-    },
-    "needs": {
-      "ro": "posibilitate si incurajare",
-      "en": "possibility and encouragement"
     },
     "color": "#FFE57F"
   },
@@ -353,10 +241,6 @@
       "ro": "Ranit",
       "en": "Hurt"
     },
-    "needs": {
-      "ro": "recunoastere si grija blanda",
-      "en": "recognition and gentle care"
-    },
     "color": "#9CB8DA"
   },
   "guilty": {
@@ -364,10 +248,6 @@
     "label": {
       "ro": "Vinovat",
       "en": "Guilty"
-    },
-    "needs": {
-      "ro": "reparatie si auto-iertare",
-      "en": "repair and self-forgiveness"
     },
     "color": "#9CB8DA"
   },
@@ -377,10 +257,6 @@
       "ro": "Vulnerabil",
       "en": "Vulnerable"
     },
-    "needs": {
-      "ro": "siguranta si acceptare",
-      "en": "safety and acceptance"
-    },
     "color": "#9CB8DA"
   },
   "startled": {
@@ -388,10 +264,6 @@
     "label": {
       "ro": "Tresarit",
       "en": "Startled"
-    },
-    "needs": {
-      "ro": "siguranta si ancorare",
-      "en": "safety and grounding"
     },
     "color": "#B8E0BE"
   },
@@ -401,10 +273,6 @@
       "ro": "Confuz",
       "en": "Confused"
     },
-    "needs": {
-      "ro": "claritate si rabdare",
-      "en": "clarity and patience"
-    },
     "color": "#B8E0BE"
   },
   "amazed": {
@@ -412,10 +280,6 @@
     "label": {
       "ro": "Uimit",
       "en": "Amazed"
-    },
-    "needs": {
-      "ro": "spatiu de asimilare si mirare",
-      "en": "space to absorb and wonder"
     },
     "color": "#B8E0BE"
   }

@@ -88,6 +88,8 @@ test.describe('Dark mode accessibility', () => {
     await expectDarkScreen(page, 'Reflection')
     await page.getByRole('button', { name: 'Partly' }).click()
     await expectDarkScreen(page, 'Reflection fit selection')
+    await page.getByRole('button', { name: 'Explore further' }).click()
+    await expectDarkScreen(page, 'Reflection exploration')
     await page.getByRole('button', { name: 'Try one small step' }).click()
     await expectDarkScreen(page, 'Next step')
   })

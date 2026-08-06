@@ -93,7 +93,8 @@ test.describe('Reflection persistence trust', () => {
     await expect(done).toBeVisible()
     await expect(done).toBeInViewport()
     await expect(page.locator('.need-choice button[aria-pressed="true"]')).toHaveCount(0)
-    await expect(page.getByRole('button', { name: 'Try one small step' })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Try one small step' })).toHaveCount(0)
+    await expect(page.getByRole('button', { name: 'Explore further' })).toBeInViewport()
   })
 
   test('captures the check-in before optional reflection and ignores rapid duplicate submissions', async ({ page }) => {

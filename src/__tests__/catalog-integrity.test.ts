@@ -27,36 +27,78 @@ describe('Catalog integrity', () => {
     }
   })
 
-  it('every entry has bilingual description', () => {
+  it('every exposed description is bilingual and reviewed', () => {
     for (const [id, e] of Object.entries(emotionCatalog)) {
+      if (!e.description) {
+        expect(e.descriptionStatus, `${id} has status without copy`).toBeUndefined()
+        continue
+      }
       expect(e.description.en, `${id} missing en description`).toBeTruthy()
       expect(e.description.ro, `${id} missing ro description`).toBeTruthy()
+      expect(e.descriptionStatus, `${id} description is not reviewed`).toBe('reviewed')
     }
   })
 
-  it('exposes copy provenance for every runtime description', () => {
+  it('exposes only the bounded reviewed-description inventory', () => {
     const entries = Object.values(emotionCatalog)
     expect(entries.filter((entry) => entry.descriptionStatus === 'reviewed')).toHaveLength(12)
-    expect(entries.filter((entry) => entry.descriptionStatus === 'generated')).toHaveLength(276)
+    expect(entries.filter((entry) => entry.description === undefined)).toHaveLength(276)
   })
 
-  it('keeps generated descriptions exploratory and needs-aware', () => {
-    for (const entry of Object.values(emotionCatalog)) {
-      if (entry.descriptionStatus !== 'generated') continue
-      expect(entry.description.en, entry.id).toContain('one word to consider')
-      expect(entry.description.en, entry.id).toContain(entry.needs.en)
-      expect(entry.description.en, entry.id).toContain('Keep only what fits')
-      expect(entry.description.ro, entry.id).toContain('un cuvânt de luat în considerare')
-      expect(entry.description.ro, entry.id).toContain(entry.needs.ro)
-      expect(entry.description.ro, entry.id).toContain('Păstrați doar ce se potrivește')
-    }
-  })
+  it('exposes only reviewed bilingual need options', () => {
+    const entries = Object.values(emotionCatalog)
+    expect(entries.filter((entry) => entry.guidanceStatus === 'reviewed')).toHaveLength(25)
+    expect(entries.filter((entry) => entry.needs === undefined)).toHaveLength(263)
 
-  it('every entry has bilingual needs', () => {
     for (const [id, e] of Object.entries(emotionCatalog)) {
+      if (!e.needs) {
+        expect(e.needId, `${id} has needId without copy`).toBeUndefined()
+        expect(e.guidanceStatus, `${id} has status without copy`).toBeUndefined()
+        continue
+      }
       expect(e.needs.en, `${id} missing en needs`).toBeTruthy()
       expect(e.needs.ro, `${id} missing ro needs`).toBeTruthy()
+      expect(e.needId, `${id} missing needId`).toBeTruthy()
+      expect(e.guidanceStatus, `${id} guidance is not reviewed`).toBe('reviewed')
     }
+  })
+
+  it('keeps the reviewed need mapping explicit', () => {
+    const expectedNeedIds = {
+      anger: 'boundaries',
+      angry: 'boundaries',
+      anxiety: 'grounding',
+      despair: 'support',
+      disgust: 'boundaries',
+      distressed: 'compassion',
+      exhaustion: 'rest',
+      fear: 'safety',
+      frustration: 'flexibility',
+      frustrated: 'flexibility',
+      grief: 'support',
+      loneliness: 'connection',
+      love: 'connection',
+      nervous: 'grounding',
+      overwhelm: 'relief',
+      overwhelmed: 'relief',
+      rage: 'space',
+      sadness: 'compassion',
+      shame: 'connection',
+      stress: 'relief',
+      stressed: 'relief',
+      tenderness: 'connection',
+      tense: 'physical-ease',
+      terror: 'safety',
+      worry: 'grounding',
+    }
+
+    expect(
+      Object.fromEntries(
+        Object.values(emotionCatalog)
+          .filter((entry) => entry.guidanceStatus === 'reviewed')
+          .map((entry) => [entry.id, entry.needId])
+      )
+    ).toEqual(expectedNeedIds)
   })
 
   it('every entry has a color', () => {

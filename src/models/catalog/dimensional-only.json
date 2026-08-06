@@ -5,10 +5,6 @@
       "ro": "exaltat",
       "en": "elated"
     },
-    "needs": {
-      "ro": "partajare si ancorare",
-      "en": "sharing and grounding"
-    },
     "color": "#FFE66D"
   },
   "alert": {
@@ -16,10 +12,6 @@
     "label": {
       "ro": "alert",
       "en": "alert"
-    },
-    "needs": {
-      "ro": "focalizare si directie",
-      "en": "focus and direction"
     },
     "color": "#FFA726"
   },
@@ -29,10 +21,6 @@
       "ro": "entuziast",
       "en": "enthusiastic"
     },
-    "needs": {
-      "ro": "exprimare si sustinere",
-      "en": "expression and support"
-    },
     "color": "#FF9800"
   },
   "calm": {
@@ -41,21 +29,17 @@
       "ro": "calm",
       "en": "calm"
     },
-    "needs": {
-      "ro": "mentinere si protejare",
-      "en": "maintenance and protection"
-    },
-    "color": "#81D4FA"
+    "color": "#81D4FA",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "relaxed": {
     "id": "relaxed",
     "label": {
       "ro": "relaxat",
       "en": "relaxed"
-    },
-    "needs": {
-      "ro": "spatiu si odihna",
-      "en": "space and rest"
     },
     "color": "#4FC3F7"
   },
@@ -65,10 +49,6 @@
       "ro": "infricosat",
       "en": "afraid"
     },
-    "needs": {
-      "ro": "siguranta si reasigurare",
-      "en": "safety and reassurance"
-    },
     "color": "#E91E63"
   },
   "contemplative": {
@@ -76,10 +56,6 @@
     "label": {
       "ro": "contemplativ",
       "en": "contemplative"
-    },
-    "needs": {
-      "ro": "liniste si timp",
-      "en": "quiet and time"
     },
     "color": "#7986CB"
   }

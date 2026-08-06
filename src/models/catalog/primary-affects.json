@@ -5,21 +5,17 @@
       "ro": "bucurie",
       "en": "joy"
     },
-    "needs": {
-      "ro": "partajare si exprimare",
-      "en": "sharing and expression"
-    },
-    "color": "#FFE66D"
+    "color": "#FFE66D",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "trust": {
     "id": "trust",
     "label": {
       "ro": "încredere",
       "en": "trust"
-    },
-    "needs": {
-      "ro": "conexiune si reciprocitate",
-      "en": "connection and reciprocity"
     },
     "color": "#A8E6CF"
   },
@@ -29,11 +25,11 @@
       "ro": "frică",
       "en": "fear"
     },
-    "needs": {
-      "ro": "siguranta si validare",
-      "en": "safety and validation"
-    },
-    "color": "#88D8B0"
+    "color": "#88D8B0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": "safety"
+    }
   },
   "surprise": {
     "id": "surprise",
@@ -41,11 +37,11 @@
       "ro": "surprindere",
       "en": "surprise"
     },
-    "needs": {
-      "ro": "pauza si orientare",
-      "en": "pause and orientation"
-    },
-    "color": "#7FDBFF"
+    "color": "#7FDBFF",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "sadness": {
     "id": "sadness",
@@ -53,11 +49,11 @@
       "ro": "tristețe",
       "en": "sadness"
     },
-    "needs": {
-      "ro": "compasiune si spatiu",
-      "en": "compassion and space"
-    },
-    "color": "#5DADE2"
+    "color": "#5DADE2",
+    "guidance": {
+      "status": "reviewed",
+      "needId": "compassion"
+    }
   },
   "disgust": {
     "id": "disgust",
@@ -65,11 +61,11 @@
       "ro": "dezgust",
       "en": "disgust"
     },
-    "needs": {
-      "ro": "limite si distanta",
-      "en": "boundaries and distance"
-    },
-    "color": "#BB8FCE"
+    "color": "#BB8FCE",
+    "guidance": {
+      "status": "reviewed",
+      "needId": "boundaries"
+    }
   },
   "anger": {
     "id": "anger",
@@ -77,21 +73,17 @@
       "ro": "furie",
       "en": "anger"
     },
-    "needs": {
-      "ro": "limite si actiune",
-      "en": "boundaries and action"
-    },
-    "color": "#FF6B6B"
+    "color": "#FF6B6B",
+    "guidance": {
+      "status": "reviewed",
+      "needId": "boundaries"
+    }
   },
   "anticipation": {
     "id": "anticipation",
     "label": {
       "ro": "anticipare",
       "en": "anticipation"
-    },
-    "needs": {
-      "ro": "ancorare si prezenta",
-      "en": "grounding and presence"
     },
     "color": "#FFAB76"
   }

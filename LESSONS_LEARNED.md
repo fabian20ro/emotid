@@ -73,6 +73,21 @@ contract as an unchecked cast or duplicate partial property checks.
 
 ## Testing & Quality
 
+**[2026-08-04]** Seed browser state only after stopping the previous app instance — writing
+`localStorage` while an old React tree is alive can race its persistence effects and silently
+restore stale language or preferences. Navigate to an inert same-origin document, clear and seed
+storage there, then start one fresh application navigation.
+
+**[2026-08-04]** Physical browser execution is not automatically assistive-technology evidence —
+DevTools activation on a connected phone can prove production assets, persistence, layout, and the
+accessibility tree, but it bypasses TalkBack gestures and speech. Label it supporting evidence.
+Require an input source Android recognizes as external for TalkBack keyboard shortcuts, and retain
+spoken-output evidence before marking a screen-reader row passed.
+
+**[2026-08-04]** Long-lived evidence cannot share a runner-owned output root — Playwright cleans
+`test-results/` at suite start. Keep physical-device recordings and traces in a separate ignored
+artifact directory, then verify their presence after all automated suites finish.
+
 **[2026-08-03]** Longitudinal UI needs an explicit evidence threshold — One or two observations are
 entries, not a personal pattern. Keep the minimum in a pure selector, hide aggregate summaries
 below it, use non-conclusive copy at and above it, and test both sides of the threshold plus the
@@ -136,6 +151,12 @@ ID, retain the repository as a metadata archive and publish a fresh repository I
 **[2026-04-11]** Vitest packages must move together — Upgrading `vitest` without matching `@vitest/coverage-v8` left `package-lock.json` with incompatible peers and broke `npm ci` in CI. Treat `vitest` and `@vitest/*` helpers as a synchronized set; regenerate the lockfile and verify with fresh `npm ci`.
 
 ## Process & Workflow
+
+**[2026-08-04]** Inferred psychological guidance needs an explicit agency boundary — A tentative
+emotion result can remain immediately useful without also showing needs, explanations,
+interventions, or external AI. Keep the default result compact and closable; reveal interpretation
+only after an explicit user choice, restore focus when returning, and verify that hidden guidance
+is absent from the DOM across ordinary and crisis-gated routes.
 
 **[2026-08-04]** Async browser races need explicit event gates, not fixed delays — Browser and
 runner upgrades change how quickly a transient state can disappear. Hold the actual completion

@@ -1,30 +1,24 @@
 const fs = require('fs')
 const path = require('path')
+const { forbiddenPatterns } = require('./psychological-copy-policy.cjs')
 
 const root = __dirname
 const catalogDir = path.join(root, 'src/models/catalog')
 const somaticDir = path.join(root, 'src/models/somatic/data')
 const catalogFiles = fs.readdirSync(catalogDir).filter((file) => file.endsWith('.json'))
 const somaticFiles = fs.readdirSync(somaticDir).filter((file) => file.endsWith('.json'))
+const needOptions = JSON.parse(fs.readFileSync(
+  path.join(catalogDir, 'guidance/need-options.json'),
+  'utf8',
+))
 const safetyRules = JSON.parse(fs.readFileSync(path.join(root, 'src/models/safety-rules.json'), 'utf8'))
 const violations = []
+const usedNeedIds = new Set()
+let reviewedGuidanceCount = 0
+let reviewedGuidanceDecisionCount = 0
 
-const forbiddenEnglish = [
-  /\byou (are experiencing|need)\b/i,
-  /\byour (body|mind|system) (is asking|reacts|tells)\b/i,
-  /\b(my|your|the) body (is )?(telling|tells)\b/i,
-  /\b(is|are) (an? )?(alarm |physical )?signal that\b/i,
-  /\bnatural and healthy\b/i,
-  /\b(every emotion has|no emotion is good or bad)\b/i,
-]
-const forbiddenRomanian = [
-  /\b(ai|aveți) nevoie\b/i,
-  /\bcorpul (tău|vostru) (îți|vă) (cere|spune|semnalează)\b/i,
-  /\b(îmi|îți|vă) transmite corpul\b/i,
-  /\b(este|sunt) (un )?semnal(ul)? că\b/i,
-  /\bnaturală și sănătoasă\b/i,
-  /\b(fiecare emoție are|nicio emoție nu este bună sau rea)\b/i,
-]
+const forbiddenEnglish = forbiddenPatterns.en
+const forbiddenRomanian = forbiddenPatterns.ro
 
 function localizedStrings(value, prefix = '') {
   if (typeof value === 'string') return [[prefix, value]]
@@ -33,9 +27,49 @@ function localizedStrings(value, prefix = '') {
     localizedStrings(child, prefix ? `${prefix}.${key}` : key))
 }
 
+const needOptionIds = Object.keys(needOptions)
+if (needOptionIds.join() !== [...needOptionIds].sort().join()) {
+  violations.push('need-options.json IDs must remain sorted')
+}
+const localizedNeedValues = new Map()
+for (const [needId, text] of Object.entries(needOptions)) {
+  if (!text?.en?.trim() || !text?.ro?.trim()) {
+    violations.push(`need-options.json:${needId} is incomplete`)
+    continue
+  }
+  const pair = `${text.en.trim()}\u0000${text.ro.trim()}`
+  if (localizedNeedValues.has(pair)) {
+    violations.push(`need-options.json:${needId} duplicates "${localizedNeedValues.get(pair)}"`)
+  }
+  localizedNeedValues.set(pair, needId)
+  for (const pattern of forbiddenEnglish) {
+    if (pattern.test(text.en)) violations.push(`need-options.json:${needId} English matches ${pattern}`)
+  }
+  for (const pattern of forbiddenRomanian) {
+    if (pattern.test(text.ro)) violations.push(`need-options.json:${needId} Romanian matches ${pattern}`)
+  }
+}
+
 for (const file of catalogFiles) {
   const data = JSON.parse(fs.readFileSync(path.join(catalogDir, file), 'utf8'))
   for (const [id, entry] of Object.entries(data)) {
+    if (entry.needs !== undefined) {
+      violations.push(`${file}:${id} contains legacy raw needs`)
+    }
+    if (entry.guidance !== undefined) {
+      if (entry.guidance?.status !== 'reviewed') {
+        violations.push(`${file}:${id} has unknown guidance status`)
+      } else if (entry.guidance.needId === null) {
+        reviewedGuidanceDecisionCount += 1
+      } else if (!needOptions[entry.guidance.needId]) {
+        violations.push(`${file}:${id} references unknown needId "${entry.guidance.needId}"`)
+      } else {
+        reviewedGuidanceDecisionCount += 1
+        reviewedGuidanceCount += 1
+        usedNeedIds.add(entry.guidance.needId)
+      }
+    }
+
     if (entry.descriptionStatus === 'reviewed') {
       if (!entry.description?.en || !entry.description?.ro) {
         violations.push(`${file}:${id} reviewed description is incomplete`)
@@ -58,6 +92,10 @@ for (const file of catalogFiles) {
       if (entry.description) violations.push(`${file}:${id} has an unreviewed source description`)
     }
   }
+}
+
+for (const needId of needOptionIds) {
+  if (!usedNeedIds.has(needId)) violations.push(`need-options.json:${needId} is unused`)
 }
 
 for (const [language, patterns] of [
@@ -121,4 +159,6 @@ if (violations.length > 0) {
   process.exit(1)
 }
 
-console.log(`Psychological copy audit passed: ${catalogFiles.length} catalog files and ${somaticFiles.length} somatic files.`)
+console.log(
+  `Psychological copy audit passed: ${catalogFiles.length} catalog files, ${needOptionIds.length} controlled needs, ${reviewedGuidanceDecisionCount} reviewed decisions, ${reviewedGuidanceCount} mappings, and ${somaticFiles.length} somatic files.`,
+)
