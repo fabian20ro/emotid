@@ -235,8 +235,7 @@
     "compareHint": "Choose one word from the same level. The descriptions may help; neither word has to fit.",
     "compareWith": "Compare with {word}",
     "compareNote": "Notice which description, if either, feels closer.",
-    "comparisonLabel": "{selected} and {other}",
-    "noDescription": "No description is available for this word yet."
+    "comparisonLabel": "{selected} and {other}"
   },
   "plutchik": {
     "eyebrow": "Plutchik Wheel",
@@ -257,7 +256,7 @@
     "yes": "Yes",
     "partly": "Partly",
     "no": "Not really",
-    "function": "What it may be doing",
+    "function": "A possible meaning",
     "need": "What you may need",
     "needPrompt": "What feels most needed right now?",
     "needHint": "Keep the suggestion that fits best, or leave this open.",

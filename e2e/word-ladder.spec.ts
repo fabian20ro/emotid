@@ -69,7 +69,7 @@ test.describe('Word Ladder route', () => {
     await expect(page.getByRole('button', { name: 'Back' })).toBeVisible()
   })
 
-  test('compares a precise leaf with a keyboard-chosen visible sibling', async ({ page }) => {
+  test('does not offer comparison for a leaf group without complete reviewed descriptions', async ({ page }) => {
     await openApp(page)
     await openArrival(page)
     await page.getByTestId('arrival-words').click()
@@ -77,15 +77,8 @@ test.describe('Word Ladder route', () => {
     await page.getByRole('button', { name: 'Playful' }).click()
     await page.getByRole('button', { name: 'Energized' }).click()
 
-    const toggle = page.getByRole('button', { name: 'Compare nearby words' })
-    await toggle.focus()
-    await page.keyboard.press('Enter')
-    await expect(page.getByRole('button', { name: 'Compare with Cheeky' })).toBeVisible()
-    await expect(page.getByRole('button', { name: 'Compare with Sad' })).toHaveCount(0)
-    const sibling = page.getByRole('button', { name: 'Compare with Cheeky' })
-    await sibling.focus()
-    await page.keyboard.press('Space')
-    await expect(page.getByRole('group', { name: 'Energized and Cheeky' })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Compare nearby words' })).toHaveCount(0)
+    await expect(page.getByRole('button', { name: 'Continue with Energized' })).toBeEnabled()
   })
 
   test('localizes hierarchy controls and stays within the mobile viewport', async ({ page }) => {

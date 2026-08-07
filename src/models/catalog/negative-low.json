@@ -80,6 +80,11 @@
       "en": "Sad"
     },
     "color": "#88A8D0",
+    "description": {
+      "ro": "A fi trist poate implica apăsare, suferință, plăcere estompată sau tendință de retragere. Față de durere, tristețea poate rămâne mai generală, fără dor, dezorientare sau sentiment de absență.",
+      "en": "Feeling sad may involve heaviness, hurt, muted enjoyment, or a tendency to withdraw. Compared with grief, sadness can remain more general, without necessarily including longing, disorientation, or a sense of absence."
+    },
+    "descriptionStatus": "reviewed",
     "guidance": {
       "status": "reviewed",
       "needId": "compassion"
@@ -92,6 +97,11 @@
       "en": "Numb"
     },
     "color": "#F4B4B4",
+    "description": {
+      "ro": "Amorțeala emoțională poate fi trăită ca emoții estompate, distanță față de trăire sau detașare de experiențe care ar conta de obicei. Față de tristețe, se centrează pe absența trăirii, nu pe suferință.",
+      "en": "Numbness may feel like muted emotion, emotional distance, or detachment from experiences that would usually matter. Unlike sadness, it centers on absence of feeling rather than sorrow."
+    },
+    "descriptionStatus": "reviewed",
     "distressTier": "high",
     "guidance": {
       "status": "reviewed",

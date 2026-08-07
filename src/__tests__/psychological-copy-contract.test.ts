@@ -3,6 +3,7 @@ import negativeHigh from '../models/catalog/negative-high.json'
 import en from '../i18n/en.json'
 import ro from '../i18n/ro.json'
 import { synthesize } from '../models/synthesis'
+import { emotionCatalog } from '../models/catalog'
 import type { AnalysisResult } from '../models/types'
 
 const expectedReviewedDescriptionIds = [
@@ -51,6 +52,28 @@ function makeResult(
 }
 
 describe('psychological copy contract', () => {
+  it('keeps reviewed descriptions short, observational, and separate from advice', () => {
+    const instructionPatterns = {
+      en: [/\b(try|seek|notice whether|may help|can help|could help|worth considering|you|your)\b/i],
+      ro: [
+        /\b(încercați|căutați|observați dacă|poate ajuta|pot ajuta|ar putea ajuta|merită luat(?:ă)? în considerare)\b/i,
+        /(?:^|\s)(?:voi|vouă|vă|vi|v-ar)(?=\s|[,.!?])/iu,
+      ],
+    }
+
+    for (const emotion of Object.values(emotionCatalog).filter(({ description }) => description)) {
+      for (const language of ['en', 'ro'] as const) {
+        const description = emotion.description![language]
+        const words = description.trim().split(/\s+/u)
+        expect(words.length, `${emotion.id}:${language} is too short`).toBeGreaterThanOrEqual(10)
+        expect(words.length, `${emotion.id}:${language} is too long`).toBeLessThanOrEqual(45)
+        for (const pattern of instructionPatterns[language]) {
+          expect(description, `${emotion.id}:${language} contains advice or direct address`).not.toMatch(pattern)
+        }
+      }
+    }
+  })
+
   it('keeps the bounded reviewed-description inventory explicit', () => {
     expect(Object.keys(negativeHigh)).toEqual(expectedReviewedDescriptionIds)
     for (const emotion of Object.values(negativeHigh)) {

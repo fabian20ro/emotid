@@ -8,7 +8,11 @@ const SCHEMA_VERSION = 2
 const EDITABLE_FIELDS = new Set(['needId', 'description', 'none'])
 const RESULT_KEYS = new Set(['schemaVersion', 'batchId', 'status', 'proposals'])
 const PROPOSAL_KEYS = new Set(['id', 'field', 'proposal', 'rationale', 'risk'])
-const { candidateWordLimits, countWords, findForbiddenPatterns } = copyPolicy
+const {
+  candidateWordLimits,
+  countWords,
+  findDescriptionForbiddenPatterns,
+} = copyPolicy
 
 function isRecord(value) {
   return value !== null && typeof value === 'object' && !Array.isArray(value)
@@ -305,27 +309,83 @@ export function buildWordLadderReviewBatch({
   })
 }
 
+export function buildDescriptionPilotBatch({ batchId, catalogDir, wheelRootIdsPath }) {
+  assertBatchId(batchId)
+  const catalogEntries = readCatalogEntries(catalogDir)
+  const needOptions = readNeedOptions(catalogDir)
+  const quickIds = JSON.parse(fs.readFileSync(
+    path.join(catalogDir, 'guidance/quick-emotion-ids.json'),
+    'utf8',
+  ))
+  const rootIds = JSON.parse(fs.readFileSync(wheelRootIdsPath, 'utf8'))
+  for (const [name, ids] of [['Quick', quickIds], ['Word Ladder root', rootIds]]) {
+    if (!Array.isArray(ids) || ids.length === 0 || !ids.every(isNonEmptyString) || new Set(ids).size !== ids.length) {
+      throw new Error(`${name} IDs must be a non-empty unique string array`)
+    }
+  }
+
+  const reviewedDescriptionIds = [...catalogEntries]
+    .filter(([, { value }]) => value.descriptionStatus === 'reviewed')
+    .map(([id]) => id)
+  const pilotIds = [...new Set([...reviewedDescriptionIds, ...quickIds, ...rootIds])]
+    .sort((left, right) => left.localeCompare(right, 'en'))
+  const entries = pilotIds.map((id) => {
+    const source = catalogEntries.get(id)
+    if (!source) throw new Error(`Description pilot emotion "${id}" is missing from the catalog`)
+    const { sourceFile, label, description, descriptionStatus, distressTier } = buildReviewEntry({
+      key: id,
+      ...source,
+      needOptions,
+    })
+    return { id, sourceFile, label, description, descriptionStatus, distressTier }
+  })
+
+  return {
+    schemaVersion: SCHEMA_VERSION,
+    batchId,
+    surfaces: ['shared-reflection', 'word-ladder-root-comparison'],
+    sourceFiles: [...new Set(entries.map(({ sourceFile }) => sourceFile))].sort(),
+    editableFields: ['description'],
+    descriptionPurpose: 'A short observational cue that distinguishes nearby words without advice, inferred needs, or crisis guidance.',
+    comparisonGroups: [{ parentId: null, ids: rootIds }],
+    entries,
+  }
+}
+
 export function buildPsychologistPrompt(batch) {
   const editableFields = batch.editableFields ?? [...EDITABLE_FIELDS]
+  const needsAllowed = editableFields.includes('needId')
   const descriptionsAllowed = editableFields.includes('description')
+  const fieldConstraints = [
+    needsAllowed
+      ? '- A need is a short option to consider, never a conclusion about the person. A needId proposal must reuse one ID from the attached controlled vocabulary; do not invent free text.'
+      : null,
+    descriptionsAllowed
+      ? '- A description is a short observational cue that differentiates nearby words. Describe possible experience only; do not include advice, coping, needs, crisis guidance, direct address, cause, severity, danger, identity, diagnosis, or required action.'
+      : '- Descriptions are out of scope for this batch. Do not propose or rewrite them.',
+  ].filter(Boolean).join('\n')
+  const proposalFormats = [
+    needsAllowed ? 'an existing need ID string for "needId"' : null,
+    descriptionsAllowed ? 'bilingual {"en":"...","ro":"..."} for "description"' : null,
+    editableFields.includes('none') ? 'null for "none"' : null,
+  ].filter(Boolean).join('; ')
   return `Role: advisory integrative psychologist with experience in affective science, clinical practice, bilingual Romanian/English copy, and mobile UX. This is a copy audit, not diagnosis or treatment.
 
-Review every entry in the attached batch. Choose one highest-impact change or none for each ID. Allowed fields for this batch: ${editableFields.map((field) => `"${field}"`).join(', ')}.
+Review every entry in the attached batch. Return exactly one decision using an allowed field for each ID. Allowed fields for this batch: ${editableFields.map((field) => `"${field}"`).join(', ')}.
 
 Psychological constraints:
 - Keep the user as the authority; use tentative, non-pathologizing language.
-- A need is a short option to consider, never a conclusion about the person. A needId proposal must reuse one ID from the attached controlled vocabulary; do not invent free text.
-- ${descriptionsAllowed ? 'A description may explain possible experience or function, but must not infer cause, severity, danger, identity, diagnosis, or required action from an emotion label.' : 'Descriptions are out of scope for this batch. Do not propose or rewrite them.'}
+${fieldConstraints}
 - Do not prescribe techniques or professional help from the label alone. Urgent guidance belongs to the separate deterministic crisis boundary.
 - Preserve semantic equivalence and natural phrasing in English and Romanian.
-- Prefer plain mobile-readable copy: at most 80 words for descriptions. Avoid theoretical jargon and unsupported physiological claims.
+${descriptionsAllowed ? `- Prefer plain mobile-readable copy: target 18-35 words and never exceed ${candidateWordLimits.description} words per language. Avoid theoretical jargon and unsupported physiological claims.` : '- Avoid theoretical jargon and unsupported physiological claims.'}
 
 Output constraints:
 - Return raw JSON only, without Markdown fences or commentary.
 - Use schemaVersion 2 and the exact batchId from the input.
 - status must be "candidate". Model output is advisory and must not be treated as reviewed.
 - Return exactly one proposal decision per input ID, with no unknown or duplicate IDs.
-- field must be one of the allowed fields above. Use an existing need ID string for "needId", bilingual {"en":"...","ro":"..."} only when "description" is allowed, and null for "none".
+- field must be one of the allowed fields above. Use ${proposalFormats}.
 - Include concise rationale and risk strings for every decision.
 
 Required shape:
@@ -401,7 +461,7 @@ export function validateReviewResult(batch, result) {
     } else {
       for (const [language, label] of [['en', 'English'], ['ro', 'Romanian']]) {
         const copy = proposal.proposal[language]
-        for (const pattern of findForbiddenPatterns(copy, language)) {
+        for (const pattern of findDescriptionForbiddenPatterns(copy, language)) {
           violations.push(`${location} ${label} matches forbidden pattern ${pattern}`)
         }
         const wordLimit = candidateWordLimits.description
@@ -454,6 +514,7 @@ function usage() {
     '  node scripts/catalog-guidance-review.mjs prepare --surface affect --batch-id ID --out-dir DIR',
     '  node scripts/catalog-guidance-review.mjs prepare --surface plutchik --batch-id ID --out-dir DIR',
     '  node scripts/catalog-guidance-review.mjs prepare --surface word-ladder --batch-id ID --out-dir DIR',
+    '  node scripts/catalog-guidance-review.mjs prepare --surface description-pilot --batch-id ID --out-dir DIR',
     '  node scripts/catalog-guidance-review.mjs validate --batch FILE --result FILE',
   ].join('\n')
 }
@@ -496,6 +557,12 @@ function main(args) {
           batchId,
           catalogDir,
           wheelOverlayDir: path.join(root, 'src/models/wheel/overlays'),
+          wheelRootIdsPath: path.join(root, 'src/models/wheel/root-ids.json'),
+        })
+      } else if (surface === 'description-pilot') {
+        batch = buildDescriptionPilotBatch({
+          batchId,
+          catalogDir,
           wheelRootIdsPath: path.join(root, 'src/models/wheel/root-ids.json'),
         })
       } else {

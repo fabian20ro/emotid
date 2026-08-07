@@ -6,6 +6,11 @@
       "en": "joy"
     },
     "color": "#FFE66D",
+    "description": {
+      "ro": "Bucuria poate fi o trăire plăcută și vie, marcată de încântare, energie sau aprecierea momentului. Față de fericire, poate părea mai imediată și mai bine conturată.",
+      "en": "Joy can be a vivid pleasant feeling marked by delight, aliveness, or appreciation of the moment. Compared with happiness, it may feel more immediate and distinct."
+    },
+    "descriptionStatus": "reviewed",
     "guidance": {
       "status": "reviewed",
       "needId": null
@@ -50,6 +55,11 @@
       "en": "sadness"
     },
     "color": "#5DADE2",
+    "description": {
+      "ro": "Tristețea poate implica apăsare, plăcere estompată, lacrimi, tăcere sau tendință de retragere. Este o stare emoțională largă, care poate apărea fără dorul, dezorientarea sau sentimentul de absență din durere.",
+      "en": "Sadness may involve heaviness, muted enjoyment, tears, quietness, or a tendency to withdraw. It is a broad emotional state that may occur without grief's longing, disorientation, or sense of absence."
+    },
+    "descriptionStatus": "reviewed",
     "guidance": {
       "status": "reviewed",
       "needId": "compassion"
@@ -74,6 +84,11 @@
       "en": "anger"
     },
     "color": "#FF6B6B",
+    "description": {
+      "ro": "Furia poate fi trăită ca energie mobilizată în jurul unui obstacol, al unei nedreptăți percepute sau al unei limite încălcate. Diferă de mânie mai ales prin intensitate și presiunea de a acționa.",
+      "en": "Anger can feel like mobilized energy around a perceived obstacle, unfairness, or crossed limit. It differs from rage mainly in intensity and the pressure to act."
+    },
+    "descriptionStatus": "reviewed",
     "guidance": {
       "status": "reviewed",
       "needId": "boundaries"

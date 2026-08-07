@@ -41,8 +41,12 @@ describe('Catalog integrity', () => {
 
   it('exposes only the bounded reviewed-description inventory', () => {
     const entries = Object.values(emotionCatalog)
-    expect(entries.filter((entry) => entry.descriptionStatus === 'reviewed')).toHaveLength(12)
-    expect(entries.filter((entry) => entry.description === undefined)).toHaveLength(276)
+    expect(entries.filter((entry) => entry.descriptionStatus === 'reviewed').map(({ id }) => id).sort()).toEqual([
+      'anger', 'angry', 'anxiety', 'bad', 'despair', 'disgusted', 'distressed', 'fearful',
+      'frustrated', 'grief', 'happy', 'joy', 'nervous', 'numb', 'overwhelmed', 'rage', 'sad',
+      'sadness', 'shame', 'stressed', 'surprised', 'tense', 'terror',
+    ])
+    expect(entries.filter((entry) => entry.description === undefined)).toHaveLength(265)
   })
 
   it('exposes only reviewed bilingual need options', () => {

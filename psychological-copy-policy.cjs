@@ -23,11 +23,36 @@ const forbiddenPatterns = Object.freeze({
 
 const candidateWordLimits = Object.freeze({
   needs: 12,
-  description: 80,
+  description: 45,
+})
+
+const descriptionForbiddenPatterns = Object.freeze({
+  en: Object.freeze([
+    /\b(may|might|can|could) help\b/i,
+    /\bworth considering\b/i,
+    /\bnotice whether\b/i,
+    /\btry\b/i,
+    /\bseek(?:ing)? (?:help|support)\b/i,
+    /\b(?:you|your)\b/i,
+  ]),
+  ro: Object.freeze([
+    /\b(?:poate|pot|ar putea) ajuta\b/i,
+    /\bmerită luat(?:ă)? în considerare\b/i,
+    /\bobservați dacă\b/i,
+    /\bîncercați\b/i,
+    /\bcăutați (?:ajutor|sprijin)\b/i,
+    /(?:^|\s)(?:voi|vouă|vă|vi|v-ar|vostru|voastră)(?:\s|[,.!?])/iu,
+  ]),
 })
 
 function findForbiddenPatterns(text, language) {
   return forbiddenPatterns[language]
+    .filter((pattern) => pattern.test(text))
+    .map((pattern) => pattern.toString())
+}
+
+function findDescriptionForbiddenPatterns(text, language) {
+  return [...forbiddenPatterns[language], ...descriptionForbiddenPatterns[language]]
     .filter((pattern) => pattern.test(text))
     .map((pattern) => pattern.toString())
 }
@@ -39,6 +64,8 @@ function countWords(text) {
 module.exports = {
   candidateWordLimits,
   countWords,
+  descriptionForbiddenPatterns,
+  findDescriptionForbiddenPatterns,
   findForbiddenPatterns,
   forbiddenPatterns,
 }

@@ -31,6 +31,10 @@ function hasChildren(emotion: BaseEmotion): emotion is LadderEmotion {
   return Boolean((emotion as LadderEmotion).children?.length)
 }
 
+function hasReviewedDescription(emotion: BaseEmotion) {
+  return Boolean(emotion.description?.en && emotion.description.ro)
+}
+
 export function WordLadderScreen({ model: emotionModel, onBack, onComplete }: WordLadderScreenProps) {
   const { language, section } = useLanguage()
   const t = section('wordLadder')
@@ -119,6 +123,13 @@ export function WordLadderScreen({ model: emotionModel, onBack, onComplete }: Wo
     if (results.length > 0) onComplete(MODEL_IDS.WHEEL, [emotion], results)
   }
 
+  const comparisonAvailable = Boolean(
+    comparisonContext
+    && hasReviewedDescription(comparisonContext.selected)
+    && comparisonContext.siblings.length > 0
+    && comparisonContext.siblings.every(hasReviewedDescription),
+  )
+
   return (
     <div className="screen checkin-screen checkin-screen-words" data-testid="words-screen">
       <ScreenHeader onBack={onBack} eyebrow={t.eyebrow} title={t.title} lede={t.lede} />
@@ -190,7 +201,7 @@ export function WordLadderScreen({ model: emotionModel, onBack, onComplete }: Wo
           </section>
         )}
 
-        {path.length === 0 && comparisonContext && comparisonContext.siblings.length > 0 && (
+        {path.length === 0 && comparisonContext && comparisonAvailable && (
           <>
             <button
               type="button"
@@ -232,7 +243,7 @@ export function WordLadderScreen({ model: emotionModel, onBack, onComplete }: Wo
                       {[comparisonContext.selected, comparison].map((emotion) => (
                         <article key={emotion.id} style={{ '--emotion-color': emotion.color } as CSSProperties}>
                           <h3>{emotion.label[language]}</h3>
-                          <p>{emotion.description?.[language] ?? t.noDescription}</p>
+                          <p>{emotion.description![language]}</p>
                         </article>
                       ))}
                     </div>
@@ -259,7 +270,6 @@ export function WordLadderScreen({ model: emotionModel, onBack, onComplete }: Wo
                 <span className="word-swatch" style={{ background: emotion.color }} aria-hidden="true" />
                 <span>
                   <strong>{emotion.label[language]}</strong>
-                  {emotion.description && <small>{emotion.description[language]}</small>}
                 </span>
                 {hasChildren(emotion) ? <ChevronRight size={18} aria-hidden="true" /> : <Check size={18} aria-hidden="true" />}
               </button>

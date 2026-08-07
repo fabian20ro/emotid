@@ -152,6 +152,11 @@ export function ReflectionScreen({ completion, allowExternalAI, saveState, sessi
   }
 
   if (showExploration) {
+    const contextResults = results.filter((result, index) => {
+      const context = result.description?.[language] ?? result.needs?.[language]
+      return Boolean(context) && !(index === 0 && result.description?.[language])
+    })
+
     return (
       <div ref={screenRef} className="screen reflection-exploration-screen" data-testid="reflection-exploration-screen" aria-busy={finishState === 'saving'}>
         <ScreenHeader title={t.exploreMore} onBack={closeExploration} lede={t.exploreHint} />
@@ -189,7 +194,7 @@ export function ReflectionScreen({ completion, allowExternalAI, saveState, sessi
         <details className="more-context">
           <summary>{t.more}<ChevronDown size={18} aria-hidden="true" /></summary>
           <p>{synthesis}</p>
-          {results.map((result) => <p key={result.id}><strong>{result.label[language]}:</strong> {result.description?.[language] ?? result.needs?.[language]}</p>)}
+          {contextResults.map((result) => <p key={result.id}><strong>{result.label[language]}:</strong> {result.description?.[language] ?? result.needs?.[language]}</p>)}
         </details>
 
         {aiLink ? (

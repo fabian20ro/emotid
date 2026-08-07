@@ -694,7 +694,7 @@ screenshots and accessibility trees are retained under
 5. Keep further workflow expansion out until P26 and physical acceptance close. Fix only defects
    reproduced by the catalog audit or named physical rows.
 
-## P26 In Progress: Controlled Guidance Provenance
+## P26 Complete: Controlled Guidance Provenance
 
 The first P26 increment adds one provider-neutral Node utility that creates stable catalog batches,
 builds the shared psychologist prompt, and validates candidate JSON. Model output cannot claim
@@ -790,3 +790,39 @@ Body Compass, Affect, Plutchik, and Word Ladder results now have an explicit nee
 **Next:** plan the separate description-provenance phase. Do not generate prose for all remaining
 entries by default; first identify where a description materially improves comparison or
 reflection, then review those surfaces in bounded bilingual batches.
+
+## P27 Description Provenance
+
+### P27.1 Contract Complete
+
+Reviewed descriptions are now a distinct catalog capability, not a fallback for guidance. CI
+requires both languages, explicit reviewed provenance, 10-45 words, observational framing, and no
+advice, direct address, inferred need, or crisis instruction. Optional Reflection uses the first
+canonical description once, labels it “A possible meaning” / “Un posibil sens”, and omits empty or
+duplicate context rows. The Word Ladder list stays label-only.
+
+Comparison eligibility is atomic at the visible choice-set boundary. The control appears only when
+the selected word and every sibling have reviewed bilingual descriptions; there is no placeholder
+copy and no partially informed comparison.
+
+### P27.2 Pilot Complete
+
+The deterministic pilot is the deduplicated union of the 12-description baseline, all six Quick
+emotions, and all seven Word Ladder roots: 23 canonical IDs. One Luna Max advisory pass returned a
+structurally valid set. Domain review accepted 19 reformulations and retained four stronger local
+drafts (`anger`, `joy`, `rage`, `terror`). No provider output was applied automatically.
+
+All Quick choices can now expose reviewed meaning during optional exploration, and all seven Word
+roots form one complete comparison group. The remaining 265 catalog entries still fail closed for
+description prose. This is intentional coverage, not an unfinished fallback.
+
+### Recommended Next Sequence
+
+1. P27.3: derive the 41 Word Ladder intermediate words, grouped beneath the seven production roots.
+   Write red exact-inventory and complete-sibling contracts first.
+2. Review one family at a time. Ship a family only when every comparable sibling has complete EN/RO
+   prose; use one model call only to challenge a domain draft, then adjudicate manually.
+3. Measure whether intermediate descriptions improve stopping and comparison. Keep the 166 leaves
+   label-only unless that evidence justifies a leaf phase.
+4. Repeat deployed Pixel 6a TalkBack acceptance in EN/RO, then complete VoiceOver/Safari and a
+   distinct low-tier Android performance pass. Keep physical acceptance separate from browser CI.

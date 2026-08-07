@@ -114,6 +114,11 @@
       "en": "Happy"
     },
     "color": "#FFE066",
+    "description": {
+      "ro": "A fi fericit poate include plăcere, ușurință, interes, căldură sau o senzație de încântare. Este o etichetă pozitivă largă, nu o singură experiență emoțională bine delimitată.",
+      "en": "Feeling happy may include pleasure, ease, interest, warmth, or a sense of enjoyment. It is a broad positive label rather than one clearly defined emotional experience."
+    },
+    "descriptionStatus": "reviewed",
     "guidance": {
       "status": "reviewed",
       "needId": null

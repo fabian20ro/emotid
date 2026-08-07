@@ -1631,3 +1631,31 @@ architecture simple. Large psychological batches stay quota-efficient when domai
 to absence and asks a model to challenge only visible map candidates.
 **Promoted to Lessons Learned:** Yes — confirmable-result inventory scope recurred across Plutchik
 and Word Ladder.
+
+---
+
+### [2026-08-07] Establish the reviewed-description contract and pilot
+
+**Context:** P26 closed need provenance for every confirmable result, but only 12 catalog entries
+had reviewed descriptions. Reflection could repeat the first description, and Word Ladder could
+offer comparisons with missing placeholder prose.
+**What happened:**
+- Began with failing exact-inventory, copy-policy, Reflection, Word Ladder, and browser contracts.
+- Added a description-only 23-ID batch derived from the reviewed baseline, six Quick IDs, and seven
+  production Word roots; its payload omits unrelated need vocabulary, and copy validation now
+  rejects advice, direct address, and text over 45 words.
+- Used one Luna Max psychologist pass. Domain review accepted 19 reformulations and retained local
+  drafts for `anger`, `joy`, `rage`, and `terror`.
+- Rendered the canonical meaning once in optional Reflection, removed empty context rows, kept the
+  initial ladder label-only, and made comparison conditional on complete sibling-group coverage.
+- Updated the crisis journey assertion to the reviewed despair description while preserving every
+  support-first and gated-detail assertion.
+**Outcome:** 23 canonical entries now have reviewed EN/RO descriptions; all six Quick emotions and
+the seven Word roots are covered. `npm run check` passes 73 Vitest files and 594 tests; all 204
+Mobile Safari/Chrome cases, the production PWA lifecycle, and the mobile performance proxy pass.
+Manual Playwright inspection at 320x568 EN/light and 393x742 RO/dark found no horizontal overflow,
+description duplication, or comparison-layout defect.
+**Insight:** Comparison prose is a choice-set capability, not an entry capability. Partial sibling
+coverage changes the information available for some options and can bias selection, so the whole
+visible group must fail closed together.
+**Promoted to Lessons Learned:** No — first occurrence; retain in the iteration record.

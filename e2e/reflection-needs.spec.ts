@@ -59,6 +59,11 @@ test('reveals a newly reviewed Quick need only after explicit exploration', asyn
   await expect(needs).toHaveCount(0)
   await page.getByRole('button', { name: 'Explore further' }).click()
   await expect(needs.getByRole('button', { name: 'boundaries', exact: true })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'A possible meaning' })).toBeVisible()
+  const description = page.getByText(/mobilized energy around a perceived obstacle/i)
+  await expect(description).toHaveCount(1)
+  await page.getByText('More context').click()
+  await expect(description).toHaveCount(1)
 })
 
 test('reveals reviewed Affect guidance only after explicit exploration', async ({ page }) => {

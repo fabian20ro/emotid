@@ -1,8 +1,8 @@
-# Catalog Guidance Review Workflow
+# Catalog Guidance and Description Review Workflow
 
-P26 treats model output as candidate material, never psychological approval. Runtime guidance stays
-absent until a candidate has passed deterministic validation, an explicit domain review, and a
-source change marked `reviewed`.
+P26/P27 treat model output as candidate material, never psychological approval. Runtime guidance or
+description copy stays absent until a candidate has passed deterministic validation, an explicit
+domain review, and a source change marked `reviewed`.
 
 ## Boundaries
 
@@ -171,3 +171,29 @@ vocabulary, and recorded 152 new explicit null decisions.
 
 The regenerated Word Ladder batch contains zero unresolved entries. Across its 214 confirmable
 words, 44 reviewed mappings are visible at runtime and 170 expose no inferred need.
+
+## Description Pilot Status
+
+`npm run prepare:catalog-review:description-pilot` derives one exact 23-ID batch from three product
+boundaries: the existing reviewed-description baseline, all six Quick emotions, and the seven
+production Word Ladder roots. It deduplicates canonical IDs and permits only the bilingual
+`description` field. Need options and need-review instructions are omitted from this batch to keep
+the provider payload narrow. The prompt asks for observational differentiation, limits each
+language to 45 words, and rejects advice, coping instructions, inferred needs, crisis instructions,
+and direct address.
+
+One Luna Max psychologist pass returned all 23 candidate descriptions and passed structural
+validation. Domain adjudication accepted 19 reformulations and retained the local drafts for
+`anger`, `joy`, `rage`, and `terror`, where the candidate weakened a useful distinction or the
+intended intensity. Provider output was not applied automatically and no second provider or retry
+was used.
+
+All 23 entries now have reviewed bilingual descriptions. Optional Reflection renders the canonical
+description once and omits empty context rows. The initial Word Ladder list remains label-only;
+comparison appears only for a complete sibling group. The seven roots form the first complete
+comparison group. Intermediate and leaf groups remain unavailable until reviewed atomically.
+
+The next bounded description phase should process the 41 Word Ladder intermediate words by their
+seven root families. A family should ship only when every comparable sibling in that family has a
+reviewed bilingual description. Do not bulk-generate the 166 leaves unless measured use shows that
+leaf comparison or Reflection materially benefits from the prose.

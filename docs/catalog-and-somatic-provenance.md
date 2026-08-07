@@ -12,11 +12,11 @@ diagnosis, severity, danger, or needed intervention.
 
 The runtime catalog contains 288 entries:
 
-- 12 bilingual descriptions are explicitly marked `reviewed`;
+- 23 bilingual descriptions are explicitly marked `reviewed`;
 - 272 entries have an explicit reviewed guidance decision: 61 map to one of 11 controlled bilingual
   need options and 211 intentionally use `needId: null`;
 - 227 entries expose no inferred need, including the 211 reviewed no-suggestion decisions;
-- the 12 reviewed bilingual descriptions remain independent from guidance decisions;
+- the 23 reviewed bilingual descriptions remain independent from guidance decisions;
 - raw per-entry needs, unreviewed descriptions, and unknown need references are rejected during
   catalog loading and `npm run check-copy`;
 - duplicate IDs and source key/ID mismatches fail during catalog assembly.
@@ -26,6 +26,13 @@ review. A reviewed decision to expose no suggestion uses `needId: null`, which r
 runtime but prevents repeat review. Adding descriptive prose requires both languages, explicit
 `descriptionStatus: "reviewed"`, and copy-contract tests. Missing provenance fails closed instead
 of synthesizing user-facing psychological guidance.
+
+The first description pilot is the deduplicated union of the existing reviewed baseline, all six
+Quick emotions, and the seven production Word Ladder roots. Descriptions are canonical, so any
+selected pilot emotion may expose the same reviewed text in optional Reflection regardless of its
+entry route. Word Ladder comparison is stricter: it appears only when the selected word and every
+sibling in that comparison group have complete bilingual descriptions. Partial coverage cannot
+bias the visible choice set.
 
 ## Body Compass
 

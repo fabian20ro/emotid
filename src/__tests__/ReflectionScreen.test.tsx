@@ -111,10 +111,23 @@ describe('ReflectionScreen need selection', () => {
     expect(screen.getByRole('button', { name: need.en })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Try one small step' })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'Explore with AI' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'A possible meaning' })).toBeInTheDocument()
 
     await user.click(screen.getByRole('button', { name: 'Back' }))
     expect(screen.getByTestId('reflection-screen')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Explore further' })).toHaveFocus()
+  })
+
+  it('shows the primary description once and omits empty result rows from more context', async () => {
+    const user = userEvent.setup()
+    const withoutGuidance = { ...result('empty'), description: undefined }
+    renderReflection([result('anxiety'), withoutGuidance])
+
+    await user.click(screen.getByRole('button', { name: 'Explore further' }))
+    await user.click(screen.getByText('More context'))
+
+    expect(screen.getAllByText('anxiety description')).toHaveLength(1)
+    expect(screen.queryByText('empty:')).not.toBeInTheDocument()
   })
 
   it('uses the same uncertainty and agency level in Romanian', () => {

@@ -235,8 +235,7 @@
     "compareHint": "Alegeți un cuvânt de la același nivel. Descrierile pot ajuta; niciun cuvânt nu trebuie să se potrivească.",
     "compareWith": "Comparați cu {word}",
     "compareNote": "Observați care descriere, dacă vreuna, pare mai apropiată.",
-    "comparisonLabel": "{selected} și {other}",
-    "noDescription": "Nu există încă o descriere pentru acest cuvânt."
+    "comparisonLabel": "{selected} și {other}"
   },
   "plutchik": {
     "eyebrow": "Roata Plutchik",
@@ -257,7 +256,7 @@
     "yes": "Da",
     "partly": "Parțial",
     "no": "Nu prea",
-    "function": "Ce ar putea face",
+    "function": "Un posibil sens",
     "need": "De ce ați putea avea nevoie",
     "needPrompt": "De ce simțiți că aveți cea mai mare nevoie acum?",
     "needHint": "Păstrați sugestia care se potrivește cel mai bine sau lăsați întrebarea deschisă.",

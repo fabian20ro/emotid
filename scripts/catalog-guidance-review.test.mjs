@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url'
 
 import {
   buildAffectReviewBatch,
+  buildDescriptionPilotBatch,
   buildPlutchikReviewBatch,
   buildPsychologistPrompt,
   buildQuickBodyReviewBatch,
@@ -20,6 +21,51 @@ const plutchikOverlayDir = path.resolve(scriptsDir, '../src/models/plutchik/over
 const somaticDir = path.resolve(scriptsDir, '../src/models/somatic/data')
 const wheelOverlayDir = path.resolve(scriptsDir, '../src/models/wheel/overlays')
 const wheelRootIdsPath = path.resolve(scriptsDir, '../src/models/wheel/root-ids.json')
+
+test('builds the exact 23-entry description pilot with one complete root comparison group', () => {
+  const batch = buildDescriptionPilotBatch({
+    batchId: 'p27-description-pilot-01',
+    catalogDir,
+    wheelRootIdsPath,
+  })
+
+  assert.deepEqual(batch.editableFields, ['description'])
+  assert.equal(batch.needOptions, undefined)
+  assert.ok(batch.entries.every((entry) => !Object.hasOwn(entry, 'guidance')))
+  assert.deepEqual(batch.surfaces, ['shared-reflection', 'word-ladder-root-comparison'])
+  assert.deepEqual(batch.comparisonGroups, [{ parentId: null, ids: [
+    'happy', 'surprised', 'bad', 'fearful', 'angry', 'disgusted', 'sad',
+  ] }])
+  assert.deepEqual(batch.entries.map(({ id }) => id), [
+    'anger',
+    'angry',
+    'anxiety',
+    'bad',
+    'despair',
+    'disgusted',
+    'distressed',
+    'fearful',
+    'frustrated',
+    'grief',
+    'happy',
+    'joy',
+    'nervous',
+    'numb',
+    'overwhelmed',
+    'rage',
+    'sad',
+    'sadness',
+    'shame',
+    'stressed',
+    'surprised',
+    'tense',
+    'terror',
+  ])
+
+  const prompt = buildPsychologistPrompt(batch)
+  assert.doesNotMatch(prompt, /controlled vocabulary/i)
+  assert.doesNotMatch(prompt, /needId proposal/i)
+})
 
 function negativeHighBatch() {
   return buildReviewBatch({
@@ -199,7 +245,7 @@ test('builds one reusable psychologist prompt with an advisory-only provenance b
   const prompt = buildPsychologistPrompt(batch)
 
   assert.match(prompt, /psychologist/i)
-  assert.match(prompt, /one highest-impact change or none/i)
+  assert.match(prompt, /exactly one decision/i)
   assert.match(prompt, /status.*candidate/i)
   assert.match(prompt, /must not be treated as reviewed/i)
   assert.equal(prompt.split('p26-negative-high-01').length - 1, 1)
@@ -278,8 +324,8 @@ test('rejects psychologically unsafe and mobile-unreadable candidate copy', () =
     ...result.proposals[1],
     field: 'description',
     proposal: {
-      en: Array.from({ length: 81 }, () => 'option').join(' '),
-      ro: Array.from({ length: 81 }, () => 'opțiune').join(' '),
+      en: Array.from({ length: 46 }, () => 'option').join(' '),
+      ro: Array.from({ length: 46 }, () => 'opțiune').join(' '),
     },
   }
 
@@ -287,5 +333,5 @@ test('rejects psychologically unsafe and mobile-unreadable candidate copy', () =
 
   assert.ok(violations.some((message) => message.includes('English matches forbidden pattern')))
   assert.ok(violations.some((message) => message.includes('Romanian matches forbidden pattern')))
-  assert.ok(violations.some((message) => message.includes('description exceeds 80 words')))
+  assert.ok(violations.some((message) => message.includes('description exceeds 45 words')))
 })

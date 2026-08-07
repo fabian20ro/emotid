@@ -55,6 +55,11 @@ Shared batch construction handles catalog resolution and reviewed-decision filte
 adapters do not duplicate emotion inventories. Inventories represent user-confirmable results, not
 every entry loaded by a model.
 
+Description review uses a separate, description-only batch. The first 23-ID pilot is the canonical
+union of the reviewed baseline, Quick IDs, and Word Ladder roots. Canonical descriptions may appear
+in optional Reflection from any route. Word Ladder exposes comparison only when the selected word
+and its complete sibling set have reviewed bilingual descriptions; partial groups fail closed.
+
 ### Safety rules are versioned data
 
 `safety-rules.json` is the single source for the explicit high-distress inventory and tier-3/tier-4

@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { scoreSomaticSelections } from '../models/somatic/scoring'
+import { emotionCatalog } from '../models/catalog'
 import type { SomaticSelection, EmotionSignal, BodyGroup } from '../models/somatic/types'
 
 function makeSignal(overrides: Partial<EmotionSignal> & Pick<EmotionSignal, 'emotionId' | 'sensationType'>): EmotionSignal {
@@ -179,13 +180,14 @@ describe('scoreSomaticSelections', () => {
     expect(results[0].matchStrength.en).toBe('closer match')
   })
 
-  it('does not manufacture canonical guidance or somatic causal claims', () => {
+  it('reuses reviewed canonical description without manufacturing a need or somatic cause', () => {
     const signal = makeSignal({ emotionId: 'joy', sensationType: 'tension', weight: 1.0 })
     const selection = makeSelection('chest', 'tension', 2, [signal])
 
     const results = scoreSomaticSelections([selection])
 
-    expect(results[0].description).toBeUndefined()
+    expect(results[0].description).toEqual(emotionCatalog.joy.description)
+    expect(results[0].description?.en).not.toContain('tension')
     expect(results[0].needs).toBeUndefined()
   })
 

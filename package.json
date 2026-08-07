@@ -38,6 +38,7 @@
     "prepare:catalog-review:affect": "node ./scripts/catalog-guidance-review.mjs prepare --surface affect --batch-id p26-affect-needs-01 --out-dir .reports/catalog-guidance/p26-affect-needs-01",
     "prepare:catalog-review:plutchik": "node ./scripts/catalog-guidance-review.mjs prepare --surface plutchik --batch-id p26-plutchik-needs-01 --out-dir .reports/catalog-guidance/p26-plutchik-needs-01",
     "prepare:catalog-review:word-ladder": "node ./scripts/catalog-guidance-review.mjs prepare --surface word-ladder --batch-id p26-word-ladder-needs-01 --out-dir .reports/catalog-guidance/p26-word-ladder-needs-01",
+    "prepare:catalog-review:description-pilot": "node ./scripts/catalog-guidance-review.mjs prepare --surface description-pilot --batch-id p27-description-pilot-01 --out-dir .reports/catalog-guidance/p27-description-pilot-01",
     "check-copy": "node ./check_psychological_copy.cjs && npm run test:catalog-review",
     "check-performance": "node ./scripts/check-performance-budget.mjs",
     "precheck": "node -e \"const p=require('./package.json');const required=['check-translations','check-copy','lint','test','build','type-check'];required.forEach(s=>{if(!p.scripts[s])console.error('missing script:',s),process.exit(1);});['check-keys','check-translations','check-untranslated','check-copy'].forEach(k=>{const v=p.scripts[k];if(!v)throw new Error('script missing: '+k);if(v.includes('./node_modules/.bin/')||v.includes('jest'))throw new Error('deprecated script: '+k)})\"",

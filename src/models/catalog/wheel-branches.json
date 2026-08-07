@@ -6,6 +6,11 @@
       "en": "Bad"
     },
     "color": "#B8C0C8",
+    "description": {
+      "ro": "„Rău” este o etichetă largă pentru o experiență neplăcută sau dificilă, fără un nume emoțional mai precis. Poate cuprinde oboseală, stres, plictiseală sau copleșire.",
+      "en": "Bad is a broad label for an unpleasant or difficult experience that does not yet have a more specific emotional name. It may cover tiredness, stress, boredom, or feeling overwhelmed."
+    },
+    "descriptionStatus": "reviewed",
     "guidance": {
       "status": "reviewed",
       "needId": null
@@ -18,6 +23,11 @@
       "en": "Disgusted"
     },
     "color": "#C888B8",
+    "description": {
+      "ro": "Dezgustul poate implica aversiune, respingere și un impuls de îndepărtare față de ceva trăit ca ofensator sau contaminant. Se deosebește de furie mai degrabă prin distanțare decât prin confruntare.",
+      "en": "Feeling disgusted may involve aversion, rejection, and a pull to turn away from something experienced as objectionable or contaminating. It differs from anger through distancing rather than confrontation."
+    },
+    "descriptionStatus": "reviewed",
     "guidance": {
       "status": "reviewed",
       "needId": null
@@ -30,6 +40,11 @@
       "en": "Fearful"
     },
     "color": "#88C8A0",
+    "description": {
+      "ro": "Starea de teamă poate implica neliniște, vulnerabilitate și atenție orientată spre ce s-ar putea întâmpla în continuare. Spre deosebire de surprindere, include o așteptare neliniștită, nu doar o schimbare bruscă a atenției.",
+      "en": "Feeling fearful may involve apprehension, vulnerability, and attention oriented toward what might happen next. Unlike surprise, it includes an uneasy expectation rather than only a sudden shift in attention."
+    },
+    "descriptionStatus": "reviewed",
     "guidance": {
       "status": "reviewed",
       "needId": "safety"
@@ -42,6 +57,11 @@
       "en": "Surprised"
     },
     "color": "#A8D8B0",
+    "description": {
+      "ro": "Surprinderea poate fi trăită ca o schimbare bruscă a atenției și o scurtă reorientare spre ceva neașteptat. Trăirea poate fi plăcută, neplăcută sau neutră.",
+      "en": "Surprise may feel like a sudden shift in attention and a brief reorientation toward something unexpected. The feeling may be pleasant, unpleasant, or neutral."
+    },
+    "descriptionStatus": "reviewed",
     "guidance": {
       "status": "reviewed",
       "needId": null
@@ -138,6 +158,11 @@
       "en": "Overwhelmed"
     },
     "color": "#C4CCD4",
+    "description": {
+      "ro": "Copleșirea poate implica aglomerare mentală, gânduri, senzații sau emoții simultane, cu atenția devenind împrăștiată ori îngustată. Experiența generală poate părea greu de ordonat într-o imagine clară.",
+      "en": "Feeling overwhelmed may involve mental crowding, simultaneous thoughts, sensations, or emotions, with attention becoming scattered or narrowed. The overall experience can feel difficult to organize into a clear picture."
+    },
+    "descriptionStatus": "reviewed",
     "guidance": {
       "status": "reviewed",
       "needId": "relief"

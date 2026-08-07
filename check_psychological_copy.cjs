@@ -1,6 +1,11 @@
 const fs = require('fs')
 const path = require('path')
-const { forbiddenPatterns } = require('./psychological-copy-policy.cjs')
+const {
+  candidateWordLimits,
+  countWords,
+  findDescriptionForbiddenPatterns,
+  forbiddenPatterns,
+} = require('./psychological-copy-policy.cjs')
 
 const root = __dirname
 const catalogDir = path.join(root, 'src/models/catalog')
@@ -81,11 +86,14 @@ for (const file of catalogFiles) {
       if (!/\b(poate|pot|ar putea|dacă|diferit)\b/i.test(entry.description.ro)) {
         violations.push(`${file}:${id} Romanian reviewed description lacks uncertainty`)
       }
-      for (const pattern of forbiddenEnglish) {
-        if (pattern.test(entry.description.en)) violations.push(`${file}:${id} English matches ${pattern}`)
-      }
-      for (const pattern of forbiddenRomanian) {
-        if (pattern.test(entry.description.ro)) violations.push(`${file}:${id} Romanian matches ${pattern}`)
+      for (const [language, label] of [['en', 'English'], ['ro', 'Romanian']]) {
+        const description = entry.description[language]
+        for (const pattern of findDescriptionForbiddenPatterns(description, language)) {
+          violations.push(`${file}:${id} ${label} matches ${pattern}`)
+        }
+        if (countWords(description) > candidateWordLimits.description) {
+          violations.push(`${file}:${id} ${label} exceeds ${candidateWordLimits.description} words`)
+        }
       }
     } else {
       if (entry.descriptionStatus) violations.push(`${file}:${id} has unknown descriptionStatus`)
