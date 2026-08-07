@@ -146,6 +146,7 @@ function buildSurfaceReviewBatch({ batchId, catalogDir, surfaces, reachableIds }
     scope: {
       reachableCount: reviewEntries.length,
       reviewedCount: reviewEntries.length - entries.length,
+      reachableIds: reviewEntries.map(({ id }) => id),
     },
     editableFields: ['needId', 'none'],
     needOptions,
@@ -196,6 +197,59 @@ export function buildAffectReviewBatch({ batchId, catalogDir, dimensionalOverlay
     catalogDir,
     surfaces: ['affect-map'],
     reachableIds: Object.keys(overlay),
+  })
+}
+
+export function buildPlutchikReviewBatch({ batchId, catalogDir, plutchikOverlayDir }) {
+  const primary = JSON.parse(fs.readFileSync(path.join(plutchikOverlayDir, 'primary.json'), 'utf8'))
+  if (!isRecord(primary)) throw new Error('Plutchik primary overlay must contain an object')
+
+  const primaryIds = Object.keys(primary)
+  const primarySet = new Set(primaryIds)
+  const combinationsByPair = new Map()
+  for (const file of [
+    'dyad.json',
+    'secondary-dyad.json',
+    'tertiary-dyad.json',
+    'opposite-dyad.json',
+  ]) {
+    const combinations = JSON.parse(fs.readFileSync(path.join(plutchikOverlayDir, file), 'utf8'))
+    if (!isRecord(combinations)) throw new Error(`${file} must contain Plutchik combinations`)
+    for (const [id, combination] of Object.entries(combinations)) {
+      if (
+        !isRecord(combination)
+        || !Array.isArray(combination.components)
+        || combination.components.length !== 2
+        || !combination.components.every(isNonEmptyString)
+      ) {
+        throw new Error(`${file}:${id} must have exactly two components`)
+      }
+      if (!combination.components.every((component) => primarySet.has(component))) continue
+      const pair = [...combination.components].sort().join(':')
+      const ids = combinationsByPair.get(pair) ?? []
+      ids.push(id)
+      combinationsByPair.set(pair, ids)
+    }
+  }
+
+  const reachableIds = new Set()
+  for (const [index, first] of primaryIds.entries()) {
+    for (const second of primaryIds.slice(index + 1)) {
+      const combinations = combinationsByPair.get([first, second].sort().join(':')) ?? []
+      if (combinations.length > 0) {
+        for (const id of combinations) reachableIds.add(id)
+      } else {
+        reachableIds.add(first)
+        reachableIds.add(second)
+      }
+    }
+  }
+
+  return buildSurfaceReviewBatch({
+    batchId,
+    catalogDir,
+    surfaces: ['plutchik'],
+    reachableIds,
   })
 }
 
@@ -346,6 +400,7 @@ function usage() {
     '  node scripts/catalog-guidance-review.mjs prepare --source FILE --batch-id ID --out-dir DIR [--ids ID,ID]',
     '  node scripts/catalog-guidance-review.mjs prepare --surface quick-body --batch-id ID --out-dir DIR',
     '  node scripts/catalog-guidance-review.mjs prepare --surface affect --batch-id ID --out-dir DIR',
+    '  node scripts/catalog-guidance-review.mjs prepare --surface plutchik --batch-id ID --out-dir DIR',
     '  node scripts/catalog-guidance-review.mjs validate --batch FILE --result FILE',
   ].join('\n')
 }
@@ -376,6 +431,12 @@ function main(args) {
           batchId,
           catalogDir,
           dimensionalOverlayPath: path.join(root, 'src/models/dimensional/overlay.json'),
+        })
+      } else if (surface === 'plutchik') {
+        batch = buildPlutchikReviewBatch({
+          batchId,
+          catalogDir,
+          plutchikOverlayDir: path.join(root, 'src/models/plutchik/overlays'),
         })
       } else {
         throw new Error(`Unknown review surface "${surface}"`)

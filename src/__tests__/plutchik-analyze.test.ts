@@ -79,4 +79,22 @@ describe('plutchikModel.analyze', () => {
     const results = analyze(['joy', 'trust'])
     expect(results[0].description).toBeUndefined()
   })
+
+  it('exposes only the four reviewed needs reachable from primary pairs', () => {
+    const primaryIds = [...plutchikModel.initialState.visibleEmotionIds.keys()]
+    const results = primaryIds.flatMap((first, index) => (
+      primaryIds.slice(index + 1).flatMap((second) => analyze([first, second]))
+    ))
+
+    expect(Object.fromEntries(
+      results
+        .filter((result) => result.needs)
+        .map((result) => [result.id, result.needs?.en]),
+    )).toEqual({
+      anxiety: 'grounding',
+      despair: 'support',
+      love: 'safe connection',
+      shame: 'safe connection',
+    })
+  })
 })

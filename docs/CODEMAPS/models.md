@@ -48,8 +48,10 @@ IDs, key/ID mismatches, raw per-entry needs, unknown need references, and descri
 explicit reviewed provenance.
 
 Guidance review derives route reachability from production data: Quick IDs plus somatic signals for
-Quick/Body and the dimensional overlay for Affect. Shared batch construction handles catalog
-resolution and reviewed-decision filtering; route adapters do not duplicate emotion inventories.
+Quick/Body, the dimensional overlay for Affect, and every selectable primary pair plus production
+combination overlays for Plutchik. Shared batch construction handles catalog resolution and
+reviewed-decision filtering; route adapters do not duplicate emotion inventories. Inventories
+represent user-confirmable results, not every entry loaded by a model.
 
 ### Safety rules are versioned data
 

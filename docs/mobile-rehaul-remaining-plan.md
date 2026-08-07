@@ -754,6 +754,23 @@ option was added. Regenerating the Affect batch returns zero unresolved entries.
 Across the catalog there are now 70 reviewed guidance decisions, 30 visible mappings, 40 explicit
 no-suggestion decisions, and the same 11 controlled bilingual options.
 
-**Next:** derive the Plutchik route inventory from its production overlays and combinations, then
-review Word Ladder separately. Keep descriptions out of both need batches and preserve explicit
-`null` rather than forcing complete visible coverage.
+### P26 Plutchik Guidance Complete
+
+The review utility now derives results from the current interaction contract: eight selectable
+primary emotions, all 28 unordered pairs, and the production combination overlays. It finds 29
+reachable result IDs because `trust + sadness` produces two blends. Intensity variants and
+non-primary combinations remain outside the inventory because the current wheel cannot commit
+them to Reflection.
+
+Ten results already had reviewed decisions. One Luna Max advisory pass challenged the 19 remaining
+cases and rejected all tentative mappings as context-dependent. Domain review recorded 19 explicit
+no-suggestion decisions, added no vocabulary, and preserved the four existing visible mappings for
+`anxiety`, `despair`, `love`, and `shame`. Regenerating the Plutchik batch returns zero unresolved
+entries.
+
+Across the catalog there are now 89 reviewed guidance decisions, 30 visible mappings, 59 explicit
+no-suggestion decisions, and the same 11 controlled bilingual options.
+
+**Next:** derive the Word Ladder inventory from the actual branch/leaf completion rules and review
+it as the final route-level needs batch. Keep description review separate and avoid treating every
+loaded wheel node as a confirmable result.

@@ -1580,3 +1580,27 @@ narrow per batch. Positive, mixed, or broad low-mood labels do not need forced g
 increase visible coverage.
 **Promoted to Lessons Learned:** Yes — explicit no-suggestion provenance now recurred across two
 route-review batches.
+
+---
+
+### [2026-08-07] Complete the Plutchik guidance review
+
+**Context:** P26 had closed Quick, Body Compass, and Affect guidance, but Plutchik loaded 55 model
+entries whose actual route reachability differed from the source inventory.
+**What happened:**
+- Began with a failing result-inventory contract, then derived all 28 selectable primary pairs from
+  production overlays using the runtime combination-or-standalone rule.
+- Identified 29 confirmable results, including the two blends produced by `trust + sadness`, while
+  excluding intensity variants and combinations the current wheel cannot select.
+- Used one Luna Max psychologist pass to challenge four tentative mappings. Domain review rejected
+  all four, added no vocabulary, and recorded explicit null decisions for all 19 unresolved IDs.
+- Added exact model and Safari/Chrome contracts proving the four existing reviewed mappings remain
+  behind Explore and a reviewed null result remains absent there.
+**Outcome:** Plutchik is 29/29 reviewed with zero unresolved entries. The full catalog has 89
+reviewed decisions, 30 runtime mappings, 59 explicit no-suggestion decisions, and 11 controlled
+options. `npm run check` passes 73 Vitest files and 592 tests; all 200 Mobile Safari/Chrome cases,
+the production PWA lifecycle, and the mobile performance proxy pass.
+**Insight:** Route review must inventory results a user can commit, not every entry a model loads.
+For combinatorial tools, derive reachability from selectable inputs and the production analyzer
+contract so hidden variants do not create false review scope.
+**Promoted to Lessons Learned:** No — first occurrence; retain in the iteration record.

@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url'
 
 import {
   buildAffectReviewBatch,
+  buildPlutchikReviewBatch,
   buildPsychologistPrompt,
   buildQuickBodyReviewBatch,
   buildReviewBatch,
@@ -14,6 +15,7 @@ import {
 const scriptsDir = path.dirname(fileURLToPath(import.meta.url))
 const catalogDir = path.resolve(scriptsDir, '../src/models/catalog')
 const dimensionalOverlayPath = path.resolve(scriptsDir, '../src/models/dimensional/overlay.json')
+const plutchikOverlayDir = path.resolve(scriptsDir, '../src/models/plutchik/overlays')
 const somaticDir = path.resolve(scriptsDir, '../src/models/somatic/data')
 
 function negativeHighBatch() {
@@ -77,6 +79,51 @@ test('finds no unresolved Affect Map guidance after reviewed decisions', () => {
     { ...batch, entries: [{ id: 'afraid' }] },
     result,
   ).some((message) => message.includes('invalid field "description"')))
+})
+
+test('finds no unresolved Plutchik result guidance after reviewed decisions', () => {
+  const batch = buildPlutchikReviewBatch({
+    batchId: 'p26-plutchik-needs-01',
+    catalogDir,
+    plutchikOverlayDir,
+  })
+
+  assert.equal(batch.scope.reachableCount, 29)
+  assert.equal(batch.scope.reviewedCount, 29)
+  assert.deepEqual(batch.scope.reachableIds, [
+    'aggression',
+    'ambivalence',
+    'anxiety',
+    'awe',
+    'bittersweetness',
+    'compassion',
+    'confusion',
+    'contempt',
+    'curiosity',
+    'cynicism',
+    'delight',
+    'despair',
+    'disapproval',
+    'dominance',
+    'envy',
+    'frozenness',
+    'guilt',
+    'hope',
+    'love',
+    'morbidness',
+    'optimism',
+    'outrage',
+    'pessimism',
+    'pride',
+    'remorse',
+    'sentimentality',
+    'shame',
+    'submission',
+    'unbelief',
+  ])
+  assert.deepEqual(batch.surfaces, ['plutchik'])
+  assert.deepEqual(batch.editableFields, ['needId', 'none'])
+  assert.deepEqual(batch.entries, [])
 })
 
 function validResult(batch) {

@@ -22,6 +22,23 @@ async function completeAffectAt(
   await expect(page.getByTestId('reflection-screen')).toBeVisible()
 }
 
+async function completePlutchikPair(
+  page: import('@playwright/test').Page,
+  firstId: string,
+  secondId: string,
+  resultId: string,
+) {
+  await page.getByRole('button', { name: 'Explore' }).click()
+  await page.getByTestId('explore-plutchik').click()
+  await page.getByTestId(`plutchik-emotion-${firstId}`).click()
+  await page.getByTestId(`plutchik-emotion-${secondId}`).click()
+  await expect(page.getByTestId('plutchik-combination')).toContainText(
+    new RegExp(resultId, 'i'),
+  )
+  await page.locator('.route-action button').click()
+  await expect(page.getByTestId('reflection-screen')).toBeVisible()
+}
+
 test('reveals a newly reviewed Quick need only after explicit exploration', async ({ page }) => {
   await openApp(page)
   await completeQuick(page, 'anger')
@@ -45,6 +62,24 @@ test('reveals reviewed Affect guidance only after explicit exploration', async (
 test('keeps reviewed no-suggestion Affect guidance absent during exploration', async ({ page }) => {
   await openApp(page)
   await completeAffectAt(page, 'happy', { x: 0.76, y: 0.32 })
+
+  await page.getByRole('button', { name: 'Explore further' }).click()
+  await expect(page.getByRole('group', { name: 'What feels most needed right now?' })).toHaveCount(0)
+})
+
+test('reveals reviewed Plutchik guidance only after explicit exploration', async ({ page }) => {
+  await openApp(page)
+  await completePlutchikPair(page, 'joy', 'trust', 'love')
+
+  const needs = page.getByRole('group', { name: 'What feels most needed right now?' })
+  await expect(needs).toHaveCount(0)
+  await page.getByRole('button', { name: 'Explore further' }).click()
+  await expect(needs.getByRole('button', { name: 'safe connection', exact: true })).toBeVisible()
+})
+
+test('keeps reviewed no-suggestion Plutchik guidance absent during exploration', async ({ page }) => {
+  await openApp(page)
+  await completePlutchikPair(page, 'joy', 'anticipation', 'optimism')
 
   await page.getByRole('button', { name: 'Explore further' }).click()
   await expect(page.getByRole('group', { name: 'What feels most needed right now?' })).toHaveCount(0)

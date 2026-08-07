@@ -29,6 +29,10 @@
       "ro": "venerație",
       "en": "awe"
     },
-    "color": "#7FD8D8"
+    "color": "#7FD8D8",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   }
 }

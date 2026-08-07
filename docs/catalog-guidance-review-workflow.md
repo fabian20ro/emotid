@@ -134,3 +134,23 @@ specific need.
 
 The regenerated Affect batch contains zero unresolved entries. Across all 38 Affect emotions,
 11 reviewed mappings are visible at runtime and 27 expose no inferred need.
+
+## Plutchik Batch Status
+
+`npm run prepare:catalog-review:plutchik` derives user-confirmable results rather than treating
+every loaded Plutchik entry as reachable. It reads the eight production primaries, indexes the four
+combination overlays by unordered component pair, and evaluates all 28 pairs using the same
+combination-or-standalone result rule as the runtime model. This produces 29 reachable result IDs:
+one result for 27 pairs and both `compassion` and `sentimentality` for `trust + sadness`.
+Intensity variants and combinations with non-primary components are not selectable in the current
+wheel, so they remain outside this route batch.
+
+Ten reachable results already had reviewed decisions; 19 required review. One bounded Luna Max
+psychologist pass challenged four tentative mappings and rejected all of them. `aggression`,
+`frozenness`, `outrage`, and `remorse` do not robustly establish space, safety, boundaries, or
+compassion without context. Domain review recorded `needId: null` for all 19 entries and added no
+vocabulary.
+
+The regenerated Plutchik batch contains zero unresolved entries. Four of its 29 reachable results
+retain visible reviewed guidance (`anxiety`, `despair`, `love`, and `shame`); the other 25 expose no
+inferred need.

@@ -122,7 +122,11 @@
       "ro": "supunere",
       "en": "submission"
     },
-    "color": "#98E8C8"
+    "color": "#98E8C8",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "disapproval": {
     "id": "disapproval",
@@ -130,7 +134,11 @@
       "ro": "dezaprobare",
       "en": "disapproval"
     },
-    "color": "#7BB8E8"
+    "color": "#7BB8E8",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "remorse": {
     "id": "remorse",
@@ -138,7 +146,11 @@
       "ro": "remușcare",
       "en": "remorse"
     },
-    "color": "#9B8DC8"
+    "color": "#9B8DC8",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "aggression": {
     "id": "aggression",
@@ -146,7 +158,11 @@
       "ro": "agresivitate",
       "en": "aggression"
     },
-    "color": "#FF8860"
+    "color": "#FF8860",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "optimism": {
     "id": "optimism",
@@ -154,7 +170,11 @@
       "ro": "optimism",
       "en": "optimism"
     },
-    "color": "#FFD080"
+    "color": "#FFD080",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "hope": {
     "id": "hope",
@@ -174,7 +194,11 @@
       "ro": "ambivalență",
       "en": "ambivalence"
     },
-    "color": "#B8C8A8"
+    "color": "#B8C8A8",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "frozenness": {
     "id": "frozenness",
@@ -182,7 +206,11 @@
       "ro": "înghețare",
       "en": "frozenness"
     },
-    "color": "#78B898"
+    "color": "#78B898",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "confusion": {
     "id": "confusion",
@@ -190,7 +218,11 @@
       "ro": "confuzie",
       "en": "confusion"
     },
-    "color": "#98C8D8"
+    "color": "#98C8D8",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "guilt": {
     "id": "guilt",
@@ -210,7 +242,11 @@
       "ro": "dulce-amărui",
       "en": "bittersweetness"
     },
-    "color": "#C8A8D8"
+    "color": "#C8A8D8",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "curiosity": {
     "id": "curiosity",
@@ -230,7 +266,11 @@
       "ro": "indignare",
       "en": "outrage"
     },
-    "color": "#E87878"
+    "color": "#E87878",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "envy": {
     "id": "envy",
@@ -238,7 +278,11 @@
       "ro": "invidie",
       "en": "envy"
     },
-    "color": "#7898C8"
+    "color": "#7898C8",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "cynicism": {
     "id": "cynicism",
@@ -246,7 +290,11 @@
       "ro": "cinism",
       "en": "cynicism"
     },
-    "color": "#C898A8"
+    "color": "#C898A8",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "pride": {
     "id": "pride",
@@ -266,7 +314,11 @@
       "ro": "sentimentalism",
       "en": "sentimentality"
     },
-    "color": "#A8C8D8"
+    "color": "#A8C8D8",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "dominance": {
     "id": "dominance",
@@ -274,7 +326,11 @@
       "ro": "dominanță",
       "en": "dominance"
     },
-    "color": "#D89888"
+    "color": "#D89888",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "delight": {
     "id": "delight",
@@ -282,7 +338,11 @@
       "ro": "încântare",
       "en": "delight"
     },
-    "color": "#FFE898"
+    "color": "#FFE898",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "pessimism": {
     "id": "pessimism",
@@ -290,7 +350,11 @@
       "ro": "pesimism",
       "en": "pessimism"
     },
-    "color": "#8898C8"
+    "color": "#8898C8",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "morbidness": {
     "id": "morbidness",
@@ -298,7 +362,11 @@
       "ro": "morbiditate",
       "en": "morbidness"
     },
-    "color": "#C8A0C8"
+    "color": "#C8A0C8",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "unbelief": {
     "id": "unbelief",
@@ -306,7 +374,11 @@
       "ro": "neîncredere",
       "en": "unbelief"
     },
-    "color": "#A898C8"
+    "color": "#A898C8",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "ruthlessness": {
     "id": "ruthlessness",
