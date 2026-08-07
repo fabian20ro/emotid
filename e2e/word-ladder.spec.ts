@@ -121,4 +121,39 @@ test.describe('Word Ladder route', () => {
     const comparisonButton = await page.getByRole('button', { name: 'Comparați cu Trist' }).boundingBox()
     expect(comparisonButton!.height).toBeGreaterThanOrEqual(44)
   })
+
+  test('keeps stopping prominent and comparison reversible on a narrow screen', async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 568 })
+    await openApp(page, { language: 'ro', theme: 'dark' })
+    await openArrival(page)
+    await page.getByTestId('arrival-words').click()
+    await page.getByRole('button', { name: 'Fericit' }).click()
+    await page.getByRole('button', { name: 'Jucăuș' }).click()
+
+    const stopAction = page.getByRole('button', { name: 'Continuați cu Jucăuș' })
+    await expect(stopAction).toBeFocused()
+    await expect(stopAction).toHaveAccessibleDescription('Sau alegeți mai jos un cuvânt mai precis.')
+
+    const stopBox = await page.getByRole('region', {
+      name: 'Acest cuvânt poate fi răspunsul vostru: Jucăuș',
+    }).boundingBox()
+    const choicesBox = await page.getByRole('list', { name: 'Alegeți o direcție' }).boundingBox()
+    expect(stopBox!.y + stopBox!.height).toBeLessThanOrEqual(choicesBox!.y + 1)
+
+    await page.getByRole('button', { name: 'Adăugați Jucăuș' }).click()
+    const selected = page.getByRole('region', { name: 'Cuvinte alese' })
+    await expect(selected).toContainText('Jucăuș')
+
+    await page.getByRole('button', { name: 'Comparați cuvinte apropiate' }).click()
+    const contentOption = page.getByRole('button', { name: 'Comparați cu Mulțumit' })
+    await contentOption.click()
+    await expect(contentOption).toHaveAttribute('aria-pressed', 'true')
+    await expect(page.getByRole('group', { name: 'Jucăuș și Mulțumit' })).toBeVisible()
+    await expect(selected).toContainText('Jucăuș')
+    await expect(selected).not.toContainText('Mulțumit')
+    await expect(page.getByRole('button', { name: 'Continuați cu Jucăuș' })).toBeEnabled()
+
+    const overflow = await page.locator('.app-shell').evaluate((element) => element.scrollWidth - element.clientWidth)
+    expect(overflow).toBeLessThanOrEqual(1)
+  })
 })

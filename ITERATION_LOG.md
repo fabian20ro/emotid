@@ -1712,3 +1712,36 @@ show no clipping, overlap, dark-contrast regression, or stale historical label.
 current presentation. Exact reviewed language contracts prevent both regression and false-positive
 automatic “corrections.”
 **Promoted to Lessons Learned:** No — first occurrence; retain in the iteration record.
+
+---
+
+### [2026-08-07] Establish P29 Word Ladder stopping evidence
+
+**Context:** Intermediate descriptions and sibling comparison were implemented, but there was no
+bounded evidence that people could stop before a leaf, and physical assistive-technology evidence
+still used Android 15 plus mostly DevTools activation.
+**What happened:**
+- Added a six-participant EN/RO moderated protocol using synthetic situations, neutral prompts,
+  privacy limits, exact thresholds, and a fail-closed rule for any future leaf-description pilot.
+- Added a `320x568` Romanian/dark Playwright contract for direct-stop focus and order, reversible
+  comparison, retained selection, accessible description, and horizontal bounds.
+- Expert screenshot review found check icons on every unselected leaf. Replaced them with plus
+  icons under a red-first component contract so available choices no longer look completed.
+- Retested the deployed `f59e517` candidate on Pixel 6a Android 17 / API 37. All 18 browser J1-J9
+  EN/RO rows and both installed-WebAPK J5 rows passed as supporting evidence. Three physical
+  performance runs remained within every target.
+- Enabled TalkBack visible speech output and used a real AOA USB HID keyboard. Physical
+  `Shift+Tab` / `Tab` retained the direct-action and specificity utterances; TalkBack
+  `Action+Space` completed `Playful` / `Jucăuș` to Reflection in both languages. Browser J5 is now
+  a genuine bounded TalkBack pass; installed and full-matrix claims remain open.
+- Fixed the physical harness CLI after `--help` accidentally launched the default suite. Help and
+  unsupported arguments now exit before any device effect and have process-level regressions.
+**Outcome:** `npm run check` passes 75 files and 603 tests; all 208 Mobile Safari/Chrome cases, the
+production PWA lifecycle, and browser performance proxy pass. Participant sessions, genuine
+installed-WebAPK TalkBack, remaining TalkBack journeys, VoiceOver/Safari, and a distinct low-tier
+Android profile remain open and explicitly unclaimed.
+**Insight:** Choice icons must describe current state, not the result of activating a control.
+Physical-test tooling also needs a side-effect-free argument boundary because a diagnostic typo
+can otherwise mutate a connected device or contaminate evidence.
+**Promoted to Lessons Learned:** Yes — side-effect-free hardware CLI validation is reusable across
+all future physical gates.

@@ -179,3 +179,19 @@ replace physical speech, gesture, installed-PWA, or hardware-timing evidence.
 Final decision and rationale: **NOT READY FOR PHYSICAL SIGN-OFF.** The tested Pixel 6a profile has
 no reproduced functional or performance defect. VoiceOver/Safari, the complete retained TalkBack
 speech/gesture matrix, and a distinct low-tier Android performance profile remain required.
+
+## Android 17 Word Ladder Supplement - 2026-08-07
+
+Candidate `f59e5175cd7663a70fca2f74fd489878c9e8904a` was retested after the Pixel 6a
+upgrade to Android 17 / API 37 (`CP2A.260705.006`) with Chrome 150.0.7871.187 and TalkBack 17.0.1.
+
+| Scope | EN | RO | Evidence | Result |
+| --- | --- | --- | --- | --- |
+| Browser J1-J9, DevTools activation | 9/9 | 9/9 | `.reports/android-physical/2026-08-07T17-26-42-635Z-browser/` | SUPPORTING PASS |
+| Installed WebAPK J5, DevTools activation | 1/1 | 1/1 | `.reports/android-physical/2026-08-07T17-29-52-388Z-installed/` | SUPPORTING PASS |
+| Browser J5, AOA keyboard + TalkBack speech | PASS | PASS | `.reports/android-physical/2026-08-07T17-32-00-talkback-word-ladder/` | PASS |
+
+For real TalkBack J5, physical `Shift+Tab` / `Tab` returned to the direct intermediary action,
+visible speech output retained its name and specificity description, and TalkBack `Action+Space`
+completed to Reflection. The result closes only browser-mode J5 in both languages. The installed
+TalkBack row, remaining journeys, VoiceOver/Safari, and distinct low-tier Android remain open.

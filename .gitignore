@@ -33,3 +33,4 @@ coverage
 .compound-autopilot/
 /.playwright-mcp/
 /.playwright-cli/
+/output/playwright/

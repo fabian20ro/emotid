@@ -167,6 +167,11 @@ ID, retain the repository as a metadata archive and publish a fresh repository I
 
 ## Process & Workflow
 
+**[2026-08-07]** Hardware test CLIs must validate before touching hardware — A physical-audit
+script treated `--help` as an unknown no-op and started its full device suite. Handle help and
+reject unsupported arguments before creating evidence directories, opening browsers, or calling
+ADB; cover both paths with a process-level test that requires no connected device.
+
 **[2026-08-04]** Inferred psychological guidance needs an explicit agency boundary — A tentative
 emotion result can remain immediately useful without also showing needs, explanations,
 interventions, or external AI. Keep the default result compact and closable; reveal interpretation

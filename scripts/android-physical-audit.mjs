@@ -4,6 +4,24 @@ import path from 'node:path'
 import process from 'node:process'
 import { chromium } from 'playwright'
 
+const usage = `Usage: node scripts/android-physical-audit.mjs [options]
+
+Options:
+  --candidate-url=<url>       Deployed candidate (default: GitHub Pages)
+  --mode=browser|installed    Chrome tab or installed WebAPK (default: browser)
+  --suite=all|journeys|performance
+  --journey=j1..j9            Run one journey in both languages
+  --help                      Print this help without accessing a device`
+
+const args = process.argv.slice(2)
+if (args.includes('--help')) {
+  console.log(usage)
+  process.exit(0)
+}
+const supportedArguments = ['--candidate-url=', '--mode=', '--suite=', '--journey=']
+const unsupportedArgument = args.find((value) => !supportedArguments.some((prefix) => value.startsWith(prefix)))
+if (unsupportedArgument) throw new Error(`Unsupported argument: ${unsupportedArgument}`)
+
 const candidateArg = process.argv.find((value) => value.startsWith('--candidate-url='))?.split('=')[1]
 const rawCandidateUrl = candidateArg ?? process.env.PHYSICAL_CANDIDATE_URL ?? 'https://fabian20ro.github.io/emotid/'
 const CANDIDATE_URL = new URL(rawCandidateUrl.endsWith('/') ? rawCandidateUrl : `${rawCandidateUrl}/`).href

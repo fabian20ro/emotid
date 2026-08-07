@@ -1,7 +1,7 @@
 # Remaining Mobile Migration Plan
 
-Status: P24 Android physical profile partially complete; full assistive-technology and low-tier
-hardware acceptance remain, August 4, 2026.
+Status: P29 Word Ladder device baseline complete; participant observation, full
+assistive-technology, and low-tier hardware acceptance remain, August 7, 2026.
 
 ## Completed Since Last Update
 
@@ -854,3 +854,46 @@ Romanian tier-4 route, light/dark contrast, and compact viewport bounds. Manual 
    distinct low-tier Android performance pass. Keep physical acceptance separate from browser CI.
 3. If evidence justifies leaf comparison, define complete sibling families from the production
    graph, prioritize the most-used families, and retain the same red-first, bilingual, atomic gate.
+
+## P29 Word Ladder Stopping Evidence - Device Baseline Complete
+
+A bounded six-participant protocol now defines neutral synthetic tasks, observation fields, exact
+decision thresholds, privacy boundaries, and the rule for whether any leaf-description phase is
+justified. No participant outcomes were fabricated or inferred from automated behavior.
+
+The repeatable browser contract covers the highest-risk compact state at `320x568` in Romanian
+dark mode. It proves stopping focus and visual order, a complete accessible description,
+comparison without implicit selection, retained original choice, and no horizontal overflow in
+Mobile Safari and Mobile Chrome. Manual EN/RO inspection found the direct stop action clear. It
+also caught misleading check icons on every unselected leaf; plus icons now communicate an
+available add action without implying that every leaf is already selected.
+
+On the deployed `f59e5175cd7663a70fca2f74fd489878c9e8904a` candidate, Pixel 6a Android 17
+/ API 37 browser J1-J9 passed all 18 EN/RO supporting rows. Median process-cold startup was 1,440
+ms; Body 207.2 ms, Affect 120.1 ms, Words 219.4 ms, Plutchik 130.2 ms, warm return 41.5 ms, and the
+longest observed task 53 ms. Installed WebAPK J5 passed both EN/RO supporting rows.
+
+J5 also has genuine browser-mode TalkBack evidence in EN/RO. An AOA USB HID keyboard moved focus
+from Back one level to the direct intermediary completion. Retained TalkBack speech output named
+the more-specific alternative and the direct `Continue with Playful` / `Continuați cu Jucăuș`
+button. TalkBack `Action+Space` completed to Reflection in both languages. This is a bounded J5
+browser pass, not a claim for the full J1-J9 matrix or installed-WebAPK TalkBack.
+
+**Verification:** `npm run check` passes 75 files and 603 tests. The complete 208-case Mobile
+Safari/Chrome matrix, production PWA lifecycle, and browser performance proxy pass. Physical
+Android 17 evidence includes 18 browser supporting rows, two installed J5 supporting rows, three
+performance recordings/traces, and retained bilingual TalkBack J5 speech/focus/activation video.
+
+### Remaining After P29
+
+1. Run the six moderated sessions and apply the documented thresholds. Keep leaves label-only
+   unless observed behavior meets the bounded leaf-pilot rule.
+2. Repeat genuine TalkBack J5 in the installed WebAPK, then close the remaining J1-J9 spoken and
+   gesture rows. Reuse the AOA keyboard and visible speech output; do not substitute DevTools.
+3. Run VoiceOver/Safari on Apple hardware. This Mac environment has neither Safari nor an iOS
+   runtime, so that gate cannot be completed here.
+4. Run the production timing protocol on one distinct low-tier Android device. The Pixel 6a remains
+   one mid-tier profile and must not be relabeled as two devices.
+5. Fix only defects observed in participant or physical rows, beginning with the smallest
+   deterministic browser regression. Do not start leaf copy generation, telemetry, or a workflow
+   framework preemptively.

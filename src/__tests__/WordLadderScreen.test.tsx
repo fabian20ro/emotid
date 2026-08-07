@@ -102,6 +102,19 @@ describe('WordLadderScreen', () => {
     expect(screen.queryByRole('button', { name: 'Use my current choice' })).not.toBeInTheDocument()
   })
 
+  it('distinguishes expandable branches from addable leaves before selection', async () => {
+    const user = userEvent.setup()
+    renderScreen()
+
+    expect(screen.getByRole('button', { name: 'Happy' }).querySelector('.lucide-chevron-right')).toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: 'Happy' }))
+    await user.click(screen.getByRole('button', { name: 'Playful' }))
+
+    const leaf = screen.getByRole('button', { name: 'Energized' })
+    expect(leaf.querySelector('.lucide-plus')).toBeInTheDocument()
+    expect(leaf.querySelector('.lucide-check')).not.toBeInTheDocument()
+  })
+
   it('compares a broad selection with a user-chosen word from the same level', async () => {
     const user = userEvent.setup()
     renderScreen()

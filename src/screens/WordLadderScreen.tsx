@@ -1,5 +1,5 @@
 import { useLayoutEffect, useRef, useState, type CSSProperties } from 'react'
-import { ArrowLeft, ArrowLeftRight, Check, ChevronRight, RotateCcw, X } from 'lucide-react'
+import { ArrowLeft, ArrowLeftRight, Check, ChevronRight, Plus, RotateCcw, X } from 'lucide-react'
 import { ScreenHeader } from '../components/ScreenHeader'
 import { useLanguage } from '../context/LanguageContext'
 import { useEmotionModel } from '../hooks/useEmotionModel'
@@ -271,7 +271,7 @@ export function WordLadderScreen({ model: emotionModel, onBack, onComplete }: Wo
                 <span>
                   <strong>{emotion.label[language]}</strong>
                 </span>
-                {hasChildren(emotion) ? <ChevronRight size={18} aria-hidden="true" /> : <Check size={18} aria-hidden="true" />}
+                {hasChildren(emotion) ? <ChevronRight size={18} aria-hidden="true" /> : <Plus size={18} aria-hidden="true" />}
               </button>
             </li>
           ))}
