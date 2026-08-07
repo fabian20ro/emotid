@@ -48,6 +48,19 @@ function readNeedOptions(catalogDir) {
   return needOptions
 }
 
+function readCatalogEntries(catalogDir) {
+  const catalogEntries = new Map()
+  for (const sourceFile of fs.readdirSync(catalogDir).filter((file) => file.endsWith('.json')).sort()) {
+    const source = JSON.parse(fs.readFileSync(path.join(catalogDir, sourceFile), 'utf8'))
+    if (!isRecord(source)) throw new Error(`${sourceFile} must contain a catalog object`)
+    for (const [key, value] of Object.entries(source)) {
+      if (catalogEntries.has(key)) throw new Error(`Duplicate canonical emotion "${key}"`)
+      catalogEntries.set(key, { sourceFile, value })
+    }
+  }
+  return catalogEntries
+}
+
 function buildReviewEntry({ key, value, sourceFile, needOptions }) {
   if (!isRecord(value)) throw new Error(`${sourceFile}:${key} must be an object`)
   if (value.id !== key) throw new Error(`${sourceFile}:${key} has mismatched id "${value.id}"`)
@@ -112,20 +125,35 @@ export function buildReviewBatch({ batchId, catalogDir, sourceFile, ids }) {
   }
 }
 
-export function buildQuickBodyReviewBatch({ batchId, catalogDir, somaticDir }) {
+function buildSurfaceReviewBatch({ batchId, catalogDir, surfaces, reachableIds }) {
   assertBatchId(batchId)
   const needOptions = readNeedOptions(catalogDir)
-  const catalogEntries = new Map()
+  const catalogEntries = readCatalogEntries(catalogDir)
+  const reviewEntries = [...new Set(reachableIds)]
+    .sort((left, right) => left.localeCompare(right, 'en'))
+    .map((id) => {
+      const source = catalogEntries.get(id)
+      if (!source) throw new Error(`Reachable emotion "${id}" is missing from the catalog`)
+      return buildReviewEntry({ key: id, ...source, needOptions })
+    })
+  const entries = reviewEntries.filter(({ guidance }) => guidance === null)
 
-  for (const sourceFile of fs.readdirSync(catalogDir).filter((file) => file.endsWith('.json')).sort()) {
-    const source = JSON.parse(fs.readFileSync(path.join(catalogDir, sourceFile), 'utf8'))
-    if (!isRecord(source)) throw new Error(`${sourceFile} must contain a catalog object`)
-    for (const [key, value] of Object.entries(source)) {
-      if (catalogEntries.has(key)) throw new Error(`Duplicate canonical emotion "${key}"`)
-      catalogEntries.set(key, { sourceFile, value })
-    }
+  return {
+    schemaVersion: SCHEMA_VERSION,
+    batchId,
+    surfaces,
+    sourceFiles: [...new Set(entries.map(({ sourceFile }) => sourceFile))].sort(),
+    scope: {
+      reachableCount: reviewEntries.length,
+      reviewedCount: reviewEntries.length - entries.length,
+    },
+    editableFields: ['needId', 'none'],
+    needOptions,
+    entries,
   }
+}
 
+export function buildQuickBodyReviewBatch({ batchId, catalogDir, somaticDir }) {
   const quickIds = JSON.parse(fs.readFileSync(
     path.join(catalogDir, 'guidance/quick-emotion-ids.json'),
     'utf8',
@@ -151,38 +179,37 @@ export function buildQuickBodyReviewBatch({ batchId, catalogDir, somaticDir }) {
     }
   }
 
-  const reviewEntries = [...reachableIds]
-    .sort((left, right) => left.localeCompare(right, 'en'))
-    .map((id) => {
-      const source = catalogEntries.get(id)
-      if (!source) throw new Error(`Reachable emotion "${id}" is missing from the catalog`)
-      return buildReviewEntry({ key: id, ...source, needOptions })
-    })
-  const entries = reviewEntries.filter(({ guidance }) => guidance === null)
-
-  return {
-    schemaVersion: SCHEMA_VERSION,
+  return buildSurfaceReviewBatch({
     batchId,
+    catalogDir,
     surfaces: ['body-compass', 'quick'],
-    sourceFiles: [...new Set(entries.map(({ sourceFile }) => sourceFile))].sort(),
-    scope: {
-      reachableCount: reviewEntries.length,
-      reviewedCount: reviewEntries.length - entries.length,
-    },
-    needOptions,
-    entries,
-  }
+    reachableIds,
+  })
+}
+
+export function buildAffectReviewBatch({ batchId, catalogDir, dimensionalOverlayPath }) {
+  const overlay = JSON.parse(fs.readFileSync(dimensionalOverlayPath, 'utf8'))
+  if (!isRecord(overlay)) throw new Error('Dimensional overlay must contain an object')
+
+  return buildSurfaceReviewBatch({
+    batchId,
+    catalogDir,
+    surfaces: ['affect-map'],
+    reachableIds: Object.keys(overlay),
+  })
 }
 
 export function buildPsychologistPrompt(batch) {
+  const editableFields = batch.editableFields ?? [...EDITABLE_FIELDS]
+  const descriptionsAllowed = editableFields.includes('description')
   return `Role: advisory integrative psychologist with experience in affective science, clinical practice, bilingual Romanian/English copy, and mobile UX. This is a copy audit, not diagnosis or treatment.
 
-Review every entry in the attached batch. Choose one highest-impact change or none for each ID. A change may target only "needId" or "description".
+Review every entry in the attached batch. Choose one highest-impact change or none for each ID. Allowed fields for this batch: ${editableFields.map((field) => `"${field}"`).join(', ')}.
 
 Psychological constraints:
 - Keep the user as the authority; use tentative, non-pathologizing language.
 - A need is a short option to consider, never a conclusion about the person. A needId proposal must reuse one ID from the attached controlled vocabulary; do not invent free text.
-- A description may explain possible experience or function, but must not infer cause, severity, danger, identity, diagnosis, or required action from an emotion label.
+- ${descriptionsAllowed ? 'A description may explain possible experience or function, but must not infer cause, severity, danger, identity, diagnosis, or required action from an emotion label.' : 'Descriptions are out of scope for this batch. Do not propose or rewrite them.'}
 - Do not prescribe techniques or professional help from the label alone. Urgent guidance belongs to the separate deterministic crisis boundary.
 - Preserve semantic equivalence and natural phrasing in English and Romanian.
 - Prefer plain mobile-readable copy: at most 80 words for descriptions. Avoid theoretical jargon and unsupported physiological claims.
@@ -192,7 +219,7 @@ Output constraints:
 - Use schemaVersion 2 and the exact batchId from the input.
 - status must be "candidate". Model output is advisory and must not be treated as reviewed.
 - Return exactly one proposal decision per input ID, with no unknown or duplicate IDs.
-- field is "needId", "description", or "none". Use an existing need ID string for "needId", bilingual {"en":"...","ro":"..."} for "description", and null for "none".
+- field must be one of the allowed fields above. Use an existing need ID string for "needId", bilingual {"en":"...","ro":"..."} only when "description" is allowed, and null for "none".
 - Include concise rationale and risk strings for every decision.
 
 Required shape:
@@ -209,6 +236,7 @@ function unexpectedKeys(value, allowedKeys) {
 export function validateReviewResult(batch, result) {
   const violations = []
   if (!isRecord(result)) return ['result must be a JSON object']
+  const editableFields = new Set(batch.editableFields ?? EDITABLE_FIELDS)
 
   for (const key of unexpectedKeys(result, RESULT_KEYS)) {
     violations.push(`result has unknown field "${key}"`)
@@ -248,7 +276,7 @@ export function validateReviewResult(batch, result) {
       if (!expectedIds.has(proposal.id)) violations.push(`unknown emotion "${proposal.id}"`)
     }
 
-    if (!EDITABLE_FIELDS.has(proposal.field)) {
+    if (!EDITABLE_FIELDS.has(proposal.field) || !editableFields.has(proposal.field)) {
       violations.push(`${location} has invalid field "${proposal.field}"`)
     } else if (proposal.field === 'none') {
       if (proposal.proposal !== null) {
@@ -317,6 +345,7 @@ function usage() {
     'Usage:',
     '  node scripts/catalog-guidance-review.mjs prepare --source FILE --batch-id ID --out-dir DIR [--ids ID,ID]',
     '  node scripts/catalog-guidance-review.mjs prepare --surface quick-body --batch-id ID --out-dir DIR',
+    '  node scripts/catalog-guidance-review.mjs prepare --surface affect --batch-id ID --out-dir DIR',
     '  node scripts/catalog-guidance-review.mjs validate --batch FILE --result FILE',
   ].join('\n')
 }
@@ -336,12 +365,21 @@ function main(args) {
     const surface = optionalOptionValue(args, '--surface')
     let batch
     if (surface) {
-      if (surface !== 'quick-body') throw new Error(`Unknown review surface "${surface}"`)
-      batch = buildQuickBodyReviewBatch({
-        batchId,
-        catalogDir,
-        somaticDir: path.join(root, 'src/models/somatic/data'),
-      })
+      if (surface === 'quick-body') {
+        batch = buildQuickBodyReviewBatch({
+          batchId,
+          catalogDir,
+          somaticDir: path.join(root, 'src/models/somatic/data'),
+        })
+      } else if (surface === 'affect') {
+        batch = buildAffectReviewBatch({
+          batchId,
+          catalogDir,
+          dimensionalOverlayPath: path.join(root, 'src/models/dimensional/overlay.json'),
+        })
+      } else {
+        throw new Error(`Unknown review surface "${surface}"`)
+      }
     } else {
       const sourceFile = optionValue(args, '--source')
       const idsValue = optionalOptionValue(args, '--ids')

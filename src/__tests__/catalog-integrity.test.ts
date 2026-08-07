@@ -47,8 +47,8 @@ describe('Catalog integrity', () => {
 
   it('exposes only reviewed bilingual need options', () => {
     const entries = Object.values(emotionCatalog)
-    expect(entries.filter((entry) => entry.guidanceStatus === 'reviewed')).toHaveLength(25)
-    expect(entries.filter((entry) => entry.needs === undefined)).toHaveLength(263)
+    expect(entries.filter((entry) => entry.guidanceStatus === 'reviewed')).toHaveLength(30)
+    expect(entries.filter((entry) => entry.needs === undefined)).toHaveLength(258)
 
     for (const [id, e] of Object.entries(emotionCatalog)) {
       if (!e.needs) {
@@ -65,6 +65,7 @@ describe('Catalog integrity', () => {
 
   it('keeps the reviewed need mapping explicit', () => {
     const expectedNeedIds = {
+      afraid: 'safety',
       anger: 'boundaries',
       angry: 'boundaries',
       anxiety: 'grounding',
@@ -77,18 +78,22 @@ describe('Catalog integrity', () => {
       frustrated: 'flexibility',
       grief: 'support',
       loneliness: 'connection',
+      lonely: 'connection',
       love: 'connection',
       nervous: 'grounding',
       overwhelm: 'relief',
       overwhelmed: 'relief',
       rage: 'space',
+      sad: 'compassion',
       sadness: 'compassion',
       shame: 'connection',
       stress: 'relief',
       stressed: 'relief',
+      tender: 'connection',
       tenderness: 'connection',
       tense: 'physical-ease',
       terror: 'safety',
+      tired: 'rest',
       worry: 'grounding',
     }
 

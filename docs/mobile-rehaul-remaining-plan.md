@@ -738,3 +738,22 @@ options. Regenerating the Quick + Body batch returns zero unresolved entries.
 **Next:** derive the remaining route inventories in exposure order: Affect Map, then Plutchik and
 Word Ladder. Keep descriptions as a separate review field; do not expand need vocabulary merely to
 force complete coverage.
+
+### P26 Affect Map Guidance Complete
+
+The review utility now derives Affect reachability directly from the 38-entry production
+dimensional overlay through the same small cross-source batch boundary used by Quick and Body.
+Surface batches permit only controlled `needId` or explicit `none`; description review remains a
+separate field and iteration.
+
+Nine Affect entries already had reviewed guidance. One Luna Max advisory pass challenged the 29
+remaining draft decisions. Domain review retained five new mappings (`afraid`, `lonely`, `sad`,
+`tender`, and `tired`) and marked the other 24 as reviewed no-suggestion decisions. No vocabulary
+option was added. Regenerating the Affect batch returns zero unresolved entries.
+
+Across the catalog there are now 70 reviewed guidance decisions, 30 visible mappings, 40 explicit
+no-suggestion decisions, and the same 11 controlled bilingual options.
+
+**Next:** derive the Plutchik route inventory from its production overlays and combinations, then
+review Word Ladder separately. Keep descriptions out of both need batches and preserve explicit
+`null` rather than forcing complete visible coverage.

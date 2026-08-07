@@ -1,6 +1,27 @@
 import { test, expect } from '@playwright/test'
 import { completeQuick, finishReflection, openApp, openArrival } from './helpers'
 
+async function completeAffectAt(
+  page: import('@playwright/test').Page,
+  emotionId: string,
+  position: { x: number; y: number },
+) {
+  await openArrival(page)
+  await page.getByTestId('arrival-affect').click()
+  const plot = page.getByTestId('dimensional-plot-container').locator('svg')
+  const box = await plot.boundingBox()
+  expect(box).not.toBeNull()
+  await plot.click({
+    position: { x: box!.width * position.x, y: box!.height * position.y },
+    force: true,
+  })
+  const suggestion = page.getByTestId(`dimensional-suggestion-chip-${emotionId}`)
+  await expect(suggestion).toBeVisible()
+  await suggestion.click()
+  await page.getByRole('button', { name: 'Reflect on these words' }).click()
+  await expect(page.getByTestId('reflection-screen')).toBeVisible()
+}
+
 test('reveals a newly reviewed Quick need only after explicit exploration', async ({ page }) => {
   await openApp(page)
   await completeQuick(page, 'anger')
@@ -9,6 +30,24 @@ test('reveals a newly reviewed Quick need only after explicit exploration', asyn
   await expect(needs).toHaveCount(0)
   await page.getByRole('button', { name: 'Explore further' }).click()
   await expect(needs.getByRole('button', { name: 'boundaries', exact: true })).toBeVisible()
+})
+
+test('reveals reviewed Affect guidance only after explicit exploration', async ({ page }) => {
+  await openApp(page)
+  await completeAffectAt(page, 'afraid', { x: 0.24, y: 0.19 })
+
+  const needs = page.getByRole('group', { name: 'What feels most needed right now?' })
+  await expect(needs).toHaveCount(0)
+  await page.getByRole('button', { name: 'Explore further' }).click()
+  await expect(needs.getByRole('button', { name: 'a sense of safety', exact: true })).toBeVisible()
+})
+
+test('keeps reviewed no-suggestion Affect guidance absent during exploration', async ({ page }) => {
+  await openApp(page)
+  await completeAffectAt(page, 'happy', { x: 0.76, y: 0.32 })
+
+  await page.getByRole('button', { name: 'Explore further' }).click()
+  await expect(page.getByRole('group', { name: 'What feels most needed right now?' })).toHaveCount(0)
 })
 
 test('chooses one of several inferred needs and persists it to Journal', async ({ page }) => {

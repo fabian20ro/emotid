@@ -5,7 +5,11 @@
       "ro": "Senin",
       "en": "Serene"
     },
-    "color": "#FFF0A0"
+    "color": "#FFF0A0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "content": {
     "id": "content",
@@ -13,7 +17,11 @@
       "ro": "Multumit",
       "en": "Content"
     },
-    "color": "#FFE57F"
+    "color": "#FFE57F",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "peaceful": {
     "id": "peaceful",
@@ -21,7 +29,11 @@
       "ro": "Pasnic",
       "en": "Peaceful"
     },
-    "color": "#FFE57F"
+    "color": "#FFE57F",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "satisfied": {
     "id": "satisfied",
@@ -29,7 +41,11 @@
       "ro": "Satisfacut",
       "en": "Satisfied"
     },
-    "color": "#FFF0A0"
+    "color": "#FFF0A0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "delighted": {
     "id": "delighted",
@@ -37,7 +53,11 @@
       "ro": "Incantat",
       "en": "Delighted"
     },
-    "color": "#FFF0A0"
+    "color": "#FFF0A0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "amused": {
     "id": "amused",
@@ -45,7 +65,11 @@
       "ro": "Amuzat",
       "en": "Amused"
     },
-    "color": "#FFF0A0"
+    "color": "#FFF0A0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "relief": {
     "id": "relief",
@@ -65,7 +89,11 @@
       "ro": "Gingas",
       "en": "Tender"
     },
-    "color": "#FFF0A0"
+    "color": "#FFF0A0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": "connection"
+    }
   },
   "compassion": {
     "id": "compassion",
@@ -73,7 +101,11 @@
       "ro": "compașiune",
       "en": "compassion"
     },
-    "color": "#66BB6A"
+    "color": "#66BB6A",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "happy": {
     "id": "happy",
@@ -81,7 +113,11 @@
       "ro": "Fericit",
       "en": "Happy"
     },
-    "color": "#FFE066"
+    "color": "#FFE066",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "excited": {
     "id": "excited",
@@ -89,6 +125,10 @@
       "ro": "Entuziasmat",
       "en": "Excited"
     },
-    "color": "#B8E0BE"
+    "color": "#B8E0BE",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   }
 }

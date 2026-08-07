@@ -57,6 +57,26 @@ describe('dimensional data', () => {
     }
   })
 
+  it('exposes only the eleven reviewed Affect Map need options', () => {
+    expect(Object.fromEntries(
+      emotions
+        .filter((emotion) => emotion.needs)
+        .map((emotion) => [emotion.id, emotion.needs?.en]),
+    )).toEqual({
+      afraid: 'a sense of safety',
+      angry: 'boundaries',
+      distressed: 'compassion',
+      frustrated: 'flexibility',
+      lonely: 'safe connection',
+      nervous: 'grounding',
+      sad: 'compassion',
+      stressed: 'relief',
+      tender: 'safe connection',
+      tense: 'physical ease',
+      tired: 'rest',
+    })
+  })
+
   it('all emotions have valid colors', () => {
     for (const e of emotions) {
       expect(e.color).toMatch(/^#[0-9A-Fa-f]{6}$/)

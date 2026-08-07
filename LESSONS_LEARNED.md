@@ -66,6 +66,11 @@ must not look reviewed because it exists in a data file, and research-informed s
 must not be labeled clinical. Keep explicit provenance states, reject bypasses during loading and
 CI, and describe evidence at the narrowest level it actually supports.
 
+**[2026-08-07]** Reviewed guidance needs explicit no-suggestion provenance — Missing guidance
+cannot distinguish "not reviewed" from "reviewed and intentionally omitted." Record a reviewed
+`null` decision at the source boundary, keep hydration output empty, and make route inventories
+skip that decision. This prevents repeated audits and pressure to invent emotion-to-need mappings.
+
 **[2026-08-04]** Enriched psychological inputs need a fail-closed analysis boundary — A base
 region becomes a body signal only after sensation and intensity are valid. Validate that complete
 shape once before scoring and reuse the guard for UI selection filtering; do not encode the

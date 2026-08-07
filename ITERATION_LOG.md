@@ -1554,3 +1554,29 @@ the existing PR safety boundary.
 **Insight:** A declared manual release trigger is incomplete unless artifact creation and deployment
 share its event policy; validate the terminal deploy job, not only the build conclusion.
 **Promoted to Lessons Learned:** No — first occurrence; retain in the iteration record.
+
+---
+
+### [2026-08-07] Complete the Affect Map guidance review
+
+**Context:** P26 had closed Quick and Body Compass guidance, while Affect still exposed 29
+unreviewed canonical emotions across four catalog files.
+**What happened:**
+- Began with a failing 38-ID inventory contract derived directly from the dimensional production
+  overlay, then extracted one shared surface batch boundary for catalog resolution and filtering.
+- Restricted surface batches to controlled `needId` or `none`; description proposals now fail
+  validation and remain a separate review iteration.
+- Built a conservative draft and used one Luna Max psychologist pass only to challenge it. Domain
+  review retained five mappings (`afraid`, `lonely`, `sad`, `tender`, `tired`), rejected four
+  tempting over-inferences, added no vocabulary, and recorded 24 explicit null decisions.
+- Added exact global and dimensional mapping contracts plus Safari/Chrome journeys proving accepted
+  guidance stays behind Explore and reviewed null guidance remains absent there.
+**Outcome:** Affect is 38/38 reviewed with zero unresolved entries. The full catalog has 70 reviewed
+decisions, 30 runtime mappings, 40 explicit no-suggestion decisions, and 11 controlled options.
+`npm run check` passes 73 Vitest files and 591 tests; all 196 Mobile Safari/Chrome cases, the
+production PWA lifecycle, and the mobile performance proxy pass.
+**Insight:** Route inventories should derive from production overlays, while review fields remain
+narrow per batch. Positive, mixed, or broad low-mood labels do not need forced guidance merely to
+increase visible coverage.
+**Promoted to Lessons Learned:** Yes — explicit no-suggestion provenance now recurred across two
+route-review batches.

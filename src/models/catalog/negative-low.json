@@ -5,7 +5,11 @@
       "ro": "Plictisit",
       "en": "Bored"
     },
-    "color": "#C4CCD4"
+    "color": "#C4CCD4",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "lonely": {
     "id": "lonely",
@@ -13,7 +17,11 @@
       "ro": "Singur",
       "en": "Lonely"
     },
-    "color": "#9CB8DA"
+    "color": "#9CB8DA",
+    "guidance": {
+      "status": "reviewed",
+      "needId": "connection"
+    }
   },
   "depressed": {
     "id": "depressed",
@@ -22,7 +30,11 @@
       "en": "Depressed"
     },
     "color": "#9CB8DA",
-    "distressTier": "high"
+    "distressTier": "high",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "melancholic": {
     "id": "melancholic",
@@ -30,7 +42,11 @@
       "ro": "Melancolic",
       "en": "Melancholic"
     },
-    "color": "#B0C8E4"
+    "color": "#B0C8E4",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "apathetic": {
     "id": "apathetic",
@@ -39,7 +55,11 @@
       "en": "Apathetic"
     },
     "color": "#D0D8E0",
-    "distressTier": "high"
+    "distressTier": "high",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "tired": {
     "id": "tired",
@@ -47,7 +67,11 @@
       "ro": "Obosit",
       "en": "Tired"
     },
-    "color": "#C4CCD4"
+    "color": "#C4CCD4",
+    "guidance": {
+      "status": "reviewed",
+      "needId": "rest"
+    }
   },
   "sad": {
     "id": "sad",
@@ -55,7 +79,11 @@
       "ro": "Trist",
       "en": "Sad"
     },
-    "color": "#88A8D0"
+    "color": "#88A8D0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": "compassion"
+    }
   },
   "numb": {
     "id": "numb",
@@ -76,7 +104,11 @@
       "ro": "resemnat",
       "en": "resigned"
     },
-    "color": "#9575CD"
+    "color": "#9575CD",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "lethargic": {
     "id": "lethargic",
@@ -84,7 +116,11 @@
       "ro": "letargic",
       "en": "lethargic"
     },
-    "color": "#7E57C2"
+    "color": "#7E57C2",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "gloomy": {
     "id": "gloomy",
@@ -92,7 +128,11 @@
       "ro": "sumbru",
       "en": "gloomy"
     },
-    "color": "#673AB7"
+    "color": "#673AB7",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "pensive": {
     "id": "pensive",
@@ -100,6 +140,10 @@
       "ro": "ganditor",
       "en": "pensive"
     },
-    "color": "#9FA8DA"
+    "color": "#9FA8DA",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   }
 }

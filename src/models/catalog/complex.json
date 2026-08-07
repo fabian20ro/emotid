@@ -5,7 +5,11 @@
       "ro": "nostalgie",
       "en": "nostalgia"
     },
-    "color": "#AB47BC"
+    "color": "#AB47BC",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "dor": {
     "id": "dor",
@@ -13,7 +17,11 @@
       "ro": "Dor",
       "en": "Longing (dor)"
     },
-    "color": "#7E57C2"
+    "color": "#7E57C2",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "awe": {
     "id": "awe",

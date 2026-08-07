@@ -47,6 +47,10 @@ The Today quick-start emotions resolve directly from the catalog. Catalog loadin
 IDs, key/ID mismatches, raw per-entry needs, unknown need references, and descriptions without
 explicit reviewed provenance.
 
+Guidance review derives route reachability from production data: Quick IDs plus somatic signals for
+Quick/Body and the dimensional overlay for Affect. Shared batch construction handles catalog
+resolution and reviewed-decision filtering; route adapters do not duplicate emotion inventories.
+
 ### Safety rules are versioned data
 
 `safety-rules.json` is the single source for the explicit high-distress inventory and tier-3/tier-4

@@ -4,6 +4,7 @@ import test from 'node:test'
 import { fileURLToPath } from 'node:url'
 
 import {
+  buildAffectReviewBatch,
   buildPsychologistPrompt,
   buildQuickBodyReviewBatch,
   buildReviewBatch,
@@ -12,6 +13,7 @@ import {
 
 const scriptsDir = path.dirname(fileURLToPath(import.meta.url))
 const catalogDir = path.resolve(scriptsDir, '../src/models/catalog')
+const dimensionalOverlayPath = path.resolve(scriptsDir, '../src/models/dimensional/overlay.json')
 const somaticDir = path.resolve(scriptsDir, '../src/models/somatic/data')
 
 function negativeHighBatch() {
@@ -50,6 +52,31 @@ test('finds no unresolved Quick and Body Compass guidance after reviewed decisio
   assert.equal(batch.scope.reachableCount, 32)
   assert.equal(batch.scope.reviewedCount, 32)
   assert.deepEqual(batch.surfaces, ['body-compass', 'quick'])
+})
+
+test('finds no unresolved Affect Map guidance after reviewed decisions', () => {
+  const batch = buildAffectReviewBatch({
+    batchId: 'p26-affect-needs-01',
+    catalogDir,
+    dimensionalOverlayPath,
+  })
+
+  assert.equal(batch.scope.reachableCount, 38)
+  assert.equal(batch.scope.reviewedCount, 38)
+  assert.deepEqual(batch.surfaces, ['affect-map'])
+  assert.deepEqual(batch.editableFields, ['needId', 'none'])
+  assert.deepEqual(batch.entries, [])
+
+  const result = validResult({ ...batch, entries: [{ id: 'afraid' }] })
+  result.proposals[0] = {
+    ...result.proposals[0],
+    field: 'description',
+    proposal: { en: 'A possibility.', ro: 'O posibilitate.' },
+  }
+  assert.ok(validateReviewResult(
+    { ...batch, entries: [{ id: 'afraid' }] },
+    result,
+  ).some((message) => message.includes('invalid field "description"')))
 })
 
 function validResult(batch) {

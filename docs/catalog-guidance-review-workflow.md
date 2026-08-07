@@ -115,3 +115,22 @@ connection/expression where withdrawal may be protective.
 
 The regenerated batch contains zero unresolved entries. This is intentional: source-level null
 decisions prevent repeat review while hydration exposes no empty or inferred guidance.
+
+## Affect Map Batch Status
+
+`npm run prepare:catalog-review:affect` derives its inventory directly from the production
+dimensional overlay, resolves every ID through the canonical catalog, and skips reviewed decisions.
+The first batch contained 38 reachable IDs: nine already reviewed and 29 requiring a decision.
+
+Surface batches declare `editableFields: ["needId", "none"]`. Their prompt and validator reject
+description proposals so need review cannot silently expand into a prose audit.
+
+One bounded Luna Max psychologist pass challenged a conservative draft. Domain review retained
+only five new mappings: `afraid -> safety`, `lonely -> connection`, `sad -> compassion`,
+`tender -> connection`, and `tired -> rest`. The other 24 entries received explicit reviewed
+`needId: null`. No new need option was justified; in particular, positive states, alertness,
+apathy, boredom, longing, nostalgia, lethargy, and broad low-mood labels did not establish one
+specific need.
+
+The regenerated Affect batch contains zero unresolved entries. Across all 38 Affect emotions,
+11 reviewed mappings are visible at runtime and 27 expose no inferred need.

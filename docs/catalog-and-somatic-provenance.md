@@ -13,9 +13,9 @@ diagnosis, severity, danger, or needed intervention.
 The runtime catalog contains 288 entries:
 
 - 12 bilingual descriptions are explicitly marked `reviewed`;
-- 41 entries have an explicit reviewed guidance decision: 25 map to one of 11 controlled bilingual
-  need options and 16 intentionally use `needId: null`;
-- 263 entries expose no inferred need, including the 16 reviewed no-suggestion decisions;
+- 70 entries have an explicit reviewed guidance decision: 30 map to one of 11 controlled bilingual
+  need options and 40 intentionally use `needId: null`;
+- 258 entries expose no inferred need, including the 40 reviewed no-suggestion decisions;
 - the 12 reviewed bilingual descriptions remain independent from guidance decisions;
 - raw per-entry needs, unreviewed descriptions, and unknown need references are rejected during
   catalog loading and `npm run check-copy`;
