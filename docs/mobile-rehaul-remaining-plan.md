@@ -886,14 +886,46 @@ performance recordings/traces, and retained bilingual TalkBack J5 speech/focus/a
 
 ### Remaining After P29
 
-1. Run the six moderated sessions and apply the documented thresholds. Keep leaves label-only
-   unless observed behavior meets the bounded leaf-pilot rule.
-2. Repeat genuine TalkBack J5 in the installed WebAPK, then close the remaining J1-J9 spoken and
+The owner reviewed and accepted the current Word Ladder stopping and comparison experience on
+August 7, 2026. This is a product decision, not a claimed six-participant study. The formal
+protocol remains available if the decision is reopened; leaves remain label-only.
+
+1. Repeat genuine TalkBack J5 in the installed WebAPK, then close the remaining J1-J9 spoken and
    gesture rows. Reuse the AOA keyboard and visible speech output; do not substitute DevTools.
-3. Run VoiceOver/Safari on Apple hardware. This Mac environment has neither Safari nor an iOS
+2. Run VoiceOver/Safari on Apple hardware. This Mac environment has neither Safari nor an iOS
    runtime, so that gate cannot be completed here.
-4. Run the production timing protocol on one distinct low-tier Android device. The Pixel 6a remains
+3. Run the production timing protocol on one distinct low-tier Android device. The Pixel 6a remains
    one mid-tier profile and must not be relabeled as two devices.
-5. Fix only defects observed in participant or physical rows, beginning with the smallest
+4. Fix only defects observed in physical rows, beginning with the smallest
    deterministic browser regression. Do not start leaf copy generation, telemetry, or a workflow
    framework preemptively.
+
+## P30 Android TalkBack Closure - Partial
+
+The exact deployed candidate is `14b38dafe6804ace3cb02409326323d8da46fcb5`. P30 closes genuine
+TalkBack speech, focus, gesture, activation, and focus-return evidence on Pixel 6a Android 17 in
+English and Romanian, for browser and installed-WebAPK modes. It begins with installed J5, then
+continues in safety and recovery risk order: J8, J6, J4, J2, J7, J9, J3, and J1.
+
+The physical harness now derives CLI validation and execution from one import-safe J1-J9 registry.
+The entrypoint retains ADB, CDP, capture, and performance ownership; no workflow framework, DSL,
+page-object hierarchy, or generated documentation was introduced. Registry tests prove import has
+no filesystem or hardware side effects, filtering uses registered IDs, and pass/failure capture
+remains deterministic.
+
+Each genuine row must use TalkBack navigation and activation, retain visible speech output, name
+the exact candidate and device environment, and distinguish `PASS` from DevTools-only
+`SUPPORTING_PASS`. A physical failure requires a minimal deterministic browser regression before
+any product fix. VoiceOver/Safari and a distinct low-tier Android remain later hardware gates.
+
+The exact-candidate supporting matrix now passes all 18 EN/RO journeys in browser mode and all 18
+in the installed WebAPK. Genuine TalkBack installed checkpoints pass J5 end to end and bounded J6
+retry plus J8 support-control order/activation in both languages. No product defect was reproduced.
+Browser TalkBack remains partial: Chrome can route the external-keyboard focus to browser chrome or
+a different visible tab while DevTools retains another page target. That harness limitation is not
+recorded as an application failure and must not be bypassed with DevTools activation.
+
+Remaining P30 order: establish one unambiguous foreground browser target, repeat browser J5/J6/J8,
+then cover installed and browser J4, J2, J7, J9, J3, and J1 with genuine TalkBack navigation and
+activation. Keep the current registry; add no abstraction until a repeated physical fixture proves
+it necessary.

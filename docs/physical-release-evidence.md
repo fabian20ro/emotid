@@ -195,3 +195,32 @@ For real TalkBack J5, physical `Shift+Tab` / `Tab` returned to the direct interm
 visible speech output retained its name and specificity description, and TalkBack `Action+Space`
 completed to Reflection. The result closes only browser-mode J5 in both languages. The installed
 TalkBack row, remaining journeys, VoiceOver/Safari, and distinct low-tier Android remain open.
+
+## P30 Android 17 Registry and TalkBack Supplement - 2026-08-07
+
+Candidate `14b38dafe6804ace3cb02409326323d8da46fcb5` was tested on Pixel 6a, Android
+17 / API 37 (`CP2A.260705.006`), Chrome 150.0.7871.187, and TalkBack 17.0.1. The
+journey harness used the extracted import-safe J1-J9 registry.
+
+| Scope | EN | RO | Evidence | Result |
+| --- | --- | --- | --- | --- |
+| Browser J1-J9, DevTools activation | 9/9 | 9/9 | `.reports/android-physical/2026-08-07T20-37-23-460Z-browser/` | SUPPORTING PASS |
+| Installed WebAPK J1-J9, DevTools activation | 9/9 | 9/9 | `.reports/android-physical/2026-08-07T20-38-23-776Z-installed/` | SUPPORTING PASS |
+| Installed WebAPK J5, TalkBack AOA keyboard | PASS | PASS | `.reports/android-physical/2026-08-07T19-45-00-p30-talkback-installed/` | PASS |
+| Installed WebAPK J6 retry checkpoint, TalkBack AOA keyboard | PASS | PASS | `.reports/android-physical/2026-08-07T20-40-00-p30-talkback-checkpoints/` | BOUNDED PASS |
+| Installed WebAPK J8 resource-order checkpoint, TalkBack AOA keyboard | PASS | PASS | `.reports/android-physical/2026-08-07T20-40-00-p30-talkback-checkpoints/` | BOUNDED PASS |
+| Browser J8 foreground-focus attempt | BLOCKED | NOT RUN | `.reports/android-physical/2026-08-07T20-40-00-p30-talkback-checkpoints/browser-en-j8-sequence.json` | HARNESS BLOCKED |
+
+Installed J5 used physical `Shift+Tab` / `Tab`, retained the direct intermediate action plus its
+specificity description in visible TalkBack speech, and used TalkBack `Action+Space` to reach
+Reflection. J6 moved from the focused failure alert to Retry in one physical Tab; activation
+returned to Today with exactly one saved entry. J8 exposed the two support links before Continue
+in physical Tab order; activating Continue disclosed Reflection. The EN and RO captures retain the
+focused control, visible speech output, and post-activation screen.
+
+The browser J8 attempt began at the alert heading, but physical Tab moved into Chrome UI while the
+page DOM focus remained unchanged. A later J5 attempt also showed that the CDP-selected target and
+the physically visible Chrome tab could diverge. These are harness limitations, not application
+failures. DevTools activation was not substituted for genuine TalkBack evidence. Browser J5/J6/J8
+on this exact candidate and genuine J1-J4/J7/J9 rows therefore remain open, along with
+VoiceOver/Safari and a distinct low-tier Android profile.

@@ -1745,3 +1745,31 @@ Physical-test tooling also needs a side-effect-free argument boundary because a 
 can otherwise mutate a connected device or contaminate evidence.
 **Promoted to Lessons Learned:** Yes — side-effect-free hardware CLI validation is reusable across
 all future physical gates.
+
+---
+
+### [2026-08-07] Extract P30 physical journeys and advance TalkBack evidence
+
+**Context:** The 569-line Android audit entrypoint mixed CLI/device orchestration with nine journey
+definitions. P30 also needed exact-candidate Android 17 evidence beyond the prior browser-only J5
+TalkBack result.
+**What happened:**
+- Began with failing import-safety, registry-selection, result-capture, and invalid-CLI tests; then
+  extracted J1-J9 into one import-safe registry and kept ADB/CDP ownership in the entrypoint.
+- Recorded owner acceptance of the current Word Ladder experience without misrepresenting it as
+  six-participant evidence; leaves remain label-only and the formal protocol remains available.
+- Ran the exact `14b38d` candidate through all J1-J9 journeys in EN/RO, browser and installed mode:
+  36/36 supporting rows passed with device screenshots and accessibility snapshots.
+- Enabled TalkBack visible speech output and used a real AOA USB HID keyboard. Installed J5 passed
+  end to end in EN/RO; bounded installed J6 retry and J8 resource-order/acknowledgment checkpoints
+  also passed in both languages. No application defect was reproduced.
+- Retained the failed browser J8 sequence: Chrome accepted physical Tab in browser chrome while DOM
+  focus remained on the page heading. A J5 retry exposed a second foreground-tab mismatch. Both are
+  classified as harness blocks, never product failures or TalkBack passes.
+**Outcome:** Registry unit/CLI tests pass; `npm run check` passes 76 files and 608 tests; all 208
+Mobile Safari/Chrome cases, the PWA lifecycle, performance proxy, lint, and production build pass.
+P30 remains partial for genuine browser TalkBack and the remaining J1-J4/J7/J9 physical rows.
+**Insight:** CDP target focus is not proof that the same Chrome tab owns physical keyboard focus on
+Android. Genuine browser assistive-technology evidence needs an independently verified foreground
+surface before input; otherwise retain the attempt as a harness block.
+**Promoted to Lessons Learned:** No — first explicit foreground-target occurrence; retain here.

@@ -1,6 +1,6 @@
 # Word Ladder Moderated Observation
 
-**Status:** expert/device baseline complete; ready for participant sessions; no participant results recorded
+**Status:** owner product review accepted; formal participant results not recorded
 **Scope:** stopping at an intermediate word and optional sibling comparison
 **Build rule:** record the exact deployed commit before every session
 
@@ -13,6 +13,13 @@ behavior justifies that cost.
 This is a bounded usability observation, not psychological assessment or research about a
 participant's emotional state. Use synthetic situations. Do not ask for personal disclosures,
 diagnoses, causes, trauma history, or crisis details.
+
+### Product Decision - 2026-08-07
+
+The repository owner reviewed the current stopping and comparison experience and accepted it
+without further UI or copy changes. Intermediate descriptions remain available and leaves remain
+label-only. This closes the immediate product decision, but it is not represented as a completed
+six-participant study and does not satisfy the empirical thresholds below.
 
 ## Sample
 
@@ -174,5 +181,5 @@ sessions. This baseline does not count as participant evidence.
   reproduced in this bounded path. Genuine TalkBack installed-WebAPK coverage remains open.
 
 Local ignored artifacts are under `.reports/android-physical/2026-08-07T17-32-00-talkback-word-ladder/`.
-Participant thresholds above remain unchanged; expert and device checks cannot answer whether
-people discover the stopping and comparison controls without coaching.
+The formal participant protocol remains available if later product evidence reopens the decision.
+Owner acceptance, expert review, and device checks are not substituted for participant outcomes.

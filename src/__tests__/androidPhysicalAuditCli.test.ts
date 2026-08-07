@@ -20,4 +20,12 @@ describe('Android physical audit CLI', () => {
     expect(result.stderr).toContain('Unsupported argument: --unknown')
     expect(result.stdout).not.toContain('J1 start')
   })
+
+  it('rejects an unregistered journey before accessing a device', () => {
+    const result = spawnSync(process.execPath, [auditScript, '--journey=j10'], { encoding: 'utf8' })
+
+    expect(result.status).not.toBe(0)
+    expect(result.stderr).toContain('Unsupported journey: j10')
+    expect(result.stdout).not.toContain('J1 start')
+  })
 })
