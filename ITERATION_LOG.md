@@ -1537,3 +1537,20 @@ geometry in every supported locale, because environment-specific font metrics ca
 row that a local visibility-only run misses.
 **Promoted to Lessons Learned:** No — covered by the existing mobile viewport visibility and
 measurement lessons.
+
+---
+
+### [2026-08-07] Let manual release verification deploy GitHub Pages
+
+**Context:** App-authenticated pushes did not start the Pages workflow. Manual dispatch ran every
+quality gate successfully but skipped Pages setup, artifact upload, and deployment because those
+jobs accepted only the `push` event.
+**What happened:**
+- Reused one event boundary for all three release-only gates: every non-PR invocation may publish.
+- Kept pull requests build-only, without Pages credentials or deployment side effects.
+- Validated workflow YAML syntax and reran the complete local `npm run check` gate before publish.
+**Outcome:** Manual dispatch now follows the same build-then-deploy path as a push while preserving
+the existing PR safety boundary.
+**Insight:** A declared manual release trigger is incomplete unless artifact creation and deployment
+share its event policy; validate the terminal deploy job, not only the build conclusion.
+**Promoted to Lessons Learned:** No — first occurrence; retain in the iteration record.
