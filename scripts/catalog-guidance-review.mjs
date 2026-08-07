@@ -253,6 +253,58 @@ export function buildPlutchikReviewBatch({ batchId, catalogDir, plutchikOverlayD
   })
 }
 
+export function buildWordLadderReviewBatch({
+  batchId,
+  catalogDir,
+  wheelOverlayDir,
+  wheelRootIdsPath,
+}) {
+  const rootIds = JSON.parse(fs.readFileSync(wheelRootIdsPath, 'utf8'))
+  if (
+    !Array.isArray(rootIds)
+    || rootIds.length === 0
+    || !rootIds.every(isNonEmptyString)
+    || new Set(rootIds).size !== rootIds.length
+  ) {
+    throw new Error('Word Ladder root IDs must be a non-empty unique string array')
+  }
+
+  const overlays = new Map()
+  for (const file of fs.readdirSync(wheelOverlayDir).filter((name) => name.endsWith('.json')).sort()) {
+    const source = JSON.parse(fs.readFileSync(path.join(wheelOverlayDir, file), 'utf8'))
+    if (!isRecord(source)) throw new Error(`${file} must contain Word Ladder nodes`)
+    for (const [id, node] of Object.entries(source)) {
+      if (overlays.has(id)) throw new Error(`Duplicate Word Ladder node "${id}"`)
+      if (!isRecord(node)) throw new Error(`${file}:${id} must be an object`)
+      if (
+        node.children !== undefined
+        && (!Array.isArray(node.children) || !node.children.every(isNonEmptyString))
+      ) {
+        throw new Error(`${file}:${id}.children must contain non-empty IDs`)
+      }
+      overlays.set(id, node)
+    }
+  }
+
+  const reachableIds = new Set()
+  const pendingIds = [...rootIds]
+  while (pendingIds.length > 0) {
+    const id = pendingIds.pop()
+    if (reachableIds.has(id)) continue
+    const node = overlays.get(id)
+    if (!node) throw new Error(`Word Ladder references unknown node "${id}"`)
+    reachableIds.add(id)
+    pendingIds.push(...(node.children ?? []))
+  }
+
+  return buildSurfaceReviewBatch({
+    batchId,
+    catalogDir,
+    surfaces: ['word-ladder'],
+    reachableIds,
+  })
+}
+
 export function buildPsychologistPrompt(batch) {
   const editableFields = batch.editableFields ?? [...EDITABLE_FIELDS]
   const descriptionsAllowed = editableFields.includes('description')
@@ -401,6 +453,7 @@ function usage() {
     '  node scripts/catalog-guidance-review.mjs prepare --surface quick-body --batch-id ID --out-dir DIR',
     '  node scripts/catalog-guidance-review.mjs prepare --surface affect --batch-id ID --out-dir DIR',
     '  node scripts/catalog-guidance-review.mjs prepare --surface plutchik --batch-id ID --out-dir DIR',
+    '  node scripts/catalog-guidance-review.mjs prepare --surface word-ladder --batch-id ID --out-dir DIR',
     '  node scripts/catalog-guidance-review.mjs validate --batch FILE --result FILE',
   ].join('\n')
 }
@@ -437,6 +490,13 @@ function main(args) {
           batchId,
           catalogDir,
           plutchikOverlayDir: path.join(root, 'src/models/plutchik/overlays'),
+        })
+      } else if (surface === 'word-ladder') {
+        batch = buildWordLadderReviewBatch({
+          batchId,
+          catalogDir,
+          wheelOverlayDir: path.join(root, 'src/models/wheel/overlays'),
+          wheelRootIdsPath: path.join(root, 'src/models/wheel/root-ids.json'),
         })
       } else {
         throw new Error(`Unknown review surface "${surface}"`)

@@ -5,7 +5,11 @@
       "ro": "Tradat",
       "en": "Betrayed"
     },
-    "color": "#F4B4B4"
+    "color": "#F4B4B4",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "resentful": {
     "id": "resentful",
@@ -13,7 +17,11 @@
       "ro": "Plin de resentimente",
       "en": "Resentful"
     },
-    "color": "#F4B4B4"
+    "color": "#F4B4B4",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "deceived": {
     "id": "deceived",
@@ -21,7 +29,11 @@
       "ro": "Inselat",
       "en": "Deceived"
     },
-    "color": "#F4B4B4"
+    "color": "#F4B4B4",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "disrespected": {
     "id": "disrespected",
@@ -29,7 +41,11 @@
       "ro": "Lipsa de respect",
       "en": "Disrespected"
     },
-    "color": "#F4B4B4"
+    "color": "#F4B4B4",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "ridiculed": {
     "id": "ridiculed",
@@ -37,7 +53,11 @@
       "ro": "Ridiculizat",
       "en": "Ridiculed"
     },
-    "color": "#F4B4B4"
+    "color": "#F4B4B4",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "degraded": {
     "id": "degraded",
@@ -45,7 +65,11 @@
       "ro": "Degradat",
       "en": "Degraded"
     },
-    "color": "#F4B4B4"
+    "color": "#F4B4B4",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "indignant": {
     "id": "indignant",
@@ -53,7 +77,11 @@
       "ro": "Indignat",
       "en": "Indignant"
     },
-    "color": "#F4B4B4"
+    "color": "#F4B4B4",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "violated": {
     "id": "violated",
@@ -62,7 +90,11 @@
       "en": "Violated"
     },
     "color": "#F4B4B4",
-    "distressTier": "high"
+    "distressTier": "high",
+    "guidance": {
+      "status": "reviewed",
+      "needId": "boundaries"
+    }
   },
   "furious": {
     "id": "furious",
@@ -70,7 +102,11 @@
       "ro": "Furibund",
       "en": "Furious"
     },
-    "color": "#F4B4B4"
+    "color": "#F4B4B4",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "jealous": {
     "id": "jealous",
@@ -78,7 +114,11 @@
       "ro": "Gelos",
       "en": "Jealous"
     },
-    "color": "#F4B4B4"
+    "color": "#F4B4B4",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "enraged": {
     "id": "enraged",
@@ -86,7 +126,11 @@
       "ro": "Turbat de furie",
       "en": "Enraged"
     },
-    "color": "#F4B4B4"
+    "color": "#F4B4B4",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "spiteful": {
     "id": "spiteful",
@@ -94,7 +138,11 @@
       "ro": "Rauvoitor",
       "en": "Spiteful"
     },
-    "color": "#F4B4B4"
+    "color": "#F4B4B4",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "vengeful": {
     "id": "vengeful",
@@ -102,7 +150,11 @@
       "ro": "Dornic de razbunare",
       "en": "Vengeful"
     },
-    "color": "#F4B4B4"
+    "color": "#F4B4B4",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "patronized": {
     "id": "patronized",
@@ -110,7 +162,11 @@
       "ro": "Tratat cu condescendenta",
       "en": "Patronized"
     },
-    "color": "#F4B4B4"
+    "color": "#F4B4B4",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "provoked": {
     "id": "provoked",
@@ -118,7 +174,11 @@
       "ro": "Provocat",
       "en": "Provoked"
     },
-    "color": "#F4B4B4"
+    "color": "#F4B4B4",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "hostile": {
     "id": "hostile",
@@ -126,7 +186,11 @@
       "ro": "Ostil",
       "en": "Hostile"
     },
-    "color": "#F4B4B4"
+    "color": "#F4B4B4",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "infuriated": {
     "id": "infuriated",
@@ -134,7 +198,11 @@
       "ro": "Infuriat",
       "en": "Infuriated"
     },
-    "color": "#F4B4B4"
+    "color": "#F4B4B4",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "annoyed": {
     "id": "annoyed",
@@ -142,7 +210,11 @@
       "ro": "Enervat",
       "en": "Annoyed"
     },
-    "color": "#F4B4B4"
+    "color": "#F4B4B4",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "exasperated": {
     "id": "exasperated",
@@ -150,7 +222,11 @@
       "ro": "Exasperat",
       "en": "Exasperated"
     },
-    "color": "#F4B4B4"
+    "color": "#F4B4B4",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "withdrawn": {
     "id": "withdrawn",
@@ -158,7 +234,11 @@
       "ro": "Retras",
       "en": "Withdrawn"
     },
-    "color": "#F4B4B4"
+    "color": "#F4B4B4",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "detached": {
     "id": "detached",
@@ -166,7 +246,11 @@
       "ro": "Detasat",
       "en": "Detached"
     },
-    "color": "#F4B4B4"
+    "color": "#F4B4B4",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "skeptical": {
     "id": "skeptical",
@@ -174,7 +258,11 @@
       "ro": "Sceptic",
       "en": "Skeptical"
     },
-    "color": "#F4B4B4"
+    "color": "#F4B4B4",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "dismissive": {
     "id": "dismissive",
@@ -182,7 +270,11 @@
       "ro": "Disprețuitor",
       "en": "Dismissive"
     },
-    "color": "#F4B4B4"
+    "color": "#F4B4B4",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "defiant": {
     "id": "defiant",
@@ -190,7 +282,11 @@
       "ro": "Sfidator",
       "en": "Defiant"
     },
-    "color": "#F4B4B4"
+    "color": "#F4B4B4",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "combative": {
     "id": "combative",
@@ -198,7 +294,11 @@
       "ro": "Combativ",
       "en": "Combative"
     },
-    "color": "#F4B4B4"
+    "color": "#F4B4B4",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "seething": {
     "id": "seething",
@@ -206,7 +306,11 @@
       "ro": "Clocotind",
       "en": "Seething"
     },
-    "color": "#F4B4B4"
+    "color": "#F4B4B4",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "fed_up": {
     "id": "fed_up",
@@ -214,7 +318,11 @@
       "ro": "Saturat",
       "en": "Fed up"
     },
-    "color": "#F4B4B4"
+    "color": "#F4B4B4",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "cynical": {
     "id": "cynical",
@@ -222,7 +330,11 @@
       "ro": "Cinic",
       "en": "Cynical"
     },
-    "color": "#F4B4B4"
+    "color": "#F4B4B4",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "self_critical": {
     "id": "self_critical",
@@ -230,7 +342,11 @@
       "ro": "Autocritic",
       "en": "Self-critical"
     },
-    "color": "#F4B4B4"
+    "color": "#F4B4B4",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "passive_aggressive": {
     "id": "passive_aggressive",
@@ -238,7 +354,11 @@
       "ro": "Pasiv-agresiv",
       "en": "Passive-aggressive"
     },
-    "color": "#F4B4B4"
+    "color": "#F4B4B4",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "sleepy": {
     "id": "sleepy",
@@ -246,7 +366,11 @@
       "ro": "Somnoros",
       "en": "Sleepy"
     },
-    "color": "#D0D8E0"
+    "color": "#D0D8E0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": "rest"
+    }
   },
   "unfocused": {
     "id": "unfocused",
@@ -254,7 +378,11 @@
       "ro": "Neconcentrat",
       "en": "Unfocused"
     },
-    "color": "#D0D8E0"
+    "color": "#D0D8E0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "overwhelmed_bad": {
     "id": "overwhelmed_bad",
@@ -262,7 +390,11 @@
       "ro": "Coplesit",
       "en": "Overwhelmed"
     },
-    "color": "#D0D8E0"
+    "color": "#D0D8E0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": "relief"
+    }
   },
   "out_of_control": {
     "id": "out_of_control",
@@ -270,7 +402,11 @@
       "ro": "Scapat de sub control",
       "en": "Out of control"
     },
-    "color": "#D0D8E0"
+    "color": "#D0D8E0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "pressured": {
     "id": "pressured",
@@ -278,7 +414,11 @@
       "ro": "Presat",
       "en": "Pressured"
     },
-    "color": "#D0D8E0"
+    "color": "#D0D8E0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": "relief"
+    }
   },
   "rushed": {
     "id": "rushed",
@@ -286,7 +426,11 @@
       "ro": "Grabit",
       "en": "Rushed"
     },
-    "color": "#D0D8E0"
+    "color": "#D0D8E0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "indifferent": {
     "id": "indifferent",
@@ -294,7 +438,11 @@
       "ro": "Indiferent",
       "en": "Indifferent"
     },
-    "color": "#D0D8E0"
+    "color": "#D0D8E0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "drained": {
     "id": "drained",
@@ -302,7 +450,11 @@
       "ro": "Epuizat",
       "en": "Drained"
     },
-    "color": "#D0D8E0"
+    "color": "#D0D8E0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": "rest"
+    }
   },
   "overloaded": {
     "id": "overloaded",
@@ -310,7 +462,11 @@
       "ro": "Suprasolicitat",
       "en": "Overloaded"
     },
-    "color": "#D0D8E0"
+    "color": "#D0D8E0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": "relief"
+    }
   },
   "restless": {
     "id": "restless",
@@ -318,7 +474,11 @@
       "ro": "Nelinistit",
       "en": "Restless"
     },
-    "color": "#D0D8E0"
+    "color": "#D0D8E0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "burned_out": {
     "id": "burned_out",
@@ -326,7 +486,11 @@
       "ro": "Epuizat profesional",
       "en": "Burned out"
     },
-    "color": "#D0D8E0"
+    "color": "#D0D8E0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": "rest"
+    }
   },
   "on_edge": {
     "id": "on_edge",
@@ -334,7 +498,11 @@
       "ro": "Cu nervii intinsi",
       "en": "On edge"
     },
-    "color": "#D0D8E0"
+    "color": "#D0D8E0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": "grounding"
+    }
   },
   "irritable": {
     "id": "irritable",
@@ -342,7 +510,11 @@
       "ro": "Irascibil",
       "en": "Irritable"
     },
-    "color": "#D0D8E0"
+    "color": "#D0D8E0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "foggy": {
     "id": "foggy",
@@ -350,7 +522,11 @@
       "ro": "Tulbure",
       "en": "Foggy"
     },
-    "color": "#D0D8E0"
+    "color": "#D0D8E0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "stuck": {
     "id": "stuck",
@@ -358,7 +534,11 @@
       "ro": "Blocat",
       "en": "Stuck"
     },
-    "color": "#D0D8E0"
+    "color": "#D0D8E0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "judgmental": {
     "id": "judgmental",
@@ -366,7 +546,11 @@
       "ro": "Critic",
       "en": "Judgmental"
     },
-    "color": "#E0B4D8"
+    "color": "#E0B4D8",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "appalled": {
     "id": "appalled",
@@ -374,7 +558,11 @@
       "ro": "Ingrozit",
       "en": "Appalled"
     },
-    "color": "#E0B4D8"
+    "color": "#E0B4D8",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "revolted": {
     "id": "revolted",
@@ -382,7 +570,11 @@
       "ro": "Revoltat",
       "en": "Revolted"
     },
-    "color": "#E0B4D8"
+    "color": "#E0B4D8",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "nauseated": {
     "id": "nauseated",
@@ -390,7 +582,11 @@
       "ro": "Greata",
       "en": "Nauseated"
     },
-    "color": "#E0B4D8"
+    "color": "#E0B4D8",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "detestable": {
     "id": "detestable",
@@ -398,7 +594,11 @@
       "ro": "Detestabil",
       "en": "Detestable"
     },
-    "color": "#E0B4D8"
+    "color": "#E0B4D8",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "hesitant": {
     "id": "hesitant",
@@ -406,7 +606,11 @@
       "ro": "Ezitant",
       "en": "Hesitant"
     },
-    "color": "#E0B4D8"
+    "color": "#E0B4D8",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "horrified": {
     "id": "horrified",
@@ -414,7 +618,11 @@
       "ro": "Oripilat",
       "en": "Horrified"
     },
-    "color": "#E0B4D8"
+    "color": "#E0B4D8",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "contemptuous": {
     "id": "contemptuous",
@@ -422,7 +630,11 @@
       "ro": "Dispretitor",
       "en": "Contemptuous"
     },
-    "color": "#E0B4D8"
+    "color": "#E0B4D8",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "repulsed": {
     "id": "repulsed",
@@ -430,7 +642,11 @@
       "ro": "Scarbit",
       "en": "Repulsed"
     },
-    "color": "#E0B4D8"
+    "color": "#E0B4D8",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "sickened": {
     "id": "sickened",
@@ -438,7 +654,11 @@
       "ro": "Ingretosat",
       "en": "Sickened"
     },
-    "color": "#E0B4D8"
+    "color": "#E0B4D8",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "scandalized": {
     "id": "scandalized",
@@ -446,7 +666,11 @@
       "ro": "Scandalizat",
       "en": "Scandalized"
     },
-    "color": "#E0B4D8"
+    "color": "#E0B4D8",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "self_loathing": {
     "id": "self_loathing",
@@ -455,7 +679,11 @@
       "en": "Self-loathing"
     },
     "color": "#E0B4D8",
-    "distressTier": "watch"
+    "distressTier": "watch",
+    "guidance": {
+      "status": "reviewed",
+      "needId": "compassion"
+    }
   },
   "tainted": {
     "id": "tainted",
@@ -463,7 +691,11 @@
       "ro": "Intinat",
       "en": "Tainted"
     },
-    "color": "#E0B4D8"
+    "color": "#E0B4D8",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "repugnant": {
     "id": "repugnant",
@@ -471,7 +703,11 @@
       "ro": "Respingator",
       "en": "Repugnant"
     },
-    "color": "#E0B4D8"
+    "color": "#E0B4D8",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "helpless": {
     "id": "helpless",
@@ -480,7 +716,11 @@
       "en": "Helpless"
     },
     "color": "#B0E0C0",
-    "distressTier": "high"
+    "distressTier": "high",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "frightened": {
     "id": "frightened",
@@ -488,7 +728,11 @@
       "ro": "Infricosat",
       "en": "Frightened"
     },
-    "color": "#B0E0C0"
+    "color": "#B0E0C0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": "safety"
+    }
   },
   "panicked": {
     "id": "panicked",
@@ -497,7 +741,11 @@
       "en": "Panicked"
     },
     "color": "#B0E0C0",
-    "distressTier": "high"
+    "distressTier": "high",
+    "guidance": {
+      "status": "reviewed",
+      "needId": "safety"
+    }
   },
   "overwhelmed_fear": {
     "id": "overwhelmed_fear",
@@ -505,7 +753,11 @@
       "ro": "Coplesit",
       "en": "Overwhelmed"
     },
-    "color": "#B0E0C0"
+    "color": "#B0E0C0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": "relief"
+    }
   },
   "worried": {
     "id": "worried",
@@ -513,7 +765,11 @@
       "ro": "Ingrijorat",
       "en": "Worried"
     },
-    "color": "#B0E0C0"
+    "color": "#B0E0C0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": "grounding"
+    }
   },
   "apprehensive": {
     "id": "apprehensive",
@@ -521,7 +777,11 @@
       "ro": "Cu presimtiri",
       "en": "Apprehensive"
     },
-    "color": "#B0E0C0"
+    "color": "#B0E0C0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": "grounding"
+    }
   },
   "inadequate": {
     "id": "inadequate",
@@ -529,7 +789,11 @@
       "ro": "Inadecvat",
       "en": "Inadequate"
     },
-    "color": "#B0E0C0"
+    "color": "#B0E0C0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "self_doubting": {
     "id": "self_doubting",
@@ -537,7 +801,11 @@
       "ro": "Plin de indoieli",
       "en": "Self-Doubting"
     },
-    "color": "#B0E0C0"
+    "color": "#B0E0C0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "dread": {
     "id": "dread",
@@ -545,7 +813,11 @@
       "ro": "Groaza",
       "en": "Dread"
     },
-    "color": "#B0E0C0"
+    "color": "#B0E0C0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": "safety"
+    }
   },
   "paralyzed": {
     "id": "paralyzed",
@@ -553,7 +825,11 @@
       "ro": "Paralizat",
       "en": "Paralyzed"
     },
-    "color": "#B0E0C0"
+    "color": "#B0E0C0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "obsessive": {
     "id": "obsessive",
@@ -561,7 +837,11 @@
       "ro": "Obsedat",
       "en": "Obsessive"
     },
-    "color": "#B0E0C0"
+    "color": "#B0E0C0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "self_conscious": {
     "id": "self_conscious",
@@ -569,7 +849,11 @@
       "ro": "Stanjenit",
       "en": "Self-conscious"
     },
-    "color": "#B0E0C0"
+    "color": "#B0E0C0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "worthless": {
     "id": "worthless",
@@ -578,7 +862,11 @@
       "en": "Worthless"
     },
     "color": "#B0E0C0",
-    "distressTier": "high"
+    "distressTier": "high",
+    "guidance": {
+      "status": "reviewed",
+      "needId": "compassion"
+    }
   },
   "insignificant": {
     "id": "insignificant",
@@ -586,7 +874,11 @@
       "ro": "Nesemnificativ",
       "en": "Insignificant"
     },
-    "color": "#B0E0C0"
+    "color": "#B0E0C0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "excluded": {
     "id": "excluded",
@@ -594,7 +886,11 @@
       "ro": "Exclus",
       "en": "Excluded"
     },
-    "color": "#B0E0C0"
+    "color": "#B0E0C0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": "connection"
+    }
   },
   "persecuted": {
     "id": "persecuted",
@@ -602,7 +898,11 @@
       "ro": "Persecutat",
       "en": "Persecuted"
     },
-    "color": "#B0E0C0"
+    "color": "#B0E0C0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "unwanted": {
     "id": "unwanted",
@@ -610,7 +910,11 @@
       "ro": "Nedorit",
       "en": "Unwanted"
     },
-    "color": "#B0E0C0"
+    "color": "#B0E0C0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "exposed": {
     "id": "exposed",
@@ -618,7 +922,11 @@
       "ro": "Expus",
       "en": "Exposed"
     },
-    "color": "#B0E0C0"
+    "color": "#B0E0C0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": "safety"
+    }
   },
   "on_guard": {
     "id": "on_guard",
@@ -626,7 +934,11 @@
       "ro": "In garda",
       "en": "On Guard"
     },
-    "color": "#B0E0C0"
+    "color": "#B0E0C0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "small": {
     "id": "small",
@@ -634,7 +946,11 @@
       "ro": "Mic",
       "en": "Small"
     },
-    "color": "#B0E0C0"
+    "color": "#B0E0C0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "alienated": {
     "id": "alienated",
@@ -642,7 +958,11 @@
       "ro": "Instrainat",
       "en": "Alienated"
     },
-    "color": "#B0E0C0"
+    "color": "#B0E0C0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": "connection"
+    }
   },
   "suspicious": {
     "id": "suspicious",
@@ -650,7 +970,11 @@
       "ro": "Suspicios",
       "en": "Suspicious"
     },
-    "color": "#B0E0C0"
+    "color": "#B0E0C0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "trapped": {
     "id": "trapped",
@@ -658,7 +982,11 @@
       "ro": "Prins in capcana",
       "en": "Trapped"
     },
-    "color": "#B0E0C0"
+    "color": "#B0E0C0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "aroused": {
     "id": "aroused",
@@ -666,7 +994,11 @@
       "ro": "Entuziasmat",
       "en": "Energized"
     },
-    "color": "#FFF0A0"
+    "color": "#FFF0A0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "cheeky": {
     "id": "cheeky",
@@ -674,7 +1006,11 @@
       "ro": "Obraznic",
       "en": "Cheeky"
     },
-    "color": "#FFF0A0"
+    "color": "#FFF0A0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "silly": {
     "id": "silly",
@@ -682,7 +1018,11 @@
       "ro": "Zburdalnic",
       "en": "Silly"
     },
-    "color": "#FFF0A0"
+    "color": "#FFF0A0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "free": {
     "id": "free",
@@ -690,7 +1030,11 @@
       "ro": "Liber",
       "en": "Free"
     },
-    "color": "#FFF0A0"
+    "color": "#FFF0A0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "joyful": {
     "id": "joyful",
@@ -698,7 +1042,11 @@
       "ro": "Bucuros",
       "en": "Joyful"
     },
-    "color": "#FFF0A0"
+    "color": "#FFF0A0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "curious": {
     "id": "curious",
@@ -706,7 +1054,11 @@
       "ro": "Curios",
       "en": "Curious"
     },
-    "color": "#FFF0A0"
+    "color": "#FFF0A0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "inquisitive": {
     "id": "inquisitive",
@@ -714,7 +1066,11 @@
       "ro": "Iscoditor",
       "en": "Inquisitive"
     },
-    "color": "#FFF0A0"
+    "color": "#FFF0A0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "successful": {
     "id": "successful",
@@ -722,7 +1078,11 @@
       "ro": "De succes",
       "en": "Successful"
     },
-    "color": "#FFF0A0"
+    "color": "#FFF0A0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "confident": {
     "id": "confident",
@@ -730,7 +1090,11 @@
       "ro": "Increzator",
       "en": "Confident"
     },
-    "color": "#FFF0A0"
+    "color": "#FFF0A0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "accomplished": {
     "id": "accomplished",
@@ -738,7 +1102,11 @@
       "ro": "Implinit",
       "en": "Accomplished"
     },
-    "color": "#FFF0A0"
+    "color": "#FFF0A0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "respected": {
     "id": "respected",
@@ -746,7 +1114,11 @@
       "ro": "Respectat",
       "en": "Respected"
     },
-    "color": "#FFF0A0"
+    "color": "#FFF0A0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "valued": {
     "id": "valued",
@@ -754,7 +1126,11 @@
       "ro": "Valorizat",
       "en": "Valued"
     },
-    "color": "#FFF0A0"
+    "color": "#FFF0A0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "included": {
     "id": "included",
@@ -762,7 +1138,11 @@
       "ro": "Inclus",
       "en": "Included"
     },
-    "color": "#FFF0A0"
+    "color": "#FFF0A0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "blessed": {
     "id": "blessed",
@@ -770,7 +1150,11 @@
       "ro": "Binecuvantat",
       "en": "Blessed"
     },
-    "color": "#FFF0A0"
+    "color": "#FFF0A0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "fascinated": {
     "id": "fascinated",
@@ -778,7 +1162,11 @@
       "ro": "Fascinat",
       "en": "Fascinated"
     },
-    "color": "#FFF0A0"
+    "color": "#FFF0A0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "absorbed": {
     "id": "absorbed",
@@ -786,7 +1174,11 @@
       "ro": "Captivat",
       "en": "Absorbed"
     },
-    "color": "#FFF0A0"
+    "color": "#FFF0A0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "worthy": {
     "id": "worthy",
@@ -794,7 +1186,11 @@
       "ro": "Demn",
       "en": "Worthy"
     },
-    "color": "#FFF0A0"
+    "color": "#FFF0A0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "courageous": {
     "id": "courageous",
@@ -802,7 +1198,11 @@
       "ro": "Curajos",
       "en": "Courageous"
     },
-    "color": "#FFF0A0"
+    "color": "#FFF0A0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "creative": {
     "id": "creative",
@@ -810,7 +1210,11 @@
       "ro": "Creativ",
       "en": "Creative"
     },
-    "color": "#FFF0A0"
+    "color": "#FFF0A0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "determined": {
     "id": "determined",
@@ -818,7 +1222,11 @@
       "ro": "Hotarat",
       "en": "Determined"
     },
-    "color": "#FFF0A0"
+    "color": "#FFF0A0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "loving": {
     "id": "loving",
@@ -826,7 +1234,11 @@
       "ro": "Iubitor",
       "en": "Loving"
     },
-    "color": "#FFF0A0"
+    "color": "#FFF0A0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "thankful": {
     "id": "thankful",
@@ -834,7 +1246,11 @@
       "ro": "Recunoscator",
       "en": "Thankful"
     },
-    "color": "#FFF0A0"
+    "color": "#FFF0A0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "harmonious": {
     "id": "harmonious",
@@ -842,7 +1258,11 @@
       "ro": "Armonios",
       "en": "Harmonious"
     },
-    "color": "#FFF0A0"
+    "color": "#FFF0A0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "sensitive": {
     "id": "sensitive",
@@ -850,7 +1270,11 @@
       "ro": "Sensibil",
       "en": "Sensitive"
     },
-    "color": "#FFF0A0"
+    "color": "#FFF0A0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "intimate": {
     "id": "intimate",
@@ -858,7 +1282,11 @@
       "ro": "Intim",
       "en": "Intimate"
     },
-    "color": "#FFF0A0"
+    "color": "#FFF0A0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "inspired": {
     "id": "inspired",
@@ -866,7 +1294,11 @@
       "ro": "Inspirat",
       "en": "Inspired"
     },
-    "color": "#FFF0A0"
+    "color": "#FFF0A0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "open": {
     "id": "open",
@@ -874,7 +1306,11 @@
       "ro": "Deschis",
       "en": "Open"
     },
-    "color": "#FFF0A0"
+    "color": "#FFF0A0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "hopeful": {
     "id": "hopeful",
@@ -882,7 +1318,11 @@
       "ro": "Plin de speranta",
       "en": "Hopeful"
     },
-    "color": "#FFF0A0"
+    "color": "#FFF0A0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "brave": {
     "id": "brave",
@@ -890,7 +1330,11 @@
       "ro": "Indraznet",
       "en": "Brave"
     },
-    "color": "#FFF0A0"
+    "color": "#FFF0A0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "safe": {
     "id": "safe",
@@ -898,7 +1342,11 @@
       "ro": "In siguranta",
       "en": "Safe"
     },
-    "color": "#FFF0A0"
+    "color": "#FFF0A0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "disappointed_sad": {
     "id": "disappointed_sad",
@@ -906,7 +1354,11 @@
       "ro": "Dezamagit",
       "en": "Disappointed"
     },
-    "color": "#B0C8E4"
+    "color": "#B0C8E4",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "wounded": {
     "id": "wounded",
@@ -914,7 +1366,11 @@
       "ro": "Ranit profund",
       "en": "Wounded"
     },
-    "color": "#B0C8E4"
+    "color": "#B0C8E4",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "empty": {
     "id": "empty",
@@ -923,7 +1379,11 @@
       "en": "Empty"
     },
     "color": "#B0C8E4",
-    "distressTier": "high"
+    "distressTier": "high",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "hopeless": {
     "id": "hopeless",
@@ -932,7 +1392,11 @@
       "en": "Hopeless"
     },
     "color": "#B0C8E4",
-    "distressTier": "high"
+    "distressTier": "high",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "remorseful": {
     "id": "remorseful",
@@ -940,7 +1404,11 @@
       "ro": "Plin de remuscari",
       "en": "Remorseful"
     },
-    "color": "#B0C8E4"
+    "color": "#B0C8E4",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "ashamed": {
     "id": "ashamed",
@@ -948,7 +1416,11 @@
       "ro": "Rusinat",
       "en": "Ashamed"
     },
-    "color": "#B0C8E4"
+    "color": "#B0C8E4",
+    "guidance": {
+      "status": "reviewed",
+      "needId": "connection"
+    }
   },
   "regretful": {
     "id": "regretful",
@@ -956,7 +1428,11 @@
       "ro": "Plin de regret",
       "en": "Regretful"
     },
-    "color": "#B0C8E4"
+    "color": "#B0C8E4",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "heartbroken": {
     "id": "heartbroken",
@@ -964,7 +1440,11 @@
       "ro": "Cu inima franta",
       "en": "Heartbroken"
     },
-    "color": "#B0C8E4"
+    "color": "#B0C8E4",
+    "guidance": {
+      "status": "reviewed",
+      "needId": "support"
+    }
   },
   "depleted": {
     "id": "depleted",
@@ -972,7 +1452,11 @@
       "ro": "Secatuit",
       "en": "Depleted"
     },
-    "color": "#B0C8E4"
+    "color": "#B0C8E4",
+    "guidance": {
+      "status": "reviewed",
+      "needId": "rest"
+    }
   },
   "self_blaming": {
     "id": "self_blaming",
@@ -981,7 +1465,11 @@
       "en": "Self-blaming"
     },
     "color": "#B0C8E4",
-    "distressTier": "watch"
+    "distressTier": "watch",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "unworthy": {
     "id": "unworthy",
@@ -990,7 +1478,11 @@
       "en": "Unworthy"
     },
     "color": "#B0C8E4",
-    "distressTier": "watch"
+    "distressTier": "watch",
+    "guidance": {
+      "status": "reviewed",
+      "needId": "compassion"
+    }
   },
   "powerless": {
     "id": "powerless",
@@ -999,7 +1491,11 @@
       "en": "Powerless"
     },
     "color": "#B0C8E4",
-    "distressTier": "high"
+    "distressTier": "high",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "anguished": {
     "id": "anguished",
@@ -1008,7 +1504,11 @@
       "en": "Anguished"
     },
     "color": "#B0C8E4",
-    "distressTier": "high"
+    "distressTier": "high",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "fragile": {
     "id": "fragile",
@@ -1016,7 +1516,11 @@
       "ro": "Fragil",
       "en": "Fragile"
     },
-    "color": "#B0C8E4"
+    "color": "#B0C8E4",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "victimized": {
     "id": "victimized",
@@ -1025,7 +1529,11 @@
       "en": "Victimized"
     },
     "color": "#B0C8E4",
-    "distressTier": "high"
+    "distressTier": "high",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "defenseless": {
     "id": "defenseless",
@@ -1033,7 +1541,11 @@
       "ro": "Fara aparare",
       "en": "Defenseless"
     },
-    "color": "#B0C8E4"
+    "color": "#B0C8E4",
+    "guidance": {
+      "status": "reviewed",
+      "needId": "safety"
+    }
   },
   "abandoned": {
     "id": "abandoned",
@@ -1042,7 +1554,11 @@
       "en": "Abandoned"
     },
     "color": "#B0C8E4",
-    "distressTier": "high"
+    "distressTier": "high",
+    "guidance": {
+      "status": "reviewed",
+      "needId": "connection"
+    }
   },
   "isolated": {
     "id": "isolated",
@@ -1050,7 +1566,11 @@
       "ro": "Izolat",
       "en": "Isolated"
     },
-    "color": "#B0C8E4"
+    "color": "#B0C8E4",
+    "guidance": {
+      "status": "reviewed",
+      "needId": "connection"
+    }
   },
   "loneliness": {
     "id": "loneliness",
@@ -1070,7 +1590,11 @@
       "ro": "Devastat",
       "en": "Devastated"
     },
-    "color": "#B0C8E4"
+    "color": "#B0C8E4",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "desolate": {
     "id": "desolate",
@@ -1078,7 +1602,11 @@
       "ro": "Pustiit",
       "en": "Desolate"
     },
-    "color": "#B0C8E4"
+    "color": "#B0C8E4",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "embarrassed": {
     "id": "embarrassed",
@@ -1086,7 +1614,11 @@
       "ro": "Jenat",
       "en": "Embarrassed"
     },
-    "color": "#B0C8E4"
+    "color": "#B0C8E4",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "inferior": {
     "id": "inferior",
@@ -1094,7 +1626,11 @@
       "ro": "Inferior",
       "en": "Inferior"
     },
-    "color": "#B0C8E4"
+    "color": "#B0C8E4",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "humbled": {
     "id": "humbled",
@@ -1102,7 +1638,11 @@
       "ro": "Smerit",
       "en": "Humbled"
     },
-    "color": "#B0C8E4"
+    "color": "#B0C8E4",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "shocked": {
     "id": "shocked",
@@ -1110,7 +1650,11 @@
       "ro": "Socat",
       "en": "Shocked"
     },
-    "color": "#C8E8CC"
+    "color": "#C8E8CC",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "dismayed": {
     "id": "dismayed",
@@ -1118,7 +1662,11 @@
       "ro": "Consternat",
       "en": "Dismayed"
     },
-    "color": "#C8E8CC"
+    "color": "#C8E8CC",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "disillusioned": {
     "id": "disillusioned",
@@ -1126,7 +1674,11 @@
       "ro": "Deziluzionat",
       "en": "Disillusioned"
     },
-    "color": "#C8E8CC"
+    "color": "#C8E8CC",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "perplexed": {
     "id": "perplexed",
@@ -1134,7 +1686,11 @@
       "ro": "Perplex",
       "en": "Perplexed"
     },
-    "color": "#C8E8CC"
+    "color": "#C8E8CC",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "astonished": {
     "id": "astonished",
@@ -1142,7 +1698,11 @@
       "ro": "Stupefiat",
       "en": "Astonished"
     },
-    "color": "#C8E8CC"
+    "color": "#C8E8CC",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "eager": {
     "id": "eager",
@@ -1150,7 +1710,11 @@
       "ro": "Nerabdator",
       "en": "Eager"
     },
-    "color": "#C8E8CC"
+    "color": "#C8E8CC",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "energetic": {
     "id": "energetic",
@@ -1158,7 +1722,11 @@
       "ro": "Energic",
       "en": "Energetic"
     },
-    "color": "#C8E8CC"
+    "color": "#C8E8CC",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "jolted": {
     "id": "jolted",
@@ -1166,7 +1734,11 @@
       "ro": "Zguduit",
       "en": "Jolted"
     },
-    "color": "#C8E8CC"
+    "color": "#C8E8CC",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "disoriented": {
     "id": "disoriented",
@@ -1174,7 +1746,11 @@
       "ro": "Dezorientat",
       "en": "Disoriented"
     },
-    "color": "#C8E8CC"
+    "color": "#C8E8CC",
+    "guidance": {
+      "status": "reviewed",
+      "needId": "grounding"
+    }
   },
   "thrilled": {
     "id": "thrilled",
@@ -1182,7 +1758,11 @@
       "ro": "Exaltat",
       "en": "Thrilled"
     },
-    "color": "#C8E8CC"
+    "color": "#C8E8CC",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "impressed": {
     "id": "impressed",
@@ -1190,7 +1770,11 @@
       "ro": "Impresionat",
       "en": "Impressed"
     },
-    "color": "#C8E8CC"
+    "color": "#C8E8CC",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "speechless": {
     "id": "speechless",
@@ -1198,7 +1782,11 @@
       "ro": "Fara cuvinte",
       "en": "Speechless"
     },
-    "color": "#C8E8CC"
+    "color": "#C8E8CC",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "moved": {
     "id": "moved",
@@ -1206,7 +1794,11 @@
       "ro": "Emotionat",
       "en": "Moved"
     },
-    "color": "#C8E8CC"
+    "color": "#C8E8CC",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "electrified": {
     "id": "electrified",
@@ -1214,6 +1806,10 @@
       "ro": "Electrizat",
       "en": "Electrified"
     },
-    "color": "#C8E8CC"
+    "color": "#C8E8CC",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   }
 }

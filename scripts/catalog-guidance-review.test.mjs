@@ -9,6 +9,7 @@ import {
   buildPsychologistPrompt,
   buildQuickBodyReviewBatch,
   buildReviewBatch,
+  buildWordLadderReviewBatch,
   validateReviewResult,
 } from './catalog-guidance-review.mjs'
 
@@ -17,6 +18,8 @@ const catalogDir = path.resolve(scriptsDir, '../src/models/catalog')
 const dimensionalOverlayPath = path.resolve(scriptsDir, '../src/models/dimensional/overlay.json')
 const plutchikOverlayDir = path.resolve(scriptsDir, '../src/models/plutchik/overlays')
 const somaticDir = path.resolve(scriptsDir, '../src/models/somatic/data')
+const wheelOverlayDir = path.resolve(scriptsDir, '../src/models/wheel/overlays')
+const wheelRootIdsPath = path.resolve(scriptsDir, '../src/models/wheel/root-ids.json')
 
 function negativeHighBatch() {
   return buildReviewBatch({
@@ -124,6 +127,24 @@ test('finds no unresolved Plutchik result guidance after reviewed decisions', ()
   assert.deepEqual(batch.surfaces, ['plutchik'])
   assert.deepEqual(batch.editableFields, ['needId', 'none'])
   assert.deepEqual(batch.entries, [])
+})
+
+test('finds no unresolved Word Ladder guidance across every confirmable graph node', () => {
+  const batch = buildWordLadderReviewBatch({
+    batchId: 'p26-word-ladder-needs-01',
+    catalogDir,
+    wheelOverlayDir,
+    wheelRootIdsPath,
+  })
+
+  assert.equal(batch.scope.reachableCount, 214)
+  assert.equal(batch.scope.reviewedCount, 214)
+  assert.deepEqual(batch.entries, [])
+  assert.deepEqual(batch.surfaces, ['word-ladder'])
+  assert.deepEqual(batch.editableFields, ['needId', 'none'])
+  for (const id of ['happy', 'playful', 'aroused']) {
+    assert.ok(batch.scope.reachableIds.includes(id), `${id} must remain reachable`)
+  }
 })
 
 function validResult(batch) {

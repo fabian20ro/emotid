@@ -39,6 +39,18 @@ async function completePlutchikPair(
   await expect(page.getByTestId('reflection-screen')).toBeVisible()
 }
 
+async function completeWordPath(
+  page: import('@playwright/test').Page,
+  path: string[],
+  result: string,
+) {
+  await openArrival(page)
+  await page.getByTestId('arrival-words').click()
+  for (const word of path) await page.getByRole('button', { name: word, exact: true }).click()
+  await page.getByRole('button', { name: `Continue with ${result}`, exact: true }).click()
+  await expect(page.getByTestId('reflection-screen')).toBeVisible()
+}
+
 test('reveals a newly reviewed Quick need only after explicit exploration', async ({ page }) => {
   await openApp(page)
   await completeQuick(page, 'anger')
@@ -80,6 +92,24 @@ test('reveals reviewed Plutchik guidance only after explicit exploration', async
 test('keeps reviewed no-suggestion Plutchik guidance absent during exploration', async ({ page }) => {
   await openApp(page)
   await completePlutchikPair(page, 'joy', 'anticipation', 'optimism')
+
+  await page.getByRole('button', { name: 'Explore further' }).click()
+  await expect(page.getByRole('group', { name: 'What feels most needed right now?' })).toHaveCount(0)
+})
+
+test('reveals reviewed Word Ladder guidance only after explicit exploration', async ({ page }) => {
+  await openApp(page)
+  await completeWordPath(page, ['Fearful'], 'Fearful')
+
+  const needs = page.getByRole('group', { name: 'What feels most needed right now?' })
+  await expect(needs).toHaveCount(0)
+  await page.getByRole('button', { name: 'Explore further' }).click()
+  await expect(needs.getByRole('button', { name: 'a sense of safety', exact: true })).toBeVisible()
+})
+
+test('keeps reviewed no-suggestion Word Ladder guidance absent during exploration', async ({ page }) => {
+  await openApp(page)
+  await completeWordPath(page, ['Happy', 'Playful'], 'Playful')
 
   await page.getByRole('button', { name: 'Explore further' }).click()
   await expect(page.getByRole('group', { name: 'What feels most needed right now?' })).toHaveCount(0)

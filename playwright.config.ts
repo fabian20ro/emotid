@@ -5,8 +5,8 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
-  // One browser worker keeps mobile geometry and IndexedDB flows deterministic locally and in CI.
-  workers: 1,
+  // Bound local browser reuse; CI keeps one worker for constrained runners and deterministic storage flows.
+  workers: process.env.CI ? 1 : 2,
   reporter: 'html',
   use: {
     baseURL: process.env.BASE_URL ?? 'http://localhost:5173/emotid/',

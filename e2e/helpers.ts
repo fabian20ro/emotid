@@ -10,7 +10,7 @@ export async function openApp(page: Page, options: { language?: 'en' | 'ro'; sav
     localStorage.setItem('emot-id-save-sessions', String(save))
     localStorage.setItem('emot-id-theme', selectedTheme)
   }, { language, save: saveSessions, selectedTheme: theme })
-  await page.goto('/')
+  await page.goto('./', { waitUntil: 'domcontentloaded' })
   await expect(page.getByTestId('today-screen')).toBeVisible()
 }
 

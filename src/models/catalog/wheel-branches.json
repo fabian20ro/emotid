@@ -5,7 +5,11 @@
       "ro": "Rau",
       "en": "Bad"
     },
-    "color": "#B8C0C8"
+    "color": "#B8C0C8",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "disgusted": {
     "id": "disgusted",
@@ -13,7 +17,11 @@
       "ro": "Dezgustat",
       "en": "Disgusted"
     },
-    "color": "#C888B8"
+    "color": "#C888B8",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "fearful": {
     "id": "fearful",
@@ -21,7 +29,11 @@
       "ro": "Temator",
       "en": "Fearful"
     },
-    "color": "#88C8A0"
+    "color": "#88C8A0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": "safety"
+    }
   },
   "surprised": {
     "id": "surprised",
@@ -29,7 +41,11 @@
       "ro": "Surprins",
       "en": "Surprised"
     },
-    "color": "#A8D8B0"
+    "color": "#A8D8B0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "let_down": {
     "id": "let_down",
@@ -37,7 +53,11 @@
       "ro": "Dezamagit",
       "en": "Let down"
     },
-    "color": "#EE9E9E"
+    "color": "#EE9E9E",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "humiliated": {
     "id": "humiliated",
@@ -45,7 +65,11 @@
       "ro": "Umilit",
       "en": "Humiliated"
     },
-    "color": "#EE9E9E"
+    "color": "#EE9E9E",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "bitter": {
     "id": "bitter",
@@ -53,7 +77,11 @@
       "ro": "Amarât",
       "en": "Bitter"
     },
-    "color": "#EE9E9E"
+    "color": "#EE9E9E",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "mad": {
     "id": "mad",
@@ -61,7 +89,11 @@
       "ro": "Nebun de furie",
       "en": "Mad"
     },
-    "color": "#EE9E9E"
+    "color": "#EE9E9E",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "aggressive": {
     "id": "aggressive",
@@ -69,7 +101,11 @@
       "ro": "Agresiv",
       "en": "Aggressive"
     },
-    "color": "#EE9E9E"
+    "color": "#EE9E9E",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "distant": {
     "id": "distant",
@@ -77,7 +113,11 @@
       "ro": "Distant",
       "en": "Distant"
     },
-    "color": "#EE9E9E"
+    "color": "#EE9E9E",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "critical": {
     "id": "critical",
@@ -85,7 +125,11 @@
       "ro": "Critic",
       "en": "Critical"
     },
-    "color": "#EE9E9E"
+    "color": "#EE9E9E",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "overwhelmed": {
     "id": "overwhelmed",
@@ -105,7 +149,11 @@
       "ro": "Dezaprobator",
       "en": "Disapproving"
     },
-    "color": "#D49ECA"
+    "color": "#D49ECA",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "disappointed_disg": {
     "id": "disappointed_disg",
@@ -113,7 +161,11 @@
       "ro": "Dezamagit",
       "en": "Disappointed"
     },
-    "color": "#D49ECA"
+    "color": "#D49ECA",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "awful": {
     "id": "awful",
@@ -121,7 +173,11 @@
       "ro": "Groaznic",
       "en": "Awful"
     },
-    "color": "#D49ECA"
+    "color": "#D49ECA",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "repelled": {
     "id": "repelled",
@@ -129,7 +185,11 @@
       "ro": "Respins",
       "en": "Repelled"
     },
-    "color": "#D49ECA"
+    "color": "#D49ECA",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "scared": {
     "id": "scared",
@@ -137,7 +197,11 @@
       "ro": "Speriat",
       "en": "Scared"
     },
-    "color": "#9CD4B0"
+    "color": "#9CD4B0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": "safety"
+    }
   },
   "anxious": {
     "id": "anxious",
@@ -145,7 +209,11 @@
       "ro": "Anxios",
       "en": "Anxious"
     },
-    "color": "#9CD4B0"
+    "color": "#9CD4B0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": "grounding"
+    }
   },
   "insecure": {
     "id": "insecure",
@@ -153,7 +221,11 @@
       "ro": "Nesigur",
       "en": "Insecure"
     },
-    "color": "#9CD4B0"
+    "color": "#9CD4B0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "weak": {
     "id": "weak",
@@ -161,7 +233,11 @@
       "ro": "Slab",
       "en": "Weak"
     },
-    "color": "#9CD4B0"
+    "color": "#9CD4B0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "rejected": {
     "id": "rejected",
@@ -169,7 +245,11 @@
       "ro": "Respins",
       "en": "Rejected"
     },
-    "color": "#9CD4B0"
+    "color": "#9CD4B0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "threatened": {
     "id": "threatened",
@@ -177,7 +257,11 @@
       "ro": "Amenintat",
       "en": "Threatened"
     },
-    "color": "#9CD4B0"
+    "color": "#9CD4B0",
+    "guidance": {
+      "status": "reviewed",
+      "needId": "safety"
+    }
   },
   "playful": {
     "id": "playful",
@@ -185,7 +269,11 @@
       "ro": "Jucaus",
       "en": "Playful"
     },
-    "color": "#FFE57F"
+    "color": "#FFE57F",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "interested": {
     "id": "interested",
@@ -193,7 +281,11 @@
       "ro": "Interesat",
       "en": "Interested"
     },
-    "color": "#FFE57F"
+    "color": "#FFE57F",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "proud": {
     "id": "proud",
@@ -201,7 +293,11 @@
       "ro": "Mandru",
       "en": "Proud"
     },
-    "color": "#FFE57F"
+    "color": "#FFE57F",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "accepted": {
     "id": "accepted",
@@ -209,7 +305,11 @@
       "ro": "Acceptat",
       "en": "Accepted"
     },
-    "color": "#FFE57F"
+    "color": "#FFE57F",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "powerful": {
     "id": "powerful",
@@ -217,7 +317,11 @@
       "ro": "Puternic",
       "en": "Powerful"
     },
-    "color": "#FFE57F"
+    "color": "#FFE57F",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "trusting": {
     "id": "trusting",
@@ -225,7 +329,11 @@
       "ro": "Incredere",
       "en": "Trusting"
     },
-    "color": "#FFE57F"
+    "color": "#FFE57F",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "optimistic": {
     "id": "optimistic",
@@ -233,7 +341,11 @@
       "ro": "Optimist",
       "en": "Optimistic"
     },
-    "color": "#FFE57F"
+    "color": "#FFE57F",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "hurt": {
     "id": "hurt",
@@ -241,7 +353,11 @@
       "ro": "Ranit",
       "en": "Hurt"
     },
-    "color": "#9CB8DA"
+    "color": "#9CB8DA",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "guilty": {
     "id": "guilty",
@@ -249,7 +365,11 @@
       "ro": "Vinovat",
       "en": "Guilty"
     },
-    "color": "#9CB8DA"
+    "color": "#9CB8DA",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "vulnerable": {
     "id": "vulnerable",
@@ -257,7 +377,11 @@
       "ro": "Vulnerabil",
       "en": "Vulnerable"
     },
-    "color": "#9CB8DA"
+    "color": "#9CB8DA",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "startled": {
     "id": "startled",
@@ -265,7 +389,11 @@
       "ro": "Tresarit",
       "en": "Startled"
     },
-    "color": "#B8E0BE"
+    "color": "#B8E0BE",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "confused": {
     "id": "confused",
@@ -273,7 +401,11 @@
       "ro": "Confuz",
       "en": "Confused"
     },
-    "color": "#B8E0BE"
+    "color": "#B8E0BE",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   },
   "amazed": {
     "id": "amazed",
@@ -281,6 +413,10 @@
       "ro": "Uimit",
       "en": "Amazed"
     },
-    "color": "#B8E0BE"
+    "color": "#B8E0BE",
+    "guidance": {
+      "status": "reviewed",
+      "needId": null
+    }
   }
 }

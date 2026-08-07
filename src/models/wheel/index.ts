@@ -9,6 +9,7 @@ import fearfulOverlay from './overlays/fearful.json'
 import angryOverlay from './overlays/angry.json'
 import disgustedOverlay from './overlays/disgusted.json'
 import sadOverlay from './overlays/sad.json'
+import rootIds from './root-ids.json'
 
 interface WheelOverlay {
   level: number
@@ -40,15 +41,7 @@ for (const [id, overlay] of Object.entries(allOverlays)) {
   }
 }
 
-const CENTER_IDS = [
-  'happy',
-  'surprised',
-  'bad',
-  'fearful',
-  'angry',
-  'disgusted',
-  'sad',
-]
+const CENTER_IDS = rootIds
 
 export const wheelModel: EmotionModel<WheelEmotion> = {
   id: MODEL_IDS.WHEEL,

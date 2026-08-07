@@ -771,6 +771,22 @@ entries.
 Across the catalog there are now 89 reviewed guidance decisions, 30 visible mappings, 59 explicit
 no-suggestion decisions, and the same 11 controlled bilingual options.
 
-**Next:** derive the Word Ladder inventory from the actual branch/leaf completion rules and review
-it as the final route-level needs batch. Keep description review separate and avoid treating every
-loaded wheel node as a confirmable result.
+### P26 Word Ladder Guidance Complete
+
+The review utility and runtime now share one seven-ID root source. Graph traversal follows every
+production child link and includes directly confirmable roots and intermediate words as well as
+leaves. The resulting route inventory contains 214 IDs: 31 previously reviewed and 183 requiring a
+decision.
+
+One quota-bounded Luna Max pass challenged only 46 tentative map candidates. Domain review retained
+31 mappings, recorded 152 explicit no-suggestion decisions, and added no vocabulary. Regenerating
+the Word Ladder batch returns zero unresolved entries. The route exposes 44 reviewed mappings and
+keeps guidance absent for the other 170 words.
+
+Across the catalog there are now 272 reviewed guidance decisions, 61 visible mappings, 211 explicit
+no-suggestion decisions, and the same 11 controlled bilingual options. All user-confirmable Quick,
+Body Compass, Affect, Plutchik, and Word Ladder results now have an explicit needs decision.
+
+**Next:** plan the separate description-provenance phase. Do not generate prose for all remaining
+entries by default; first identify where a description materially improves comparison or
+reflection, then review those surfaces in bounded bilingual batches.

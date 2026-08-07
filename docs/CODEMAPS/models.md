@@ -49,9 +49,11 @@ explicit reviewed provenance.
 
 Guidance review derives route reachability from production data: Quick IDs plus somatic signals for
 Quick/Body, the dimensional overlay for Affect, and every selectable primary pair plus production
-combination overlays for Plutchik. Shared batch construction handles catalog resolution and
-reviewed-decision filtering; route adapters do not duplicate emotion inventories. Inventories
-represent user-confirmable results, not every entry loaded by a model.
+combination overlays for Plutchik. Word Ladder traversal starts from the same seven root IDs as the
+runtime and follows production child links, including directly confirmable intermediate nodes.
+Shared batch construction handles catalog resolution and reviewed-decision filtering; route
+adapters do not duplicate emotion inventories. Inventories represent user-confirmable results, not
+every entry loaded by a model.
 
 ### Safety rules are versioned data
 

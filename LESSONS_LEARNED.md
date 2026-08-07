@@ -71,6 +71,11 @@ cannot distinguish "not reviewed" from "reviewed and intentionally omitted." Rec
 `null` decision at the source boundary, keep hydration output empty, and make route inventories
 skip that decision. This prevents repeated audits and pressure to invent emotion-to-need mappings.
 
+**[2026-08-07]** Guidance review scope follows confirmable results, not loaded model entries — A
+model may load hidden variants, intermediate nodes, or generated combinations that do not match
+what a user can commit. Derive each inventory from production roots, transitions, and analyzer
+semantics; retain the exact reachable IDs in the batch so UI changes make scope drift visible.
+
 **[2026-08-04]** Enriched psychological inputs need a fail-closed analysis boundary — A base
 region becomes a body signal only after sensation and intensity are valid. Validate that complete
 shape once before scoring and reuse the guard for UI selection filtering; do not encode the

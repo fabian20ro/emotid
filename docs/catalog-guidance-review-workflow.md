@@ -154,3 +154,20 @@ vocabulary.
 The regenerated Plutchik batch contains zero unresolved entries. Four of its 29 reachable results
 retain visible reviewed guidance (`anxiety`, `despair`, `love`, and `shame`); the other 25 expose no
 inferred need.
+
+## Word Ladder Batch Status
+
+`npm run prepare:catalog-review:word-ladder` reads the same seven root IDs as the runtime and
+traverses production child links. Every visited root, intermediate node, and leaf is confirmable:
+roots and intermediate words use the direct stop action, while leaves use ordinary selection. The
+resulting inventory contains all 214 loaded nodes: seven roots, 41 intermediate nodes, and 166
+leaves. Thirty-one already had reviewed guidance; 183 required a decision.
+
+Quota-bounded review started with 137 conservative `none` decisions and sent only 46 tentative
+map candidates to one Luna Max psychologist pass. Domain adjudication retained 31 mappings across
+direct fear, anxiety, depletion, overload, disconnection, self-devaluation, and crossed-boundary
+wording. It rejected context-dependent support, connection, space, and relief inferences, added no
+vocabulary, and recorded 152 new explicit null decisions.
+
+The regenerated Word Ladder batch contains zero unresolved entries. Across its 214 confirmable
+words, 44 reviewed mappings are visible at runtime and 170 expose no inferred need.

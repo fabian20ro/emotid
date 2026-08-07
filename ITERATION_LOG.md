@@ -1555,8 +1555,6 @@ the existing PR safety boundary.
 share its event policy; validate the terminal deploy job, not only the build conclusion.
 **Promoted to Lessons Learned:** No — first occurrence; retain in the iteration record.
 
----
-
 ### [2026-08-07] Complete the Affect Map guidance review
 
 **Context:** P26 had closed Quick and Body Compass guidance, while Affect still exposed 29
@@ -1604,3 +1602,32 @@ the production PWA lifecycle, and the mobile performance proxy pass.
 For combinatorial tools, derive reachability from selectable inputs and the production analyzer
 contract so hidden variants do not create false review scope.
 **Promoted to Lessons Learned:** No — first occurrence; retain in the iteration record.
+
+---
+
+### [2026-08-07] Complete the Word Ladder guidance review
+
+**Context:** The final route-level P26 needs audit had 214 confirmable Word Ladder nodes, including
+roots and intermediary words that can finish a check-in before a precise leaf is selected.
+**What happened:**
+- Began with a failing 214-ID graph contract and moved the seven production roots into one JSON
+  source shared by runtime and review tooling.
+- Traversed child links from those roots, retained exact reachable IDs in the batch, and identified
+  31 reviewed plus 183 unresolved decisions across two catalog files.
+- Defaulted ambiguous words to no suggestion and used one Luna Max psychologist pass only to
+  challenge 46 tentative mappings. Domain review retained 31 mappings, 152 null decisions, and no
+  new vocabulary.
+- Added exact catalog and Safari/Chrome contracts proving mapped root guidance remains behind
+  Explore and a reviewed-null intermediary remains absent there.
+- Corrected the shared browser helper to respect the configured `/emotid/` base path and bounded
+  local WebKit reuse with two workers after repeated 72nd-context navigation stalls; CI retains one
+  worker for constrained, deterministic runs.
+**Outcome:** Word Ladder is 214/214 reviewed with zero unresolved entries. The full catalog has 272
+reviewed decisions, 61 runtime mappings, 211 explicit no-suggestion decisions, and 11 controlled
+options. `npm run check` passes 73 Vitest files and 592 tests; all 204 Mobile Safari/Chrome cases,
+the production PWA lifecycle, and the mobile performance proxy pass.
+**Insight:** Shared route roots plus graph traversal remove inventory drift while keeping the model
+architecture simple. Large psychological batches stay quota-efficient when domain review defaults
+to absence and asks a model to challenge only visible map candidates.
+**Promoted to Lessons Learned:** Yes — confirmable-result inventory scope recurred across Plutchik
+and Word Ladder.

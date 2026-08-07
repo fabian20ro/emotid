@@ -47,8 +47,8 @@ describe('Catalog integrity', () => {
 
   it('exposes only reviewed bilingual need options', () => {
     const entries = Object.values(emotionCatalog)
-    expect(entries.filter((entry) => entry.guidanceStatus === 'reviewed')).toHaveLength(30)
-    expect(entries.filter((entry) => entry.needs === undefined)).toHaveLength(258)
+    expect(entries.filter((entry) => entry.guidanceStatus === 'reviewed')).toHaveLength(61)
+    expect(entries.filter((entry) => entry.needs === undefined)).toHaveLength(227)
 
     for (const [id, e] of Object.entries(emotionCatalog)) {
       if (!e.needs) {
@@ -65,36 +65,67 @@ describe('Catalog integrity', () => {
 
   it('keeps the reviewed need mapping explicit', () => {
     const expectedNeedIds = {
+      abandoned: 'connection',
       afraid: 'safety',
+      alienated: 'connection',
       anger: 'boundaries',
       angry: 'boundaries',
+      anxious: 'grounding',
       anxiety: 'grounding',
+      apprehensive: 'grounding',
+      ashamed: 'connection',
+      burned_out: 'rest',
+      defenseless: 'safety',
+      depleted: 'rest',
       despair: 'support',
+      disoriented: 'grounding',
       disgust: 'boundaries',
+      drained: 'rest',
+      dread: 'safety',
       distressed: 'compassion',
+      excluded: 'connection',
       exhaustion: 'rest',
+      exposed: 'safety',
       fear: 'safety',
+      fearful: 'safety',
+      frightened: 'safety',
       frustration: 'flexibility',
       frustrated: 'flexibility',
       grief: 'support',
+      heartbroken: 'support',
+      isolated: 'connection',
       loneliness: 'connection',
       lonely: 'connection',
       love: 'connection',
       nervous: 'grounding',
+      on_edge: 'grounding',
+      overloaded: 'relief',
       overwhelm: 'relief',
       overwhelmed: 'relief',
+      overwhelmed_bad: 'relief',
+      overwhelmed_fear: 'relief',
+      panicked: 'safety',
+      pressured: 'relief',
       rage: 'space',
       sad: 'compassion',
       sadness: 'compassion',
+      scared: 'safety',
+      self_loathing: 'compassion',
       shame: 'connection',
+      sleepy: 'rest',
       stress: 'relief',
       stressed: 'relief',
       tender: 'connection',
       tenderness: 'connection',
       tense: 'physical-ease',
       terror: 'safety',
+      threatened: 'safety',
       tired: 'rest',
+      unworthy: 'compassion',
+      violated: 'boundaries',
       worry: 'grounding',
+      worried: 'grounding',
+      worthless: 'compassion',
     }
 
     expect(
