@@ -42,11 +42,16 @@ describe('Catalog integrity', () => {
   it('exposes only the bounded reviewed-description inventory', () => {
     const entries = Object.values(emotionCatalog)
     expect(entries.filter((entry) => entry.descriptionStatus === 'reviewed').map(({ id }) => id).sort()).toEqual([
-      'anger', 'angry', 'anxiety', 'bad', 'despair', 'disgusted', 'distressed', 'fearful',
-      'frustrated', 'grief', 'happy', 'joy', 'nervous', 'numb', 'overwhelmed', 'rage', 'sad',
-      'sadness', 'shame', 'stressed', 'surprised', 'tense', 'terror',
+      'accepted', 'aggressive', 'amazed', 'anger', 'angry', 'anxiety', 'anxious', 'awful',
+      'bad', 'bitter', 'bored', 'confused', 'content', 'critical', 'depressed', 'despair',
+      'disappointed_disg', 'disapproving', 'disgusted', 'distant', 'distressed', 'excited',
+      'fearful', 'frustrated', 'grief', 'guilty', 'happy', 'humiliated', 'hurt', 'insecure',
+      'interested', 'joy', 'let_down', 'lonely', 'mad', 'nervous', 'numb', 'optimistic',
+      'overwhelmed', 'peaceful', 'playful', 'powerful', 'proud', 'rage', 'rejected',
+      'repelled', 'sad', 'sadness', 'scared', 'shame', 'startled', 'stressed', 'surprised',
+      'tense', 'terror', 'threatened', 'tired', 'trusting', 'vulnerable', 'weak',
     ])
-    expect(entries.filter((entry) => entry.description === undefined)).toHaveLength(265)
+    expect(entries.filter((entry) => entry.description === undefined)).toHaveLength(228)
   })
 
   it('exposes only reviewed bilingual need options', () => {

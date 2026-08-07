@@ -121,6 +121,20 @@ describe('WordLadderScreen', () => {
     expect(screen.getByText('Notice which description, if either, feels closer.')).toBeInTheDocument()
   })
 
+  it('compares a reviewed intermediary with a sibling from the same root family', async () => {
+    const user = userEvent.setup()
+    renderScreen()
+
+    await user.click(screen.getByRole('button', { name: 'Happy' }))
+    await user.click(screen.getByRole('button', { name: 'Playful' }))
+    await user.click(screen.getByRole('button', { name: 'Add Playful' }))
+    await user.click(screen.getByRole('button', { name: 'Compare nearby words' }))
+
+    expect(screen.queryByRole('button', { name: 'Compare with Sad' })).not.toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: 'Compare with Content' }))
+    expect(screen.getByRole('group', { name: 'Playful and Content' })).toBeInTheDocument()
+  })
+
   it('does not offer comparison for a sibling group without complete reviewed descriptions', async () => {
     const user = userEvent.setup()
     renderScreen()

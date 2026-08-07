@@ -813,16 +813,27 @@ structurally valid set. Domain review accepted 19 reformulations and retained fo
 drafts (`anger`, `joy`, `rage`, `terror`). No provider output was applied automatically.
 
 All Quick choices can now expose reviewed meaning during optional exploration, and all seven Word
-roots form one complete comparison group. The remaining 265 catalog entries still fail closed for
-description prose. This is intentional coverage, not an unfinished fallback.
+roots form one complete comparison group. At this stage, the remaining 265 catalog entries still
+failed closed for description prose.
+
+### P27.3 Word Ladder Intermediates Complete
+
+The review utility now derives all 41 intermediate words and seven sibling groups from the same
+production roots and overlays used by the route. Red-first contracts fix the exact inventory,
+levels, parent links, description-only payload, and complete-group behavior.
+
+One quota-bounded Luna Max advisory pass covered all 41 entries. Domain review retained four
+existing descriptions, accepted 29 candidates, and revised eight for agency, uncertainty, semantic
+precision, or natural Romanian. All seven intermediate sibling groups now support comparison in
+EN/RO; leaf groups still fail closed. The catalog contains 60 reviewed descriptions and 228 entries
+without prose.
 
 ### Recommended Next Sequence
 
-1. P27.3: derive the 41 Word Ladder intermediate words, grouped beneath the seven production roots.
-   Write red exact-inventory and complete-sibling contracts first.
-2. Review one family at a time. Ship a family only when every comparable sibling has complete EN/RO
-   prose; use one model call only to challenge a domain draft, then adjudicate manually.
-3. Measure whether intermediate descriptions improve stopping and comparison. Keep the 166 leaves
-   label-only unless that evidence justifies a leaf phase.
-4. Repeat deployed Pixel 6a TalkBack acceptance in EN/RO, then complete VoiceOver/Safari and a
+1. Measure whether intermediate descriptions improve stopping and comparison. Keep the 166 leaves
+   label-only unless that evidence justifies a leaf phase; avoid telemetry without explicit product
+   and privacy intent, so begin with bounded moderated observation.
+2. Repeat deployed Pixel 6a TalkBack acceptance in EN/RO, then complete VoiceOver/Safari and a
    distinct low-tier Android performance pass. Keep physical acceptance separate from browser CI.
+3. If evidence justifies leaf comparison, define complete sibling families from the production
+   graph, prioritize the most-used families, and retain the same red-first, bilingual, atomic gate.

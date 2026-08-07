@@ -9,7 +9,12 @@
     "guidance": {
       "status": "reviewed",
       "needId": null
-    }
+    },
+    "description": {
+      "en": "Bored may feel like an absence of interest or stimulation, with an activity seeming repetitive or empty and attention drifting without emotional engagement.",
+      "ro": "Plictiseala poate fi trăită ca lipsă de interes sau stimulare, când activitatea pare repetitivă ori goală, iar atenția se desprinde fără implicare emoțională."
+    },
+    "descriptionStatus": "reviewed"
   },
   "lonely": {
     "id": "lonely",
@@ -21,7 +26,12 @@
     "guidance": {
       "status": "reviewed",
       "needId": "connection"
-    }
+    },
+    "description": {
+      "en": "Lonely may feel like a lack of felt emotional connection or companionship, even with people nearby; the emphasis is on inner separation rather than chosen solitude.",
+      "ro": "Singurătatea poate fi trăită ca lipsă resimțită de conexiune emoțională sau companie, chiar când există oameni în preajmă; accentul cade pe separarea interioară, nu pe solitudinea aleasă."
+    },
+    "descriptionStatus": "reviewed"
   },
   "depressed": {
     "id": "depressed",
@@ -34,7 +44,12 @@
     "guidance": {
       "status": "reviewed",
       "needId": null
-    }
+    },
+    "description": {
+      "en": "As an everyday emotion label, depressed may describe a weighed-down or emotionally muted state, with interest or enjoyment seeming less present across several areas of experience.",
+      "ro": "Ca etichetă emoțională obișnuită, deprimarea poate descrie o stare apăsată sau estompată emoțional, cu interesul ori plăcerea părând mai puțin prezente în mai multe aspecte ale experienței."
+    },
+    "descriptionStatus": "reviewed"
   },
   "melancholic": {
     "id": "melancholic",
@@ -71,7 +86,12 @@
     "guidance": {
       "status": "reviewed",
       "needId": "rest"
-    }
+    },
+    "description": {
+      "en": "Tired may feel like reduced energy and less available attention, with effort seeming heavier; unlike boredom, interest may still be present.",
+      "ro": "Oboseala poate fi trăită ca energie redusă și atenție mai puțin disponibilă, cu efortul părând mai greu; spre deosebire de plictiseală, interesul poate fi încă prezent."
+    },
+    "descriptionStatus": "reviewed"
   },
   "sad": {
     "id": "sad",

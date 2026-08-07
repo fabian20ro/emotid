@@ -77,7 +77,12 @@
     "guidance": {
       "status": "reviewed",
       "needId": null
-    }
+    },
+    "description": {
+      "en": "Let down may feel like disappointment centered on missing support, reliability, or follow-through, with the relationship in focus rather than the outcome alone.",
+      "ro": "Dezamăgirea relațională poate fi trăită ca sentimentul că sprijinul, consecvența sau implicarea așteptate lipsesc, cu relația în prim-plan, nu doar rezultatul."
+    },
+    "descriptionStatus": "reviewed"
   },
   "humiliated": {
     "id": "humiliated",
@@ -89,7 +94,12 @@
     "guidance": {
       "status": "reviewed",
       "needId": null
-    }
+    },
+    "description": {
+      "en": "Humiliated may feel like painful exposure or shame, with dignity seeming lowered in one’s own or others’ eyes and attention fixed on feeling demeaned.",
+      "ro": "Umilirea poate fi trăită ca expunere dureroasă sau rușine, cu demnitatea părând diminuată în propriii ochi ori ai celorlalți și atenția fixată pe senzația de a fi înjosit."
+    },
+    "descriptionStatus": "reviewed"
   },
   "bitter": {
     "id": "bitter",
@@ -101,7 +111,12 @@
     "guidance": {
       "status": "reviewed",
       "needId": null
-    }
+    },
+    "description": {
+      "en": "Bitter may feel like lingering resentment or disappointment, with attention fixed on perceived unfairness or loss rather than on a brief burst of anger.",
+      "ro": "Amărăciunea poate fi trăită ca resentiment sau dezamăgire persistentă, cu atenția fixată pe o nedreptate percepută ori pierdere, nu pe o izbucnire scurtă de furie."
+    },
+    "descriptionStatus": "reviewed"
   },
   "mad": {
     "id": "mad",
@@ -113,7 +128,12 @@
     "guidance": {
       "status": "reviewed",
       "needId": null
-    }
+    },
+    "description": {
+      "en": "Here, mad may describe immediate anger, with attention narrowed around what seems offensive, obstructive, or unfair rather than around lingering disappointment.",
+      "ro": "Aici, „nebun de furie” poate descrie o mânie imediată, cu atenția îngustată în jurul a ceea ce pare ofensator, obstructiv sau nedrept, nu al unei dezamăgiri persistente."
+    },
+    "descriptionStatus": "reviewed"
   },
   "aggressive": {
     "id": "aggressive",
@@ -125,7 +145,12 @@
     "guidance": {
       "status": "reviewed",
       "needId": null
-    }
+    },
+    "description": {
+      "en": "Feeling aggressive may involve a confrontational stance in thoughts, words, or gestures, with dominance or opposition more prominent than anger alone.",
+      "ro": "O stare agresivă poate implica o orientare spre confruntare în gânduri, cuvinte sau gesturi, cu dominarea ori opoziția mai prezente decât furia singură."
+    },
+    "descriptionStatus": "reviewed"
   },
   "distant": {
     "id": "distant",
@@ -137,7 +162,12 @@
     "guidance": {
       "status": "reviewed",
       "needId": null
-    }
+    },
+    "description": {
+      "en": "Distant may feel like emotional or relational space, with warmth, connection, or participation seeming muted, limited, or held at arm’s length.",
+      "ro": "Distanțarea poate fi trăită ca spațiu emoțional sau relațional, când căldura, conexiunea ori implicarea par estompate, limitate sau păstrate la distanță."
+    },
+    "descriptionStatus": "reviewed"
   },
   "critical": {
     "id": "critical",
@@ -149,7 +179,12 @@
     "guidance": {
       "status": "reviewed",
       "needId": null
-    }
+    },
+    "description": {
+      "en": "A critical stance may involve focusing on flaws, evaluation, or disapproval, with attention directed toward what seems wrong or inadequate rather than toward emotional hurt.",
+      "ro": "O atitudine critică poate implica orientarea spre defecte, evaluare sau dezaprobare, cu atenția îndreptată către ceea ce pare greșit ori insuficient, nu către rănirea emoțională."
+    },
+    "descriptionStatus": "reviewed"
   },
   "overwhelmed": {
     "id": "overwhelmed",
@@ -178,7 +213,12 @@
     "guidance": {
       "status": "reviewed",
       "needId": null
-    }
+    },
+    "description": {
+      "en": "Disapproving may feel like judging something as unsuitable, unacceptable, or wrong, with attention focused on evaluation rather than personal hurt, disappointment, or anger.",
+      "ro": "Dezaprobarea poate fi trăită ca evaluarea că ceva este nepotrivit, inacceptabil sau greșit, cu accentul pe judecată, nu pe rănire personală, dezamăgire ori furie."
+    },
+    "descriptionStatus": "reviewed"
   },
   "disappointed_disg": {
     "id": "disappointed_disg",
@@ -190,7 +230,12 @@
     "guidance": {
       "status": "reviewed",
       "needId": null
-    }
+    },
+    "description": {
+      "en": "Disappointed may feel like an anticipated result falling short, with attention centered on the outcome itself rather than on missing support from another person.",
+      "ro": "Dezamăgirea poate fi trăită când un rezultat anticipat pare sub așteptări, cu atenția centrată pe rezultat, nu pe lipsa sprijinului din partea altei persoane."
+    },
+    "descriptionStatus": "reviewed"
   },
   "awful": {
     "id": "awful",
@@ -202,7 +247,12 @@
     "guidance": {
       "status": "reviewed",
       "needId": null
-    }
+    },
+    "description": {
+      "en": "Awful may feel like a broad impression that an experience is bad, repellent, or oppressive, without one distinct emotion standing at the center.",
+      "ro": "Impresia că ceva este groaznic poate fi trăită ca o evaluare generală negativă, neplăcută sau apăsătoare, fără ca o emoție anume să fie în centru."
+    },
+    "descriptionStatus": "reviewed"
   },
   "repelled": {
     "id": "repelled",
@@ -214,7 +264,12 @@
     "guidance": {
       "status": "reviewed",
       "needId": null
-    }
+    },
+    "description": {
+      "en": "Repelled may feel like an aversive reaction, with something seeming hard to approach, tolerate, or keep close; emphasis falls on pushing away rather than judging it wrong.",
+      "ro": "Repulsia poate fi trăită ca reacție de aversiune, când ceva pare greu de apropiat, tolerat sau ținut aproape; accentul cade pe îndepărtare, nu pe judecata că este greșit."
+    },
+    "descriptionStatus": "reviewed"
   },
   "scared": {
     "id": "scared",
@@ -226,7 +281,12 @@
     "guidance": {
       "status": "reviewed",
       "needId": "safety"
-    }
+    },
+    "description": {
+      "en": "Scared may feel like immediate fear, with attention pulled toward an alarming presence or event rather than toward possibilities that remain uncertain.",
+      "ro": "Frica poate fi trăită ca teamă imediată, cu atenția atrasă de o prezență sau situație alarmantă, mai degrabă decât de posibilități care rămân neclare."
+    },
+    "descriptionStatus": "reviewed"
   },
   "anxious": {
     "id": "anxious",
@@ -238,7 +298,12 @@
     "guidance": {
       "status": "reviewed",
       "needId": "grounding"
-    }
+    },
+    "description": {
+      "en": "Anxious may feel like unease about what might happen, with attention drawn toward possibilities and uncertainties that remain unresolved rather than toward one immediate event.",
+      "ro": "Anxietatea poate fi trăită ca neliniște legată de ce s-ar putea întâmpla, cu atenția atrasă de posibilități și incertitudini încă neclarificate, nu de un singur eveniment imediat."
+    },
+    "descriptionStatus": "reviewed"
   },
   "insecure": {
     "id": "insecure",
@@ -250,7 +315,12 @@
     "guidance": {
       "status": "reviewed",
       "needId": null
-    }
+    },
+    "description": {
+      "en": "Insecure may feel like doubt about one’s capability, place, or acceptance, with self-comparison and uncertainty about others’ perceptions becoming prominent.",
+      "ro": "Nesiguranța poate fi trăită ca îndoială privind propria capacitate, poziție sau acceptare, cu comparația de sine și incertitudinea privind percepția celorlalți ieșind în prim-plan."
+    },
+    "descriptionStatus": "reviewed"
   },
   "weak": {
     "id": "weak",
@@ -262,7 +332,12 @@
     "guidance": {
       "status": "reviewed",
       "needId": null
-    }
+    },
+    "description": {
+      "en": "Feeling weak may involve reduced strength, capacity, or influence, with effort or choices harder to sustain or assert; the emphasis is on diminished ability rather than personal worth.",
+      "ro": "Senzația de slăbiciune poate implica forță, capacitate sau influență reduse, cu efortul ori alegerile mai greu de susținut sau afirmat; accentul cade pe abilitate, nu pe valoarea personală."
+    },
+    "descriptionStatus": "reviewed"
   },
   "rejected": {
     "id": "rejected",
@@ -274,7 +349,12 @@
     "guidance": {
       "status": "reviewed",
       "needId": null
-    }
+    },
+    "description": {
+      "en": "Rejected may feel like exclusion, being unwanted, or not being chosen in a social or relational context, with attention on separation from others rather than self-doubt alone.",
+      "ro": "Respingerea poate fi trăită ca senzația de excludere, nedorire sau nealegere într-un context social ori relațional, cu accent pe separarea de ceilalți, nu doar pe îndoiala de sine."
+    },
+    "descriptionStatus": "reviewed"
   },
   "threatened": {
     "id": "threatened",
@@ -286,7 +366,12 @@
     "guidance": {
       "status": "reviewed",
       "needId": "safety"
-    }
+    },
+    "description": {
+      "en": "Threatened may feel like the impression that personal boundaries, standing, or stability are being challenged, with attention fixed on possible intrusion or unwanted change.",
+      "ro": "Starea de amenințare poate fi trăită ca impresia că limitele personale, poziția sau stabilitatea sunt contestate, cu atenția fixată pe o posibilă intruziune ori schimbare nedorită."
+    },
+    "descriptionStatus": "reviewed"
   },
   "playful": {
     "id": "playful",
@@ -298,7 +383,12 @@
     "guidance": {
       "status": "reviewed",
       "needId": null
-    }
+    },
+    "description": {
+      "en": "Playful may feel like light, spontaneous openness to humor, experimentation, or imagination, with attention moving freely and seriousness temporarily softened.",
+      "ro": "Jucăușenia poate fi trăită ca disponibilitate ușoară și spontană pentru umor, explorare sau imaginație, cu atenția mișcându-se liber și seriozitatea estompată temporar."
+    },
+    "descriptionStatus": "reviewed"
   },
   "interested": {
     "id": "interested",
@@ -310,7 +400,12 @@
     "guidance": {
       "status": "reviewed",
       "needId": null
-    }
+    },
+    "description": {
+      "en": "Interested may feel like focused curiosity and attention toward exploring or understanding something, with mental engagement more prominent than pleasure or excitement.",
+      "ro": "Interesul poate fi trăit ca atenție curioasă și orientată spre explorarea sau înțelegerea a ceva, cu implicarea mentală mai prezentă decât plăcerea ori entuziasmul."
+    },
+    "descriptionStatus": "reviewed"
   },
   "proud": {
     "id": "proud",
@@ -322,7 +417,12 @@
     "guidance": {
       "status": "reviewed",
       "needId": null
-    }
+    },
+    "description": {
+      "en": "Proud may feel like satisfaction and self-respect, with attention on personal significance or achievement rather than acceptance alone.",
+      "ro": "Mândria poate fi trăită ca satisfacție și respect de sine, cu atenția pe semnificație personală sau realizare, nu doar pe acceptare."
+    },
+    "descriptionStatus": "reviewed"
   },
   "accepted": {
     "id": "accepted",
@@ -334,7 +434,12 @@
     "guidance": {
       "status": "reviewed",
       "needId": null
-    }
+    },
+    "description": {
+      "en": "Accepted may feel like being welcomed, included, or received as part of a group or relationship, with belonging and recognition more prominent than approval of one specific action.",
+      "ro": "Acceptarea poate fi trăită ca sentimentul de a fi primit, inclus sau considerat parte dintr-un grup ori relație, cu apartenența și recunoașterea mai prezente decât aprobarea unei singure acțiuni."
+    },
+    "descriptionStatus": "reviewed"
   },
   "powerful": {
     "id": "powerful",
@@ -346,7 +451,12 @@
     "guidance": {
       "status": "reviewed",
       "needId": null
-    }
+    },
+    "description": {
+      "en": "Powerful may feel like a sense of ability, influence, or control, with actions and choices seeming available and effective rather than restricted.",
+      "ro": "Puterea poate fi trăită ca sentiment de capacitate, influență sau control, când acțiunile și alegerile par disponibile și eficiente, nu limitate."
+    },
+    "descriptionStatus": "reviewed"
   },
   "trusting": {
     "id": "trusting",
@@ -358,7 +468,12 @@
     "guidance": {
       "status": "reviewed",
       "needId": null
-    }
+    },
+    "description": {
+      "en": "Trusting may feel like openness and confidence that another person or situation is reliable, with uncertainty present without dominating the experience.",
+      "ro": "Încrederea poate fi trăită ca deschidere și convingere calmă că o persoană sau situație este de încredere, cu incertitudinea prezentă fără a domina experiența."
+    },
+    "descriptionStatus": "reviewed"
   },
   "optimistic": {
     "id": "optimistic",
@@ -370,7 +485,12 @@
     "guidance": {
       "status": "reviewed",
       "needId": null
-    }
+    },
+    "description": {
+      "en": "Optimistic may feel like an expectation that future possibilities may unfold favorably, with attention oriented toward openings and positive outcomes despite uncertainty.",
+      "ro": "Optimismul poate fi trăit ca impresia că posibilitățile viitoare se pot desfășura favorabil, cu atenția orientată spre deschideri și rezultate pozitive, chiar dacă există incertitudine."
+    },
+    "descriptionStatus": "reviewed"
   },
   "hurt": {
     "id": "hurt",
@@ -382,7 +502,12 @@
     "guidance": {
       "status": "reviewed",
       "needId": null
-    }
+    },
+    "description": {
+      "en": "Hurt may feel like immediate emotional pain or woundedness, with attention on a specific sting or loss rather than on self-blame, isolation, or lost hope.",
+      "ro": "Rănirea emoțională poate fi trăită ca durere afectivă imediată, cu atenția pe o rană sau pierdere anume, nu pe autoînvinovățire, izolare ori pierderea speranței."
+    },
+    "descriptionStatus": "reviewed"
   },
   "guilty": {
     "id": "guilty",
@@ -394,7 +519,12 @@
     "guidance": {
       "status": "reviewed",
       "needId": null
-    }
+    },
+    "description": {
+      "en": "Guilty may feel like self-directed discomfort about something done or omitted, with attention concentrated on one’s own conduct rather than on being excluded or misunderstood.",
+      "ro": "Vinovăția poate fi trăită ca disconfort orientat spre sine, legat de ceva făcut sau omis, cu atenția concentrată pe propriul comportament, nu pe excludere ori neînțelegere."
+    },
+    "descriptionStatus": "reviewed"
   },
   "vulnerable": {
     "id": "vulnerable",
@@ -406,7 +536,12 @@
     "guidance": {
       "status": "reviewed",
       "needId": null
-    }
+    },
+    "description": {
+      "en": "Vulnerable may feel like emotional exposure and noticeable sensitivity, with usual boundaries or distance seeming less available in the moment.",
+      "ro": "Vulnerabilitatea poate fi trăită ca expunere emoțională și sensibilitate mai vizibilă, când limitele sau distanța obișnuită par mai puțin disponibile în momentul respectiv."
+    },
+    "descriptionStatus": "reviewed"
   },
   "startled": {
     "id": "startled",
@@ -418,7 +553,12 @@
     "guidance": {
       "status": "reviewed",
       "needId": null
-    }
+    },
+    "description": {
+      "en": "Startled may feel like a brief, sudden shift into surprise and alertness before the situation has a clear meaning; unlike amazement, wonder is not central.",
+      "ro": "Tresărirea poate fi trăită ca o schimbare bruscă a atenției și surpriză de scurtă durată, înaintea unei interpretări clare; spre deosebire de uimire, mirarea nu este centrală."
+    },
+    "descriptionStatus": "reviewed"
   },
   "confused": {
     "id": "confused",
@@ -430,7 +570,12 @@
     "guidance": {
       "status": "reviewed",
       "needId": null
-    }
+    },
+    "description": {
+      "en": "Confused may feel like uncertainty about meaning, options, or how information fits together, with thoughts seeming disorganized or contradictory and clarity not yet settled.",
+      "ro": "Confuzia poate fi trăită ca nesiguranță privind sensul, opțiunile sau legătura dintre informații, cu gândurile părând neordonate ori contradictorii și claritatea încă neconturată."
+    },
+    "descriptionStatus": "reviewed"
   },
   "amazed": {
     "id": "amazed",
@@ -442,6 +587,11 @@
     "guidance": {
       "status": "reviewed",
       "needId": null
-    }
+    },
+    "description": {
+      "en": "Amazed may feel like wonder and surprise in the presence of something unusual or unexpected, with attention captured and ordinary expectations exceeded.",
+      "ro": "Uimirea poate fi trăită ca surpriză și mirare în fața a ceva neobișnuit sau neașteptat, cu atenția captată și așteptările obișnuite depășite."
+    },
+    "descriptionStatus": "reviewed"
   }
 }

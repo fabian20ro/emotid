@@ -76,6 +76,11 @@ model may load hidden variants, intermediate nodes, or generated combinations th
 what a user can commit. Derive each inventory from production roots, transitions, and analyzer
 semantics; retain the exact reachable IDs in the batch so UI changes make scope drift visible.
 
+**[2026-08-07]** Comparison prose is a choice-set capability — Reviewing one label is insufficient
+when nearby options remain undescribed. Derive sibling groups from production structure and expose
+comparison only when every visible option has reviewed bilingual copy. Partial groups fail closed;
+tests must cover both the newly complete group and an intentionally incomplete one.
+
 **[2026-08-04]** Enriched psychological inputs need a fail-closed analysis boundary — A base
 region becomes a body signal only after sensation and intensity are valid. Validate that complete
 shape once before scoring and reuse the guard for UI selection filtering; do not encode the

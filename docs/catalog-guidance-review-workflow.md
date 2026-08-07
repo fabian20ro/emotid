@@ -188,12 +188,22 @@ validation. Domain adjudication accepted 19 reformulations and retained the loca
 intended intensity. Provider output was not applied automatically and no second provider or retry
 was used.
 
-All 23 entries now have reviewed bilingual descriptions. Optional Reflection renders the canonical
-description once and omits empty context rows. The initial Word Ladder list remains label-only;
-comparison appears only for a complete sibling group. The seven roots form the first complete
-comparison group. Intermediate and leaf groups remain unavailable until reviewed atomically.
+All 23 pilot entries have reviewed bilingual descriptions. Optional Reflection renders the
+canonical description once and omits empty context rows. The initial Word Ladder list remains
+label-only, and the seven roots form the first complete comparison group.
 
-The next bounded description phase should process the 41 Word Ladder intermediate words by their
-seven root families. A family should ship only when every comparable sibling in that family has a
-reviewed bilingual description. Do not bulk-generate the 166 leaves unless measured use shows that
-leaf comparison or Reflection materially benefits from the prose.
+## Word Ladder Intermediate Description Status
+
+`npm run prepare:catalog-review:word-intermediate-descriptions` derives all 41 intermediate words
+directly from the seven production roots and graph overlays. The batch records seven atomic sibling
+groups, permits only bilingual descriptions, omits guidance, and validates every parent/child link.
+
+One Luna Max advisory pass returned all 41 candidates and passed structural and copy validation.
+Domain adjudication retained the four existing descriptions, accepted 29 candidates, and revised
+eight formulations to reduce identity labeling, clinical ambiguity, over-certainty, or unnatural
+Romanian. No candidate was applied automatically and no second provider or content retry was used.
+
+All 41 intermediates now have reviewed bilingual descriptions. Each intermediate comparison stays
+within its root family and is available only because the entire sibling group is complete. The 166
+leaves remain label-only. Do not bulk-generate leaf prose unless observed use demonstrates that
+leaf comparison or Reflection materially benefits from it.

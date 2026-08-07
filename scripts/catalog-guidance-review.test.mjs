@@ -10,6 +10,7 @@ import {
   buildPsychologistPrompt,
   buildQuickBodyReviewBatch,
   buildReviewBatch,
+  buildWordLadderIntermediateDescriptionBatch,
   buildWordLadderReviewBatch,
   validateReviewResult,
 } from './catalog-guidance-review.mjs'
@@ -22,7 +23,7 @@ const somaticDir = path.resolve(scriptsDir, '../src/models/somatic/data')
 const wheelOverlayDir = path.resolve(scriptsDir, '../src/models/wheel/overlays')
 const wheelRootIdsPath = path.resolve(scriptsDir, '../src/models/wheel/root-ids.json')
 
-test('builds the exact 23-entry description pilot with one complete root comparison group', () => {
+test('builds the exact 60-entry reviewed description inventory with one complete root comparison group', () => {
   const batch = buildDescriptionPilotBatch({
     batchId: 'p27-description-pilot-01',
     catalogDir,
@@ -37,34 +38,103 @@ test('builds the exact 23-entry description pilot with one complete root compari
     'happy', 'surprised', 'bad', 'fearful', 'angry', 'disgusted', 'sad',
   ] }])
   assert.deepEqual(batch.entries.map(({ id }) => id), [
+    'accepted',
+    'aggressive',
+    'amazed',
     'anger',
     'angry',
     'anxiety',
+    'anxious',
+    'awful',
     'bad',
+    'bitter',
+    'bored',
+    'confused',
+    'content',
+    'critical',
+    'depressed',
     'despair',
+    'disappointed_disg',
+    'disapproving',
     'disgusted',
+    'distant',
     'distressed',
+    'excited',
     'fearful',
     'frustrated',
     'grief',
+    'guilty',
     'happy',
+    'humiliated',
+    'hurt',
+    'insecure',
+    'interested',
     'joy',
+    'let_down',
+    'lonely',
+    'mad',
     'nervous',
     'numb',
+    'optimistic',
     'overwhelmed',
+    'peaceful',
+    'playful',
+    'powerful',
+    'proud',
     'rage',
+    'rejected',
+    'repelled',
     'sad',
     'sadness',
+    'scared',
     'shame',
+    'startled',
     'stressed',
     'surprised',
     'tense',
     'terror',
+    'threatened',
+    'tired',
+    'trusting',
+    'vulnerable',
+    'weak',
   ])
 
   const prompt = buildPsychologistPrompt(batch)
   assert.doesNotMatch(prompt, /controlled vocabulary/i)
   assert.doesNotMatch(prompt, /needId proposal/i)
+})
+
+test('builds all 41 Word Ladder intermediates as seven atomic comparison groups', () => {
+  const batch = buildWordLadderIntermediateDescriptionBatch({
+    batchId: 'p27-word-intermediate-descriptions-01',
+    catalogDir,
+    wheelOverlayDir,
+    wheelRootIdsPath,
+  })
+
+  assert.deepEqual(batch.editableFields, ['description'])
+  assert.equal(batch.needOptions, undefined)
+  assert.ok(batch.entries.every((entry) => !Object.hasOwn(entry, 'guidance')))
+  assert.deepEqual(batch.surfaces, ['shared-reflection', 'word-ladder-intermediate-comparison'])
+  assert.deepEqual(batch.scope, { intermediateCount: 41, reviewedCount: 41 })
+  assert.deepEqual(batch.comparisonGroups, [
+    { parentId: 'happy', ids: ['playful', 'content', 'interested', 'proud', 'accepted', 'powerful', 'peaceful', 'trusting', 'optimistic'] },
+    { parentId: 'surprised', ids: ['startled', 'confused', 'amazed', 'excited'] },
+    { parentId: 'bad', ids: ['tired', 'stressed', 'overwhelmed', 'bored'] },
+    { parentId: 'fearful', ids: ['scared', 'anxious', 'insecure', 'weak', 'rejected', 'threatened'] },
+    { parentId: 'angry', ids: ['let_down', 'humiliated', 'bitter', 'mad', 'aggressive', 'frustrated', 'distant', 'critical'] },
+    { parentId: 'disgusted', ids: ['disapproving', 'disappointed_disg', 'awful', 'repelled'] },
+    { parentId: 'sad', ids: ['hurt', 'depressed', 'guilty', 'despair', 'vulnerable', 'lonely'] },
+  ])
+  assert.deepEqual(batch.entries.map(({ id }) => id), [
+    'accepted', 'aggressive', 'amazed', 'anxious', 'awful', 'bitter', 'bored', 'confused',
+    'content', 'critical', 'depressed', 'despair', 'disappointed_disg', 'disapproving',
+    'distant', 'excited', 'frustrated', 'guilty', 'humiliated', 'hurt', 'insecure',
+    'interested', 'let_down', 'lonely', 'mad', 'optimistic', 'overwhelmed', 'peaceful',
+    'playful', 'powerful', 'proud', 'rejected', 'repelled', 'scared', 'startled', 'stressed',
+    'threatened', 'tired', 'trusting', 'vulnerable', 'weak',
+  ])
 })
 
 function negativeHighBatch() {

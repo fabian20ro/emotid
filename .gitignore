@@ -32,3 +32,4 @@ coverage
 # Compound Autopilot infrastructure metadata
 .compound-autopilot/
 /.playwright-mcp/
+/.playwright-cli/

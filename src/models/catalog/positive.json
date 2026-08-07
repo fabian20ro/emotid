@@ -21,7 +21,12 @@
     "guidance": {
       "status": "reviewed",
       "needId": null
-    }
+    },
+    "description": {
+      "en": "Content may feel like quiet satisfaction with the present, with things seeming sufficiently good and excitement or a wish for change not central.",
+      "ro": "Mulțumirea poate fi trăită ca satisfacție calmă față de prezent, când lucrurile par suficient de bune, fără ca entuziasmul sau dorința de schimbare să fie în centru."
+    },
+    "descriptionStatus": "reviewed"
   },
   "peaceful": {
     "id": "peaceful",
@@ -33,7 +38,12 @@
     "guidance": {
       "status": "reviewed",
       "needId": null
-    }
+    },
+    "description": {
+      "en": "Peaceful may feel like quiet inner ease, little conflict or tension, and a settled presence; the emphasis is on calm rather than satisfaction.",
+      "ro": "Starea de pace poate fi trăită ca liniște interioară, cu puțin conflict sau tensiune și un sentiment de așezare; accentul cade pe calm, nu pe satisfacție."
+    },
+    "descriptionStatus": "reviewed"
   },
   "satisfied": {
     "id": "satisfied",
@@ -134,6 +144,11 @@
     "guidance": {
       "status": "reviewed",
       "needId": null
-    }
+    },
+    "description": {
+      "en": "Excited may feel like energized positive anticipation, with attention drawn toward something engaging or approaching and eagerness more prominent than calm enjoyment.",
+      "ro": "Entuziasmul poate fi trăit ca anticipare energică și pozitivă, cu atenția atrasă de ceva captivant sau pe cale să se întâmple și nerăbdarea mai prezentă decât calmul."
+    },
+    "descriptionStatus": "reviewed"
   }
 }

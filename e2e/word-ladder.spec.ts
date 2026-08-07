@@ -69,6 +69,26 @@ test.describe('Word Ladder route', () => {
     await expect(page.getByRole('button', { name: 'Back' })).toBeVisible()
   })
 
+  test('compares a selected intermediary only within its complete sibling group', async ({ page }) => {
+    await openApp(page)
+    await openArrival(page)
+    await page.getByTestId('arrival-words').click()
+    await page.getByRole('button', { name: 'Happy' }).click()
+    await page.getByRole('button', { name: 'Playful' }).click()
+    await page.getByRole('button', { name: 'Add Playful' }).click()
+
+    await page.getByRole('button', { name: 'Compare nearby words' }).click()
+    await expect(page.getByRole('button', { name: 'Compare with Sad' })).toHaveCount(0)
+    await page.getByRole('button', { name: 'Compare with Content' }).click()
+
+    const comparison = page.getByRole('group', { name: 'Playful and Content' })
+    await expect(comparison).toContainText('Playful')
+    await expect(comparison).toContainText('Content')
+    await expect(page.getByRole('button', { name: 'Continue with Playful' })).toBeEnabled()
+    const overflow = await page.locator('.app-shell').evaluate((element) => element.scrollWidth - element.clientWidth)
+    expect(overflow).toBeLessThanOrEqual(1)
+  })
+
   test('does not offer comparison for a leaf group without complete reviewed descriptions', async ({ page }) => {
     await openApp(page)
     await openArrival(page)

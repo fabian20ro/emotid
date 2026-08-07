@@ -263,32 +263,8 @@ export function buildWordLadderReviewBatch({
   wheelOverlayDir,
   wheelRootIdsPath,
 }) {
-  const rootIds = JSON.parse(fs.readFileSync(wheelRootIdsPath, 'utf8'))
-  if (
-    !Array.isArray(rootIds)
-    || rootIds.length === 0
-    || !rootIds.every(isNonEmptyString)
-    || new Set(rootIds).size !== rootIds.length
-  ) {
-    throw new Error('Word Ladder root IDs must be a non-empty unique string array')
-  }
-
-  const overlays = new Map()
-  for (const file of fs.readdirSync(wheelOverlayDir).filter((name) => name.endsWith('.json')).sort()) {
-    const source = JSON.parse(fs.readFileSync(path.join(wheelOverlayDir, file), 'utf8'))
-    if (!isRecord(source)) throw new Error(`${file} must contain Word Ladder nodes`)
-    for (const [id, node] of Object.entries(source)) {
-      if (overlays.has(id)) throw new Error(`Duplicate Word Ladder node "${id}"`)
-      if (!isRecord(node)) throw new Error(`${file}:${id} must be an object`)
-      if (
-        node.children !== undefined
-        && (!Array.isArray(node.children) || !node.children.every(isNonEmptyString))
-      ) {
-        throw new Error(`${file}:${id}.children must contain non-empty IDs`)
-      }
-      overlays.set(id, node)
-    }
-  }
+  const rootIds = readUniqueIdArray(wheelRootIdsPath, 'Word Ladder root')
+  const overlays = readWheelOverlays(wheelOverlayDir)
 
   const reachableIds = new Set()
   const pendingIds = [...rootIds]
@@ -309,46 +285,121 @@ export function buildWordLadderReviewBatch({
   })
 }
 
-export function buildDescriptionPilotBatch({ batchId, catalogDir, wheelRootIdsPath }) {
+function buildDescriptionReviewBatch({
+  batchId,
+  catalogDir,
+  surfaces,
+  comparisonGroups,
+  emotionIds,
+}) {
   assertBatchId(batchId)
   const catalogEntries = readCatalogEntries(catalogDir)
   const needOptions = readNeedOptions(catalogDir)
-  const quickIds = JSON.parse(fs.readFileSync(
-    path.join(catalogDir, 'guidance/quick-emotion-ids.json'),
-    'utf8',
-  ))
-  const rootIds = JSON.parse(fs.readFileSync(wheelRootIdsPath, 'utf8'))
-  for (const [name, ids] of [['Quick', quickIds], ['Word Ladder root', rootIds]]) {
-    if (!Array.isArray(ids) || ids.length === 0 || !ids.every(isNonEmptyString) || new Set(ids).size !== ids.length) {
-      throw new Error(`${name} IDs must be a non-empty unique string array`)
+  const entries = [...new Set(emotionIds)]
+    .sort((left, right) => left.localeCompare(right, 'en'))
+    .map((id) => {
+      const source = catalogEntries.get(id)
+      if (!source) throw new Error(`Description review emotion "${id}" is missing from the catalog`)
+      const { sourceFile, label, description, descriptionStatus, distressTier } = buildReviewEntry({
+        key: id,
+        ...source,
+        needOptions,
+      })
+      return { id, sourceFile, label, description, descriptionStatus, distressTier }
+    })
+
+  return {
+    schemaVersion: SCHEMA_VERSION,
+    batchId,
+    surfaces,
+    sourceFiles: [...new Set(entries.map(({ sourceFile }) => sourceFile))].sort(),
+    editableFields: ['description'],
+    descriptionPurpose: 'A short observational cue that distinguishes nearby words without advice, inferred needs, or crisis guidance.',
+    comparisonGroups,
+    entries,
+  }
+}
+
+function readUniqueIdArray(filePath, label) {
+  const ids = JSON.parse(fs.readFileSync(filePath, 'utf8'))
+  if (!Array.isArray(ids) || ids.length === 0 || !ids.every(isNonEmptyString) || new Set(ids).size !== ids.length) {
+    throw new Error(`${label} IDs must be a non-empty unique string array`)
+  }
+  return ids
+}
+
+function readWheelOverlays(wheelOverlayDir) {
+  const overlays = new Map()
+  for (const file of fs.readdirSync(wheelOverlayDir).filter((name) => name.endsWith('.json')).sort()) {
+    const source = JSON.parse(fs.readFileSync(path.join(wheelOverlayDir, file), 'utf8'))
+    if (!isRecord(source)) throw new Error(`${file} must contain Word Ladder nodes`)
+    for (const [id, node] of Object.entries(source)) {
+      if (overlays.has(id)) throw new Error(`Duplicate Word Ladder node "${id}"`)
+      if (!isRecord(node)) throw new Error(`${file}:${id} must be an object`)
+      if (node.children !== undefined && (!Array.isArray(node.children) || !node.children.every(isNonEmptyString))) {
+        throw new Error(`${file}:${id}.children must contain non-empty IDs`)
+      }
+      overlays.set(id, node)
     }
   }
+  return overlays
+}
+
+export function buildDescriptionPilotBatch({ batchId, catalogDir, wheelRootIdsPath }) {
+  const quickIds = readUniqueIdArray(
+    path.join(catalogDir, 'guidance/quick-emotion-ids.json'),
+    'Quick',
+  )
+  const rootIds = readUniqueIdArray(wheelRootIdsPath, 'Word Ladder root')
+  const catalogEntries = readCatalogEntries(catalogDir)
 
   const reviewedDescriptionIds = [...catalogEntries]
     .filter(([, { value }]) => value.descriptionStatus === 'reviewed')
     .map(([id]) => id)
   const pilotIds = [...new Set([...reviewedDescriptionIds, ...quickIds, ...rootIds])]
-    .sort((left, right) => left.localeCompare(right, 'en'))
-  const entries = pilotIds.map((id) => {
-    const source = catalogEntries.get(id)
-    if (!source) throw new Error(`Description pilot emotion "${id}" is missing from the catalog`)
-    const { sourceFile, label, description, descriptionStatus, distressTier } = buildReviewEntry({
-      key: id,
-      ...source,
-      needOptions,
-    })
-    return { id, sourceFile, label, description, descriptionStatus, distressTier }
-  })
-
-  return {
-    schemaVersion: SCHEMA_VERSION,
+  return buildDescriptionReviewBatch({
     batchId,
+    catalogDir,
     surfaces: ['shared-reflection', 'word-ladder-root-comparison'],
-    sourceFiles: [...new Set(entries.map(({ sourceFile }) => sourceFile))].sort(),
-    editableFields: ['description'],
-    descriptionPurpose: 'A short observational cue that distinguishes nearby words without advice, inferred needs, or crisis guidance.',
     comparisonGroups: [{ parentId: null, ids: rootIds }],
-    entries,
+    emotionIds: pilotIds,
+  })
+}
+
+export function buildWordLadderIntermediateDescriptionBatch({
+  batchId,
+  catalogDir,
+  wheelOverlayDir,
+  wheelRootIdsPath,
+}) {
+  const rootIds = readUniqueIdArray(wheelRootIdsPath, 'Word Ladder root')
+  const overlays = readWheelOverlays(wheelOverlayDir)
+  const comparisonGroups = rootIds.map((parentId) => {
+    const parent = overlays.get(parentId)
+    if (!parent || parent.level !== 0 || !Array.isArray(parent.children) || parent.children.length === 0) {
+      throw new Error(`Word Ladder root "${parentId}" must have intermediate children`)
+    }
+    for (const id of parent.children) {
+      const child = overlays.get(id)
+      if (!child || child.level !== 1 || !Array.isArray(child.parents) || !child.parents.includes(parentId)) {
+        throw new Error(`Word Ladder intermediate "${id}" must belong to root "${parentId}"`)
+      }
+    }
+    return { parentId, ids: parent.children }
+  })
+  const batch = buildDescriptionReviewBatch({
+    batchId,
+    catalogDir,
+    surfaces: ['shared-reflection', 'word-ladder-intermediate-comparison'],
+    comparisonGroups,
+    emotionIds: comparisonGroups.flatMap(({ ids }) => ids),
+  })
+  return {
+    ...batch,
+    scope: {
+      intermediateCount: batch.entries.length,
+      reviewedCount: batch.entries.filter(({ descriptionStatus }) => descriptionStatus === 'reviewed').length,
+    },
   }
 }
 
@@ -515,6 +566,7 @@ function usage() {
     '  node scripts/catalog-guidance-review.mjs prepare --surface plutchik --batch-id ID --out-dir DIR',
     '  node scripts/catalog-guidance-review.mjs prepare --surface word-ladder --batch-id ID --out-dir DIR',
     '  node scripts/catalog-guidance-review.mjs prepare --surface description-pilot --batch-id ID --out-dir DIR',
+    '  node scripts/catalog-guidance-review.mjs prepare --surface word-ladder-intermediate-descriptions --batch-id ID --out-dir DIR',
     '  node scripts/catalog-guidance-review.mjs validate --batch FILE --result FILE',
   ].join('\n')
 }
@@ -563,6 +615,13 @@ function main(args) {
         batch = buildDescriptionPilotBatch({
           batchId,
           catalogDir,
+          wheelRootIdsPath: path.join(root, 'src/models/wheel/root-ids.json'),
+        })
+      } else if (surface === 'word-ladder-intermediate-descriptions') {
+        batch = buildWordLadderIntermediateDescriptionBatch({
+          batchId,
+          catalogDir,
+          wheelOverlayDir: path.join(root, 'src/models/wheel/overlays'),
           wheelRootIdsPath: path.join(root, 'src/models/wheel/root-ids.json'),
         })
       } else {

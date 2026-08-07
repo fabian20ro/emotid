@@ -1659,3 +1659,31 @@ description duplication, or comparison-layout defect.
 coverage changes the information available for some options and can bias selection, so the whole
 visible group must fail closed together.
 **Promoted to Lessons Learned:** No — first occurrence; retain in the iteration record.
+
+---
+
+### [2026-08-07] Complete Word Ladder intermediate descriptions and dependency remediation
+
+**Context:** P27.2 enabled comparison for the seven roots, while 37 of 41 directly confirmable
+intermediate words still lacked reviewed prose. The lockfile also resolved three vulnerable
+development transitives.
+**What happened:**
+- Updated `brace-expansion`, `fast-uri`, and `undici` to patched transitive releases; verified a
+  clean install with an isolated npm cache and zero audit findings.
+- Began with failing exact 41-node, seven-group, and intermediary-comparison contracts, then added
+  one shared description-batch builder and reused the production Word Ladder graph reader.
+- Used one Luna Max advisory call for all 41 entries. Domain review retained four existing
+  descriptions, accepted 29 candidates, and revised eight formulations for uncertainty, agency,
+  semantic precision, or natural Romanian.
+- Kept leaf comparison fail-closed, added WebKit/Chromium coverage for intermediary-only sibling
+  comparison, and promoted the recurring atomic choice-set rule to `LESSONS_LEARNED.md`.
+**Outcome:** The catalog now has 60 reviewed EN/RO descriptions and 228 entries without prose. All
+seven intermediate sibling groups compare without crossing root families. `npm run check` passes
+73 Vitest files and 595 tests; all 206 Mobile Safari/Chrome cases, production PWA lifecycle, mobile
+performance proxy, and `npm audit` pass. Manual Playwright checks at 320x568 EN/light and 393x742
+RO/dark found zero horizontal overflow or console errors and no text/action overlap.
+**Insight:** Description availability must be released at the complete sibling-group boundary.
+Graph-derived groups and exact inventories prevent content work from silently changing which
+choices receive richer decision support.
+**Promoted to Lessons Learned:** Yes — the same complete-choice-set rule now governs both root and
+intermediate comparison.
