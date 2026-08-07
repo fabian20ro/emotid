@@ -37,6 +37,7 @@ test.describe('Romanian release journeys', () => {
     await openArrival(page)
     await page.getByTestId('arrival-body').click()
 
+    await expect(page.getByRole('button', { name: 'Brațe' })).toBeVisible()
     await page.getByRole('button', { name: 'Piept' }).click()
     await page.getByRole('button', { name: 'Tensiune' }).click()
     await page.getByRole('button', { name: /Moderată/i }).click()
@@ -141,7 +142,7 @@ test.describe('Romanian release journeys', () => {
     await chooseWord(page, /^Deprimat$/i)
     await chooseWord(page, /^Gol$/i)
 
-    await chooseWord(page, /^Temator$/i)
+    await chooseWord(page, /^Temător$/i)
     await chooseWord(page, /^Slab$/i)
     await chooseWord(page, /^Lipsit de valoare$/i)
 

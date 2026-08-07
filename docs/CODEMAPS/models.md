@@ -47,6 +47,11 @@ The Today quick-start emotions resolve directly from the catalog. Catalog loadin
 IDs, key/ID mismatches, raw per-entry needs, unknown need references, and descriptions without
 explicit reviewed provenance.
 
+Romanian label quality is an exact reviewed-data contract, not a transliteration heuristic. The
+test inventory pins known corrections and verifies NFC across catalog, model, somatic, and i18n
+copy. Historical session records keep their original snapshots; presentation resolves current
+canonical labels by stable ID with a stored-label fallback for unknown legacy values.
+
 Guidance review derives route reachability from production data: Quick IDs plus somatic signals for
 Quick/Body, the dimensional overlay for Affect, and every selectable primary pair plus production
 combination overlays for Plutchik. Word Ladder traversal starts from the same seven root IDs as the

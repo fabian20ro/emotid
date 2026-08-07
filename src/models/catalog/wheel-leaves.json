@@ -2,7 +2,7 @@
   "betrayed": {
     "id": "betrayed",
     "label": {
-      "ro": "Tradat",
+      "ro": "Trădat",
       "en": "Betrayed"
     },
     "color": "#F4B4B4",
@@ -26,7 +26,7 @@
   "deceived": {
     "id": "deceived",
     "label": {
-      "ro": "Inselat",
+      "ro": "Înșelat",
       "en": "Deceived"
     },
     "color": "#F4B4B4",
@@ -38,7 +38,7 @@
   "disrespected": {
     "id": "disrespected",
     "label": {
-      "ro": "Lipsa de respect",
+      "ro": "Lipsă de respect",
       "en": "Disrespected"
     },
     "color": "#F4B4B4",
@@ -135,7 +135,7 @@
   "spiteful": {
     "id": "spiteful",
     "label": {
-      "ro": "Rauvoitor",
+      "ro": "Răuvoitor",
       "en": "Spiteful"
     },
     "color": "#F4B4B4",
@@ -147,7 +147,7 @@
   "vengeful": {
     "id": "vengeful",
     "label": {
-      "ro": "Dornic de razbunare",
+      "ro": "Dornic de răzbunare",
       "en": "Vengeful"
     },
     "color": "#F4B4B4",
@@ -159,7 +159,7 @@
   "patronized": {
     "id": "patronized",
     "label": {
-      "ro": "Tratat cu condescendenta",
+      "ro": "Tratat cu condescendență",
       "en": "Patronized"
     },
     "color": "#F4B4B4",
@@ -195,7 +195,7 @@
   "infuriated": {
     "id": "infuriated",
     "label": {
-      "ro": "Infuriat",
+      "ro": "Înfuriat",
       "en": "Infuriated"
     },
     "color": "#F4B4B4",
@@ -243,7 +243,7 @@
   "detached": {
     "id": "detached",
     "label": {
-      "ro": "Detasat",
+      "ro": "Detașat",
       "en": "Detached"
     },
     "color": "#F4B4B4",
@@ -315,7 +315,7 @@
   "fed_up": {
     "id": "fed_up",
     "label": {
-      "ro": "Saturat",
+      "ro": "Sătul",
       "en": "Fed up"
     },
     "color": "#F4B4B4",
@@ -387,7 +387,7 @@
   "overwhelmed_bad": {
     "id": "overwhelmed_bad",
     "label": {
-      "ro": "Coplesit",
+      "ro": "Copleșit",
       "en": "Overwhelmed"
     },
     "color": "#D0D8E0",
@@ -399,7 +399,7 @@
   "out_of_control": {
     "id": "out_of_control",
     "label": {
-      "ro": "Scapat de sub control",
+      "ro": "Scăpat de sub control",
       "en": "Out of control"
     },
     "color": "#D0D8E0",
@@ -423,7 +423,7 @@
   "rushed": {
     "id": "rushed",
     "label": {
-      "ro": "Grabit",
+      "ro": "Grăbit",
       "en": "Rushed"
     },
     "color": "#D0D8E0",
@@ -471,7 +471,7 @@
   "restless": {
     "id": "restless",
     "label": {
-      "ro": "Nelinistit",
+      "ro": "Neliniștit",
       "en": "Restless"
     },
     "color": "#D0D8E0",
@@ -495,7 +495,7 @@
   "on_edge": {
     "id": "on_edge",
     "label": {
-      "ro": "Cu nervii intinsi",
+      "ro": "Cu nervii întinși",
       "en": "On edge"
     },
     "color": "#D0D8E0",
@@ -555,7 +555,7 @@
   "appalled": {
     "id": "appalled",
     "label": {
-      "ro": "Ingrozit",
+      "ro": "Îngrozit",
       "en": "Appalled"
     },
     "color": "#E0B4D8",
@@ -579,7 +579,7 @@
   "nauseated": {
     "id": "nauseated",
     "label": {
-      "ro": "Greata",
+      "ro": "Greață",
       "en": "Nauseated"
     },
     "color": "#E0B4D8",
@@ -627,7 +627,7 @@
   "contemptuous": {
     "id": "contemptuous",
     "label": {
-      "ro": "Dispretitor",
+      "ro": "Disprețuitor",
       "en": "Contemptuous"
     },
     "color": "#E0B4D8",
@@ -639,7 +639,7 @@
   "repulsed": {
     "id": "repulsed",
     "label": {
-      "ro": "Scarbit",
+      "ro": "Scârbit",
       "en": "Repulsed"
     },
     "color": "#E0B4D8",
@@ -651,7 +651,7 @@
   "sickened": {
     "id": "sickened",
     "label": {
-      "ro": "Ingretosat",
+      "ro": "Îngrețoșat",
       "en": "Sickened"
     },
     "color": "#E0B4D8",
@@ -688,7 +688,7 @@
   "tainted": {
     "id": "tainted",
     "label": {
-      "ro": "Intinat",
+      "ro": "Întinat",
       "en": "Tainted"
     },
     "color": "#E0B4D8",
@@ -700,7 +700,7 @@
   "repugnant": {
     "id": "repugnant",
     "label": {
-      "ro": "Respingator",
+      "ro": "Respingător",
       "en": "Repugnant"
     },
     "color": "#E0B4D8",
@@ -725,7 +725,7 @@
   "frightened": {
     "id": "frightened",
     "label": {
-      "ro": "Infricosat",
+      "ro": "Înfricoșat",
       "en": "Frightened"
     },
     "color": "#B0E0C0",
@@ -750,7 +750,7 @@
   "overwhelmed_fear": {
     "id": "overwhelmed_fear",
     "label": {
-      "ro": "Coplesit",
+      "ro": "Copleșit",
       "en": "Overwhelmed"
     },
     "color": "#B0E0C0",
@@ -762,7 +762,7 @@
   "worried": {
     "id": "worried",
     "label": {
-      "ro": "Ingrijorat",
+      "ro": "Îngrijorat",
       "en": "Worried"
     },
     "color": "#B0E0C0",
@@ -774,7 +774,7 @@
   "apprehensive": {
     "id": "apprehensive",
     "label": {
-      "ro": "Cu presimtiri",
+      "ro": "Cu presimțiri",
       "en": "Apprehensive"
     },
     "color": "#B0E0C0",
@@ -798,7 +798,7 @@
   "self_doubting": {
     "id": "self_doubting",
     "label": {
-      "ro": "Plin de indoieli",
+      "ro": "Plin de îndoieli",
       "en": "Self-Doubting"
     },
     "color": "#B0E0C0",
@@ -810,7 +810,7 @@
   "dread": {
     "id": "dread",
     "label": {
-      "ro": "Groaza",
+      "ro": "Groază",
       "en": "Dread"
     },
     "color": "#B0E0C0",
@@ -846,7 +846,7 @@
   "self_conscious": {
     "id": "self_conscious",
     "label": {
-      "ro": "Stanjenit",
+      "ro": "Stânjenit",
       "en": "Self-conscious"
     },
     "color": "#B0E0C0",
@@ -931,7 +931,7 @@
   "on_guard": {
     "id": "on_guard",
     "label": {
-      "ro": "In garda",
+      "ro": "În gardă",
       "en": "On Guard"
     },
     "color": "#B0E0C0",
@@ -955,7 +955,7 @@
   "alienated": {
     "id": "alienated",
     "label": {
-      "ro": "Instrainat",
+      "ro": "Înstrăinat",
       "en": "Alienated"
     },
     "color": "#B0E0C0",
@@ -979,7 +979,7 @@
   "trapped": {
     "id": "trapped",
     "label": {
-      "ro": "Prins in capcana",
+      "ro": "Prins în capcană",
       "en": "Trapped"
     },
     "color": "#B0E0C0",
@@ -1087,7 +1087,7 @@
   "confident": {
     "id": "confident",
     "label": {
-      "ro": "Increzator",
+      "ro": "Încrezător",
       "en": "Confident"
     },
     "color": "#FFF0A0",
@@ -1099,7 +1099,7 @@
   "accomplished": {
     "id": "accomplished",
     "label": {
-      "ro": "Implinit",
+      "ro": "Împlinit",
       "en": "Accomplished"
     },
     "color": "#FFF0A0",
@@ -1147,7 +1147,7 @@
   "blessed": {
     "id": "blessed",
     "label": {
-      "ro": "Binecuvantat",
+      "ro": "Binecuvântat",
       "en": "Blessed"
     },
     "color": "#FFF0A0",
@@ -1219,7 +1219,7 @@
   "determined": {
     "id": "determined",
     "label": {
-      "ro": "Hotarat",
+      "ro": "Hotărât",
       "en": "Determined"
     },
     "color": "#FFF0A0",
@@ -1243,7 +1243,7 @@
   "thankful": {
     "id": "thankful",
     "label": {
-      "ro": "Recunoscator",
+      "ro": "Recunoscător",
       "en": "Thankful"
     },
     "color": "#FFF0A0",
@@ -1315,7 +1315,7 @@
   "hopeful": {
     "id": "hopeful",
     "label": {
-      "ro": "Plin de speranta",
+      "ro": "Plin de speranță",
       "en": "Hopeful"
     },
     "color": "#FFF0A0",
@@ -1327,7 +1327,7 @@
   "brave": {
     "id": "brave",
     "label": {
-      "ro": "Indraznet",
+      "ro": "Îndrăzneț",
       "en": "Brave"
     },
     "color": "#FFF0A0",
@@ -1339,7 +1339,7 @@
   "safe": {
     "id": "safe",
     "label": {
-      "ro": "In siguranta",
+      "ro": "În siguranță",
       "en": "Safe"
     },
     "color": "#FFF0A0",
@@ -1351,7 +1351,7 @@
   "disappointed_sad": {
     "id": "disappointed_sad",
     "label": {
-      "ro": "Dezamagit",
+      "ro": "Dezamăgit",
       "en": "Disappointed"
     },
     "color": "#B0C8E4",
@@ -1363,7 +1363,7 @@
   "wounded": {
     "id": "wounded",
     "label": {
-      "ro": "Ranit profund",
+      "ro": "Rănit profund",
       "en": "Wounded"
     },
     "color": "#B0C8E4",
@@ -1388,7 +1388,7 @@
   "hopeless": {
     "id": "hopeless",
     "label": {
-      "ro": "Deznadajduit",
+      "ro": "Deznădăjduit",
       "en": "Hopeless"
     },
     "color": "#B0C8E4",
@@ -1401,7 +1401,7 @@
   "remorseful": {
     "id": "remorseful",
     "label": {
-      "ro": "Plin de remuscari",
+      "ro": "Plin de remușcări",
       "en": "Remorseful"
     },
     "color": "#B0C8E4",
@@ -1413,7 +1413,7 @@
   "ashamed": {
     "id": "ashamed",
     "label": {
-      "ro": "Rusinat",
+      "ro": "Rușinat",
       "en": "Ashamed"
     },
     "color": "#B0C8E4",
@@ -1437,7 +1437,7 @@
   "heartbroken": {
     "id": "heartbroken",
     "label": {
-      "ro": "Cu inima franta",
+      "ro": "Cu inima frântă",
       "en": "Heartbroken"
     },
     "color": "#B0C8E4",
@@ -1449,7 +1449,7 @@
   "depleted": {
     "id": "depleted",
     "label": {
-      "ro": "Secatuit",
+      "ro": "Secătuit",
       "en": "Depleted"
     },
     "color": "#B0C8E4",
@@ -1538,7 +1538,7 @@
   "defenseless": {
     "id": "defenseless",
     "label": {
-      "ro": "Fara aparare",
+      "ro": "Fără apărare",
       "en": "Defenseless"
     },
     "color": "#B0C8E4",
@@ -1575,7 +1575,7 @@
   "loneliness": {
     "id": "loneliness",
     "label": {
-      "ro": "Singuratate",
+      "ro": "Singurătate",
       "en": "Loneliness"
     },
     "color": "#5C6BC0",
@@ -1647,7 +1647,7 @@
   "shocked": {
     "id": "shocked",
     "label": {
-      "ro": "Socat",
+      "ro": "Șocat",
       "en": "Shocked"
     },
     "color": "#C8E8CC",
@@ -1707,7 +1707,7 @@
   "eager": {
     "id": "eager",
     "label": {
-      "ro": "Nerabdator",
+      "ro": "Nerăbdător",
       "en": "Eager"
     },
     "color": "#C8E8CC",
@@ -1779,7 +1779,7 @@
   "speechless": {
     "id": "speechless",
     "label": {
-      "ro": "Fara cuvinte",
+      "ro": "Fără cuvinte",
       "en": "Speechless"
     },
     "color": "#C8E8CC",
@@ -1791,7 +1791,7 @@
   "moved": {
     "id": "moved",
     "label": {
-      "ro": "Emotionat",
+      "ro": "Emoționat",
       "en": "Moved"
     },
     "color": "#C8E8CC",

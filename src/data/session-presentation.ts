@@ -1,4 +1,15 @@
 import type { Session } from './types'
+import { getCanonicalEmotion } from '../models/catalog'
+import type { AnalysisResult } from '../models/types'
+
+export type DisplayLanguage = 'ro' | 'en'
+
+export function getEmotionDisplayLabel(
+  emotion: Pick<AnalysisResult, 'id' | 'label'>,
+  language: DisplayLanguage,
+): string {
+  return getCanonicalEmotion(emotion.id)?.label[language] ?? emotion.label[language]
+}
 
 export type ResultRelationship = 'named' | 'suggested' | 'fit' | 'partial' | 'rejected' | 'legacy'
 

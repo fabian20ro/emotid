@@ -4,6 +4,7 @@ import { useLanguage } from '../context/LanguageContext'
 import { quickEmotions } from '../models/catalog/quick'
 import type { AnalysisResult, BaseEmotion } from '../models/types'
 import type { Session } from '../data/types'
+import { getEmotionDisplayLabel } from '../data/session-presentation'
 
 interface TodayScreenProps {
   sessions: Session[]
@@ -84,7 +85,7 @@ export function TodayScreen({ sessions, saveSessions, onStart, onQuickComplete, 
             <>
               <div className="recent-thread-main">
                 <span className="muted text-xs">{new Intl.DateTimeFormat(language, { dateStyle: 'medium' }).format(recent.timestamp)}</span>
-                <strong>{recent.results.slice(0, 3).map((result) => result.label[language]).join(', ')}</strong>
+                <strong>{recent.results.slice(0, 3).map((result) => getEmotionDisplayLabel(result, language)).join(', ')}</strong>
               </div>
               <button type="button" className="icon-button" onClick={onOpenJournal} aria-label={t.continue}>
                 <ArrowRight size={19} aria-hidden="true" />

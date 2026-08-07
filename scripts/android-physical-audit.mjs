@@ -310,7 +310,7 @@ async function runJourneys(page) {
       await activate(page.getByTestId('arrival-words'))
       const labels = language === 'en'
         ? ['Sad', 'Despair', 'Sad', 'Depressed', 'Empty', 'Fearful', 'Weak', 'Worthless']
-        : ['Trist', 'Disperare', 'Trist', 'Deprimat', 'Gol', 'Temator', 'Slab', 'Lipsit de valoare']
+        : ['Trist', 'Disperare', 'Trist', 'Deprimat', 'Gol', 'Temător', 'Slab', 'Lipsit de valoare']
       const choose = async (label) => activate(page.locator('.word-options button').filter({ hasText: new RegExp(`^${label}`, 'i') }).first())
       await choose(labels[0])
       await choose(labels[1])

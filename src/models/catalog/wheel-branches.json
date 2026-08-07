@@ -2,7 +2,7 @@
   "bad": {
     "id": "bad",
     "label": {
-      "ro": "Rau",
+      "ro": "Rău",
       "en": "Bad"
     },
     "color": "#B8C0C8",
@@ -36,7 +36,7 @@
   "fearful": {
     "id": "fearful",
     "label": {
-      "ro": "Temator",
+      "ro": "Temător",
       "en": "Fearful"
     },
     "color": "#88C8A0",
@@ -70,7 +70,7 @@
   "let_down": {
     "id": "let_down",
     "label": {
-      "ro": "Dezamagit",
+      "ro": "Dezamăgit",
       "en": "Let down"
     },
     "color": "#EE9E9E",
@@ -104,7 +104,7 @@
   "bitter": {
     "id": "bitter",
     "label": {
-      "ro": "Amarât",
+      "ro": "Amărât",
       "en": "Bitter"
     },
     "color": "#EE9E9E",
@@ -189,7 +189,7 @@
   "overwhelmed": {
     "id": "overwhelmed",
     "label": {
-      "ro": "Coplesit",
+      "ro": "Copleșit",
       "en": "Overwhelmed"
     },
     "color": "#C4CCD4",
@@ -223,7 +223,7 @@
   "disappointed_disg": {
     "id": "disappointed_disg",
     "label": {
-      "ro": "Dezamagit",
+      "ro": "Dezamăgit",
       "en": "Disappointed"
     },
     "color": "#D49ECA",
@@ -359,7 +359,7 @@
   "threatened": {
     "id": "threatened",
     "label": {
-      "ro": "Amenintat",
+      "ro": "Amenințat",
       "en": "Threatened"
     },
     "color": "#9CD4B0",
@@ -376,7 +376,7 @@
   "playful": {
     "id": "playful",
     "label": {
-      "ro": "Jucaus",
+      "ro": "Jucăuș",
       "en": "Playful"
     },
     "color": "#FFE57F",
@@ -410,7 +410,7 @@
   "proud": {
     "id": "proud",
     "label": {
-      "ro": "Mandru",
+      "ro": "Mândru",
       "en": "Proud"
     },
     "color": "#FFE57F",
@@ -461,7 +461,7 @@
   "trusting": {
     "id": "trusting",
     "label": {
-      "ro": "Incredere",
+      "ro": "Încredere",
       "en": "Trusting"
     },
     "color": "#FFE57F",
@@ -495,7 +495,7 @@
   "hurt": {
     "id": "hurt",
     "label": {
-      "ro": "Ranit",
+      "ro": "Rănit",
       "en": "Hurt"
     },
     "color": "#9CB8DA",
@@ -546,7 +546,7 @@
   "startled": {
     "id": "startled",
     "label": {
-      "ro": "Tresarit",
+      "ro": "Tresărit",
       "en": "Startled"
     },
     "color": "#B8E0BE",

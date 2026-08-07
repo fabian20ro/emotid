@@ -1687,3 +1687,28 @@ Graph-derived groups and exact inventories prevent content work from silently ch
 choices receive richer decision support.
 **Promoted to Lessons Learned:** Yes — the same complete-choice-set rule now governs both root and
 intermediate comparison.
+
+---
+
+### [2026-08-07] Complete the Romanian language quality gate
+
+**Context:** The canonical emotion catalog still exposed many Romanian labels without diacritics,
+including high-traffic Word Ladder intermediates. Correcting only the catalog would leave older
+IndexedDB sessions displaying their stored misspellings in Today and Journal.
+**What happened:**
+- Inventoried all 288 canonical labels and began with failing exact-label, model-metadata, NFC, and
+  historical-display contracts; avoided an unreliable rule that treats every ASCII label as wrong.
+- Corrected 73 reviewed Romanian labels, visible model metadata, and the Body Compass `Brațe` label;
+  retained stable IDs and all English copy, model topology, scoring, and safety rules.
+- Added one presentation resolver that prefers current canonical copy by ID and falls back to the
+  stored snapshot. Today, Journal patterns/list, and session detail reuse it without mutating local
+  data or exports.
+- Updated Romanian Playwright and physical-device expectations and added exact Word Ladder and Body
+  assertions. Manual Playwright inspection covered 320 px light and 393/320 px dark layouts.
+**Outcome:** `npm run check` passes 74 Vitest files and 600 tests; all 206 Mobile Safari/Chrome
+cases, the production PWA lifecycle, and the mobile performance proxy pass. The reviewed screens
+show no clipping, overlap, dark-contrast regression, or stale historical label.
+**Insight:** Copy snapshots are appropriate storage fallbacks, but stable catalog IDs should drive
+current presentation. Exact reviewed language contracts prevent both regression and false-positive
+automatic “corrections.”
+**Promoted to Lessons Learned:** No — first occurrence; retain in the iteration record.

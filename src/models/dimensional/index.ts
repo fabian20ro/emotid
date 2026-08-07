@@ -36,10 +36,10 @@ export function findNearest(
 
 export const dimensionalModel: EmotionModel<DimensionalEmotion> = {
   id: MODEL_IDS.DIMENSIONAL,
-  name: { ro: 'Spatiul emotional', en: 'Emotional Space' },
-  shortName: { ro: 'Spatiu', en: 'Space' },
+  name: { ro: 'Spațiul emoțional', en: 'Emotional Space' },
+  shortName: { ro: 'Spațiu', en: 'Space' },
   description: {
-    ro: 'Camp bidimensional (bazat pe Russell, 1980) — plaseaza-ti experienta pe axele placut/neplacut si calm/intens',
+    ro: 'Câmp bidimensional (bazat pe Russell, 1980) — plasează-ți experiența pe axele plăcut/neplăcut și calm/intens',
     en: '2D emotional field (based on Russell, 1980) — place your experience on the pleasant/unpleasant and calm/intense axes',
   },
   allEmotions,

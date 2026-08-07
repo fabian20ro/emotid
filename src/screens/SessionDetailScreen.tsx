@@ -6,7 +6,7 @@ import { ModalShell } from '../components/ModalShell'
 import { useFocusTrap } from '../hooks/useFocusTrap'
 import { getIntensityLabel, getSensationLabel, getSomaticRegionLabel } from '../models/somatic/display'
 import type { Session } from '../data/types'
-import { getResultRelationship } from '../data/session-presentation'
+import { getEmotionDisplayLabel, getResultRelationship } from '../data/session-presentation'
 
 interface SessionDetailScreenProps {
   session?: Session
@@ -62,7 +62,7 @@ export function SessionDetailScreen({ session, onBack, onDelete }: SessionDetail
     <div className="screen" data-testid="session-detail-screen">
       <ScreenHeader title={t.title} onBack={onBack} lede={new Intl.DateTimeFormat(language, { dateStyle: 'long', timeStyle: 'short' }).format(session.timestamp)} />
       <dl className="detail-list">
-        <div><dt>{t.relationship[relationship]}</dt><dd>{session.results.map((r) => r.label[language]).join(', ')}</dd></div>
+        <div><dt>{t.relationship[relationship]}</dt><dd>{session.results.map((result) => getEmotionDisplayLabel(result, language)).join(', ')}</dd></div>
         {bodySignals.length > 0 && (
           <div>
             <dt>{t.bodySignals}</dt>

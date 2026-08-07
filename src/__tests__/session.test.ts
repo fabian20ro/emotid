@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { addReflectionDetail, createSession } from '../data/session'
-import { getResultRelationship, isSessionEligibleForPatterns } from '../data/session-presentation'
+import { getEmotionDisplayLabel, getResultRelationship, isSessionEligibleForPatterns } from '../data/session-presentation'
 import type { AnalysisResult, BaseEmotion } from '../models/types'
 
 const emotion: BaseEmotion = {
@@ -17,6 +17,17 @@ const result: AnalysisResult = {
 
 describe('session mapping', () => {
   afterEach(() => vi.restoreAllMocks())
+
+  it('uses current canonical copy for historical results with a stored fallback', () => {
+    expect(getEmotionDisplayLabel({
+      id: 'overwhelmed',
+      label: { ro: 'Coplesit', en: 'Overwhelmed' },
+    }, 'ro')).toBe('Copleșit')
+    expect(getEmotionDisplayLabel({
+      id: 'legacy-custom',
+      label: { ro: 'Etichetă veche', en: 'Legacy label' },
+    }, 'ro')).toBe('Etichetă veche')
+  })
 
   it('keeps one identity while optional reflection details are added', () => {
     vi.spyOn(crypto, 'randomUUID').mockReturnValue('session-id')

@@ -828,6 +828,23 @@ precision, or natural Romanian. All seven intermediate sibling groups now suppor
 EN/RO; leaf groups still fail closed. The catalog contains 60 reviewed descriptions and 228 entries
 without prose.
 
+## P28 Romanian Language Quality Gate Complete
+
+All 288 canonical emotion labels were inventoried as labels rather than scanned with a generic
+ASCII heuristic. Seventy-three known Romanian labels now have exact reviewed orthography, including
+the intermediate Word Ladder vocabulary. Visible model metadata and the Body Compass `Brațe` label
+use the same standard. An executable allowlist protects these decisions, while a separate NFC
+contract covers the full Romanian i18n tree, catalog copy, somatic copy, and model metadata.
+
+Historical sessions remain unchanged in IndexedDB and JSON exports. Today, Journal summaries, and
+session detail resolve the current canonical label by stable emotion ID, then fall back to the
+stored label for unknown or legacy IDs. Existing records therefore receive corrected display copy
+without a destructive data migration or loss of custom legacy values.
+
+Mobile Safari and Chrome acceptance covers the corrected Word Ladder intermediates, Body Compass,
+Romanian tier-4 route, light/dark contrast, and compact viewport bounds. Manual Playwright review at
+320 px light and 393 px dark found no clipping, overlap, or readability regression.
+
 ### Recommended Next Sequence
 
 1. Measure whether intermediate descriptions improve stopping and comparison. Keep the 166 leaves

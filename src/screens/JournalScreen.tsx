@@ -6,7 +6,7 @@ import { computeVocabulary } from '../data/vocabulary'
 import { computeValenceRatio } from '../data/valence-ratio'
 import { computeSomaticPatterns } from '../data/somatic-patterns'
 import { getSomaticRegionLabel } from '../models/somatic/display'
-import { getResultRelationship } from '../data/session-presentation'
+import { getEmotionDisplayLabel, getResultRelationship } from '../data/session-presentation'
 import { hasJournalPatternEvidence } from '../data/journal-evidence'
 
 interface JournalScreenProps {
@@ -40,7 +40,7 @@ export function JournalScreen({ sessions, loading, error = false, saveSessions, 
                 <div><strong>{sessions.length}</strong><span>{historyT.vocabSessions.replace('{count}', '')}</span></div>
                 <div><strong>{vocab.uniqueEmotionCount}</strong><span>{historyT.vocabEmotions.replace('{count}', '')}</span></div>
               </div>
-              {vocab.topActiveEmotions.length > 0 && <div className="pattern-words">{vocab.topActiveEmotions.slice(0, 6).map((emotion) => <span key={emotion.id}>{emotion.label[language]} <b>{emotion.count}</b></span>)}</div>}
+              {vocab.topActiveEmotions.length > 0 && <div className="pattern-words">{vocab.topActiveEmotions.slice(0, 6).map((emotion) => <span key={emotion.id}>{getEmotionDisplayLabel(emotion, language)} <b>{emotion.count}</b></span>)}</div>}
               {valence.total > 0 && <div className="pattern-row"><span>{historyT.valenceTitle}</span><strong>{historyT.valencePleasant.replace('{count}', String(valence.pleasant))} / {historyT.valenceUnpleasant.replace('{count}', String(valence.unpleasant))}</strong><small>{historyT.valenceNote}</small></div>}
               {somatic.regionFrequencies.length > 0 && <div className="pattern-row"><span>{historyT.somaticTitle}</span><strong>{somatic.regionFrequencies.slice(0, 3).map((item) => `${getSomaticRegionLabel(item.regionId, language)} (${item.count})`).join(', ')}</strong></div>}
             </>
@@ -70,10 +70,10 @@ export function JournalScreen({ sessions, loading, error = false, saveSessions, 
             {sessions.map((session) => {
               const relationship = getResultRelationship(session)
               return (
-                <button type="button" key={session.id} onClick={() => onOpenSession(session.id)} aria-label={`${t.open}: ${session.results.map((r) => r.label[language]).join(', ')}. ${t.relationship[relationship]}`}>
+                <button type="button" key={session.id} onClick={() => onOpenSession(session.id)} aria-label={`${t.open}: ${session.results.map((result) => getEmotionDisplayLabel(result, language)).join(', ')}. ${t.relationship[relationship]}`}>
                   <span>
                     <small>{new Intl.DateTimeFormat(language, { dateStyle: 'medium', timeStyle: 'short' }).format(session.timestamp)}</small>
-                    <strong>{session.results.slice(0, 3).map((r) => r.label[language]).join(', ')}</strong>
+                    <strong>{session.results.slice(0, 3).map((result) => getEmotionDisplayLabel(result, language)).join(', ')}</strong>
                     <small>{t.relationship[relationship]}</small>
                   </span>
                   <ArrowRight size={18} aria-hidden="true" />

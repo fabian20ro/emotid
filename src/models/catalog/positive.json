@@ -14,7 +14,7 @@
   "content": {
     "id": "content",
     "label": {
-      "ro": "Multumit",
+      "ro": "Mulțumit",
       "en": "Content"
     },
     "color": "#FFE57F",
@@ -31,7 +31,7 @@
   "peaceful": {
     "id": "peaceful",
     "label": {
-      "ro": "Pasnic",
+      "ro": "Pașnic",
       "en": "Peaceful"
     },
     "color": "#FFE57F",
@@ -48,7 +48,7 @@
   "satisfied": {
     "id": "satisfied",
     "label": {
-      "ro": "Satisfacut",
+      "ro": "Satisfăcut",
       "en": "Satisfied"
     },
     "color": "#FFF0A0",
@@ -60,7 +60,7 @@
   "delighted": {
     "id": "delighted",
     "label": {
-      "ro": "Incantat",
+      "ro": "Încântat",
       "en": "Delighted"
     },
     "color": "#FFF0A0",
@@ -84,7 +84,7 @@
   "relief": {
     "id": "relief",
     "label": {
-      "ro": "Usurare",
+      "ro": "Ușurare",
       "en": "Relief"
     },
     "color": "#81C784",
@@ -96,7 +96,7 @@
   "tender": {
     "id": "tender",
     "label": {
-      "ro": "Gingas",
+      "ro": "Gingaș",
       "en": "Tender"
     },
     "color": "#FFF0A0",

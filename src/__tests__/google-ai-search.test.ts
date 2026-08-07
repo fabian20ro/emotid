@@ -28,7 +28,7 @@ describe('buildGoogleAiSearchUrl', () => {
   it('preserves conjunction and localized prompt behavior for multiple emotions', () => {
     const value = buildGoogleAiSearchUrl([
       result('joy', 'Joy', 'Bucurie'),
-      result('trust', 'Trust', 'Incredere'),
+      result('trust', 'Trust', 'Încredere'),
       result('calm', 'Calm', 'Calm'),
     ], 'ro', {
       aiPrompt: 'Simt {emotions}.',
@@ -38,7 +38,7 @@ describe('buildGoogleAiSearchUrl', () => {
 
     expect(url.searchParams.get('udm')).toBe('50')
     expect(url.searchParams.get('q')).toBe(
-      'Simt o combinație de Bucurie, Incredere si Calm. Cum se leagă?',
+      'Simt o combinație de Bucurie, Încredere si Calm. Cum se leagă?',
     )
   })
 

@@ -109,6 +109,8 @@ test.describe('Word Ladder route', () => {
 
     await expect(page.getByRole('button', { name: 'Adăugați Fericit' })).toBeVisible()
     await expect(page.getByRole('button', { name: 'Înapoi cu un nivel' })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Jucăuș' })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Mulțumit' })).toBeVisible()
     await page.getByRole('button', { name: 'Adăugați Fericit' }).click()
     await page.getByRole('button', { name: 'Comparați cuvinte apropiate' }).click()
     await page.getByRole('button', { name: 'Comparați cu Trist' }).click()

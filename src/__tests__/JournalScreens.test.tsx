@@ -35,6 +35,24 @@ function withLanguage(ui: React.ReactNode, language: 'en' | 'ro' = 'en') {
 describe('Journal data display', () => {
   beforeEach(() => localStorage.clear())
 
+  it('shows corrected canonical labels for records saved with older copy', () => {
+    withLanguage(
+      <JournalScreen
+        sessions={[bodySession({
+          results: [{ id: 'overwhelmed', label: { ro: 'Coplesit', en: 'Overwhelmed' }, color: '#f00' }],
+        })]}
+        loading={false}
+        saveSessions
+        onOpenSession={vi.fn()}
+        onOpenChain={vi.fn()}
+      />,
+      'ro',
+    )
+
+    expect(screen.getByText('Copleșit')).toBeInTheDocument()
+    expect(screen.queryByText('Coplesit')).not.toBeInTheDocument()
+  })
+
   it('localizes stored body region patterns from raw IDs', () => {
     withLanguage(
       <JournalScreen
