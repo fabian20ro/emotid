@@ -51,11 +51,16 @@ npm run check
 npm run test:e2e
 npm run test:pwa
 npm run test:performance
+npm run test:safari:native:preflight
 ```
 
 `npm run check` covers lint, unit/integration tests, bilingual audits, TypeScript, and the production build. Playwright covers Mobile Safari and Mobile Chrome; the PWA suite exercises the production service worker, offline reopen, automatic update, and local-data survival.
 The production performance probe records cold startup, first feature opening, transfer size, and
 long tasks; deterministic manifest and precache budgets run in `npm run check`.
+The permission-free Safari preflight verifies the installed native tooling. The opt-in
+`npm run test:safari:native` audit requires one-time Safari Remote Automation authorization and is
+documented in `docs/macos-native-safari-testing.md`; it is supporting desktop evidence, not mobile
+VoiceOver acceptance.
 
 ## Method Context
 

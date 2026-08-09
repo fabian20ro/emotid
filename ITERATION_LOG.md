@@ -1800,3 +1800,30 @@ native foreground identifier. One token shared across those independent surfaces
 more auditable than tab-order heuristics or a broader device-control framework.
 **Promoted to Lessons Learned:** Yes — the foreground mismatch recurred across P30 and P31, and the
 exact dual-proof rule now prevents the same false attribution.
+
+---
+
+### [2026-08-10] Prepare native Safari audit without requesting owner permissions
+
+**Context:** The Android device was unavailable, and the owner could not currently approve Safari
+Remote Automation or macOS Accessibility prompts. Playwright WebKit coverage existed, but no test
+targeted the installed desktop Safari application.
+**What happened:**
+- Confirmed Safari 26.5.2, bundled SafariDriver, and VoiceOver are installed; full Xcode and an iOS
+  runtime are absent. Corrected the plan's stale statement that Safari was unavailable.
+- Began with six failing contracts, then added a dependency-free W3C client, permission-free
+  preflight, side-effect-free CLI validation, exact six-row EN/RO inventory, and injected journey
+  executor tests.
+- Prepared production-native Quick persistence/AI-link, Word Ladder intermediary, and tier-4
+  journeys across light and dark themes. State resets from an inert same-origin document so a live
+  React tree cannot restore stale preferences or block IndexedDB deletion.
+- Kept authorization explicit: the runner never invokes `safaridriver --enable`, never changes
+  Accessibility permissions, and does not claim a native pass before a real session runs.
+**Outcome:** `npm run check` passes 78 files and 619 tests; all 50 focused Quick, Word Ladder, AI,
+and crisis cases pass in Mobile Safari/Chrome. The native server returns the inert seed and app
+from separate service-worker scopes and rejects traversal. CLI validation and the real version-only
+preflight pass. The Safari session and VoiceOver pass remain `NOT RUN` until the owner is present.
+**Insight:** A native-browser runner can stay small by speaking the narrow W3C protocol directly
+and keeping permission changes outside the executable. Existing browser journeys should be sampled
+by risk, not duplicated into another full automation matrix.
+**Promoted to Lessons Learned:** No — first native Safari runner iteration; retain here.

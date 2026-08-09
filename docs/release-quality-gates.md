@@ -22,6 +22,20 @@ npm run test:performance
 Plutchik. The JSON artifact includes transfer/decoded bytes, resource paths, long tasks, and
 elapsed time. CI timing is diagnostic because shared runners do not represent physical devices.
 
+## Native Desktop Safari Supporting Gate
+
+Playwright's Mobile Safari project uses a WebKit test build, not the installed `Safari.app`. On a
+Mac, run the permission-free capability check with:
+
+```bash
+npm run test:safari:native:preflight
+```
+
+After the owner explicitly enables Safari Remote Automation, run `npm run test:safari:native`.
+This bounded EN/RO production audit covers Quick persistence and AI-link semantics, Word Ladder
+intermediary completion, and tier-4 gating. Record it as `NATIVE_SUPPORTING_PASS`; it cannot close
+the mobile VoiceOver/Safari release gate. See `docs/macos-native-safari-testing.md`.
+
 ## Mobile Performance Acceptance
 
 Measure on one representative mid-tier and one low-tier Android device with a cold browser cache.

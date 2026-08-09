@@ -241,3 +241,17 @@ TalkBack disabled. It therefore resolves the stale-CDP-target ambiguity only; it
 TalkBack row. After removal of the Android device, all unexecuted TalkBack, installed-WebAPK, and
 hardware-performance rows remain `NOT RUN` and deferred. The Mac-only Chromium/WebKit regression
 suite cannot change those classifications.
+
+## P32 macOS Native Safari Preparation - 2026-08-10
+
+The permission-free preflight found macOS 26.5.2, Safari/SafariDriver 26.5.2
+(`21624.2.5.11.8`), and VoiceOver. Full Xcode and an iOS Simulator are unavailable.
+
+| Scope | EN | RO | Evidence | Result |
+| --- | --- | --- | --- | --- |
+| Installed desktop Safari, Quick / Word intermediary / tier-4 | NOT RUN | NOT RUN | Runner and unit contracts only | PERMISSION PENDING |
+| macOS VoiceOver with installed Safari | NOT RUN | NOT RUN | Protocol prepared | PERMISSION PENDING |
+
+The native runner does not call `safaridriver --enable` or change Accessibility permissions.
+These rows remain unexecuted until the owner can approve the prompts. Even after completion, they
+will be supporting desktop evidence and will not close the Apple mobile VoiceOver/Safari matrix.

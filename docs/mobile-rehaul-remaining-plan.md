@@ -892,8 +892,8 @@ protocol remains available if the decision is reopened; leaves remain label-only
 
 1. Repeat genuine TalkBack J5 in the installed WebAPK, then close the remaining J1-J9 spoken and
    gesture rows. Reuse the AOA keyboard and visible speech output; do not substitute DevTools.
-2. Run VoiceOver/Safari on Apple hardware. This Mac environment has neither Safari nor an iOS
-   runtime, so that gate cannot be completed here.
+2. Run VoiceOver/Safari on Apple mobile hardware. This Mac has desktop Safari and VoiceOver but no
+   iOS runtime; desktop supporting evidence cannot complete the mobile gate.
 3. Run the production timing protocol on one distinct low-tier Android device. The Pixel 6a remains
    one mid-tier profile and must not be relabeled as two devices.
 4. Fix only defects observed in physical rows, beginning with the smallest
@@ -953,3 +953,23 @@ Remaining hardware gates are deferred: genuine TalkBack browser J5/J6/J8 and J1-
 VoiceOver/Safari on Apple mobile hardware, and a distinct low-tier Android timing profile. WebKit,
 desktop Safari, CDP, and browser keyboard tests remain regression evidence only and must not be
 relabeled as physical screen-reader acceptance.
+
+## P32 Native macOS Safari Baseline - Prepared, Permission Pending
+
+The Mac has Safari 26.5.2, its bundled SafariDriver, and VoiceOver, but no full Xcode or iOS
+Simulator. The existing `Mobile Safari` project remains Playwright WebKit emulation. P32 adds an
+opt-in local runner for the installed `Safari.app` without adding Selenium, Appium, a test DSL, or
+a macOS CI job.
+
+The permission-free preflight validates macOS and parses the exact Safari/SafariDriver version.
+The runner uses the W3C WebDriver protocol directly, builds the production candidate, seeds state
+from an inert same-origin document, and defines six bounded rows: Quick, Word Ladder intermediary,
+and tier-4 gating in English and Romanian across light and dark themes. CLI help, invalid arguments,
+environment checks, protocol errors, exact inventory, and all journey orchestration are covered
+without launching Safari.
+
+The native session remains `NOT RUN`: Remote Automation has not been enabled because the owner is
+not currently present to approve the macOS prompt. When available, run `safaridriver --enable`,
+then `npm run test:safari:native`. A passing result is `NATIVE_SUPPORTING_PASS`; a separate macOS
+VoiceOver pass can add desktop assistive-technology evidence, but Apple mobile hardware remains
+necessary for release acceptance.
