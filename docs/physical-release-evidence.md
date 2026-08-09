@@ -224,3 +224,20 @@ the physically visible Chrome tab could diverge. These are harness limitations, 
 failures. DevTools activation was not substituted for genuine TalkBack evidence. Browser J5/J6/J8
 on this exact candidate and genuine J1-J4/J7/J9 rows therefore remain open, along with
 VoiceOver/Safari and a distinct low-tier Android profile.
+
+## P31 Foreground Target Supplement - 2026-08-09
+
+Candidate `b41bd0accf008f02da04f4bff2bfe98b67313af5` received one bounded foreground-target
+check on Pixel 6a before the device became unavailable. The harness launched a unique browser URL,
+selected the exact non-standalone CDP page, and independently found the same token in Chrome's
+native URL bar.
+
+| Scope | EN | RO | Evidence | Result |
+| --- | --- | --- | --- | --- |
+| Browser J5, exact native foreground + DevTools activation | PASS | PASS | `.reports/android-physical/2026-08-07T21-44-25-934Z-browser/` | SUPPORTING PASS |
+
+The report records `foregroundVerified: true`, browser display mode, Android 17 / API 37, and
+TalkBack disabled. It therefore resolves the stale-CDP-target ambiguity only; it does not close a
+TalkBack row. After removal of the Android device, all unexecuted TalkBack, installed-WebAPK, and
+hardware-performance rows remain `NOT RUN` and deferred. The Mac-only Chromium/WebKit regression
+suite cannot change those classifications.

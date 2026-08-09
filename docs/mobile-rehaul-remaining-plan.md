@@ -929,3 +929,27 @@ Remaining P30 order: establish one unambiguous foreground browser target, repeat
 then cover installed and browser J4, J2, J7, J9, J3, and J1 with genuine TalkBack navigation and
 activation. Keep the current registry; add no abstraction until a repeated physical fixture proves
 it necessary.
+
+## P31 Mac-Only Foreground Hardening - Complete
+
+The browser harness now gives every run a unique `physical-audit-run` URL token, selects only the
+matching non-standalone CDP page, and independently requires the same exact query value in Chrome's
+native URL bar before beginning a journey. It fails closed instead of using an older matching tab.
+The target logic is one import-safe module; ADB, CDP connection, evidence capture, and journey
+execution remain in their existing owners.
+
+Before the Pixel 6a became unavailable, candidate `b41bd0accf008f02da04f4bff2bfe98b67313af5`
+passed the browser J5 supporting journey in English and Romanian with the native foreground token
+verified. TalkBack was disabled in that run, so it remains `SUPPORTING_PASS`, not assistive-
+technology acceptance. No later physical row was run or inferred after the device was removed.
+
+Mac-only regression coverage proves that existing candidate parameters survive token insertion,
+stale and standalone pages are rejected, token prefixes and unrelated hierarchy text fail, XML-
+escaped Chrome URLs are parsed, and a tokenized check-in reaches Reflection in both Mobile Chrome
+and Mobile Safari projects without console errors. `npm run check` passes 77 files and 612 tests;
+all 210 browser cases, the production PWA lifecycle, and the mobile performance proxy pass.
+
+Remaining hardware gates are deferred: genuine TalkBack browser J5/J6/J8 and J1-J4/J7/J9,
+VoiceOver/Safari on Apple mobile hardware, and a distinct low-tier Android timing profile. WebKit,
+desktop Safari, CDP, and browser keyboard tests remain regression evidence only and must not be
+relabeled as physical screen-reader acceptance.

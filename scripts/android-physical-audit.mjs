@@ -3,6 +3,11 @@ import { mkdir, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import process from 'node:process'
 import { chromium } from 'playwright'
+import {
+  createBrowserRunUrl,
+  findBrowserTarget,
+  verifyForegroundSurface,
+} from './android-physical/browser-target.mjs'
 import { runJourneyMatrix, selectJourneys } from './android-physical/journeys.mjs'
 
 const usage = `Usage: node scripts/android-physical-audit.mjs [options]
@@ -38,6 +43,8 @@ if (journeyFilter) selectJourneys(journeyFilter)
 
 const stamp = new Date().toISOString().replaceAll(':', '-').replaceAll('.', '-')
 const outputDir = path.resolve('.reports', 'android-physical', `${stamp}-${mode}`)
+const browserRunToken = `browser-${stamp}-${process.pid}`
+const browserRunUrl = createBrowserRunUrl(CANDIDATE_URL, browserRunToken)
 await mkdir(outputDir, { recursive: true })
 
 function adb(...args) {
@@ -84,7 +91,7 @@ async function launchMode() {
     adb('shell', 'am', 'force-stop', WEBAPK_PACKAGE)
     adb('shell', 'monkey', '-p', WEBAPK_PACKAGE, '-c', 'android.intent.category.LAUNCHER', '1')
   } else {
-    adb('shell', 'am', 'start', '-a', 'android.intent.action.VIEW', '-d', CANDIDATE_URL, 'com.android.chrome')
+    adb('shell', 'am', 'start', '-a', 'android.intent.action.VIEW', '-d', browserRunUrl, 'com.android.chrome')
   }
 }
 
@@ -98,6 +105,9 @@ function assertDeviceReady() {
 }
 
 async function findPage(browser) {
+  if (mode === 'browser') {
+    return findBrowserTarget({ browser, candidateUrl: CANDIDATE_URL, runToken: browserRunToken })
+  }
   for (let attempt = 0; attempt < 30; attempt += 1) {
     for (const context of [...browser.contexts()].reverse()) {
       for (const page of [...context.pages()].reverse()) {
@@ -109,6 +119,20 @@ async function findPage(browser) {
     await new Promise((resolve) => setTimeout(resolve, 500))
   }
   throw new Error(`No ${mode} candidate page exposed over Chrome DevTools`)
+}
+
+function readForegroundHierarchy() {
+  const remotePath = `/sdcard/emot-id-foreground-${process.pid}.xml`
+  try {
+    adb('shell', 'uiautomator', 'dump', remotePath)
+    return adb('shell', 'cat', remotePath)
+  } finally {
+    try {
+      adb('shell', 'rm', '-f', remotePath)
+    } catch {
+      // Cleanup must not hide the foreground verification result.
+    }
+  }
 }
 
 async function connectBrowser() {
@@ -339,6 +363,12 @@ await launchMode()
 await new Promise((resolve) => setTimeout(resolve, 2_000))
 let browser = await connectBrowser()
 const page = await findPage(browser)
+if (mode === 'browser') {
+  await verifyForegroundSurface({
+    runToken: browserRunToken,
+    readHierarchy: async () => readForegroundHierarchy(),
+  })
+}
 const environment = {
   capturedAt: new Date().toISOString(),
   candidateUrl: CANDIDATE_URL,
@@ -351,6 +381,7 @@ const environment = {
   chrome: await page.evaluate(() => navigator.userAgent),
   viewport: await page.evaluate(() => ({ width: innerWidth, height: innerHeight, dpr: devicePixelRatio })),
   displayMode: await page.evaluate(() => matchMedia('(display-mode: standalone)').matches ? 'standalone' : 'browser'),
+  foregroundVerified: mode === 'browser',
   talkBackService: adb('shell', 'settings', 'get', 'secure', 'enabled_accessibility_services'),
   fontScale: adb('shell', 'settings', 'get', 'system', 'font_scale'),
   battery: adb('shell', 'dumpsys', 'battery'),

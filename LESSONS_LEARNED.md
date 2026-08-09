@@ -88,6 +88,12 @@ contract as an unchecked cast or duplicate partial property checks.
 
 ## Testing & Quality
 
+**[2026-08-09]** Physical browser targeting needs two independent exact proofs — A matching CDP
+page is not proof that Android displays the same Chrome tab. Give every browser audit a unique URL
+token, require the exact token in both the non-standalone CDP page and Chrome's native URL bar,
+and fail instead of falling back to a stale target. Match the parsed query value, not an arbitrary
+hierarchy substring or token prefix.
+
 **[2026-08-04]** Seed browser state only after stopping the previous app instance — writing
 `localStorage` while an old React tree is alive can race its persistence effects and silently
 restore stale language or preferences. Navigate to an inert same-origin document, clear and seed

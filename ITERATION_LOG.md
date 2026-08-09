@@ -1773,3 +1773,30 @@ P30 remains partial for genuine browser TalkBack and the remaining J1-J4/J7/J9 p
 Android. Genuine browser assistive-technology evidence needs an independently verified foreground
 surface before input; otherwise retain the attempt as a harness block.
 **Promoted to Lessons Learned:** No — first explicit foreground-target occurrence; retain here.
+
+---
+
+### [2026-08-09] Harden physical browser foreground targeting without attached hardware
+
+**Context:** P30 browser TalkBack attempts exposed cases where DevTools controlled one page while
+physical keyboard focus belonged to another Chrome surface. The Pixel 6a was removed before the
+remaining assistive-technology matrix could continue.
+**What happened:**
+- Published the already verified P30 journey-registry commit, then kept P31 scoped to one pure
+  browser-target module and the existing physical-audit entrypoint.
+- Began with a failing contract showing that substring matching accepted a token prefix or text
+  outside Chrome's URL bar. Parsed the native `url_bar` query and now require its exact run token.
+- Added a unique token per browser audit, exact non-standalone CDP selection, stale-target failure,
+  native foreground verification, and a report flag.
+- Added one Mobile Chrome/Mobile Safari regression proving the token survives application startup
+  and a Quick-to-Reflection journey without changing app state or producing browser errors.
+- Retained the earlier Pixel 6a EN/RO J5 foreground run as supporting evidence only. No TalkBack,
+  WebAPK, or hardware result was inferred after the phone became unavailable.
+**Outcome:** `npm run check` passes 77 files and 612 tests; all 210 Mobile Safari/Chrome cases, the
+production PWA lifecycle, and mobile performance proxy pass. Physical Android and iOS acceptance
+remain explicitly deferred.
+**Insight:** Physical browser evidence needs exact agreement between the automation target and a
+native foreground identifier. One token shared across those independent surfaces is smaller and
+more auditable than tab-order heuristics or a broader device-control framework.
+**Promoted to Lessons Learned:** Yes — the foreground mismatch recurred across P30 and P31, and the
+exact dual-proof rule now prevents the same false attribution.
