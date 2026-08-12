@@ -39,10 +39,10 @@ thermal differences for every final-candidate physical run.
 
 | Scope | Result | Evidence |
 | --- | --- | --- |
-| Lint, unit/integration, i18n, psychological copy, build, budgets | PASS | `npm run check`: 80 files / 638 tests |
-| Mobile Safari + Mobile Chrome browser matrix | PASS | `npm run test:e2e`: 212/212 |
-| Production offline/update/data-retention lifecycle | PASS | `npm run test:pwa` |
-| Production browser performance probe | PASS | `npm run test:performance` |
+| Lint, unit/integration, acceptance contract, i18n, psychological copy, build, budgets | AUTOMATED_PASS | `npm run check`: 81 files / 642 tests |
+| Mobile Safari + Mobile Chrome browser matrix | AUTOMATED_PASS | `npm run test:e2e`: 212/212 |
+| Production offline/update/data-retention lifecycle | AUTOMATED_PASS | `npm run test:pwa` |
+| Production browser performance probe | AUTOMATED_PASS | `npm run test:performance` |
 | Latest GitHub workflow | PASS | Run `31591341181` |
 
 These results validate browser-observable behavior. They do not validate synthesized speech,
@@ -52,15 +52,15 @@ screen-reader gestures, installed mobile UI, or low-tier hardware timing.
 
 | Candidate | Environment | Scope | Result | Evidence |
 | --- | --- | --- | --- | --- |
-| working tree from `ad38399c` | macOS Safari 26.6 | Quick + AI link, Word intermediary, tier-4; EN/RO, light/dark | NATIVE SUPPORTING PASS, 6/6 | `.reports/macos-safari/2026-08-12T17-59-15-941Z/` |
-| working tree from `ad38399c` | iOS 26.5 Simulator SE + 17 Pro | Quick, Word intermediary, save recovery, tier-4; EN/RO; exact local assets | SIMULATOR SUPPORTING PASS, 16/16 | `.reports/ios-simulator/2026-08-12T18-02-37-977Z/` |
-| working tree from `32a3d708` | iOS 26.5 Simulator SE + 17 Pro | P36 onboarding focus, landscape, dark theme, 200% Page Zoom plus accessibility text; exact local assets | SIMULATOR SUPPORTING PASS, 6/6 | `.reports/ios-simulator/2026-08-12T19-20-05-175Z/` |
-| working tree from `32a3d708` | iOS 26.5 Simulator SE + 17 Pro | Quick, Word intermediary, save recovery, tier-4; EN/RO; post-P36 regression | SIMULATOR SUPPORTING PASS, 16/16 | `.reports/ios-simulator/2026-08-12T19-23-51-726Z/` |
-| working tree from `32a3d708` | macOS Safari 26.6 | Quick + AI link, Word intermediary, tier-4; EN/RO, light/dark; post-P36 regression | NATIVE SUPPORTING PASS, 6/6 | `.reports/macos-safari/2026-08-12T19-26-58-249Z/` |
-| `14b38daf` | Pixel 6a, browser + installed | J1-J9 EN/RO through DevTools | SUPPORTING PASS, 36/36 | `.reports/android-physical/2026-08-07T20-37-23-460Z-browser/`; `.reports/android-physical/2026-08-07T20-38-23-776Z-installed/` |
-| `14b38daf` | Pixel 6a, installed TalkBack | J5 complete; J6 retry and J8 support-order checkpoints; EN/RO | PASS / BOUNDED PASS | `.reports/android-physical/2026-08-07T19-45-00-p30-talkback-installed/`; `.reports/android-physical/2026-08-07T20-40-00-p30-talkback-checkpoints/` |
+| working tree from `ad38399c` | macOS Safari 26.6 | Quick + AI link, Word intermediary, tier-4; EN/RO, light/dark | NATIVE_SUPPORTING_PASS, 6/6 | `.reports/macos-safari/2026-08-12T17-59-15-941Z/` |
+| working tree from `ad38399c` | iOS 26.5 Simulator SE + 17 Pro | Quick, Word intermediary, save recovery, tier-4; EN/RO; exact local assets | SIMULATOR_SUPPORTING_PASS, 16/16 | `.reports/ios-simulator/2026-08-12T18-02-37-977Z/` |
+| working tree from `32a3d708` | iOS 26.5 Simulator SE + 17 Pro | P36 onboarding focus, landscape, dark theme, 200% Page Zoom plus accessibility text; exact local assets | SIMULATOR_SUPPORTING_PASS, 6/6 | `.reports/ios-simulator/2026-08-12T19-20-05-175Z/` |
+| working tree from `32a3d708` | iOS 26.5 Simulator SE + 17 Pro | Quick, Word intermediary, save recovery, tier-4; EN/RO; post-P36 regression | SIMULATOR_SUPPORTING_PASS, 16/16 | `.reports/ios-simulator/2026-08-12T19-23-51-726Z/` |
+| working tree from `32a3d708` | macOS Safari 26.6 | Quick + AI link, Word intermediary, tier-4; EN/RO, light/dark; post-P36 regression | NATIVE_SUPPORTING_PASS, 6/6 | `.reports/macos-safari/2026-08-12T19-26-58-249Z/` |
+| `14b38daf` | Pixel 6a, browser + installed | J1-J9 EN/RO through DevTools | SUPPORTING_PASS, 36/36 | `.reports/android-physical/2026-08-07T20-37-23-460Z-browser/`; `.reports/android-physical/2026-08-07T20-38-23-776Z-installed/` |
+| `14b38daf` | Pixel 6a, installed TalkBack | J5 complete; J6 retry and J8 support-order checkpoints; EN/RO | PASS / BOUNDED_PASS | `.reports/android-physical/2026-08-07T19-45-00-p30-talkback-installed/`; `.reports/android-physical/2026-08-07T20-40-00-p30-talkback-checkpoints/` |
 | `23e0c05c` | Pixel 6a, browser TalkBack | J5 speech, AOA focus, activation, Reflection focus; EN/RO | PASS | `.reports/android-physical/2026-08-12T11-05-00-talkback-j5-local/` |
-| `23e0c05c` | Pixel 6a, browser | J5/J6/J8 EN/RO with exact CDP + native foreground proof | SUPPORTING PASS, 6/6 | `.reports/android-physical/2026-08-12T10-52-54-317Z-browser/`; `.reports/android-physical/2026-08-12T10-53-18-107Z-browser/`; `.reports/android-physical/2026-08-12T10-53-35-749Z-browser/` |
+| `23e0c05c` | Pixel 6a, browser | J5/J6/J8 EN/RO with exact CDP + native foreground proof | SUPPORTING_PASS, 6/6 | `.reports/android-physical/2026-08-12T10-52-54-317Z-browser/`; `.reports/android-physical/2026-08-12T10-53-18-107Z-browser/`; `.reports/android-physical/2026-08-12T10-53-35-749Z-browser/` |
 | `f59e5175` | Pixel 6a, Android 17 | Three-run mid-tier production timing | PASS | `.reports/android-physical/2026-08-07T17-26-42-635Z-browser/` and retained timing artifacts |
 
 P35/P36 reproduced and fixed four focus/reflow product defects. The final native matrices expose no
@@ -155,13 +155,13 @@ retest the same native row. Record environment blocks separately from applicatio
 | Gate | Status | Closure condition |
 | --- | --- | --- |
 | Exact-candidate automated baseline | OPEN AFTER FREEZE | All automated commands pass on frozen SHA |
-| iOS Simulator browser matrix | BASE + ROBUSTNESS SUPPORTING PASS | Rerun on frozen candidate |
-| Simulator installed PWA / VoiceOver | BLOCKED AS SUPPORTING EVIDENCE | No reliable installed identity or speech/rotor/gesture evidence; physical gate remains authoritative |
+| iOS Simulator browser matrix | BASE + ROBUSTNESS SIMULATOR_SUPPORTING_PASS | Rerun on frozen candidate |
+| Simulator installed PWA / VoiceOver | BLOCKED | No reliable installed identity or speech/rotor/gesture evidence; physical gate remains authoritative |
 | Physical iPhone VoiceOver | OPEN | J1-J9, EN/RO, browser + installed |
 | Pixel 6a TalkBack | PARTIAL HISTORICAL | Remaining journeys and final-candidate rerun |
 | Mid-tier Android performance | PASS HISTORICAL | Final-candidate rerun after freeze |
 | Low-tier Android performance | OPEN | Distinct device, three-run matrix |
 | Release-blocking product defects | NONE REPRODUCED | No unresolved failure after required rows |
 
-Final decision: **NOT READY FOR PHYSICAL SIGN-OFF.** The next executable work is P37 acceptance
-contract consolidation. Physical closure resumes when the required devices are available.
+Final decision: **NOT READY FOR PHYSICAL SIGN-OFF.** P37 acceptance-contract consolidation is
+complete. The next phase is P38 physical closure when the required devices are available.

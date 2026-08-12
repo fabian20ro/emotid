@@ -47,7 +47,7 @@ describe('iOS Simulator Safari audit', () => {
       '17-pro-ro-tier4',
     ])
     expect(buildIOSSimulatorMatrix({ profile: 'se', language: 'ro', journey: 'tier4' }))
-      .toEqual([{ profile: 'se', language: 'ro', journey: 'tier4' }])
+      .toEqual([{ profile: 'se', language: 'ro', journey: 'tier4', acceptanceId: 'j8' }])
   })
 
   it('builds a bounded risk-based robustness matrix instead of a Cartesian product', async () => {
@@ -55,33 +55,33 @@ describe('iOS Simulator Safari audit', () => {
 
     expect(buildIOSRobustnessMatrix({})).toEqual([
       {
-        caseId: 'se-onboarding-focus',
+        caseId: 'se-onboarding-focus', acceptanceId: 'j1',
         profile: 'se', language: 'en', journey: 'onboarding-focus',
         orientation: 'PORTRAIT', appearance: 'light', contentSize: 'large', theme: 'light',
       },
       {
-        caseId: 'se-landscape-quick-ro',
+        caseId: 'se-landscape-quick-ro', acceptanceId: 'j9',
         profile: 'se', language: 'ro', journey: 'quick',
         orientation: 'LANDSCAPE', appearance: 'light', contentSize: 'large', theme: 'light',
       },
       {
-        caseId: '17-pro-landscape-tier4-ro',
+        caseId: '17-pro-landscape-tier4-ro', acceptanceId: 'j8',
         profile: '17-pro', language: 'ro', journey: 'tier4',
         orientation: 'LANDSCAPE', appearance: 'light', contentSize: 'large', theme: 'light',
       },
       {
-        caseId: 'se-dark-word-ro',
+        caseId: 'se-dark-word-ro', acceptanceId: 'j5',
         profile: 'se', language: 'ro', journey: 'word-intermediate',
         orientation: 'PORTRAIT', appearance: 'dark', contentSize: 'large', theme: 'dark',
       },
       {
-        caseId: 'se-text-quick-ro',
+        caseId: 'se-text-quick-ro', acceptanceId: 'j9',
         profile: 'se', language: 'ro', journey: 'quick',
         orientation: 'PORTRAIT', appearance: 'light', contentSize: 'accessibility-large', theme: 'light',
         textZoomPercent: 200,
       },
       {
-        caseId: 'se-text-tier4-ro',
+        caseId: 'se-text-tier4-ro', acceptanceId: 'j8',
         profile: 'se', language: 'ro', journey: 'tier4',
         orientation: 'PORTRAIT', appearance: 'light', contentSize: 'accessibility-large', theme: 'light',
         textZoomPercent: 200,

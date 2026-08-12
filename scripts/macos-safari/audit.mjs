@@ -1,3 +1,10 @@
+import {
+  ACCEPTANCE_JOURNEY_IDS,
+  ACCEPTANCE_LANGUAGES,
+  ACCEPTANCE_RESULTS,
+  validateAcceptanceAdapter,
+} from '../acceptance/contract.mjs'
+
 const RUN_PARAMETER = 'native-safari-run'
 
 const COPY = {
@@ -25,14 +32,25 @@ const COPY = {
   },
 }
 
-export const NATIVE_SAFARI_CASES = [
-  { id: 'quick', language: 'en', theme: 'light' },
-  { id: 'word-intermediate', language: 'en', theme: 'dark' },
-  { id: 'tier4', language: 'en', theme: 'light' },
-  { id: 'quick', language: 'ro', theme: 'dark' },
-  { id: 'word-intermediate', language: 'ro', theme: 'light' },
-  { id: 'tier4', language: 'ro', theme: 'dark' },
-]
+export const NATIVE_SAFARI_ACCEPTANCE_IDS = Object.freeze({
+  quick: 'j9',
+  'word-intermediate': 'j5',
+  tier4: 'j8',
+})
+
+export const NATIVE_SAFARI_ACCEPTANCE_ADAPTER = validateAcceptanceAdapter({
+  name: 'macos-safari',
+  journeyIds: ACCEPTANCE_JOURNEY_IDS.filter((journeyId) => (
+    Object.values(NATIVE_SAFARI_ACCEPTANCE_IDS).includes(journeyId)
+  )),
+  resultClass: ACCEPTANCE_RESULTS.nativeSupportingPass,
+})
+
+export const NATIVE_SAFARI_CASES = ACCEPTANCE_LANGUAGES.flatMap((language) => ([
+  { id: 'quick', acceptanceId: NATIVE_SAFARI_ACCEPTANCE_IDS.quick, language, theme: language === 'en' ? 'light' : 'dark' },
+  { id: 'word-intermediate', acceptanceId: NATIVE_SAFARI_ACCEPTANCE_IDS['word-intermediate'], language, theme: language === 'en' ? 'dark' : 'light' },
+  { id: 'tier4', acceptanceId: NATIVE_SAFARI_ACCEPTANCE_IDS.tier4, language, theme: language === 'en' ? 'light' : 'dark' },
+]))
 
 export function readSafariDriverVersion(output) {
   const match = output.match(/Safari\s+([\d.]+)\s+\(([^)]+)\)/)
@@ -164,10 +182,16 @@ async function runQuick(driver, language) {
   if (aiUrl.searchParams.get('udm') !== '50') throw new Error('External AI link lost udm=50')
 }
 
+async function openWordLadder(driver, copy) {
+  await click(driver, 'xpath', buttonWithText(copy.start))
+  await driver.waitForElement('css selector', '[data-testid="arrival-screen"]')
+  await click(driver, 'css selector', '[data-testid="arrival-words"]')
+  await driver.waitForElement('css selector', '[data-testid="words-screen"]')
+}
+
 async function runWordIntermediate(driver, language) {
   const copy = COPY[language]
-  await click(driver, 'xpath', buttonWithText(copy.start))
-  await click(driver, 'css selector', '[data-testid="arrival-words"]')
+  await openWordLadder(driver, copy)
   await click(driver, 'xpath', buttonWithText(copy.happy))
   await click(driver, 'xpath', buttonWithText(copy.playful))
   await click(driver, 'xpath', buttonWithText(copy.continuePlayful))
@@ -178,8 +202,7 @@ async function runWordIntermediate(driver, language) {
 
 async function runTier4(driver, language) {
   const copy = COPY[language]
-  await click(driver, 'xpath', buttonWithText(copy.start))
-  await click(driver, 'css selector', '[data-testid="arrival-words"]')
+  await openWordLadder(driver, copy)
   await click(driver, 'xpath', buttonWithText(copy.tier4Path[0]))
   await click(driver, 'xpath', buttonWithText(copy.tier4Path[1]))
   await click(driver, 'css selector', '.word-path-levels button:last-child')
@@ -220,10 +243,10 @@ export async function runNativeSafariMatrix({ driver, baseUrl, runId, capture })
       else if (entry.id === 'word-intermediate') await runWordIntermediate(driver, entry.language)
       else await runTier4(driver, entry.language)
       await capture(`${entry.language}-${entry.id}`)
-      results.push({ ...entry, result: 'NATIVE_SUPPORTING_PASS' })
+      results.push({ ...entry, result: ACCEPTANCE_RESULTS.nativeSupportingPass })
     } catch (error) {
       await capture(`${entry.language}-${entry.id}-failure`).catch(() => undefined)
-      results.push({ ...entry, result: 'FAIL', error: String(error) })
+      results.push({ ...entry, result: ACCEPTANCE_RESULTS.fail, error: String(error) })
       break
     }
   }

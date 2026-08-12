@@ -58,6 +58,7 @@ Common problems:
 
 No server-side monitoring. Health indicators:
 - GitHub Actions build status
+- Acceptance-contract drift: `npm run check-acceptance`
 - Production manifest budgets: `npm run check-performance`
 - Diagnostic production mobile trace: `npm run test:performance`
 - Manual testing on 393×742 viewport

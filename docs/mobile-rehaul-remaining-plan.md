@@ -33,6 +33,9 @@ belongs in `docs/physical-release-evidence.md`.
   17 Pro landscape, dark Word Ladder, and Quick/tier-4 at 200% Safari Page Zoom plus accessibility
   text. It verifies visual-viewport bounds, reflow, focus, contrast, action bounds, sticky overlap,
   candidate assets, and restoration of Simulator and Safari state.
+- One machine-readable acceptance contract owns J1-J9 IDs/titles, EN/RO scope, and result classes.
+  Playwright and Android register all nine journeys; Appium registers J1/J5/J6/J8/J9;
+  SafariDriver registers J5/J8/J9. Platform steps, selectors, fixtures, and lifecycle remain local.
 
 ### Confirmed Open Gates
 
@@ -123,20 +126,6 @@ Architecture rules:
 
 ## Recommended Sequence
 
-### P37 - Acceptance Contract Consolidation
-
-Goal: remove verified duplication across Playwright, Android, SafariDriver, and Appium.
-
-1. Compare the three or more working journey implementations.
-2. Extract only stable journey metadata and result/evidence classifications.
-3. Keep platform selectors and lifecycle in their adapters.
-4. Generate no documentation or code from the manifest unless a second consumer is demonstrated.
-5. Add contract tests proving every registered journey has valid IDs, checkpoints, language scope,
-   and supported result classes.
-
-Exit criteria: one source owns acceptance intent; adding or renaming a journey cannot silently leave
-a platform matrix or release document stale.
-
 ### P38 - Physical Acceptance Closure
 
 Run when hardware is available; these rows cannot be replaced by Simulator or desktop evidence.
@@ -173,6 +162,6 @@ automation is never promoted to physical evidence.
 
 ## Decision Rule
 
-Work on P37 next, extracting only repetition demonstrated by the stable Playwright, Android,
-SafariDriver, and Appium adapters. Resume P38 when the required devices and owner presence are
-available. P39 is the only phase that can change the physical release decision to `PASS`.
+Work on P38 next when the required devices and owner presence are available. Until then, keep the
+acceptance contract and automated/native supporting gates green without adding another test
+abstraction. P39 is the only phase that can change the physical release decision to `PASS`.

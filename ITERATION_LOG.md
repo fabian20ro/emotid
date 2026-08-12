@@ -1971,3 +1971,38 @@ assertion is insufficient when native browser UI can cover the candidate.
 **Promoted to Lessons Learned:** Yes — repeated focus and native lifecycle races now have shared,
 bounded rules. Installed-PWA and VoiceOver limitations remain iteration-specific until a reliable
 automation capability exists.
+
+---
+
+### [2026-08-12] Complete P37 acceptance contract consolidation
+
+**Context:** J1-J9 intent, EN/RO scope, and evidence classifications were repeated across the
+normative release document, Android, Appium, SafariDriver, and Playwright without an executable
+drift boundary.
+**What happened:**
+- Started with four failing contract tests, then added one small manifest owning only J1-J9
+  IDs/titles, languages, and result classes. Kept every platform step, selector, fixture, protocol,
+  and lifecycle in its existing adapter.
+- Registered exact scope: Playwright and Android J1-J9; Appium J1/J5/J6/J8/J9; SafariDriver
+  J5/J8/J9. Native report rows now include `acceptanceId`.
+- Added stable Playwright anchors to existing tests rather than duplicating nine browser journeys.
+  `npm run check-acceptance` now fails on unknown/duplicate IDs, incomplete full adapters, invalid
+  result classes, missing test anchors, or drift in `release-quality-gates.md`.
+- Split `AUTOMATED_PASS` from physical `PASS`, `SUPPORTING_PASS`, `NATIVE_SUPPORTING_PASS`, and
+  `SIMULATOR_SUPPORTING_PASS`, removing an evidence-semantics ambiguity.
+- A SafariDriver rerun exposed a missing postcondition after Start. Added explicit Arrival and Words
+  readiness before continuing, with a red-first contract. No delays or generic retries were added.
+- The first full Playwright run had two simultaneous Mobile Safari Explore-click timeouts; both
+  affected files passed 6/6 serially, and the unchanged canonical two-worker gate then passed
+  212/212. No product defect reproduced.
+**Outcome:** `npm run check` passes 81 files / 642 tests and all build/copy/budget gates;
+`check-acceptance` reports Playwright 9, Android 9, Appium 5, SafariDriver 3. Playwright passes
+212/212. Native Safari passes 6/6 with J9/J5/J8 registration evidence at
+`.reports/macos-safari/2026-08-12T19-56-39-428Z/`; Appium J1 passes at
+`.reports/ios-simulator/2026-08-12T19-56-57-763Z/`. Both profiles are Shutdown and no owned server
+remains.
+**Insight:** Shared acceptance architecture should centralize vocabulary, not interaction. A small
+validated manifest removes silent matrix drift while preserving platform-specific observability
+and avoiding a test DSL.
+**Promoted to Lessons Learned:** Yes — extends the existing one-owner documentation rule to
+machine-readable acceptance metadata after four demonstrated consumers.

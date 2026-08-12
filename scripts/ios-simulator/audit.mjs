@@ -1,3 +1,10 @@
+import {
+  ACCEPTANCE_JOURNEY_IDS,
+  ACCEPTANCE_LANGUAGES,
+  ACCEPTANCE_RESULTS,
+  validateAcceptanceAdapter,
+} from '../acceptance/contract.mjs'
+
 const RUN_PARAMETER = 'ios-simulator-run'
 
 export const IOS_SIMULATOR_PROFILES = Object.freeze({
@@ -12,42 +19,58 @@ export const IOS_SIMULATOR_JOURNEYS = Object.freeze([
   'tier4',
 ])
 
+export const IOS_SIMULATOR_ACCEPTANCE_IDS = Object.freeze({
+  'onboarding-focus': 'j1',
+  quick: 'j9',
+  'word-intermediate': 'j5',
+  'save-retry': 'j6',
+  tier4: 'j8',
+})
+
+export const IOS_SIMULATOR_ACCEPTANCE_ADAPTER = validateAcceptanceAdapter({
+  name: 'ios-simulator',
+  journeyIds: ACCEPTANCE_JOURNEY_IDS.filter((journeyId) => (
+    Object.values(IOS_SIMULATOR_ACCEPTANCE_IDS).includes(journeyId)
+  )),
+  resultClass: ACCEPTANCE_RESULTS.simulatorSupportingPass,
+})
+
 export const IOS_SIMULATOR_ROBUSTNESS_CASES = Object.freeze([
   Object.freeze({
-    caseId: 'se-onboarding-focus',
+    caseId: 'se-onboarding-focus', acceptanceId: IOS_SIMULATOR_ACCEPTANCE_IDS['onboarding-focus'],
     profile: 'se', language: 'en', journey: 'onboarding-focus',
     orientation: 'PORTRAIT', appearance: 'light', contentSize: 'large', theme: 'light',
   }),
   Object.freeze({
-    caseId: 'se-landscape-quick-ro',
+    caseId: 'se-landscape-quick-ro', acceptanceId: IOS_SIMULATOR_ACCEPTANCE_IDS.quick,
     profile: 'se', language: 'ro', journey: 'quick',
     orientation: 'LANDSCAPE', appearance: 'light', contentSize: 'large', theme: 'light',
   }),
   Object.freeze({
-    caseId: '17-pro-landscape-tier4-ro',
+    caseId: '17-pro-landscape-tier4-ro', acceptanceId: IOS_SIMULATOR_ACCEPTANCE_IDS.tier4,
     profile: '17-pro', language: 'ro', journey: 'tier4',
     orientation: 'LANDSCAPE', appearance: 'light', contentSize: 'large', theme: 'light',
   }),
   Object.freeze({
-    caseId: 'se-dark-word-ro',
+    caseId: 'se-dark-word-ro', acceptanceId: IOS_SIMULATOR_ACCEPTANCE_IDS['word-intermediate'],
     profile: 'se', language: 'ro', journey: 'word-intermediate',
     orientation: 'PORTRAIT', appearance: 'dark', contentSize: 'large', theme: 'dark',
   }),
   Object.freeze({
-    caseId: 'se-text-quick-ro',
+    caseId: 'se-text-quick-ro', acceptanceId: IOS_SIMULATOR_ACCEPTANCE_IDS.quick,
     profile: 'se', language: 'ro', journey: 'quick',
     orientation: 'PORTRAIT', appearance: 'light', contentSize: 'accessibility-large', theme: 'light',
     textZoomPercent: 200,
   }),
   Object.freeze({
-    caseId: 'se-text-tier4-ro',
+    caseId: 'se-text-tier4-ro', acceptanceId: IOS_SIMULATOR_ACCEPTANCE_IDS.tier4,
     profile: 'se', language: 'ro', journey: 'tier4',
     orientation: 'PORTRAIT', appearance: 'light', contentSize: 'accessibility-large', theme: 'light',
     textZoomPercent: 200,
   }),
 ])
 
-const LANGUAGES = Object.freeze(['en', 'ro'])
+const LANGUAGES = ACCEPTANCE_LANGUAGES
 const LOOPBACK_HOSTS = new Set(['127.0.0.1', 'localhost', '[::1]'])
 
 const COPY = Object.freeze({
@@ -160,6 +183,7 @@ export function buildIOSSimulatorMatrix({ profile = 'all', language = 'all', jou
         profile: selectedProfile,
         language: selectedLanguage,
         journey: selectedJourney,
+        acceptanceId: IOS_SIMULATOR_ACCEPTANCE_IDS[selectedJourney],
       }))
     ))
   ))
@@ -865,7 +889,7 @@ export async function runIOSSimulatorMatrix({ entries, execute, capture, log = c
       const evidence = await capture(name)
       results.push({
         ...entry,
-        result: 'SIMULATOR_SUPPORTING_PASS',
+        result: ACCEPTANCE_RESULTS.simulatorSupportingPass,
         startedAt,
         durationMs: Math.round(performance.now() - started),
         evidence,
@@ -876,7 +900,7 @@ export async function runIOSSimulatorMatrix({ entries, execute, capture, log = c
       const evidence = await capture(`${name}-failure`).catch(() => undefined)
       results.push({
         ...entry,
-        result: 'FAIL',
+        result: ACCEPTANCE_RESULTS.fail,
         startedAt,
         durationMs: Math.round(performance.now() - started),
         evidence,

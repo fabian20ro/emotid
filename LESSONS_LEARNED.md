@@ -201,7 +201,9 @@ ID, retain the repository as a metadata archive and publish a fresh repository I
 future work, the quality-gate document normative, the evidence ledger candidate-bound, and the
 iteration log historical. Appending completed phases and newer runs to every document creates
 contradictory candidates, test counts, and remaining-work claims. Link across roles instead of
-copying status text.
+copying status text. When three or more test adapters repeat acceptance metadata, centralize only
+stable IDs, language scope, and evidence classes; validate human documentation and executable
+registrations against it while leaving selectors, fixtures, and lifecycle platform-local.
 
 **[2026-08-07]** Hardware test CLIs must validate before touching hardware — A physical-audit
 script treated `--help` as an unknown no-op and started its full device suite. Handle help and

@@ -11,6 +11,10 @@ npm run test:pwa
 npm run test:performance
 ```
 
+`npm run check-acceptance` validates the canonical J1-J9 IDs/titles, EN/RO scope, evidence classes,
+adapter registrations, Playwright test anchors, and this document. The manifest owns metadata only;
+platform steps, selectors, fixtures, and lifecycle remain in their adapters.
+
 `check-performance` reads the production Vite manifest and fails when:
 
 - initial JavaScript exceeds 150,000 gzip bytes;
@@ -119,10 +123,13 @@ tests synthesized speech. This gate remains open until both physical combination
 Result classes:
 
 - `PASS`: the required physical assistive technology performed navigation, speech, and activation.
-- `BOUNDED PASS`: a named physical checkpoint passed, but not the complete journey.
-- `SUPPORTING PASS`: real device/browser behavior passed through DevTools or another input that
+- `BOUNDED_PASS`: a named physical checkpoint passed, but not the complete journey.
+- `AUTOMATED_PASS`: deterministic browser automation passed; no native, hardware, or
+  assistive-technology claim.
+- `SUPPORTING_PASS`: real device/browser behavior passed through DevTools or another input that
   bypassed the required assistive technology.
-- `SIMULATOR SUPPORTING PASS`: real Simulator browser behavior passed; no physical-device claim.
+- `NATIVE_SUPPORTING_PASS`: an installed desktop browser passed; no mobile or assistive-technology claim.
+- `SIMULATOR_SUPPORTING_PASS`: real Simulator browser behavior passed; no physical-device claim.
 - `BLOCKED`: the environment prevented a valid run; never reinterpret as an application failure.
 - `FAIL`: a requirement failed on the exact intended environment and candidate.
 

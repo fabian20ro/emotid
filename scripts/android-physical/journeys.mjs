@@ -184,7 +184,14 @@ export const JOURNEYS = Object.freeze({
   },
 })
 
-export const JOURNEY_IDS = Object.freeze(Object.keys(JOURNEYS))
+export const ANDROID_ACCEPTANCE_ADAPTER = validateAcceptanceAdapter({
+  name: 'android-physical',
+  journeyIds: Object.keys(JOURNEYS),
+  resultClass: ACCEPTANCE_RESULTS.supportingPass,
+  complete: true,
+})
+
+export const JOURNEY_IDS = ANDROID_ACCEPTANCE_ADAPTER.journeyIds
 
 export function selectJourneys(filter) {
   if (filter && !JOURNEY_IDS.includes(filter)) throw new Error(`Unsupported journey: ${filter}`)
@@ -206,17 +213,17 @@ export async function runJourneyCase({
     await execute()
     await capture(name)
     log(`[${mode}] ${language.toUpperCase()} ${id.toUpperCase()} supporting pass`)
-    return { language, journey: id.toUpperCase(), result: 'SUPPORTING_PASS' }
+    return { language, journey: id.toUpperCase(), result: ACCEPTANCE_RESULTS.supportingPass }
   } catch (error) {
     await capture(`${name}-failure`).catch(() => {})
     logError(`[${mode}] ${language.toUpperCase()} ${id.toUpperCase()} fail: ${error}`)
-    return { language, journey: id.toUpperCase(), result: 'FAIL', error: String(error) }
+    return { language, journey: id.toUpperCase(), result: ACCEPTANCE_RESULTS.fail, error: String(error) }
   }
 }
 
 export async function runJourneyMatrix({ context, mode, journeyFilter }) {
   const results = []
-  for (const language of ['en', 'ro']) {
+  for (const language of ACCEPTANCE_LANGUAGES) {
     for (const [id, execute] of selectJourneys(journeyFilter)) {
       results.push(await runJourneyCase({
         id,
@@ -229,3 +236,8 @@ export async function runJourneyMatrix({ context, mode, journeyFilter }) {
   }
   return results
 }
+import {
+  ACCEPTANCE_LANGUAGES,
+  ACCEPTANCE_RESULTS,
+  validateAcceptanceAdapter,
+} from '../acceptance/contract.mjs'

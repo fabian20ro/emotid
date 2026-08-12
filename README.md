@@ -57,6 +57,8 @@ npm run test:ios:simulator:robustness
 ```
 
 `npm run check` covers lint, unit/integration tests, bilingual audits, TypeScript, and the production build. Playwright covers Mobile Safari and Mobile Chrome; the PWA suite exercises the production service worker, offline reopen, automatic update, and local-data survival.
+It also rejects drift between the J1-J9 acceptance manifest, platform registrations, Playwright
+test anchors, result classes, and the normative release document.
 The production performance probe records cold startup, first feature opening, transfer size, and
 long tasks; deterministic manifest and precache budgets run in `npm run check`.
 The permission-free Safari preflight verifies the installed native tooling. The opt-in

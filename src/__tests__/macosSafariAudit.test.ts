@@ -108,6 +108,7 @@ describe('native macOS Safari audit', () => {
     ])
     expect(locators).toContain("//button[normalize-space(.)='Continuați cu Jucăuș']")
     expect(locators).toContain("//button[normalize-space(.)='Lipsit de valoare']")
+    expect(locators).toContain('[data-testid="arrival-screen"]')
     expect(driver.navigate).toHaveBeenNthCalledWith(
       1,
       'http://127.0.0.1:4176/__native-safari-seed.html',
