@@ -88,6 +88,13 @@ contract as an unchecked cast or duplicate partial property checks.
 
 ## Testing & Quality
 
+**[2026-08-12]** External screen-reader keyboards need transport-specific calibration — Host
+window switching, pointer forwarding, and modifier layout can alter assistive-technology focus
+without changing DOM focus. For TalkBack through scrcpy AOA, disable mouse forwarding, make the
+mirror foreground before preparing the checkpoint, and verify the actual Action modifier on the
+connected keyboard. Retain Android focused-node data plus before/activation/after visuals; do not
+infer success from the host window alone.
+
 **[2026-08-09]** Physical browser targeting needs two independent exact proofs — A matching CDP
 page is not proof that Android displays the same Chrome tab. Give every browser audit a unique URL
 token, require the exact token in both the non-standalone CDP page and Chrome's native URL bar,

@@ -1827,3 +1827,32 @@ preflight pass. The Safari session and VoiceOver pass remain `NOT RUN` until the
 and keeping permission changes outside the executable. Existing browser journeys should be sampled
 by risk, not duplicated into another full automation matrix.
 **Promoted to Lessons Learned:** No — first native Safari runner iteration; retain here.
+
+---
+
+### [2026-08-12] Execute native Safari and resume Pixel TalkBack acceptance
+
+**Context:** Safari Remote Automation was enabled and the Pixel 6a returned on Android 17. P32 had
+only runner contracts; browser TalkBack remained blocked by foreground and input ambiguity.
+**What happened:**
+- Ran installed Safari 26.6 on macOS 26.6.1. All six bounded EN/RO Quick, Word intermediary, and
+  tier-4 rows passed with native screenshots and a machine-readable report.
+- Dismissed a one-time Chrome notifications dialog that correctly caused the exact-foreground
+  check to fail. Repeated deployed browser J5, J6, and J8; all six EN/RO supporting rows passed
+  with native URL-bar and CDP token agreement.
+- Avoided clearing the published origin after the safety review identified possible journal loss.
+  Used a fresh localhost origin over `adb reverse` for genuine TalkBack interaction; public and
+  local production asset names matched.
+- Calibrated the real AOA input path. SDK mouse hover and `Cmd+Tab` disturbed TalkBack focus;
+  `--mouse=disabled` plus Right Alt as the Action key produced stable activation on the attached
+  Windows-layout keyboard.
+- Retained EN/RO J5 focus, specificity hint, activation video, Reflection heading focus, and
+  visible speech output. No application defect was reproduced.
+**Outcome:** Safari native supporting rows pass 6/6. Pixel deployed J5/J6/J8 supporting rows pass
+6/6. Genuine browser TalkBack J5 passes EN/RO on the matching production build. VoiceOver, genuine
+TalkBack J6/J8 and remaining journeys, Apple mobile, and distinct low-tier Android remain open.
+`npm run check` passes 78 files and 619 tests plus every i18n, copy, build, and performance gate;
+the complete Mobile Safari/Mobile Chrome Playwright matrix passes 210/210.
+**Insight:** Screen-reader acceptance needs explicit calibration of host focus, pointer transport,
+and modifier mapping; DOM focus alone is insufficient even with an external keyboard.
+**Promoted to Lessons Learned:** Yes — reusable for every remaining AOA TalkBack row.

@@ -242,16 +242,38 @@ TalkBack row. After removal of the Android device, all unexecuted TalkBack, inst
 hardware-performance rows remain `NOT RUN` and deferred. The Mac-only Chromium/WebKit regression
 suite cannot change those classifications.
 
-## P32 macOS Native Safari Preparation - 2026-08-10
+## P32 macOS Native Safari Execution - 2026-08-12
 
-The permission-free preflight found macOS 26.5.2, Safari/SafariDriver 26.5.2
-(`21624.2.5.11.8`), and VoiceOver. Full Xcode and an iOS Simulator are unavailable.
+The owner enabled Safari Remote Automation. The native session ran on macOS 26.6.1 with Safari
+26.6 (`21624.4.5.11.5`). Full Xcode and an iOS Simulator remain unavailable.
 
 | Scope | EN | RO | Evidence | Result |
 | --- | --- | --- | --- | --- |
-| Installed desktop Safari, Quick / Word intermediary / tier-4 | NOT RUN | NOT RUN | Runner and unit contracts only | PERMISSION PENDING |
-| macOS VoiceOver with installed Safari | NOT RUN | NOT RUN | Protocol prepared | PERMISSION PENDING |
+| Installed desktop Safari, Quick / Word intermediary / tier-4 | 3/3 | 3/3 | `.reports/macos-safari/2026-08-12T10-50-48-602Z/` | NATIVE SUPPORTING PASS |
+| macOS VoiceOver with installed Safari | NOT RUN | NOT RUN | Native browser baseline only | OPEN |
 
 The native runner does not call `safaridriver --enable` or change Accessibility permissions.
-These rows remain unexecuted until the owner can approve the prompts. Even after completion, they
-will be supporting desktop evidence and will not close the Apple mobile VoiceOver/Safari matrix.
+Quick persistence and the gated `udm=50` AI handoff, Word Ladder intermediary completion, and
+tier-4 gating passed in both languages across light and dark themes. This remains desktop
+supporting evidence and does not close macOS VoiceOver or the Apple mobile VoiceOver/Safari matrix.
+
+## P33 Pixel 6a Resumed Browser and TalkBack Supplement - 2026-08-12
+
+Candidate `23e0c05c879568407abe9b9eac1761a0bd60a34a` was exercised on Pixel 6a, Android 17 /
+API 37 (`CP2A.260705.006`), Chrome 151, and TalkBack 17.0.1. The deployed candidate's primary
+JavaScript and CSS asset names matched the local production build before the local TalkBack row.
+
+| Scope | EN | RO | Evidence | Result |
+| --- | --- | --- | --- | --- |
+| Deployed browser J5, exact native foreground + DevTools activation | PASS | PASS | `.reports/android-physical/2026-08-12T10-52-54-317Z-browser/` | SUPPORTING PASS |
+| Deployed browser J6, exact native foreground + DevTools activation | PASS | PASS | `.reports/android-physical/2026-08-12T10-53-18-107Z-browser/` | SUPPORTING PASS |
+| Deployed browser J8, exact native foreground + DevTools activation | PASS | PASS | `.reports/android-physical/2026-08-12T10-53-35-749Z-browser/` | SUPPORTING PASS |
+| Matching local build browser J5, TalkBack AOA keyboard | PASS | PASS | `.reports/android-physical/2026-08-12T11-05-00-talkback-j5-local/` | PASS |
+
+For genuine J5, TalkBack focus named `Continue with Playful` / `Continuați cu Jucăuș` and exposed
+the more-specific alternative as its hint. Physical `Right Alt+Space` activated the direct
+intermediary action, then visible speech output and Android focus named the Reflection heading in
+both languages. The host used a Windows-layout keyboard on macOS; Right Alt, not Left Alt, mapped
+to the TalkBack Action modifier through AOA. `scrcpy --mouse=disabled` prevented pointer hover from
+moving accessibility focus. This closes only the bounded J5 browser row; J6, J8, and the remaining
+journeys still require genuine TalkBack navigation and activation.

@@ -954,10 +954,10 @@ VoiceOver/Safari on Apple mobile hardware, and a distinct low-tier Android timin
 desktop Safari, CDP, and browser keyboard tests remain regression evidence only and must not be
 relabeled as physical screen-reader acceptance.
 
-## P32 Native macOS Safari Baseline - Prepared, Permission Pending
+## P32 Native macOS Safari Baseline - Complete
 
-The Mac has Safari 26.5.2, its bundled SafariDriver, and VoiceOver, but no full Xcode or iOS
-Simulator. The existing `Mobile Safari` project remains Playwright WebKit emulation. P32 adds an
+The Mac has macOS 26.6.1, Safari 26.6 with its bundled SafariDriver, and VoiceOver, but no full
+Xcode or iOS Simulator. The existing `Mobile Safari` project remains Playwright WebKit emulation. P32 adds an
 opt-in local runner for the installed `Safari.app` without adding Selenium, Appium, a test DSL, or
 a macOS CI job.
 
@@ -968,8 +968,30 @@ and tier-4 gating in English and Romanian across light and dark themes. CLI help
 environment checks, protocol errors, exact inventory, and all journey orchestration are covered
 without launching Safari.
 
-The native session remains `NOT RUN`: Remote Automation has not been enabled because the owner is
-not currently present to approve the macOS prompt. When available, run `safaridriver --enable`,
-then `npm run test:safari:native`. A passing result is `NATIVE_SUPPORTING_PASS`; a separate macOS
-VoiceOver pass can add desktop assistive-technology evidence, but Apple mobile hardware remains
-necessary for release acceptance.
+The owner enabled Remote Automation and the installed Safari 26.6 session passed all six rows on
+macOS 26.6.1: Quick persistence plus the gated `udm=50` AI handoff, Word Ladder intermediary
+completion, and tier-4 safety gating in English and Romanian across light and dark themes. The
+report and six native screenshots are retained under
+`.reports/macos-safari/2026-08-12T10-50-48-602Z/`. This is desktop native supporting evidence, not
+VoiceOver evidence and not an Apple mobile pass.
+
+## P33 Resumed Physical Acceptance - Partial
+
+The reconnected Pixel 6a runs Android 17 / API 37, Chrome 151, and TalkBack 17.0.1. Candidate
+`23e0c05c879568407abe9b9eac1761a0bd60a34a` passed deployed browser J5, J6, and J8 supporting
+journeys in English and Romanian with exact agreement between the CDP target and Chrome's native
+URL bar. The deployed JavaScript and CSS asset names match the local production build.
+
+Genuine browser TalkBack J5 also passes in both languages on the matching local production build.
+Visible speech output, an AOA external keyboard, and retained before/video/after evidence prove
+focus on the direct intermediary action, its specificity description, `Action+Space` activation,
+and Reflection heading focus. On this Windows-layout keyboard connected to macOS, Right Alt is the
+TalkBack Action key. `scrcpy --mouse=disabled` is required because SDK mouse hover changes
+TalkBack focus; `Cmd+Tab` must not be used after checkpoint preparation because its Tab event can
+escape into Chrome.
+
+Remaining physical order: browser J6 and J8 with genuine TalkBack, then J4, J2, J7, J9, J3, and J1
+across browser and installed modes. macOS VoiceOver remains useful desktop evidence; Apple mobile
+VoiceOver/Safari and a distinct low-tier Android performance profile remain separate hardware
+release gates. Preserve the current small registry and evidence format; add no general device
+automation abstraction until another repeated fixture requires it.
