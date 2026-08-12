@@ -38,25 +38,26 @@ npm run test:safari:native:preflight
 After the owner explicitly enables Safari Remote Automation, run `npm run test:safari:native`.
 This bounded EN/RO production audit covers Quick persistence and AI-link semantics, Word Ladder
 intermediary completion, and tier-4 gating. Record it as `NATIVE_SUPPORTING_PASS`; it cannot close
-the mobile VoiceOver/Safari release gate. See `docs/macos-native-safari-testing.md`.
+an iOS VoiceOver evidence gap. See `docs/macos-native-safari-testing.md`.
 
 ## iOS Simulator Supporting Gate
 
 Real Simulator Safari through Appium/XCUITest is stronger layout and browser evidence than
-Playwright WebKit emulation, but it does not replace a physical iPhone or physical VoiceOver.
-Record functional rows as `SIMULATOR_SUPPORTING_PASS`. Keep this gate opt-in and local; do not make
-an 8+ GB Xcode runtime a general CI requirement.
+Playwright WebKit emulation. It is the project's Apple functional gate; physical iPhone testing is
+outside project scope. Record rows as `SIMULATOR_SUPPORTING_PASS`, never as VoiceOver evidence.
+Keep this gate opt-in and local; do not make an 8+ GB Xcode runtime a general CI requirement.
 
 ```bash
 npm run test:ios:simulator:preflight
 npm run test:ios:simulator
+npm run test:ios:simulator:acceptance
 npm run test:ios:simulator:robustness
 ```
 
-The base matrix covers Quick, Word intermediary completion, local save recovery, and tier-4 gating
-in EN/RO on the named iPhone SE and iPhone 17 Pro profiles. The robustness matrix covers bounded
-rotation, dark theme, 200% Page Zoom, accessibility text, focus, contrast, and visual-viewport
-layout risks. See `docs/ios-simulator-testing.md`.
+The 16-row base matrix is a focused smoke gate. The 36-row acceptance matrix covers J1-J9 in EN/RO
+on the named iPhone SE and iPhone 17 Pro profiles. The robustness matrix covers bounded rotation,
+dark theme, 200% Page Zoom, accessibility text, focus, contrast, and visual-viewport layout risks.
+See `docs/ios-simulator-testing.md`.
 
 ## Mobile Performance Acceptance
 
@@ -77,15 +78,11 @@ bundle-size inference.
 Record all three raw runs, medians, environment details, and artifact references in
 `docs/physical-release-evidence.md`. Run against the exact deployed commit being released.
 
-## Physical Assistive-Technology Acceptance
+## Android Assistive-Technology Acceptance
 
 Playwright cannot validate synthesized speech, rotor/local-context navigation, or screen-reader
-gestures. Complete both combinations:
-
-1. VoiceOver with Safari on a physical iPhone.
-2. TalkBack with Chrome on Android.
-
-For each combination, run J1-J9 in English and Romanian, in Safari/Chrome and the installed PWA:
+gestures. Physical iPhone and VoiceOver testing is not part of this project's release scope. Run
+J1-J9 with TalkBack and Chrome on Android, in English and Romanian, in browser and installed PWA:
 
 1. First-run introduction: every step title, explanation, and progress announced once and in order.
 2. Settings replay: background unavailable, dialog bounded, swipe navigation trapped, Close returns
@@ -118,7 +115,7 @@ Record:
 | Pass/fail and evidence | |
 
 Fix only reproduced defects. Add the closest browser-observable regression without claiming that it
-tests synthesized speech. This gate remains open until both physical combinations pass.
+tests synthesized speech. This gate remains open until the Android browser and installed rows pass.
 
 Result classes:
 

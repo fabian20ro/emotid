@@ -26,29 +26,27 @@ belongs in `docs/physical-release-evidence.md`.
 - Installed macOS Safari passed the bounded EN/RO Quick, Word intermediary, and tier-4 audit.
 - Pixel 6a passed the functional Android journey matrix. Genuine TalkBack J5 passed in EN/RO;
   installed J6/J8 checkpoints also passed.
-- The repository-owned Appium/XCUITest runner passes all 16 EN/RO Quick, Word intermediary, save
-  recovery, and tier-4 rows on named iPhone SE and iPhone 17 Pro profiles. It preserves simulator
-  state, validates candidate identity, and writes native screenshots plus a JSON report.
+- The repository-owned Appium/XCUITest runner passes the complete 36-row J1-J9 EN/RO acceptance
+  matrix on named iPhone SE and iPhone 17 Pro profiles. It preserves Simulator state, validates
+  candidate identity, and writes native screenshots plus a JSON report.
 - The bounded P36 matrix passes 6/6 real-Safari variants: compact onboarding focus, SE landscape,
   17 Pro landscape, dark Word Ladder, and Quick/tier-4 at 200% Safari Page Zoom plus accessibility
   text. It verifies visual-viewport bounds, reflow, focus, contrast, action bounds, sticky overlap,
   candidate assets, and restoration of Simulator and Safari state.
 - One machine-readable acceptance contract owns J1-J9 IDs/titles, EN/RO scope, and result classes.
-  Playwright and Android register all nine journeys; Appium registers J1/J5/J6/J8/J9;
-  SafariDriver registers J5/J8/J9. Platform steps, selectors, fixtures, and lifecycle remain local.
+  Playwright, Android, and Appium register all nine journeys; SafariDriver registers J5/J8/J9.
+  Platform steps, selectors, fixtures, and lifecycle remain local.
 
 ### Confirmed Open Gates
 
-1. Simulator installation automation reaches the semantic `Add to Home Screen` action, but
-   XCUITest does not produce a reliable confirmation or installed-app identity. Installed PWA
-   behavior remains a physical-device gate; browser PWA offline/update/data survival passes.
-2. XCUITest exposes an accessibility tree, not VoiceOver speech, rotor behavior, or gestures.
-   Simulator VoiceOver is therefore blocked as supporting evidence; physical iPhone VoiceOver
-   remains the release gate.
-3. Genuine TalkBack remains incomplete beyond J5 and bounded installed J6/J8 checkpoints.
-4. No distinct low-tier Android performance profile has been measured.
-5. The current candidate cannot receive physical sign-off until the required exact-candidate rows
+1. Genuine TalkBack remains incomplete beyond J5 and bounded installed J6/J8 checkpoints.
+2. No distinct low-tier Android performance profile has been measured.
+3. The current candidate cannot receive physical sign-off until the required exact-candidate rows
    are rerun or explicitly waived.
+
+Simulator installed-PWA identity and VoiceOver speech/rotor/gesture automation remain unsupported
+capabilities. Physical iPhone testing is explicitly outside project scope; neither limitation is an
+open release gate or a basis for claiming VoiceOver coverage.
 
 P35 and P36 reproduced and fixed four product defects: missing tier-4 focus handoff, a visible
 noninteractive onboarding outline, 200% Page Zoom overflow caused by the global 320px minimum, and
@@ -95,9 +93,7 @@ Supporting usability principles:
 
 ## Architecture Direction
 
-The highest-impact small improvement is a platform-neutral acceptance-journey manifest. P35 now
-provides the third working adapter; extract the manifest in P37 after P36 stabilizes the remaining
-iOS checkpoints.
+The highest-impact small improvement, a platform-neutral acceptance-journey manifest, is complete.
 
 The manifest may own:
 
@@ -126,22 +122,25 @@ Architecture rules:
 
 ## Recommended Sequence
 
-### P38 - Physical Acceptance Closure
+### P38 - Apple Simulator Acceptance Closure (Complete)
 
-Run when hardware is available; these rows cannot be replaced by Simulator or desktop evidence.
+1. Added the complete J1-J9 Appium matrix in EN/RO on both named profiles.
+2. Kept the 16-row smoke and six-row robustness suites separate for efficient diagnosis.
+3. Recorded Simulator evidence honestly without physical-device or VoiceOver claims.
+
+### P39 - Android Physical Closure
 
 1. Pixel 6a: genuine TalkBack J6 and J8 in browser, then J4, J2, J7, J9, J3, and J1 in risk order;
    cover browser and installed modes in EN/RO.
-2. Physical iPhone: VoiceOver J1-J9 in Safari and installed PWA, EN/RO.
-3. Distinct low-tier Android: three-run production timing matrix from
+2. Distinct low-tier Android: three-run production timing matrix from
    `docs/release-quality-gates.md`.
-4. Retain spoken order, focus/gesture behavior, exact candidate identity, screenshots/video, and
+3. Retain spoken order, focus/gesture behavior, exact candidate identity, screenshots/video, and
    private-data-free notes.
 
-Exit criteria: every physical row passes or has an explicit accepted disposition. Supporting
-automation is never promoted to physical evidence.
+Exit criteria: every required Android row passes or has an explicit accepted disposition.
+Supporting automation is never promoted to assistive-technology evidence.
 
-### P39 - Release Sign-Off
+### P40 - Release Sign-Off
 
 1. Freeze one candidate SHA and deploy it.
 2. Run clean install, dependency, automated, native supporting, physical AT, and performance gates
@@ -157,11 +156,12 @@ automation is never promoted to physical evidence.
 - No redesign based only on Simulator screenshots.
 - No universal test framework, device farm, React Router migration, datastore rewrite, or broad
   design-system project.
+- No physical iPhone acquisition or testing.
 - No claim that Simulator VoiceOver, desktop VoiceOver, Playwright WebKit, or DevTools activation is
   physical mobile screen-reader acceptance.
 
 ## Decision Rule
 
-Work on P38 next when the required devices and owner presence are available. Until then, keep the
+Work on P39 next when Android hardware and owner presence are available. Until then, keep the
 acceptance contract and automated/native supporting gates green without adding another test
-abstraction. P39 is the only phase that can change the physical release decision to `PASS`.
+abstraction. P40 freezes the candidate and records the final release decision.

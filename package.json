@@ -32,6 +32,7 @@
     "test:safari:native": "npm run build && node ./scripts/macos-safari-audit.mjs",
     "test:safari:native:preflight": "node ./scripts/macos-safari-audit.mjs --preflight",
     "test:ios:simulator": "npm run build && node ./scripts/ios-simulator-audit.mjs",
+    "test:ios:simulator:acceptance": "npm run build && node ./scripts/ios-simulator-audit.mjs --suite=acceptance",
     "test:ios:simulator:robustness": "npm run build && node ./scripts/ios-simulator-audit.mjs --suite=robustness",
     "test:ios:simulator:preflight": "node ./scripts/ios-simulator-audit.mjs --preflight",
     "test:e2e:ui": "playwright test --ui",

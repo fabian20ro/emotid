@@ -4,6 +4,7 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import process from 'node:process'
 import {
+  buildIOSAcceptanceMatrix,
   buildIOSSimulatorMatrix,
   buildIOSRobustnessMatrix,
   captureNativeScreenshot,
@@ -22,11 +23,12 @@ const usage = `Usage: node scripts/ios-simulator-audit.mjs [options]
 
 Options:
   --preflight                    Validate Xcode, Appium, XCUITest, runtime, and profiles only
-  --suite=base|robustness        Select the base or P36 robustness matrix (default: base)
+  --suite=base|acceptance|robustness
+                                 Select the smoke, complete J1-J9, or robustness matrix (default: base)
   --case=<id>                    Run one named robustness case (default: all)
   --profile=all|se|17-pro        Simulator profile filter (default: all)
   --language=all|en|ro           Language filter (default: all)
-  --journey=all|quick|word-intermediate|save-retry|tier4
+  --journey=<name>               Filter to one journey supported by the selected suite
   --base-url=<url>               Candidate URL (default: local production build)
   --appium-port=<port>           Appium port (default: 4723)
   --help, -h                     Show help without accessing Simulator or filesystem
@@ -50,7 +52,9 @@ let entries
 try {
   entries = options.suite === 'robustness'
     ? buildIOSRobustnessMatrix(options)
-    : buildIOSSimulatorMatrix(options)
+    : options.suite === 'acceptance'
+      ? buildIOSAcceptanceMatrix(options)
+      : buildIOSSimulatorMatrix(options)
   if (entries.length === 0) throw new Error('No iOS Simulator rows match the selected filters')
 } catch (error) {
   console.error(error.message)
@@ -356,7 +360,7 @@ try {
     const profile = environment.profiles[profileId]
     bootProfile(profile)
     const profileEntries = entries.filter((entry) => entry.profile === profileId)
-    if (options.suite === 'base') {
+    if (options.suite !== 'robustness') {
       resetSafariUi(profile)
       activeDriver = createAppiumClient({ endpoint: `http://127.0.0.1:${options.appiumPort}` })
       await activeDriver.createSession({

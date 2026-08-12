@@ -19,20 +19,35 @@ export const IOS_SIMULATOR_JOURNEYS = Object.freeze([
   'tier4',
 ])
 
+export const IOS_SIMULATOR_ACCEPTANCE_JOURNEYS = Object.freeze([
+  'onboarding-focus',
+  'settings-replay',
+  'affect',
+  'body',
+  'word-intermediate',
+  'save-retry',
+  'history-delete',
+  'tier4',
+  'quick',
+])
+
 export const IOS_SIMULATOR_ACCEPTANCE_IDS = Object.freeze({
   'onboarding-focus': 'j1',
+  'settings-replay': 'j2',
+  affect: 'j3',
+  body: 'j4',
   quick: 'j9',
   'word-intermediate': 'j5',
   'save-retry': 'j6',
+  'history-delete': 'j7',
   tier4: 'j8',
 })
 
 export const IOS_SIMULATOR_ACCEPTANCE_ADAPTER = validateAcceptanceAdapter({
   name: 'ios-simulator',
-  journeyIds: ACCEPTANCE_JOURNEY_IDS.filter((journeyId) => (
-    Object.values(IOS_SIMULATOR_ACCEPTANCE_IDS).includes(journeyId)
-  )),
+  journeyIds: ACCEPTANCE_JOURNEY_IDS,
   resultClass: ACCEPTANCE_RESULTS.simulatorSupportingPass,
+  complete: true,
 })
 
 export const IOS_SIMULATOR_ROBUSTNESS_CASES = Object.freeze([
@@ -88,6 +103,10 @@ const COPY = Object.freeze({
     aiQuery: 'I feel anxiety. What does this emotion mean and how can I understand it better?',
     tier4Path: ['Sad', 'despair', 'Sad', 'Depressed', 'Empty', 'Fearful', 'Weak', 'Worthless'],
     acknowledge: 'Continue to reflection',
+    settings: 'Settings',
+    replayIntroduction: 'Replay introduction',
+    closeIntroduction: 'Close introduction',
+    cancel: 'Cancel',
   }),
   ro: Object.freeze({
     start: 'Începeți o verificare',
@@ -103,6 +122,10 @@ const COPY = Object.freeze({
     aiQuery: 'Simt anxietate. Ce înseamnă această emoție și cum o pot înțelege mai bine?',
     tier4Path: ['Trist', 'disperare', 'Trist', 'Deprimat', 'Gol', 'Temător', 'Slab', 'Lipsit de valoare'],
     acknowledge: 'Continuați la reflecție',
+    settings: 'Setări',
+    replayIntroduction: 'Reluați introducerea',
+    closeIntroduction: 'Închideți introducerea',
+    cancel: 'Anulați',
   }),
 })
 
@@ -141,7 +164,7 @@ export function parseIOSSimulatorArgs(args) {
     } else throw new Error(`Unsupported argument: ${argument}`)
   }
 
-  if (!['base', 'robustness'].includes(options.suite)) {
+  if (!['base', 'acceptance', 'robustness'].includes(options.suite)) {
     throw new Error(`Unsupported suite: ${options.suite}`)
   }
 
@@ -151,9 +174,11 @@ export function parseIOSSimulatorArgs(args) {
   if (options.language !== 'all' && !LANGUAGES.includes(options.language)) {
     throw new Error(`Unsupported language: ${options.language}`)
   }
-  const supportedJourneys = options.suite === 'robustness'
-    ? [...IOS_SIMULATOR_JOURNEYS, 'onboarding-focus']
-    : IOS_SIMULATOR_JOURNEYS
+  const supportedJourneys = options.suite === 'acceptance'
+    ? IOS_SIMULATOR_ACCEPTANCE_JOURNEYS
+    : options.suite === 'robustness'
+      ? [...IOS_SIMULATOR_JOURNEYS, 'onboarding-focus']
+      : IOS_SIMULATOR_JOURNEYS
   if (options.journey !== 'all' && !supportedJourneys.includes(options.journey)) {
     throw new Error(`Unsupported journey: ${options.journey}`)
   }
@@ -174,9 +199,17 @@ export function parseIOSSimulatorArgs(args) {
 }
 
 export function buildIOSSimulatorMatrix({ profile = 'all', language = 'all', journey = 'all' }) {
+  return buildIOSMatrix({ profile, language, journey }, IOS_SIMULATOR_JOURNEYS)
+}
+
+export function buildIOSAcceptanceMatrix({ profile = 'all', language = 'all', journey = 'all' }) {
+  return buildIOSMatrix({ profile, language, journey }, IOS_SIMULATOR_ACCEPTANCE_JOURNEYS)
+}
+
+function buildIOSMatrix({ profile, language, journey }, availableJourneys) {
   const profiles = profile === 'all' ? Object.keys(IOS_SIMULATOR_PROFILES) : [profile]
   const languages = language === 'all' ? LANGUAGES : [language]
-  const journeys = journey === 'all' ? IOS_SIMULATOR_JOURNEYS : [journey]
+  const journeys = journey === 'all' ? availableJourneys : [journey]
   return profiles.flatMap((selectedProfile) => (
     languages.flatMap((selectedLanguage) => (
       journeys.map((selectedJourney) => ({
@@ -370,6 +403,10 @@ function buttonWithText(label) {
   return `//button[normalize-space(.)=${xpathLiteral(label)}]`
 }
 
+function buttonWithAccessibleName(label) {
+  return `//button[@aria-label=${xpathLiteral(label)} or normalize-space(.)=${xpathLiteral(label)}]`
+}
+
 async function click(driver, using, value) {
   const element = await driver.waitForElement(using, value)
   await driver.click(element)
@@ -498,6 +535,7 @@ async function runOnboardingFocus(driver, {
   language,
   theme,
   orientation,
+  complete = false,
 }) {
   await driver.navigate(seedUrl)
   const reset = await driver.executeAsync(`
@@ -567,25 +605,41 @@ async function runOnboardingFocus(driver, {
         .map((element) => element.textContent.trim()),
     }
   `)
-  validateCandidateSurface({
+  const initialViewport = validateCandidateSurface({
     ...surface,
     expectedAssets,
     expectedLanguage: language,
     expectedToken: runToken,
   })
-  return validateRobustnessSurface({
+  const robustness = orientation ? validateRobustnessSurface({
     ...surface,
     expectedOrientation: orientation,
     expectedTheme: theme,
-  })
+  }) : undefined
+  if (!complete) return robustness ?? { viewport: initialViewport }
+
+  for (const expectedStep of ['1', '2', '3']) {
+    await waitForCondition(
+      driver,
+      `return document.querySelector('#onboarding-title') === document.activeElement
+        && document.querySelector('[role="progressbar"]')?.getAttribute('aria-valuenow') === ${JSON.stringify(expectedStep)}`,
+      `onboarding step ${expectedStep} focus and progress`,
+    )
+    const next = await driver.waitForElement('css selector', '.onboarding-actions .primary-button')
+    await driver.click(next)
+  }
+  await driver.waitForElement('css selector', '[data-testid="today-screen"]')
+  return { initialViewport, viewport: await assertCurrentSurface(driver), runToken }
 }
 
-async function assertCurrentSurface(driver, focusSelector = 'h1') {
-  await waitForCondition(
-    driver,
-    `return document.querySelector(${JSON.stringify(focusSelector)}) === document.activeElement`,
-    'destination heading focus',
-  )
+async function assertCurrentSurface(driver, focusSelector = 'h1', { requireHeadingFocus = true } = {}) {
+  if (requireHeadingFocus) {
+    await waitForCondition(
+      driver,
+      `return document.querySelector(${JSON.stringify(focusSelector)}) === document.activeElement`,
+      'destination heading focus',
+    )
+  }
   const state = await driver.execute(`
     const heading = document.querySelector(${JSON.stringify(focusSelector)})
     const bounds = heading?.getBoundingClientRect()
@@ -611,8 +665,10 @@ async function assertCurrentSurface(driver, focusSelector = 'h1') {
   if (state.scrollWidth > state.width + 1) {
     throw new Error(`Horizontal overflow: ${state.scrollWidth}px content in ${state.width}px viewport`)
   }
-  if (!state.headingFocused) throw new Error('Destination heading does not own programmatic focus')
-  if (!state.heading || state.heading.top < -1 || state.heading.bottom > state.height + 1) {
+  if (requireHeadingFocus && !state.headingFocused) {
+    throw new Error('Destination heading does not own programmatic focus')
+  }
+  if (requireHeadingFocus && (!state.heading || state.heading.top < -1 || state.heading.bottom > state.height + 1)) {
     throw new Error(`Destination heading is outside the visual viewport: ${JSON.stringify(state.heading)}`)
   }
   if (state.undersizedActions.length > 0) {
@@ -723,6 +779,65 @@ async function openWords(driver, copy) {
   await click(driver, 'css selector', '[data-testid="arrival-words"]')
 }
 
+async function openArrival(driver, copy) {
+  await click(driver, 'xpath', buttonWithText(copy.start))
+  await driver.waitForElement('css selector', '[data-testid="arrival-screen"]')
+}
+
+async function runSettingsReplay(driver, copy) {
+  await click(driver, 'xpath', buttonWithAccessibleName(copy.settings))
+  await driver.waitForElement('css selector', '[data-testid="settings-screen"]')
+  await click(driver, 'xpath', buttonWithText(copy.replayIntroduction))
+  await driver.waitForElement('css selector', '.onboarding[role="dialog"]')
+  await waitForCondition(
+    driver,
+    "return document.querySelector('#onboarding-title') === document.activeElement && document.querySelector('.app-shell')?.hasAttribute('inert')",
+    'replayed introduction focus and inert background',
+  )
+  await click(driver, 'xpath', buttonWithAccessibleName(copy.closeIntroduction))
+  await driver.waitForElement('css selector', '[data-testid="settings-screen"]')
+  await waitForCondition(
+    driver,
+    `const trigger = document.evaluate(${JSON.stringify(buttonWithText(copy.replayIntroduction))}, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue
+      const bounds = trigger?.getBoundingClientRect()
+      return trigger === document.activeElement && bounds && bounds.top >= 0 && bounds.bottom <= (visualViewport?.height ?? innerHeight)`,
+    'visible replay trigger focus restoration',
+  )
+  return assertCurrentSurface(driver, 'h1', { requireHeadingFocus: false })
+}
+
+async function runAffect(driver, copy) {
+  await openArrival(driver, copy)
+  await click(driver, 'css selector', '[data-testid="arrival-affect"]')
+  const field = await driver.waitForElement('css selector', '.dimensional-plot-svg')
+  await driver.click(field)
+  const suggestion = await driver.waitForElement('css selector', '.dimensional-suggestion-chip')
+  await driver.click(suggestion)
+  await click(driver, 'css selector', '.route-action button')
+  await driver.waitForElement('css selector', '[data-testid="reflection-screen"]')
+  return assertCurrentSurface(driver)
+}
+
+async function runBody(driver, copy) {
+  await openArrival(driver, copy)
+  await click(driver, 'css selector', '[data-testid="arrival-body"]')
+  await click(driver, 'css selector', '.body-side-switch button:last-child')
+  await click(driver, 'css selector', '.body-region-list button')
+  await click(driver, 'css selector', '.body-choice-grid button')
+  const intensities = await driver.findElements('css selector', '.body-intensity-list > button:not(.body-abandon)')
+  if (intensities.length < 2) throw new Error(`Body intensity choices missing: ${intensities.length}`)
+  await driver.click(intensities[1])
+  await driver.waitForElement('css selector', '[data-testid^="body-signal-"]')
+  await waitForCondition(
+    driver,
+    "return document.querySelector('[data-testid^=\"body-signal-\"]') === document.activeElement && Boolean(document.querySelector('[data-testid=\"body-evidence-note\"]'))",
+    'saved body signal focus and evidence note',
+  )
+  await click(driver, 'css selector', '.route-action button')
+  await driver.waitForElement('css selector', '[data-testid="reflection-screen"]')
+  return assertCurrentSurface(driver)
+}
+
 async function runQuick(driver, copy) {
   await click(driver, 'css selector', '[data-testid="quick-feeling-anxiety"]')
   await click(driver, 'css selector', '[data-testid="quick-continue"]')
@@ -790,6 +905,37 @@ async function runSaveRetry(driver, copy) {
   return assertCurrentSurface(driver)
 }
 
+async function runHistoryDelete(driver, copy) {
+  await click(driver, 'css selector', '[data-testid="quick-feeling-joy"]')
+  await click(driver, 'css selector', '[data-testid="quick-continue"]')
+  await driver.waitForElement('css selector', '[data-testid="reflection-screen"]')
+  await click(driver, 'xpath', buttonWithText(copy.done))
+  await driver.waitForElement('css selector', '[data-testid="today-screen"]')
+  await click(driver, 'xpath', buttonWithText(copy.journal))
+  await driver.waitForElement('css selector', '[data-testid="journal-screen"]')
+  await click(driver, 'css selector', '.journal-list button')
+  await driver.waitForElement('css selector', '[data-testid="session-detail-screen"]')
+
+  await driver.execute('history.back()')
+  await driver.waitForElement('css selector', '[data-testid="journal-screen"]')
+  await driver.execute('history.forward()')
+  await driver.waitForElement('css selector', '[data-testid="session-detail-screen"]')
+
+  await click(driver, 'css selector', '[data-testid="session-detail-screen"] > .danger-button')
+  await click(driver, 'xpath', buttonWithText(copy.cancel))
+  await waitForCondition(
+    driver,
+    "return document.querySelector('[data-testid=\"session-detail-screen\"] > .danger-button') === document.activeElement",
+    'delete trigger focus restoration',
+  )
+  await click(driver, 'css selector', '[data-testid="session-detail-screen"] > .danger-button')
+  await click(driver, 'css selector', '.confirm-dialog-actions .danger-button')
+  await driver.waitForElement('css selector', '[data-testid="journal-screen"]')
+  const entries = await driver.findElements('css selector', '.journal-list button')
+  if (entries.length !== 0) throw new Error(`Deleted Journal still has ${entries.length} entries`)
+  return assertCurrentSurface(driver)
+}
+
 async function runTier4(driver, copy) {
   await openWords(driver, copy)
   for (const [index, label] of copy.tier4Path.entries()) {
@@ -810,6 +956,24 @@ async function runTier4(driver, copy) {
   await click(driver, 'xpath', buttonWithText(copy.acknowledge))
   await driver.waitForElement('css selector', '.emotion-heading')
   return assertCurrentSurface(driver, '.emotion-heading')
+}
+
+const IOS_SIMULATOR_JOURNEY_RUNNERS = Object.freeze({
+  'settings-replay': runSettingsReplay,
+  affect: runAffect,
+  body: runBody,
+  'word-intermediate': runWordIntermediate,
+  'save-retry': runSaveRetry,
+  'history-delete': runHistoryDelete,
+  tier4: runTier4,
+  quick: runQuick,
+})
+
+export function resolveIOSSimulatorJourney(journey) {
+  if (journey === 'onboarding-focus') return runOnboardingFocus
+  const runner = IOS_SIMULATOR_JOURNEY_RUNNERS[journey]
+  if (!runner) throw new Error(`Unsupported iOS Simulator journey: ${journey}`)
+  return runner
 }
 
 export async function dismissSafariCoachmark(driver) {
@@ -858,6 +1022,7 @@ export async function runIOSSimulatorCase({
       language: entry.language,
       theme: entry.theme,
       orientation: entry.orientation,
+      complete: !entry.caseId,
     })
   }
   const initialViewport = await prepareCase(driver, {
@@ -868,11 +1033,7 @@ export async function runIOSSimulatorCase({
     language: entry.language,
     theme: entry.theme,
   })
-  let viewport
-  if (entry.journey === 'quick') viewport = await runQuick(driver, copy)
-  else if (entry.journey === 'word-intermediate') viewport = await runWordIntermediate(driver, copy)
-  else if (entry.journey === 'save-retry') viewport = await runSaveRetry(driver, copy)
-  else viewport = await runTier4(driver, copy)
+  const viewport = await resolveIOSSimulatorJourney(entry.journey)(driver, copy)
   const robustness = entry.caseId ? await inspectRobustnessSurface(driver, entry) : undefined
   return { initialViewport, viewport, runToken, ...(robustness ? { robustness } : {}) }
 }

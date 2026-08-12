@@ -53,6 +53,7 @@ npm run test:pwa
 npm run test:performance
 npm run test:safari:native:preflight
 npm run test:ios:simulator:preflight
+npm run test:ios:simulator:acceptance
 npm run test:ios:simulator:robustness
 ```
 
@@ -66,8 +67,9 @@ The permission-free Safari preflight verifies the installed native tooling. The 
 documented in `docs/macos-native-safari-testing.md`; it is supporting desktop evidence, not mobile
 VoiceOver acceptance.
 The opt-in Appium/XCUITest audit drives real Safari in the named iOS Simulator profiles and is
-documented in `docs/ios-simulator-testing.md`; it is supporting Simulator evidence, not physical
-iPhone, installed-PWA, or VoiceOver acceptance.
+documented in `docs/ios-simulator-testing.md`. Its complete J1-J9 EN/RO matrix is the project's
+Apple functional gate. It does not claim installed-PWA behavior or VoiceOver speech, rotor, and
+gesture coverage; physical iPhone testing is explicitly outside project scope.
 
 ## Method Context
 

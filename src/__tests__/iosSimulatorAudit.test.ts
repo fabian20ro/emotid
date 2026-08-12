@@ -50,6 +50,42 @@ describe('iOS Simulator Safari audit', () => {
       .toEqual([{ profile: 'se', language: 'ro', journey: 'tier4', acceptanceId: 'j8' }])
   })
 
+  it('builds a complete canonical J1-J9 Simulator acceptance matrix', async () => {
+    const {
+      buildIOSAcceptanceMatrix,
+      IOS_SIMULATOR_ACCEPTANCE_ADAPTER,
+      IOS_SIMULATOR_ACCEPTANCE_JOURNEYS,
+    } = await import(auditModuleUrl)
+
+    expect(IOS_SIMULATOR_ACCEPTANCE_ADAPTER).toMatchObject({
+      journeyIds: ['j1', 'j2', 'j3', 'j4', 'j5', 'j6', 'j7', 'j8', 'j9'],
+      resultClass: 'SIMULATOR_SUPPORTING_PASS',
+      complete: true,
+    })
+    expect(IOS_SIMULATOR_ACCEPTANCE_JOURNEYS).toEqual([
+      'onboarding-focus',
+      'settings-replay',
+      'affect',
+      'body',
+      'word-intermediate',
+      'save-retry',
+      'history-delete',
+      'tier4',
+      'quick',
+    ])
+
+    const matrix = buildIOSAcceptanceMatrix({})
+    expect(matrix).toHaveLength(36)
+    expect(matrix[0]).toEqual({
+      profile: 'se', language: 'en', journey: 'onboarding-focus', acceptanceId: 'j1',
+    })
+    expect(matrix.at(-1)).toEqual({
+      profile: '17-pro', language: 'ro', journey: 'quick', acceptanceId: 'j9',
+    })
+    expect(buildIOSAcceptanceMatrix({ profile: '17-pro', language: 'ro', journey: 'history-delete' }))
+      .toEqual([{ profile: '17-pro', language: 'ro', journey: 'history-delete', acceptanceId: 'j7' }])
+  })
+
   it('builds a bounded risk-based robustness matrix instead of a Cartesian product', async () => {
     const { buildIOSRobustnessMatrix } = await import(auditModuleUrl)
 
@@ -118,6 +154,17 @@ describe('iOS Simulator Safari audit', () => {
       suite: 'robustness',
       caseId: 'se-dark-word-ro',
     })
+    expect(parseIOSSimulatorArgs([
+      '--suite=acceptance',
+      '--profile=17-pro',
+      '--language=ro',
+      '--journey=settings-replay',
+    ])).toMatchObject({
+      suite: 'acceptance',
+      profile: '17-pro',
+      language: 'ro',
+      journey: 'settings-replay',
+    })
     expect(() => parseIOSSimulatorArgs(['--profile=mini'])).toThrow('Unsupported profile: mini')
     expect(() => parseIOSSimulatorArgs(['--journey=j10'])).toThrow('Unsupported journey: j10')
     expect(() => parseIOSSimulatorArgs(['--suite=all'])).toThrow('Unsupported suite: all')
@@ -125,6 +172,15 @@ describe('iOS Simulator Safari audit', () => {
     expect(() => parseIOSSimulatorArgs(['--base-url=https://example.com/emotid/']))
       .toThrow('Candidate URL must use a loopback host')
     expect(() => parseIOSSimulatorArgs(['--unknown'])).toThrow('Unsupported argument: --unknown')
+  })
+
+  it('dispatches every acceptance journey explicitly and fails fast on drift', async () => {
+    const { IOS_SIMULATOR_ACCEPTANCE_JOURNEYS, resolveIOSSimulatorJourney } = await import(auditModuleUrl)
+
+    for (const journey of IOS_SIMULATOR_ACCEPTANCE_JOURNEYS) {
+      expect(resolveIOSSimulatorJourney(journey)).toEqual(expect.any(Function))
+    }
+    expect(() => resolveIOSSimulatorJourney('unknown')).toThrow('Unsupported iOS Simulator journey: unknown')
   })
 
   it('validates Xcode, Appium, XCUITest, runtime, and both named profiles', async () => {
@@ -467,6 +523,7 @@ describe('iOS Simulator Safari audit', () => {
 
     expect(help.status).toBe(0)
     expect(help.stdout).toContain('Usage:')
+    expect(help.stdout).toContain('--suite=base|acceptance|robustness')
     expect(help.stdout).not.toContain('Starting Appium')
     expect(invalid.status).not.toBe(0)
     expect(invalid.stderr).toContain('Unsupported argument: --unknown')

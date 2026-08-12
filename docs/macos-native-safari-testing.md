@@ -51,6 +51,5 @@ WebDriver activation, focus changes exposed to the DOM, and the named workflows.
 VoiceOver speech, VoiceOver keyboard navigation, iOS gestures, mobile Safari layout, or installed
 iOS PWA behavior.
 
-The later VoiceOver pass must be run separately while the owner is present. Retain spoken captions,
-focus order, activation, and focus return; classify it as macOS supporting evidence. Apple mobile
-hardware remains required to close the release gate.
+No VoiceOver claim is derived from this audit. A future owner-requested desktop VoiceOver session
+would remain optional macOS supporting evidence; physical iPhone testing is outside release scope.

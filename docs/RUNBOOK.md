@@ -67,10 +67,10 @@ No server-side monitoring. Health indicators:
 - Native Safari capability: `npm run test:safari:native:preflight`; run the authorized desktop
   audit separately using `docs/macos-native-safari-testing.md`
 - iOS Simulator capability: `npm run test:ios:simulator:preflight`; run the opt-in Mobile Safari
-  base and robustness matrices using `docs/ios-simulator-testing.md`
+  base, complete acceptance, and robustness matrices using `docs/ios-simulator-testing.md`
 
-See `docs/release-quality-gates.md` for physical mobile-performance thresholds and the mandatory
-VoiceOver/Safari plus TalkBack/Chrome acceptance script.
+See `docs/release-quality-gates.md` for physical Android performance thresholds and the mandatory
+TalkBack/Chrome acceptance script. Physical iPhone testing is outside project scope.
 
 ## Release Candidate Evidence
 
@@ -78,7 +78,7 @@ VoiceOver/Safari plus TalkBack/Chrome acceptance script.
    `docs/physical-release-evidence.md`.
 2. Run `npm ci`, `npm ls`, `npm audit --omit=dev`, and every automated gate from
    `docs/release-quality-gates.md` against that SHA.
-3. Complete the bilingual browser/installed-PWA VoiceOver and TalkBack matrix on physical devices.
+3. Complete the iOS Simulator J1-J9 matrix and the bilingual browser/installed-PWA TalkBack matrix.
 4. Complete three cold/warm performance runs on representative low- and mid-tier Android devices.
 5. Fix only reproduced failures, add the closest deterministic regression, redeploy, and retest the
    failed physical row.

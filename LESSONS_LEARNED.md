@@ -197,6 +197,12 @@ ID, retain the repository as a metadata archive and publish a fresh repository I
 
 ## Process & Workflow
 
+**[2026-08-13]** Native adapters must follow accessible names and state-specific focus contracts —
+Icon-only controls expose their name through `aria-label`, not text content. Resolve controls by
+accessible name and keep selectors platform-local. After an overlay closes, verify that the exact
+trigger owns focus and is visible; do not also require a scrolled-off screen heading to own focus.
+Heading-entry focus and trigger-return focus are mutually exclusive state contracts.
+
 **[2026-08-12]** Release documentation needs one owner per fact — Keep the active plan limited to
 future work, the quality-gate document normative, the evidence ledger candidate-bound, and the
 iteration log historical. Appending completed phases and newer runs to every document creates

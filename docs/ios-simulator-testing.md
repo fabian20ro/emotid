@@ -1,8 +1,8 @@
 # iOS Simulator Safari Testing
 
-This opt-in local gate drives installed Simulator Safari through Appium/XCUITest. It is stronger
-browser and layout evidence than Playwright WebKit emulation, but it is not a physical iPhone or
-VoiceOver pass.
+This opt-in local gate drives Simulator Safari through Appium/XCUITest. It is the project's Apple
+functional gate and stronger browser/layout evidence than Playwright WebKit emulation. It is not a
+VoiceOver pass; physical iPhone testing is outside project scope.
 
 ## Prerequisites
 
@@ -22,11 +22,12 @@ npm run test:ios:simulator:preflight
 
 ```bash
 npm run test:ios:simulator
+npm run test:ios:simulator:acceptance
 npm run test:ios:simulator:robustness
 ```
 
 The command builds the production app, serves it from the same local origin used by native desktop
-Safari, starts Appium only when needed, and runs:
+Safari, starts Appium only when needed, and runs a 16-row smoke matrix:
 
 - Quick persistence and exact Google AI Mode query semantics;
 - direct completion with an intermediary Word Ladder emotion;
@@ -37,14 +38,19 @@ Each journey runs in English and Romanian on both profiles: 16 rows. Every row a
 exact production JS/CSS assets, unique run token, document language, heading focus, horizontal
 overflow, heading viewport bounds, and 44px primary-action height.
 
+The 36-row `acceptance` suite runs canonical J1-J9 in English and Romanian on both profiles:
+first-run introduction, Settings replay, Affect, Body Compass, Word Ladder intermediary completion,
+save recovery, browser history plus Journal deletion, tier-4 gating, and Reflection disclosure.
+It checks each route's observable focus, gating, persistence, and navigation postconditions.
+
 Filters support focused diagnosis:
 
 ```bash
 node scripts/ios-simulator-audit.mjs --profile=se --language=ro --journey=tier4
 ```
 
-Allowed profiles: `all`, `se`, `17-pro`. Allowed languages: `all`, `en`, `ro`. Allowed journeys:
-`all`, `quick`, `word-intermediate`, `save-retry`, `tier4`.
+Allowed profiles: `all`, `se`, `17-pro`. Allowed languages: `all`, `en`, `ro`. Journey names are
+validated against the selected suite; use `--help` for the current CLI contract.
 
 The six-case robustness suite is risk-based, not a Cartesian product. It covers onboarding focus,
 SE and 17 Pro landscape, dark Word Ladder, and compact Quick/tier-4 at 200% Safari Page Zoom plus
@@ -82,4 +88,4 @@ is restored, avoiding SafariDriver's inconsistent web-only crops. Valid function
 
 The Simulator cannot currently provide reliable installed-PWA identity after Share Sheet
 activation, nor VoiceOver speech/rotor/gesture evidence. These are documented limitations, not
-application failures. Physical installed-PWA and VoiceOver acceptance remains P38.
+application failures or release gates. Do not relabel accessibility-tree inspection as VoiceOver.

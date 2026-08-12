@@ -2006,3 +2006,37 @@ validated manifest removes silent matrix drift while preserving platform-specifi
 and avoiding a test DSL.
 **Promoted to Lessons Learned:** Yes — extends the existing one-owner documentation rule to
 machine-readable acceptance metadata after four demonstrated consumers.
+
+---
+
+### [2026-08-13] Complete P38 Apple Simulator acceptance closure
+
+**Context:** The project owner explicitly excluded physical iPhone acquisition/testing and selected
+the existing iOS Simulator profiles as the Apple functional gate. Appium covered only five of the
+nine canonical journeys.
+**What happened:**
+- Started with failing tests for a separate 36-row `acceptance` suite, complete J1-J9 adapter
+  registration, strict CLI filtering, and explicit journey dispatch. Kept the 16-row smoke and
+  six-row robustness suites unchanged.
+- Added J2 Settings replay, J3 Affect placement, J4 Body Compass, and J7 browser history plus
+  Journal deletion. Expanded J1 from first-frame focus evidence to all three introduction steps and
+  completion. Every row retains exact assets, language, run token, geometry, focus, screenshot, and
+  normalized result evidence.
+- The first real run passed 32/36. All four failures shared one adapter defect: icon-only Settings
+  and Close controls were queried by visible text instead of accessible name. After that fix, the
+  compact SE exposed a second assertion defect: correct focus restoration scrolls the replay
+  trigger into view and can move the Settings heading above the viewport. The gate now checks the
+  returned trigger's focus and visibility without incorrectly requiring heading focus at the same
+  time.
+- Updated active release documentation: Simulator J1-J9 is the Apple functional gate; installed
+  iOS PWA and VoiceOver speech/rotor/gesture behavior remain untested limitations, while physical
+  iPhone testing is outside project scope rather than an impossible open gate.
+**Outcome:** Final Appium acceptance report passes 36/36 at
+`.reports/ios-simulator/2026-08-12T22-06-52-696Z/`. Final `npm run check` passes 81 files / 644
+tests and all build/copy/budget gates; Playwright passes 212/212. No product defect was reproduced;
+the failures were platform-adapter assertions. Both Simulator profiles are Shutdown and no owned
+Appium or preview listener remains.
+**Insight:** Native browser automation must locate icon-only controls through their accessible name.
+Focus restoration and destination-heading focus are different contracts; asserting both
+simultaneously can reject correct compact-screen behavior.
+**Promoted to Lessons Learned:** Yes — both patterns recur across overlays and native adapters.
