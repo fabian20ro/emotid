@@ -112,6 +112,13 @@ mirror foreground before preparing the checkpoint, and verify the actual Action 
 connected keyboard. Retain Android focused-node data plus before/activation/after visuals; do not
 infer success from the host window alone.
 
+**[2026-08-13]** Android playback capture is not TalkBack speech evidence — On the Pixel 6a,
+scrcpy `output` captured only accessibility earcons, while TalkBack TTS was excluded; microphone
+capture also produced no reliable transcript. Attribute automated supporting evidence through four
+independent signals: bound TalkBack/touch exploration, native focus events and exact AX names,
+visible speech overlay, and TTS synthesis/dispatch logs plus the route postcondition. Record the TTS
+locale separately; app language does not prove that the device selected a matching voice.
+
 **[2026-08-09]** Physical browser targeting needs two independent exact proofs — A matching CDP
 page is not proof that Android displays the same Chrome tab. Give every browser audit a unique URL
 token, require the exact token in both the non-standalone CDP page and Chrome's native URL bar,

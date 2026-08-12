@@ -39,7 +39,11 @@ belongs in `docs/physical-release-evidence.md`.
 
 ### Confirmed Open Gates
 
-1. Genuine TalkBack remains incomplete beyond J5 and bounded installed J6/J8 checkpoints.
+1. Human-operated TalkBack remains incomplete beyond J5. Automated native J6/J8 browser
+   checkpoints pass EN/RO with real TalkBack focus, TTS dispatch, and native key activation, but
+   remain supporting evidence rather than gesture or speech-quality sign-off. The Pixel currently
+   dispatches an English TTS voice for Romanian app content; verify Romanian TalkBack language
+   configuration before any Romanian speech-quality claim.
 2. No distinct low-tier Android performance profile has been measured.
 3. The current candidate cannot receive physical sign-off until the required exact-candidate rows
    are rerun or explicitly waived.

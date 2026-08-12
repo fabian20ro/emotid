@@ -62,6 +62,7 @@ screen-reader gestures, installed mobile UI, or low-tier hardware timing.
 | `23e0c05c` | Pixel 6a, browser TalkBack | J5 speech, AOA focus, activation, Reflection focus; EN/RO | PASS | `.reports/android-physical/2026-08-12T11-05-00-talkback-j5-local/` |
 | `23e0c05c` | Pixel 6a, browser | J5/J6/J8 EN/RO with exact CDP + native foreground proof | SUPPORTING_PASS, 6/6 | `.reports/android-physical/2026-08-12T10-52-54-317Z-browser/`; `.reports/android-physical/2026-08-12T10-53-18-107Z-browser/`; `.reports/android-physical/2026-08-12T10-53-35-749Z-browser/` |
 | deployed production; harness from `c048830` working tree | Pixel 6a, Android 17 browser | J6/J8 EN/RO; exact CDP + native foreground proof; final preflight/lifecycle regression | SUPPORTING_PASS, 4/4 | `.reports/android-physical/2026-08-12T22-30-59-970Z-browser/`; `.reports/android-physical/2026-08-12T22-31-20-439Z-browser/` |
+| `a0c73e7` | Pixel 6a, Android 17 browser + TalkBack 17 | J6/J8 EN/RO; native focus order, visible speech overlay, TTS dispatch, native key activation, route postconditions | NATIVE_TALKBACK_SUPPORTING_PASS, 4/4 | `.reports/android-physical/2026-08-12T22-59-46-804Z-native-talkback-j6-j8/` |
 | `f59e5175` | Pixel 6a, Android 17 | Three-run mid-tier production timing | PASS | `.reports/android-physical/2026-08-07T17-26-42-635Z-browser/` and retained timing artifacts |
 
 P35/P36 reproduced and fixed four focus/reflow product defects. The final native matrices expose no
@@ -75,8 +76,8 @@ without an explicit equivalence decision in the final sign-off.
 
 | Device | Language | Mode | J1 | J2 | J3 | J4 | J5 | J6 | J7 | J8 | J9 | Result |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Pixel 6a / TalkBack | EN | Browser | | | | | prior pass | | | | | OPEN FOR FROZEN SHA |
-| Pixel 6a / TalkBack | RO | Browser | | | | | prior pass | | | | | OPEN FOR FROZEN SHA |
+| Pixel 6a / TalkBack | EN | Browser | | | | | prior pass | supporting | | supporting | | OPEN FOR HUMAN SIGN-OFF |
+| Pixel 6a / TalkBack | RO | Browser | | | | | prior pass | supporting | | supporting | | OPEN FOR HUMAN SIGN-OFF |
 | Pixel 6a / TalkBack | EN | Installed | | | | | prior pass | prior checkpoint | | prior checkpoint | | OPEN FOR FROZEN SHA |
 | Pixel 6a / TalkBack | RO | Installed | | | | | prior pass | prior checkpoint | | prior checkpoint | | OPEN FOR FROZEN SHA |
 

@@ -2070,3 +2070,28 @@ is simpler and more auditable than repeated ad hoc reads, and resource ownership
 the same control flow as execution.
 **Promoted to Lessons Learned:** No — extends the existing hardware fail-fast rule; no new reusable
 rule required.
+
+---
+
+### [2026-08-13] Add native TalkBack J6/J8 supporting evidence
+
+**Context:** Human scrcpy/AOA calibration was ambiguous and caused unintended Chrome navigation.
+The owner asked whether TalkBack speech and behavior could instead be verified autonomously.
+**What happened:**
+- Probed scrcpy playback and microphone recording. Playback produced valid PCM with accessibility
+  earcons but excluded TalkBack speech; local Whisper found no speech in either capture path.
+- Ran real TalkBack 17 on Pixel 6a / Android 17 without a host window. Used native Android Tab and
+  Enter events, exact DOM/AX focus snapshots, TalkBack visible-speech screenshots, TTS synthesis
+  and dispatch logs, and browser postconditions.
+- J6 traversed heading to Retry and returned to Today. J8 traversed both support resources before
+  acknowledgment and revealed Reflection. EN/RO passed 4/4. No TTS-not-ready errors occurred.
+- Found a device/configuration limitation: Romanian UI retained `lang=ro` and Romanian AX names,
+  but TalkBack dispatched the `eng-USA` voice. This is not attributed to product behavior without
+  checking the device's TalkBack language settings.
+- Restored TalkBack `null`, accessibility `0`, normal stay-awake policy, Chrome, logging properties,
+  ADB forward/reverse mappings, and the local server. Worktree product code was unchanged.
+**Outcome:** `NATIVE_TALKBACK_SUPPORTING_PASS`, 4/4, at
+`.reports/android-physical/2026-08-12T22-59-46-804Z-native-talkback-j6-j8/`. Human gesture and
+Romanian speech-quality sign-off remain open; no product defect was reproduced.
+**Insight:** Screen-reader automation needs attributed signals, not an audio-file assumption.
+**Promoted to Lessons Learned:** Yes — adds a reusable TalkBack evidence boundary.
