@@ -36,6 +36,22 @@ This bounded EN/RO production audit covers Quick persistence and AI-link semanti
 intermediary completion, and tier-4 gating. Record it as `NATIVE_SUPPORTING_PASS`; it cannot close
 the mobile VoiceOver/Safari release gate. See `docs/macos-native-safari-testing.md`.
 
+## iOS Simulator Supporting Gate
+
+Real Simulator Safari through Appium/XCUITest is stronger layout and browser evidence than
+Playwright WebKit emulation, but it does not replace a physical iPhone or physical VoiceOver.
+Record functional rows as `SIMULATOR_SUPPORTING_PASS`. Keep this gate opt-in and local; do not make
+an 8+ GB Xcode runtime a general CI requirement.
+
+```bash
+npm run test:ios:simulator:preflight
+npm run test:ios:simulator
+```
+
+The base matrix covers Quick, Word intermediary completion, local save recovery, and tier-4 gating
+in EN/RO on the named iPhone SE and iPhone 17 Pro profiles. See
+`docs/ios-simulator-testing.md`.
+
 ## Mobile Performance Acceptance
 
 Measure on one representative mid-tier and one low-tier Android device with a cold browser cache.
@@ -60,11 +76,10 @@ Record all three raw runs, medians, environment details, and artifact references
 Playwright cannot validate synthesized speech, rotor/local-context navigation, or screen-reader
 gestures. Complete both combinations:
 
-1. VoiceOver with Safari on an Apple device.
+1. VoiceOver with Safari on a physical iPhone.
 2. TalkBack with Chrome on Android.
 
-For each combination, run every journey in English and Romanian, in Safari/Chrome and the installed
-PWA:
+For each combination, run J1-J9 in English and Romanian, in Safari/Chrome and the installed PWA:
 
 1. First-run introduction: every step title, explanation, and progress announced once and in order.
 2. Settings replay: background unavailable, dialog bounded, swipe navigation trapped, Close returns
@@ -80,6 +95,9 @@ PWA:
    entry returns focus to the Journal without reviving stale routes.
 8. Tier-4 support fixture: safety message precedes resources; reflection remains unavailable before
    acknowledgment; resource labels and links are actionable.
+9. Reflection disclosure: inferred needs and AI are absent from the compact result; direct finish
+   and optional exploration remain discoverable; exploration receives focus and Back restores it
+   to the disclosure trigger.
 
 Record:
 
@@ -95,6 +113,16 @@ Record:
 
 Fix only reproduced defects. Add the closest browser-observable regression without claiming that it
 tests synthesized speech. This gate remains open until both physical combinations pass.
+
+Result classes:
+
+- `PASS`: the required physical assistive technology performed navigation, speech, and activation.
+- `BOUNDED PASS`: a named physical checkpoint passed, but not the complete journey.
+- `SUPPORTING PASS`: real device/browser behavior passed through DevTools or another input that
+  bypassed the required assistive technology.
+- `SIMULATOR SUPPORTING PASS`: real Simulator browser behavior passed; no physical-device claim.
+- `BLOCKED`: the environment prevented a valid run; never reinterpret as an application failure.
+- `FAIL`: a requirement failed on the exact intended environment and candidate.
 
 Use `docs/physical-release-evidence.md` as the release record. It contains the complete language,
 browser/installed-mode matrix, performance table, evidence fields, and temporary DevTools-only save

@@ -1,7 +1,8 @@
 # Mobile Rehaul Implementation Plan
 
-Status: implemented July 22, 2026. Verified by `npm run check` and 48 repeatable
-Playwright cases across Mobile Safari and Mobile Chrome.
+Status: historical blueprint, implemented beginning July 22, 2026. The 48-case count below records
+that iteration, not the current suite. Current status lives in
+`docs/mobile-rehaul-remaining-plan.md`.
 
 Target: move the current model-first mobile UI to the approved Daily Thread shell,
 Arrival entry, capability-based check-in routes, and Meaning + Need reflection.

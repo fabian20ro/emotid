@@ -1,6 +1,9 @@
 # Mobile Rehaul Review
 
-Audit target: current English UI at `393 x 742`, July 22, 2026.
+Historical design input for the completed migration; do not use this file as current-state or
+remaining-work documentation. Current status lives in `docs/mobile-rehaul-remaining-plan.md`.
+
+Audit target: English UI at `393 x 742`, July 22, 2026.
 
 Review lenses: mobile-first UX, accessibility, affective science, emotional safety.
 This is a product-design proposal, not clinical advice.
@@ -186,4 +189,3 @@ Suggested delivery sequence:
 4. Replace dimensional canvas presentation.
 5. Integrate Body Compass.
 6. Reframe history as Journal; keep all storage local.
-

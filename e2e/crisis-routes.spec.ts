@@ -20,6 +20,7 @@ async function expectSupportBoundary(
     await expect(page.getByRole('group', { name: 'What feels most needed right now?' })).toHaveCount(0)
     await expect(acknowledge).toBeVisible()
     await acknowledge.click()
+    await expect(page.locator('.emotion-heading')).toBeFocused()
   } else {
     await expect(acknowledge).toHaveCount(0)
   }

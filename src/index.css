@@ -508,6 +508,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 }
 
 .emotion-heading { margin: 20px 0 12px; display: flex; flex-wrap: wrap; gap: 7px; }
+.emotion-heading:focus { outline: none; }
 .emotion-heading span { min-height: 34px; padding: 6px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-raised); display: inline-flex; align-items: center; gap: 7px; font-weight: 680; }
 .emotion-heading i { width: 9px; height: 9px; border-radius: 50%; }
 .reflection-screen .emotion-heading { margin-top: 16px; }

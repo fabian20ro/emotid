@@ -65,6 +65,8 @@ No server-side monitoring. Health indicators:
 - Crisis path: select distress emotions → verify banner appears
 - Native Safari capability: `npm run test:safari:native:preflight`; run the authorized desktop
   audit separately using `docs/macos-native-safari-testing.md`
+- iOS Simulator capability: `npm run test:ios:simulator:preflight`; run the opt-in Mobile Safari
+  matrix using `docs/ios-simulator-testing.md`
 
 See `docs/release-quality-gates.md` for physical mobile-performance thresholds and the mandatory
 VoiceOver/Safari plus TalkBack/Chrome acceptance script.

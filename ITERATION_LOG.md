@@ -1856,3 +1856,82 @@ the complete Mobile Safari/Mobile Chrome Playwright matrix passes 210/210.
 **Insight:** Screen-reader acceptance needs explicit calibration of host focus, pointer transport,
 and modifier mapping; DOM focus alone is insufficient even with an external keyboard.
 **Promoted to Lessons Learned:** Yes — reusable for every remaining AOA TalkBack row.
+
+---
+
+### [2026-08-12] Establish real iOS Simulator automation
+
+**Context:** Xcode commands worked after owner installation, but `simctl` exposed device templates
+without any installed runtime or device instances.
+**What happened:**
+- Downloaded and installed the official iOS 26.5 arm64 Simulator runtime through Xcode (8.52 GB).
+- Created and booted named iPhone SE 3 and iPhone 17 Pro profiles. The 17 Pro's first migration
+  needed one erase/retry before completing; no application failure was inferred.
+- Installed Appium XCUITest 12.3.1. All required driver-doctor checks passed; only optional
+  `applesimutils` remains absent.
+- Started WebDriverAgent sessions against Mobile Safari on both profiles. Verified deployed URL,
+  title, document completion, onboarding heading, and viewports (`375x549`/DPR 2 and
+  `402x714`/DPR 3).
+- Located and dismissed Safari's first-run coachmark in native context, switched to web context,
+  activated `Next`, and verified onboarding heading/progress step 2.
+**Outcome:** Repeatable Appium/XCUITest Safari automation is available on this Mac. Two real iOS
+Simulator smoke rows pass. Full bilingual journeys, Simulator VoiceOver, PWA, rotation, and text
+size remain unimplemented; physical iPhone VoiceOver remains a separate release gate.
+**Insight:** `simctl list devicetypes` proves only templates, not a runnable iOS environment. Check
+`simctl list runtimes` and boot a device before claiming Simulator availability.
+**Promoted to Lessons Learned:** No — first occurrence; retain in the iteration log.
+
+---
+
+### [2026-08-12] Consolidate the remaining plan and release evidence
+
+**Context:** The active migration plan had grown to 1,018 lines by appending every completed phase.
+It repeated physical gates in multiple sections, while the evidence template mixed an obsolete
+candidate header with newer supplemental runs and described eight journeys despite defining J1-J9.
+**What happened:**
+- Replaced the accumulated migration chronology with a concise current-state plan covering only
+  confirmed gaps, investigation candidates, guardrails, architecture direction, P35-P39, and
+  explicit non-goals.
+- Defined UI/UX counterparts for KISS, YAGNI, DRY, Rule of Three, SoC, POLA, Fail Fast, and Gall's
+  Law as operational product rules.
+- Made `release-quality-gates.md` the normative J1-J9 source and added explicit evidence classes.
+- Rebuilt `physical-release-evidence.md` as a candidate-honest evidence ledger: prior SHA evidence
+  remains visible, but final-candidate rows stay open until a SHA is frozen and rerun.
+- Marked the original review and implementation blueprint as historical inputs so their old audit
+  findings and suite counts cannot be mistaken for current state.
+**Outcome:** Planning, requirements, evidence, and history now have one owner each. The next
+executable phase is P35, followed by iOS variants, bounded acceptance-contract extraction, physical
+closure, and final sign-off.
+**Insight:** Documentation follows SoC too: active plan, normative gate, evidence ledger, and
+historical log must not independently own the same status fact.
+**Promoted to Lessons Learned:** Yes — repeated candidate and remaining-work contradictions were
+caused by append-only documents with overlapping ownership.
+
+---
+
+### [2026-08-12] Complete P35 repeatable iOS Safari journeys
+
+**Context:** Ad-hoc XCUITest smoke proved the toolchain, but the repository still lacked a bounded,
+repeatable bilingual Simulator gate with candidate identity and useful evidence.
+**What happened:**
+- Began with failing contracts, then added a small W3C Appium client, pure matrix/preflight module,
+  and opt-in lifecycle runner. CLI validation completes before device or filesystem effects.
+- Added 16 EN/RO rows across named iPhone SE and iPhone 17 Pro profiles: Quick persistence plus
+  exact AI-link semantics, Word intermediary completion, save failure/retry, and tier-4 gating.
+- Validated exact production assets, unique run token, language, visual viewport, overflow,
+  destination focus, and 44px primary actions. Preserved original simulator/service state.
+- Captured screenshots explicitly in native context after inconsistent web-context crops appeared,
+  then restored the active web context. The repeated SE save-retry evidence rendered correctly.
+- The real tier-4 row exposed a product defect: acknowledgment removed the active button without a
+  focus destination. Made the revealed result a focusable heading and moved focus there; added unit
+  and dual-browser Playwright regressions.
+**Outcome:** The final runner passes the complete Simulator matrix 16/16 with native screenshots at
+`.reports/ios-simulator/2026-08-12T18-02-37-977Z/`; targeted tier-4 repetition also passes 4/4.
+`npm run check` passes 79 files / 631 tests;
+Playwright passes 210/210, PWA 1/1, performance 1/1, and installed macOS Safari 6/6. No Appium,
+WebDriverAgent, preview listener, or runner-booted SE remains after cleanup.
+**Insight:** Native automation evidence must make both browser context and screenshot context
+explicit. A visually plausible web-context screenshot can still be a cropped compositor artifact.
+Safety gates also need a deliberate focus destination when acknowledgment replaces the trigger.
+**Promoted to Lessons Learned:** Yes — the safety focus rule closes a high-risk reusable interaction
+boundary. Screenshot-context behavior remains a first occurrence in the iteration log.

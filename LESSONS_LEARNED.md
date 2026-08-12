@@ -88,6 +88,11 @@ contract as an unchecked cast or duplicate partial property checks.
 
 ## Testing & Quality
 
+**[2026-08-12]** Safety acknowledgments need an explicit focus handoff — When acknowledging crisis
+resources removes the active control and reveals reflective content, focus does not acquire a useful
+destination automatically. Focus the newly revealed result heading, keep the support message first
+in document order, and verify the transition in unit, rendered-browser, and native-browser tests.
+
 **[2026-08-12]** External screen-reader keyboards need transport-specific calibration — Host
 window switching, pointer forwarding, and modifier layout can alter assistive-technology focus
 without changing DOM focus. For TalkBack through scrcpy AOA, disable mouse forwarding, make the
@@ -179,6 +184,12 @@ ID, retain the repository as a metadata archive and publish a fresh repository I
 **[2026-04-11]** Vitest packages must move together — Upgrading `vitest` without matching `@vitest/coverage-v8` left `package-lock.json` with incompatible peers and broke `npm ci` in CI. Treat `vitest` and `@vitest/*` helpers as a synchronized set; regenerate the lockfile and verify with fresh `npm ci`.
 
 ## Process & Workflow
+
+**[2026-08-12]** Release documentation needs one owner per fact — Keep the active plan limited to
+future work, the quality-gate document normative, the evidence ledger candidate-bound, and the
+iteration log historical. Appending completed phases and newer runs to every document creates
+contradictory candidates, test counts, and remaining-work claims. Link across roles instead of
+copying status text.
 
 **[2026-08-07]** Hardware test CLIs must validate before touching hardware — A physical-audit
 script treated `--help` as an unknown no-op and started its full device suite. Handle help and

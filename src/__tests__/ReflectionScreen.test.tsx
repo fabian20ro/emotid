@@ -215,6 +215,7 @@ describe('ReflectionScreen need selection', () => {
     expect(screen.queryByRole('group', { name: 'What feels most needed right now?' })).not.toBeInTheDocument()
     await user.click(screen.getByRole('button', { name: 'Continue to reflection' }))
 
+    expect(screen.getByRole('heading', { level: 2, name: 'despair' })).toHaveFocus()
     expect(screen.queryByRole('group', { name: 'What feels most needed right now?' })).not.toBeInTheDocument()
     await user.click(screen.getByRole('button', { name: 'Explore further' }))
     expect(screen.getByRole('group', { name: 'What feels most needed right now?' })).toBeInTheDocument()

@@ -37,6 +37,7 @@ export function ReflectionScreen({ completion, allowExternalAI, saveState, sessi
   const [finishState, setFinishState] = useState<FinishState>('idle')
   const [nextStep, setNextStep] = useState<string | undefined>()
   const screenRef = useRef<HTMLDivElement>(null)
+  const resultHeadingRef = useRef<HTMLHeadingElement>(null)
   const restoreExplorationTriggerRef = useRef(false)
   const savingRef = useRef(false)
   const pendingDetailRef = useRef<ReflectionDetail | null>(null)
@@ -60,6 +61,12 @@ export function ReflectionScreen({ completion, allowExternalAI, saveState, sessi
     }
     screenRef.current?.querySelector<HTMLElement>('#screen-title')?.focus({ preventScroll: true })
   }, [finishState, showExploration, showStep])
+
+  useLayoutEffect(() => {
+    if (completion.crisisTier === 'tier4' && tier4Acknowledged) {
+      resultHeadingRef.current?.focus({ preventScroll: true })
+    }
+  }, [completion.crisisTier, tier4Acknowledged])
 
   const attemptSave = async (detail: ReflectionDetail) => {
     if (savingRef.current) return
@@ -258,9 +265,9 @@ export function ReflectionScreen({ completion, allowExternalAI, saveState, sessi
         <button type="button" className="crisis-ack" onClick={() => setTier4Acknowledged(true)}>{t.acknowledge}</button>
       ) : (
         <>
-          <div className="emotion-heading">
+          <h2 ref={resultHeadingRef} className="emotion-heading" tabIndex={-1}>
             {results.map((result) => <span key={result.id}><i style={{ background: result.color }} />{result.label[language]}</span>)}
-          </div>
+          </h2>
 
           <p className="reflection-synthesis">{briefSynthesis}</p>
 
