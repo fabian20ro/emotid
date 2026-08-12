@@ -110,10 +110,18 @@ boundary that automation cannot cross.
 Run the physical-device harness from the repository root:
 
 ```sh
+npm run test:android:physical:preflight
 npm run test:android:physical -- --mode=browser --suite=journeys
 npm run test:android:physical -- --mode=installed --suite=journeys
 npm run test:android:physical -- --mode=browser --suite=performance
 ```
+
+Preflight creates no evidence, launches no app, and opens no CDP forward. It requires exactly one
+authorized, unlocked device and reports Android/build identity, TalkBack enabled/bound/touch
+exploration state, external alphabetic-keyboard presence, and installed WebAPK availability. Use
+`--preflight --mode=installed --suite=journeys` to validate the installed path. Performance and
+combined suites fail while TalkBack is enabled. Any pre-existing `tcp:9222` forward fails preflight
+so the runner cannot remove a resource it does not own.
 
 Use `--journey=j1` through `--journey=j9` for a focused functional rerun. J9 verifies the compact
 Reflection result, explicit exploration, first-viewport actions, and focus return. To exercise a
@@ -135,7 +143,9 @@ process and captures its accessibility tree, but it
 activates controls through DevTools. Its `SUPPORTING_PASS` result proves functional and semantic
 behavior only. It does not replace TalkBack speech, focus, gesture, or installed-app human
 acceptance. Run performance mode with TalkBack disabled; it clears browser caches, performs
-process-cold launches, and records three runs.
+process-cold launches, and records three runs. Reports retain the preflight snapshot plus local Git
+head/dirty state. The runner closes CDP and removes only its `tcp:9222` forward in `finally`,
+including failed journeys.
 
 ## Safe Teardown
 

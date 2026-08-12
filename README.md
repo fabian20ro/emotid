@@ -51,6 +51,7 @@ npm run check
 npm run test:e2e
 npm run test:pwa
 npm run test:performance
+npm run test:android:physical:preflight
 npm run test:safari:native:preflight
 npm run test:ios:simulator:preflight
 npm run test:ios:simulator:acceptance

@@ -2040,3 +2040,33 @@ Appium or preview listener remains.
 Focus restoration and destination-heading focus are different contracts; asserting both
 simultaneously can reject correct compact-screen behavior.
 **Promoted to Lessons Learned:** Yes — both patterns recur across overlays and native adapters.
+
+---
+
+### [2026-08-13] Harden P39 Android physical preflight and lifecycle
+
+**Context:** P39 requires genuine TalkBack and low-tier Android evidence, but the physical runner
+created its evidence directory before checking the device, repeated environment reads, ignored
+some ambiguous ADB states, and left `tcp:9222` forwarding behind after a run.
+**What happened:**
+- Started with failing pure contracts for strict CLI parsing, query-safe candidate URLs, exact
+  single-device authorization, unlock state, TalkBack enabled/bound/touch-exploration state,
+  external alphabetic keyboard detection, WebAPK availability, and mode-specific readiness.
+- Added a side-effect-free `--preflight` path and package command. It reports capabilities without
+  creating evidence, launching Chrome/WebAPK, or opening CDP.
+- Reused the validated snapshot in reports with local Git head/dirty state. Moved evidence creation
+  after preflight and enclosed CDP/browser ownership in `finally`; the runner now removes only its
+  `tcp:9222` forward on success or failure. A pre-existing forward fails before ownership begins.
+- Ran the real preflight on Pixel 6a / Android 17: one authorized unlocked device, WebAPK and
+  external keyboard present, TalkBack disabled. Repeated browser J6/J8 in EN/RO; all four rows
+  passed as `SUPPORTING_PASS`, with exact CDP/native foreground proof. No TalkBack pass was inferred.
+**Outcome:** Focused Android contracts pass 14/14; final `npm run check` passes 82 files / 647 tests
+and every acceptance/i18n/copy/build/budget gate. Physical reports are
+`.reports/android-physical/2026-08-12T22-30-59-970Z-browser/` and
+`.reports/android-physical/2026-08-12T22-31-20-439Z-browser/`; `adb forward --list` is empty after
+each run. Full repository verification follows before commit.
+**Insight:** Physical evidence starts at capability attribution. One immutable preflight snapshot
+is simpler and more auditable than repeated ad hoc reads, and resource ownership needs cleanup in
+the same control flow as execution.
+**Promoted to Lessons Learned:** No — extends the existing hardware fail-fast rule; no new reusable
+rule required.

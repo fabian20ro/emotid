@@ -64,6 +64,8 @@ No server-side monitoring. Health indicators:
 - Manual testing on 393×742 viewport
 - Keyboard-only navigation through full flow
 - Crisis path: select distress emotions → verify banner appears
+- Android physical capability: `npm run test:android:physical:preflight`; run device journeys using
+  `docs/android-physical-testing-setup.md`
 - Native Safari capability: `npm run test:safari:native:preflight`; run the authorized desktop
   audit separately using `docs/macos-native-safari-testing.md`
 - iOS Simulator capability: `npm run test:ios:simulator:preflight`; run the opt-in Mobile Safari

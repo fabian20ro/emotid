@@ -130,6 +130,16 @@ Architecture rules:
 
 ### P39 - Android Physical Closure
 
+Complete foundation:
+
+- One pure, tested preflight boundary now validates exact device count/authorization, unlock state,
+  Android identity, TalkBack enabled/bound/touch-exploration state, external keyboard, and WebAPK
+  availability before evidence or CDP side effects.
+- The physical runner records that snapshot plus local Git identity and guarantees browser/CDP
+  cleanup. Pixel browser J6/J8 pass EN/RO as supporting evidence after the change.
+
+Remaining sequence:
+
 1. Pixel 6a: genuine TalkBack J6 and J8 in browser, then J4, J2, J7, J9, J3, and J1 in risk order;
    cover browser and installed modes in EN/RO.
 2. Distinct low-tier Android: three-run production timing matrix from

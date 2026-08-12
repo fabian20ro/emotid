@@ -11,7 +11,7 @@ assistive-technology or hardware-performance gates. Physical iPhone testing is o
 
 | Field | Value |
 | --- | --- |
-| Planning SHA | working tree from `042f16a` |
+| Planning SHA | working tree from `c048830` |
 | Candidate status | NOT FROZEN; physical rows were run on earlier named SHAs |
 | Production URL | `https://fabian20ro.github.io/emotid/` |
 | Latest automated workflow | `Push on main` run `31591341181`, successful |
@@ -38,7 +38,7 @@ thermal differences for every final-candidate physical run.
 
 | Scope | Result | Evidence |
 | --- | --- | --- |
-| Lint, unit/integration, acceptance contract, i18n, psychological copy, build, budgets | AUTOMATED_PASS | `npm run check`: 81 files / 644 tests |
+| Lint, unit/integration, acceptance contract, i18n, psychological copy, build, budgets | AUTOMATED_PASS | `npm run check`: 82 files / 647 tests |
 | Mobile Safari + Mobile Chrome browser matrix | AUTOMATED_PASS | `npm run test:e2e`: 212/212 |
 | Production offline/update/data-retention lifecycle | AUTOMATED_PASS | `npm run test:pwa` |
 | Production browser performance probe | AUTOMATED_PASS | `npm run test:performance` |
@@ -61,6 +61,7 @@ screen-reader gestures, installed mobile UI, or low-tier hardware timing.
 | `14b38daf` | Pixel 6a, installed TalkBack | J5 complete; J6 retry and J8 support-order checkpoints; EN/RO | PASS / BOUNDED_PASS | `.reports/android-physical/2026-08-07T19-45-00-p30-talkback-installed/`; `.reports/android-physical/2026-08-07T20-40-00-p30-talkback-checkpoints/` |
 | `23e0c05c` | Pixel 6a, browser TalkBack | J5 speech, AOA focus, activation, Reflection focus; EN/RO | PASS | `.reports/android-physical/2026-08-12T11-05-00-talkback-j5-local/` |
 | `23e0c05c` | Pixel 6a, browser | J5/J6/J8 EN/RO with exact CDP + native foreground proof | SUPPORTING_PASS, 6/6 | `.reports/android-physical/2026-08-12T10-52-54-317Z-browser/`; `.reports/android-physical/2026-08-12T10-53-18-107Z-browser/`; `.reports/android-physical/2026-08-12T10-53-35-749Z-browser/` |
+| deployed production; harness from `c048830` working tree | Pixel 6a, Android 17 browser | J6/J8 EN/RO; exact CDP + native foreground proof; final preflight/lifecycle regression | SUPPORTING_PASS, 4/4 | `.reports/android-physical/2026-08-12T22-30-59-970Z-browser/`; `.reports/android-physical/2026-08-12T22-31-20-439Z-browser/` |
 | `f59e5175` | Pixel 6a, Android 17 | Three-run mid-tier production timing | PASS | `.reports/android-physical/2026-08-07T17-26-42-635Z-browser/` and retained timing artifacts |
 
 P35/P36 reproduced and fixed four focus/reflow product defects. The final native matrices expose no

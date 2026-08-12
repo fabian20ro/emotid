@@ -84,6 +84,15 @@ Playwright cannot validate synthesized speech, rotor/local-context navigation, o
 gestures. Physical iPhone and VoiceOver testing is not part of this project's release scope. Run
 J1-J9 with TalkBack and Chrome on Android, in English and Romanian, in browser and installed PWA:
 
+```bash
+npm run test:android:physical:preflight
+```
+
+The preflight must report one unlocked authorized device, the intended WebAPK when installed mode
+is selected, and the actual TalkBack/input capabilities. It creates no evidence. A later CDP-driven
+journey remains `SUPPORTING_PASS` even when TalkBack happens to be enabled; only retained physical
+speech/focus/activation evidence can receive `PASS` or `BOUNDED_PASS`.
+
 1. First-run introduction: every step title, explanation, and progress announced once and in order.
 2. Settings replay: background unavailable, dialog bounded, swipe navigation trapped, Close returns
    to the exact replay trigger.

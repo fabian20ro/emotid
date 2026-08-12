@@ -8,44 +8,43 @@ import {
   findBrowserTarget,
   verifyForegroundSurface,
 } from './android-physical/browser-target.mjs'
-import { runJourneyMatrix, selectJourneys } from './android-physical/journeys.mjs'
+import {
+  inspectAndroidPhysicalEnvironment,
+  parseAndroidPhysicalArgs,
+  validateAndroidPhysicalEnvironment,
+  WEBAPK_PACKAGE,
+} from './android-physical/environment.mjs'
+import { runJourneyMatrix } from './android-physical/journeys.mjs'
 
 const usage = `Usage: node scripts/android-physical-audit.mjs [options]
 
 Options:
+  --preflight                  Validate the selected device/mode without creating evidence
   --candidate-url=<url>       Deployed candidate (default: GitHub Pages)
   --mode=browser|installed    Chrome tab or installed WebAPK (default: browser)
   --suite=all|journeys|performance
   --journey=j1..j9            Run one journey in both languages
   --help                      Print this help without accessing a device`
 
-const args = process.argv.slice(2)
-if (args.includes('--help')) {
+let options
+try {
+  options = parseAndroidPhysicalArgs(process.argv.slice(2))
+} catch (error) {
+  console.error(error.message)
+  process.exit(1)
+}
+if (options.help) {
   console.log(usage)
   process.exit(0)
 }
-const supportedArguments = ['--candidate-url=', '--mode=', '--suite=', '--journey=']
-const unsupportedArgument = args.find((value) => !supportedArguments.some((prefix) => value.startsWith(prefix)))
-if (unsupportedArgument) throw new Error(`Unsupported argument: ${unsupportedArgument}`)
-
-const candidateArg = process.argv.find((value) => value.startsWith('--candidate-url='))?.split('=')[1]
-const rawCandidateUrl = candidateArg ?? process.env.PHYSICAL_CANDIDATE_URL ?? 'https://fabian20ro.github.io/emotid/'
-const CANDIDATE_URL = new URL(rawCandidateUrl.endsWith('/') ? rawCandidateUrl : `${rawCandidateUrl}/`).href
+const CANDIDATE_URL = options.candidateUrl
 const CDP_URL = 'http://127.0.0.1:9222'
-const WEBAPK_PACKAGE = 'org.chromium.webapk.a43b49e294110560b_v2'
-const mode = process.argv.find((value) => value.startsWith('--mode='))?.split('=')[1] ?? 'browser'
-const suite = process.argv.find((value) => value.startsWith('--suite='))?.split('=')[1] ?? 'all'
-const journeyFilter = process.argv.find((value) => value.startsWith('--journey='))?.split('=')[1]?.toLowerCase()
-
-if (!['browser', 'installed'].includes(mode)) throw new Error(`Unsupported mode: ${mode}`)
-if (!['all', 'journeys', 'performance'].includes(suite)) throw new Error(`Unsupported suite: ${suite}`)
-if (journeyFilter) selectJourneys(journeyFilter)
+const { mode, suite, journey: journeyFilter } = options
 
 const stamp = new Date().toISOString().replaceAll(':', '-').replaceAll('.', '-')
 const outputDir = path.resolve('.reports', 'android-physical', `${stamp}-${mode}`)
 const browserRunToken = `browser-${stamp}-${process.pid}`
 const browserRunUrl = createBrowserRunUrl(CANDIDATE_URL, browserRunToken)
-await mkdir(outputDir, { recursive: true })
 
 function adb(...args) {
   return execFileSync('adb', args, { encoding: 'utf8' }).trim()
@@ -95,13 +94,20 @@ async function launchMode() {
   }
 }
 
-function assertDeviceReady() {
-  const trustState = adb('shell', 'dumpsys', 'trust')
-  assert(trustState.includes('deviceLocked=0'), 'Unlock the Android device before starting the physical audit')
-  if (suite !== 'journeys') {
-    const services = adb('shell', 'settings', 'get', 'secure', 'enabled_accessibility_services')
-    assert(!services.includes('talkback'), 'Disable TalkBack before collecting physical performance evidence')
-  }
+function readPhysicalEnvironment() {
+  return inspectAndroidPhysicalEnvironment({
+    adbDevicesOutput: adb('devices', '-l'),
+    trustState: adb('shell', 'dumpsys', 'trust'),
+    model: adb('shell', 'getprop', 'ro.product.model'),
+    android: adb('shell', 'getprop', 'ro.build.version.release'),
+    api: adb('shell', 'getprop', 'ro.build.version.sdk'),
+    build: adb('shell', 'getprop', 'ro.build.fingerprint'),
+    enabledServices: adb('shell', 'settings', 'get', 'secure', 'enabled_accessibility_services'),
+    accessibilityDump: adb('shell', 'dumpsys', 'accessibility'),
+    inputDump: adb('shell', 'dumpsys', 'input'),
+    packageList: adb('shell', 'pm', 'list', 'packages', WEBAPK_PACKAGE),
+    forwardList: adb('forward', '--list'),
+  })
 }
 
 async function findPage(browser) {
@@ -357,50 +363,73 @@ async function measurePerformance(initialBrowser, initialPage) {
   return { runs, browser: runBrowser }
 }
 
-assertDeviceReady()
-adb('forward', 'tcp:9222', 'localabstract:chrome_devtools_remote')
-await launchMode()
-await new Promise((resolve) => setTimeout(resolve, 2_000))
-let browser = await connectBrowser()
-const page = await findPage(browser)
-if (mode === 'browser') {
-  await verifyForegroundSurface({
-    runToken: browserRunToken,
-    readHierarchy: async () => readForegroundHierarchy(),
-  })
+let physicalEnvironment
+try {
+  physicalEnvironment = validateAndroidPhysicalEnvironment(readPhysicalEnvironment(), { mode, suite })
+} catch (error) {
+  console.error(`Android physical preflight failed: ${error.message}`)
+  process.exit(1)
 }
-const environment = {
-  capturedAt: new Date().toISOString(),
-  candidateUrl: CANDIDATE_URL,
-  mode,
-  suite,
-  device: adb('shell', 'getprop', 'ro.product.model'),
-  android: adb('shell', 'getprop', 'ro.build.version.release'),
-  api: adb('shell', 'getprop', 'ro.build.version.sdk'),
-  build: adb('shell', 'getprop', 'ro.build.fingerprint'),
-  chrome: await page.evaluate(() => navigator.userAgent),
-  viewport: await page.evaluate(() => ({ width: innerWidth, height: innerHeight, dpr: devicePixelRatio })),
-  displayMode: await page.evaluate(() => matchMedia('(display-mode: standalone)').matches ? 'standalone' : 'browser'),
-  foregroundVerified: mode === 'browser',
-  talkBackService: adb('shell', 'settings', 'get', 'secure', 'enabled_accessibility_services'),
-  fontScale: adb('shell', 'settings', 'get', 'system', 'font_scale'),
-  battery: adb('shell', 'dumpsys', 'battery'),
+if (options.preflight) {
+  console.log(JSON.stringify({ candidateUrl: CANDIDATE_URL, mode, suite, ...physicalEnvironment }, null, 2))
+  process.exit(0)
 }
 
-const report = { environment }
-if (suite !== 'performance') {
-  report.journeys = await runJourneyMatrix({
-    context: { page, resetState, capture, expectVisible, activate, pressElement, assert },
+await mkdir(outputDir, { recursive: true })
+let browser
+let forwarded = false
+try {
+  adb('forward', 'tcp:9222', 'localabstract:chrome_devtools_remote')
+  forwarded = true
+  await launchMode()
+  await new Promise((resolve) => setTimeout(resolve, 2_000))
+  browser = await connectBrowser()
+  const page = await findPage(browser)
+  if (mode === 'browser') {
+    await verifyForegroundSurface({
+      runToken: browserRunToken,
+      readHierarchy: async () => readForegroundHierarchy(),
+    })
+  }
+  const environment = {
+    capturedAt: new Date().toISOString(),
+    candidateUrl: CANDIDATE_URL,
     mode,
-    journeyFilter,
-  })
+    suite,
+    ...physicalEnvironment,
+    localGitHead: execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim(),
+    localGitDirty: Boolean(execFileSync('git', ['status', '--porcelain'], { encoding: 'utf8' }).trim()),
+    chrome: await page.evaluate(() => navigator.userAgent),
+    viewport: await page.evaluate(() => ({ width: innerWidth, height: innerHeight, dpr: devicePixelRatio })),
+    displayMode: await page.evaluate(() => matchMedia('(display-mode: standalone)').matches ? 'standalone' : 'browser'),
+    foregroundVerified: mode === 'browser',
+    fontScale: adb('shell', 'settings', 'get', 'system', 'font_scale'),
+    battery: adb('shell', 'dumpsys', 'battery'),
+  }
+
+  const report = { environment }
+  if (suite !== 'performance') {
+    report.journeys = await runJourneyMatrix({
+      context: { page, resetState, capture, expectVisible, activate, pressElement, assert },
+      mode,
+      journeyFilter,
+    })
+  }
+  if (suite !== 'journeys') {
+    const measured = await measurePerformance(browser, page)
+    report.performance = measured.runs
+    browser = measured.browser
+  }
+  await writeFile(path.join(outputDir, 'report.json'), `${JSON.stringify(report, null, 2)}\n`)
+  console.log(JSON.stringify({ outputDir, report }, null, 2))
+  if (report.journeys?.some((journey) => journey.result === 'FAIL')) process.exitCode = 1
+} finally {
+  await browser?.close().catch(() => undefined)
+  if (forwarded) {
+    try {
+      adb('forward', '--remove', 'tcp:9222')
+    } catch {
+      // Preserve the primary audit result; forwarding cleanup is best effort.
+    }
+  }
 }
-if (suite !== 'journeys') {
-  const measured = await measurePerformance(browser, page)
-  report.performance = measured.runs
-  browser = measured.browser
-}
-await writeFile(path.join(outputDir, 'report.json'), `${JSON.stringify(report, null, 2)}\n`)
-console.log(JSON.stringify({ outputDir, report }, null, 2))
-await browser.close()
-if (report.journeys?.some((journey) => journey.result === 'FAIL')) process.exitCode = 1
