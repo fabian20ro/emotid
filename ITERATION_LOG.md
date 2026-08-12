@@ -2095,3 +2095,37 @@ The owner asked whether TalkBack speech and behavior could instead be verified a
 Romanian speech-quality sign-off remain open; no product defect was reproduced.
 **Insight:** Screen-reader automation needs attributed signals, not an audio-file assumption.
 **Promoted to Lessons Learned:** Yes — adds a reusable TalkBack evidence boundary.
+
+---
+
+### [2026-08-13] Complete automated browser TalkBack supporting matrix
+
+**Context:** The Pixel remained available, but manual scrcpy focus/gesture work was error-prone.
+Chrome controls and TalkBack speech appeared in English while the application was Romanian.
+**What happened:**
+- Started with pure failing contracts for complete J1-J9 registration, strict local-only CLI,
+  TTS parsing/readiness, language attribution, and required row evidence.
+- Added a dedicated local-production TalkBack runner. It owns server, ADB reverse/forward, exact
+  Chrome target, TalkBack enable/restore, native key activation, screenshots, CDP/native trees,
+  per-row TTS boundaries, reports, and teardown.
+- Recorded app language, browser languages, Android locale, Chrome labels, TTS locale, and voice
+  separately. Romanian app/AX output was correct; Android, Chrome, and TTS were `en-US`, assigning
+  the pronunciation mismatch to device/browser/assistive configuration.
+- Native J1 reproduced a product defect: the persistent Next button reclaimed focus after the next
+  heading was synchronously focused. Deferred heading focus one animation frame and added unit plus
+  Playwright keyboard regressions.
+- The first complete run passed J1-J8 but J9 restarted TTS. Root cause was the runner's mid-row
+  `uiautomator dump`, not product navigation. J9 now uses non-intrusive screenshot/CDP capture and
+  defers native XML until the row ends.
+**Outcome:** Pixel 6a / Android 17 / TalkBack 17 browser J1-J9 passes EN/RO, 18/18
+`SUPPORTING_PASS`, with zero TTS-readiness errors at
+`.reports/android-physical/2026-08-12T23-31-33-689Z-talkback-browser/`. Final `npm run check` passes
+83 files / 653 tests and all lint, acceptance, i18n, copy, build, and budget gates. Overall report
+classification now fails whenever any journey row fails. TalkBack,
+accessibility, stay-awake, ADB mappings, page, and server were restored. Playwright passes 212/212;
+the production PWA lifecycle passes 1/1 after rerunning outside the macOS Chromium sandbox. Human
+gesture/spoken-order/pronunciation and installed-mode acceptance remain open.
+**Insight:** Separate app localization from browser/device/TTS configuration, and keep native
+hierarchy tooling outside an active TalkBack evidence window.
+**Promoted to Lessons Learned:** Yes — instrumentation interference and native focus timing are
+reusable physical-accessibility constraints.

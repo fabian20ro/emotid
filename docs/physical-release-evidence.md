@@ -11,8 +11,8 @@ assistive-technology or hardware-performance gates. Physical iPhone testing is o
 
 | Field | Value |
 | --- | --- |
-| Planning SHA | working tree from `c048830` |
-| Candidate status | NOT FROZEN; physical rows were run on earlier named SHAs |
+| Planning SHA | working tree from `ae00a67` |
+| Candidate status | NOT FROZEN; latest TalkBack evidence used this dirty working tree |
 | Production URL | `https://fabian20ro.github.io/emotid/` |
 | Latest automated workflow | `Push on main` run `31591341181`, successful |
 | Test date | 2026-08-13 |
@@ -38,7 +38,7 @@ thermal differences for every final-candidate physical run.
 
 | Scope | Result | Evidence |
 | --- | --- | --- |
-| Lint, unit/integration, acceptance contract, i18n, psychological copy, build, budgets | AUTOMATED_PASS | `npm run check`: 82 files / 647 tests |
+| Lint, unit/integration, acceptance contract, i18n, psychological copy, build, budgets | AUTOMATED_PASS | `npm run check`: 83 files / 653 tests |
 | Mobile Safari + Mobile Chrome browser matrix | AUTOMATED_PASS | `npm run test:e2e`: 212/212 |
 | Production offline/update/data-retention lifecycle | AUTOMATED_PASS | `npm run test:pwa` |
 | Production browser performance probe | AUTOMATED_PASS | `npm run test:performance` |
@@ -63,11 +63,20 @@ screen-reader gestures, installed mobile UI, or low-tier hardware timing.
 | `23e0c05c` | Pixel 6a, browser | J5/J6/J8 EN/RO with exact CDP + native foreground proof | SUPPORTING_PASS, 6/6 | `.reports/android-physical/2026-08-12T10-52-54-317Z-browser/`; `.reports/android-physical/2026-08-12T10-53-18-107Z-browser/`; `.reports/android-physical/2026-08-12T10-53-35-749Z-browser/` |
 | deployed production; harness from `c048830` working tree | Pixel 6a, Android 17 browser | J6/J8 EN/RO; exact CDP + native foreground proof; final preflight/lifecycle regression | SUPPORTING_PASS, 4/4 | `.reports/android-physical/2026-08-12T22-30-59-970Z-browser/`; `.reports/android-physical/2026-08-12T22-31-20-439Z-browser/` |
 | `a0c73e7` | Pixel 6a, Android 17 browser + TalkBack 17 | J6/J8 EN/RO; native focus order, visible speech overlay, TTS dispatch, native key activation, route postconditions | NATIVE_TALKBACK_SUPPORTING_PASS, 4/4 | `.reports/android-physical/2026-08-12T22-59-46-804Z-native-talkback-j6-j8/` |
+| working tree from `ae00a67` | Pixel 6a, Android 17 browser + TalkBack 17 | Complete J1-J9 EN/RO; exact local assets, real TalkBack state, native key activation, TTS synthesis/dispatch, route postconditions | SUPPORTING_PASS, 18/18 | `.reports/android-physical/2026-08-12T23-31-33-689Z-talkback-browser/` |
 | `f59e5175` | Pixel 6a, Android 17 | Three-run mid-tier production timing | PASS | `.reports/android-physical/2026-08-07T17-26-42-635Z-browser/` and retained timing artifacts |
 
 P35/P36 reproduced and fixed four focus/reflow product defects. The final native matrices expose no
 unresolved functional or performance product defect. Simulator installed-PWA and VoiceOver probes
 remain unsupported evidence capabilities and are not project release gates.
+
+The complete browser TalkBack run exposed one product defect: after native Enter activation, the
+persistent onboarding Next button could reclaim focus from the next heading. The heading handoff
+now runs in the next animation frame and the same physical J1 row passes in both languages. A J9
+failure was traced to mid-row `uiautomator dump` restarting TalkBack/TTS; moving native hierarchy
+capture after the postcondition removed the instrumentation defect. Romanian app language and AX
+names are correct, while Android locale, Chrome UI, and Google TTS remain `en-US`; Romanian
+pronunciation quality is therefore not claimed.
 
 ## Current Physical Matrix
 
@@ -76,8 +85,8 @@ without an explicit equivalence decision in the final sign-off.
 
 | Device | Language | Mode | J1 | J2 | J3 | J4 | J5 | J6 | J7 | J8 | J9 | Result |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Pixel 6a / TalkBack | EN | Browser | | | | | prior pass | supporting | | supporting | | OPEN FOR HUMAN SIGN-OFF |
-| Pixel 6a / TalkBack | RO | Browser | | | | | prior pass | supporting | | supporting | | OPEN FOR HUMAN SIGN-OFF |
+| Pixel 6a / TalkBack | EN | Browser | supporting | supporting | supporting | supporting | supporting | supporting | supporting | supporting | supporting | OPEN FOR HUMAN SIGN-OFF |
+| Pixel 6a / TalkBack | RO | Browser | supporting | supporting | supporting | supporting | supporting | supporting | supporting | supporting | supporting | OPEN FOR HUMAN SIGN-OFF |
 | Pixel 6a / TalkBack | EN | Installed | | | | | prior pass | prior checkpoint | | prior checkpoint | | OPEN FOR FROZEN SHA |
 | Pixel 6a / TalkBack | RO | Installed | | | | | prior pass | prior checkpoint | | prior checkpoint | | OPEN FOR FROZEN SHA |
 
@@ -155,10 +164,11 @@ retest the same native row. Record environment blocks separately from applicatio
 | Exact-candidate automated baseline | OPEN AFTER FREEZE | All automated commands pass on frozen SHA |
 | iOS Simulator browser matrix | BASE + ACCEPTANCE + ROBUSTNESS SIMULATOR_SUPPORTING_PASS | Rerun on frozen candidate |
 | Simulator installed PWA / VoiceOver | OUT OF SCOPE | Capability limitation recorded; no physical-iPhone substitution claim |
-| Pixel 6a TalkBack | PARTIAL HISTORICAL | Remaining journeys and final-candidate rerun |
+| Pixel 6a TalkBack | COMPLETE BROWSER SUPPORTING; HUMAN/INSTALLED OPEN | Human gesture/speech-quality sign-off, installed mode, and frozen-candidate rerun |
 | Mid-tier Android performance | PASS HISTORICAL | Final-candidate rerun after freeze |
 | Low-tier Android performance | OPEN | Distinct device, three-run matrix |
 | Release-blocking product defects | NONE REPRODUCED | No unresolved failure after required rows |
 
-Final decision: **NOT FROZEN.** P38 Apple Simulator closure is complete. Remaining release work is
-the Android TalkBack/final-candidate matrix, distinct low-tier timing, and candidate sign-off.
+Final decision: **NOT FROZEN.** P38 Apple Simulator closure and the complete browser TalkBack
+supporting matrix are complete. Remaining release work is human/installed Android TalkBack,
+distinct low-tier timing, exact-candidate reruns, and candidate sign-off.

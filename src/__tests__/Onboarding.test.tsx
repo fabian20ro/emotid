@@ -34,8 +34,12 @@ describe('Onboarding', () => {
     const user = userEvent.setup()
     renderOnboarding()
 
-    await user.click(screen.getByRole('button', { name: /next/i }))
-    expect(screen.getByRole('heading', { name: /emotions can be explored with curiosity/i })).toHaveFocus()
+    await waitFor(() => expect(screen.getByRole('heading', { name: /not a test/i })).toHaveFocus())
+    await new Promise<void>((resolve) => window.requestAnimationFrame(() => resolve()))
+    const next = screen.getByRole('button', { name: /next/i })
+    next.focus()
+    await user.keyboard('{Enter}')
+    await waitFor(() => expect(screen.getByRole('heading', { name: /emotions can be explored with curiosity/i })).toHaveFocus())
     expect(screen.getByRole('progressbar')).toHaveAttribute('aria-valuenow', '2')
 
     await user.click(screen.getByRole('button', { name: /next/i }))

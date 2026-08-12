@@ -36,7 +36,8 @@ export function Onboarding({ mode = 'initial', onComplete, onClose, returnFocusR
   const current = screens[step]
 
   useLayoutEffect(() => {
-    focusDestination(headingRef.current)
+    const frame = window.requestAnimationFrame(() => focusDestination(headingRef.current))
+    return () => window.cancelAnimationFrame(frame)
   }, [step])
 
   const finish = useCallback(() => {

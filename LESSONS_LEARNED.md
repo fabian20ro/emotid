@@ -204,6 +204,13 @@ ID, retain the repository as a metadata archive and publish a fresh repository I
 
 ## Process & Workflow
 
+**[2026-08-13]** Accessibility instrumentation must not alter the active assistive-technology row —
+Android `uiautomator dump` can launch a TalkBack permission activity and restart TTS. During a
+TalkBack journey, use non-intrusive screenshot/CDP evidence; capture the native hierarchy only
+after the final postcondition. Native Enter can also let a persistent control reclaim focus after
+a synchronous React handoff; schedule destination focus for the next frame and retain a keyboard
+regression.
+
 **[2026-08-13]** Native adapters must follow accessible names and state-specific focus contracts —
 Icon-only controls expose their name through `aria-label`, not text content. Resolve controls by
 accessible name and keep selectors platform-local. After an overlay closes, verify that the exact

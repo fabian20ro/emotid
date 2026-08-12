@@ -116,6 +116,27 @@ npm run test:android:physical -- --mode=installed --suite=journeys
 npm run test:android:physical -- --mode=browser --suite=performance
 ```
 
+Run the repository-owned TalkBack browser audit separately:
+
+```sh
+npm run test:android:talkback:preflight
+npm run test:android:talkback
+npm run test:android:talkback -- --journey=j9 --language=ro
+```
+
+The TalkBack runner builds and serves the local production candidate, enables the real TalkBack
+service, drives exact focused controls with native Android key events, and records J1-J9 in English
+and Romanian. Each row requires TalkBack enabled/bound/touch exploration, focused-control
+evidence, native activation, successful TTS synthesis and dispatch, no TTS-readiness error, and its
+route postcondition. It records app, browser, Android, and TTS language separately. The runner
+restores accessibility, stay-awake, ADB reverse/forward, browser page, and server state in
+`finally`.
+
+This is `SUPPORTING_PASS`, not human TalkBack acceptance: CDP establishes exact DOM focus, so the
+run does not prove swipe exploration, gesture ergonomics, pronunciation quality, or spoken order.
+Do not use `uiautomator dump` during an active row; it can open a TalkBack permission activity and
+restart TTS. The runner delays native hierarchy capture until after the row postcondition.
+
 Preflight creates no evidence, launches no app, and opens no CDP forward. It requires exactly one
 authorized, unlocked device and reports Android/build identity, TalkBack enabled/bound/touch
 exploration state, external alphabetic-keyboard presence, and installed WebAPK availability. Use
@@ -139,8 +160,8 @@ trees, screenshots, recordings, Chrome traces, and Perfetto traces are written b
 `test-results/` output.
 
 The harness fails fast if the device is locked. The journey harness drives the physical Chrome
-process and captures its accessibility tree, but it
-activates controls through DevTools. Its `SUPPORTING_PASS` result proves functional and semantic
+process and captures its accessibility tree, but it activates controls through DevTools. Its
+`SUPPORTING_PASS` result proves functional and semantic
 behavior only. It does not replace TalkBack speech, focus, gesture, or installed-app human
 acceptance. Run performance mode with TalkBack disabled; it clears browser caches, performs
 process-cold launches, and records three runs. Reports retain the preflight snapshot plus local Git
