@@ -35,7 +35,9 @@ test.describe('Critical journey semantics and focus', () => {
     await page.goto('/')
 
     const dialog = page.getByRole('dialog')
-    await expect(dialog.getByRole('heading', { name: 'This is an exploration, not a test' })).toBeFocused()
+    const heading = dialog.getByRole('heading', { name: 'This is an exploration, not a test' })
+    await expect(heading).toBeFocused()
+    expect(await heading.evaluate((element) => getComputedStyle(element).outlineStyle)).toBe('none')
     await expect(dialog.getByRole('progressbar', { name: 'Introduction progress' })).toHaveAttribute('aria-valuenow', '1')
     await dialog.getByRole('button', { name: 'Next' }).click()
     await expect(dialog.getByRole('heading', { name: 'Emotions can be explored with curiosity' })).toBeFocused()
@@ -112,5 +114,19 @@ test.describe('200% desktop reflow equivalent', () => {
     await placeFeeling(page)
     await expectNoHorizontalOverflow(page)
     await expect(page.getByRole('button', { name: 'Done for now' })).toBeVisible()
+  })
+})
+
+test.describe('200% compact Safari page-zoom equivalent', () => {
+  test.use({ viewport: { width: 188, height: 275 } })
+
+  test('Quick and Reflection reflow without horizontal scrolling', async ({ page }) => {
+    await openApp(page, { language: 'ro' })
+    await expectNoHorizontalOverflow(page)
+    await page.getByTestId('quick-feeling-anxiety').click()
+    await page.getByTestId('quick-continue').click()
+    await expectNoHorizontalOverflow(page)
+    await page.getByRole('button', { name: 'Explorați mai mult' }).click()
+    await expectNoHorizontalOverflow(page)
   })
 })

@@ -53,6 +53,7 @@ npm run test:pwa
 npm run test:performance
 npm run test:safari:native:preflight
 npm run test:ios:simulator:preflight
+npm run test:ios:simulator:robustness
 ```
 
 `npm run check` covers lint, unit/integration tests, bilingual audits, TypeScript, and the production build. Playwright covers Mobile Safari and Mobile Chrome; the PWA suite exercises the production service worker, offline reopen, automatic update, and local-data survival.
@@ -64,7 +65,7 @@ documented in `docs/macos-native-safari-testing.md`; it is supporting desktop ev
 VoiceOver acceptance.
 The opt-in Appium/XCUITest audit drives real Safari in the named iOS Simulator profiles and is
 documented in `docs/ios-simulator-testing.md`; it is supporting Simulator evidence, not physical
-iPhone or VoiceOver acceptance.
+iPhone, installed-PWA, or VoiceOver acceptance.
 
 ## Method Context
 

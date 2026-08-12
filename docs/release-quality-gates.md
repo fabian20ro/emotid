@@ -46,11 +46,13 @@ an 8+ GB Xcode runtime a general CI requirement.
 ```bash
 npm run test:ios:simulator:preflight
 npm run test:ios:simulator
+npm run test:ios:simulator:robustness
 ```
 
 The base matrix covers Quick, Word intermediary completion, local save recovery, and tier-4 gating
-in EN/RO on the named iPhone SE and iPhone 17 Pro profiles. See
-`docs/ios-simulator-testing.md`.
+in EN/RO on the named iPhone SE and iPhone 17 Pro profiles. The robustness matrix covers bounded
+rotation, dark theme, 200% Page Zoom, accessibility text, focus, contrast, and visual-viewport
+layout risks. See `docs/ios-simulator-testing.md`.
 
 ## Mobile Performance Acceptance
 

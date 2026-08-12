@@ -70,6 +70,7 @@ describe('native macOS Safari audit', () => {
         return { ok: true }
       }),
       execute: vi.fn(async (script: string) => {
+        if (script.includes('document.documentElement.dataset.theme ===')) return true
         if (script.includes('language: document.documentElement.lang')) return { language, theme, token }
         if (script.includes('resources:')) {
           return {

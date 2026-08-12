@@ -12,6 +12,41 @@ export const IOS_SIMULATOR_JOURNEYS = Object.freeze([
   'tier4',
 ])
 
+export const IOS_SIMULATOR_ROBUSTNESS_CASES = Object.freeze([
+  Object.freeze({
+    caseId: 'se-onboarding-focus',
+    profile: 'se', language: 'en', journey: 'onboarding-focus',
+    orientation: 'PORTRAIT', appearance: 'light', contentSize: 'large', theme: 'light',
+  }),
+  Object.freeze({
+    caseId: 'se-landscape-quick-ro',
+    profile: 'se', language: 'ro', journey: 'quick',
+    orientation: 'LANDSCAPE', appearance: 'light', contentSize: 'large', theme: 'light',
+  }),
+  Object.freeze({
+    caseId: '17-pro-landscape-tier4-ro',
+    profile: '17-pro', language: 'ro', journey: 'tier4',
+    orientation: 'LANDSCAPE', appearance: 'light', contentSize: 'large', theme: 'light',
+  }),
+  Object.freeze({
+    caseId: 'se-dark-word-ro',
+    profile: 'se', language: 'ro', journey: 'word-intermediate',
+    orientation: 'PORTRAIT', appearance: 'dark', contentSize: 'large', theme: 'dark',
+  }),
+  Object.freeze({
+    caseId: 'se-text-quick-ro',
+    profile: 'se', language: 'ro', journey: 'quick',
+    orientation: 'PORTRAIT', appearance: 'light', contentSize: 'accessibility-large', theme: 'light',
+    textZoomPercent: 200,
+  }),
+  Object.freeze({
+    caseId: 'se-text-tier4-ro',
+    profile: 'se', language: 'ro', journey: 'tier4',
+    orientation: 'PORTRAIT', appearance: 'light', contentSize: 'accessibility-large', theme: 'light',
+    textZoomPercent: 200,
+  }),
+])
+
 const LANGUAGES = Object.freeze(['en', 'ro'])
 const LOOPBACK_HOSTS = new Set(['127.0.0.1', 'localhost', '[::1]'])
 
@@ -60,6 +95,8 @@ export function parseIOSSimulatorArgs(args) {
   const options = {
     help: false,
     preflight: false,
+    suite: 'base',
+    caseId: 'all',
     profile: 'all',
     language: 'all',
     journey: 'all',
@@ -70,6 +107,8 @@ export function parseIOSSimulatorArgs(args) {
   for (const argument of args) {
     if (argument === '--help' || argument === '-h') options.help = true
     else if (argument === '--preflight') options.preflight = true
+    else if (argument.startsWith('--suite=')) options.suite = argument.slice('--suite='.length)
+    else if (argument.startsWith('--case=')) options.caseId = argument.slice('--case='.length)
     else if (argument.startsWith('--profile=')) options.profile = argument.slice('--profile='.length)
     else if (argument.startsWith('--language=')) options.language = argument.slice('--language='.length)
     else if (argument.startsWith('--journey=')) options.journey = argument.slice('--journey='.length)
@@ -79,13 +118,20 @@ export function parseIOSSimulatorArgs(args) {
     } else throw new Error(`Unsupported argument: ${argument}`)
   }
 
+  if (!['base', 'robustness'].includes(options.suite)) {
+    throw new Error(`Unsupported suite: ${options.suite}`)
+  }
+
   if (options.profile !== 'all' && !Object.hasOwn(IOS_SIMULATOR_PROFILES, options.profile)) {
     throw new Error(`Unsupported profile: ${options.profile}`)
   }
   if (options.language !== 'all' && !LANGUAGES.includes(options.language)) {
     throw new Error(`Unsupported language: ${options.language}`)
   }
-  if (options.journey !== 'all' && !IOS_SIMULATOR_JOURNEYS.includes(options.journey)) {
+  const supportedJourneys = options.suite === 'robustness'
+    ? [...IOS_SIMULATOR_JOURNEYS, 'onboarding-focus']
+    : IOS_SIMULATOR_JOURNEYS
+  if (options.journey !== 'all' && !supportedJourneys.includes(options.journey)) {
     throw new Error(`Unsupported journey: ${options.journey}`)
   }
   let candidateUrl
@@ -117,6 +163,42 @@ export function buildIOSSimulatorMatrix({ profile = 'all', language = 'all', jou
       }))
     ))
   ))
+}
+
+export function buildIOSRobustnessMatrix({
+  caseId = 'all',
+  profile = 'all',
+  language = 'all',
+  journey = 'all',
+} = {}) {
+  if (caseId !== 'all' && !IOS_SIMULATOR_ROBUSTNESS_CASES.some((entry) => entry.caseId === caseId)) {
+    throw new Error(`Unsupported robustness case: ${caseId}`)
+  }
+  return IOS_SIMULATOR_ROBUSTNESS_CASES.filter((entry) => (
+    (caseId === 'all' || entry.caseId === caseId)
+    && (profile === 'all' || entry.profile === profile)
+    && (language === 'all' || entry.language === language)
+    && (journey === 'all' || entry.journey === journey)
+  )).map((entry) => ({ ...entry }))
+}
+
+export function getSafariTextSizeAction(currentValue, targetPercent) {
+  const current = Number.parseInt(String(currentValue).replace('%', ''), 10)
+  if (!Number.isInteger(current) || !Number.isInteger(targetPercent) || targetPercent < 50 || targetPercent > 300) {
+    throw new Error(`Invalid Safari text size transition: ${currentValue} -> ${targetPercent}%`)
+  }
+  if (current === targetPercent) return 'done'
+  return current < targetPercent ? 'increment' : 'decrement'
+}
+
+export function validateProfileUi({ appearance, contentSize }) {
+  if (!['light', 'dark'].includes(appearance)) {
+    throw new Error(`Unknown Simulator appearance state: ${appearance}`)
+  }
+  if (!contentSize || contentSize === 'unknown') {
+    throw new Error(`Unknown Simulator content-size state: ${contentSize}`)
+  }
+  return { appearance, contentSize }
 }
 
 export function validateIOSSimulatorEnvironment({
@@ -209,6 +291,51 @@ export function validateCandidateSurface({
   return viewport
 }
 
+export function validateRobustnessSurface({
+  expectedOrientation,
+  orientation,
+  expectedTheme,
+  theme,
+  viewport,
+  shell,
+  outline,
+  outOfBoundsActions = [],
+  stickyOverlap = false,
+  contrastFailures = [],
+}) {
+  if (orientation !== expectedOrientation) {
+    throw new Error(`Orientation mismatch: expected ${expectedOrientation}, received ${orientation}`)
+  }
+  if (theme !== expectedTheme) {
+    throw new Error(`Theme mismatch: expected ${expectedTheme}, received ${theme}`)
+  }
+  if (!shell
+    || shell.left < viewport.offsetLeft - 1
+    || shell.right > viewport.offsetLeft + viewport.width + 1) {
+    throw new Error(`Application shell crosses the visual viewport: ${JSON.stringify({ shell, viewport })}`)
+  }
+  if (outline && outline.style !== 'none' && outline.width > 0) {
+    throw new Error(`Programmatic heading has a visible noninteractive outline: ${JSON.stringify(outline)}`)
+  }
+  if (outOfBoundsActions.length > 0) {
+    throw new Error(`Visible actions cross the visual viewport: ${outOfBoundsActions.join(', ')}`)
+  }
+  if (stickyOverlap) throw new Error('Sticky action crosses the application content viewport')
+  if (contrastFailures.length > 0) {
+    throw new Error(`Semantic color contrast failed: ${contrastFailures.join(', ')}`)
+  }
+  return {
+    orientation,
+    theme,
+    viewport,
+    shell,
+    outline,
+    outOfBoundsActions,
+    stickyOverlap,
+    contrastFailures,
+  }
+}
+
 function xpathLiteral(value) {
   if (!value.includes("'")) return `'${value}'`
   if (!value.includes('"')) return `"${value}"`
@@ -233,12 +360,36 @@ async function waitForCondition(driver, script, description, attempts = 60) {
   throw new Error(`Timed out waiting for ${description}`)
 }
 
+export async function waitForStableVisualViewport(
+  driver,
+  { attempts = 60, delayMs = 250 } = {},
+) {
+  let previous
+  for (let attempt = 0; attempt < attempts; attempt += 1) {
+    const current = await driver.execute(`return {
+      layoutWidth: document.documentElement.clientWidth,
+      viewportWidth: visualViewport?.width ?? innerWidth,
+    }`)
+    const aligned = Math.abs(current.layoutWidth - current.viewportWidth) <= 1
+    const repeated = previous
+      && Math.abs(previous.layoutWidth - current.layoutWidth) <= 1
+      && Math.abs(previous.viewportWidth - current.viewportWidth) <= 1
+    if (aligned && repeated) return current
+    previous = current
+    if (attempt + 1 < attempts && delayMs > 0) {
+      await new Promise((resolve) => setTimeout(resolve, delayMs))
+    }
+  }
+  throw new Error('Timed out waiting for stable visual viewport')
+}
+
 async function prepareCase(driver, {
   baseUrl,
   seedUrl,
   expectedAssets,
   runToken,
   language,
+  theme = 'light',
 }) {
   const candidateUrl = new URL(baseUrl)
   candidateUrl.searchParams.set(RUN_PARAMETER, runToken)
@@ -250,7 +401,7 @@ async function prepareCase(driver, {
     localStorage.setItem('emot-id-onboarded', 'true')
     localStorage.setItem('emot-id-language', language)
     localStorage.setItem('emot-id-save-sessions', 'true')
-    localStorage.setItem('emot-id-theme', 'light')
+    localStorage.setItem('emot-id-theme', arguments[1])
     localStorage.setItem('emot-id-allow-external-ai', 'true')
     const databases = ['emot-id-sessions', 'emot-id-chain-analysis']
     const databaseDeletes = databases.map((name) => new Promise((resolve, reject) => {
@@ -266,11 +417,12 @@ async function prepareCase(driver, {
       : Promise.resolve()
     Promise.all([...databaseDeletes, serviceWorkerReset])
       .then(() => done({ ok: true }), (error) => done({ error: String(error) }))
-  `, [language])
+  `, [language, theme])
   if (!reset?.ok) throw new Error(`Candidate reset failed: ${reset?.error ?? 'unknown error'}`)
 
   await driver.navigate(candidateUrl.href)
   await driver.waitForElement('css selector', '[data-testid="today-screen"]')
+  await waitForStableVisualViewport(driver)
   await waitForCondition(
     driver,
     "return document.querySelector('h1') === document.activeElement",
@@ -294,6 +446,8 @@ async function prepareCase(driver, {
       viewport: {
         width: visualViewport?.width ?? innerWidth,
         height: visualViewport?.height ?? innerHeight,
+        offsetLeft: visualViewport?.offsetLeft ?? 0,
+        offsetTop: visualViewport?.offsetTop ?? 0,
         dpr: devicePixelRatio,
       },
       scrollWidth: document.documentElement.scrollWidth,
@@ -309,6 +463,96 @@ async function prepareCase(driver, {
     expectedAssets,
     expectedLanguage: language,
     expectedToken: runToken,
+  })
+}
+
+async function runOnboardingFocus(driver, {
+  baseUrl,
+  seedUrl,
+  expectedAssets,
+  runToken,
+  language,
+  theme,
+  orientation,
+}) {
+  await driver.navigate(seedUrl)
+  const reset = await driver.executeAsync(`
+    const done = arguments[arguments.length - 1]
+    localStorage.clear()
+    localStorage.setItem('emot-id-language', arguments[0])
+    localStorage.setItem('emot-id-theme', arguments[1])
+    localStorage.setItem('emot-id-allow-external-ai', 'true')
+    const databases = ['emot-id-sessions', 'emot-id-chain-analysis']
+    const databaseDeletes = databases.map((name) => new Promise((resolve, reject) => {
+      const request = indexedDB.deleteDatabase(name)
+      request.onsuccess = () => resolve()
+      request.onerror = () => reject(request.error)
+      request.onblocked = () => reject(new Error('IndexedDB deletion blocked: ' + name))
+    }))
+    const serviceWorkerReset = navigator.serviceWorker
+      ? navigator.serviceWorker.getRegistrations().then((registrations) => (
+          Promise.all(registrations.map((registration) => registration.unregister()))
+        ))
+      : Promise.resolve()
+    Promise.all([...databaseDeletes, serviceWorkerReset])
+      .then(() => done({ ok: true }), (error) => done({ error: String(error) }))
+  `, [language, theme])
+  if (!reset?.ok) throw new Error(`Candidate reset failed: ${reset?.error ?? 'unknown error'}`)
+
+  const candidateUrl = new URL(baseUrl)
+  candidateUrl.searchParams.set(RUN_PARAMETER, runToken)
+  await driver.navigate(candidateUrl.href)
+  await driver.waitForElement('css selector', '.onboarding')
+  await waitForStableVisualViewport(driver)
+  await waitForCondition(
+    driver,
+    "return document.querySelector('#onboarding-title') === document.activeElement",
+    'onboarding heading focus',
+  )
+  const surface = await driver.execute(`
+    const heading = document.querySelector('#onboarding-title')
+    const headingStyle = getComputedStyle(heading)
+    const shell = document.querySelector('.onboarding').getBoundingClientRect()
+    const viewport = visualViewport
+    return {
+      actualAssets: [...document.querySelectorAll('script[src], link[href*="/assets/"]')]
+        .map((element) => new URL(element.src || element.href).pathname.split('/').pop()).sort(),
+      language: document.documentElement.lang,
+      token: new URL(location.href).searchParams.get('${RUN_PARAMETER}'),
+      theme: document.documentElement.dataset.theme,
+      orientation: innerWidth > innerHeight ? 'LANDSCAPE' : 'PORTRAIT',
+      viewport: {
+        width: viewport?.width ?? innerWidth,
+        height: viewport?.height ?? innerHeight,
+        offsetLeft: viewport?.offsetLeft ?? 0,
+        offsetTop: viewport?.offsetTop ?? 0,
+        dpr: devicePixelRatio,
+      },
+      shell: { left: shell.left, right: shell.right, top: shell.top, bottom: shell.bottom },
+      outline: {
+        style: headingStyle.outlineStyle,
+        width: Number.parseFloat(headingStyle.outlineWidth),
+        color: headingStyle.outlineColor,
+      },
+      headingFontSize: Number.parseFloat(headingStyle.fontSize),
+      scrollWidth: document.documentElement.scrollWidth,
+      headingFocused: heading === document.activeElement,
+      heading: (() => { const rect = heading.getBoundingClientRect(); return { top: rect.top, bottom: rect.bottom } })(),
+      undersizedActions: [...document.querySelectorAll('.onboarding button')]
+        .filter((element) => element.getBoundingClientRect().height < 44)
+        .map((element) => element.textContent.trim()),
+    }
+  `)
+  validateCandidateSurface({
+    ...surface,
+    expectedAssets,
+    expectedLanguage: language,
+    expectedToken: runToken,
+  })
+  return validateRobustnessSurface({
+    ...surface,
+    expectedOrientation: orientation,
+    expectedTheme: theme,
   })
 }
 
@@ -351,6 +595,103 @@ async function assertCurrentSurface(driver, focusSelector = 'h1') {
     throw new Error(`Primary action below 44px: ${state.undersizedActions.join(', ')}`)
   }
   return { width: state.width, height: state.height, dpr: state.dpr }
+}
+
+async function inspectRobustnessSurface(driver, entry) {
+  const surface = await driver.execute(`
+    const viewport = {
+      width: visualViewport?.width ?? innerWidth,
+      height: visualViewport?.height ?? innerHeight,
+      offsetLeft: visualViewport?.offsetLeft ?? 0,
+      offsetTop: visualViewport?.offsetTop ?? 0,
+      dpr: devicePixelRatio,
+    }
+    const rectOf = (selector) => {
+      const rect = document.querySelector(selector)?.getBoundingClientRect()
+      return rect ? { left: rect.left, right: rect.right, top: rect.top, bottom: rect.bottom } : null
+    }
+    const active = document.activeElement
+    const activeStyle = active ? getComputedStyle(active) : null
+    const actions = [...document.querySelectorAll('button, a[href]')].filter((element) => {
+      const rect = element.getBoundingClientRect()
+      const style = getComputedStyle(element)
+      return rect.width > 0 && rect.height > 0 && style.display !== 'none' && style.visibility !== 'hidden'
+    })
+    const outOfBoundsActions = actions.filter((element) => {
+      const rect = element.getBoundingClientRect()
+      return rect.left < viewport.offsetLeft - 1
+        || rect.right > viewport.offsetLeft + viewport.width + 1
+    }).map((element) => element.getAttribute('aria-label') || element.textContent.trim().slice(0, 60))
+    const routeAction = document.querySelector('.route-action')?.getBoundingClientRect()
+    const content = document.querySelector('.app-content')?.getBoundingClientRect()
+
+    const parse = (value) => {
+      const normalized = value.trim()
+      if (/^#[0-9a-f]{3}$/i.test(normalized)) {
+        return [...normalized.slice(1)].map((value) => Number.parseInt(value + value, 16))
+      }
+      if (/^#[0-9a-f]{6}$/i.test(normalized)) {
+        return [1, 3, 5].map((index) => Number.parseInt(normalized.slice(index, index + 2), 16))
+      }
+      const match = normalized.match(/rgba?\\((\\d+(?:\\.\\d+)?)\\D+(\\d+(?:\\.\\d+)?)\\D+(\\d+(?:\\.\\d+)?)/)
+      return match ? match.slice(1, 4).map(Number) : null
+    }
+    const luminance = (color) => color.reduce((sum, channel, index) => {
+      const value = channel / 255
+      const linear = value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4
+      return sum + linear * [0.2126, 0.7152, 0.0722][index]
+    }, 0)
+    const ratio = (a, b) => {
+      const first = luminance(a)
+      const second = luminance(b)
+      return (Math.max(first, second) + 0.05) / (Math.min(first, second) + 0.05)
+    }
+    const rootStyle = getComputedStyle(document.documentElement)
+    const pairs = [
+      ['ink/surface', '--ink', '--surface'],
+      ['muted/surface', '--ink-muted', '--surface'],
+      ['ink/raised', '--ink', '--surface-raised'],
+      ['danger/danger-bg', '--danger-ink', '--danger-bg'],
+      ['teal/surface', '--teal', '--surface'],
+    ]
+    const contrastResults = pairs.map(([name, foreground, background]) => {
+      const a = parse(rootStyle.getPropertyValue(foreground))
+      const b = parse(rootStyle.getPropertyValue(background))
+      return {
+        name,
+        foreground: rootStyle.getPropertyValue(foreground).trim(),
+        background: rootStyle.getPropertyValue(background).trim(),
+        ratio: a && b ? Number(ratio(a, b).toFixed(2)) : null,
+      }
+    })
+    const contrastFailures = contrastResults
+      .filter((result) => result.ratio === null || result.ratio < 4.5)
+      .map((result) => JSON.stringify(result))
+    return {
+      orientation: innerWidth > innerHeight ? 'LANDSCAPE' : 'PORTRAIT',
+      theme: document.documentElement.dataset.theme,
+      viewport,
+      shell: rectOf('.app-shell'),
+      outline: active?.tabIndex === -1 && activeStyle ? {
+        style: activeStyle.outlineStyle,
+        width: Number.parseFloat(activeStyle.outlineWidth),
+        color: activeStyle.outlineColor,
+      } : null,
+      outOfBoundsActions,
+      stickyOverlap: Boolean(routeAction && content && routeAction.bottom > content.bottom + 1),
+      contrastFailures,
+      contrastResults,
+      textMetrics: {
+        root: Number.parseFloat(getComputedStyle(document.documentElement).fontSize),
+        heading: Number.parseFloat(getComputedStyle(document.querySelector('h1')).fontSize),
+      },
+    }
+  `)
+  return validateRobustnessSurface({
+    ...surface,
+    expectedOrientation: entry.orientation,
+    expectedTheme: entry.theme,
+  })
 }
 
 async function openWords(driver, copy) {
@@ -449,6 +790,11 @@ async function runTier4(driver, copy) {
 
 export async function dismissSafariCoachmark(driver) {
   await driver.setContext('NATIVE_APP')
+  const shareSheet = await driver.findElementOptional(
+    '-ios predicate string',
+    "name == 'ActivityListView' AND visible == 1",
+  )
+  if (shareSheet) throw new Error('Stale Safari share sheet is covering the candidate')
   const close = await driver.findElementOptional(
     '-ios predicate string',
     "label == 'Close' AND visible == 1",
@@ -479,25 +825,38 @@ export async function runIOSSimulatorCase({
   const copy = COPY[entry.language]
   const runToken = `${runId}-${entry.profile}-${entry.language}-${entry.journey}`
   const seedUrl = new URL('/__native-safari-seed.html', baseUrl).href
+  if (entry.journey === 'onboarding-focus') {
+    return runOnboardingFocus(driver, {
+      baseUrl,
+      seedUrl,
+      expectedAssets,
+      runToken,
+      language: entry.language,
+      theme: entry.theme,
+      orientation: entry.orientation,
+    })
+  }
   const initialViewport = await prepareCase(driver, {
     baseUrl,
     seedUrl,
     expectedAssets,
     runToken,
     language: entry.language,
+    theme: entry.theme,
   })
   let viewport
   if (entry.journey === 'quick') viewport = await runQuick(driver, copy)
   else if (entry.journey === 'word-intermediate') viewport = await runWordIntermediate(driver, copy)
   else if (entry.journey === 'save-retry') viewport = await runSaveRetry(driver, copy)
   else viewport = await runTier4(driver, copy)
-  return { initialViewport, viewport, runToken }
+  const robustness = entry.caseId ? await inspectRobustnessSurface(driver, entry) : undefined
+  return { initialViewport, viewport, runToken, ...(robustness ? { robustness } : {}) }
 }
 
 export async function runIOSSimulatorMatrix({ entries, execute, capture, log = console.log, logError = console.error }) {
   const results = []
   for (const entry of entries) {
-    const name = `${entry.profile}-${entry.language}-${entry.journey}`
+    const name = entry.caseId ?? `${entry.profile}-${entry.language}-${entry.journey}`
     const startedAt = new Date().toISOString()
     const started = performance.now()
     log(`[ios-simulator] ${name} start`)

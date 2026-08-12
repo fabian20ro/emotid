@@ -129,6 +129,12 @@ async function prepareCase(driver, { baseUrl, seedUrl, runToken, language, theme
   if (!reset?.ok) throw new Error(`Candidate reset failed: ${reset?.error ?? 'unknown error'}`)
   await driver.navigate(url.href)
   await driver.waitForElement('css selector', '[data-testid="today-screen"]')
+  await waitForCondition(
+    driver,
+    `return document.documentElement.lang === ${JSON.stringify(language)}
+      && document.documentElement.dataset.theme === ${JSON.stringify(theme)}`,
+    'candidate language and theme',
+  )
   const state = await driver.execute(`return {
     language: document.documentElement.lang,
     theme: document.documentElement.dataset.theme,

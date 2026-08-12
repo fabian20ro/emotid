@@ -93,6 +93,14 @@ export function createAppiumClient({
       return request('POST', sessionPath('/context'), { name })
     },
 
+    getOrientation() {
+      return request('GET', sessionPath('/orientation'))
+    },
+
+    setOrientation(orientation) {
+      return request('POST', sessionPath('/orientation'), { orientation })
+    },
+
     async findElement(using, value) {
       const element = await request('POST', sessionPath('/element'), { using, value })
       const id = element?.[ELEMENT_KEY]
@@ -120,6 +128,18 @@ export function createAppiumClient({
 
     getAttribute(elementId, name) {
       return request('GET', sessionPath(`/element/${elementId}/attribute/${encodeURIComponent(name)}`))
+    },
+
+    getRect(elementId) {
+      return request('GET', sessionPath(`/element/${elementId}/rect`))
+    },
+
+    async tapElement(elementId) {
+      const rect = await this.getRect(elementId)
+      return this.execute('mobile: tap', [{
+        x: Math.round(rect.x + rect.width / 2),
+        y: Math.round(rect.y + rect.height / 2),
+      }])
     },
 
     screenshot() {

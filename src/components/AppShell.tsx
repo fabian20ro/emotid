@@ -2,6 +2,7 @@ import { useEffect, useRef, type ReactNode } from 'react'
 import { BookOpen, Compass, Settings, SunMedium } from 'lucide-react'
 import { useLanguage } from '../context/LanguageContext'
 import type { AppTab } from '../navigation/types'
+import { focusDestination } from '../utils/focusDestination'
 
 interface AppShellProps {
   activeTab: AppTab | null
@@ -45,7 +46,7 @@ export function AppShell({
     const focusDestinationHeading = () => {
       const heading = content.querySelector<HTMLElement>('#screen-title[tabindex="-1"]')
       if (!heading || heading === focusedHeading) return
-      heading.focus({ preventScroll: true })
+      focusDestination(heading)
       focusedHeading = heading
     }
     focusDestinationHeading()

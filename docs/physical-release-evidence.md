@@ -11,7 +11,7 @@ hardware-performance gates.
 
 | Field | Value |
 | --- | --- |
-| Planning SHA | `ad38399cc1d69325063cf603b00eccf3a0e0eb0a` |
+| Planning SHA | working tree from `32a3d708c4e6164805d961739bf2cabb835b3505` |
 | Candidate status | NOT FROZEN; physical rows were run on earlier named SHAs |
 | Production URL | `https://fabian20ro.github.io/emotid/` |
 | Latest automated workflow | `Push on main` run `31591341181`, successful |
@@ -39,9 +39,10 @@ thermal differences for every final-candidate physical run.
 
 | Scope | Result | Evidence |
 | --- | --- | --- |
-| Lint, unit/integration, i18n, psychological copy, build, budgets | PASS | `npm run check`: 79 files / 631 tests |
-| Mobile Safari + Mobile Chrome browser matrix | PASS | `npm run test:e2e`: 210/210 |
+| Lint, unit/integration, i18n, psychological copy, build, budgets | PASS | `npm run check`: 80 files / 638 tests |
+| Mobile Safari + Mobile Chrome browser matrix | PASS | `npm run test:e2e`: 212/212 |
 | Production offline/update/data-retention lifecycle | PASS | `npm run test:pwa` |
+| Production browser performance probe | PASS | `npm run test:performance` |
 | Latest GitHub workflow | PASS | Run `31591341181` |
 
 These results validate browser-observable behavior. They do not validate synthesized speech,
@@ -53,14 +54,18 @@ screen-reader gestures, installed mobile UI, or low-tier hardware timing.
 | --- | --- | --- | --- | --- |
 | working tree from `ad38399c` | macOS Safari 26.6 | Quick + AI link, Word intermediary, tier-4; EN/RO, light/dark | NATIVE SUPPORTING PASS, 6/6 | `.reports/macos-safari/2026-08-12T17-59-15-941Z/` |
 | working tree from `ad38399c` | iOS 26.5 Simulator SE + 17 Pro | Quick, Word intermediary, save recovery, tier-4; EN/RO; exact local assets | SIMULATOR SUPPORTING PASS, 16/16 | `.reports/ios-simulator/2026-08-12T18-02-37-977Z/` |
+| working tree from `32a3d708` | iOS 26.5 Simulator SE + 17 Pro | P36 onboarding focus, landscape, dark theme, 200% Page Zoom plus accessibility text; exact local assets | SIMULATOR SUPPORTING PASS, 6/6 | `.reports/ios-simulator/2026-08-12T19-20-05-175Z/` |
+| working tree from `32a3d708` | iOS 26.5 Simulator SE + 17 Pro | Quick, Word intermediary, save recovery, tier-4; EN/RO; post-P36 regression | SIMULATOR SUPPORTING PASS, 16/16 | `.reports/ios-simulator/2026-08-12T19-23-51-726Z/` |
+| working tree from `32a3d708` | macOS Safari 26.6 | Quick + AI link, Word intermediary, tier-4; EN/RO, light/dark; post-P36 regression | NATIVE SUPPORTING PASS, 6/6 | `.reports/macos-safari/2026-08-12T19-26-58-249Z/` |
 | `14b38daf` | Pixel 6a, browser + installed | J1-J9 EN/RO through DevTools | SUPPORTING PASS, 36/36 | `.reports/android-physical/2026-08-07T20-37-23-460Z-browser/`; `.reports/android-physical/2026-08-07T20-38-23-776Z-installed/` |
 | `14b38daf` | Pixel 6a, installed TalkBack | J5 complete; J6 retry and J8 support-order checkpoints; EN/RO | PASS / BOUNDED PASS | `.reports/android-physical/2026-08-07T19-45-00-p30-talkback-installed/`; `.reports/android-physical/2026-08-07T20-40-00-p30-talkback-checkpoints/` |
 | `23e0c05c` | Pixel 6a, browser TalkBack | J5 speech, AOA focus, activation, Reflection focus; EN/RO | PASS | `.reports/android-physical/2026-08-12T11-05-00-talkback-j5-local/` |
 | `23e0c05c` | Pixel 6a, browser | J5/J6/J8 EN/RO with exact CDP + native foreground proof | SUPPORTING PASS, 6/6 | `.reports/android-physical/2026-08-12T10-52-54-317Z-browser/`; `.reports/android-physical/2026-08-12T10-53-18-107Z-browser/`; `.reports/android-physical/2026-08-12T10-53-35-749Z-browser/` |
 | `f59e5175` | Pixel 6a, Android 17 | Three-run mid-tier production timing | PASS | `.reports/android-physical/2026-08-07T17-26-42-635Z-browser/` and retained timing artifacts |
 
-The P35 base matrix reproduced and fixed one focus-handoff defect; no unresolved functional or
-performance product defect remains from these runs.
+P35/P36 reproduced and fixed four focus/reflow product defects. The final native matrices expose no
+unresolved functional or performance product defect. Simulator installed-PWA and VoiceOver probes
+remain blocked by evidence capability, not application behavior.
 
 ## Current Physical Matrix
 
@@ -137,6 +142,9 @@ Never expose these fixtures through production query parameters or application c
 | ID | Candidate / environment | Journey | Reproduction | Severity | Regression | Fix / issue | Retest |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | P35-FOCUS-1 | working tree from `ad38399c`; both iOS profiles | J8 tier-4 | Acknowledgment removed its button and left no focused destination | High accessibility | `ReflectionScreen.test.tsx`; `crisis-routes.spec.ts` | Focus the newly revealed result heading | J8 4/4; base matrix 16/16 |
+| P36-OUTLINE-1 | working tree from `32a3d708`; SE Safari | J1 onboarding | Programmatically focused noninteractive heading showed Safari's blue outline | Medium accessibility / visual | `Onboarding.test.tsx`; `accessibility-acceptance.spec.ts` | Suppress outline only for the programmatic onboarding heading | P36 onboarding 1/1; robustness 6/6 |
+| P36-REFLOW-1 | working tree from `32a3d708`; SE Safari at 200% | Quick and J8 | Global 320px body minimum forced 132px horizontal overflow in a 188px visual viewport | High accessibility | compact 200% `accessibility-acceptance.spec.ts` | Remove the obsolete body minimum width | P36 text rows 2/2; Playwright 212/212 |
+| P36-FOCUS-1 | working tree from `32a3d708`; SE Safari at 200% | Quick and J8 | Focus moved correctly in the DOM but the destination remained clipped outside `visualViewport` | High accessibility | `focusDestination.test.ts`; compact 200% Playwright | Shared focus destination reveals only clipped headings | P36 text rows 2/2; base 16/16 |
 
 For a failure: retain evidence, reproduce on the intended environment, reduce to the smallest
 stable case, add the closest deterministic browser regression, fix, rerun automated gates, and
@@ -147,12 +155,13 @@ retest the same native row. Record environment blocks separately from applicatio
 | Gate | Status | Closure condition |
 | --- | --- | --- |
 | Exact-candidate automated baseline | OPEN AFTER FREEZE | All automated commands pass on frozen SHA |
-| iOS Simulator supporting matrix | BASE PASS; VARIANTS OPEN | Complete P36 rotation/theme/text/PWA/VoiceOver variants |
+| iOS Simulator browser matrix | BASE + ROBUSTNESS SUPPORTING PASS | Rerun on frozen candidate |
+| Simulator installed PWA / VoiceOver | BLOCKED AS SUPPORTING EVIDENCE | No reliable installed identity or speech/rotor/gesture evidence; physical gate remains authoritative |
 | Physical iPhone VoiceOver | OPEN | J1-J9, EN/RO, browser + installed |
 | Pixel 6a TalkBack | PARTIAL HISTORICAL | Remaining journeys and final-candidate rerun |
 | Mid-tier Android performance | PASS HISTORICAL | Final-candidate rerun after freeze |
 | Low-tier Android performance | OPEN | Distinct device, three-run matrix |
 | Release-blocking product defects | NONE REPRODUCED | No unresolved failure after required rows |
 
-Final decision: **NOT READY FOR PHYSICAL SIGN-OFF.** The next executable work is P36 iOS robustness
-and UX variants. Physical closure resumes when the required devices are available.
+Final decision: **NOT READY FOR PHYSICAL SIGN-OFF.** The next executable work is P37 acceptance
+contract consolidation. Physical closure resumes when the required devices are available.

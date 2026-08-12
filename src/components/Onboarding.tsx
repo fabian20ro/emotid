@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { useLanguage } from '../context/LanguageContext'
 import { useFocusTrap } from '../hooks/useFocusTrap'
 import { storage } from '../data/storage'
+import { focusDestination } from '../utils/focusDestination'
 
 interface OnboardingProps {
   mode?: 'initial' | 'replay'
@@ -35,7 +36,7 @@ export function Onboarding({ mode = 'initial', onComplete, onClose, returnFocusR
   const current = screens[step]
 
   useLayoutEffect(() => {
-    headingRef.current?.focus({ preventScroll: true })
+    focusDestination(headingRef.current)
   }, [step])
 
   const finish = useCallback(() => {

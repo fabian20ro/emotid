@@ -21,7 +21,7 @@ belongs in `docs/physical-release-evidence.md`.
 - English and Romanian copy, reviewed psychological provenance, local-only persistence, export,
   deletion, offline use, update survival, dark theme, keyboard use, and mobile reflow have automated
   coverage.
-- CI, the 210-case Playwright matrix, the production PWA lifecycle, and browser performance budgets
+- CI, the 212-case Playwright matrix, the production PWA lifecycle, and browser performance budgets
   pass.
 - Installed macOS Safari passed the bounded EN/RO Quick, Word intermediary, and tier-4 audit.
 - Pixel 6a passed the functional Android journey matrix. Genuine TalkBack J5 passed in EN/RO;
@@ -29,32 +29,28 @@ belongs in `docs/physical-release-evidence.md`.
 - The repository-owned Appium/XCUITest runner passes all 16 EN/RO Quick, Word intermediary, save
   recovery, and tier-4 rows on named iPhone SE and iPhone 17 Pro profiles. It preserves simulator
   state, validates candidate identity, and writes native screenshots plus a JSON report.
+- The bounded P36 matrix passes 6/6 real-Safari variants: compact onboarding focus, SE landscape,
+  17 Pro landscape, dark Word Ladder, and Quick/tier-4 at 200% Safari Page Zoom plus accessibility
+  text. It verifies visual-viewport bounds, reflow, focus, contrast, action bounds, sticky overlap,
+  candidate assets, and restoration of Simulator and Safari state.
 
 ### Confirmed Open Gates
 
-1. iOS real-Safari variants remain open: rotation, dark theme, increased text size, and installed
-   PWA behavior.
-2. Simulator VoiceOver can provide supporting evidence, but physical iPhone VoiceOver remains the
-   release gate.
+1. Simulator installation automation reaches the semantic `Add to Home Screen` action, but
+   XCUITest does not produce a reliable confirmation or installed-app identity. Installed PWA
+   behavior remains a physical-device gate; browser PWA offline/update/data survival passes.
+2. XCUITest exposes an accessibility tree, not VoiceOver speech, rotor behavior, or gestures.
+   Simulator VoiceOver is therefore blocked as supporting evidence; physical iPhone VoiceOver
+   remains the release gate.
 3. Genuine TalkBack remains incomplete beyond J5 and bounded installed J6/J8 checkpoints.
 4. No distinct low-tier Android performance profile has been measured.
 5. The current candidate cannot receive physical sign-off until the required exact-candidate rows
    are rerun or explicitly waived.
 
-### Investigation Candidates, Not Defects
-
-- A large blue outline appeared around the programmatically focused onboarding heading in XCUITest
-  screenshots. Determine whether this is application focus styling, Safari accessibility focus, or
-  WebDriver highlighting before changing CSS.
-- First-run Safari system coaching can cover the lower application viewport. The application cannot
-  control this UI; automation must dismiss it, while layout tests must use the resulting visual
-  viewport rather than device screen dimensions.
-- Onboarding has generous vertical spacing and repeated negative reassurance. Validate the visible
-  first action and perceived pace before changing layout or copy.
-
-P35 reproduced one product defect: acknowledging tier-4 resources removed the active button without
-moving focus to the newly revealed result. The result is now a focusable heading, covered in unit,
-Playwright, and real-Simulator journeys. No unresolved product defect remains from the base matrix.
+P35 and P36 reproduced and fixed four product defects: missing tier-4 focus handoff, a visible
+noninteractive onboarding outline, 200% Page Zoom overflow caused by the global 320px minimum, and
+focused destinations clipped outside the visual viewport. No unresolved product defect remains
+from the Simulator matrices.
 
 ## Product And Psychological Guardrails
 
@@ -127,27 +123,6 @@ Architecture rules:
 
 ## Recommended Sequence
 
-### P36 - iOS Robustness And UX Findings
-
-Goal: expose real Mobile Safari defects without broad visual churn.
-
-Order:
-
-1. Reproduce or dismiss the onboarding heading-outline candidate outside WebDriver highlighting.
-2. Verify portrait and landscape on both profiles using `visualViewport` bounds.
-3. Verify light/dark and increased text size on the compact SE profile.
-4. Check CTA visibility, horizontal overflow, sticky-action overlap, safe-area handling, focus
-   order, and readable contrast at every checkpoint.
-5. Exercise installed-PWA launch, offline reopen, update, and local Journal survival where Simulator
-   automation supports reliable setup.
-6. Run Simulator VoiceOver for supporting speech/focus evidence only after the functional matrix is
-   stable.
-
-Fix only reproduced application defects. Every fix starts with the smallest browser-observable
-regression, then reruns the affected native row and full automated gates.
-
-Exit criteria: every variant is pass, documented limitation, or linked defect with retest evidence.
-
 ### P37 - Acceptance Contract Consolidation
 
 Goal: remove verified duplication across Playwright, Android, SafariDriver, and Appium.
@@ -198,6 +173,6 @@ automation is never promoted to physical evidence.
 
 ## Decision Rule
 
-Work on P36 next. Extract P37 only from repetition observed in the stable Playwright, Android,
+Work on P37 next, extracting only repetition demonstrated by the stable Playwright, Android,
 SafariDriver, and Appium adapters. Resume P38 when the required devices and owner presence are
 available. P39 is the only phase that can change the physical release decision to `PASS`.

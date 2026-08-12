@@ -5,6 +5,7 @@ import { synthesize } from '../models/synthesis'
 import { CrisisBanner } from '../components/CrisisBanner'
 import { ScreenHeader } from '../components/ScreenHeader'
 import { buildGoogleAiSearchUrl } from '../utils/google-ai-search'
+import { focusDestination } from '../utils/focusDestination'
 import type { CheckInCompletion, ReflectionAnswer, ReflectionDetail, ReflectionSaveOutcome, SessionSaveState } from '../navigation/types'
 
 type FinishState = 'idle' | 'saving' | 'error'
@@ -56,15 +57,15 @@ export function ReflectionScreen({ completion, allowExternalAI, saveState, sessi
     screenRef.current?.scrollIntoView?.({ block: 'start' })
     if (restoreExplorationTriggerRef.current) {
       restoreExplorationTriggerRef.current = false
-      screenRef.current?.querySelector<HTMLElement>('[data-testid="reflection-explore-more"]')?.focus({ preventScroll: true })
+      focusDestination(screenRef.current?.querySelector<HTMLElement>('[data-testid="reflection-explore-more"]') ?? null)
       return
     }
-    screenRef.current?.querySelector<HTMLElement>('#screen-title')?.focus({ preventScroll: true })
+    focusDestination(screenRef.current?.querySelector<HTMLElement>('#screen-title') ?? null)
   }, [finishState, showExploration, showStep])
 
   useLayoutEffect(() => {
     if (completion.crisisTier === 'tier4' && tier4Acknowledged) {
-      resultHeadingRef.current?.focus({ preventScroll: true })
+      focusDestination(resultHeadingRef.current)
     }
   }, [completion.crisisTier, tier4Acknowledged])
 

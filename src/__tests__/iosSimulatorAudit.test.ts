@@ -50,10 +50,62 @@ describe('iOS Simulator Safari audit', () => {
       .toEqual([{ profile: 'se', language: 'ro', journey: 'tier4' }])
   })
 
+  it('builds a bounded risk-based robustness matrix instead of a Cartesian product', async () => {
+    const { buildIOSRobustnessMatrix } = await import(auditModuleUrl)
+
+    expect(buildIOSRobustnessMatrix({})).toEqual([
+      {
+        caseId: 'se-onboarding-focus',
+        profile: 'se', language: 'en', journey: 'onboarding-focus',
+        orientation: 'PORTRAIT', appearance: 'light', contentSize: 'large', theme: 'light',
+      },
+      {
+        caseId: 'se-landscape-quick-ro',
+        profile: 'se', language: 'ro', journey: 'quick',
+        orientation: 'LANDSCAPE', appearance: 'light', contentSize: 'large', theme: 'light',
+      },
+      {
+        caseId: '17-pro-landscape-tier4-ro',
+        profile: '17-pro', language: 'ro', journey: 'tier4',
+        orientation: 'LANDSCAPE', appearance: 'light', contentSize: 'large', theme: 'light',
+      },
+      {
+        caseId: 'se-dark-word-ro',
+        profile: 'se', language: 'ro', journey: 'word-intermediate',
+        orientation: 'PORTRAIT', appearance: 'dark', contentSize: 'large', theme: 'dark',
+      },
+      {
+        caseId: 'se-text-quick-ro',
+        profile: 'se', language: 'ro', journey: 'quick',
+        orientation: 'PORTRAIT', appearance: 'light', contentSize: 'accessibility-large', theme: 'light',
+        textZoomPercent: 200,
+      },
+      {
+        caseId: 'se-text-tier4-ro',
+        profile: 'se', language: 'ro', journey: 'tier4',
+        orientation: 'PORTRAIT', appearance: 'light', contentSize: 'accessibility-large', theme: 'light',
+        textZoomPercent: 200,
+      },
+    ])
+    expect(buildIOSRobustnessMatrix({ caseId: 'se-dark-word-ro' })).toHaveLength(1)
+    expect(() => buildIOSRobustnessMatrix({ caseId: 'unknown' })).toThrow('Unsupported robustness case')
+  })
+
+  it('selects bounded Safari text-size adjustments without guessing native control counts', async () => {
+    const { getSafariTextSizeAction } = await import(auditModuleUrl)
+
+    expect(getSafariTextSizeAction('100%', 200)).toBe('increment')
+    expect(getSafariTextSizeAction('200%', 100)).toBe('decrement')
+    expect(getSafariTextSizeAction('125%', 125)).toBe('done')
+    expect(() => getSafariTextSizeAction('unknown', 200)).toThrow('Invalid Safari text size transition')
+  })
+
   it('parses strict filters before any Simulator side effect', async () => {
     const { parseIOSSimulatorArgs } = await import(auditModuleUrl)
 
     expect(parseIOSSimulatorArgs([
+      '--suite=robustness',
+      '--case=se-dark-word-ro',
       '--profile=se',
       '--language=ro',
       '--journey=save-retry',
@@ -63,9 +115,12 @@ describe('iOS Simulator Safari audit', () => {
       language: 'ro',
       journey: 'save-retry',
       appiumPort: 4725,
+      suite: 'robustness',
+      caseId: 'se-dark-word-ro',
     })
     expect(() => parseIOSSimulatorArgs(['--profile=mini'])).toThrow('Unsupported profile: mini')
     expect(() => parseIOSSimulatorArgs(['--journey=j10'])).toThrow('Unsupported journey: j10')
+    expect(() => parseIOSSimulatorArgs(['--suite=all'])).toThrow('Unsupported suite: all')
     expect(() => parseIOSSimulatorArgs(['--appium-port=0'])).toThrow('Invalid Appium port')
     expect(() => parseIOSSimulatorArgs(['--base-url=https://example.com/emotid/']))
       .toThrow('Candidate URL must use a loopback host')
@@ -130,7 +185,7 @@ describe('iOS Simulator Safari audit', () => {
   })
 
   it('validates exact local production assets and mobile geometry', async () => {
-    const { readProductionAssets, validateCandidateSurface } = await import(auditModuleUrl)
+    const { readProductionAssets, validateCandidateSurface, validateRobustnessSurface } = await import(auditModuleUrl)
     const assets = readProductionAssets(`
       <link rel="stylesheet" href="/emotid/assets/index-style.css">
       <script type="module" src="/emotid/assets/index-app.js"></script>
@@ -184,6 +239,25 @@ describe('iOS Simulator Safari audit', () => {
       .toThrow('Destination heading does not own programmatic focus')
     expect(() => validateCandidateSurface({ ...valid, undersizedActions: ['Continue'] }))
       .toThrow('Primary action below 44px')
+
+    const robustness = {
+      expectedOrientation: 'LANDSCAPE',
+      orientation: 'LANDSCAPE',
+      expectedTheme: 'dark',
+      theme: 'dark',
+      viewport: { width: 667, height: 287, offsetLeft: 0, offsetTop: 0, dpr: 2 },
+      shell: { left: 0, right: 667, top: 0, bottom: 287 },
+      outline: { style: 'none', width: 0, color: 'rgb(0, 0, 0)' },
+    }
+    expect(validateRobustnessSurface(robustness)).toMatchObject({ orientation: 'LANDSCAPE', theme: 'dark' })
+    expect(() => validateRobustnessSurface({ ...robustness, orientation: 'PORTRAIT' }))
+      .toThrow('Orientation mismatch')
+    expect(() => validateRobustnessSurface({ ...robustness, shell: { ...robustness.shell, right: 700 } }))
+      .toThrow('Application shell crosses the visual viewport')
+    expect(() => validateRobustnessSurface({
+      ...robustness,
+      outline: { style: 'solid', width: 3, color: 'rgb(0, 0, 255)' },
+    })).toThrow('Programmatic heading has a visible noninteractive outline')
   })
 
   it('dismisses known Safari UI and switches explicitly to web context', async () => {
@@ -191,7 +265,9 @@ describe('iOS Simulator Safari audit', () => {
     const events: string[] = []
     const driver = {
       setContext: vi.fn(async (name: string) => { events.push(`context:${name}`) }),
-      findElementOptional: vi.fn(async () => 'close'),
+      findElementOptional: vi.fn()
+        .mockResolvedValueOnce(undefined)
+        .mockResolvedValueOnce('close'),
       click: vi.fn(async (element: string) => { events.push(`click:${element}`) }),
       waitForWebContext: vi.fn(async () => 'WEBVIEW_42'),
     }
@@ -201,6 +277,51 @@ describe('iOS Simulator Safari audit', () => {
       webContext: 'WEBVIEW_42',
     })
     expect(events).toEqual(['context:NATIVE_APP', 'click:close', 'context:WEBVIEW_42'])
+  })
+
+  it('fails fast when stale native Safari UI would contaminate web evidence', async () => {
+    const { dismissSafariCoachmark } = await import(auditModuleUrl)
+    const driver = {
+      setContext: vi.fn(async () => undefined),
+      findElementOptional: vi.fn(async () => 'share-sheet'),
+      click: vi.fn(async () => undefined),
+      waitForWebContext: vi.fn(async () => 'WEBVIEW_42'),
+    }
+
+    await expect(dismissSafariCoachmark(driver)).rejects.toThrow(
+      'Stale Safari share sheet is covering the candidate',
+    )
+    expect(driver.click).not.toHaveBeenCalled()
+    expect(driver.waitForWebContext).not.toHaveBeenCalled()
+  })
+
+  it('waits for two aligned visual viewport samples after native orientation changes', async () => {
+    const { waitForStableVisualViewport } = await import(auditModuleUrl)
+    const driver = {
+      execute: vi.fn()
+        .mockResolvedValueOnce({ layoutWidth: 874, viewportWidth: 750 })
+        .mockResolvedValueOnce({ layoutWidth: 874, viewportWidth: 874 })
+        .mockResolvedValueOnce({ layoutWidth: 874, viewportWidth: 874 }),
+    }
+
+    await expect(waitForStableVisualViewport(driver, { attempts: 3, delayMs: 0 }))
+      .resolves.toEqual({ layoutWidth: 874, viewportWidth: 874 })
+    expect(driver.execute).toHaveBeenCalledTimes(3)
+
+    await expect(waitForStableVisualViewport({
+      execute: vi.fn(async () => ({ layoutWidth: 874, viewportWidth: 750 })),
+    }, { attempts: 2, delayMs: 0 })).rejects.toThrow('Timed out waiting for stable visual viewport')
+  })
+
+  it('rejects transient unknown Simulator UI state before attempting restoration', async () => {
+    const { validateProfileUi } = await import(auditModuleUrl)
+
+    expect(validateProfileUi({ appearance: 'dark', contentSize: 'accessibility-large' }))
+      .toEqual({ appearance: 'dark', contentSize: 'accessibility-large' })
+    expect(() => validateProfileUi({ appearance: 'unknown', contentSize: 'large' }))
+      .toThrow('Unknown Simulator appearance state')
+    expect(() => validateProfileUi({ appearance: 'light', contentSize: 'unknown' }))
+      .toThrow('Unknown Simulator content-size state')
   })
 
   it('captures device evidence in native context and restores the web context', async () => {
@@ -262,6 +383,10 @@ describe('iOS Simulator Safari audit', () => {
       .mockResolvedValueOnce(response({ value: 'WEBVIEW_42' }))
       .mockResolvedValueOnce(response({ value: { 'element-6066-11e4-a52e-4f735466cecf': 'next' } }))
       .mockResolvedValueOnce(response({ value: null }))
+      .mockResolvedValueOnce(response({ value: { x: 20, y: 40, width: 100, height: 44 } }))
+      .mockResolvedValueOnce(response({ value: null }))
+      .mockResolvedValueOnce(response({ value: 'PORTRAIT' }))
+      .mockResolvedValueOnce(response({ value: null }))
       .mockResolvedValueOnce(response({ value: null }))
     const driver = createAppiumClient({ endpoint: 'http://127.0.0.1:4723', fetchImpl })
 
@@ -275,6 +400,9 @@ describe('iOS Simulator Safari audit', () => {
     await expect(driver.getContext()).resolves.toBe('WEBVIEW_42')
     const element = await driver.findElement('css selector', '.primary-button')
     await driver.click(element)
+    await driver.tapElement(element)
+    await expect(driver.getOrientation()).resolves.toBe('PORTRAIT')
+    await driver.setOrientation('LANDSCAPE')
     await driver.close()
 
     expect(fetchImpl.mock.calls.map(([url, options]) => [url, options.method])).toEqual([
@@ -284,6 +412,10 @@ describe('iOS Simulator Safari audit', () => {
       ['http://127.0.0.1:4723/session/ios-session/context', 'GET'],
       ['http://127.0.0.1:4723/session/ios-session/element', 'POST'],
       ['http://127.0.0.1:4723/session/ios-session/element/next/click', 'POST'],
+      ['http://127.0.0.1:4723/session/ios-session/element/next/rect', 'GET'],
+      ['http://127.0.0.1:4723/session/ios-session/execute/sync', 'POST'],
+      ['http://127.0.0.1:4723/session/ios-session/orientation', 'GET'],
+      ['http://127.0.0.1:4723/session/ios-session/orientation', 'POST'],
       ['http://127.0.0.1:4723/session/ios-session', 'DELETE'],
     ])
   })
@@ -327,6 +459,11 @@ describe('iOS Simulator Safari audit', () => {
 
     const help = spawnSync(process.execPath, [auditScript, '--help'], { cwd: directory, encoding: 'utf8' })
     const invalid = spawnSync(process.execPath, [auditScript, '--unknown'], { cwd: directory, encoding: 'utf8' })
+    const invalidCase = spawnSync(process.execPath, [
+      auditScript,
+      '--suite=robustness',
+      '--case=unknown',
+    ], { cwd: directory, encoding: 'utf8' })
 
     expect(help.status).toBe(0)
     expect(help.stdout).toContain('Usage:')
@@ -334,6 +471,9 @@ describe('iOS Simulator Safari audit', () => {
     expect(invalid.status).not.toBe(0)
     expect(invalid.stderr).toContain('Unsupported argument: --unknown')
     expect(invalid.stdout).not.toContain('Starting Appium')
+    expect(invalidCase.status).not.toBe(0)
+    expect(invalidCase.stderr).toContain('Unsupported robustness case: unknown')
+    expect(invalidCase.stdout).not.toContain('Starting Appium')
     expect(readdirSync(directory)).toEqual([])
   })
 })

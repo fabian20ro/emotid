@@ -1935,3 +1935,39 @@ explicit. A visually plausible web-context screenshot can still be a cropped com
 Safety gates also need a deliberate focus destination when acknowledgment replaces the trigger.
 **Promoted to Lessons Learned:** Yes — the safety focus rule closes a high-risk reusable interaction
 boundary. Screenshot-context behavior remains a first occurrence in the iteration log.
+
+---
+
+### [2026-08-12] Complete P36 iOS robustness and UX findings
+
+**Context:** The base Appium matrix passed, but rotation, dark theme, Safari Page Zoom, larger text,
+installed-PWA setup, and Simulator VoiceOver remained unclassified.
+**What happened:**
+- Started with pure failing contracts for a bounded six-case risk matrix, CLI filtering, semantic
+  contrast/layout checks, orientation commands, Safari Page Zoom actions, and focus destinations.
+- Added real-Safari SE/17 Pro variants for onboarding focus, landscape Quick/tier-4, dark Word
+  Ladder, and Quick/tier-4 at 200% Page Zoom plus accessibility text. The runner restores portrait,
+  Page Zoom, appearance, content size, profile state, and owned services.
+- Reproduced three product defects: Safari's visible outline on the programmatically focused
+  onboarding heading, global `body` minimum width causing 132px overflow at 200%, and focused
+  destinations clipped outside `visualViewport`. Added regressions, removed the obsolete minimum,
+  and introduced one shared focus helper that scrolls only clipped destinations.
+- Hardened evidence after real failures: stale Share Sheet contamination now fails; Safari is reset
+  per session; post-rotation layout waits for two aligned viewport samples; transient Simulator UI
+  state cannot become a restoration value; cleanup waits for Shutdown. Native macOS Safari also
+  waits for its requested language/theme effects.
+- The installed-PWA probe reached semantic `Add to Home Screen`, but XCUITest activation produced no
+  reliable confirmation or installed identity. Simulator VoiceOver could not provide speech,
+  rotor, or gesture evidence. Both are documented capability blocks, not product passes/failures.
+**Outcome:** Final robustness report 6/6 at
+`.reports/ios-simulator/2026-08-12T19-20-05-175Z/`; post-change base matrix 16/16 at
+`.reports/ios-simulator/2026-08-12T19-23-51-726Z/`; macOS Safari 6/6 at
+`.reports/macos-safari/2026-08-12T19-26-58-249Z/`. `npm run check` passes 80 files / 638 tests;
+Playwright 212/212, PWA 1/1, and performance 1/1 pass. Both Simulator profiles are Shutdown; no
+preview or Appium listener remains.
+**Insight:** Accessibility acceptance needs both correct semantic focus and visual-viewport
+reachability. Native evidence also needs explicit readiness and overlay isolation; a passing DOM
+assertion is insufficient when native browser UI can cover the candidate.
+**Promoted to Lessons Learned:** Yes — repeated focus and native lifecycle races now have shared,
+bounded rules. Installed-PWA and VoiceOver limitations remain iteration-specific until a reliable
+automation capability exists.

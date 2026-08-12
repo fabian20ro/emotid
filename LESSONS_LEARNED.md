@@ -93,6 +93,18 @@ resources removes the active control and reveals reflective content, focus does 
 destination automatically. Focus the newly revealed result heading, keep the support message first
 in document order, and verify the transition in unit, rendered-browser, and native-browser tests.
 
+**[2026-08-12]** Programmatic focus must also be visible in the visual viewport — DOM focus can be
+correct while Safari Page Zoom leaves the destination behind browser chrome or outside the current
+visual viewport. Use one shared destination helper after repeated focus handoffs: focus without
+scrolling, measure against `visualViewport`, and reveal only when clipped. Test both visible and
+clipped paths; do not make every focus transition scroll unconditionally.
+
+**[2026-08-12]** Native-browser readiness requires stable observable state — Element presence does
+not prove that React effects, Safari rotation, or CoreSimulator lifecycle transitions have settled.
+Wait for the exact state under test and, for geometry, require consecutive aligned layout and
+visual-viewport samples. Reject transient `unknown` restoration values and stale native overlays;
+never weaken product assertions to accommodate harness races.
+
 **[2026-08-12]** External screen-reader keyboards need transport-specific calibration — Host
 window switching, pointer forwarding, and modifier layout can alter assistive-technology focus
 without changing DOM focus. For TalkBack through scrcpy AOA, disable mouse forwarding, make the

@@ -22,6 +22,7 @@ npm run test:ios:simulator:preflight
 
 ```bash
 npm run test:ios:simulator
+npm run test:ios:simulator:robustness
 ```
 
 The command builds the production app, serves it from the same local origin used by native desktop
@@ -45,6 +46,15 @@ node scripts/ios-simulator-audit.mjs --profile=se --language=ro --journey=tier4
 Allowed profiles: `all`, `se`, `17-pro`. Allowed languages: `all`, `en`, `ro`. Allowed journeys:
 `all`, `quick`, `word-intermediate`, `save-retry`, `tier4`.
 
+The six-case robustness suite is risk-based, not a Cartesian product. It covers onboarding focus,
+SE and 17 Pro landscape, dark Word Ladder, and compact Quick/tier-4 at 200% Safari Page Zoom plus
+accessibility text. It checks orientation, theme, visual-viewport reflow, shell and action bounds,
+sticky overlap, semantic-token contrast, and programmatic focus. Run one case with:
+
+```bash
+node scripts/ios-simulator-audit.mjs --suite=robustness --case=se-text-tier4-ro
+```
+
 ## Side Effects And Safety
 
 - The runner never installs Xcode, runtimes, Appium, or drivers.
@@ -52,12 +62,15 @@ Allowed profiles: `all`, `se`, `17-pro`. Allowed languages: `all`, `en`, `ro`. A
   production origin.
 - It clears only synthetic Emot-ID state on that loopback origin before each journey.
 - A profile booted by the runner returns to Shutdown; an already booted profile remains booted.
+- The robustness suite restores appearance, content size, portrait orientation, and Safari Page
+  Zoom. Unknown transient Simulator state fails instead of becoming a restoration value.
 - A pre-existing Appium or preview service is reused and never killed by the runner.
 - Evidence contains synthetic fixture data only and is written under ignored
   `.reports/ios-simulator/<timestamp>/`.
 
 Safari's first-run coachmark is dismissed only when a visible native control has accessibility
-label `Close`. Unknown native UI or a missing web context fails the run rather than bypassing it.
+label `Close`. A stale Share Sheet, unstable post-rotation viewport, unknown native UI, or missing
+web context fails the run rather than contaminating evidence.
 
 ## Evidence
 
@@ -67,5 +80,6 @@ every row. Screenshots are captured explicitly in `NATIVE_APP` context and the p
 is restored, avoiding SafariDriver's inconsistent web-only crops. Valid functional rows use
 `SIMULATOR_SUPPORTING_PASS`; failures use `FAIL`.
 
-Simulator VoiceOver, rotation, dark theme, increased text size, and installed-PWA variants belong
-to P36. Physical iPhone VoiceOver remains P38.
+The Simulator cannot currently provide reliable installed-PWA identity after Share Sheet
+activation, nor VoiceOver speech/rotor/gesture evidence. These are documented limitations, not
+application failures. Physical installed-PWA and VoiceOver acceptance remains P38.
