@@ -1,112 +1,55 @@
-# Remaining Product Plan
+# Product Maintenance Plan
 
-Status: core mobile migration, P46 release closure, P50 stable native hooks, P52 native Safari
-capability diagnosis, and the available P51 bounded human TalkBack review are complete. Unavailable
-hardware and participant evidence remain deferred. No current evidence supports another product
-or copy migration.
-Updated August 14, 2026.
+Status: the mobile UI/UX migration and `v0.1.0` release closure are complete. The deployed product
+has no known release-blocking defect. Work now follows evidence and maintenance needs rather than
+a migration phase sequence. Updated August 14, 2026.
 
-This is the only active implementation plan. Historical work belongs in `ITERATION_LOG.md`,
-release criteria in `docs/release-quality-gates.md`, and candidate evidence in
-`docs/physical-release-evidence.md`.
+Historical implementation detail belongs in `ITERATION_LOG.md`, release criteria in
+`docs/release-quality-gates.md`, candidate evidence in `docs/physical-release-evidence.md`, and
+release scope in `docs/releases/v0.1.0.md`.
 
-## Current Baseline
+## Released Baseline
 
-- Today, Explore, Journal, Settings, Privacy, Support, all input routes, and Reflection share one
-  routed mobile shell and one completion/persistence boundary.
+- One routed mobile shell across Today, Explore, Journal, Settings, Privacy, and Support.
 - Quick, Body Compass, Affect Map, Word Ladder, and Plutchik converge on tentative Reflection.
-  Users can correct or reject results, stop from intermediary words, and leave interpretation closed.
-- Crisis support is deterministic from the current result. Tier-4 support precedes reflection and
-  requires acknowledgment; saved history cannot increase present urgency.
-- Saved reflections remain on-device. Local saving and external Google AI Mode links default on,
-  remain explicit choices, and no backend or telemetry exists.
-- EN/RO, light/dark, keyboard, compact reflow, focus, PWA lifecycle, persistence, safety, and
-  performance have broad repeatable coverage.
-- P46 product SHA `61f8743` is frozen and deployed. P50 adds behavior-neutral acceptance hooks on
-  top of that baseline. Automated gates, iOS Simulator, Pixel browser, installed WebAPK, and Pixel
-  mid-tier timing expose no unresolved product blocker.
+- One typed completion, current-session safety, local persistence, and recovery boundary.
+- User correction and rejection remain explicit; inferred content is optional and unconfirmed.
+- Local-only journal; no account, backend, telemetry, or cloud sync.
+- Optional Google Search AI Mode handoff sends only selected emotion names.
+- EN/RO, light/dark, keyboard, compact reflow, offline update, persistence, safety, and performance
+  have broad repeatable coverage.
 
-Physical iPhone testing remains outside scope. Simulator VoiceOver is not physical screen-reader
-evidence.
+## Maintenance Triggers
 
-## Open Risks
+Open a product change only for:
 
-1. The bounded human TalkBack review passed; the normative complete human J1-J9 matrix still needs a
-   release waiver if required beyond the agreed bounded scope.
-2. A distinct low-tier Android device is unavailable; Pixel 6a mid-tier evidence cannot replace it.
-3. Six-session moderated participant evidence is deferred; synthetic walkthroughs are preflight only.
-4. Exact-candidate macOS Safari is blocked by SafariDriver activation transport, not a reproduced app failure.
+1. a reproduced functional, safety, accessibility, privacy, or data-loss defect;
+2. repeated owner or participant evidence of a comprehension problem;
+3. dependency, browser, operating-system, or security maintenance;
+4. a deliberately approved product capability.
 
-## Architecture Direction
+Use the smallest behavior-boundary test and implementation. Keep bilingual copy, deterministic
+crisis semantics, client-only privacy, and platform-local native adapters.
 
-### Keep
+## Deferred Evidence
 
-- client-only deployment and explicit outbound-link boundary;
-- feature registry, lazy routes, and route-local input state;
-- one typed completion, safety, Reflection, and persistence workflow;
-- bounded writes, privacy-safe diagnostics, deterministic crisis data, and fail-closed reviewed copy;
-- one acceptance manifest with platform-local adapters.
+- **Low-tier Android:** run the existing three-run performance matrix when a distinct device is
+  available. Do not relabel Pixel 6a or emulator evidence.
+- **Moderated comprehension:** resume `docs/moderated-comprehension-validation.md` only with six
+  real participants. Expert, owner, synthetic, and automated review are not participant outcomes.
+- **Complete human TalkBack:** bounded EN/RO browser and installed checkpoints passed. A full human
+  J1-J9 matrix remains waived for this release.
+- **Native macOS Safari:** retry after Safari/SafariDriver changes. Current activation transport is
+  blocked before product rows and is not an application failure.
 
-### Next Change Boundary
-
-P50 centralized only six repeated native acceptance hooks; P52 isolates SafariDriver transport
-capability before product rows. Product behavior and platform-local interaction code remain
-separate. No further product or harness architecture change is justified without new evidence.
-
-### Avoid
-
-No router migration, global state library, backend, telemetry, database rewrite, design-system
-project, workflow DSL, or speculative copy changes. Extract only repeated contracts or safety/data
-boundaries.
-
-## Recommended Sequence
-
-### P50 - Stable Native Acceptance Hooks (complete)
-
-One frozen selector map now covers Today guided entry, save completion, external AI, and onboarding
-state/focus. Android, iOS, and macOS adapters consume it; TalkBack speech checks retain accessible
-names. Contract tests prevent copy/class selector regressions. Browser, iOS Simulator, and Pixel
-rows pass; native Safari remains blocked at its pre-existing WebDriver click transport.
-
-### P52 - Native Safari Activation Capability Probe (complete)
-
-One disposable seed control now distinguishes native pass, inert WebDriver transport, and broken
-seed/session behavior before product navigation. Current Safari 26.6 is classified `BLOCKED`: the
-native click leaves the seed idle, script activation proves the seed, and zero product rows run.
-Script activation cannot create passing product evidence. Unit tests cover all classifications.
-
-### P51 - Human TalkBack And Low-Tier Evidence (available scope complete)
-
-The owner completed physical swipe, speech, and double-tap checks on Pixel 6a / Android 17 /
-TalkBack 17. Browser onboarding, intermediary selection, and support-first safety order passed in
-English and Romanian; installed standalone launch and guided-entry activation also passed. The
-Romanian voice was understandable. TalkBack's configured English role instructions alternated
-with Romanian app speech as expected; new-screen heading focus remained correct. No product defect
-reproduced. Retained result: `BOUNDED_PASS`.
-
-When a distinct low-tier Android exists, run the existing three-run performance matrix. Do not
-relabel Pixel 6a evidence or add emulation as a hardware substitute.
-
-### P45 - Moderated Participant Validation (deferred)
-
-Retain `docs/moderated-comprehension-validation.md` for a future six-person round. Do not convert
-expert review, owner acceptance, synthetic agents, or automation into participant outcomes.
-
-### P49 - Evidence-Dependent Comprehension Copy (closed pending evidence)
+## Closed Pending Evidence
 
 Do not change onboarding language placement, Affect terminology, Google AI Mode wording, or skip
 behavior from incomplete synthetic runs. Reopen only after repeated human evidence or a new
 deterministic contradiction.
 
-## Verification Rule
+## Avoid
 
-Start each product phase with a failing behavior-boundary test and the smallest implementation.
-Visual/accessibility changes require EN/RO, light/dark browser coverage. Safety changes require
-deterministic invariants and psychological review. Native evidence must name platform limits.
-
-## Decision
-
-P50 and P52 close the known harness architecture gaps. P51 is complete for available hardware;
-defer its low-tier part until distinct hardware exists. Keep P49 closed, and run P45 only when six
-real participants are available. No implementation phase is currently justified. Next action:
-obtain low-tier Android evidence, or conduct P45 when six real participants become available.
+No speculative router migration, global state library, backend, telemetry, datastore rewrite,
+design-system project, workflow DSL, or universal device framework. Apply DRY after repeated use,
+YAGNI to unproven needs, and KISS at every change boundary.

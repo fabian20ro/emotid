@@ -2497,3 +2497,29 @@ remain external dependencies.
 human result must remain separately classified from setup automation and broader matrix coverage.
 **Promoted to Lessons Learned:** No — existing TalkBack attribution and supporting-evidence lessons
 already cover the reusable boundary.
+
+---
+
+### [2026-08-14] Publish the v0.1.0 release boundary
+
+**Context:** The migration, release candidate, and available native evidence were complete, but the
+repository had no tag or GitHub Release and the active plan still read as an implementation queue.
+**What happened:**
+- Replaced the completed phase sequence with one short maintenance plan: evidence-backed product
+  triggers, deferred external evidence, closed speculative copy areas, and explicit architecture
+  constraints.
+- Added durable `v0.1.0` release notes covering shipped behavior, privacy, verification classes,
+  and accepted low-tier, participant, TalkBack, SafariDriver, and physical-iPhone limitations.
+- Updated the evidence ledger to the latest successful Pages and CodeQL workflows and linked the
+  release from the README. Product code, package version, assets, copy, safety, and persistence were
+  unchanged.
+- Compared every index-referenced deployed asset with the local production build by SHA-256. All
+  four matched. The public manifest and service worker returned 200; a fresh 393x742 Chromium
+  session rendered Today and became controlled by the `/emotid/` service worker after reload.
+**Outcome:** `npm run check` passes 86 files / 684 tests. Playwright passes 256/256; production PWA
+and performance gates pass 1/1. The release closure is ready for an annotated `v0.1.0` tag and
+GitHub Release at the documentation commit.
+**Insight:** Release closure should turn a completed migration queue into a maintenance contract,
+not preserve completed phases as apparent future work.
+**Promoted to Lessons Learned:** No — the existing one-owner release-documentation lesson covers
+the reusable rule.

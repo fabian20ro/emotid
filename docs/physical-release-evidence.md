@@ -12,12 +12,12 @@ assistive-technology or hardware-performance gates. Physical iPhone testing is o
 | Field | Value |
 | --- | --- |
 | Product SHA | `61f8743` |
-| Verification harness | `312dce9` plus P51 evidence tooling (test-only changes after product freeze) |
-| Candidate status | FROZEN AND DEPLOYED; product assets unchanged by later harness commits |
+| Verification harness | `2775cac` (test-only changes after product freeze) |
+| Candidate status | RELEASED AS `v0.1.0`; product assets unchanged by later harness/docs commits |
 | Production URL | `https://fabian20ro.github.io/emotid/` |
-| Verified deployment workflow | `Deploy to GitHub Pages` run `31703694847`, successful |
+| Verified deployment workflow | `Deploy to GitHub Pages` run `31746876503`, successful |
 | Test date | 2026-08-14 |
-| Current decision | CONDITIONAL RELEASE: no open product blocker; explicit evidence deferrals below |
+| Current decision | RELEASED WITH EXPLICIT EVIDENCE WAIVERS; no open product blocker |
 
 `61f8743` contains the only post-freeze product change: revealing the Quick commitment action on
 compact screens. Later commits only correct release adapters; their production asset hashes match
@@ -45,8 +45,8 @@ thermal differences for every final-candidate physical run.
 | Mobile Safari + Mobile Chrome browser matrix | AUTOMATED_PASS | `npm run test:e2e`: 256/256 |
 | Production offline/update/data-retention lifecycle | AUTOMATED_PASS | `npm run test:pwa` |
 | Production browser performance probe | AUTOMATED_PASS | `npm run test:performance` |
-| CodeQL | PASS | Run `31703694471` |
-| CI, PWA, performance, Pages deploy | PASS | Run `31703694847` |
+| CodeQL | PASS | Run `31746876222` |
+| CI, PWA, performance, Pages deploy | PASS | Run `31746876503` |
 
 These results validate browser-observable behavior. They do not validate synthesized speech,
 screen-reader gestures, installed mobile UI, or low-tier hardware timing.
@@ -200,7 +200,7 @@ retest the same native row. Record environment blocks separately from applicatio
 
 | Gate | Status | Closure condition |
 | --- | --- | --- |
-| Exact-candidate automated baseline | PASS | Local complete gates and workflow `31703694847` |
+| Exact-candidate automated baseline | PASS | Local complete gates and workflow `31746876503` |
 | iOS Simulator browser matrix | PASS, SUPPORTING | Base 16/16; acceptance 36/36; robustness 6/6 |
 | Simulator installed PWA / VoiceOver | OUT OF SCOPE | Capability limitation recorded; no physical-iPhone substitution claim |
 | Pixel 6a browser + installed, no AT | PASS, SUPPORTING | J1-J9 EN/RO, 36/36 total |
@@ -211,7 +211,7 @@ retest the same native row. Record environment blocks separately from applicatio
 | Native macOS Safari | BLOCKED, SUPPORTING ONLY | SafariDriver activation transport; no reproduced product failure |
 | Release-blocking product defects | NONE REPRODUCED | No unresolved failure after required rows |
 
-Final recommendation: **CONDITIONAL RELEASE.** The frozen product has no unresolved automated,
-simulator, browser, installed-WebAPK, or mid-tier performance defect. Release ownership must accept
-the residual accessibility, low-tier performance, and comprehension risks above; none is converted
-into a pass by supporting or historical evidence.
+Release decision: **RELEASED AS `v0.1.0` WITH EXPLICIT EVIDENCE WAIVERS.** The frozen product has no
+unresolved automated, simulator, browser, installed-WebAPK, or mid-tier performance defect. The
+residual accessibility, low-tier performance, and comprehension risks above remain deferred; none
+is converted into a pass by supporting or historical evidence.
