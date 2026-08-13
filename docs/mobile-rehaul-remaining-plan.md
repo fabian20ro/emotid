@@ -1,7 +1,8 @@
 # Remaining Product Plan
 
-Status: core mobile migration, primary-entry information architecture, and P45 expert preflight
-complete. Remaining work: participant validation and release closure. Updated August 13, 2026.
+Status: core mobile migration and P47 rejected-result trust correction complete. P45 human
+validation is deferred. Remaining work: Journal exercise discoverability, bounded evidence-dependent
+copy review, and release closure. Updated August 13, 2026.
 
 This is the only active implementation plan. Historical work belongs in `ITERATION_LOG.md`,
 release criteria in `docs/release-quality-gates.md`, and candidate evidence in
@@ -33,14 +34,17 @@ release criteria in `docs/release-quality-gates.md`, and candidate evidence in
   noticing/naming separately from comparison/learning without duplicating route ownership.
 - Vocabulary practice now offers a reason-neutral Not sure yet choice. Its feedback and sticky
   Continue action remain visible at 320x568 across EN/RO and light/dark themes.
+- Rejected results retain local provenance but are presented on Today, Journal, and saved detail as
+  suggestions that did not fit. They remain excluded from pattern analytics and inferred guidance.
 
 Physical iPhone testing remains outside scope. Simulator VoiceOver is not represented as physical
 screen-reader evidence.
 
 ## Open Risks
 
-1. Six-session moderated participant evidence remains open; expert review is preflight only.
-2. Final exact-candidate release dispositions remain open.
+1. Saved Journal exercises remain discoverable only after reopening Unpack a moment.
+2. Six-session moderated participant evidence is deferred; synthetic walkthroughs are preflight only.
+3. Final exact-candidate release dispositions remain open.
 
 ## Architecture Direction
 
@@ -55,10 +59,10 @@ screen-reader evidence.
 
 ### Next Change Boundary
 
-The remaining P45 work is participant research and bounded correction, not an architecture phase.
-Use `docs/moderated-comprehension-validation.md` and the existing screens. Change product behavior
-only for repeated findings, or immediately for safety, privacy, accessibility, data loss, or
-irreversible actions. Do not add telemetry, a research backend, or a generic survey system.
+P48 is a Journal presentation/navigation correction, not a datastore unification. Pass the existing
+exercise entries into Journal, show only the latest factual preview, and link to the existing route.
+Keep emotion sessions and exercises in their current stores and export shapes. Extract the existing
+preview helper only when both screens use it.
 
 ### Avoid
 
@@ -68,27 +72,27 @@ three real uses or when a safety/data-loss boundary requires one owner.
 
 ## Recommended Sequence
 
-### P45a - Moderated Participant Round (next)
+### P48 - Journal Exercise Discoverability (next)
 
-Run the six-task local protocol with six participants, including at least two Romanian sessions,
-two English sessions, and two people unfamiliar with Emot-ID. Collect no telemetry or personal
-emotional content. Observe without coaching:
+1. Start with a failing Journal component test and a minimal-save Playwright journey.
+2. Pass `chainEntries` and `chainLoading` from App to Journal without combining stores.
+3. Show the latest exercise situation and timestamp with an Open journal exercises action.
+4. Keep Unpack a moment as the action when no exercise exists and preserve current error states.
+5. Verify save, Done, immediate rediscovery, reload, EN/RO, light/dark, 320x568, deletion, and export.
 
-- start Place the Feeling and start with Help me choose;
-- select an intermediary Word Ladder term;
-- reject a Reflection result and finish;
-- explain local saving and what the Google handoff sends;
-- use Journal reflection and `not sure` vocabulary practice.
+### P49 - Evidence-Dependent Comprehension Copy
 
-Record completion, hesitation, wrong turns, teach-back accuracy, and participant wording outside
-the repository. Commit only aggregate, non-identifying evidence and the exact deployed SHA.
+Defer changes to onboarding language placement, Affect Map terminology, Google AI Mode/Search
+wording, and onboarding skip. The synthetic runs were incomplete or used an English browser locale;
+they establish no repeated human comprehension failure. Reopen only with human evidence or a new
+deterministic contradiction.
 
-### P45b - Bounded Comprehension Corrections
+### P45 - Moderated Participant Validation (deferred)
 
-Open a correction when two participants show the same comprehension failure. One finding is
-sufficient for safety, privacy, accessibility, data loss, or irreversible action. Reproduce the
-interface cause with a deterministic test where possible, make the smallest correction, then rerun
-the affected task with new participants. Skip this phase when every threshold passes.
+Retain `docs/moderated-comprehension-validation.md` for a future six-person round. Do not convert
+expert review, synthetic agents, automation, or owner acceptance into participant outcomes. If
+release closure precedes recruitment, record an explicit waiver naming every unrun task and its
+residual comprehension risk.
 
 ### P46 - Release Closure
 
@@ -108,6 +112,6 @@ and separate psychological review. Persistence tests use controllable promises a
 
 ## Decision
 
-Run P45a next against one exact deployed SHA. The expert preflight corrected a loaded uncertainty
-label and a compact-height action-discoverability defect, but it is not participant evidence. Apply
-P45b only when its thresholds require a correction, then freeze the exact P46 release candidate.
+Run P48 next. It corrects a deterministic promise/discoverability mismatch without changing data
+ownership. Keep P49 and P45 deferred, then freeze the exact P46 release candidate with an explicit
+P45 waiver if human recruitment is still unavailable.

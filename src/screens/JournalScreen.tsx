@@ -7,7 +7,7 @@ import { computeVocabulary } from '../data/vocabulary'
 import { computeValenceRatio } from '../data/valence-ratio'
 import { computeSomaticPatterns } from '../data/somatic-patterns'
 import { getSomaticRegionLabel } from '../models/somatic/display'
-import { getEmotionDisplayLabel, getResultRelationship } from '../data/session-presentation'
+import { getEmotionDisplayLabel, getResultRelationship, getSessionResultHeading } from '../data/session-presentation'
 import { getJournalEvidence } from '../data/journal-evidence'
 
 interface JournalScreenProps {
@@ -76,11 +76,12 @@ export function JournalScreen({ sessions, loading, error = false, saveSessions, 
           <div className="journal-list">
             {sessions.map((session) => {
               const relationship = getResultRelationship(session)
+              const resultHeading = getSessionResultHeading(session, language, t.rejectedResult)
               return (
-                <button type="button" key={session.id} onClick={() => onOpenSession(session.id)} aria-label={`${t.open}: ${session.results.map((result) => getEmotionDisplayLabel(result, language)).join(', ')}. ${t.relationship[relationship]}`}>
+                <button type="button" key={session.id} onClick={() => onOpenSession(session.id)} aria-label={`${t.open}: ${resultHeading}. ${t.relationship[relationship]}`}>
                   <span>
                     <small>{new Intl.DateTimeFormat(language, { dateStyle: 'medium', timeStyle: 'short' }).format(session.timestamp)}</small>
-                    <strong>{session.results.slice(0, 3).map((result) => getEmotionDisplayLabel(result, language)).join(', ')}</strong>
+                    <strong>{resultHeading}</strong>
                     <small>{t.relationship[relationship]}</small>
                   </span>
                   <ArrowRight size={18} aria-hidden="true" />

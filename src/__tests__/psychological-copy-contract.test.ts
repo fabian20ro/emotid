@@ -162,4 +162,15 @@ describe('psychological copy contract', () => {
     expect(en.granularity.feedbackNotSure).toBe('You can continue without choosing among these words.')
     expect(ro.granularity.feedbackNotSure).toBe('Puteți continua fără să alegeți dintre aceste cuvinte.')
   })
+
+  it('does not present a rejected suggestion as a user-confirmed label', () => {
+    expect(en.reflectionScreen.finishWithoutLabel).toBe('Finish without confirming this label')
+    expect(ro.reflectionScreen.finishWithoutLabel).toBe('Încheiați fără să confirmați această etichetă')
+    expect(en.today.rejectedResult).toBe('Suggested result: {result}')
+    expect(ro.today.rejectedResult).toBe('Rezultat sugerat: {result}')
+    expect(en.journalScreen.rejectedResult).toBe('Suggested result: {result}')
+    expect(ro.journalScreen.rejectedResult).toBe('Rezultat sugerat: {result}')
+    expect(en.sessionDetail.relationship.rejected).toBe('Suggested result that did not fit')
+    expect(ro.sessionDetail.relationship.rejected).toBe('Rezultat sugerat care nu s-a potrivit')
+  })
 })

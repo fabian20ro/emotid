@@ -22,6 +22,20 @@ export function getResultRelationship(session: Session): ResultRelationship {
   return 'legacy'
 }
 
+export function getSessionResultHeading(
+  session: Session,
+  language: DisplayLanguage,
+  rejectedTemplate: string,
+): string {
+  const result = session.results
+    .slice(0, 3)
+    .map((item) => getEmotionDisplayLabel(item, language))
+    .join(', ')
+  return getResultRelationship(session) === 'rejected'
+    ? rejectedTemplate.replace('{result}', result)
+    : result
+}
+
 export function isSessionEligibleForPatterns(session: Session): boolean {
   const relationship = getResultRelationship(session)
   return relationship === 'named' || relationship === 'fit' || relationship === 'legacy'

@@ -128,6 +128,28 @@ describe('Journal data display', () => {
     expect(screen.queryByText(/optional reflection details/i)).not.toBeInTheDocument()
   })
 
+  it('presents rejected results as suggestions in the Journal and saved detail', () => {
+    const rejected = bodySession({ reflectionAnswer: 'no', selectedNeed: undefined, nextStep: undefined })
+    const { unmount } = withLanguage(
+      <JournalScreen
+        sessions={[rejected]}
+        loading={false}
+        saveSessions
+        onOpenSession={vi.fn()}
+        onOpenChain={vi.fn()}
+      />,
+    )
+
+    expect(screen.getByText('Suggested result: anxiety')).toBeInTheDocument()
+    expect(screen.getByText('Did not fit')).toBeInTheDocument()
+    expect(screen.queryByText('anxiety', { exact: true })).not.toBeInTheDocument()
+
+    unmount()
+    withLanguage(<SessionDetailScreen session={rejected} onBack={vi.fn()} onDelete={vi.fn()} />)
+    expect(screen.getByText('Suggested result that did not fit')).toBeInTheDocument()
+    expect(screen.getByText('anxiety', { exact: true })).toBeInTheDocument()
+  })
+
   it('shows summaries only when their own evidence threshold is met', () => {
     const props = {
       loading: false,

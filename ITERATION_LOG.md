@@ -2329,3 +2329,35 @@ scroll to click a control can still hide a first-viewport discoverability defect
 compact actions need explicit viewport assertions.
 **Promoted to Lessons Learned:** No new entry; existing non-directive language and viewport
 visibility lessons already cover both findings.
+
+---
+
+### [2026-08-13] Frame rejected results as rejected suggestions
+
+**Context:** Three GPT-5.6 Luna max synthetic walkthroughs attempted the P45 protocol. Two stopped
+in onboarding because of browser tooling; one unfamiliar-English run was partial, bypassed the T2
+Word Ladder intermediary, and stopped T6 after step two. Psychologist, mobile UX, and architecture
+reviews treated these as preflight only and validated source behavior independently.
+**What happened:**
+- Marked P45 human validation deferred rather than converting synthetic work into participant
+  evidence. Retained the six-person protocol for a future round and documented the release-waiver
+  boundary.
+- Started with failing pure, component, bilingual-copy, and rendered-browser contracts. Confirmed
+  that rejection correctly excluded patterns and inferred detail, while the CTA promised no label
+  and history still rendered a bare emotion heading.
+- Kept the original result and schema as local provenance. Added one presentation formatter so
+  Today and Journal render `Suggested result: anxiety` / `Rezultat sugerat: anxietate`; saved detail
+  explicitly labels the value as a suggested result that did not fit.
+- Revised the mismatch explanation and CTA to say the user is not confirming the suggestion.
+  Preserved the three-result display limit, export, persistence, crisis, and analytics behavior.
+- Added a compact EN/RO x light/dark matrix across Mobile Safari and Mobile Chrome. Manual rendered
+  inspection at 320x568 RO dark confirmed complete wrapping and the post-finish history label.
+**Outcome:** `npm run check` passes 84 files / 668 tests. The complete Playwright run passed 255/256;
+one existing Mobile Safari Word Ladder case timed out during `page.goto` and passed immediately in
+an isolated rerun, yielding 256 behavior passes. PWA lifecycle and performance proxy pass 1/1.
+Initial JavaScript gzip is 143,853 bytes, entry JavaScript gzip is 43,212 bytes, and production
+assets total 888,004 bytes, all within budget.
+**Insight:** Correct analytics are insufficient when presentation contradicts explicit rejection.
+Provenance can remain locally useful only when every summary surface marks it as an unconfirmed
+suggestion rather than a user-owned label.
+**Promoted to Lessons Learned:** Yes — expanded the existing model-output history boundary.

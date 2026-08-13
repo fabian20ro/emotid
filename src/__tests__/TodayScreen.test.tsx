@@ -1,11 +1,11 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { LanguageProvider } from '../context/LanguageContext'
 import { storage } from '../data/storage'
 import { TodayScreen } from '../screens/TodayScreen'
 
-function renderToday(language: 'en' | 'ro' = 'en') {
+function renderToday(language: 'en' | 'ro' = 'en', sessions: React.ComponentProps<typeof TodayScreen>['sessions'] = []) {
   storage.set('language', language)
   const onPlaceFeeling = vi.fn()
   const onHelpChoose = vi.fn()
@@ -13,7 +13,7 @@ function renderToday(language: 'en' | 'ro' = 'en') {
   render(
     <LanguageProvider>
       <TodayScreen
-        sessions={[]}
+        sessions={sessions}
         saveSessions
         onPlaceFeeling={onPlaceFeeling}
         onHelpChoose={onHelpChoose}
@@ -87,5 +87,22 @@ describe('TodayScreen quick commitment', () => {
 
     expect(screen.getByRole('button', { name: 'Plasați starea' })).toBeVisible()
     expect(screen.getByRole('button', { name: 'Ajutați-mă să aleg' })).toBeVisible()
+  })
+
+  it('keeps a rejected recent result visibly framed as a suggestion', () => {
+    renderToday('en', [{
+      id: 'rejected',
+      timestamp: 1,
+      modelId: 'quick-check-in',
+      entryRoute: 'quick',
+      selections: [],
+      results: [{ id: 'anxiety', label: { en: 'anxiety', ro: 'anxietate' }, color: '#000' }],
+      crisisTier: 'none',
+      reflectionAnswer: 'no',
+    }])
+
+    const recent = document.querySelector('.recent-thread')!
+    expect(within(recent).getByText('Suggested result: anxiety')).toBeInTheDocument()
+    expect(within(recent).queryByText('anxiety', { exact: true })).not.toBeInTheDocument()
   })
 })

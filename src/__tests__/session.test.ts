@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { addReflectionDetail, createSession } from '../data/session'
-import { getEmotionDisplayLabel, getResultRelationship, isSessionEligibleForPatterns } from '../data/session-presentation'
+import { getEmotionDisplayLabel, getResultRelationship, getSessionResultHeading, isSessionEligibleForPatterns } from '../data/session-presentation'
 import type { AnalysisResult, BaseEmotion } from '../models/types'
 
 const emotion: BaseEmotion = {
@@ -71,5 +71,30 @@ describe('session mapping', () => {
     expect(isSessionEligibleForPatterns(suggested)).toBe(false)
     expect(isSessionEligibleForPatterns({ ...suggested, reflectionAnswer: 'partly' })).toBe(false)
     expect(isSessionEligibleForPatterns({ ...suggested, reflectionAnswer: 'yes' })).toBe(true)
+  })
+
+  it('presents rejected results as suggestions without changing other result headings', () => {
+    const named = createSession({
+      route: 'words',
+      modelId: 'wheel',
+      selections: [emotion],
+      results: [result],
+    }, { id: 'named', timestamp: 1 })
+    const rejected = { ...named, entryRoute: 'affect' as const, reflectionAnswer: 'no' as const }
+
+    expect(getSessionResultHeading(named, 'en', 'Suggested result: {result}')).toBe('Happy')
+    expect(getSessionResultHeading(rejected, 'en', 'Suggested result: {result}')).toBe('Suggested result: Happy')
+    expect(getSessionResultHeading(rejected, 'ro', 'Rezultat sugerat: {result}')).toBe('Rezultat sugerat: Fericit')
+
+    const fourResults = {
+      ...rejected,
+      results: ['one', 'two', 'three', 'four'].map((label) => ({
+        id: `legacy-${label}`,
+        label: { en: label, ro: label },
+        color: '#000',
+      })),
+    }
+    expect(getSessionResultHeading(fourResults, 'en', 'Suggested result: {result}'))
+      .toBe('Suggested result: one, two, three')
   })
 })

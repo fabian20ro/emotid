@@ -245,7 +245,7 @@ describe('ReflectionScreen need selection', () => {
     await user.click(screen.getByRole('button', { name: 'Revise my selection' }))
     expect(onBack).toHaveBeenCalledOnce()
 
-    await user.click(screen.getByRole('button', { name: 'Finish without a label' }))
+    await user.click(screen.getByRole('button', { name: 'Finish without confirming this label' }))
     expect(onSave).toHaveBeenCalledWith({
       reflectionAnswer: 'no',
       selectedNeed: undefined,
@@ -294,7 +294,7 @@ describe('ReflectionScreen need selection', () => {
 
     await user.click(screen.getByRole('button', { name: 'Nu prea' }))
     expect(screen.getByRole('heading', { name: 'Rezultatul nu se potrivește' })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Încheiați fără o etichetă' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Încheiați fără să confirmați această etichetă' })).toBeInTheDocument()
   })
 
   it('shows pending state, waits for persistence, and blocks duplicate submission', async () => {

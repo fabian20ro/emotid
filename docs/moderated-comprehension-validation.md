@@ -1,6 +1,6 @@
 # Moderated Comprehension Validation
 
-**Status:** protocol ready; expert preflight complete; participant evidence open
+**Status:** deferred; expert and synthetic preflight complete; participant evidence unavailable
 **Sample:** six local sessions
 **Build rule:** record the exact deployed commit before every session
 
@@ -14,7 +14,7 @@ Validate these product decisions:
 
 1. Place the Feeling and Help me choose communicate distinct starting paths.
 2. A Word Ladder intermediary can be kept without choosing a leaf.
-3. A rejected Reflection result can be left without retaining an inferred label.
+3. A rejected Reflection result can remain as provenance without becoming a confirmed label.
 4. Local saving and the Google AI Mode handoff are understood accurately.
 5. The Journal exercise communicates its minimum required input and optional detail.
 6. Vocabulary practice permits uncertainty without implying that all or none of the words fit.
@@ -22,6 +22,10 @@ Validate these product decisions:
 This sample can reveal frequent usability failures. It cannot support clinical or population-level
 claims. Expert review, automation, owner acceptance, and device testing do not count as participant
 outcomes.
+
+Synthetic agent walkthroughs remain preflight only and satisfy none of the sample or thresholds
+below. Resume this protocol only when human participants become available; historical attempt
+details belong in `ITERATION_LOG.md`.
 
 ## Sample
 
@@ -96,16 +100,16 @@ After the intermediary appears, ask only: "What can you do from here?" / "Ce put
 
 English:
 
-> Assume the suggested result does not fit the fictional character. Finish without keeping that
-> result.
+> Assume the suggested result does not fit the fictional character. Finish without confirming it
+> as the character's label.
 
 Romanian:
 
-> Presupuneți că rezultatul sugerat nu se potrivește personajului fictiv. Încheiați fără să păstrați
-> acel rezultat.
+> Presupuneți că rezultatul sugerat nu se potrivește personajului fictiv. Încheiați fără să îl
+> confirmați drept eticheta personajului.
 
-Observe whether Not really, revise, and Finish without a label are understood; record any belief
-that rejection is penalized, impossible, or still stored as a confirmed label.
+Observe whether Not really, revise, and Finish without confirming this label are understood; record
+any belief that rejection is penalized, impossible, or still stored as a confirmed label.
 
 ### T4 - Explain Privacy and Google
 

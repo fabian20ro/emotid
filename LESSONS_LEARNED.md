@@ -33,7 +33,9 @@ remain deterministic, and retry/loading behavior has one owner.
 **[2026-07-29]** Model output becomes user history only after an explicit commitment — Persist the
 user's committed input early, but keep inferred labels, needs, and actions optional. Derived
 suggestions that are unconfirmed, partial, or rejected may remain visible in the Journal for
-context, but must not silently enter pattern analytics as facts about the user.
+context, but must not silently enter pattern analytics as facts about the user. When a rejected
+result remains for provenance, every history surface must frame it as a suggestion that did not
+fit; a bare emotion heading contradicts the user's rejection even when analytics are correct.
 
 **[2026-07-28]** Generated psychological copy needs a typed boundary from catalog prose — Do not
 parse or splice emotion descriptions into generated narratives. Keep reviewed bilingual templates

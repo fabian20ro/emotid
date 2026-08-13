@@ -31,10 +31,10 @@ test.describe('Reflection trust boundary', () => {
     await expect(page.getByRole('button', { name: 'Try one small step' })).toHaveCount(0)
     await expect(page.getByRole('link', { name: 'Explore in Google AI Mode' })).toHaveCount(0)
 
-    await page.getByRole('button', { name: 'Finish without a label' }).click()
+    await page.getByRole('button', { name: 'Finish without confirming this label' }).click()
     await expect(page.getByTestId('today-screen')).toBeVisible()
     await page.getByRole('button', { name: 'Journal', exact: true }).click()
-    await page.getByRole('button', { name: /open reflection: anxiety/i }).click()
+    await page.getByRole('button', { name: /open reflection: suggested result: anxiety/i }).click()
     await expect(page.getByTestId('session-detail-screen')).toContainText(/not really/i)
     await expect(page.getByTestId('session-detail-screen')).not.toContainText('grounding')
   })
@@ -108,8 +108,85 @@ test.describe('Reflection trust boundary', () => {
     const box = await panel.boundingBox()
     expect(box!.x).toBeGreaterThanOrEqual(16)
     expect(box!.x + box!.width).toBeLessThanOrEqual(page.viewportSize()!.width - 16)
-    const finish = page.getByRole('button', { name: 'Încheiați fără o etichetă' })
+    const finish = page.getByRole('button', { name: 'Încheiați fără să confirmați această etichetă' })
     await finish.scrollIntoViewIfNeeded()
     await expect(finish).toBeInViewport()
   })
+
+  for (const scenario of [
+    {
+      language: 'en',
+      theme: 'light',
+      settings: 'Settings',
+      languageButton: 'EN',
+      back: 'Back',
+      reject: 'Not really',
+      finish: 'Finish without confirming this label',
+      journal: 'Journal',
+      heading: 'Suggested result: anxiety',
+      relationship: 'Did not fit',
+      detailRelationship: 'Suggested result that did not fit',
+    },
+    {
+      language: 'en',
+      theme: 'dark',
+      settings: 'Settings',
+      languageButton: 'EN',
+      back: 'Back',
+      reject: 'Not really',
+      finish: 'Finish without confirming this label',
+      journal: 'Journal',
+      heading: 'Suggested result: anxiety',
+      relationship: 'Did not fit',
+      detailRelationship: 'Suggested result that did not fit',
+    },
+    {
+      language: 'ro',
+      theme: 'light',
+      settings: 'Settings',
+      languageButton: 'RO',
+      back: 'Înapoi',
+      reject: 'Nu prea',
+      finish: 'Încheiați fără să confirmați această etichetă',
+      journal: 'Jurnal',
+      heading: 'Rezultat sugerat: anxietate',
+      relationship: 'Nu s-a potrivit',
+      detailRelationship: 'Rezultat sugerat care nu s-a potrivit',
+    },
+    {
+      language: 'ro',
+      theme: 'dark',
+      settings: 'Settings',
+      languageButton: 'RO',
+      back: 'Înapoi',
+      reject: 'Nu prea',
+      finish: 'Încheiați fără să confirmați această etichetă',
+      journal: 'Jurnal',
+      heading: 'Rezultat sugerat: anxietate',
+      relationship: 'Nu s-a potrivit',
+      detailRelationship: 'Rezultat sugerat care nu s-a potrivit',
+    },
+  ] as const) {
+    test(`keeps rejected suggestions explicit in ${scenario.language} ${scenario.theme}`, async ({ page }) => {
+      await page.setViewportSize({ width: 320, height: 568 })
+      await page.getByRole('button', { name: scenario.settings }).click()
+      await page.getByRole('button', { name: scenario.languageButton, exact: true }).click()
+      if (scenario.theme === 'dark') await page.getByRole('button', { name: /dark|întunecat/i }).click()
+      await page.getByRole('button', { name: scenario.back }).click()
+      await page.getByTestId('quick-feeling-anxiety').click()
+      await page.getByTestId('quick-continue').click()
+      await page.getByRole('button', { name: scenario.reject }).click()
+      const finish = page.getByRole('button', { name: scenario.finish })
+      await finish.scrollIntoViewIfNeeded()
+      await expect(finish).toBeInViewport()
+      await finish.click()
+
+      await expect(page.getByText(scenario.heading)).toBeVisible()
+      await page.getByRole('button', { name: scenario.journal, exact: true }).click()
+      await expect(page.getByText(scenario.heading)).toBeVisible()
+      await expect(page.getByText(scenario.relationship, { exact: true })).toBeVisible()
+      await page.getByRole('button', { name: new RegExp(scenario.heading, 'i') }).click()
+      await expect(page.getByText(scenario.detailRelationship)).toBeVisible()
+    })
+  }
 })
