@@ -1,6 +1,7 @@
 import { createReadStream, existsSync, statSync } from 'node:fs'
 import { createServer } from 'node:http'
 import { extname, resolve, sep } from 'node:path'
+import { NATIVE_SAFARI_SEED_HTML } from './seed.mjs'
 
 const host = '127.0.0.1'
 const port = 4176
@@ -31,7 +32,7 @@ const server = createServer((request, response) => {
     send(
       response,
       200,
-      '<!doctype html><html lang="en"><meta charset="utf-8"><title>Native Safari audit seed</title></html>',
+      NATIVE_SAFARI_SEED_HTML,
       'text/html; charset=utf-8',
     )
     return

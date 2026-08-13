@@ -5,8 +5,7 @@ import path from 'node:path'
 import process from 'node:process'
 import {
   parseAuditArgs,
-  getNativeSafariMatrixResult,
-  runNativeSafariMatrix,
+  runNativeSafariAudit,
   validateNativeSafariEnvironment,
 } from './macos-safari/audit.mjs'
 import { createWebDriverClient } from './macos-safari/driver.mjs'
@@ -76,7 +75,7 @@ let report = {
     ...environment,
     capturedAt: new Date().toISOString(),
     candidateUrl: options.baseUrl,
-    classification: 'NATIVE_SUPPORTING_PASS',
+    evidenceClass: 'NATIVE_SUPPORTING_PASS',
     voiceOver: 'not-run',
   },
   result: 'PENDING',
@@ -146,13 +145,15 @@ try {
   driver = createWebDriverClient({ endpoint: driverEndpoint })
   await driver.createSession()
   report.environment.automationAuthorization = 'confirmed-by-session'
-  report.journeys = await runNativeSafariMatrix({
+  const audit = await runNativeSafariAudit({
     driver,
     baseUrl: options.baseUrl,
     runId,
     capture,
   })
-  report.result = getNativeSafariMatrixResult(report.journeys)
+  report.activationProbe = audit.activationProbe
+  report.journeys = audit.journeys
+  report.result = audit.result
   if (report.result !== 'NATIVE_SUPPORTING_PASS') process.exitCode = 1
 } catch (error) {
   report.result = 'FAIL'

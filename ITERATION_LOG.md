@@ -2444,3 +2444,29 @@ bounded SafariDriver capability probe recommendation.
 separate precondition. Probe that precondition once and classify it before running product rows.
 **Promoted to Lessons Learned:** No — the existing native-hook and hardware fail-fast lessons cover
 the reusable boundaries.
+
+---
+
+### [2026-08-13] Fail fast on inert native Safari activation
+
+**Context:** Native Safari repeatedly failed its first product click, while a script click proved
+the same product state transition. P52 needed to distinguish transport capability from application
+behavior before running any product journey.
+**What happened:**
+- Started with six failing harness contracts for a disposable seed page, native pass, transport
+  block, seed/session failure, matrix short-circuiting, and post-probe product failure.
+- Added one seed-page button with synchronous `idle` to `activated` state. SafariDriver probes it
+  once after session creation. Script activation runs only after inert native activation and can
+  produce `BLOCKED`, never a pass.
+- Removed the old script-click fallback from Quick diagnostics. Once the capability probe passes,
+  any product journey failure is `FAIL` with DOM diagnostics.
+- Safari 26.6 reproduced the transport block directly: native state remained idle, script state
+  became activated, result was `BLOCKED`, and journeys remained empty.
+**Outcome:** `npm run check` passes 85 files / 682 tests. Playwright passes 256/256; PWA lifecycle
+and performance pass 1/1. No production asset, user behavior, copy, safety, or persistence code
+changed.
+**Insight:** A platform adapter must establish input-transport capability on a disposable surface
+before interpreting an application interaction failure. Diagnostic bypasses can validate the
+fixture, never the product journey.
+**Promoted to Lessons Learned:** No — existing fail-fast hardware and native-browser readiness
+lessons already cover the reusable rule.

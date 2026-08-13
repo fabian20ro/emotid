@@ -1,8 +1,8 @@
 # Remaining Product Plan
 
-Status: core mobile migration, P46 release closure, and P50 stable native hooks complete. P45 human
-validation and unavailable physical evidence are deferred. No current evidence supports another
-product-copy migration.
+Status: core mobile migration, P46 release closure, P50 stable native hooks, and P52 native Safari
+capability diagnosis complete. Human validation and unavailable physical evidence are deferred. No
+current evidence supports another product-copy migration.
 Updated August 13, 2026.
 
 This is the only active implementation plan. Historical work belongs in `ITERATION_LOG.md`,
@@ -47,9 +47,9 @@ evidence.
 
 ### Next Change Boundary
 
-P50 centralized only six repeated native acceptance hooks. Product behavior and platform-local
-interaction code remain separate. The next bounded architecture task may improve native Safari
-transport diagnosis; no product architecture change is justified without new evidence.
+P50 centralized only six repeated native acceptance hooks; P52 isolates SafariDriver transport
+capability before product rows. Product behavior and platform-local interaction code remain
+separate. No further product or harness architecture change is justified without new evidence.
 
 ### Avoid
 
@@ -66,20 +66,22 @@ state/focus. Android, iOS, and macOS adapters consume it; TalkBack speech checks
 names. Contract tests prevent copy/class selector regressions. Browser, iOS Simulator, and Pixel
 rows pass; native Safari remains blocked at its pre-existing WebDriver click transport.
 
-### P52 - Native Safari Activation Capability Probe (next implementation recommendation)
+### P52 - Native Safari Activation Capability Probe (complete)
 
-1. Add a disposable seed-page button whose native WebDriver activation sets an observable state.
-2. Probe it once after SafariDriver session creation, before the product matrix.
-3. When activation is inert, classify the run `BLOCKED` with driver/session diagnostics and skip
-   product rows. Never use a script click as passing native evidence.
-4. Unit-test pass, blocked, and genuine product-failure classification. Rerun native Safari plus
-   `npm run check`; keep the change entirely inside the macOS harness.
+One disposable seed control now distinguishes native pass, inert WebDriver transport, and broken
+seed/session behavior before product navigation. Current Safari 26.6 is classified `BLOCKED`: the
+native click leaves the seed idle, script activation proves the seed, and zero product rows run.
+Script activation cannot create passing product evidence. Unit tests cover all classifications.
 
-### P51 - Deferred Physical Evidence
+### P51 - Human TalkBack And Low-Tier Evidence (next recommended)
 
-When resources exist, run human TalkBack EN/RO in browser and installed mode, then a distinct
-low-tier three-run performance matrix. Preserve these as evidence tasks; change product code only
-when a failure reproduces independently.
+1. With the owner present, run the bounded human TalkBack checklist on Pixel 6a in EN/RO browser
+   mode: swipe order, activation, pronunciation, and crisis-resource order.
+2. Run installed mode only for checkpoints that differ from browser behavior; do not repeat the
+   complete automated matrix manually.
+3. When a distinct low-tier Android exists, run the existing three-run performance matrix.
+4. Preserve these as evidence tasks; change product code only when a failure reproduces
+   independently.
 
 ### P45 - Moderated Participant Validation (deferred)
 
@@ -100,6 +102,7 @@ deterministic invariants and psychological review. Native evidence must name pla
 
 ## Decision
 
-P50 closes the repeated-selector architecture gap. Implement P52 next because it is local,
-bounded, and turns a known Safari transport ambiguity into a fail-fast capability result. Keep P49
-closed. Run P45 and P51 only when participants, human AT operation, or distinct hardware exist.
+P50 and P52 close the known harness architecture gaps. Do P51 human TalkBack next when the owner can
+operate the available Pixel; defer its low-tier part until distinct hardware exists. Keep P49
+closed, and run P45 only when six real participants are available. Do not invent another product
+phase merely to keep implementation moving.

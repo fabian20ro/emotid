@@ -65,6 +65,7 @@ screen-reader gestures, installed mobile UI, or low-tier hardware timing.
 | working tree from `3aac5ce` | iOS 26.5 Simulator SE | P50 Quick, onboarding focus, Romanian guided Word Ladder; exact local assets | SIMULATOR_SUPPORTING_PASS, 3/3 | `.reports/ios-simulator/2026-08-13T14-14-22-853Z/`; `.reports/ios-simulator/2026-08-13T14-15-12-550Z/`; `.reports/ios-simulator/2026-08-13T14-16-46-516Z/` |
 | working tree from `3aac5ce` | Pixel 6a Android 17, Chrome 151 | P50 J1/J5/J9; EN/RO; local production candidate | SUPPORTING_PASS, 6/6 | `.reports/android-physical/2026-08-13T14-18-04-026Z-browser/`; `.reports/android-physical/2026-08-13T14-18-34-467Z-browser/`; `.reports/android-physical/2026-08-13T14-18-57-634Z-browser/` |
 | working tree from `3aac5ce` | macOS Safari 26.6 | P50 native regression; Quick activation diagnostic | BLOCKED: SafariDriver transport; script activation proves product path | `.reports/macos-safari/2026-08-13T14-19-33-175Z/` |
+| working tree from `1d111cf` | macOS Safari 26.6 | P52 pre-matrix activation capability probe | BLOCKED: seed native click inert; script proves seed; product rows skipped | `.reports/macos-safari/2026-08-13T15-06-21-999Z/` |
 | working tree from `ad38399c` | macOS Safari 26.6 | Quick + AI link, Word intermediary, tier-4; EN/RO, light/dark | NATIVE_SUPPORTING_PASS, 6/6 | `.reports/macos-safari/2026-08-12T17-59-15-941Z/` |
 | working tree from `ad38399c` | iOS 26.5 Simulator SE + 17 Pro | Quick, Word intermediary, save recovery, tier-4; EN/RO; exact local assets | SIMULATOR_SUPPORTING_PASS, 16/16 | `.reports/ios-simulator/2026-08-12T18-02-37-977Z/` |
 | working tree from `32a3d708` | iOS 26.5 Simulator SE + 17 Pro | P36 onboarding focus, landscape, dark theme, 200% Page Zoom plus accessibility text; exact local assets | SIMULATOR_SUPPORTING_PASS, 6/6 | `.reports/ios-simulator/2026-08-12T19-20-05-175Z/` |
@@ -82,10 +83,11 @@ screen-reader gestures, installed mobile UI, or low-tier hardware timing.
 | `f59e5175` | Pixel 6a, Android 17 | Three-run mid-tier production timing | PASS | `.reports/android-physical/2026-08-07T17-26-42-635Z-browser/` and retained timing artifacts |
 
 P35/P36 reproduced and fixed four focus/reflow product defects. The final matrices expose no
-unresolved functional or performance product defect. Native Safari is blocked by SafariDriver
-activation transport: the driver click leaves `aria-pressed=false`, while a diagnostic DOM click
-immediately produces `aria-pressed=true` and the expected Continue action. Historical native Safari
-and current WebKit remain supporting evidence, not a replacement for the blocked native row.
+unresolved functional or performance product defect. P52 now proves the native Safari block before
+product navigation: WebDriver element-click leaves a disposable seed control idle, while script
+activation changes it synchronously. Product rows are skipped, so no product failure is attributed
+to the broken transport. Historical native Safari and current WebKit remain supporting evidence,
+not a replacement for the blocked native row.
 
 The complete browser TalkBack run exposed one product defect: after native Enter activation, the
 persistent onboarding Next button could reclaim focus from the next heading. The heading handoff

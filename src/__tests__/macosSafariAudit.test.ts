@@ -10,8 +10,116 @@ const auditModuleUrl = pathToFileURL(
 const driverModuleUrl = pathToFileURL(
   path.resolve(process.cwd(), 'scripts/macos-safari/driver.mjs'),
 ).href
+const seedModuleUrl = pathToFileURL(
+  path.resolve(process.cwd(), 'scripts/macos-safari/seed.mjs'),
+).href
 
 describe('native macOS Safari audit', () => {
+  it('serves one disposable activation control with synchronous observable state', async () => {
+    const { NATIVE_SAFARI_SEED_HTML } = await import(seedModuleUrl)
+
+    expect(NATIVE_SAFARI_SEED_HTML).toContain('data-testid="native-safari-activation-probe"')
+    expect(NATIVE_SAFARI_SEED_HTML).toContain('data-testid="native-safari-activation-state"')
+    expect(NATIVE_SAFARI_SEED_HTML).toContain("state.dataset.state = 'activated'")
+  })
+
+  it('passes the capability probe only when native WebDriver activation changes seed state', async () => {
+    const { runNativeSafariActivationProbe } = await import(auditModuleUrl)
+    let state = 'idle'
+    const driver = activationProbeDriver({
+      readState: () => state,
+      nativeClick: () => { state = 'activated' },
+      scriptClick: () => { state = 'activated' },
+    })
+
+    await expect(runNativeSafariActivationProbe({
+      driver,
+      seedUrl: 'http://127.0.0.1:4176/__native-safari-seed.html',
+    })).resolves.toMatchObject({
+      result: 'NATIVE_SUPPORTING_PASS',
+      nativeState: { state: 'activated' },
+      scriptActivationAttempted: false,
+    })
+    expect(driver.click).toHaveBeenCalledTimes(1)
+  })
+
+  it('classifies inert native transport as blocked only when script activation proves the seed', async () => {
+    const { runNativeSafariActivationProbe } = await import(auditModuleUrl)
+    let state = 'idle'
+    const driver = activationProbeDriver({
+      readState: () => state,
+      nativeClick: () => undefined,
+      scriptClick: () => { state = 'activated' },
+    })
+
+    await expect(runNativeSafariActivationProbe({
+      driver,
+      seedUrl: 'http://127.0.0.1:4176/__native-safari-seed.html',
+    })).resolves.toMatchObject({
+      result: 'BLOCKED',
+      nativeState: { state: 'idle' },
+      scriptState: { state: 'activated' },
+      scriptActivationAttempted: true,
+    })
+  })
+
+  it('fails the capability probe when neither activation path proves the seed contract', async () => {
+    const { runNativeSafariActivationProbe } = await import(auditModuleUrl)
+    const driver = activationProbeDriver({
+      readState: () => 'idle',
+      nativeClick: () => undefined,
+      scriptClick: () => undefined,
+    })
+
+    await expect(runNativeSafariActivationProbe({
+      driver,
+      seedUrl: 'http://127.0.0.1:4176/__native-safari-seed.html',
+    })).resolves.toMatchObject({
+      result: 'FAIL',
+      nativeState: { state: 'idle' },
+      scriptState: { state: 'idle' },
+    })
+  })
+
+  it('skips every product row when the activation capability is blocked', async () => {
+    const { runNativeSafariAudit } = await import(auditModuleUrl)
+    const runMatrix = vi.fn()
+
+    await expect(runNativeSafariAudit({
+      driver: {},
+      baseUrl: 'http://127.0.0.1:4176/emotid/',
+      runId: 'native-test',
+      capture: vi.fn(),
+      probeActivation: vi.fn(async () => ({ result: 'BLOCKED' })),
+      runMatrix,
+    })).resolves.toEqual({
+      activationProbe: { result: 'BLOCKED' },
+      journeys: [],
+      result: 'BLOCKED',
+    })
+    expect(runMatrix).not.toHaveBeenCalled()
+  })
+
+  it('runs the product matrix exactly once after a passing activation probe', async () => {
+    const { runNativeSafariAudit } = await import(auditModuleUrl)
+    const journeys = [{ result: 'NATIVE_SUPPORTING_PASS' }]
+    const runMatrix = vi.fn(async () => journeys)
+
+    await expect(runNativeSafariAudit({
+      driver: {},
+      baseUrl: 'http://127.0.0.1:4176/emotid/',
+      runId: 'native-test',
+      capture: vi.fn(),
+      probeActivation: vi.fn(async () => ({ result: 'NATIVE_SUPPORTING_PASS' })),
+      runMatrix,
+    })).resolves.toEqual({
+      activationProbe: { result: 'NATIVE_SUPPORTING_PASS' },
+      journeys,
+      result: 'NATIVE_SUPPORTING_PASS',
+    })
+    expect(runMatrix).toHaveBeenCalledOnce()
+  })
+
   it('parses and validates a permission-free Safari preflight', async () => {
     const { readSafariDriverVersion, validateNativeSafariEnvironment } = await import(auditModuleUrl)
     const versionOutput = 'Included with Safari 26.5.2 (21624.2.5.11.8)'
@@ -118,25 +226,18 @@ describe('native macOS Safari audit', () => {
     )
   })
 
-  it('retains DOM diagnostics when a native journey fails', async () => {
+  it('retains DOM diagnostics and fails when a product journey fails after a passing probe', async () => {
     const { runNativeSafariMatrix } = await import(auditModuleUrl)
-    let scriptClickAttempted = false
     const driver = {
       navigate: vi.fn(async () => undefined),
       executeAsync: vi.fn(async () => ({ ok: true })),
       execute: vi.fn(async (script: string) => {
-        if (script.includes("?.click()")) {
-          scriptClickAttempted = true
-          return undefined
-        }
         if (script.includes('document.documentElement.dataset.theme ===')) return true
         if (script.includes('language: document.documentElement.lang')) {
           return { language: 'en', theme: 'light', token: 'native-test-en-quick' }
         }
         if (script.includes('quickContinue')) {
-          return scriptClickAttempted
-            ? { quickPressed: 'true', quickContinue: true }
-            : { quickPressed: 'false', quickContinue: false, bodyText: 'How are you feeling?' }
+          return { quickPressed: 'false', quickContinue: false, bodyText: 'How are you feeling?' }
         }
         return true
       }),
@@ -156,17 +257,14 @@ describe('native macOS Safari audit', () => {
     })
 
     expect(results).toEqual([expect.objectContaining({
-      result: 'BLOCKED',
+      result: 'FAIL',
       diagnostic: expect.objectContaining({
         quickPressed: 'false',
         quickContinue: false,
         bodyText: 'How are you feeling?',
-        afterScriptClick: {
-          quickPressed: 'true',
-          quickContinue: true,
-        },
       }),
     })])
+    expect(driver.execute).not.toHaveBeenCalledWith(expect.stringContaining('?.click()'))
   })
 
   it('uses the W3C session and element endpoints without a Selenium dependency', async () => {
@@ -231,5 +329,30 @@ function response(body: unknown, status = 200) {
     ok: status >= 200 && status < 300,
     status,
     json: async () => body,
+  }
+}
+
+function activationProbeDriver({
+  readState,
+  nativeClick,
+  scriptClick,
+}: {
+  readState: () => string
+  nativeClick: () => void
+  scriptClick: () => void
+}) {
+  return {
+    navigate: vi.fn(async () => undefined),
+    waitForElement: vi.fn(async () => 'activation-probe'),
+    click: vi.fn(async () => nativeClick()),
+    execute: vi.fn(async (script: string) => {
+      if (script.includes('probe.click()')) scriptClick()
+      return {
+        url: 'http://127.0.0.1:4176/__native-safari-seed.html',
+        readyState: 'complete',
+        buttonPresent: true,
+        state: readState(),
+      }
+    }),
   }
 }

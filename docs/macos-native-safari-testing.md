@@ -33,7 +33,15 @@ npm run test:safari:native
 ```
 
 The command builds production assets, starts a local production server on port `4176` with an inert
-same-origin document outside the PWA scope, starts SafariDriver on port `4444`, and executes:
+same-origin document outside the PWA scope, and starts SafariDriver on port `4444`. Before product
+navigation it activates one disposable seed-page button through native WebDriver element-click.
+
+- Native state change: continue to the product matrix.
+- Native state unchanged but script activation works: `BLOCKED`; record diagnostics and run zero
+  product rows.
+- Neither path proves the seed contract: `FAIL` as a harness/session problem.
+
+Only after a passing probe does it execute:
 
 - Quick to saved Reflection, including the default external AI `udm=50` contract;
 - direct completion from the Word Ladder `Playful` / `Jucăuș` intermediary;
@@ -43,6 +51,7 @@ same-origin document outside the PWA scope, starts SafariDriver on port `4444`, 
 Every case gets a unique `native-safari-run` token. Storage is reset from the inert same-origin
 document before the application starts. Screenshots and `report.json` are written under the
 ignored `.reports/macos-safari/` directory. A successful row is `NATIVE_SUPPORTING_PASS`.
+Script activation is diagnostic only and can never create passing native product evidence.
 
 ## Evidence Boundary
 

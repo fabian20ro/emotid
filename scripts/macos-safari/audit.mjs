@@ -5,6 +5,7 @@ import {
   validateAcceptanceAdapter,
 } from '../acceptance/contract.mjs'
 import { ACCEPTANCE_SELECTORS } from '../acceptance/selectors.mjs'
+import { NATIVE_SAFARI_ACTIVATION_PROBE } from './seed.mjs'
 
 const RUN_PARAMETER = 'native-safari-run'
 
@@ -57,6 +58,99 @@ export function getNativeSafariMatrixResult(journeys) {
     return ACCEPTANCE_RESULTS.blocked
   }
   return ACCEPTANCE_RESULTS.nativeSupportingPass
+}
+
+function activationProbeStateScript() {
+  return `return {
+    url: location.href,
+    readyState: document.readyState,
+    buttonPresent: Boolean(document.querySelector(${JSON.stringify(NATIVE_SAFARI_ACTIVATION_PROBE.button)})),
+    state: document.querySelector(${JSON.stringify(NATIVE_SAFARI_ACTIVATION_PROBE.state)})?.dataset.state ?? null,
+  }`
+}
+
+export async function runNativeSafariActivationProbe({ driver, seedUrl }) {
+  let initialState
+  try {
+    await driver.navigate(seedUrl)
+    const probe = await driver.waitForElement('css selector', NATIVE_SAFARI_ACTIVATION_PROBE.button)
+    initialState = await driver.execute(activationProbeStateScript())
+    if (!initialState.buttonPresent || initialState.state !== 'idle') {
+      return {
+        result: ACCEPTANCE_RESULTS.fail,
+        initialState,
+        error: 'Native Safari activation seed did not expose its idle contract',
+      }
+    }
+
+    let nativeError
+    try {
+      await driver.click(probe)
+    } catch (error) {
+      nativeError = String(error)
+    }
+    const nativeState = await driver.execute(activationProbeStateScript())
+    if (nativeState.state === 'activated') {
+      return {
+        result: ACCEPTANCE_RESULTS.nativeSupportingPass,
+        initialState,
+        nativeState,
+        scriptActivationAttempted: false,
+        ...(nativeError ? { nativeError } : {}),
+      }
+    }
+
+    let scriptError
+    try {
+      await driver.execute(`
+        const probe = document.querySelector(${JSON.stringify(NATIVE_SAFARI_ACTIVATION_PROBE.button)})
+        probe.click()
+      `)
+    } catch (error) {
+      scriptError = String(error)
+    }
+    const scriptState = await driver.execute(activationProbeStateScript())
+    const scriptProvedSeed = scriptState.state === 'activated'
+    return {
+      result: scriptProvedSeed ? ACCEPTANCE_RESULTS.blocked : ACCEPTANCE_RESULTS.fail,
+      initialState,
+      nativeState,
+      scriptActivationAttempted: true,
+      scriptState,
+      ...(nativeError ? { nativeError } : {}),
+      ...(scriptError ? { scriptError } : {}),
+      error: scriptProvedSeed
+        ? 'SafariDriver native activation transport is inert'
+        : 'Native Safari activation seed could not prove its click contract',
+    }
+  } catch (error) {
+    return {
+      result: ACCEPTANCE_RESULTS.fail,
+      ...(initialState ? { initialState } : {}),
+      error: String(error),
+    }
+  }
+}
+
+export async function runNativeSafariAudit({
+  driver,
+  baseUrl,
+  runId,
+  capture,
+  probeActivation = runNativeSafariActivationProbe,
+  runMatrix = runNativeSafariMatrix,
+}) {
+  const seedUrl = new URL('/__native-safari-seed.html', baseUrl).href
+  const activationProbe = await probeActivation({ driver, seedUrl })
+  if (activationProbe.result !== ACCEPTANCE_RESULTS.nativeSupportingPass) {
+    return { activationProbe, journeys: [], result: activationProbe.result }
+  }
+  const journeys = await runMatrix({ driver, baseUrl, runId, capture })
+  return {
+    activationProbe,
+    journeys,
+    result: getNativeSafariMatrixResult(journeys),
+  }
 }
 
 export function readSafariDriverVersion(output) {
@@ -258,20 +352,9 @@ export async function runNativeSafariMatrix({ driver, baseUrl, runId, capture })
         activeElement: document.activeElement?.getAttribute('data-testid') ?? document.activeElement?.tagName ?? null,
         bodyText: document.body?.innerText?.slice(0, 500) ?? '',
       }`).catch((diagnosticError) => ({ error: String(diagnosticError) }))
-      if (entry.id === 'quick' && diagnostic.quickPressed === 'false') {
-        await driver.execute(`document.querySelector('[data-testid="quick-feeling-anxiety"]')?.click()`)
-          .catch(() => undefined)
-        await new Promise((resolve) => setTimeout(resolve, 100))
-        diagnostic.afterScriptClick = await driver.execute(`return {
-          quickPressed: document.querySelector('[data-testid="quick-feeling-anxiety"]')?.getAttribute('aria-pressed') ?? null,
-          quickContinue: Boolean(document.querySelector('[data-testid="quick-continue"]')),
-        }`).catch((diagnosticError) => ({ error: String(diagnosticError) }))
-      }
-      const activationTransportBlocked = diagnostic.afterScriptClick?.quickPressed === 'true'
-        && diagnostic.afterScriptClick?.quickContinue === true
       results.push({
         ...entry,
-        result: activationTransportBlocked ? ACCEPTANCE_RESULTS.blocked : ACCEPTANCE_RESULTS.fail,
+        result: ACCEPTANCE_RESULTS.fail,
         error: String(error),
         diagnostic,
       })
