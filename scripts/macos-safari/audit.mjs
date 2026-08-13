@@ -9,9 +9,8 @@ const RUN_PARAMETER = 'native-safari-run'
 
 const COPY = {
   en: {
-    start: 'Start a check-in',
+    start: 'Help me choose',
     reflection: 'What seems to fit?',
-    saved: 'Check-in saved. Everything below is optional.',
     explore: 'Explore further',
     happy: 'Happy',
     playful: 'Playful',
@@ -20,9 +19,8 @@ const COPY = {
     acknowledge: 'Continue to reflection',
   },
   ro: {
-    start: 'Începeți o verificare',
+    start: 'Ajutați-mă să aleg',
     reflection: 'Ce pare să se potrivească?',
-    saved: 'Verificarea este salvată. Tot ce urmează este opțional.',
     explore: 'Explorați mai mult',
     happy: 'Fericit',
     playful: 'Jucăuș',
@@ -51,6 +49,16 @@ export const NATIVE_SAFARI_CASES = ACCEPTANCE_LANGUAGES.flatMap((language) => ([
   { id: 'word-intermediate', acceptanceId: NATIVE_SAFARI_ACCEPTANCE_IDS['word-intermediate'], language, theme: language === 'en' ? 'dark' : 'light' },
   { id: 'tier4', acceptanceId: NATIVE_SAFARI_ACCEPTANCE_IDS.tier4, language, theme: language === 'en' ? 'light' : 'dark' },
 ]))
+
+export function getNativeSafariMatrixResult(journeys) {
+  if (journeys.some((journey) => journey.result === ACCEPTANCE_RESULTS.fail)) {
+    return ACCEPTANCE_RESULTS.fail
+  }
+  if (journeys.some((journey) => journey.result === ACCEPTANCE_RESULTS.blocked)) {
+    return ACCEPTANCE_RESULTS.blocked
+  }
+  return ACCEPTANCE_RESULTS.nativeSupportingPass
+}
 
 export function readSafariDriverVersion(output) {
   const match = output.match(/Safari\s+([\d.]+)\s+\(([^)]+)\)/)
@@ -168,11 +176,7 @@ async function runQuick(driver, language) {
   await click(driver, 'css selector', '[data-testid="quick-feeling-anxiety"]')
   await click(driver, 'css selector', '[data-testid="quick-continue"]')
   await driver.waitForElement('css selector', '[data-testid="reflection-screen"]')
-  await waitForCondition(
-    driver,
-    `return document.body.textContent.includes(${JSON.stringify(copy.saved)})`,
-    'local save confirmation',
-  )
+  await driver.waitForElement('css selector', '.session-save-status.is-saved')
   const heading = await driver.getText(await driver.findElement('css selector', 'h1'))
   if (heading !== copy.reflection) throw new Error(`Unexpected Reflection heading: ${heading}`)
   await click(driver, 'xpath', buttonWithText(copy.explore))
@@ -246,7 +250,32 @@ export async function runNativeSafariMatrix({ driver, baseUrl, runId, capture })
       results.push({ ...entry, result: ACCEPTANCE_RESULTS.nativeSupportingPass })
     } catch (error) {
       await capture(`${entry.language}-${entry.id}-failure`).catch(() => undefined)
-      results.push({ ...entry, result: ACCEPTANCE_RESULTS.fail, error: String(error) })
+      const diagnostic = await driver.execute(`return {
+        url: location.href,
+        readyState: document.readyState,
+        quickPressed: document.querySelector('[data-testid="quick-feeling-anxiety"]')?.getAttribute('aria-pressed') ?? null,
+        quickContinue: Boolean(document.querySelector('[data-testid="quick-continue"]')),
+        todayScreen: Boolean(document.querySelector('[data-testid="today-screen"]')),
+        activeElement: document.activeElement?.getAttribute('data-testid') ?? document.activeElement?.tagName ?? null,
+        bodyText: document.body?.innerText?.slice(0, 500) ?? '',
+      }`).catch((diagnosticError) => ({ error: String(diagnosticError) }))
+      if (entry.id === 'quick' && diagnostic.quickPressed === 'false') {
+        await driver.execute(`document.querySelector('[data-testid="quick-feeling-anxiety"]')?.click()`)
+          .catch(() => undefined)
+        await new Promise((resolve) => setTimeout(resolve, 100))
+        diagnostic.afterScriptClick = await driver.execute(`return {
+          quickPressed: document.querySelector('[data-testid="quick-feeling-anxiety"]')?.getAttribute('aria-pressed') ?? null,
+          quickContinue: Boolean(document.querySelector('[data-testid="quick-continue"]')),
+        }`).catch((diagnosticError) => ({ error: String(diagnosticError) }))
+      }
+      const activationTransportBlocked = diagnostic.afterScriptClick?.quickPressed === 'true'
+        && diagnostic.afterScriptClick?.quickContinue === true
+      results.push({
+        ...entry,
+        result: activationTransportBlocked ? ACCEPTANCE_RESULTS.blocked : ACCEPTANCE_RESULTS.fail,
+        error: String(error),
+        diagnostic,
+      })
       break
     }
   }

@@ -90,9 +90,8 @@ const LOOPBACK_HOSTS = new Set(['127.0.0.1', 'localhost', '[::1]'])
 
 const COPY = Object.freeze({
   en: Object.freeze({
-    start: 'Start a check-in',
+    start: 'Help me choose',
     reflection: 'What seems to fit?',
-    saved: 'Check-in saved. Everything below is optional.',
     explore: 'Explore further',
     done: 'Done for now',
     retry: 'Try saving again',
@@ -109,9 +108,8 @@ const COPY = Object.freeze({
     cancel: 'Cancel',
   }),
   ro: Object.freeze({
-    start: 'Începeți o verificare',
+    start: 'Ajutați-mă să aleg',
     reflection: 'Ce pare să se potrivească?',
-    saved: 'Verificarea este salvată. Tot ce urmează este opțional.',
     explore: 'Explorați mai mult',
     done: 'Gata pentru acum',
     retry: 'Încercați salvarea din nou',
@@ -842,11 +840,7 @@ async function runQuick(driver, copy) {
   await click(driver, 'css selector', '[data-testid="quick-feeling-anxiety"]')
   await click(driver, 'css selector', '[data-testid="quick-continue"]')
   await driver.waitForElement('css selector', '[data-testid="reflection-screen"]')
-  await waitForCondition(
-    driver,
-    `return document.body.textContent.includes(${JSON.stringify(copy.saved)})`,
-    'local save confirmation',
-  )
+  await driver.waitForElement('css selector', '.session-save-status.is-saved')
   const heading = await driver.getText(await driver.findElement('css selector', 'h1'))
   if (heading !== copy.reflection) throw new Error(`Unexpected Reflection heading: ${heading}`)
   await assertCurrentSurface(driver)

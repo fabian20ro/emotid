@@ -44,7 +44,7 @@ describe('native macOS Safari audit', () => {
   })
 
   it('keeps the native matrix bounded and bilingual', async () => {
-    const { NATIVE_SAFARI_CASES } = await import(auditModuleUrl)
+    const { NATIVE_SAFARI_CASES, getNativeSafariMatrixResult } = await import(auditModuleUrl)
 
     expect(NATIVE_SAFARI_CASES.map((entry: { id: string; language: string }) => (
       `${entry.language}-${entry.id}`
@@ -52,6 +52,9 @@ describe('native macOS Safari audit', () => {
       'en-quick', 'en-word-intermediate', 'en-tier4',
       'ro-quick', 'ro-word-intermediate', 'ro-tier4',
     ])
+    expect(getNativeSafariMatrixResult([{ result: 'NATIVE_SUPPORTING_PASS' }])).toBe('NATIVE_SUPPORTING_PASS')
+    expect(getNativeSafariMatrixResult([{ result: 'BLOCKED' }])).toBe('BLOCKED')
+    expect(getNativeSafariMatrixResult([{ result: 'FAIL' }])).toBe('FAIL')
   })
 
   it('executes every bounded journey through the injected driver boundary', async () => {
@@ -113,6 +116,57 @@ describe('native macOS Safari audit', () => {
       1,
       'http://127.0.0.1:4176/__native-safari-seed.html',
     )
+  })
+
+  it('retains DOM diagnostics when a native journey fails', async () => {
+    const { runNativeSafariMatrix } = await import(auditModuleUrl)
+    let scriptClickAttempted = false
+    const driver = {
+      navigate: vi.fn(async () => undefined),
+      executeAsync: vi.fn(async () => ({ ok: true })),
+      execute: vi.fn(async (script: string) => {
+        if (script.includes("?.click()")) {
+          scriptClickAttempted = true
+          return undefined
+        }
+        if (script.includes('document.documentElement.dataset.theme ===')) return true
+        if (script.includes('language: document.documentElement.lang')) {
+          return { language: 'en', theme: 'light', token: 'native-test-en-quick' }
+        }
+        if (script.includes('quickContinue')) {
+          return scriptClickAttempted
+            ? { quickPressed: 'true', quickContinue: true }
+            : { quickPressed: 'false', quickContinue: false, bodyText: 'How are you feeling?' }
+        }
+        return true
+      }),
+      waitForElement: vi.fn()
+        .mockResolvedValueOnce('today')
+        .mockResolvedValueOnce('anxiety')
+        .mockRejectedValue(new Error('missing continue')),
+      findElement: vi.fn(),
+      click: vi.fn(async () => undefined),
+    }
+
+    const results = await runNativeSafariMatrix({
+      driver,
+      baseUrl: 'http://127.0.0.1:4176/emotid/',
+      runId: 'native-test',
+      capture: vi.fn(async () => undefined),
+    })
+
+    expect(results).toEqual([expect.objectContaining({
+      result: 'BLOCKED',
+      diagnostic: expect.objectContaining({
+        quickPressed: 'false',
+        quickContinue: false,
+        bodyText: 'How are you feeling?',
+        afterScriptClick: {
+          quickPressed: 'true',
+          quickContinue: true,
+        },
+      }),
+    })])
   })
 
   it('uses the W3C session and element endpoints without a Selenium dependency', async () => {

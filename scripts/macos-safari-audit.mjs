@@ -5,6 +5,7 @@ import path from 'node:path'
 import process from 'node:process'
 import {
   parseAuditArgs,
+  getNativeSafariMatrixResult,
   runNativeSafariMatrix,
   validateNativeSafariEnvironment,
 } from './macos-safari/audit.mjs'
@@ -78,6 +79,7 @@ let report = {
     classification: 'NATIVE_SUPPORTING_PASS',
     voiceOver: 'not-run',
   },
+  result: 'PENDING',
   journeys: [],
 }
 
@@ -150,8 +152,10 @@ try {
     runId,
     capture,
   })
-  if (report.journeys.some((journey) => journey.result === 'FAIL')) process.exitCode = 1
+  report.result = getNativeSafariMatrixResult(report.journeys)
+  if (report.result !== 'NATIVE_SUPPORTING_PASS') process.exitCode = 1
 } catch (error) {
+  report.result = 'FAIL'
   report.error = String(error)
   process.exitCode = 1
   console.error(error)
