@@ -1,5 +1,5 @@
 async function openArrival({ page, activate, expectVisible }) {
-  await activate(page.getByRole('button', { name: /start a check-in|începeți o verificare/i }))
+  await activate(page.getByRole('button', { name: /help me choose|ajutați-mă să aleg/i }))
   await expectVisible(page.getByTestId('arrival-screen'), 'Arrival')
 }
 
@@ -19,6 +19,13 @@ export const JOURNEYS = Object.freeze({
     await expectVisible(dialog, 'First-run dialog')
     for (const expectedStep of ['1', '2', '3']) {
       const heading = dialog.getByRole('heading', { level: 1 })
+      await page.waitForFunction((step) => {
+        const activeDialog = document.querySelector('[role="dialog"]')
+        const progress = activeDialog?.querySelector('[role="progressbar"]')
+        const currentHeading = activeDialog?.querySelector('h1')
+        return progress?.getAttribute('aria-valuenow') === step
+          && currentHeading === document.activeElement
+      }, expectedStep)
       assert(await heading.evaluate((element) => element === document.activeElement), `J1 step ${expectedStep} heading lacks focus`)
       assert(await dialog.getByRole('progressbar').getAttribute('aria-valuenow') === expectedStep, `J1 progress is not ${expectedStep}`)
       if (expectedStep !== '3') await activate(dialog.locator('.primary-button'))
@@ -160,7 +167,8 @@ export const JOURNEYS = Object.freeze({
     await activate(page.getByTestId('quick-continue'))
     await expectVisible(page.getByTestId('reflection-screen'), 'Compact reflection')
     assert(await page.locator('.need-choice').count() === 0, 'J9 inferred need is visible before exploration')
-    assert(await page.getByRole('link', { name: /explore with ai|explorați cu ai/i }).count() === 0, 'J9 AI link is visible before exploration')
+    const aiLink = page.locator('.external-ai-link')
+    assert(await aiLink.count() === 0, 'J9 AI link is visible before exploration')
 
     const done = page.getByRole('button', { name: /done for now|gata pentru acum/i })
     const explore = page.getByRole('button', { name: /explore further|explorați mai mult/i })
@@ -176,7 +184,7 @@ export const JOURNEYS = Object.freeze({
     await expectVisible(page.getByTestId('reflection-exploration-screen'), 'Reflection exploration')
     assert(await page.locator('#screen-title').evaluate((element) => element === document.activeElement), 'J9 exploration heading lacks focus')
     await expectVisible(page.locator('.need-choice'), 'J9 inferred need')
-    await expectVisible(page.getByRole('link', { name: /explore with ai|explorați cu ai/i }), 'J9 AI link')
+    await expectVisible(aiLink, 'J9 AI link')
     await capture(page, `${language}-j9-exploration`)
 
     await activate(page.locator('.screen-back'))
