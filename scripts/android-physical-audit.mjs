@@ -322,7 +322,7 @@ async function measurePerformance(initialBrowser, initialPage) {
 
     const routeResults = {}
     for (const route of ['body', 'affect', 'words']) {
-      await activate(page.getByRole('button', { name: /start a check-in/i }))
+      await activate(page.getByRole('button', { name: /help me choose/i }))
       await expectVisible(page.getByTestId('arrival-screen'), 'Arrival')
       const start = await page.evaluate(() => performance.now())
       await activate(page.getByTestId(`arrival-${route}`))

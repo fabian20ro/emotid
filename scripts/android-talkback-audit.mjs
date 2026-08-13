@@ -345,7 +345,7 @@ async function runAudioCheckpoint({ page, language, theme, outputDir, prerequisi
   const capture = await startAudioCapture(outputDir, name)
   const controls = [
     page.getByRole('heading', { level: 1 }).first(),
-    page.getByRole('button', { name: /start a check-in|începeți o verificare/i }),
+    page.getByRole('button', { name: /help me choose|ajutați-mă să aleg/i }),
     page.getByTestId('quick-feeling-anxiety'),
     page.getByTestId('quick-feeling-sadness'),
   ]
