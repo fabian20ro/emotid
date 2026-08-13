@@ -25,8 +25,9 @@ belongs in `docs/physical-release-evidence.md`.
   pass.
 - Installed macOS Safari passed the bounded EN/RO Quick, Word intermediary, and tier-4 audit.
 - Pixel 6a passed the functional Android journey matrix. The complete browser J1-J9 matrix passes
-  EN/RO with real TalkBack state, native key activation, TTS dispatch, and route postconditions;
-  installed J5 and J6/J8 checkpoints also passed historically.
+  EN/RO in light/dark, 36/36, with real TalkBack state, native key activation, TTS dispatch, route
+  postconditions, and four local audio/language diagnostics; installed J5 and J6/J8 checkpoints
+  also passed historically.
 - The repository-owned Appium/XCUITest runner passes the complete 36-row J1-J9 EN/RO acceptance
   matrix on named iPhone SE and iPhone 17 Pro profiles. It preserves Simulator state, validates
   candidate identity, and writes native screenshots plus a JSON report.
@@ -44,8 +45,8 @@ belongs in `docs/physical-release-evidence.md`.
    J1-J9 matrix passes EN/RO with real TalkBack state, TTS dispatch, native key activation, and
    route postconditions, but CDP establishes focus; this remains supporting evidence rather than
    gesture, spoken-order, or speech-quality sign-off. App language and Romanian AX names are
-   correct, while Android, Chrome, and TTS are configured `en-US`; configure Romanian TalkBack/TTS
-   before any Romanian pronunciation-quality claim.
+   correct, while Android, Chrome, and the final Romanian audio-check voices are configured
+   `en-US`; configure Romanian TalkBack/TTS before any Romanian pronunciation-quality claim.
 2. No distinct low-tier Android performance profile has been measured.
 3. The current candidate cannot receive physical sign-off until the required exact-candidate rows
    are rerun or explicitly waived.
@@ -143,9 +144,10 @@ Complete foundation:
   availability before evidence or CDP side effects.
 - The physical runner records that snapshot plus local Git identity and guarantees browser/CDP
   cleanup.
-- The dedicated TalkBack runner covers browser J1-J9 EN/RO. It owns local production serving,
+- The dedicated TalkBack runner covers browser J1-J9 EN/RO in light/dark. It owns local production serving,
   TalkBack/ADB lifecycle, native activation, TTS readiness, language attribution, screenshots,
-  accessibility trees, and postconditions. Pixel browser passes 18/18 as supporting evidence.
+  accessibility trees, postconditions, and optional local audio/TTS-voice correlation. Pixel
+  browser passes 36/36 plus 4/4 audio checkpoints as supporting evidence.
 - Native Enter testing found and fixed onboarding focus restoration. Non-intrusive mid-row capture
   prevents UI Automator from restarting TalkBack/TTS during J9.
 

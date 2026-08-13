@@ -2129,3 +2129,32 @@ gesture/spoken-order/pronunciation and installed-mode acceptance remain open.
 hierarchy tooling outside an active TalkBack evidence window.
 **Promoted to Lessons Learned:** Yes — instrumentation interference and native focus timing are
 reusable physical-accessibility constraints.
+
+---
+
+### [2026-08-13] Expand TalkBack evidence across language, theme, and audio
+
+**Context:** Browser TalkBack coverage was light-theme only and retained no direct audio/language
+correlation. The owner requested EN/RO and light/dark coverage in all four combinations.
+**What happened:**
+- Added strict theme/audio CLI options and a 36-row J1-J9 matrix. Every row now asserts the applied
+  document theme and retains theme-qualified screenshots, AX data, native hierarchy, logcat, focus,
+  activation, TTS, and route evidence.
+- Added a local-only audio diagnostic using scrcpy Android `output`, ffmpeg volume analysis, and a
+  multilingual whisper.cpp model. Each language/theme checkpoint retains audio, transcript,
+  dominant language, and exact TTS-dispatch voices; no evidence leaves the Mac.
+- An initial complete run left EN/dark J7 in saving state for more than 15 seconds. Isolated J7,
+  ordered EN/dark J1-J9, and the final complete matrix all passed; retained as an unconfirmed
+  storage/lifecycle flake, not a product defect.
+- Final exact-candidate run on Pixel 6a / Android 17 / TalkBack 17 passed 36/36 plus audio 4/4.
+  English audio and voice aligned. Romanian UI/AX text was correct in light/dark, but the device's
+  `en-US` TalkBack configuration dispatched English voices and dominated both Romanian audio
+  checkpoints; Romanian pronunciation quality remains unclaimed.
+**Outcome:** `SUPPORTING_PASS` at
+`.reports/android-physical/2026-08-13T00-29-02-176Z-talkback-browser/` for clean SHA `0113b35`.
+`npm run check` passes 83 files / 655 tests; Playwright passes 212/212; PWA passes 1/1 outside the
+macOS Chromium sandbox. TalkBack, stay-awake, ADB mappings, page, and server state were restored.
+**Insight:** Audio language detection and TTS voice dispatch answer different questions; retain both
+and attribute mixed assistive-technology output to device configuration unless app language/AX
+evidence also fails.
+**Promoted to Lessons Learned:** Yes — replaces the earlier categorical audio-capture limitation.
