@@ -5,6 +5,7 @@ import { ScreenHeader } from './ScreenHeader'
 import { ModalShell } from './ModalShell'
 import { useFocusTrap } from '../hooks/useFocusTrap'
 import type { ChainAnalysisEntry, ChainReflectionEntry } from '../data/types'
+import { getChainEntryPreview } from '../data/chain-presentation'
 
 type ReflectionField = 'situation' | 'noticed' | 'response' | 'outcome'
 type ReflectionFields = Pick<ChainReflectionEntry, ReflectionField>
@@ -22,20 +23,6 @@ const FIELDS: { id: ReflectionField; required: boolean }[] = [
   { id: 'response', required: false },
   { id: 'outcome', required: false },
 ]
-
-function isCurrentEntry(entry: ChainAnalysisEntry): entry is ChainReflectionEntry {
-  return 'version' in entry && entry.version === 2
-}
-
-function getEntryPreview(entry: ChainAnalysisEntry): { title: string; detail: string } {
-  if (isCurrentEntry(entry)) {
-    return {
-      title: entry.situation,
-      detail: entry.outcome || entry.response || entry.noticed,
-    }
-  }
-  return { title: entry.emotion, detail: entry.consequence }
-}
 
 interface ChainAnalysisProps {
   isOpen: boolean
@@ -169,7 +156,7 @@ export function ChainAnalysis({
           </div>
           <div className="guided-recent-list">
             {recentEntries.map((entry) => {
-              const preview = getEntryPreview(entry)
+              const preview = getChainEntryPreview(entry)
               return (
                 <div key={entry.id}>
                   <small>{new Date(entry.timestamp).toLocaleString(language === 'ro' ? 'ro-RO' : 'en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</small>

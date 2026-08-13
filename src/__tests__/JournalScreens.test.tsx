@@ -5,7 +5,7 @@ import { LanguageProvider } from '../context/LanguageContext'
 import { JournalScreen } from '../screens/JournalScreen'
 import { SessionDetailScreen } from '../screens/SessionDetailScreen'
 import { storage } from '../data/storage'
-import type { Session } from '../data/types'
+import type { ChainAnalysisEntry, Session } from '../data/types'
 
 function bodySession(overrides: Partial<Session> = {}): Session {
   return {
@@ -32,6 +32,11 @@ function withLanguage(ui: React.ReactNode, language: 'en' | 'ro' = 'en') {
   return render(<LanguageProvider>{ui}</LanguageProvider>)
 }
 
+const noExercises = {
+  chainEntries: [] as ChainAnalysisEntry[],
+  chainLoading: false,
+}
+
 describe('Journal data display', () => {
   beforeEach(() => localStorage.clear())
 
@@ -42,6 +47,7 @@ describe('Journal data display', () => {
           results: [{ id: 'overwhelmed', label: { ro: 'Coplesit', en: 'Overwhelmed' }, color: '#f00' }],
         })]}
         loading={false}
+        {...noExercises}
         saveSessions
         onOpenSession={vi.fn()}
         onOpenChain={vi.fn()}
@@ -62,6 +68,7 @@ describe('Journal data display', () => {
           bodySession({ id: 'session-3' }),
         ]}
         loading={false}
+        {...noExercises}
         saveSessions
         onOpenSession={vi.fn()}
         onOpenChain={vi.fn()}
@@ -76,6 +83,7 @@ describe('Journal data display', () => {
   it('shows explicit loading, error, and empty states', () => {
     const props = {
       sessions: [],
+      ...noExercises,
       saveSessions: true,
       onOpenSession: vi.fn(),
       onOpenChain: vi.fn(),
@@ -88,6 +96,9 @@ describe('Journal data display', () => {
 
     rerender(<LanguageProvider><JournalScreen {...props} loading={false} /></LanguageProvider>)
     expect(screen.getByText('No saved reflections yet')).toBeInTheDocument()
+
+    rerender(<LanguageProvider><JournalScreen {...props} loading={false} chainLoading /></LanguageProvider>)
+    expect(screen.getByRole('status')).toHaveTextContent('Loading journal exercises')
   })
 
   it('shows localized body signals, selected need, and next step without mutating the record', () => {
@@ -134,6 +145,7 @@ describe('Journal data display', () => {
       <JournalScreen
         sessions={[rejected]}
         loading={false}
+        {...noExercises}
         saveSessions
         onOpenSession={vi.fn()}
         onOpenChain={vi.fn()}
@@ -153,6 +165,7 @@ describe('Journal data display', () => {
   it('shows summaries only when their own evidence threshold is met', () => {
     const props = {
       loading: false,
+      ...noExercises,
       saveSessions: true,
       onOpenSession: vi.fn(),
       onOpenChain: vi.fn(),
@@ -191,6 +204,67 @@ describe('Journal data display', () => {
 
     expect(screen.getByText('Body observations')).toBeInTheDocument()
     expect(screen.getByText('Chest (3)')).toBeInTheDocument()
+  })
+
+  it('shows the latest journal exercise and opens the existing exercise screen', async () => {
+    const user = userEvent.setup()
+    const onOpenChain = vi.fn()
+    const entries: ChainAnalysisEntry[] = [
+      {
+        id: 'older',
+        timestamp: new Date('2026-07-20T10:00:00Z').getTime(),
+        version: 2,
+        situation: 'An older moment',
+        noticed: '',
+        response: '',
+        outcome: '',
+      },
+      {
+        id: 'latest',
+        timestamp: new Date('2026-07-24T10:00:00Z').getTime(),
+        version: 2,
+        situation: 'A difficult message',
+        noticed: '',
+        response: '',
+        outcome: '',
+      },
+    ]
+
+    withLanguage(
+      <JournalScreen
+        sessions={[]}
+        loading={false}
+        chainEntries={entries}
+        chainLoading={false}
+        saveSessions
+        onOpenSession={vi.fn()}
+        onOpenChain={onOpenChain}
+      />,
+    )
+
+    expect(screen.getByRole('heading', { name: 'Journal exercises' })).toBeInTheDocument()
+    expect(screen.getByText('A difficult message')).toBeInTheDocument()
+    expect(screen.queryByText('An older moment')).not.toBeInTheDocument()
+    expect(screen.getByText('No saved emotion reflections yet')).toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: /open journal exercises.*a difficult message/i }))
+    expect(onOpenChain).toHaveBeenCalledOnce()
+  })
+
+  it('keeps Unpack a moment as the journal exercise empty state', () => {
+    withLanguage(
+      <JournalScreen
+        sessions={[]}
+        loading={false}
+        {...noExercises}
+        saveSessions
+        onOpenSession={vi.fn()}
+        onOpenChain={vi.fn()}
+      />,
+    )
+
+    expect(screen.queryByRole('heading', { name: 'Journal exercises' })).not.toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Unpack a moment' })).toBeInTheDocument()
   })
 
   it('deletes only after confirmation and restores focus when cancelled', async () => {

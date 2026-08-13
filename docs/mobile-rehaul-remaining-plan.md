@@ -1,8 +1,8 @@
 # Remaining Product Plan
 
-Status: core mobile migration and P47 rejected-result trust correction complete. P45 human
-validation is deferred. Remaining work: Journal exercise discoverability, bounded evidence-dependent
-copy review, and release closure. Updated August 13, 2026.
+Status: core mobile migration, P47 rejected-result trust correction, and P48 Journal exercise
+discoverability complete. P45 human validation is deferred. Remaining work: release closure and
+bounded evidence-dependent copy review. Updated August 13, 2026.
 
 This is the only active implementation plan. Historical work belongs in `ITERATION_LOG.md`,
 release criteria in `docs/release-quality-gates.md`, and candidate evidence in
@@ -36,15 +36,16 @@ release criteria in `docs/release-quality-gates.md`, and candidate evidence in
   Continue action remain visible at 320x568 across EN/RO and light/dark themes.
 - Rejected results retain local provenance but are presented on Today, Journal, and saved detail as
   suggestions that did not fit. They remain excluded from pattern analytics and inferred guidance.
+- Journal shows the latest saved exercise before emotion-reflection history, with a factual timestamp
+  and direct link to the existing exercise screen. Exercise and emotion stores remain separate.
 
 Physical iPhone testing remains outside scope. Simulator VoiceOver is not represented as physical
 screen-reader evidence.
 
 ## Open Risks
 
-1. Saved Journal exercises remain discoverable only after reopening Unpack a moment.
-2. Six-session moderated participant evidence is deferred; synthetic walkthroughs are preflight only.
-3. Final exact-candidate release dispositions remain open.
+1. Six-session moderated participant evidence is deferred; synthetic walkthroughs are preflight only.
+2. Final exact-candidate release dispositions remain open.
 
 ## Architecture Direction
 
@@ -59,10 +60,10 @@ screen-reader evidence.
 
 ### Next Change Boundary
 
-P48 is a Journal presentation/navigation correction, not a datastore unification. Pass the existing
-exercise entries into Journal, show only the latest factual preview, and link to the existing route.
-Keep emotion sessions and exercises in their current stores and export shapes. Extract the existing
-preview helper only when both screens use it.
+P46 closes one exact release candidate; it does not add product behavior. Freeze the commit only
+after it is pushed, record every unavailable human or physical gate as an explicit defer/waiver,
+and run automated gates against that same SHA. Do not change copy to make an unevidenced validation
+row pass.
 
 ### Avoid
 
@@ -72,13 +73,14 @@ three real uses or when a safety/data-loss boundary requires one owner.
 
 ## Recommended Sequence
 
-### P48 - Journal Exercise Discoverability (next)
+### P46 - Release Closure (next actionable)
 
-1. Start with a failing Journal component test and a minimal-save Playwright journey.
-2. Pass `chainEntries` and `chainLoading` from App to Journal without combining stores.
-3. Show the latest exercise situation and timestamp with an Open journal exercises action.
-4. Keep Unpack a moment as the action when no exercise exists and preserve current error states.
-5. Verify save, Done, immediate rediscovery, reload, EN/RO, light/dark, 320x568, deletion, and export.
+1. Freeze the pushed candidate SHA and run a clean dependency install.
+2. Run `npm run check`, full Playwright, PWA, performance, iOS Simulator, macOS Safari, and any
+   available Android supporting gates against that exact SHA.
+3. Record pass, waive, or defer dispositions for human TalkBack gestures/spoken order, Romanian
+   TalkBack pronunciation, installed Android mode, distinct low-tier timing, and P45 participants.
+4. Consolidate candidate-bound evidence and require zero unresolved release-blocking defects.
 
 ### P49 - Evidence-Dependent Comprehension Copy
 
@@ -94,15 +96,6 @@ expert review, synthetic agents, automation, or owner acceptance into participan
 release closure precedes recruitment, record an explicit waiver naming every unrun task and its
 residual comprehension risk.
 
-### P46 - Release Closure
-
-1. Record pass, waive, or defer dispositions for remaining human TalkBack gestures/spoken order,
-   Romanian TalkBack pronunciation, installed Android mode, and distinct low-tier timing.
-2. Freeze and deploy one candidate SHA.
-3. Run clean install, dependency, `npm run check`, full Playwright, PWA, performance, iOS Simulator,
-   macOS Safari, and available Android supporting gates against that exact SHA.
-4. Consolidate evidence and require zero unresolved release-blocking defects.
-
 ## Verification Rule
 
 Every phase starts with a failing behavior-boundary test, then the smallest implementation,
@@ -112,6 +105,5 @@ and separate psychological review. Persistence tests use controllable promises a
 
 ## Decision
 
-Run P48 next. It corrects a deterministic promise/discoverability mismatch without changing data
-ownership. Keep P49 and P45 deferred, then freeze the exact P46 release candidate with an explicit
-P45 waiver if human recruitment is still unavailable.
+Run P46 next against the pushed P48 commit. Keep P49 and P45 deferred; record an explicit P45 waiver
+if release closure proceeds before human recruitment.

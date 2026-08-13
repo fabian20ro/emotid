@@ -89,6 +89,10 @@ never unlock another metric. The policy controls presentation only; it adds no d
 exported unchanged. The single-page form requires only the situation. Clearing journal exercises
 uses the same portaled, focus-trapped confirmation contract as other destructive actions.
 
+`App` passes the separately loaded exercise entries into `JournalScreen`; it does not combine the
+exercise and emotion stores. Journal uses the shared factual preview policy to show only the latest
+exercise before emotion-reflection history and opens the existing Chain Analysis destination.
+
 Session Detail delegates one-entry deletion to the existing `useSessionHistory.remove` operation.
 The destructive confirmation is portaled and focus-trapped, reports repository failures in place,
 and returns to Journal only after the exact record is deleted. `App` owns that navigation change;

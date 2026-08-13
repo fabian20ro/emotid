@@ -11,6 +11,8 @@ const scenarios = [
     optional: 'Optional',
     save: 'Save reflection',
     done: 'Done',
+    exercises: 'Journal exercises',
+    openExercises: 'Open journal exercises',
     recent: 'Recent reflections',
     clear: 'Delete journal exercises',
     confirm: 'Delete journal exercises?',
@@ -32,6 +34,8 @@ const scenarios = [
     optional: 'Optional',
     save: 'Save reflection',
     done: 'Done',
+    exercises: 'Journal exercises',
+    openExercises: 'Open journal exercises',
     recent: 'Recent reflections',
     clear: 'Delete journal exercises',
     confirm: 'Delete journal exercises?',
@@ -53,6 +57,8 @@ const scenarios = [
     optional: 'Opțional',
     save: 'Salvați reflecția',
     done: 'Gata',
+    exercises: 'Exerciții de jurnal',
+    openExercises: 'Deschideți exercițiile de jurnal',
     recent: 'Reflecții recente',
     clear: 'Ștergeți exercițiile din jurnal',
     confirm: 'Ștergeți exercițiile din jurnal?',
@@ -74,6 +80,8 @@ const scenarios = [
     optional: 'Opțional',
     save: 'Salvați reflecția',
     done: 'Gata',
+    exercises: 'Exerciții de jurnal',
+    openExercises: 'Deschideți exercițiile de jurnal',
     recent: 'Reflecții recente',
     clear: 'Ștergeți exercițiile din jurnal',
     confirm: 'Ștergeți exercițiile din jurnal?',
@@ -115,10 +123,17 @@ for (const scenario of scenarios) {
     await save.click()
     await page.getByRole('button', { name: scenario.done }).click()
 
+    await expect(page.getByTestId('journal-screen')).toBeVisible()
+    await expect(page.getByRole('heading', { name: scenario.exercises })).toBeVisible()
+    await expect(page.getByText('One specific moment')).toBeVisible()
+    await expect(page.getByRole('button', { name: new RegExp(`${scenario.openExercises}.*One specific moment`, 'i') })).toBeInViewport()
+    await expectNoHorizontalOverflow(page)
+
     await page.reload()
     await expect(page.getByTestId('today-screen')).toBeVisible()
     await page.getByRole('button', { name: scenario.journal, exact: true }).click()
-    await page.getByRole('button', { name: scenario.unpack }).click()
+    await expect(page.getByText('One specific moment')).toBeVisible()
+    await page.getByRole('button', { name: new RegExp(`${scenario.openExercises}.*One specific moment`, 'i') }).click()
     await expect(page.getByText(scenario.recent)).toBeVisible()
     await expect(page.getByText('One specific moment')).toBeVisible()
 

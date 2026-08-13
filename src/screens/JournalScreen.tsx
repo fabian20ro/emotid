@@ -2,24 +2,27 @@ import { useState } from 'react'
 import { ArrowRight, GitBranch, LockKeyhole } from 'lucide-react'
 import { useLanguage } from '../context/LanguageContext'
 import { ScreenHeader } from '../components/ScreenHeader'
-import type { Session } from '../data/types'
+import type { ChainAnalysisEntry, Session } from '../data/types'
 import { computeVocabulary } from '../data/vocabulary'
 import { computeValenceRatio } from '../data/valence-ratio'
 import { computeSomaticPatterns } from '../data/somatic-patterns'
 import { getSomaticRegionLabel } from '../models/somatic/display'
 import { getEmotionDisplayLabel, getResultRelationship, getSessionResultHeading } from '../data/session-presentation'
 import { getJournalEvidence } from '../data/journal-evidence'
+import { getChainEntryPreview, getLatestChainEntry } from '../data/chain-presentation'
 
 interface JournalScreenProps {
   sessions: Session[]
   loading: boolean
+  chainEntries: ChainAnalysisEntry[]
+  chainLoading: boolean
   error?: boolean
   saveSessions: boolean
   onOpenSession: (id: string) => void
   onOpenChain: () => void
 }
 
-export function JournalScreen({ sessions, loading, error = false, saveSessions, onOpenSession, onOpenChain }: JournalScreenProps) {
+export function JournalScreen({ sessions, loading, chainEntries, chainLoading, error = false, saveSessions, onOpenSession, onOpenChain }: JournalScreenProps) {
   const { language, section } = useLanguage()
   const t = section('journalScreen')
   const historyT = section('history')
@@ -29,6 +32,8 @@ export function JournalScreen({ sessions, loading, error = false, saveSessions, 
   const somatic = computeSomaticPatterns(sessions)
   const evidence = getJournalEvidence(sessions, now)
   const hasSummaryEvidence = evidence.vocabulary || evidence.valence || evidence.somatic
+  const latestExercise = getLatestChainEntry(chainEntries)
+  const latestExercisePreview = latestExercise ? getChainEntryPreview(latestExercise) : undefined
 
   return (
     <div className="screen" data-testid="journal-screen">
@@ -57,6 +62,29 @@ export function JournalScreen({ sessions, loading, error = false, saveSessions, 
         </section>
       )}
 
+      {(chainLoading || (latestExercise && latestExercisePreview)) && (
+        <section aria-labelledby="journal-exercises-title">
+          <h2 id="journal-exercises-title" className="section-heading">{t.exercises}</h2>
+          {chainLoading ? (
+            <p className="muted" role="status">{t.loadingExercises}</p>
+          ) : latestExercise && latestExercisePreview ? (
+            <button
+              type="button"
+              className="journal-entry-button"
+              onClick={onOpenChain}
+              aria-label={`${t.openExercises}: ${latestExercisePreview.title}`}
+            >
+              <span>
+                <small>{new Intl.DateTimeFormat(language, { dateStyle: 'medium', timeStyle: 'short' }).format(latestExercise.timestamp)}</small>
+                <strong>{latestExercisePreview.title}</strong>
+                <small>{t.openExercises}</small>
+              </span>
+              <ArrowRight size={18} aria-hidden="true" />
+            </button>
+          ) : null}
+        </section>
+      )}
+
       <section aria-labelledby="recent-reflections-title">
         <h2 id="recent-reflections-title" className="section-heading">{t.recent}</h2>
         {loading ? (
@@ -69,7 +97,7 @@ export function JournalScreen({ sessions, loading, error = false, saveSessions, 
         ) : sessions.length === 0 ? (
           <div className="soft-panel journal-empty">
             <LockKeyhole size={24} aria-hidden="true" />
-            <strong>{t.emptyTitle}</strong>
+            <strong>{latestExercise ? t.emptyEmotionTitle : t.emptyTitle}</strong>
             <p>{saveSessions ? t.emptyBody : section('reflectionScreen').notSaved}</p>
           </div>
         ) : (
@@ -78,7 +106,7 @@ export function JournalScreen({ sessions, loading, error = false, saveSessions, 
               const relationship = getResultRelationship(session)
               const resultHeading = getSessionResultHeading(session, language, t.rejectedResult)
               return (
-                <button type="button" key={session.id} onClick={() => onOpenSession(session.id)} aria-label={`${t.open}: ${resultHeading}. ${t.relationship[relationship]}`}>
+                <button type="button" className="journal-entry-button" key={session.id} onClick={() => onOpenSession(session.id)} aria-label={`${t.open}: ${resultHeading}. ${t.relationship[relationship]}`}>
                   <span>
                     <small>{new Intl.DateTimeFormat(language, { dateStyle: 'medium', timeStyle: 'short' }).format(session.timestamp)}</small>
                     <strong>{resultHeading}</strong>
@@ -92,10 +120,12 @@ export function JournalScreen({ sessions, loading, error = false, saveSessions, 
         )}
       </section>
 
-      <button type="button" className="secondary-button mt-6" onClick={onOpenChain}>
-        <GitBranch size={19} aria-hidden="true" />
-        {t.unpack}
-      </button>
+      {!chainLoading && !latestExercise && (
+        <button type="button" className="secondary-button mt-6" onClick={onOpenChain}>
+          <GitBranch size={19} aria-hidden="true" />
+          {t.unpack}
+        </button>
+      )}
     </div>
   )
 }

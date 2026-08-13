@@ -2361,3 +2361,29 @@ assets total 888,004 bytes, all within budget.
 Provenance can remain locally useful only when every summary surface marks it as an unconfirmed
 suggestion rather than a user-owned label.
 **Promoted to Lessons Learned:** Yes — expanded the existing model-output history boundary.
+
+---
+
+### [2026-08-13] Make saved Journal exercises immediately discoverable
+
+**Context:** P48 corrected a deterministic mismatch: saving an Unpack a moment exercise said it was
+in the Journal, but the Journal exposed it only after reopening that same exercise screen.
+**What happened:**
+- Started with a failing Journal component contract. Passed the existing `chainEntries` and
+  `chainLoading` state through `App` without merging repositories, schemas, or export shapes.
+- Extracted the factual legacy/current preview policy once it gained a second consumer. Journal now
+  selects the newest timestamp without mutating input and shows its situation, timestamp, and one
+  accessible Open journal exercises action.
+- Kept Unpack a moment as the empty action. When exercises exist but emotion reflections do not,
+  the empty copy distinguishes the two record types.
+- Added a 320x568 EN/RO x light/dark WebKit/Chromium journey covering save, Done, immediate
+  rediscovery, reload persistence, route opening, focus-safe deletion cancellation, and overflow.
+  The first run showed the action below the viewport; moving saved exercises before empty emotion
+  history made the promised continuation visible without scrolling.
+**Outcome:** `npm run check` passes 84 files / 670 tests. Full Playwright passes 256/256. PWA
+lifecycle and performance proxy pass 1/1. Initial JavaScript gzip is 143,976 bytes, entry JavaScript
+gzip is 43,335 bytes, and production assets total 889,542 bytes, all within budget.
+**Insight:** A visible section heading does not make its action discoverable. After saving, the
+continuation for that saved object must precede unrelated empty-state content on compact screens.
+**Promoted to Lessons Learned:** No — the existing viewport-visibility lesson already covers the
+general rule.

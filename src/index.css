@@ -316,10 +316,10 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .journal-stats strong { font-size: 25px; color: var(--teal); }
 .journal-stats span { color: var(--ink-muted); font-size: 12px; }
 .journal-list { display: grid; gap: 8px; }
-.journal-list button { min-height: 70px; width: 100%; padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-raised); display: flex; align-items: center; justify-content: space-between; text-align: left; color: var(--ink); }
-.journal-list button span { min-width: 0; display: flex; flex-direction: column; gap: 4px; }
-.journal-list small { color: var(--ink-muted); }
-.journal-list strong { overflow-wrap: anywhere; }
+.journal-entry-button { min-height: 70px; width: 100%; padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-raised); display: flex; align-items: center; justify-content: space-between; gap: 12px; text-align: left; color: var(--ink); }
+.journal-entry-button > span { min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.journal-entry-button small { color: var(--ink-muted); }
+.journal-entry-button strong { overflow-wrap: anywhere; }
 .journal-empty { text-align: center; display: grid; justify-items: center; gap: 8px; color: var(--ink-muted); }
 .journal-empty strong { color: var(--ink); }
 .journal-empty p { margin: 0; font-size: 14px; }

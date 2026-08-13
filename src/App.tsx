@@ -184,7 +184,7 @@ export default function App() {
       case 'explore':
         return <LazyRouteBoundary><ExploreScreen onChoose={startRoute} onPractice={() => navigation.navigate({ name: 'granularity' })} /></LazyRouteBoundary>
       case 'journal':
-        return <LazyRouteBoundary><JournalScreen sessions={sessions} loading={sessionsLoading} error={sessionsError} saveSessions={saveSessions} onOpenSession={(sessionId) => navigation.navigate({ name: 'session', sessionId })} onOpenChain={() => navigation.navigate({ name: 'chain' })} /></LazyRouteBoundary>
+        return <LazyRouteBoundary><JournalScreen sessions={sessions} loading={sessionsLoading} chainEntries={chainEntries} chainLoading={chainLoading} error={sessionsError} saveSessions={saveSessions} onOpenSession={(sessionId) => navigation.navigate({ name: 'session', sessionId })} onOpenChain={() => navigation.navigate({ name: 'chain' })} /></LazyRouteBoundary>
       case 'session':
         return <LazyRouteBoundary><SessionDetailScreen session={sessions.find((session) => session.id === destination.sessionId)} onBack={navigation.back} onDelete={deleteJournalSession} /></LazyRouteBoundary>
       case 'settings':

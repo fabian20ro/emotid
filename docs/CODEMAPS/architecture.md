@@ -1,6 +1,6 @@
 # Architecture Codemap
 
-**Last Updated:** 2026-08-04
+**Last Updated:** 2026-08-13
 
 ## Component Tree
 
@@ -76,6 +76,8 @@ repository write.
 Journal summary presentation uses one pure policy with metric-local eligibility; it does not add
 derived state to IndexedDB. The journal-exercise store accepts a discriminated legacy/current
 union, so new four-part records need no destructive migration and old records export unchanged.
+`App` reads both stores independently and passes exercise entries to Journal for one latest-entry
+preview; it does not create a merged journal model or alter either export shape.
 Session Detail and journal-exercise deletion call injected repository operations. This keeps
 persistence, presentation, and navigation separately testable without a repository framework or
 global journal store.
