@@ -125,6 +125,27 @@ npm run test:android:talkback -- --journey=j9 --language=ro
 npm run test:android:talkback -- --journey=j1 --language=ro --theme=dark
 ```
 
+For a bounded owner-operated review, first run the preflight, build, local server, ADB reverse and
+CDP forward, then enable TalkBack. Prepare one deterministic checkpoint at a time:
+
+```sh
+npm run build
+node scripts/macos-safari/server.mjs
+adb reverse tcp:4176 tcp:4176
+adb forward tcp:9222 localabstract:chrome_devtools_remote
+adb shell am start -a android.intent.action.VIEW \
+  -d 'http://127.0.0.1:4176/emotid/?human-talkback=p51' com.android.chrome
+npm run test:android:talkback:human:prepare -- --checkpoint=onboarding-en
+npm run test:android:talkback:human:prepare -- --checkpoint=word-ro
+npm run test:android:talkback:human:prepare -- --checkpoint=crisis-ro
+npm run test:android:talkback:human:prepare -- --checkpoint=installed-en
+```
+
+The preparer never classifies a result. A human must use physical one-finger swipes, listen to the
+spoken order and pronunciation, activate with TalkBack double-tap, and record pass/fail. Browser
+checkpoints use the exact local P51 target; installed checkpoints use the deployed standalone
+WebAPK. Repeat installed mode only where its behavior differs from browser mode.
+
 The TalkBack runner builds and serves the local production candidate, enables the real TalkBack
 service, drives exact focused controls with native Android key events, and records J1-J9 in English
 and Romanian, in light and dark themes. The default run therefore contains 36 rows. Each row

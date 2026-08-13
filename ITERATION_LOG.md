@@ -2470,3 +2470,30 @@ before interpreting an application interaction failure. Diagnostic bypasses can 
 fixture, never the product journey.
 **Promoted to Lessons Learned:** No — existing fail-fast hardware and native-browser readiness
 lessons already cover the reusable rule.
+
+---
+
+### [2026-08-14] Complete bounded human TalkBack review
+
+**Context:** P51 retained open human gesture, spoken-order, Romanian pronunciation, installed-mode,
+and unavailable low-tier Android evidence after the automated TalkBack matrix.
+**What happened:**
+- Added a deterministic checkpoint preparer and strict CLI contract for bounded owner-operated
+  onboarding, Word Ladder intermediary, tier-4 safety, and installed standalone checks.
+- On Pixel 6a / Android 17 / TalkBack 17, physical one-finger swipe and double-tap passed English
+  onboarding, English/Romanian intermediary selection, English/Romanian support-first safety order,
+  and English installed standalone behavior, 6/6.
+- Romanian app content dispatched the installed `ro-RO` voice while TalkBack's configured role and
+  action instructions used `en-US`. The owner found Romanian speech understandable. Persistent
+  local-privacy context could be announced during route replacement; target heading focus and
+  content order remained correct, so no product defect reproduced.
+- Retained a `BOUNDED_PASS` report and updated the active plan without converting bounded evidence
+  into a complete human J1-J9 or low-tier claim.
+**Outcome:** `npm run check` passes 86 files / 684 tests; Playwright passes 256/256; PWA and
+performance pass 1/1. Product assets, copy, safety, persistence, and interaction behavior are
+unchanged. P51 is complete for available hardware; distinct low-tier Android and P45 participants
+remain external dependencies.
+**Insight:** Deterministic setup can reduce human AT review to a few meaningful gestures, but the
+human result must remain separately classified from setup automation and broader matrix coverage.
+**Promoted to Lessons Learned:** No — existing TalkBack attribution and supporting-evidence lessons
+already cover the reusable boundary.

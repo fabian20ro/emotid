@@ -1,9 +1,10 @@
 # Remaining Product Plan
 
-Status: core mobile migration, P46 release closure, P50 stable native hooks, and P52 native Safari
-capability diagnosis complete. Human validation and unavailable physical evidence are deferred. No
-current evidence supports another product-copy migration.
-Updated August 13, 2026.
+Status: core mobile migration, P46 release closure, P50 stable native hooks, P52 native Safari
+capability diagnosis, and the available P51 bounded human TalkBack review are complete. Unavailable
+hardware and participant evidence remain deferred. No current evidence supports another product
+or copy migration.
+Updated August 14, 2026.
 
 This is the only active implementation plan. Historical work belongs in `ITERATION_LOG.md`,
 release criteria in `docs/release-quality-gates.md`, and candidate evidence in
@@ -30,7 +31,8 @@ evidence.
 
 ## Open Risks
 
-1. Human TalkBack gesture/spoken-order and Romanian pronunciation are not rerun on the frozen product.
+1. The bounded human TalkBack review passed; the normative complete human J1-J9 matrix still needs a
+   release waiver if required beyond the agreed bounded scope.
 2. A distinct low-tier Android device is unavailable; Pixel 6a mid-tier evidence cannot replace it.
 3. Six-session moderated participant evidence is deferred; synthetic walkthroughs are preflight only.
 4. Exact-candidate macOS Safari is blocked by SafariDriver activation transport, not a reproduced app failure.
@@ -73,15 +75,17 @@ seed/session behavior before product navigation. Current Safari 26.6 is classifi
 native click leaves the seed idle, script activation proves the seed, and zero product rows run.
 Script activation cannot create passing product evidence. Unit tests cover all classifications.
 
-### P51 - Human TalkBack And Low-Tier Evidence (next recommended)
+### P51 - Human TalkBack And Low-Tier Evidence (available scope complete)
 
-1. With the owner present, run the bounded human TalkBack checklist on Pixel 6a in EN/RO browser
-   mode: swipe order, activation, pronunciation, and crisis-resource order.
-2. Run installed mode only for checkpoints that differ from browser behavior; do not repeat the
-   complete automated matrix manually.
-3. When a distinct low-tier Android exists, run the existing three-run performance matrix.
-4. Preserve these as evidence tasks; change product code only when a failure reproduces
-   independently.
+The owner completed physical swipe, speech, and double-tap checks on Pixel 6a / Android 17 /
+TalkBack 17. Browser onboarding, intermediary selection, and support-first safety order passed in
+English and Romanian; installed standalone launch and guided-entry activation also passed. The
+Romanian voice was understandable. TalkBack's configured English role instructions alternated
+with Romanian app speech as expected; new-screen heading focus remained correct. No product defect
+reproduced. Retained result: `BOUNDED_PASS`.
+
+When a distinct low-tier Android exists, run the existing three-run performance matrix. Do not
+relabel Pixel 6a evidence or add emulation as a hardware substitute.
 
 ### P45 - Moderated Participant Validation (deferred)
 
@@ -102,7 +106,7 @@ deterministic invariants and psychological review. Native evidence must name pla
 
 ## Decision
 
-P50 and P52 close the known harness architecture gaps. Do P51 human TalkBack next when the owner can
-operate the available Pixel; defer its low-tier part until distinct hardware exists. Keep P49
-closed, and run P45 only when six real participants are available. Do not invent another product
-phase merely to keep implementation moving.
+P50 and P52 close the known harness architecture gaps. P51 is complete for available hardware;
+defer its low-tier part until distinct hardware exists. Keep P49 closed, and run P45 only when six
+real participants are available. No implementation phase is currently justified. Next action:
+obtain low-tier Android evidence, or conduct P45 when six real participants become available.

@@ -33,6 +33,7 @@
     "test:android:talkback": "npm run build && node ./scripts/android-talkback-audit.mjs",
     "test:android:talkback:audio": "npm run test:android:talkback -- --audio-check",
     "test:android:talkback:preflight": "node ./scripts/android-talkback-audit.mjs --preflight",
+    "test:android:talkback:human:prepare": "node ./scripts/android-human-talkback-checkpoint.mjs",
     "test:safari:native": "npm run build && node ./scripts/macos-safari-audit.mjs",
     "test:safari:native:preflight": "node ./scripts/macos-safari-audit.mjs --preflight",
     "test:ios:simulator": "npm run build && node ./scripts/ios-simulator-audit.mjs",

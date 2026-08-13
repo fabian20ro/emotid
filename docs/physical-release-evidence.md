@@ -12,11 +12,11 @@ assistive-technology or hardware-performance gates. Physical iPhone testing is o
 | Field | Value |
 | --- | --- |
 | Product SHA | `61f8743` |
-| Verification harness | `bc6f7e7` (test-only commits after product freeze) |
+| Verification harness | `312dce9` plus P51 evidence tooling (test-only changes after product freeze) |
 | Candidate status | FROZEN AND DEPLOYED; product assets unchanged by later harness commits |
 | Production URL | `https://fabian20ro.github.io/emotid/` |
 | Verified deployment workflow | `Deploy to GitHub Pages` run `31703694847`, successful |
-| Test date | 2026-08-13 |
+| Test date | 2026-08-14 |
 | Current decision | CONDITIONAL RELEASE: no open product blocker; explicit evidence deferrals below |
 
 `61f8743` contains the only post-freeze product change: revealing the Quick commitment action on
@@ -41,7 +41,7 @@ thermal differences for every final-candidate physical run.
 | Scope | Result | Evidence |
 | --- | --- | --- |
 | Clean dependency install and audit | AUTOMATED_PASS | `npm ci`; `npm audit`: 0 vulnerabilities |
-| Lint, unit/integration, acceptance contract, i18n, psychological copy, build, budgets | AUTOMATED_PASS | `npm run check`: 84 files / 672 tests |
+| Lint, unit/integration, acceptance contract, i18n, psychological copy, build, budgets | AUTOMATED_PASS | `npm run check`: 86 files / 684 tests |
 | Mobile Safari + Mobile Chrome browser matrix | AUTOMATED_PASS | `npm run test:e2e`: 256/256 |
 | Production offline/update/data-retention lifecycle | AUTOMATED_PASS | `npm run test:pwa` |
 | Production browser performance probe | AUTOMATED_PASS | `npm run test:performance` |
@@ -66,6 +66,7 @@ screen-reader gestures, installed mobile UI, or low-tier hardware timing.
 | working tree from `3aac5ce` | Pixel 6a Android 17, Chrome 151 | P50 J1/J5/J9; EN/RO; local production candidate | SUPPORTING_PASS, 6/6 | `.reports/android-physical/2026-08-13T14-18-04-026Z-browser/`; `.reports/android-physical/2026-08-13T14-18-34-467Z-browser/`; `.reports/android-physical/2026-08-13T14-18-57-634Z-browser/` |
 | working tree from `3aac5ce` | macOS Safari 26.6 | P50 native regression; Quick activation diagnostic | BLOCKED: SafariDriver transport; script activation proves product path | `.reports/macos-safari/2026-08-13T14-19-33-175Z/` |
 | working tree from `1d111cf` | macOS Safari 26.6 | P52 pre-matrix activation capability probe | BLOCKED: seed native click inert; script proves seed; product rows skipped | `.reports/macos-safari/2026-08-13T15-06-21-999Z/` |
+| working tree from `312dce9` | Pixel 6a Android 17, TalkBack 17, browser + installed WebAPK | P51 owner-operated onboarding, intermediary, tier-4, Romanian speech, and standalone checkpoints | BOUNDED_PASS, 6/6 | `.reports/android-physical/2026-08-13T21-37-18Z-human-talkback/` |
 | working tree from `ad38399c` | macOS Safari 26.6 | Quick + AI link, Word intermediary, tier-4; EN/RO, light/dark | NATIVE_SUPPORTING_PASS, 6/6 | `.reports/macos-safari/2026-08-12T17-59-15-941Z/` |
 | working tree from `ad38399c` | iOS 26.5 Simulator SE + 17 Pro | Quick, Word intermediary, save recovery, tier-4; EN/RO; exact local assets | SIMULATOR_SUPPORTING_PASS, 16/16 | `.reports/ios-simulator/2026-08-12T18-02-37-977Z/` |
 | working tree from `32a3d708` | iOS 26.5 Simulator SE + 17 Pro | P36 onboarding focus, landscape, dark theme, 200% Page Zoom plus accessibility text; exact local assets | SIMULATOR_SUPPORTING_PASS, 6/6 | `.reports/ios-simulator/2026-08-12T19-20-05-175Z/` |
@@ -89,7 +90,7 @@ activation changes it synchronously. Product rows are skipped, so no product fai
 to the broken transport. Historical native Safari and current WebKit remain supporting evidence,
 not a replacement for the blocked native row.
 
-The complete browser TalkBack run exposed one product defect: after native Enter activation, the
+The complete automated browser TalkBack run exposed one product defect: after native Enter activation, the
 persistent onboarding Next button could reclaim focus from the next heading. The heading handoff
 now runs in the next animation frame and the same physical J1 row passes in both languages. A J9
 failure was traced to mid-row `uiautomator dump` restarting TalkBack/TTS; moving native hierarchy
@@ -100,6 +101,14 @@ quality is therefore not claimed. The visible app and AX content remained Romani
 One earlier full attempt left EN/dark J7 saving for more than 15 seconds. The exact row, the ordered
 EN/dark matrix, and the final complete matrix all passed afterward, so this remains an unconfirmed
 storage/lifecycle flake rather than a reproduced product defect.
+
+The later P51 owner-operated pass used physical one-finger swipes and TalkBack double-tap. English
+onboarding, English/Romanian intermediary selection, English/Romanian safety-resource order, and
+English installed standalone navigation passed 6/6. Romanian app content dispatched the installed
+`ro-RO` voice while TalkBack role/action instructions used its configured `en-US` voice. The owner
+found Romanian speech understandable. TalkBack also announced persistent local-privacy context
+during route replacement; target focus remained on the new heading and no missing, duplicate, or
+misordered content reproduced. This is a bounded checkpoint pass, not a complete human J1-J9 claim.
 
 ## Current Physical Matrix
 
@@ -112,11 +121,11 @@ exact frozen-product evidence and do not claim speech or gesture validation.
 | Pixel 6a / no AT | RO | system | Browser | pass | pass | pass | pass | pass | pass | pass | pass | pass | SUPPORTING_PASS |
 | Pixel 6a / no AT | EN | system | Installed | pass | pass | pass | pass | pass | pass | pass | pass | pass | SUPPORTING_PASS |
 | Pixel 6a / no AT | RO | system | Installed | pass | pass | pass | pass | pass | pass | pass | pass | pass | SUPPORTING_PASS |
-| Pixel 6a / TalkBack | EN | Light | Browser | supporting | supporting | supporting | supporting | supporting | supporting | supporting | supporting | supporting | OPEN FOR HUMAN SIGN-OFF |
+| Pixel 6a / TalkBack | EN | Light | Browser | pass | supporting | supporting | supporting | pass | supporting | supporting | pass | supporting | BOUNDED_PASS |
 | Pixel 6a / TalkBack | EN | Dark | Browser | supporting | supporting | supporting | supporting | supporting | supporting | supporting | supporting | supporting | OPEN FOR HUMAN SIGN-OFF |
-| Pixel 6a / TalkBack | RO | Light | Browser | supporting | supporting | supporting | supporting | supporting | supporting | supporting | supporting | supporting | OPEN FOR HUMAN SIGN-OFF |
+| Pixel 6a / TalkBack | RO | Light | Browser | supporting | supporting | supporting | supporting | pass | supporting | supporting | pass | supporting | BOUNDED_PASS |
 | Pixel 6a / TalkBack | RO | Dark | Browser | supporting | supporting | supporting | supporting | supporting | supporting | supporting | supporting | supporting | OPEN FOR HUMAN SIGN-OFF |
-| Pixel 6a / TalkBack | EN | | Installed | | | | | prior pass | prior checkpoint | | prior checkpoint | | OPEN FOR FROZEN SHA |
+| Pixel 6a / TalkBack | EN | | Installed | bounded shell | | | | prior pass | prior checkpoint | | prior checkpoint | | BOUNDED_PASS |
 | Pixel 6a / TalkBack | RO | | Installed | | | | | prior pass | prior checkpoint | | prior checkpoint | | OPEN FOR FROZEN SHA |
 
 ## Android Performance
@@ -195,7 +204,7 @@ retest the same native row. Record environment blocks separately from applicatio
 | iOS Simulator browser matrix | PASS, SUPPORTING | Base 16/16; acceptance 36/36; robustness 6/6 |
 | Simulator installed PWA / VoiceOver | OUT OF SCOPE | Capability limitation recorded; no physical-iPhone substitution claim |
 | Pixel 6a browser + installed, no AT | PASS, SUPPORTING | J1-J9 EN/RO, 36/36 total |
-| Pixel 6a TalkBack | DEFERRED / WAIVER REQUIRED | Human gesture/spoken-order and Romanian pronunciation not rerun; TalkBack disabled |
+| Pixel 6a TalkBack | BOUNDED_PASS / WAIVER REQUIRED FOR FULL MATRIX | Six owner-operated browser/installed checkpoints passed; complete human J1-J9 not claimed |
 | Mid-tier Android performance | PASS | Frozen-product three-run matrix |
 | Low-tier Android performance | DEFERRED / WAIVER REQUIRED | Distinct device unavailable; Pixel is not relabeled |
 | Moderated comprehension | DEFERRED / WAIVER REQUIRED | Six participant sessions unavailable; synthetic reviews remain preflight |
