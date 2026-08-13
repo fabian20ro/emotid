@@ -17,6 +17,7 @@ const analysis: AnalysisResult = {
 function renderWorkflow(
   saveSession: (session: Session) => Promise<void>,
   saveSessions = true,
+  writeTimeoutMs?: number,
 ) {
   const onShowReflection = vi.fn()
   const onReturnToday = vi.fn()
@@ -26,12 +27,16 @@ function renderWorkflow(
     saveSession,
     onShowReflection,
     onReturnToday,
+    writeTimeoutMs,
   }))
   return { ...hook, onShowReflection, onReturnToday }
 }
 
 describe('useCheckInWorkflow', () => {
-  afterEach(() => vi.restoreAllMocks())
+  afterEach(() => {
+    vi.useRealTimers()
+    vi.restoreAllMocks()
+  })
 
   it('performs no write when local saving is disabled', async () => {
     const saveSession = vi.fn<(session: Session) => Promise<void>>()
@@ -121,5 +126,46 @@ describe('useCheckInWorkflow', () => {
     ])
     expect(saveSession.mock.calls[0][0].id).toBe('00000000-0000-4000-8000-000000000002')
     expect(saveSession.mock.calls[1][0].id).toBe('00000000-0000-4000-8000-000000000002')
+  })
+
+  it('fails a stuck save after the deadline and makes retry recoverable after late settlement', async () => {
+    vi.useFakeTimers()
+    let releaseBase: (() => void) | undefined
+    const saveSession = vi.fn<(session: Session) => Promise<void>>()
+      .mockImplementationOnce(() => new Promise<void>((resolve) => {
+        releaseBase = resolve
+      }))
+      .mockResolvedValue(undefined)
+    const { result } = renderWorkflow(saveSession, true, 1_000)
+
+    act(() => {
+      result.current.complete('quick', 'quick-check-in', [selection], [analysis])
+    })
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(1_000)
+    })
+    expect(result.current.state).toMatchObject({ saveState: 'error' })
+
+    act(() => result.current.retryBaseSave())
+    await act(async () => Promise.resolve())
+    expect(result.current.state).toMatchObject({ saveState: 'error' })
+    expect(saveSession).toHaveBeenCalledOnce()
+
+    await act(async () => {
+      releaseBase?.()
+      await Promise.resolve()
+      await Promise.resolve()
+    })
+    act(() => result.current.retryBaseSave())
+    await act(async () => {
+      await Promise.resolve()
+      await Promise.resolve()
+    })
+
+    expect(saveSession).toHaveBeenCalledTimes(2)
+    expect(result.current.state).toMatchObject({
+      saveState: 'saved',
+      sessionCaptured: true,
+    })
   })
 })

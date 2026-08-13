@@ -55,6 +55,12 @@ scope and certainty requirements.
 
 ## Code Patterns & Pitfalls
 
+**[2026-08-13]** Async deadlines need cancellation and generation isolation — Racing a timeout
+against a write only stops the caller from waiting; it does not stop the underlying mutation.
+Propagate `AbortSignal` to the transaction boundary, reject new work while a non-cancellable write
+is unresolved, rotate workflow generations on reset, and ignore obsolete or late completion. Keep
+diagnostics structural and transient: operation ID, kind, duration, outcome; never user content.
+
 **[2026-07-22]** Fixed mobile shells need explicit grid areas and scroll reset — Conditional rows such as offline banners can shift auto-placed content and push navigation outside the viewport. Name shell grid areas, keep the content row `minmax(0, 1fr)`, and reset the internal content scroller whenever the destination changes.
 
 **[2026-02-07]** Temporary script format must match module mode — `.js` + `require(...)` fails in `"type": "module"` repos. Use `.cjs` for CommonJS temporary scripts. Always check `package.json` module type before writing temp scripts.
@@ -245,6 +251,12 @@ timestamps separate from Playwright matcher polling when collecting performance 
 **[2026-03-29]** Keep `AGENTS.md` in the ROM layer only — if a fact is discoverable from code, docs, configs, or tests, keep it out of bootstrap memory. Put repeated corrections in `LESSONS_LEARNED.md`; keep raw single-session observations in `ITERATION_LOG.md`.
 
 **[2026-06-06]** GitHub Actions state can outrun local refs — For CI fixes, trust `gh run list/view` for the failing `headSha`, then `git fetch --all --prune` before comparing with local `origin/main`. Do not call a run stale from local refs until fetch succeeds.
+
+---
+
+**[2026-08-13]** Psychological contracts must cover behavior, not only copy — A compliant disclaimer
+does not neutralize a contradictory rule. Test crisis prominence, inference, persistence, and
+history-driven behavior against the same agency and uncertainty constraints as visible language.
 
 ---
 

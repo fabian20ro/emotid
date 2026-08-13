@@ -1,10 +1,26 @@
-import { createStore, set, del, keys, values } from 'idb-keyval'
+import { createStore, promisifyRequest, del, keys, values } from 'idb-keyval'
 import type { Session } from './types'
 
 const store = createStore('emot-id-sessions', 'sessions')
 
-export async function saveSession(session: Session): Promise<void> {
-  await set(session.id, session, store)
+export async function saveSession(session: Session, signal?: AbortSignal): Promise<void> {
+  if (signal?.aborted) throw signal.reason
+
+  await store('readwrite', (objectStore) => {
+    const transaction = objectStore.transaction
+    const abort = () => {
+      try {
+        transaction.abort()
+      } catch {
+        // The transaction may have settled between the signal and abort call.
+      }
+    }
+    signal?.addEventListener('abort', abort, { once: true })
+    objectStore.put(session, session.id)
+    return promisifyRequest(transaction).finally(() => {
+      signal?.removeEventListener('abort', abort)
+    })
+  })
 }
 
 export async function getAllSessions(): Promise<Session[]> {

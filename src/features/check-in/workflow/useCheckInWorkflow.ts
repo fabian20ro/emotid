@@ -1,4 +1,4 @@
-import { useCallback, useReducer, useRef } from 'react'
+import { useCallback, useEffect, useReducer, useRef } from 'react'
 import { addReflectionDetail, createSession } from '../../../data/session'
 import type { Session } from '../../../data/types'
 import type { AnalysisResult, BaseEmotion } from '../../../models/types'
@@ -12,13 +12,22 @@ import {
   checkInWorkflowReducer,
   INITIAL_CHECK_IN_WORKFLOW_STATE,
 } from './reducer'
+import {
+  createSessionWriteCoordinator,
+  emitSessionWriteDiagnostic,
+  SESSION_WRITE_TIMEOUT_MS,
+  type SessionWriteCoordinator,
+  type SessionWriteDiagnostic,
+} from './session-write-coordinator'
 
 interface UseCheckInWorkflowOptions {
   sessions: Session[]
   saveSessions: boolean
-  saveSession: (session: Session) => Promise<void>
+  saveSession: (session: Session, signal?: AbortSignal) => Promise<void>
   onShowReflection: () => void
   onReturnToday: () => void
+  writeTimeoutMs?: number
+  onWriteDiagnostic?: (diagnostic: SessionWriteDiagnostic) => void
 }
 
 export function useCheckInWorkflow({
@@ -27,18 +36,32 @@ export function useCheckInWorkflow({
   saveSession,
   onShowReflection,
   onReturnToday,
+  writeTimeoutMs = SESSION_WRITE_TIMEOUT_MS,
+  onWriteDiagnostic = emitSessionWriteDiagnostic,
 }: UseCheckInWorkflowOptions) {
   const [state, dispatch] = useReducer(
     checkInWorkflowReducer,
     INITIAL_CHECK_IN_WORKFLOW_STATE,
   )
   const activeSessionRef = useRef<Session | null>(null)
-  const sessionWriteRef = useRef<Promise<void>>(Promise.resolve())
+  const saveSessionRef = useRef(saveSession)
+  const writeCoordinatorRef = useRef<SessionWriteCoordinator | null>(null)
+  if (writeCoordinatorRef.current === null) {
+    writeCoordinatorRef.current = createSessionWriteCoordinator({
+      timeoutMs: writeTimeoutMs,
+      onDiagnostic: onWriteDiagnostic,
+    })
+  }
   const latestWriteRef = useRef<Promise<void> | null>(null)
   const latestBaseWriteRef = useRef<Promise<void> | null>(null)
   const completionInFlightRef = useRef(false)
 
+  useEffect(() => {
+    saveSessionRef.current = saveSession
+  }, [saveSession])
+
   const reset = useCallback(() => {
+    writeCoordinatorRef.current?.resetGeneration()
     activeSessionRef.current = null
     latestWriteRef.current = null
     latestBaseWriteRef.current = null
@@ -46,20 +69,20 @@ export function useCheckInWorkflow({
     dispatch({ type: 'reset' })
   }, [])
 
-  const queueSessionSave = useCallback((session: Session) => {
-    const write = sessionWriteRef.current
-      .catch(() => undefined)
-      .then(() => saveSession(session))
-    sessionWriteRef.current = write
+  const queueSessionSave = useCallback((kind: 'base' | 'detail', session: Session) => {
+    const write = writeCoordinatorRef.current!.enqueue(
+      kind,
+      (signal) => saveSessionRef.current(session, signal),
+    )
     latestWriteRef.current = write
     return write
-  }, [saveSession])
+  }, [])
 
   const persistBaseSession = useCallback((session: Session) => {
     if (!saveSessions) return
 
     dispatch({ type: 'save-started' })
-    const write = queueSessionSave(session)
+    const write = queueSessionSave('base', session)
     latestBaseWriteRef.current = write
     void write.then(
       () => {
@@ -114,7 +137,7 @@ export function useCheckInWorkflow({
     if (!session || !saveSessions) return 'not-saved'
 
     const updated = addReflectionDetail(session, detail)
-    const write = queueSessionSave(updated)
+    const write = queueSessionSave('detail', updated)
     try {
       await write
       activeSessionRef.current = updated

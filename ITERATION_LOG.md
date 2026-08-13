@@ -2158,3 +2158,58 @@ macOS Chromium sandbox. TalkBack, stay-awake, ADB mappings, page, and server sta
 and attribute mixed assistive-technology output to device configuration unless app language/AX
 evidence also fails.
 **Promoted to Lessons Learned:** Yes — replaces the earlier categorical audio-capture limitation.
+
+---
+
+### [2026-08-13] Re-audit remaining product work
+
+**Context:** After broad mobile migration and platform automation, the owner requested a fresh
+psychological, architecture, and UI/UX audit plus one prioritized implementation plan.
+**What happened:**
+- Reviewed every active core route plus Journal chain analysis and vocabulary practice against the
+  repository psychologist, mobile UX, and architecture rubrics.
+- Compared crisis behavior with the project psychological contract and authoritative WHO, SAMHSA,
+  and NIMH guidance. Found that temporal label history increases current crisis prominence despite
+  the stated no-risk-inference boundary.
+- Traced one previously unconfirmed Android save stall to a permitted failure mode: an unbounded
+  serialized write promise can block all later writes and retries indefinitely.
+- Found first-run storage disclosure, per-summary Journal evidence, partial DBT claims, score-like
+  granularity feedback, Romanian terminology, onboarding priming, and entry/Explore choice load as
+  bounded follow-up work.
+- Replaced the release-only remaining plan with ordered P41-P46 product, validation, and release
+  phases. Explicitly rejected broad routing, state, datastore, design-system, telemetry, and test
+  framework projects.
+**Outcome:** Planning only; no product behavior changed. `npm run test:coverage` passes 83 files /
+655 tests. Overall coverage is 76.07% statements and 74.43% branches; core screen and data coverage
+is materially higher, so the plan keeps risk-based tests instead of adding a global percentage
+target.
+**Insight:** Psychological safety invariants need behavioral enforcement, and a small fail-fast
+write boundary has more value than a broad architecture refactor.
+**Promoted to Lessons Learned:** Yes — behavioral psychological-contract enforcement.
+
+---
+
+### [2026-08-13] Bound and recover stalled session persistence
+
+**Context:** P41 followed an Android J7 run that remained in `Finishing...` for more than 15
+seconds. Code inspection confirmed that one unresolved promise blocked every later write and Retry.
+**What happened:**
+- Started with failing coordinator contracts for timeout, degraded retry, ordered writes, ordinary
+  rejection recovery, obsolete generations, and late settlement.
+- Added one workflow-local write coordinator with an eight-second deadline and structural,
+  transient diagnostics containing no emotion or journal content.
+- Propagated `AbortSignal` through `useSessionHistory` to the IndexedDB transaction. A real pending
+  transaction now aborts on timeout or workflow reset; adapters that ignore cancellation remain
+  degraded until their underlying promise settles.
+- Preserved base/detail ordering and stable session identity. Reset rotates the queue generation so
+  obsolete work cannot block or update a later check-in.
+- Added a controlled-clock Playwright regression that holds IndexedDB completion, proves timeout,
+  prevents duplicate writes during degradation, releases the late operation, and retries
+  successfully in WebKit and Chromium.
+**Outcome:** `npm run check` passes 84 files / 664 tests; Playwright passes 214/214; the production
+PWA lifecycle passes 1/1; the production performance proxy passes 1/1. The focused persistence
+suite passes 16/16. Initial JavaScript gzip remains within budget at 144,864 bytes.
+**Insight:** A deadline without transaction cancellation creates an unknown late-write outcome.
+Cancellation, queue health, and workflow generation are one reliability contract.
+**Promoted to Lessons Learned:** Yes — bounded async writes with cancellation and generation
+isolation.

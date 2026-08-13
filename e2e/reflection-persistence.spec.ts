@@ -1,10 +1,15 @@
 import { expect, test, type Page } from '@playwright/test'
+import {
+  SESSION_WRITE_TIMEOUT_MS,
+  type SessionWriteDiagnostic,
+} from '../src/features/check-in/workflow/session-write-coordinator'
 import { completeQuick, openApp, openArrival } from './helpers'
 
 type InstrumentedWindow = Window & {
   __pendingSessionTransactions: number
   __releaseSessionTransactions: () => void
   __sessionPutAttempts: number
+  __sessionWriteDiagnostics: SessionWriteDiagnostic[]
 }
 
 async function instrumentSessionWrites(page: Page, failures: number) {
@@ -83,6 +88,16 @@ async function putAttempts(page: Page) {
   return page.evaluate(() => (window as InstrumentedWindow).__sessionPutAttempts)
 }
 
+async function captureSessionWriteDiagnostics(page: Page) {
+  await page.evaluate(() => {
+    const target = window as InstrumentedWindow
+    target.__sessionWriteDiagnostics = []
+    window.addEventListener('emot-id:session-write', (event) => {
+      target.__sessionWriteDiagnostics.push((event as CustomEvent<SessionWriteDiagnostic>).detail)
+    })
+  })
+}
+
 test.describe('Reflection persistence trust', () => {
   test('keeps the one-tap exit visible on a compact mobile viewport', async ({ page }) => {
     await page.setViewportSize({ width: 320, height: 568 })
@@ -143,6 +158,41 @@ test.describe('Reflection persistence trust', () => {
     await expect.poll(() => putAttempts(page)).toBe(3)
     await page.getByRole('button', { name: 'Journal', exact: true }).click()
     await expect(page.locator('.journal-list button')).toHaveCount(1)
+  })
+
+  test('bounds a stuck save and recovers only after the underlying transaction settles', async ({ page }) => {
+    await instrumentSessionWrites(page, 0)
+    await holdTransactionCompletions(page)
+    await openApp(page)
+    await captureSessionWriteDiagnostics(page)
+    await page.clock.install()
+    await completeQuick(page, 'anxiety')
+
+    await expect(page.locator('.session-save-status')).toContainText('Saving your check-in')
+    await expect.poll(() => putAttempts(page)).toBe(1)
+    await page.clock.fastForward(SESSION_WRITE_TIMEOUT_MS)
+    await expect(page.locator('.session-save-status')).toContainText('latest selection has not been saved yet')
+
+    await page.getByRole('button', { name: 'Try saving again' }).click()
+    await expect(page.locator('.session-save-status')).toContainText('latest selection has not been saved yet')
+    await expect.poll(() => putAttempts(page)).toBe(1)
+
+    await page.evaluate(() => (window as InstrumentedWindow).__releaseSessionTransactions())
+    await expect.poll(() => page.evaluate(() => (
+      window as InstrumentedWindow
+    ).__sessionWriteDiagnostics.map(({ outcome }) => outcome))).toEqual([
+      'timed-out',
+      'rejected-degraded',
+      'settled-late',
+    ])
+
+    await page.getByRole('button', { name: 'Try saving again' }).click()
+    await expect.poll(() => putAttempts(page)).toBe(2)
+    await expect.poll(() => page.evaluate(
+      () => (window as InstrumentedWindow).__pendingSessionTransactions,
+    )).toBe(1)
+    await page.evaluate(() => (window as InstrumentedWindow).__releaseSessionTransactions())
+    await expect(page.locator('.session-save-status')).toContainText('Check-in saved')
   })
 
   test('continues without false success after a Romanian save failure', async ({ page }) => {

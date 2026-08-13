@@ -1,191 +1,270 @@
 # Remaining Product Plan
 
-Status: core mobile migration complete. Remaining work is native-mobile verification, correction of
-demonstrated defects, and release sign-off. Updated August 12, 2026.
+Status: core mobile migration and automated platform coverage complete. Remaining work is focused
+reliability, psychological safety, interaction simplification, human validation, and release
+closure. Updated August 13, 2026.
 
-This document is the current execution plan. Historical implementation detail belongs in
-`ITERATION_LOG.md`; release requirements belong in `docs/release-quality-gates.md`; run evidence
-belongs in `docs/physical-release-evidence.md`.
+This is the only active implementation plan. Historical work belongs in `ITERATION_LOG.md`, release
+criteria in `docs/release-quality-gates.md`, and run evidence in
+`docs/physical-release-evidence.md`.
 
-## Current State
+## Current Baseline
 
-### Complete
+### Strong and complete
 
-- Today, Arrival, Explore, Journal, Settings, Privacy, and Support use the routed mobile shell.
-- Quick, Body Compass, Affect Map, Word Ladder, and Plutchik converge through one Reflection,
-  crisis-evaluation, and persistence boundary.
-- Results are tentative; inferred meaning, needs, next steps, and external AI exploration require
-  explicit user choice.
-- Word Ladder allows direct completion at an intermediary emotion and keeps leaf descriptions
-  fail-closed unless a complete reviewed sibling group exists.
-- English and Romanian copy, reviewed psychological provenance, local-only persistence, export,
-  deletion, offline use, update survival, dark theme, keyboard use, and mobile reflow have automated
-  coverage.
-- CI, the 212-case Playwright matrix, the production PWA lifecycle, and browser performance budgets
-  pass.
-- Installed macOS Safari passed the bounded EN/RO Quick, Word intermediary, and tier-4 audit.
-- Pixel 6a passed the functional Android journey matrix. The complete browser J1-J9 matrix passes
-  EN/RO in light/dark, 36/36, with real TalkBack state, native key activation, TTS dispatch, route
-  postconditions, and four local audio/language diagnostics; installed J5 and J6/J8 checkpoints
-  also passed historically.
-- The repository-owned Appium/XCUITest runner passes the complete 36-row J1-J9 EN/RO acceptance
-  matrix on named iPhone SE and iPhone 17 Pro profiles. It preserves Simulator state, validates
-  candidate identity, and writes native screenshots plus a JSON report.
-- The bounded P36 matrix passes 6/6 real-Safari variants: compact onboarding focus, SE landscape,
-  17 Pro landscape, dark Word Ladder, and Quick/tier-4 at 200% Safari Page Zoom plus accessibility
-  text. It verifies visual-viewport bounds, reflow, focus, contrast, action bounds, sticky overlap,
-  candidate assets, and restoration of Simulator and Safari state.
-- One machine-readable acceptance contract owns J1-J9 IDs/titles, EN/RO scope, and result classes.
-  Playwright, Android, and Appium register all nine journeys; SafariDriver registers J5/J8/J9.
-  Platform steps, selectors, fixtures, and lifecycle remain local.
+- Today, Arrival, Explore, Journal, Settings, Privacy, Support, check-in routes, and Reflection use
+  one routed mobile shell and one completion/persistence boundary.
+- Quick, Body Compass, Affect Map, Word Ladder, and Plutchik all reach the same tentative Reflection
+  flow. Users can reject results, stop early, and avoid optional interpretation.
+- Data stays on-device. There is no account, telemetry, backend, or cloud sync. Google AI Mode is an
+  explicit external handoff and external links are independently controllable.
+- English/Romanian, light/dark, keyboard, reflow, focus, PWA lifecycle, and performance budgets have
+  broad automated coverage. The latest full Playwright matrix passed 214/214; the latest unit run
+  passed 664/664.
+- Android browser TalkBack supporting automation passed J1-J9 in all EN/RO and light/dark
+  combinations, 36/36, plus four local audio/language diagnostics. iOS Simulator, macOS Safari,
+  and production PWA supporting suites are complete within their documented capability limits.
 
-### Confirmed Open Gates
+### Known open risks
 
-1. Human-operated and installed-mode TalkBack remain incomplete. The complete automated browser
-   J1-J9 matrix passes EN/RO with real TalkBack state, TTS dispatch, native key activation, and
-   route postconditions, but CDP establishes focus; this remains supporting evidence rather than
-   gesture, spoken-order, or speech-quality sign-off. App language and Romanian AX names are
-   correct, while Android, Chrome, and the final Romanian audio-check voices are configured
-   `en-US`; configure Romanian TalkBack/TTS before any Romanian pronunciation-quality claim.
-2. No distinct low-tier Android performance profile has been measured.
-3. The current candidate cannot receive physical sign-off until the required exact-candidate rows
-   are rerun or explicitly waived.
+1. Three recent high-distress sessions automatically increase the displayed crisis tier. This
+   conflicts with the product contract that selected words must not be treated as evidence of
+   present danger or self-harm intent.
+2. Saving is enabled by default and disclosed on Today/Privacy, but the first-run introduction does
+   not make the storage choice explicit before the first check-in is saved.
+3. Journal aggregate evidence is gated by three total sessions, not by evidence relevant to each
+   metric. One somatic entry can therefore appear as a body "pattern" when two unrelated sessions
+   merely satisfy the global threshold.
+4. `Unpack a moment` is a seven-required-field partial behavior-chain exercise. Its dormant copy
+   calls it DBT, but it duplicates triggering/prompting events and omits important links and
+   alternatives. The clinical label promises more than the product implements.
+5. Vocabulary practice says there is no score but ends with counts of "clear" and "unsure"
+   choices. This can turn uncertainty into apparent underperformance.
+6. Romanian still uses evaluative or literal language such as `verificare` for check-in and
+   `caracterul plăcut` for pleasantness. Plutchik and external-search labels also expose avoidable
+   model or product jargon.
+7. Today leads to a four-choice Arrival screen before the user can begin. Explore gives five
+   methods equal visual weight. Both are understandable, but more choice than the core task needs.
+8. Human TalkBack gestures/spoken order, Romanian TalkBack pronunciation, installed Android mode,
+   a distinct low-tier Android timing profile, and final exact-candidate sign-off remain open or
+   need explicit release dispositions.
 
-Simulator installed-PWA identity and VoiceOver speech/rotor/gesture automation remain unsupported
-capabilities. Physical iPhone testing is explicitly outside project scope; neither limitation is an
-open release gate or a basis for claiming VoiceOver coverage.
+Physical iPhone testing remains outside scope. Simulator VoiceOver is not represented as physical
+screen-reader evidence.
 
-P35 and P36 reproduced and fixed four product defects: missing tier-4 focus handoff, a visible
-noninteractive onboarding outline, 200% Page Zoom overflow caused by the global 320px minimum, and
-focused destinations clipped outside the visual viewport. No unresolved product defect remains
-from the Simulator matrices.
+## Prioritized Audit
 
-## Product And Psychological Guardrails
+### P1 - High
 
-- Reduce evaluative threat: invite observation; do not imply a test, score, diagnosis, or correct
-  emotional answer.
-- Preserve agency: every inferred meaning, need, action, and external handoff stays optional,
-  reversible, and explicitly chosen.
-- Match cognitive load to the likely moment: one decision at a time, short labels, progressive
-  disclosure, and a clear stopping action.
-- Maintain epistemic humility: model output is a possibility, not a fact about the user.
-- Separate support from inference: crisis resources remain deterministic, auditable, and available
-  before reflective detail without claiming that selected words prove danger.
-- Do not add explanatory copy by default. Prefer structure, order, labeling, and direct actions.
-- Do not infer personal meaning from release fixtures or retain private journal content in evidence.
+#### Persistence can wait forever
 
-## UI/UX Principles Equivalent To Architecture Principles
+`useCheckInWorkflow` serializes writes by chaining every save behind the previous promise. It has
+no deadline, unhealthy state, or reset generation. A stuck IndexedDB operation therefore leaves
+the user waiting indefinitely and makes Retry ineffective because Retry joins the same queue.
 
-| Architecture principle | UI/UX equivalent | Operational rule for Emot-ID |
-| --- | --- | --- |
-| KISS | Clarity over cleverness | One primary task and one dominant action per state; plain language; no decorative interaction that needs explanation. |
-| YAGNI | Evidence before interface | Add a control, screen, option, or explanation only for an observed user need or release risk. |
-| DRY | Consistency with purpose | Repeated actions keep the same name, placement, feedback, and focus behavior; do not force different tasks into one generic component. |
-| Rule of Three | Pattern after repetition | Standardize an interaction after three real occurrences reveal the stable pattern; keep the first two implementations local. |
-| SoC | One concern per moment | Separate input, interpretation, safety, persistence, and settings; reveal secondary concerns progressively. |
-| POLA | Predictability and user control | Match platform conventions, preserve input, make consequences explicit, and return focus/navigation where the user expects. |
-| Fail Fast | Early, local, recoverable feedback | Expose unavailable actions and failures at the point of action; explain recovery without losing work or showing false success. |
-| Gall's Law | Progressive enhancement from a working path | Start with the smallest complete journey, verify it with users and assistive technology, then add variants without replacing the proven core. |
+Decision: introduce one small, workflow-local write coordinator. It serializes writes, reports
+`idle | writing | degraded`, fails the UI after a bounded deadline, rejects later retries quickly
+while the underlying write remains unresolved, and ignores late results from an obsolete workflow
+generation. It records only operation ID, kind, duration, and outcome; never emotion content.
 
-Supporting usability principles:
+Do not add a generic repository framework, event bus, telemetry service, or application state
+machine.
 
-- Visibility of system status: pending, saved, not saved, offline, and gated states are explicit.
-- Recognition over recall: visible choices and path context; no requirement to remember model terms.
-- Error prevention before error messaging: disable unsafe completion, confirm destructive actions,
-  and retain retryable input.
-- Accessibility as interaction quality: semantic order, focus, speech, touch size, contrast, reflow,
-  reduced motion, and text scaling are product behavior, not post-release polish.
-- Minimum necessary interruption: overlays only for genuinely blocking decisions; all fixed overlays
-  portal to `document.body` and trap/restore focus.
+#### Historical labels alter crisis prominence
 
-## Architecture Direction
+The current temporal rule turns repeated label-derived tiers into a stronger current tier. Even
+though the UI describes resources as support rather than diagnosis, the behavior can feel like
+surveillance or a hidden risk assessment. It also contradicts the repository's own psychological
+copy contract.
 
-The highest-impact small improvement, a platform-neutral acceptance-journey manifest, is complete.
+Decision: remove temporal tier escalation. Keep support permanently reachable in Settings and keep
+the current-session deterministic visibility rules until a separately validated product decision
+changes them. Historical entries may never increase urgency by themselves.
 
-The manifest may own:
+#### Sensitive local storage lacks first-run choice
 
-- journey ID, risk, prerequisites, languages, and supported modes;
-- semantic checkpoints and expected outcomes;
-- required evidence and result classification;
-- no driver selectors, protocol calls, device lifecycle, or product state mutation.
+Local-only storage is privacy-preserving, but automatic storage of emotional entries is still a
+meaningful consequence. The user sees the local-storage status on Today only after onboarding.
 
-Each adapter keeps its natural mechanics: Playwright, Android ADB/CDP, macOS SafariDriver, and iOS
-Appium/XCUITest. This removes drift without creating a universal automation framework.
+Decision: add a compact save-on-device choice to the final introduction step, enabled by default,
+with the same preference and wording used by Privacy. No new onboarding screen. Introduction stays
+optional and replayable.
 
-Architecture rules:
+### P2 - Medium
 
-- Keep the client-only boundary; no backend, telemetry, device cloud, or outbound behavior without
-  explicit product/security intent.
-- Keep `App` as the single completion, crisis, Reflection, and persistence boundary.
-- Keep route input local until a demonstrated interruption requires lifting it.
-- Keep lifecycle, protocol client, journey intent, evidence writing, and result classification
-  separate.
-- Preflight all external capabilities before starting servers, simulators, browsers, or evidence
-  directories.
-- Never clear or seed the public production origin by default. Destructive reset requires an
-  explicit local origin and explicit flag.
-- Extract shared behavior after repeated use; do not build a workflow DSL, page-object hierarchy,
-  generic state machine, or test-device platform.
+#### Journal summaries overstate evidence
+
+The UI uses one global three-session gate for vocabulary, weekly valence, and somatic frequency.
+Use per-summary eligibility and factual labels such as `observations` or `counts`; do not call a
+small sample a personal pattern. Rejected suggestions remain excluded. A body summary requires its
+own minimum number of somatic entries.
+
+#### Journal exercise overclaims and over-demands
+
+Replace the partial DBT claim with a neutral four-part reflection: what happened; what was noticed
+(feelings, thoughts, body, urges); what the person did; what followed or might help next. Keep
+responses optional except for the minimum needed to save a meaningful entry. Preserve Back,
+entered text, retry, local deletion, and bilingual parity.
+
+#### Vocabulary practice creates an implicit score
+
+Remove clear/unsure totals and performance-like completion copy. Retain `not sure` as an equal,
+valid answer and provide descriptive distinctions only after a choice. Finish with a neutral close
+or restart action.
+
+#### Language is too evaluative or technical
+
+Run one controlled EN/RO terminology pass across visible surfaces:
+
+- replace Romanian `verificare` according to context with `moment de reflecție`, `înregistrare`, or
+  a direct action;
+- explain the affect axis as how pleasant or unpleasant the state feels; keep short axis labels;
+- describe Plutchik's eight choices as starting emotions in this model, not universal primaries;
+- label the handoff `Explore in Google AI Mode` / Romanian equivalent, without changing the fixed
+  query or `udm=50` behavior;
+- replace `What you may need` with the less essentializing `What might help` where appropriate;
+- remove causal, trait, achievement, and obsolete cross-model copy that is no longer rendered.
+
+#### Onboarding primes explanations
+
+The current second screen suggests boundaries, loss, and uncertainty before the user has observed
+anything. Replace it with a shorter statement: feelings can have more than one meaning; context and
+the user's judgment decide what fits. Combine this with the save-on-device choice.
+
+### P3 - Lower, evidence-driven
+
+#### Entry and Explore require excess choice
+
+Respect the earlier product decision that Place the Feeling is the most important route:
+
+- Today primary action opens Affect Map directly;
+- a secondary `Help me choose` action opens the existing two-question guide;
+- direct method selection remains in Explore instead of being repeated in Arrival;
+- Explore separates three naming routes from two learning/practice routes, rather than presenting
+  five equal cards.
+
+Validate this change with users before removing any route. Do not add another hub or tutorial.
+
+#### Settled save status competes with the result
+
+Keep saving/error state programmatically announced, but reduce the visual prominence of the settled
+`saved` state. Pending and error states remain prominent and recoverable.
+
+## Architecture Assessment
+
+### Keep
+
+- client-only deployment and explicit outbound-link boundary;
+- feature registry and lazy route loading;
+- one check-in workflow for completion, safety, Reflection, and persistence;
+- route-local input state and typed navigation snapshots;
+- semantic color tokens and shared mobile shell;
+- machine-readable acceptance manifest with driver-specific adapters;
+- deterministic safety data and fail-closed reviewed catalog content.
+
+### Change
+
+The highest-impact small architectural improvement is the workflow-local write coordinator
+described in P41. It improves reliability, clarity, observability, debuggability, and testability
+without changing repositories or adding a broad abstraction.
+
+Secondarily, make evidence eligibility explicit per Journal summary. One pure policy module may own
+the small thresholds and eligibility predicates. It must not become an analytics framework.
+
+### Do not change
+
+- no React Router migration, global state library, backend, telemetry, database rewrite, design
+  system project, workflow DSL, or universal device-test framework;
+- no component extraction based only on file length;
+- no global coverage target. Add tests at changed risk boundaries; current product modules already
+  have materially stronger coverage than platform-driver scripts.
 
 ## Recommended Sequence
 
-### P38 - Apple Simulator Acceptance Closure (Complete)
+### P41 - Persistence Reliability Boundary (complete)
 
-1. Added the complete J1-J9 Appium matrix in EN/RO on both named profiles.
-2. Kept the 16-row smoke and six-row robustness suites separate for efficient diagnosis.
-3. Recorded Simulator evidence honestly without physical-device or VoiceOver claims.
+1. Added a workflow-local coordinator with an eight-second deadline, serialized healthy writes,
+   generation isolation, degraded-state rejection, and privacy-safe transient diagnostics.
+2. Added `AbortSignal` support to the IndexedDB session write so a genuine pending transaction is
+   cancelled instead of merely abandoned.
+3. Reused the existing recoverable save-error UI. Retry is blocked while a non-cancellable test
+   transaction remains unresolved, then succeeds after settlement without changing session ID.
+4. Added deterministic coordinator, hook, and repository tests plus a controlled-clock WebKit and
+   Chromium regression for timeout, retry, late settlement, and diagnostics.
+5. Verified `npm run check` (84 files / 664 tests), Playwright (214/214), production PWA (1/1), and
+   production performance (1/1).
 
-### P39 - Android Physical Closure
+Exit: no UI state can remain pending forever; late writes cannot overwrite current state; normal
+save behavior and session identity remain unchanged.
 
-Complete foundation:
+### P42 - Safety, Consent, and Controlled Language (next)
 
-- One pure, tested preflight boundary now validates exact device count/authorization, unlock state,
-  Android identity, TalkBack enabled/bound/touch-exploration state, external keyboard, and WebAPK
-  availability before evidence or CDP side effects.
-- The physical runner records that snapshot plus local Git identity and guarantees browser/CDP
-  cleanup.
-- The dedicated TalkBack runner covers browser J1-J9 EN/RO in light/dark. It owns local production serving,
-  TalkBack/ADB lifecycle, native activation, TTS readiness, language attribution, screenshots,
-  accessibility trees, postconditions, and optional local audio/TTS-voice correlation. Pixel
-  browser passes 36/36 plus 4/4 audio checkpoints as supporting evidence.
-- Native Enter testing found and fixed onboarding focus restoration. Non-intrusive mid-row capture
-  prevents UI Automator from restarting TalkBack/TTS during J9.
+1. Red-first tests remove historical tier escalation while preserving current-session support
+   visibility and tier-4 acknowledgment behavior.
+2. Delete temporal escalation state/copy/code and update the psychological contract evidence.
+3. Add the final-onboarding local-save choice using the existing setting and default-on behavior.
+4. Apply the bounded EN/RO terminology and onboarding pass. Keep Google query semantics unchanged.
+5. Run a separate psychological review, copy checks, crisis invariants, onboarding/replay tests,
+   EN/RO Playwright, dark/light, keyboard, and screen-reader semantics.
 
-Remaining sequence:
+Exit: history cannot raise current urgency; storage is transparent before first use; visible copy
+is non-evaluative, idiomatic, and behaviorally accurate.
 
-1. Pixel 6a: human gesture, spoken-order, and pronunciation review for browser J1-J9; then cover
-   installed mode in EN/RO. Configure Romanian Android/TalkBack/TTS before Romanian speech review.
-2. Distinct low-tier Android: three-run production timing matrix from
-   `docs/release-quality-gates.md`.
-3. Retain spoken order, focus/gesture behavior, exact candidate identity, screenshots/video, and
-   private-data-free notes.
+### P43 - Journal and Learning Surface Simplification
 
-Exit criteria: every required Android row passes or has an explicit accepted disposition.
-Supporting automation is never promoted to assistive-technology evidence.
+1. Add failing per-metric Journal evidence tests, then replace the global presentation gate.
+2. Migrate existing chain data without loss; simplify new entries to the neutral four-part model.
+3. Remove score-like granularity summaries and obsolete unused i18n/history copy.
+4. Verify existing records, export/delete behavior, error recovery, EN/RO, 320px/200% reflow,
+   keyboard/focus, dark/light, and Playwright Journal/Explore journeys.
 
-### P40 - Release Sign-Off
+Exit: no clinical overclaim, no forced seven-field task, no uncertainty score, and no summary shown
+from unrelated evidence.
 
-1. Freeze one candidate SHA and deploy it.
-2. Run clean install, dependency, automated, native supporting, physical AT, and performance gates
-   against that exact candidate.
-3. Consolidate results in `docs/physical-release-evidence.md`; remove superseded candidate rows from
-   the active matrix while retaining history in Git and `ITERATION_LOG.md`.
-4. Confirm zero unresolved release-blocking defects and record the final decision.
+### P44 - Entry and Explore Information Architecture
 
-## Explicit Non-Goals
+1. Characterize existing route/deep-link/back behavior before changing navigation.
+2. Make Place the Feeling the direct Today action and keep Help me choose as secondary support.
+3. Group Explore into naming and learning sections using existing routes and components.
+4. Verify route history, interruption/recovery, focus handoff, touch geometry, small/large mobile,
+   EN/RO, light/dark, WebKit/Chromium, and PWA update survival.
 
-- No leaf-description generation without new observation evidence.
-- No telemetry, accounts, cloud sync, AI API, or backend.
-- No redesign based only on Simulator screenshots.
-- No universal test framework, device farm, React Router migration, datastore rewrite, or broad
-  design-system project.
-- No physical iPhone acquisition or testing.
-- No claim that Simulator VoiceOver, desktop VoiceOver, Playwright WebKit, or DevTools activation is
-  physical mobile screen-reader acceptance.
+Exit: a new user can start the primary method in one tap, ask for guidance in one tap, and find all
+other methods without a new navigation layer.
 
-## Decision Rule
+### P45 - Moderated Comprehension Validation
 
-Continue P39 with human/installed TalkBack only when Android hardware and owner presence are
-available. Otherwise obtain the distinct low-tier timing profile or proceed to P40 candidate freeze
-with an explicit disposition for remaining physical rows. Keep the acceptance contract and
-automated/native supporting gates green without adding another test abstraction.
+Run five to eight short, local, task-based sessions across Romanian and English where feasible. Do
+not collect telemetry. Observe without coaching:
+
+- start Place the Feeling and start with Help me choose;
+- select an intermediary Word Ladder term;
+- reject a Reflection result and finish;
+- explain what is saved locally and what the Google handoff sends;
+- use Journal reflection and `not sure` vocabulary practice.
+
+Record completion, hesitation, wrong turns, interpretation of urgency, and user wording. Fix only
+repeated or high-severity findings. Three occurrences may justify a shared interaction pattern;
+one occurrence may justify a fix when safety or data loss is involved.
+
+### P46 - Release Closure
+
+1. Decide explicit pass/waive/defer dispositions for human TalkBack browser/installed gestures and
+   spoken order, Romanian TalkBack pronunciation, and distinct low-tier Android timing.
+2. Freeze one candidate SHA and deploy it.
+3. Run clean install, dependency, `npm run check`, full Playwright, PWA, performance, simulator,
+   macOS Safari, and available Android supporting gates against that exact candidate.
+4. Consolidate evidence and record zero unresolved release-blocking defects.
+
+## Verification Rule
+
+Every phase starts with a failing test at the behavior boundary, then the smallest implementation,
+focused verification, and finally the complete repository gates. Visual and accessibility changes
+require rendered Playwright checks in EN/RO and light/dark. Safety changes require explicit
+deterministic invariants and separate psychological review. Persistence tests use controllable
+promises and clocks, never arbitrary sleeps.
+
+## Decision
+
+Implement P42 next. The temporal crisis rule is a contract-level safety problem, and first-run
+storage transparency plus the bounded bilingual terminology pass fit the same trust boundary.

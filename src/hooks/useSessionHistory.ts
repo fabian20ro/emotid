@@ -21,8 +21,8 @@ export function useSessionHistory() {
       .finally(() => setLoading(false))
   }, [])
 
-  const save = useCallback(async (session: Session) => {
-    await saveSession(session)
+  const save = useCallback(async (session: Session, signal?: AbortSignal) => {
+    await saveSession(session, signal)
     setSessions((prev) => [session, ...prev.filter((s) => s.id !== session.id)])
   }, [])
 
