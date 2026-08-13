@@ -601,7 +601,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .guided-feedback { margin-top: 12px; padding: 13px 14px; border-left: 4px solid var(--blue); background: var(--blue-soft); color: var(--ink); }
 .guided-feedback strong { font-size: 13px; line-height: 1.45; }
 .guided-feedback p { margin: 6px 0 0; color: var(--ink-muted); font-size: 12px; line-height: 1.5; }
-.guided-primary { margin-top: 16px; }
+.guided-primary-action { position: sticky; bottom: 0; z-index: 5; margin-top: 16px; padding-top: 12px; background: linear-gradient(to bottom, transparent, var(--surface) 22%); }
+.guided-primary { margin-top: 0; }
 .guided-actions { margin-top: 18px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
 .guided-complete > p, .guided-success > p, .guided-empty > p { color: var(--ink-muted); line-height: 1.55; }
 .guided-field-label { display: block; margin-bottom: 9px; color: var(--ink); font-size: 16px; font-weight: 700; line-height: 1.4; }

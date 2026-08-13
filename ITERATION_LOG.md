@@ -2301,3 +2301,31 @@ bytes, all within budget.
 measurement paths; otherwise the benchmark silently measures obsolete information architecture.
 **Promoted to Lessons Learned:** No — covered by documentation/source verification and behavioral
 contract guidance.
+
+---
+
+### [2026-08-13] Preflight moderated comprehension validation
+
+**Context:** P45 needed one auditable bilingual protocol before participant sessions, plus an
+expert cognitive walkthrough that did not misrepresent automation as human evidence.
+**What happened:**
+- Replaced the narrower Word Ladder observation guide with one six-task protocol covering entry
+  choice, intermediary completion, result rejection, local-save and Google teach-back, minimal
+  Journal entry, and uncertainty during vocabulary practice.
+- Defined participant mix, synthetic task cards, neutral moderation, privacy limits, observation
+  fields, aggregate-only repository evidence, and explicit pass/correction thresholds.
+- Started from failing copy contracts. Replaced the loaded "all fit" uncertainty explanation with
+  the reason-neutral Not sure yet / Nu știu încă choice and neutral continuation feedback.
+- Added compact EN/RO x light/dark browser assertions for feedback and action discoverability. The
+  first 320x568 run found Continue completely below the viewport; a route-local sticky action fixed
+  the defect without introducing a shared layout abstraction.
+**Outcome:** Expert preflight complete. Participant evidence remains deliberately open.
+`npm run check` passes 84 files / 664 tests. Playwright passes 248/248 across Mobile Safari and
+Mobile Chrome, including the eight-scenario EN/RO x light/dark uncertainty matrix. The production
+PWA lifecycle and performance proxy each pass 1/1. Initial JavaScript gzip is 143,754 bytes, entry
+JavaScript gzip is 43,113 bytes, and production assets total 887,658 bytes, all within budget.
+**Insight:** An uncertainty option must not prescribe why someone is uncertain. Automation that can
+scroll to click a control can still hide a first-viewport discoverability defect, so critical
+compact actions need explicit viewport assertions.
+**Promoted to Lessons Learned:** No new entry; existing non-directive language and viewport
+visibility lessons already cover both findings.

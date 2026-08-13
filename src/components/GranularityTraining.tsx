@@ -68,7 +68,7 @@ export function GranularityTraining({ isOpen, onClose }: GranularityTrainingProp
       granularityT.feedbackSelected ?? 'You chose {emotion}. If that is closest to your experience, your choice is valid.',
       { emotion: getGranularityLabel(currentAnswer, language) },
     )
-    : granularityT.feedbackNotSure ?? "It's okay not to be sure. Nuance develops with practice."
+    : granularityT.feedbackNotSure ?? 'You can continue without choosing among these words.'
 
   const handleContinue = () => {
     if (!currentSet || currentAnswer === null) return
@@ -129,7 +129,7 @@ export function GranularityTraining({ isOpen, onClose }: GranularityTrainingProp
               )
             })}
             <button type="button" onClick={() => setCurrentAnswer('not-sure')} aria-pressed={currentAnswer === 'not-sure'} className={`guided-option guided-unsure${currentAnswer === 'not-sure' ? ' is-selected' : ''}`}>
-              {granularityT.notSure ?? "I'm not sure — they all fit"}
+              {granularityT.notSure ?? 'Not sure yet'}
             </button>
           </div>
           {currentAnswer && (
@@ -138,9 +138,11 @@ export function GranularityTraining({ isOpen, onClose }: GranularityTrainingProp
               <p>{feedbackLine2}</p>
             </div>
           )}
-          <button type="button" onClick={handleContinue} disabled={currentAnswer === null} className="primary-button guided-primary">
-            {granularityT.continue ?? 'Continue'}
-          </button>
+          <div className="guided-primary-action">
+            <button type="button" onClick={handleContinue} disabled={currentAnswer === null} className="primary-button guided-primary">
+              {granularityT.continue ?? 'Continue'}
+            </button>
+          </div>
         </section>
       )}
     </div>

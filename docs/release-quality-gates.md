@@ -26,6 +26,17 @@ platform steps, selectors, fixtures, and lifecycle remain in their adapters.
 Plutchik. The JSON artifact includes transfer/decoded bytes, resource paths, long tasks, and
 elapsed time. CI timing is diagnostic because shared runners do not represent physical devices.
 
+## Moderated Comprehension Acceptance
+
+Before release freeze, run the six-task local protocol in
+`docs/moderated-comprehension-validation.md` with six participants. Record only aggregate,
+non-identifying results in the repository. Expert walkthroughs and automated journeys establish the
+preflight but cannot satisfy the participant thresholds.
+
+Repeated comprehension failures require a bounded fix and a rerun with new participants. One
+finding is sufficient when it concerns safety, privacy, accessibility, data loss, or an irreversible
+action. An explicit release waiver must name any unrun or failed task and its residual risk.
+
 ## Native Desktop Safari Supporting Gate
 
 Playwright's Mobile Safari project uses a WebKit test build, not the installed `Safari.app`. On a

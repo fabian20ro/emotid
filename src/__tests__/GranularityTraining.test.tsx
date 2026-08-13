@@ -52,9 +52,9 @@ describe('GranularityTraining', () => {
     const user = userEvent.setup()
     renderTraining()
 
-    await user.click(screen.getByRole('button', { name: "I'm not sure — they all fit" }))
+    await user.click(screen.getByRole('button', { name: 'Not sure yet' }))
 
-    expect(screen.getByText(/It's okay not to be sure/i)).toBeInTheDocument()
+    expect(screen.getByText('You can continue without choosing among these words.')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Continue' })).toBeEnabled()
   })
 
@@ -87,7 +87,7 @@ describe('GranularityTraining', () => {
     await user.click(screen.getByRole('button', { name: 'anxiety' }))
     await user.click(screen.getByRole('button', { name: 'Continue' }))
 
-    await user.click(screen.getByText("I'm not sure — they all fit"))
+    await user.click(screen.getByText('Not sure yet'))
     await user.click(screen.getByRole('button', { name: 'Continue' }))
 
     // Continue through remaining steps with selections

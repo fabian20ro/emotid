@@ -155,4 +155,11 @@ describe('psychological copy contract', () => {
     expect(en.crisis).not.toHaveProperty('temporalNote')
     expect(ro.crisis).not.toHaveProperty('temporalNote')
   })
+
+  it('keeps vocabulary uncertainty neutral instead of assuming every option fits', () => {
+    expect(en.granularity.notSure).toBe('Not sure yet')
+    expect(ro.granularity.notSure).toBe('Nu știu încă')
+    expect(en.granularity.feedbackNotSure).toBe('You can continue without choosing among these words.')
+    expect(ro.granularity.feedbackNotSure).toBe('Puteți continua fără să alegeți dintre aceste cuvinte.')
+  })
 })

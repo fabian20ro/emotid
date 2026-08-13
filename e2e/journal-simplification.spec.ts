@@ -17,7 +17,8 @@ const scenarios = [
     cancel: 'Cancel',
     explore: 'Explore',
     practice: /practice emotional vocabulary/i,
-    notSure: "I'm not sure — they all fit",
+    notSure: 'Not sure yet',
+    uncertaintyFeedback: 'You can continue without choosing among these words.',
     continue: 'Continue',
     complete: 'Practice session completed',
     removedLabels: ['Clear choices', 'Unsure choices'],
@@ -37,7 +38,8 @@ const scenarios = [
     cancel: 'Cancel',
     explore: 'Explore',
     practice: /practice emotional vocabulary/i,
-    notSure: "I'm not sure — they all fit",
+    notSure: 'Not sure yet',
+    uncertaintyFeedback: 'You can continue without choosing among these words.',
     continue: 'Continue',
     complete: 'Practice session completed',
     removedLabels: ['Clear choices', 'Unsure choices'],
@@ -57,7 +59,8 @@ const scenarios = [
     cancel: 'Anulați',
     explore: 'Explorează',
     practice: /exersați vocabularul emoțional/i,
-    notSure: 'Nu știu încă — toate par potrivite',
+    notSure: 'Nu știu încă',
+    uncertaintyFeedback: 'Puteți continua fără să alegeți dintre aceste cuvinte.',
     continue: 'Continuați',
     complete: 'Sesiunea de practică este finalizată',
     removedLabels: ['Alegeri clare', 'Alegeri nesigure'],
@@ -77,7 +80,8 @@ const scenarios = [
     cancel: 'Anulați',
     explore: 'Explorează',
     practice: /exersați vocabularul emoțional/i,
-    notSure: 'Nu știu încă — toate par potrivite',
+    notSure: 'Nu știu încă',
+    uncertaintyFeedback: 'Puteți continua fără să alegeți dintre aceste cuvinte.',
     continue: 'Continuați',
     complete: 'Sesiunea de practică este finalizată',
     removedLabels: ['Alegeri clare', 'Alegeri nesigure'],
@@ -132,7 +136,10 @@ for (const scenario of scenarios) {
     await page.getByRole('button', { name: scenario.practice }).click()
     for (let step = 0; step < 5; step += 1) {
       await page.getByRole('button', { name: scenario.notSure }).click()
-      await page.getByRole('button', { name: scenario.continue }).click()
+      await expect(page.getByText(scenario.uncertaintyFeedback)).toBeVisible()
+      const continueButton = page.getByRole('button', { name: scenario.continue })
+      await expect(continueButton).toBeInViewport()
+      await continueButton.click()
     }
     await expect(page.getByRole('heading', { name: scenario.complete })).toBeVisible()
     await expect(page.locator('.guided-summary')).toHaveCount(0)
