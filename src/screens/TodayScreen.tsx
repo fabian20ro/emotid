@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { ArrowRight, Check, CircleHelp, Crosshair, LockKeyhole } from 'lucide-react'
 import { useLanguage } from '../context/LanguageContext'
 import { quickEmotions } from '../models/catalog/quick'
@@ -20,9 +20,16 @@ export function TodayScreen({ sessions, saveSessions, onPlaceFeeling, onHelpChoo
   const t = section('today')
   const recent = sessions[0]
   const [quickSelection, setQuickSelection] = useState<BaseEmotion | null>(null)
+  const quickContinueRef = useRef<HTMLButtonElement>(null)
   const quickLabel = quickSelection?.label[language].toLocaleLowerCase(
     language === 'ro' ? 'ro-RO' : 'en-US',
   )
+
+  useEffect(() => {
+    if (quickSelection) {
+      quickContinueRef.current?.scrollIntoView?.({ block: 'nearest', inline: 'nearest' })
+    }
+  }, [quickSelection])
 
   const continueQuick = () => {
     if (!quickSelection) return
@@ -74,6 +81,7 @@ export function TodayScreen({ sessions, saveSessions, onPlaceFeeling, onHelpChoo
         </div>
         {quickSelection && (
           <button
+            ref={quickContinueRef}
             type="button"
             className="primary-button quick-continue"
             data-testid="quick-continue"

@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { render, screen, within } from '@testing-library/react'
+import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { LanguageProvider } from '../context/LanguageContext'
 import { storage } from '../data/storage'
@@ -43,6 +43,30 @@ describe('TodayScreen quick commitment', () => {
       expect.objectContaining({ id: 'anxiety' }),
       expect.objectContaining({ id: 'anxiety' }),
     )
+  })
+
+  it('reveals the commitment action after selection without moving focus or submitting', async () => {
+    const user = userEvent.setup()
+    const scrollIntoView = vi.fn()
+    const originalScrollIntoView = Element.prototype.scrollIntoView
+    Element.prototype.scrollIntoView = scrollIntoView
+
+    try {
+      const { onQuickComplete } = renderToday()
+      const anxiety = screen.getByTestId('quick-feeling-anxiety')
+
+      await user.click(anxiety)
+
+      const commitment = screen.getByRole('button', { name: 'Continue with anxiety' })
+      await waitFor(() => {
+        expect(scrollIntoView).toHaveBeenCalledWith({ block: 'nearest', inline: 'nearest' })
+      })
+      expect(anxiety).toHaveFocus()
+      expect(commitment).not.toHaveFocus()
+      expect(onQuickComplete).not.toHaveBeenCalled()
+    } finally {
+      Element.prototype.scrollIntoView = originalScrollIntoView
+    }
   })
 
   it('allows correction before commitment and normalizes visible casing', async () => {
