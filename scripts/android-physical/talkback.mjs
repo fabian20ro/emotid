@@ -117,17 +117,29 @@ export function parseVolumeDetect(output) {
   }
 }
 
-export function buildAudioLanguageDiagnostic({ appLanguage, detectedLanguage, probability, transcript }) {
+export function buildAudioLanguageDiagnostic({
+  appLanguage,
+  detectedLanguage,
+  probability,
+  transcript,
+  dispatchedVoices = [],
+}) {
   const languageMatch = appLanguage === detectedLanguage
+  const expectedPrefix = appLanguage === 'ro' ? 'ro' : 'en'
+  const appVoiceMatch = dispatchedVoices.some((voice) => voice.toLowerCase().startsWith(expectedPrefix))
   return {
     appLanguage,
     detectedLanguage,
     probability,
     transcript,
     languageMatch,
-    attribution: languageMatch
+    dispatchedVoices: [...new Set(dispatchedVoices)],
+    appVoiceMatch,
+    attribution: appVoiceMatch && languageMatch
       ? 'app-and-assistive-technology-output-aligned'
-      : 'mixed-or-assistive-technology-output-language-mismatch',
+      : appVoiceMatch
+        ? 'localized-app-voice-with-mixed-assistive-technology-output'
+        : 'mixed-or-assistive-technology-output-language-mismatch',
   }
 }
 

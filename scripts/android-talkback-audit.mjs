@@ -295,7 +295,7 @@ async function stopAudioCapture(capture) {
   if (!existsSync(capture.filePath)) throw new Error('Audio capture produced no file')
 }
 
-function analyzeAudioCapture({ capture, outputDir, name, appLanguage, theme, prerequisites }) {
+function analyzeAudioCapture({ capture, outputDir, name, appLanguage, theme, prerequisites, tts }) {
   const wavPath = path.join(outputDir, `${name}.wav`)
   execFileSync('ffmpeg', [
     '-y', '-hide_banner', '-loglevel', 'error', '-i', capture.filePath,
@@ -332,7 +332,10 @@ function analyzeAudioCapture({ capture, outputDir, name, appLanguage, theme, pre
       detectedLanguage: detected[1].toLowerCase(),
       probability: Number(detected[2]),
       transcript,
+      dispatchedVoices: tts.dispatches,
     }),
+    ttsRequests: tts.requests,
+    ttsNotReady: tts.ttsNotReady,
   }
 }
 
@@ -351,6 +354,8 @@ async function runAudioCheckpoint({ page, language, theme, outputDir, prerequisi
     await wait(1_500)
   }
   await stopAudioCapture(capture)
+  const logcat = adb('logcat', '-d', '-v', 'threadtime')
+  await writeFile(path.join(outputDir, `${name}-logcat.txt`), `${logcat}\n`)
   return analyzeAudioCapture({
     capture,
     outputDir,
@@ -358,6 +363,7 @@ async function runAudioCheckpoint({ page, language, theme, outputDir, prerequisi
     appLanguage: language,
     theme,
     prerequisites,
+    tts: parseTalkBackTtsEvidence(logcat),
   })
 }
 

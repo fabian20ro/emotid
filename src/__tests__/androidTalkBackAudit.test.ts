@@ -131,13 +131,16 @@ describe('Android TalkBack supporting audit contract', () => {
       detectedLanguage: 'en',
       probability: 0.93,
       transcript: 'TalkBack on. Progres zero la sută.',
+      dispatchedVoices: ['ro-ro-x-vfv-lstm-embedded'],
     })).toEqual({
       appLanguage: 'ro',
       detectedLanguage: 'en',
       probability: 0.93,
       transcript: 'TalkBack on. Progres zero la sută.',
       languageMatch: false,
-      attribution: 'mixed-or-assistive-technology-output-language-mismatch',
+      dispatchedVoices: ['ro-ro-x-vfv-lstm-embedded'],
+      appVoiceMatch: true,
+      attribution: 'localized-app-voice-with-mixed-assistive-technology-output',
     })
   })
 
