@@ -18,10 +18,11 @@ async function saveQuickReflectionWithNextStep(page: Page) {
 async function saveChainEntry(page: Page) {
   await page.getByRole('button', { name: 'Journal', exact: true }).click()
   await page.getByRole('button', { name: 'Unpack a moment' }).click()
-  for (let index = 0; index < 7; index++) {
-    await page.getByRole('textbox').fill(`entry-${index}`)
-    await page.getByRole('button', { name: index === 6 ? 'Save chain' : 'Next' }).click()
-  }
+  await page.getByLabel('What happened?').fill('A plan changed suddenly.')
+  await page.getByLabel('What did you notice?').fill('Tension and worry.')
+  await page.getByLabel('What did you do?').fill('I paused.')
+  await page.getByLabel('What followed, or what might help next?').fill('More time might help.')
+  await page.getByRole('button', { name: 'Save reflection' }).click()
   await page.getByRole('button', { name: 'Done' }).click()
 }
 
@@ -93,12 +94,18 @@ test.describe('Journal data trust', () => {
     expect(path).not.toBeNull()
     const exported = JSON.parse(await readFile(path!, 'utf8'))
 
-    expect(exported.schemaVersion).toBe(2)
+    expect(exported.schemaVersion).toBe(3)
     expect(exported.sessions).toHaveLength(1)
     expect(exported.sessions[0].selectedNeed).toBe('grounding')
     expect(exported.sessions[0].nextStep).toEqual(expect.any(String))
     expect(exported.chainEntries).toHaveLength(1)
-    expect(exported.chainEntries[0].emotion).toBe('entry-3')
+    expect(exported.chainEntries[0]).toMatchObject({
+      version: 2,
+      situation: 'A plan changed suddenly.',
+      noticed: 'Tension and worry.',
+      response: 'I paused.',
+      outcome: 'More time might help.',
+    })
     expect(exported.preferences.theme).toBe('dark')
     expect(exported.preferences.allowExternalAI).toBe(false)
     expect(exported.preferences).not.toHaveProperty('soundMuted')
@@ -134,10 +141,10 @@ test.describe('Journal data trust', () => {
     await page.getByRole('button', { name: 'Journal', exact: true }).click()
     await expect(page.getByText('No saved reflections yet')).toBeVisible()
     await page.getByRole('button', { name: 'Unpack a moment' }).click()
-    await expect(page.getByText('Recent chains')).toHaveCount(0)
+    await expect(page.getByText('Recent reflections')).toHaveCount(0)
 
     await page.reload()
-    await expect(page.getByText('Recent chains')).toHaveCount(0)
+    await expect(page.getByText('Recent reflections')).toHaveCount(0)
   })
 
   test('localizes stored body region and sensation details in Romanian', async ({ page }) => {

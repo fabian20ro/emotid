@@ -130,4 +130,15 @@ test.describe('200% compact Safari page-zoom equivalent', () => {
     await page.getByRole('button', { name: 'Explorați mai mult' }).click()
     await expectNoHorizontalOverflow(page)
   })
+
+  test('Romanian Journal reflection reflows without horizontal scrolling', async ({ page }) => {
+    await openApp(page, { language: 'ro', theme: 'dark' })
+    await page.getByRole('button', { name: 'Jurnal', exact: true }).click()
+    await page.getByRole('button', { name: 'Desfaceți un moment' }).click()
+
+    await expect(page.getByRole('textbox')).toHaveCount(4)
+    await expectNoHorizontalOverflow(page)
+    await page.getByLabel('Ce s-a întâmplat?').fill('Un moment dificil')
+    await expectNoHorizontalOverflow(page)
+  })
 })

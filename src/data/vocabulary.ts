@@ -25,9 +25,11 @@ export function computeVocabulary(sessions: Session[]): VocabularyStats {
   const activeEmotionCounts = new Map<string, { count: number; label: { ro: string; en: string } }>()
   const perModelIds: Record<string, Set<string>> = {}
   const modelIds = new Set<string>()
+  let totalSessions = 0
 
   for (const session of sessions) {
     if (!isSessionEligibleForPatterns(session)) continue
+    totalSessions += 1
 
     modelIds.add(session.modelId)
     if (!perModelIds[session.modelId]) {
@@ -87,7 +89,7 @@ export function computeVocabulary(sessions: Session[]): VocabularyStats {
     passiveUniqueEmotionCount,
     perModel,
     modelsUsed: modelIds.size,
-    totalSessions: sessions.length,
+    totalSessions,
     milestone,
     topActiveEmotions,
   }

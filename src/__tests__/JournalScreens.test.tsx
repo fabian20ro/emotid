@@ -128,36 +128,47 @@ describe('Journal data display', () => {
     expect(screen.queryByText(/optional reflection details/i)).not.toBeInTheDocument()
   })
 
-  it('keeps sparse history as individual entries instead of presenting patterns', () => {
+  it('shows summaries only when their own evidence threshold is met', () => {
     const props = {
       loading: false,
       saveSessions: true,
       onOpenSession: vi.fn(),
       onOpenChain: vi.fn(),
     }
+    const unrelatedSessions = [0, 1, 2].map((index) => bodySession({
+      id: `quick-${index}`,
+      timestamp: Date.now() - index,
+      modelId: 'quick-check-in',
+      entryRoute: 'quick',
+      selections: [{ emotionId: 'joy', label: { ro: 'bucurie', en: 'joy' } }],
+      results: [{ id: 'joy', label: { ro: 'bucurie', en: 'joy' }, color: '#f00', valence: 0.8 }],
+      reflectionAnswer: undefined,
+    }))
+    const oneBodySession = bodySession({ id: 'body-1', timestamp: Date.now() })
     const { rerender } = withLanguage(
-      <JournalScreen {...props} sessions={[bodySession(), bodySession({ id: 'session-2' })]} />,
+      <JournalScreen {...props} sessions={[...unrelatedSessions, oneBodySession]} />,
     )
 
-    expect(screen.getByRole('heading', { name: 'Your first reflections' })).toBeInTheDocument()
-    expect(screen.queryByRole('heading', { name: 'What has appeared so far' })).not.toBeInTheDocument()
-    expect(document.querySelector('.journal-stats')).not.toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Observations from your reflections' })).toBeInTheDocument()
+    expect(document.querySelector('.journal-stats')).toBeInTheDocument()
+    expect(screen.queryByText('Body observations')).not.toBeInTheDocument()
 
     rerender(
       <LanguageProvider>
         <JournalScreen
           {...props}
           sessions={[
-            bodySession(),
-            bodySession({ id: 'session-2' }),
-            bodySession({ id: 'session-3' }),
+            ...unrelatedSessions,
+            oneBodySession,
+            bodySession({ id: 'body-2', timestamp: Date.now() - 1 }),
+            bodySession({ id: 'body-3', timestamp: Date.now() - 2 }),
           ]}
         />
       </LanguageProvider>,
     )
 
-    expect(screen.getByRole('heading', { name: 'What has appeared so far' })).toBeInTheDocument()
-    expect(document.querySelector('.journal-stats')).toBeInTheDocument()
+    expect(screen.getByText('Body observations')).toBeInTheDocument()
+    expect(screen.getByText('Chest (3)')).toBeInTheDocument()
   })
 
   it('deletes only after confirmation and restores focus when cancelled', async () => {

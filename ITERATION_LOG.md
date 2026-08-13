@@ -2243,3 +2243,34 @@ controls need compact-height coverage, and psychological safety claims must be e
 data boundary rather than left to explanatory copy.
 **Promoted to Lessons Learned:** No new entry; the active behavioral-contract and compact mobile
 layout lessons already cover these findings. The obsolete temporal-escalation lesson was archived.
+
+---
+
+### [2026-08-13] Simplify Journal evidence and reflection exercises
+
+**Context:** P43 addressed three remaining trust costs: one global Journal threshold let unrelated
+entries unlock summaries, the journal exercise forced seven fields while implying a partial DBT
+protocol, and vocabulary practice converted uncertainty into a completion total.
+**What happened:**
+- Started with 14 failing behavior tests. Replaced the global Journal gate with one pure policy
+  containing metric-local three-entry thresholds for chosen/confirmed vocabulary, current-week
+  valence observations, and somatic entries with selected regions.
+- Replaced the seven-step journal worksheet with one four-part form: situation is required;
+  noticed experience, response, and outcome or possible support are optional. New records use a
+  version-2 discriminated shape; old seven-field records remain readable and export unchanged.
+- Raised the user-data export envelope to schema version 3, preserving both record variants. Added
+  a portaled, focus-trapped confirmation for deleting journal exercises, including failure recovery.
+- Removed clear/unsure totals and dormant score/DBT/history copy in English and Romanian while
+  retaining immediate descriptive distinctions and an equal `not sure` path.
+- Added a 320x568 EN/RO x light/dark WebKit/Chromium matrix covering save, reload, deletion focus,
+  compact layout, and score-free completion, plus a 200% compact Romanian reflow case. Early test
+  failures corrected assumptions about reload returning to Today and the exact Romanian tab label.
+**Outcome:** `npm run check` passes 83 files / 658 tests. Playwright passes 232/232 across Mobile
+Safari and Mobile Chrome. The production PWA lifecycle and performance proxy each pass 1/1.
+Initial JavaScript gzip is 143,596 bytes, entry JavaScript gzip is 42,955 bytes, and production
+assets total 886,336 bytes, all within budget.
+**Insight:** A shared minimum is not a valid evidence policy when summaries consume different data.
+Metric-local eligibility prevents unrelated observations from manufacturing apparent patterns.
+Versioned union reads preserve local records more simply and safely than an eager datastore rewrite.
+**Promoted to Lessons Learned:** Yes — expanded the longitudinal UI lesson to require metric-local
+evidence and reject global-gate contamination.

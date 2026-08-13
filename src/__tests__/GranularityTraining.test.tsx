@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
-import { render, screen, within } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { GranularityTraining } from '../components/GranularityTraining'
 import { LanguageProvider } from '../context/LanguageContext'
@@ -58,7 +58,7 @@ describe('GranularityTraining', () => {
     expect(screen.getByRole('button', { name: 'Continue' })).toBeEnabled()
   })
 
-  it('completes after 5 steps, shows summary, and can restart', async () => {
+  it('completes after 5 steps without scoring answers and can restart', async () => {
     const user = userEvent.setup()
     renderTraining()
 
@@ -70,15 +70,16 @@ describe('GranularityTraining', () => {
     }
 
     expect(screen.getByText('Practice session completed')).toBeInTheDocument()
-    expect(within(screen.getByText('Clear choices').closest('div')!).getByText('5')).toBeInTheDocument()
-    expect(within(screen.getByText('Unsure choices').closest('div')!).getByText('0')).toBeInTheDocument()
+    expect(screen.queryByText('Clear choices')).not.toBeInTheDocument()
+    expect(screen.queryByText('Unsure choices')).not.toBeInTheDocument()
+    expect(screen.queryByText(/^5$/)).not.toBeInTheDocument()
 
     await user.click(screen.getByRole('button', { name: 'Restart' }))
     expect(screen.getByText('Step 1 of 5')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Continue' })).toBeDisabled()
   })
 
-  it('tracks unsure choices in the completion summary', async () => {
+  it('finishes the not-sure path without reporting it as a result', async () => {
     const user = userEvent.setup()
     renderTraining()
 
@@ -97,8 +98,9 @@ describe('GranularityTraining', () => {
     }
 
     expect(screen.getByText('Practice session completed')).toBeInTheDocument()
-    expect(within(screen.getByText('Clear choices').closest('div')!).getByText('4')).toBeInTheDocument()
-    expect(within(screen.getByText('Unsure choices').closest('div')!).getByText('1')).toBeInTheDocument()
+    expect(screen.queryByText('Clear choices')).not.toBeInTheDocument()
+    expect(screen.queryByText('Unsure choices')).not.toBeInTheDocument()
+    expect(screen.queryByText(/^1$/)).not.toBeInTheDocument()
   })
 
   it('renders as a routed screen with a Back affordance', () => {

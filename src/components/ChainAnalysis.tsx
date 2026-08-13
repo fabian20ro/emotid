@@ -1,38 +1,41 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent } from 'react'
+import { Trash2 } from 'lucide-react'
 import { useLanguage } from '../context/LanguageContext'
 import { ScreenHeader } from './ScreenHeader'
-import type { ChainAnalysisEntry } from '../data/types'
+import { ModalShell } from './ModalShell'
+import { useFocusTrap } from '../hooks/useFocusTrap'
+import type { ChainAnalysisEntry, ChainReflectionEntry } from '../data/types'
 
-type ChainFieldId =
-  | 'triggeringEvent'
-  | 'vulnerabilityFactors'
-  | 'promptingEvent'
-  | 'emotion'
-  | 'urge'
-  | 'action'
-  | 'consequence'
+type ReflectionField = 'situation' | 'noticed' | 'response' | 'outcome'
+type ReflectionFields = Pick<ChainReflectionEntry, ReflectionField>
 
-type ChainFields = Record<ChainFieldId, string>
-
-const EMPTY_FIELDS: ChainFields = {
-  triggeringEvent: '',
-  vulnerabilityFactors: '',
-  promptingEvent: '',
-  emotion: '',
-  urge: '',
-  action: '',
-  consequence: '',
+const EMPTY_FIELDS: ReflectionFields = {
+  situation: '',
+  noticed: '',
+  response: '',
+  outcome: '',
 }
 
-const STEPS: ChainFieldId[] = [
-  'triggeringEvent',
-  'vulnerabilityFactors',
-  'promptingEvent',
-  'emotion',
-  'urge',
-  'action',
-  'consequence',
+const FIELDS: { id: ReflectionField; required: boolean }[] = [
+  { id: 'situation', required: true },
+  { id: 'noticed', required: false },
+  { id: 'response', required: false },
+  { id: 'outcome', required: false },
 ]
+
+function isCurrentEntry(entry: ChainAnalysisEntry): entry is ChainReflectionEntry {
+  return 'version' in entry && entry.version === 2
+}
+
+function getEntryPreview(entry: ChainAnalysisEntry): { title: string; detail: string } {
+  if (isCurrentEntry(entry)) {
+    return {
+      title: entry.situation,
+      detail: entry.outcome || entry.response || entry.noticed,
+    }
+  }
+  return { title: entry.emotion, detail: entry.consequence }
+}
 
 interface ChainAnalysisProps {
   isOpen: boolean
@@ -53,112 +56,159 @@ export function ChainAnalysis({
 }: ChainAnalysisProps) {
   const { section, language } = useLanguage()
   const chainT = section('chainAnalysis')
-  const historyT = section('history')
-  const [stepIndex, setStepIndex] = useState(0)
-  const [fields, setFields] = useState<ChainFields>(EMPTY_FIELDS)
+  const [fields, setFields] = useState<ReflectionFields>(EMPTY_FIELDS)
   const [saved, setSaved] = useState(false)
+  const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [confirmOpen, setConfirmOpen] = useState(false)
+  const [clearing, setClearing] = useState(false)
+  const [clearError, setClearError] = useState(false)
+  const clearTriggerRef = useRef<HTMLButtonElement>(null)
+  const cancelRef = useRef<HTMLButtonElement>(null)
+  const closeConfirm = useCallback(() => {
+    if (clearing) return
+    setConfirmOpen(false)
+    setClearError(false)
+  }, [clearing])
+  const focusTrapRef = useFocusTrap(confirmOpen, closeConfirm, cancelRef, clearTriggerRef)
 
   useEffect(() => {
     if (!isOpen) {
-      setStepIndex(0)
       setFields(EMPTY_FIELDS)
       setSaved(false)
+      setSaving(false)
       setError(null)
+      setConfirmOpen(false)
+      setClearing(false)
+      setClearError(false)
     }
   }, [isOpen])
 
-  const currentStep = STEPS[stepIndex]
-  const isLastStep = stepIndex === STEPS.length - 1
-  const canAdvance = fields[currentStep].trim().length > 0
-
   const recentEntries = useMemo(() => entries.slice(0, 3), [entries])
+  const canSave = fields.situation.trim().length > 0 && !saving
 
-  const saveEntry = async () => {
-    const entry: ChainAnalysisEntry = {
+  const saveEntry = async (event: FormEvent) => {
+    event.preventDefault()
+    if (!canSave) return
+
+    const entry: ChainReflectionEntry = {
       id: crypto.randomUUID(),
       timestamp: Date.now(),
-      ...fields,
+      version: 2,
+      situation: fields.situation.trim(),
+      noticed: fields.noticed.trim(),
+      response: fields.response.trim(),
+      outcome: fields.outcome.trim(),
     }
+    setSaving(true)
+    setError(null)
     try {
       await onSave(entry)
       setSaved(true)
-      setError(null)
-    } catch (e) {
-      setError((e as Error)?.message ?? 'Failed to save chain')
+    } catch (cause) {
+      setError((cause as Error)?.message ?? chainT.saveError)
+    } finally {
+      setSaving(false)
     }
   }
 
-  const handlePrimary = async () => {
-    if (!canAdvance) return
-    if (isLastStep) {
-      await saveEntry()
-      return
+  const clearEntries = async () => {
+    if (clearing) return
+    setClearing(true)
+    setClearError(false)
+    try {
+      await onClearAll()
+      setConfirmOpen(false)
+    } catch {
+      setClearError(true)
+    } finally {
+      setClearing(false)
     }
-    setError(null)
-    setStepIndex((prev) => prev + 1)
   }
-
-  const stepTitle = chainT[currentStep] ?? currentStep
-  const stepPlaceholder = chainT[`${currentStep}Placeholder` as keyof typeof chainT] as string | undefined
 
   if (!isOpen) return null
 
   return (
     <div className="screen guided-screen" data-testid="chain-screen">
-      <ScreenHeader onBack={onClose} eyebrow={chainT.eyebrow} title={chainT.title ?? 'Unpack a moment'} lede={chainT.prompt} />
+      <ScreenHeader onBack={onClose} eyebrow={chainT.eyebrow} title={chainT.title} lede={chainT.prompt} />
 
       {!saved ? (
-        <section className="guided-step" aria-labelledby="chain-step-title">
-          <div className="guided-progress">
-            <span>{chainT.progress.replace('{current}', String(stepIndex + 1)).replace('{total}', String(STEPS.length))}</span>
-            <progress value={stepIndex + 1} max={STEPS.length} />
-          </div>
-          <label id="chain-step-title" className="guided-field-label" htmlFor="chain-step-input">{stepTitle}</label>
-          <textarea
-            id="chain-step-input"
-            value={fields[currentStep]}
-            onChange={(event) => {
-              const value = event.target.value
-              setFields((prev) => ({ ...prev, [currentStep]: value }))
-            }}
-            placeholder={stepPlaceholder ?? ''}
-            className="guided-textarea"
-          />
+        <form className="chain-form" onSubmit={(event) => { void saveEntry(event) }}>
+          {FIELDS.map(({ id, required }) => (
+            <label className="chain-field" key={id} htmlFor={`chain-${id}`}>
+              <span>{chainT[id]}{!required && <small>{chainT.optional}</small>}</span>
+              <textarea
+                id={`chain-${id}`}
+                aria-label={chainT[id]}
+                value={fields[id]}
+                required={required}
+                onChange={(event) => setFields((current) => ({ ...current, [id]: event.target.value }))}
+                placeholder={chainT[`${id}Placeholder` as keyof typeof chainT] as string}
+                className="guided-textarea"
+              />
+            </label>
+          ))}
           {error && <p className="guided-error" role="alert">{error}</p>}
-          <div className="guided-actions">
-            <button type="button" onClick={() => setStepIndex((prev) => Math.max(0, prev - 1))} disabled={stepIndex === 0} className="secondary-button">
-              {chainT.back ?? 'Previous step'}
-            </button>
-            <button type="button" onClick={() => { void handlePrimary() }} disabled={!canAdvance} className="primary-button">
-              {isLastStep ? (chainT.save ?? 'Save chain') : (chainT.next ?? 'Next')}
-            </button>
-          </div>
-        </section>
+          <button type="submit" disabled={!canSave} className="primary-button guided-primary">
+            {saving ? chainT.saving : chainT.save}
+          </button>
+        </form>
       ) : (
         <section className="guided-success" aria-live="polite">
           <h2>{chainT.savedTitle}</h2>
-          <p>{chainT.saved ?? 'Chain saved. You can review patterns over time.'}</p>
-          <button type="button" onClick={onClose} className="primary-button">{chainT.done ?? 'Done'}</button>
+          <p>{chainT.saved}</p>
+          <button type="button" onClick={onClose} className="primary-button">{chainT.done}</button>
         </section>
       )}
 
       {!loading && recentEntries.length > 0 && (
         <section className="guided-recent" aria-labelledby="recent-chains-title">
           <div className="guided-recent-heading">
-            <h2 id="recent-chains-title">{chainT.recent ?? 'Recent chains'}</h2>
-            <button type="button" onClick={() => { void onClearAll() }} className="text-button danger-text">{historyT.clearAll ?? 'Clear all data'}</button>
+            <h2 id="recent-chains-title">{chainT.recent}</h2>
+            <button ref={clearTriggerRef} type="button" onClick={() => setConfirmOpen(true)} className="text-button danger-text">{chainT.clear}</button>
           </div>
           <div className="guided-recent-list">
-            {recentEntries.map((entry) => (
-              <div key={entry.id}>
-                <small>{new Date(entry.timestamp).toLocaleString(language === 'ro' ? 'ro-RO' : 'en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</small>
-                <strong>{entry.emotion}</strong>
-                <span>{entry.consequence}</span>
-              </div>
-            ))}
+            {recentEntries.map((entry) => {
+              const preview = getEntryPreview(entry)
+              return (
+                <div key={entry.id}>
+                  <small>{new Date(entry.timestamp).toLocaleString(language === 'ro' ? 'ro-RO' : 'en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</small>
+                  <strong>{preview.title}</strong>
+                  {preview.detail && <span>{preview.detail}</span>}
+                </div>
+              )
+            })}
           </div>
         </section>
+      )}
+
+      {confirmOpen && (
+        <ModalShell
+          onClose={closeConfirm}
+          focusTrapRef={focusTrapRef}
+          labelledBy="clear-chain-title"
+          describedBy="clear-chain-description"
+          backdropClassName="dialog-backdrop"
+          viewportClassName="dialog-viewport"
+          panelClassName="confirm-dialog"
+          panelProps={{
+            initial: { scale: 0.97, y: 8 },
+            animate: { scale: 1, y: 0 },
+            exit: { scale: 0.97, y: 8 },
+            transition: { duration: 0.14 },
+          }}
+        >
+          <h2 id="clear-chain-title">{chainT.confirmTitle}</h2>
+          <p id="clear-chain-description">{chainT.confirmBody}</p>
+          {clearError && <p className="privacy-feedback" role="alert">{chainT.clearError}</p>}
+          <div className="confirm-dialog-actions">
+            <button ref={cancelRef} type="button" className="secondary-button" disabled={clearing} onClick={closeConfirm}>{chainT.cancel}</button>
+            <button type="button" className="danger-button" disabled={clearing} onClick={() => { void clearEntries() }}>
+              <Trash2 size={18} aria-hidden="true" />
+              {clearing ? chainT.clearing : chainT.confirmAction}
+            </button>
+          </div>
+        </ModalShell>
       )}
     </div>
   )

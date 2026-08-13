@@ -1,6 +1,6 @@
 # Frontend Codemap
 
-**Last Updated:** 2026-08-04
+**Last Updated:** 2026-08-13
 
 ## Component Tree
 
@@ -26,7 +26,7 @@ App (src/App.tsx)
  +-- PrivacyDataScreen            # Storage, export, destructive confirmation*
  +-- SupportScreen                # Crisis and product boundaries
  +-- GranularityTraining          # Full-screen practice flow
- +-- ChainAnalysis                # Full-screen DBT worksheet
+ +-- ChainAnalysis                # Four-part optional Journal reflection
 ```
 
 `*` Destructive confirmations use `ModalShell`, portaled to `document.body` with focus trapping.
@@ -75,10 +75,15 @@ mobile scale.
 
 ### Journal Evidence and Deletion
 
-`hasJournalPatternEvidence` is the single threshold for aggregate Journal summaries. Fewer than
-three saved reflections show an early-history explanation and the individual entries only; three or
-more reveal counts and recurring dimensions. The threshold controls presentation, not storage or
-emotion interpretation.
+`getJournalEvidence` owns three metric-local thresholds. Vocabulary requires three chosen or
+confirmed result entries, current-week valence requires three eligible entries with valence data,
+and body observations require three somatic entries with selected regions. Unrelated entries can
+never unlock another metric. The policy controls presentation only; it adds no derived history.
+
+`ChainAnalysisEntry` is a discriminated union. New entries use the version-2 four-part shape
+(`situation`, `noticed`, `response`, `outcome`); old seven-field records remain readable and are
+exported unchanged. The single-page form requires only the situation. Clearing journal exercises
+uses the same portaled, focus-trapped confirmation contract as other destructive actions.
 
 Session Detail delegates one-entry deletion to the existing `useSessionHistory.remove` operation.
 The destructive confirmation is portaled and focus-trapped, reports repository failures in place,

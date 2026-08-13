@@ -1,9 +1,9 @@
 # Remaining Product Plan
 
-Status: core mobile migration, persistence hardening, current-session safety semantics, and
-first-run storage transparency complete. Remaining work: Journal simplification, primary-entry
-information architecture, moderated comprehension validation, and release closure. Updated
-August 13, 2026.
+Status: core mobile migration, persistence hardening, current-session safety semantics, first-run
+storage transparency, and Journal simplification complete. Remaining work: primary-entry
+information architecture, moderated comprehension validation, and release closure. Updated August
+13, 2026.
 
 This is the only active implementation plan. Historical work belongs in `ITERATION_LOG.md`,
 release criteria in `docs/release-quality-gates.md`, and candidate evidence in
@@ -25,6 +25,9 @@ release criteria in `docs/release-quality-gates.md`, and candidate evidence in
 - Visible EN/RO language uses reflection rather than assessment terminology, explains Affect Map
   dimensions in ordinary language, identifies Plutchik choices as model-specific starting
   emotions, and names Google AI Mode directly.
+- Journal summaries use metric-local evidence thresholds. The journal exercise is one optional
+  four-part reflection, legacy seven-field records remain readable/exportable, and vocabulary
+  practice reports no certainty totals.
 - English/Romanian, light/dark, keyboard, reflow, focus, PWA lifecycle, and performance budgets
   have broad automated coverage. Historical physical and simulator evidence retains the limits
   documented in `docs/physical-release-evidence.md`.
@@ -34,15 +37,9 @@ screen-reader evidence.
 
 ## Open Risks
 
-1. Journal aggregates use one global three-session gate. One somatic entry can appear as a body
-   pattern after two unrelated reflections satisfy the threshold.
-2. `Unpack a moment` requires seven fields and dormant copy calls it DBT, while the implementation
-   duplicates triggering/prompting events and omits important links and alternatives.
-3. Vocabulary practice says there is no score but ends with clear/unsure totals, which can make
-   uncertainty feel like underperformance.
-4. Today adds a route-choice step before Place the Feeling, and Explore gives naming and learning
+1. Today adds a route-choice step before Place the Feeling, and Explore gives naming and learning
    methods equal weight.
-5. Moderated comprehension evidence and final exact-candidate release dispositions remain open.
+2. Moderated comprehension evidence and final exact-candidate release dispositions remain open.
 
 ## Architecture Direction
 
@@ -55,11 +52,12 @@ screen-reader evidence.
 - deterministic crisis data and fail-closed reviewed catalog content;
 - machine-readable acceptance manifest with platform-local adapters.
 
-### Next Small Improvement
+### Next Change Boundary
 
-Add one pure Journal evidence-policy module containing only per-summary eligibility predicates and
-small thresholds. It replaces the misleading global gate and gives tests one auditable boundary.
-It must not become an analytics framework, scoring service, or generic rules engine.
+P44 needs no new architectural layer. Extend the existing typed Today callbacks so the primary
+action starts Affect Map and the secondary action opens Arrival. Group the existing Explore item
+array in presentation only. Do not introduce a router, navigation service, or generalized menu
+schema.
 
 ### Avoid
 
@@ -69,24 +67,7 @@ three real uses or when a safety/data-loss boundary requires one owner.
 
 ## Recommended Sequence
 
-### P43 - Journal and Learning Surface Simplification (next)
-
-1. Add red-first tests for each Journal metric, then replace the global presentation gate with the
-   pure evidence policy. Body summaries require their own somatic evidence; labels remain factual
-   counts or observations, not personal patterns.
-2. Characterize stored chain records and export behavior. Migrate existing data without loss, then
-   simplify new entries to four neutral parts: what happened; what was noticed; what the person
-   did; what followed or might help next. Require only enough content to save a meaningful entry.
-3. Remove clear/unsure totals and score-like completion copy from vocabulary practice. Keep
-   `not sure` equal to any other answer and retain descriptive distinctions after a choice.
-4. Remove only proven-unused causal, trait, achievement, and cross-model i18n/history copy.
-5. Verify legacy records, export/delete, recovery, EN/RO, 320px and 200% reflow, keyboard/focus,
-   light/dark, and complete WebKit/Chromium Journal/Explore journeys.
-
-Exit: no summary appears from unrelated evidence; no clinical overclaim; no forced seven-field
-task; no uncertainty score; old local records remain readable and exportable.
-
-### P44 - Entry and Explore Information Architecture
+### P44 - Entry and Explore Information Architecture (next)
 
 1. Characterize current deep-link, Back/Forward, interruption, and recovery behavior before edits.
 2. Make Place the Feeling the direct Today primary action. Keep Help me choose as the secondary
@@ -131,6 +112,5 @@ and separate psychological review. Persistence tests use controllable promises a
 
 ## Decision
 
-Implement P43 next. Per-metric evidence eligibility is the smallest high-impact architecture
-change and removes the most misleading remaining psychological claim before the larger entry-flow
-reordering.
+Implement P44 next. It removes one decision step from the primary Place the Feeling journey while
+keeping guidance and every existing method reachable through the current navigation model.

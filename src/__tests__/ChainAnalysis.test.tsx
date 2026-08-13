@@ -16,197 +16,164 @@ function renderChain(overrides: Partial<React.ComponentProps<typeof ChainAnalysi
   }
 
   return {
-    ...render(
-      <LanguageProvider>
-        <ChainAnalysis {...defaults} />
-      </LanguageProvider>
-    ),
+    ...render(<LanguageProvider><ChainAnalysis {...defaults} /></LanguageProvider>),
     props: defaults,
   }
 }
 
 describe('ChainAnalysis', () => {
-  it('requires input before advancing and saves a full chain', async () => {
+  it('shows one four-part reflection and requires only what happened', async () => {
     const user = userEvent.setup()
     const onSave = vi.fn().mockResolvedValue(undefined)
     renderChain({ onSave })
 
-    const nextButton = screen.getByRole('button', { name: 'Next' })
-    expect(nextButton).toBeDisabled()
+    expect(screen.getAllByRole('textbox')).toHaveLength(4)
+    expect(screen.getByLabelText('What happened?')).toBeRequired()
+    expect(screen.getByLabelText('What did you notice?')).not.toBeRequired()
+    expect(screen.getByLabelText('What did you do?')).not.toBeRequired()
+    expect(screen.getByLabelText('What followed, or what might help next?')).not.toBeRequired()
+    expect(screen.getByRole('button', { name: 'Save reflection' })).toBeDisabled()
 
-    const prompts = [
-      'What happened right before this started?',
-      'What made you more vulnerable today?',
-      'What was the exact prompting event?',
-      'What emotion did you feel most strongly?',
-      'What urge showed up?',
-      'What action did you take?',
-      'What happened after that action?',
-    ]
+    await user.type(screen.getByLabelText('What happened?'), 'I received difficult feedback.')
+    await user.click(screen.getByRole('button', { name: 'Save reflection' }))
 
-    for (let i = 0; i < prompts.length; i++) {
-      expect(screen.getByText(prompts[i])).toBeInTheDocument()
-      await user.type(screen.getByRole('textbox'), `entry-${i}`)
-      await user.click(screen.getByRole('button', { name: i === prompts.length - 1 ? 'Save chain' : 'Next' }))
-    }
-
-    await waitFor(() => {
-      expect(onSave).toHaveBeenCalledTimes(1)
-    })
-
+    await waitFor(() => expect(onSave).toHaveBeenCalledTimes(1))
     expect(onSave.mock.calls[0][0]).toMatchObject({
-      triggeringEvent: 'entry-0',
-      vulnerabilityFactors: 'entry-1',
-      promptingEvent: 'entry-2',
-      emotion: 'entry-3',
-      urge: 'entry-4',
-      action: 'entry-5',
-      consequence: 'entry-6',
+      version: 2,
+      situation: 'I received difficult feedback.',
+      noticed: '',
+      response: '',
+      outcome: '',
     })
   })
 
-  it('renders nothing and does not fire callbacks when closed', () => {
-    const onClose = vi.fn()
-    renderChain({ isOpen: false, onClose })
+  it('saves all optional parts when provided', async () => {
+    const user = userEvent.setup()
+    const onSave = vi.fn().mockResolvedValue(undefined)
+    renderChain({ onSave })
 
-    expect(screen.queryByRole('heading', { name: /chain analysis/i })).not.toBeInTheDocument()
-    expect(onClose).not.toHaveBeenCalled()
+    await user.type(screen.getByLabelText('What happened?'), 'A meeting changed suddenly.')
+    await user.type(screen.getByLabelText('What did you notice?'), 'Tension, worry, and an urge to leave.')
+    await user.type(screen.getByLabelText('What did you do?'), 'I asked for five minutes.')
+    await user.type(screen.getByLabelText('What followed, or what might help next?'), 'A short pause helped.')
+    await user.click(screen.getByRole('button', { name: 'Save reflection' }))
+
+    await waitFor(() => expect(onSave).toHaveBeenCalledTimes(1))
+    expect(onSave.mock.calls[0][0]).toMatchObject({
+      situation: 'A meeting changed suddenly.',
+      noticed: 'Tension, worry, and an urge to leave.',
+      response: 'I asked for five minutes.',
+      outcome: 'A short pause helped.',
+    })
   })
 
-  it('renders recent entries and clears them via clear-all action', async () => {
+  it('keeps legacy seven-field records readable without rewriting them', () => {
+    const legacyEntry = {
+      id: 'legacy-1',
+      timestamp: Date.now(),
+      triggeringEvent: 'message',
+      vulnerabilityFactors: 'little sleep',
+      promptingEvent: 'feedback',
+      emotion: 'anxiety',
+      urge: 'avoid',
+      action: 'paused',
+      consequence: 'felt steadier',
+    }
+    renderChain({ entries: [legacyEntry] })
+
+    expect(screen.getByText('anxiety')).toBeInTheDocument()
+    expect(screen.getByText('felt steadier')).toBeInTheDocument()
+    expect(legacyEntry).not.toHaveProperty('version')
+  })
+
+  it('shows a new reflection preview using factual entered text', () => {
+    renderChain({ entries: [{
+      id: 'current-1',
+      timestamp: Date.now(),
+      version: 2,
+      situation: 'A plan changed.',
+      noticed: 'I felt tense.',
+      response: '',
+      outcome: 'A pause might help.',
+    }] })
+
+    expect(screen.getByText('A plan changed.')).toBeInTheDocument()
+    expect(screen.getByText('A pause might help.')).toBeInTheDocument()
+  })
+
+  it('confirms deletion, restores focus on cancel, and clears only after confirmation', async () => {
     const user = userEvent.setup()
     const onClearAll = vi.fn().mockResolvedValue(undefined)
-
     renderChain({
-      entries: [
-        {
-          id: 'entry-1',
-          timestamp: Date.now(),
-          triggeringEvent: 'message',
-          vulnerabilityFactors: 'sleep',
-          promptingEvent: 'feedback',
-          emotion: 'anxiety',
-          urge: 'avoid',
-          action: 'withdrew',
-          consequence: 'felt stuck',
-        },
-      ],
+      entries: [{
+        id: 'current-1',
+        timestamp: Date.now(),
+        version: 2,
+        situation: 'A plan changed.',
+        noticed: '',
+        response: '',
+        outcome: '',
+      }],
       onClearAll,
     })
 
-    expect(screen.getByText('Recent chains')).toBeInTheDocument()
-    expect(screen.getByText('anxiety')).toBeInTheDocument()
-    await user.click(screen.getByRole('button', { name: 'Clear all data' }))
-    expect(onClearAll).toHaveBeenCalledTimes(1)
+    const trigger = screen.getByRole('button', { name: 'Delete journal exercises' })
+    await user.click(trigger)
+    const dialog = screen.getByRole('dialog', { name: 'Delete journal exercises?' })
+    expect(dialog.parentElement?.parentElement).toBe(document.body)
+    expect(screen.getByRole('button', { name: 'Cancel' })).toHaveFocus()
+    expect(onClearAll).not.toHaveBeenCalled()
+
+    await user.click(screen.getByRole('button', { name: 'Cancel' }))
+    await waitFor(() => expect(trigger).toHaveFocus())
+    await user.click(trigger)
+    await user.click(screen.getByRole('button', { name: 'Delete exercises' }))
+    await waitFor(() => expect(onClearAll).toHaveBeenCalledTimes(1))
   })
 
-  it('navigates forward and backward preserving step content', async () => {
+  it('keeps the confirmation and existing entries when deletion fails', async () => {
     const user = userEvent.setup()
-    renderChain()
-
-    // Step 0 (triggeringEvent): type and advance
-    await user.type(screen.getByRole('textbox'), 'trigger')
-    expect(await screen.findByText('Step 1 of 7')).toBeInTheDocument()
-
-    await user.click(screen.getByRole('button', { name: 'Next' }))
-    expect(await screen.findByText('Step 2 of 7')).toBeInTheDocument()
-
-    // Step 1 (vulnerabilityFactors): type and advance to step 2
-    await user.type(screen.getByRole('textbox'), 'sleep')
-    await user.click(screen.getByRole('button', { name: 'Next' }))
-    expect(await screen.findByText('Step 3 of 7')).toBeInTheDocument()
-
-    // Step 2 (promptingEvent): type content, then go Back — should return to step 1 with preserved text
-    await user.type(screen.getByRole('textbox'), 'feedback')
-
-    const backBtn = screen.getByRole('button', { name: 'Previous step' })
-    expect(backBtn).not.toBeDisabled()
-    await user.click(backBtn)
-
-    // Back on step 2 returns to step 1; content should still be present
-    const textarea = screen.getByDisplayValue('sleep') as HTMLTextAreaElement | null
-    expect(textarea).not.toBeNull()
-  })
-
-  it('disables the Back button at step 0 and re-enables it after advancing', async () => {
-    const user = userEvent.setup()
-    renderChain()
-
-    // Initial state: Back must be disabled — cannot go before the first step
-    const backBtn = screen.getByRole('button', { name: 'Previous step' })
-    expect(backBtn).toBeDisabled()
-
-    // Type content so Next is enabled; advance to step 1
-    await user.type(screen.getByRole('textbox'), 'trigger')
-    await user.click(screen.getByRole('button', { name: 'Next' }))
-
-    // After advancing, Back must be re-enabled
-    const updatedBackBtn = screen.getByRole('button', { name: 'Previous step' })
-    expect(updatedBackBtn).not.toBeDisabled()
-  })
-
-  it('shows success banner with Done button after saving', async () => {
-    const user = userEvent.setup()
-    renderChain()
-
-    const prompts = [
-      'What happened right before this started?',
-      'What made you more vulnerable today?',
-      'What was the exact prompting event?',
-      'What emotion did you feel most strongly?',
-      'What urge showed up?',
-      'What action did you take?',
-      'What happened after that action?',
-    ]
-
-    for (let i = 0; i < prompts.length; i++) {
-      await user.type(screen.getByRole('textbox'), `entry-${i}`)
-      await user.click(screen.getByRole('button', { name: i === prompts.length - 1 ? 'Save chain' : 'Next' }))
-    }
-
-    await waitFor(() => {
-      expect(screen.getByText('This reflection is now in your journal.')).toBeInTheDocument()
-      expect(screen.getByRole('button', { name: /done/i })).toBeVisible()
+    const onClearAll = vi.fn().mockRejectedValue(new Error('write failed'))
+    renderChain({
+      entries: [{
+        id: 'current-1',
+        timestamp: Date.now(),
+        version: 2,
+        situation: 'A plan changed.',
+        noticed: '',
+        response: '',
+        outcome: '',
+      }],
+      onClearAll,
     })
+
+    await user.click(screen.getByRole('button', { name: 'Delete journal exercises' }))
+    await user.click(screen.getByRole('button', { name: 'Delete exercises' }))
+
+    expect(await screen.findByRole('alert')).toHaveTextContent(
+      'The journal exercises could not be deleted. Your saved emotion reflections were not changed.',
+    )
+    expect(screen.getByRole('dialog', { name: 'Delete journal exercises?' })).toBeInTheDocument()
+    expect(screen.getByText('A plan changed.')).toBeInTheDocument()
   })
 
-  it('shows an inline alert when saving fails and keeps the screen open', async () => {
+  it('shows an inline alert when saving fails and preserves entered text', async () => {
     const user = userEvent.setup()
-    const saveError = new Error('network timeout')
-    const onSave = vi.fn().mockRejectedValue(saveError)
+    const onSave = vi.fn().mockRejectedValue(new Error('local write failed'))
     renderChain({ onSave })
 
-    const prompts = [
-      'What happened right before this started?',
-      'What made you more vulnerable today?',
-      'What was the exact prompting event?',
-      'What emotion did you feel most strongly?',
-      'What urge showed up?',
-      'What action did you take?',
-      'What happened after that action?',
-    ]
+    await user.type(screen.getByLabelText('What happened?'), 'A difficult moment.')
+    await user.click(screen.getByRole('button', { name: 'Save reflection' }))
 
-    for (let i = 0; i < prompts.length; i++) {
-      await user.type(screen.getByRole('textbox'), `entry-${i}`)
-      await user.click(screen.getByRole('button', { name: i === prompts.length - 1 ? 'Save chain' : 'Next' }))
-    }
-
-    // Save should have been attempted and thrown
-    expect(onSave).toHaveBeenCalledTimes(1)
-
-    // Error message from the rejected promise must appear inline
-    await waitFor(() => {
-      const errorEl = screen.getByText('network timeout')
-      expect(errorEl).toBeInTheDocument()
-      expect(errorEl).toHaveAttribute('role', 'alert')
-    })
-
-    expect(screen.getByTestId('chain-screen')).toBeInTheDocument()
-    expect(screen.queryByText('This reflection is now in your journal.')).not.toBeInTheDocument()
+    expect(await screen.findByRole('alert')).toHaveTextContent('local write failed')
+    expect(screen.getByLabelText('What happened?')).toHaveValue('A difficult moment.')
   })
 
-  it('does not render recent-chains section when no entries exist', () => {
-    renderChain({ entries: [] })
-    expect(screen.queryByText('Recent chains')).not.toBeInTheDocument()
+  it('renders nothing when closed and hides recent entries when empty', () => {
+    const { rerender } = renderChain({ entries: [] })
+    expect(screen.queryByText('Recent reflections')).not.toBeInTheDocument()
+
+    rerender(<LanguageProvider><ChainAnalysis isOpen={false} onClose={vi.fn()} entries={[]} loading={false} onSave={vi.fn()} onClearAll={vi.fn()} /></LanguageProvider>)
+    expect(screen.queryByTestId('chain-screen')).not.toBeInTheDocument()
   })
 })

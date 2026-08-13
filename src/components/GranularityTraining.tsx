@@ -36,13 +36,11 @@ export function GranularityTraining({ isOpen, onClose }: GranularityTrainingProp
   const totalSteps = validSets.length
 
   const [stepIndex, setStepIndex] = useState(0)
-  const [answers, setAnswers] = useState<StepAnswer[]>([])
   const [currentAnswer, setCurrentAnswer] = useState<StepAnswer | null>(null)
   const [completed, setCompleted] = useState(false)
 
   const resetSession = useCallback(() => {
     setStepIndex(0)
-    setAnswers([])
     setCurrentAnswer(null)
     setCompleted(false)
   }, [])
@@ -75,9 +73,6 @@ export function GranularityTraining({ isOpen, onClose }: GranularityTrainingProp
   const handleContinue = () => {
     if (!currentSet || currentAnswer === null) return
 
-    const nextAnswers = [...answers, currentAnswer]
-    setAnswers(nextAnswers)
-
     if (stepIndex >= totalSteps - 1) {
       setCompleted(true)
       return
@@ -86,9 +81,6 @@ export function GranularityTraining({ isOpen, onClose }: GranularityTrainingProp
     setStepIndex((prev) => prev + 1)
     setCurrentAnswer(null)
   }
-
-  const chosenCount = answers.filter((answer) => answer !== 'not-sure').length
-  const notSureCount = answers.filter((answer) => answer === 'not-sure').length
 
   if (!isOpen) return null
 
@@ -112,10 +104,6 @@ export function GranularityTraining({ isOpen, onClose }: GranularityTrainingProp
         <section className="guided-complete" id="granularity-body" aria-labelledby="granularity-complete-title">
           <h2 id="granularity-complete-title">{granularityT.completedTitle ?? 'Practice complete'}</h2>
           <p>{granularityT.completedBody ?? 'You practiced noticing subtle differences between similar emotions.'}</p>
-          <dl className="guided-summary">
-            <div><dt>{granularityT.clearLabel}</dt><dd>{chosenCount}</dd></div>
-            <div><dt>{granularityT.unsureLabel}</dt><dd>{notSureCount}</dd></div>
-          </dl>
           <p className="muted">{granularityT.completedEncouragement ?? 'Emotional nuance grows through repetition, not perfection.'}</p>
           <div className="guided-actions">
             <button type="button" onClick={resetSession} className="secondary-button">{granularityT.restart ?? 'Restart'}</button>

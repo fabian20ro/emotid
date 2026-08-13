@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { ArrowRight, GitBranch, LockKeyhole } from 'lucide-react'
 import { useLanguage } from '../context/LanguageContext'
 import { ScreenHeader } from '../components/ScreenHeader'
@@ -7,7 +8,7 @@ import { computeValenceRatio } from '../data/valence-ratio'
 import { computeSomaticPatterns } from '../data/somatic-patterns'
 import { getSomaticRegionLabel } from '../models/somatic/display'
 import { getEmotionDisplayLabel, getResultRelationship } from '../data/session-presentation'
-import { hasJournalPatternEvidence } from '../data/journal-evidence'
+import { getJournalEvidence } from '../data/journal-evidence'
 
 interface JournalScreenProps {
   sessions: Session[]
@@ -22,10 +23,12 @@ export function JournalScreen({ sessions, loading, error = false, saveSessions, 
   const { language, section } = useLanguage()
   const t = section('journalScreen')
   const historyT = section('history')
+  const [now] = useState(() => Date.now())
   const vocab = computeVocabulary(sessions)
-  const valence = computeValenceRatio(sessions)
+  const valence = computeValenceRatio(sessions, now)
   const somatic = computeSomaticPatterns(sessions)
-  const hasPatternEvidence = hasJournalPatternEvidence(sessions)
+  const evidence = getJournalEvidence(sessions, now)
+  const hasSummaryEvidence = evidence.vocabulary || evidence.valence || evidence.somatic
 
   return (
     <div className="screen" data-testid="journal-screen">
@@ -33,16 +36,20 @@ export function JournalScreen({ sessions, loading, error = false, saveSessions, 
 
       {sessions.length > 0 && (
         <section aria-labelledby="patterns-title">
-          <h2 id="patterns-title" className="section-heading">{hasPatternEvidence ? t.patterns : t.earlyTitle}</h2>
-          {hasPatternEvidence ? (
+          <h2 id="patterns-title" className="section-heading">{hasSummaryEvidence ? t.patterns : t.earlyTitle}</h2>
+          {hasSummaryEvidence ? (
             <>
-              <div className="journal-stats">
-                <div><strong>{sessions.length}</strong><span>{historyT.vocabSessions.replace('{count}', '')}</span></div>
-                <div><strong>{vocab.uniqueEmotionCount}</strong><span>{historyT.vocabEmotions.replace('{count}', '')}</span></div>
-              </div>
-              {vocab.topActiveEmotions.length > 0 && <div className="pattern-words">{vocab.topActiveEmotions.slice(0, 6).map((emotion) => <span key={emotion.id}>{getEmotionDisplayLabel(emotion, language)} <b>{emotion.count}</b></span>)}</div>}
-              {valence.total > 0 && <div className="pattern-row"><span>{historyT.valenceTitle}</span><strong>{historyT.valencePleasant.replace('{count}', String(valence.pleasant))} / {historyT.valenceUnpleasant.replace('{count}', String(valence.unpleasant))}</strong><small>{historyT.valenceNote}</small></div>}
-              {somatic.regionFrequencies.length > 0 && <div className="pattern-row"><span>{historyT.somaticTitle}</span><strong>{somatic.regionFrequencies.slice(0, 3).map((item) => `${getSomaticRegionLabel(item.regionId, language)} (${item.count})`).join(', ')}</strong></div>}
+              {evidence.vocabulary && (
+                <>
+                  <div className="journal-stats">
+                    <div><strong>{vocab.totalSessions}</strong><span>{historyT.vocabSessions.replace('{count}', '')}</span></div>
+                    <div><strong>{vocab.uniqueEmotionCount}</strong><span>{historyT.vocabEmotions.replace('{count}', '')}</span></div>
+                  </div>
+                  {vocab.topActiveEmotions.length > 0 && <div className="pattern-words">{vocab.topActiveEmotions.slice(0, 6).map((emotion) => <span key={emotion.id}>{getEmotionDisplayLabel(emotion, language)} <b>{emotion.count}</b></span>)}</div>}
+                </>
+              )}
+              {evidence.valence && valence.total > 0 && <div className="pattern-row"><span>{historyT.valenceTitle}</span><strong>{historyT.valencePleasant.replace('{count}', String(valence.pleasant))} / {historyT.valenceUnpleasant.replace('{count}', String(valence.unpleasant))}</strong><small>{historyT.valenceNote}</small></div>}
+              {evidence.somatic && somatic.regionFrequencies.length > 0 && <div className="pattern-row"><span>{historyT.somaticTitle}</span><strong>{somatic.regionFrequencies.slice(0, 3).map((item) => `${getSomaticRegionLabel(item.regionId, language)} (${item.count})`).join(', ')}</strong></div>}
             </>
           ) : (
             <p className="muted text-sm">{t.earlyBody}</p>

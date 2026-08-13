@@ -46,9 +46,9 @@ function computeRange(sessions: Session[], start: number, end: number) {
   }
 }
 
-export function computeValenceRatio(sessions: Session[]): ValenceRatio {
+export function computeValenceRatio(sessions: Session[], nowMs = Date.now()): ValenceRatio {
   // +1ms so sessions stamped at Date.now() are included in current-week bucket.
-  const now = Date.now() + 1
+  const now = nowMs + 1
   const weeks = []
   for (let i = WEEKS - 1; i >= 0; i--) {
     const end = now - i * SEVEN_DAYS_MS

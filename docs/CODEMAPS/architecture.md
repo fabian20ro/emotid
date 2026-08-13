@@ -73,10 +73,11 @@ repository write.
 
 ### Journal Autonomy
 
-Journal pattern presentation uses a pure minimum-evidence selector; it does not add derived state
-to IndexedDB. Session Detail calls an injected delete callback, while `App` composes the existing
-history repository operation with route replacement after success. This keeps persistence,
-presentation, and navigation separately testable without a second repository abstraction or a
+Journal summary presentation uses one pure policy with metric-local eligibility; it does not add
+derived state to IndexedDB. The journal-exercise store accepts a discriminated legacy/current
+union, so new four-part records need no destructive migration and old records export unchanged.
+Session Detail and journal-exercise deletion call injected repository operations. This keeps
+persistence, presentation, and navigation separately testable without a repository framework or
 global journal store.
 
 ### Browser History

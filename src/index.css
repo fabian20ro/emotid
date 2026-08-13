@@ -578,8 +578,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .crisis-resources { display: grid; gap: 8px; margin-top: 14px; }
 .crisis-resource { min-height: 52px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-raised); color: var(--ink); text-decoration: none; display: grid; grid-template-columns: 22px minmax(0, 1fr); align-items: center; gap: 9px; line-height: 1.35; }
 .crisis-resource svg { color: var(--teal); }
-.crisis-disclaimer, .crisis-temporal-note { margin: 11px 0 0; color: var(--ink-muted); font-size: 13px; line-height: 1.5; }
-.crisis-temporal-note { padding-top: 10px; border-top: 1px solid var(--line); }
+.crisis-disclaimer { margin: 11px 0 0; color: var(--ink-muted); font-size: 13px; line-height: 1.5; }
 .crisis-grounding { margin-top: 11px; border-top: 1px solid var(--line); padding-top: 7px; }
 .crisis-grounding summary { min-height: 44px; cursor: pointer; display: flex; align-items: center; color: var(--ink); font-size: 14px; font-weight: 680; }
 .crisis-grounding p { margin: 4px 0 0; color: var(--ink-muted); font-size: 14px; line-height: 1.5; }
@@ -602,10 +601,6 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .guided-feedback p { margin: 6px 0 0; color: var(--ink-muted); font-size: 12px; line-height: 1.5; }
 .guided-primary { margin-top: 16px; }
 .guided-actions { margin-top: 18px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
-.guided-summary { margin: 18px 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-block: 1px solid var(--line); }
-.guided-summary div { padding: 14px 4px; }
-.guided-summary dt { color: var(--ink-muted); font-size: 12px; }
-.guided-summary dd { margin: 4px 0 0; color: var(--teal); font-size: 25px; font-weight: 750; }
 .guided-complete > p, .guided-success > p, .guided-empty > p { color: var(--ink-muted); line-height: 1.55; }
 .guided-field-label { display: block; margin-bottom: 9px; color: var(--ink); font-size: 16px; font-weight: 700; line-height: 1.4; }
 .guided-textarea { width: 100%; min-height: 144px; resize: vertical; padding: 12px 13px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-raised); color: var(--ink); line-height: 1.5; }
@@ -622,6 +617,11 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .guided-recent-list > div { min-height: 64px; padding: 10px 4px; border-bottom: 1px solid var(--line); display: grid; gap: 3px; }
 .guided-recent-list small, .guided-recent-list span { color: var(--ink-muted); font-size: 12px; }
 .guided-recent-list strong { font-size: 14px; }
+.chain-form { margin-top: 24px; display: grid; gap: 18px; }
+.chain-field { display: grid; gap: 8px; }
+.chain-field > span { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; color: var(--ink); font-size: 15px; font-weight: 700; line-height: 1.4; }
+.chain-field > span small { color: var(--ink-muted); font-size: 12px; font-weight: 500; }
+.chain-field .guided-textarea { min-height: 104px; }
 
 .onboarding { min-height: 100dvh; padding: max(22px, env(safe-area-inset-top)) 18px max(22px, env(safe-area-inset-bottom)); background: var(--surface); color: var(--ink); display: grid; place-items: center; }
 .onboarding-panel { width: min(100%, 430px); min-height: min(650px, calc(100dvh - 44px)); display: grid; grid-template-rows: auto auto minmax(0, 1fr) auto; }

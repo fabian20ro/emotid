@@ -21,7 +21,7 @@ export interface Session {
   nextStep?: string
 }
 
-export interface ChainAnalysisEntry {
+export interface LegacyChainAnalysisEntry {
   id: string
   timestamp: number
   triggeringEvent: string
@@ -32,3 +32,15 @@ export interface ChainAnalysisEntry {
   action: string
   consequence: string
 }
+
+export interface ChainReflectionEntry {
+  id: string
+  timestamp: number
+  version: 2
+  situation: string
+  noticed: string
+  response: string
+  outcome: string
+}
+
+export type ChainAnalysisEntry = LegacyChainAnalysisEntry | ChainReflectionEntry

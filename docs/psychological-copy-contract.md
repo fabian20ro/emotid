@@ -1,9 +1,9 @@
 # Psychological Copy Contract
 
-**Version:** 1.3
+**Version:** 1.4
 **Date:** 2026-08-13
-**Scope:** Onboarding, Reflection summaries, catalog synthesis, emotion descriptions, inferred
-needs, somatic explanations, and crisis-adjacent behavior and copy.
+**Scope:** Onboarding, Reflection and Journal summaries, catalog synthesis, emotion descriptions,
+inferred needs, somatic explanations, and crisis-adjacent behavior and copy.
 
 ## Product Boundary
 
@@ -33,6 +33,11 @@ express the same uncertainty, agency, safety boundary, and action level.
 8. **Proportionate directness.** Ordinary reflection stays tentative. Verified crisis resources
    may use direct action language when the user reports possible immediate danger or self-harm;
    selected labels alone never justify that conclusion.
+9. **Evidence-local summaries.** A longitudinal summary counts only entries containing its own
+   relevant evidence. Unrelated reflections cannot unlock a body, valence, or vocabulary claim.
+   Labels describe observations or counts, never traits, trends, or a person's overall mood.
+10. **Uncertainty is not performance.** `Not sure` is an equal reflection choice. Do not total,
+    grade, reward, or contrast certainty and uncertainty as success and failure.
 
 ## Approved Patterns
 
