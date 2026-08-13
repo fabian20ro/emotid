@@ -1,5 +1,5 @@
-import { execFileSync, spawn } from 'node:child_process'
-import { readFileSync } from 'node:fs'
+import { execFileSync, spawn, spawnSync } from 'node:child_process'
+import { existsSync, readFileSync } from 'node:fs'
 import { mkdir, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import process from 'node:process'
@@ -18,9 +18,12 @@ import {
 import { selectJourneys } from './android-physical/journeys.mjs'
 import {
   buildLanguageDiagnostic,
+  buildAudioLanguageDiagnostic,
+  buildTalkBackVariants,
   classifyTalkBackRun,
   parseTalkBackArgs,
   parseTalkBackTtsEvidence,
+  parseVolumeDetect,
   validateTalkBackRowEvidence,
 } from './android-physical/talkback.mjs'
 
@@ -33,6 +36,8 @@ Options:
   --preflight                  Validate the physical device without side effects
   --journey=j1..j9            Run one journey
   --language=en|ro            Run one language
+  --theme=light|dark          Run one theme
+  --audio-check               Capture one local speech checkpoint per language/theme
   --candidate-url=<url>       HTTP loopback candidate (default: local production server)
   --help                      Print help without accessing a device`
 
@@ -62,6 +67,21 @@ function assert(condition, message) {
 
 function wait(delayMs) {
   return new Promise((resolve) => setTimeout(resolve, delayMs))
+}
+
+function commandAvailable(command) {
+  return spawnSync('which', [command], { encoding: 'utf8' }).status === 0
+}
+
+function audioPrerequisites() {
+  const whisperModel = process.env.WHISPER_MODEL ?? '/tmp/ggml-whisper-tiny.bin'
+  return {
+    scrcpy: commandAvailable('scrcpy'),
+    ffmpeg: commandAvailable('ffmpeg'),
+    whisperCli: commandAvailable('whisper-cli'),
+    whisperModel,
+    whisperModelAvailable: existsSync(whisperModel),
+  }
 }
 
 function readPhysicalEnvironment() {
@@ -214,7 +234,7 @@ function createNativeInteraction(rowState) {
   }
 }
 
-async function resetState(page, language, runToken, onboarded = true) {
+async function resetState(page, language, theme, runToken, onboarded = true) {
   const storagePage = new URL('manifest.webmanifest', options.candidateUrl)
   storagePage.searchParams.set('talkback-storage', Date.now().toString())
   await page.goto(storagePage.href, { waitUntil: 'domcontentloaded', timeout: 15_000 })
@@ -224,21 +244,121 @@ async function resetState(page, language, runToken, onboarded = true) {
     storageTypes: 'indexeddb,local_storage',
   })
   await session.detach()
-  await page.evaluate(({ selectedLanguage, hasOnboarded }) => {
+  await page.evaluate(({ selectedLanguage, selectedTheme, hasOnboarded }) => {
     localStorage.setItem('emot-id-language', selectedLanguage)
     localStorage.setItem('emot-id-save-sessions', 'true')
-    localStorage.setItem('emot-id-theme', 'light')
+    localStorage.setItem('emot-id-theme', selectedTheme)
     localStorage.setItem('emot-id-allow-external-ai', 'true')
     if (hasOnboarded) localStorage.setItem('emot-id-onboarded', 'true')
-  }, { selectedLanguage: language, hasOnboarded: onboarded })
+  }, { selectedLanguage: language, selectedTheme: theme, hasOnboarded: onboarded })
   const auditUrl = new URL(options.candidateUrl)
   auditUrl.searchParams.set('physical-audit-run', runToken)
-  auditUrl.searchParams.set('talkback-row', `${language}-${Date.now()}`)
+  auditUrl.searchParams.set('talkback-row', `${language}-${theme}-${Date.now()}`)
   await page.goto(auditUrl.href, { waitUntil: 'commit', timeout: 15_000 })
-  await page.waitForFunction((expectedLanguage) => (
-    document.readyState !== 'loading' && document.documentElement.lang === expectedLanguage
-  ), language, { timeout: 15_000 })
+  await page.waitForFunction(({ expectedLanguage, expectedTheme }) => (
+    document.readyState !== 'loading'
+    && document.documentElement.lang === expectedLanguage
+    && document.documentElement.dataset.theme === expectedTheme
+  ), { expectedLanguage: language, expectedTheme: theme }, { timeout: 15_000 })
   await establishRowTtsBoundary(page)
+}
+
+async function startAudioCapture(outputDir, name) {
+  const filePath = path.join(outputDir, `${name}.mka`)
+  const child = spawn('scrcpy', [
+    '--audio-source=output',
+    '--no-video',
+    '--no-window',
+    '--no-audio-playback',
+    '--no-control',
+    '--time-limit=15',
+    `--record=${filePath}`,
+  ], { stdio: ['ignore', 'pipe', 'pipe'] })
+  child.output = ''
+  child.stdout.on('data', (chunk) => { child.output += chunk })
+  child.stderr.on('data', (chunk) => { child.output += chunk })
+  await wait(1_500)
+  if (child.exitCode !== null) throw new Error(`Audio capture failed to start: ${child.output.trim()}`)
+  return { child, filePath }
+}
+
+async function stopAudioCapture(capture) {
+  if (capture.child.exitCode === null) {
+    await new Promise((resolve) => {
+      const timer = setTimeout(() => capture.child.kill('SIGTERM'), 20_000)
+      capture.child.once('close', () => {
+        clearTimeout(timer)
+        resolve()
+      })
+    })
+  }
+  if (!existsSync(capture.filePath)) throw new Error('Audio capture produced no file')
+}
+
+function analyzeAudioCapture({ capture, outputDir, name, appLanguage, theme, prerequisites }) {
+  const wavPath = path.join(outputDir, `${name}.wav`)
+  execFileSync('ffmpeg', [
+    '-y', '-hide_banner', '-loglevel', 'error', '-i', capture.filePath,
+    '-ar', '16000', '-ac', '1', wavPath,
+  ], { timeout: 30_000 })
+  const volumeRun = spawnSync('ffmpeg', [
+    '-hide_banner', '-i', wavPath, '-af', 'volumedetect', '-f', 'null', '-',
+  ], { encoding: 'utf8', maxBuffer: 10 * 1024 * 1024 })
+  const volume = parseVolumeDetect(`${volumeRun.stdout}\n${volumeRun.stderr}`)
+  if (!volume.audible) throw new Error(`TalkBack audio is not audible (${volume.maxVolumeDb} dB)`)
+
+  const transcriptBase = path.join(outputDir, `${name}-transcript`)
+  execFileSync('whisper-cli', [
+    '-m', prerequisites.whisperModel, '-ng', '-l', 'auto', '-f', wavPath,
+    '-ojf', '-of', transcriptBase, '--no-prints',
+  ], { encoding: 'utf8', timeout: 120_000, maxBuffer: 10 * 1024 * 1024 })
+  const transcriptJson = JSON.parse(readFileSync(`${transcriptBase}.json`, 'utf8'))
+  const detection = spawnSync('whisper-cli', [
+    '-m', prerequisites.whisperModel, '-ng', '-l', 'auto', '-dl', '-f', wavPath,
+  ], { encoding: 'utf8', timeout: 120_000, maxBuffer: 10 * 1024 * 1024 })
+  const detectionOutput = `${detection.stdout}\n${detection.stderr}`
+  const detected = detectionOutput.match(/auto-detected language:\s*([a-z]+)\s*\(p\s*=\s*([\d.]+)\)/i)
+  const transcript = transcriptJson.transcription.map(({ text }) => text.trim()).filter(Boolean).join(' ')
+  if (!detected || !transcript) throw new Error('Local speech-language analysis produced no result')
+  return {
+    language: appLanguage,
+    theme,
+    result: ACCEPTANCE_RESULTS.supportingPass,
+    source: 'scrcpy Android output',
+    model: path.basename(prerequisites.whisperModel),
+    volume,
+    ...buildAudioLanguageDiagnostic({
+      appLanguage,
+      detectedLanguage: detected[1].toLowerCase(),
+      probability: Number(detected[2]),
+      transcript,
+    }),
+  }
+}
+
+async function runAudioCheckpoint({ page, language, theme, outputDir, prerequisites }) {
+  await establishRowTtsBoundary(page)
+  const name = `${language}-${theme}-audio`
+  const capture = await startAudioCapture(outputDir, name)
+  const controls = [
+    page.getByRole('heading', { level: 1 }).first(),
+    page.getByRole('button', { name: /start a check-in|începeți o verificare/i }),
+    page.getByTestId('quick-feeling-anxiety'),
+    page.getByTestId('quick-feeling-sadness'),
+  ]
+  for (const control of controls) {
+    await control.focus()
+    await wait(1_500)
+  }
+  await stopAudioCapture(capture)
+  return analyzeAudioCapture({
+    capture,
+    outputDir,
+    name,
+    appLanguage: language,
+    theme,
+    prerequisites,
+  })
 }
 
 async function captureAx(page, filePath) {
@@ -294,18 +414,18 @@ async function waitForTalkBack() {
   throw new Error('TalkBack did not become enabled, bound, and touch-exploration ready')
 }
 
-async function runRow({ page, id, execute, language, runToken, talkBack, outputDir, androidLocale }) {
+async function runRow({ page, id, execute, language, theme, runToken, talkBack, outputDir, androidLocale }) {
   const rowState = createRowState()
   const interaction = createNativeInteraction(rowState)
-  const name = `${language}-${id}`
+  const name = `${language}-${theme}-${id}`
   adb('logcat', '-c')
-  console.log(`[talkback] ${language.toUpperCase()} ${id.toUpperCase()} start`)
+  console.log(`[talkback] ${language.toUpperCase()} ${theme} ${id.toUpperCase()} start`)
   try {
     await execute({
       page,
       language,
       resetState: (targetPage, selectedLanguage, onboarded) => (
-        resetState(targetPage, selectedLanguage, runToken, onboarded)
+        resetState(targetPage, selectedLanguage, theme, runToken, onboarded)
       ),
       // UI Automator briefly restarts accessibility services. Keep mid-journey
       // evidence non-intrusive; the final capture still includes native XML.
@@ -321,8 +441,10 @@ async function runRow({ page, id, execute, language, runToken, talkBack, outputD
     const tts = parseTalkBackTtsEvidence(logcat)
     const browserLanguage = await page.evaluate(() => ({
       appLanguage: document.documentElement.lang,
+      appTheme: document.documentElement.dataset.theme,
       browserLanguages: [...navigator.languages],
     }))
+    assert(browserLanguage.appTheme === theme, `Theme mismatch: expected ${theme}, received ${browserLanguage.appTheme}`)
     const evidence = validateTalkBackRowEvidence({
       talkBack,
       ...rowState,
@@ -331,9 +453,10 @@ async function runRow({ page, id, execute, language, runToken, talkBack, outputD
     })
     await writeFile(path.join(outputDir, `${name}-logcat.txt`), `${logcat}\n`)
     await capture(page, outputDir, name)
-    console.log(`[talkback] ${language.toUpperCase()} ${id.toUpperCase()} supporting pass`)
+    console.log(`[talkback] ${language.toUpperCase()} ${theme} ${id.toUpperCase()} supporting pass`)
     return {
       language,
+      theme,
       journey: id.toUpperCase(),
       result: ACCEPTANCE_RESULTS.supportingPass,
       assistiveTechnology: 'TalkBack',
@@ -346,15 +469,17 @@ async function runRow({ page, id, execute, language, runToken, talkBack, outputD
         ...browserLanguage,
         androidLocale,
         requests: tts.requests,
+        dispatches: tts.dispatches,
       }),
     }
   } catch (error) {
     const logcat = adb('logcat', '-d', '-v', 'threadtime')
     await writeFile(path.join(outputDir, `${name}-failure-logcat.txt`), `${logcat}\n`).catch(() => undefined)
     await capture(page, outputDir, `${name}-failure`).catch(() => undefined)
-    console.error(`[talkback] ${language.toUpperCase()} ${id.toUpperCase()} fail: ${error}`)
+    console.error(`[talkback] ${language.toUpperCase()} ${theme} ${id.toUpperCase()} fail: ${error}`)
     return {
       language,
+      theme,
       journey: id.toUpperCase(),
       result: ACCEPTANCE_RESULTS.fail,
       error: String(error),
@@ -385,11 +510,18 @@ const preflight = {
   candidateUrl: options.candidateUrl,
   mode: 'browser',
   androidLocale: readAndroidLocale(),
+  audio: audioPrerequisites(),
   ...physicalEnvironment,
 }
 if (options.preflight) {
   console.log(JSON.stringify(preflight, null, 2))
   process.exit(0)
+}
+
+const prerequisites = audioPrerequisites()
+if (options.audioCheck && Object.entries(prerequisites).some(([key, value]) => key !== 'whisperModel' && value === false)) {
+  console.error(`Android TalkBack audio preflight failed: ${JSON.stringify(prerequisites)}`)
+  process.exit(1)
 }
 
 const stamp = new Date().toISOString().replaceAll(':', '-').replaceAll('.', '-')
@@ -442,21 +574,41 @@ try {
   adb('logcat', '-c')
 
   const androidLocale = readAndroidLocale()
-  const journeys = selectJourneys(options.journey)
-  const languages = options.language ? [options.language] : ACCEPTANCE_LANGUAGES
+  const journeys = [...selectJourneys(options.journey)]
+  const variants = buildTalkBackVariants(options)
   const rows = []
-  for (const language of languages) {
-    for (const [id, execute] of journeys) {
+  const audioChecks = []
+  for (const { language, theme } of variants) {
+    for (const [index, [id, execute]] of journeys.entries()) {
       rows.push(await runRow({
         page,
         id,
         execute,
         language,
+        theme,
         runToken,
         talkBack,
         outputDir,
         androidLocale,
       }))
+      if (options.audioCheck && index === 0) {
+        try {
+          audioChecks.push(await runAudioCheckpoint({
+            page,
+            language,
+            theme,
+            outputDir,
+            prerequisites,
+          }))
+        } catch (error) {
+          audioChecks.push({
+            language,
+            theme,
+            result: ACCEPTANCE_RESULTS.fail,
+            error: String(error),
+          })
+        }
+      }
     }
   }
 
@@ -477,12 +629,13 @@ try {
       activation: 'ADB KEYCODE_ENTER after exact DOM focus',
       speechEvidence: 'TalkBack state, visible speech overlay screenshots, and TTS synthesis/dispatch logs',
     },
-    classification: classifyTalkBackRun(rows),
+    classification: classifyTalkBackRun([...rows, ...audioChecks]),
     journeys: rows,
+    audioChecks,
   }
   await writeFile(path.join(outputDir, 'report.json'), `${JSON.stringify(report, null, 2)}\n`)
   console.log(JSON.stringify({ outputDir, report }, null, 2))
-  if (rows.some((row) => row.result === ACCEPTANCE_RESULTS.fail)) process.exitCode = 1
+  if ([...rows, ...audioChecks].some((row) => row.result === ACCEPTANCE_RESULTS.fail)) process.exitCode = 1
 } catch (error) {
   console.error(error)
   process.exitCode = 1

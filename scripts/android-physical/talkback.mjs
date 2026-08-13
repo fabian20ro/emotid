@@ -12,6 +12,8 @@ export const TALKBACK_ACCEPTANCE_ADAPTER = validateAcceptanceAdapter({
   complete: true,
 })
 
+export const TALKBACK_THEMES = Object.freeze(['light', 'dark'])
+
 function normalizeCandidateUrl(candidateUrl) {
   let candidate
   try {
@@ -30,16 +32,20 @@ export function parseTalkBackArgs(args) {
   const options = {
     help: false,
     preflight: false,
+    audioCheck: false,
     journey: undefined,
     language: undefined,
+    theme: undefined,
     candidateUrl: 'http://127.0.0.1:4176/emotid/',
   }
 
   for (const argument of args) {
     if (argument === '--help') options.help = true
     else if (argument === '--preflight') options.preflight = true
+    else if (argument === '--audio-check') options.audioCheck = true
     else if (argument.startsWith('--journey=')) options.journey = argument.slice(10).toLowerCase()
     else if (argument.startsWith('--language=')) options.language = argument.slice(11).toLowerCase()
+    else if (argument.startsWith('--theme=')) options.theme = argument.slice(8).toLowerCase()
     else if (argument.startsWith('--candidate-url=')) options.candidateUrl = argument.slice(16)
     else throw new Error(`Unsupported argument: ${argument}`)
   }
@@ -50,8 +56,17 @@ export function parseTalkBackArgs(args) {
   if (options.language && !ACCEPTANCE_LANGUAGES.includes(options.language)) {
     throw new Error(`Unsupported language: ${options.language}`)
   }
+  if (options.theme && !TALKBACK_THEMES.includes(options.theme)) {
+    throw new Error(`Unsupported theme: ${options.theme}`)
+  }
   options.candidateUrl = normalizeCandidateUrl(options.candidateUrl)
   return options
+}
+
+export function buildTalkBackVariants(filters = {}) {
+  const languages = filters.language ? [filters.language] : ACCEPTANCE_LANGUAGES
+  const themes = filters.theme ? [filters.theme] : TALKBACK_THEMES
+  return languages.flatMap((language) => themes.map((theme) => ({ language, theme })))
 }
 
 export function parseTalkBackTtsEvidence(logcat) {
@@ -68,11 +83,13 @@ export function buildLanguageDiagnostic({
   browserLanguages,
   androidLocale,
   requests,
+  dispatches = [],
 }) {
   const ttsLocales = [...new Set(requests.map(({ locale }) => locale))]
   const ttsVoices = [...new Set(requests.map(({ voice }) => voice))]
   const expectedPrefix = appLanguage === 'ro' ? 'ro' : 'en'
-  const appTtsLanguageMismatch = ttsLocales.length > 0
+  const dispatchMatches = dispatches.some((voice) => voice.toLowerCase().startsWith(expectedPrefix))
+  const appTtsLanguageMismatch = !dispatchMatches && ttsLocales.length > 0
     && ttsLocales.every((locale) => !locale.toLowerCase().startsWith(expectedPrefix))
   return {
     appLanguage,
@@ -80,10 +97,37 @@ export function buildLanguageDiagnostic({
     androidLocale,
     ttsLocales,
     ttsVoices,
+    dispatchedVoices: [...new Set(dispatches)],
     appTtsLanguageMismatch,
-    attribution: appTtsLanguageMismatch
-      ? 'browser-or-assistive-technology-configuration'
-      : 'aligned-or-undetermined',
+    attribution: dispatchMatches
+      ? 'aligned-by-dispatched-voice'
+      : appTtsLanguageMismatch
+        ? 'browser-or-assistive-technology-configuration'
+        : 'aligned-or-undetermined',
+  }
+}
+
+export function parseVolumeDetect(output) {
+  const meanVolumeDb = Number(output.match(/mean_volume:\s*(-?\d+(?:\.\d+)?)\s*dB/)?.[1] ?? Number.NEGATIVE_INFINITY)
+  const maxVolumeDb = Number(output.match(/max_volume:\s*(-?\d+(?:\.\d+)?)\s*dB/)?.[1] ?? Number.NEGATIVE_INFINITY)
+  return {
+    meanVolumeDb,
+    maxVolumeDb,
+    audible: Number.isFinite(maxVolumeDb) && maxVolumeDb > -60,
+  }
+}
+
+export function buildAudioLanguageDiagnostic({ appLanguage, detectedLanguage, probability, transcript }) {
+  const languageMatch = appLanguage === detectedLanguage
+  return {
+    appLanguage,
+    detectedLanguage,
+    probability,
+    transcript,
+    languageMatch,
+    attribution: languageMatch
+      ? 'app-and-assistive-technology-output-aligned'
+      : 'mixed-or-assistive-technology-output-language-mismatch',
   }
 }
 

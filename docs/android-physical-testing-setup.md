@@ -122,15 +122,30 @@ Run the repository-owned TalkBack browser audit separately:
 npm run test:android:talkback:preflight
 npm run test:android:talkback
 npm run test:android:talkback -- --journey=j9 --language=ro
+npm run test:android:talkback -- --journey=j1 --language=ro --theme=dark
 ```
 
 The TalkBack runner builds and serves the local production candidate, enables the real TalkBack
 service, drives exact focused controls with native Android key events, and records J1-J9 in English
-and Romanian. Each row requires TalkBack enabled/bound/touch exploration, focused-control
+and Romanian, in light and dark themes. The default run therefore contains 36 rows. Each row
+requires TalkBack enabled/bound/touch exploration, focused-control
 evidence, native activation, successful TTS synthesis and dispatch, no TTS-readiness error, and its
 route postcondition. It records app, browser, Android, and TTS language separately. The runner
 restores accessibility, stay-awake, ADB reverse/forward, browser page, and server state in
 `finally`.
+
+For a local audio/language diagnostic, install `ffmpeg`, `scrcpy`, and `whisper-cpp`, then provide a
+multilingual Whisper model:
+
+```sh
+WHISPER_MODEL=/absolute/path/to/ggml-whisper-tiny.bin npm run test:android:talkback:audio
+```
+
+This adds one 15-second Android-output recording per language/theme combination. It verifies
+audible output, creates a local transcript, detects the dominant language, and retains the actual
+Google TTS dispatched voices. TalkBack's own role and instruction phrases follow the device's
+assistive-technology language, while page labels follow `document.lang`; a mixed transcript is
+therefore diagnostic, not an application localization failure. No audio or text leaves the Mac.
 
 This is `SUPPORTING_PASS`, not human TalkBack acceptance: CDP establishes exact DOM focus, so the
 run does not prove swipe exploration, gesture ergonomics, pronunciation quality, or spoken order.
@@ -144,7 +159,8 @@ exploration state, external alphabetic-keyboard presence, and installed WebAPK a
 combined suites fail while TalkBack is enabled. Any pre-existing `tcp:9222` forward fails preflight
 so the runner cannot remove a resource it does not own.
 
-Use `--journey=j1` through `--journey=j9` for a focused functional rerun. J9 verifies the compact
+Use `--journey=j1` through `--journey=j9`, `--language=en|ro`, and `--theme=light|dark` for a focused
+functional rerun. J9 verifies the compact
 Reflection result, explicit exploration, first-viewport actions, and focus return. To exercise a
 local candidate in browser mode, reverse its port and pass its URL explicitly:
 

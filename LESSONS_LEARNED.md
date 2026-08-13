@@ -112,12 +112,13 @@ mirror foreground before preparing the checkpoint, and verify the actual Action 
 connected keyboard. Retain Android focused-node data plus before/activation/after visuals; do not
 infer success from the host window alone.
 
-**[2026-08-13]** Android playback capture is not TalkBack speech evidence — On the Pixel 6a,
-scrcpy `output` captured only accessibility earcons, while TalkBack TTS was excluded; microphone
-capture also produced no reliable transcript. Attribute automated supporting evidence through four
-independent signals: bound TalkBack/touch exploration, native focus events and exact AX names,
-visible speech overlay, and TTS synthesis/dispatch logs plus the route postcondition. Record the TTS
-locale separately; app language does not prove that the device selected a matching voice.
+**[2026-08-13]** TalkBack audio needs source and language attribution — On Pixel 6a / Android 17,
+scrcpy `playback` produced digital silence while `output` captured TalkBack speech. Validate volume
+before transcription and retain the actual TTS-dispatch voices alongside app, browser, Android,
+and dominant audio languages. A mixed transcript can contain localized page labels plus TalkBack
+roles/instructions in the device language; it does not by itself prove an app localization defect.
+Audio remains supporting evidence beside bound TalkBack/touch exploration, exact AX names, native
+activation, visible speech output, and route postconditions.
 
 **[2026-08-09]** Physical browser targeting needs two independent exact proofs — A matching CDP
 page is not proof that Android displays the same Chrome tab. Give every browser audit a unique URL
@@ -251,6 +252,12 @@ timestamps separate from Playwright matcher polling when collecting performance 
 
 <!-- Lessons that are no longer applicable. Keep for historical context. -->
 <!-- Format: **[YYYY-MM-DD] Archived [YYYY-MM-DD]** Title — Reason for archival -->
+
+**[2026-08-13] Archived [2026-08-13]** Android playback capture is not TalkBack speech evidence —
+Initial probes found only accessibility earcons through scrcpy `output` and no reliable microphone
+transcript. Replaced after a longer Android 17 probe established that scrcpy `output`, unlike
+`playback`, captures TalkBack speech; the active lesson now requires source, volume, and language
+attribution instead of rejecting audio capture categorically.
 
 **[2026-02-17] Archived [2026-07-28]** ESLint 10 blocked by TypeScript ESLint — Obsolete after
 TypeScript ESLint 8.65 added ESLint 10 support. The replacement lesson records the synchronized

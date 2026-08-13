@@ -31,6 +31,7 @@
     "test:android:physical": "node ./scripts/android-physical-audit.mjs",
     "test:android:physical:preflight": "node ./scripts/android-physical-audit.mjs --preflight --suite=journeys",
     "test:android:talkback": "npm run build && node ./scripts/android-talkback-audit.mjs",
+    "test:android:talkback:audio": "npm run test:android:talkback -- --audio-check",
     "test:android:talkback:preflight": "node ./scripts/android-talkback-audit.mjs --preflight",
     "test:safari:native": "npm run build && node ./scripts/macos-safari-audit.mjs",
     "test:safari:native:preflight": "node ./scripts/macos-safari-audit.mjs --preflight",
