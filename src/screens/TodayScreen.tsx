@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { ArrowRight, Check, LockKeyhole } from 'lucide-react'
+import { ArrowRight, Check, CircleHelp, Crosshair, LockKeyhole } from 'lucide-react'
 import { useLanguage } from '../context/LanguageContext'
 import { quickEmotions } from '../models/catalog/quick'
 import type { AnalysisResult, BaseEmotion } from '../models/types'
@@ -9,12 +9,13 @@ import { getEmotionDisplayLabel } from '../data/session-presentation'
 interface TodayScreenProps {
   sessions: Session[]
   saveSessions: boolean
-  onStart: () => void
+  onPlaceFeeling: () => void
+  onHelpChoose: () => void
   onQuickComplete: (selection: BaseEmotion, result: AnalysisResult) => void
   onOpenJournal: () => void
 }
 
-export function TodayScreen({ sessions, saveSessions, onStart, onQuickComplete, onOpenJournal }: TodayScreenProps) {
+export function TodayScreen({ sessions, saveSessions, onPlaceFeeling, onHelpChoose, onQuickComplete, onOpenJournal }: TodayScreenProps) {
   const { language, section } = useLanguage()
   const t = section('today')
   const recent = sessions[0]
@@ -40,10 +41,16 @@ export function TodayScreen({ sessions, saveSessions, onStart, onQuickComplete, 
       <h1 id="screen-title" className="screen-title" tabIndex={-1}>{t.title}</h1>
       <p className="screen-lede">{t.lede}</p>
 
-      <button type="button" className="primary-button mt-6" onClick={onStart}>
-        {t.checkIn}
-        <ArrowRight size={19} aria-hidden="true" />
-      </button>
+      <div className="today-entry-actions">
+        <button type="button" className="primary-button" onClick={onPlaceFeeling}>
+          <Crosshair size={19} aria-hidden="true" />
+          {t.placeFeeling}
+        </button>
+        <button type="button" className="secondary-button" onClick={onHelpChoose}>
+          <CircleHelp size={19} aria-hidden="true" />
+          {t.helpChoose}
+        </button>
+      </div>
 
       <section aria-labelledby="quick-title">
         <h2 id="quick-title" className="section-heading">{t.quickTitle}</h2>

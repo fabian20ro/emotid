@@ -25,7 +25,7 @@ test.describe('Keyboard-only primary journeys', () => {
   })
 
   test('Body Compass completes without pointer input', async ({ page }) => {
-    await activate(page.getByRole('button', { name: 'Start a reflection' }))
+    await activate(page.getByRole('button', { name: 'Help me choose' }))
     await activate(page.getByTestId('arrival-body'))
     await activate(page.getByRole('button', { name: 'Chest' }))
     await activate(page.getByRole('button', { name: 'Tension' }), 'Space')
@@ -35,7 +35,7 @@ test.describe('Keyboard-only primary journeys', () => {
   })
 
   test('Affect Map completes without pointer input', async ({ page }) => {
-    await activate(page.getByRole('button', { name: 'Start a reflection' }))
+    await activate(page.getByRole('button', { name: 'Help me choose' }))
     await activate(page.getByTestId('arrival-affect'), 'Space')
 
     const field = page.getByRole('group', { name: 'Energy and pleasantness map' })
@@ -49,7 +49,7 @@ test.describe('Keyboard-only primary journeys', () => {
   })
 
   test('Word Ladder completes without pointer input', async ({ page }) => {
-    await activate(page.getByRole('button', { name: 'Start a reflection' }))
+    await activate(page.getByRole('button', { name: 'Help me choose' }))
     await activate(page.getByTestId('arrival-words'))
     await activate(page.getByRole('button', { name: 'Happy' }), 'Space')
     await activate(page.getByRole('button', { name: 'Add Happy' }))

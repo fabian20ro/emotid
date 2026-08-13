@@ -8,7 +8,7 @@
 App (src/App.tsx)
  +-- Onboarding                   # 3-step first-run overlay with local-save choice
  +-- AppShell                     # Persistent header, content, bottom tabs
- +-- TodayScreen                  # Explicit quick commitment and recent reflection
+ +-- TodayScreen                  # Direct Affect entry, route guidance, quick words, recent reflection
  +-- CheckInFlowHost*             # Arrival, check-in, Reflection workflow
  |    +-- ArrivalScreen           # Guided-first route chooser
  +-- ModelCheckInScreen           # Affect map and Plutchik flows
@@ -19,7 +19,7 @@ App (src/App.tsx)
  +-- BodyCompassScreen            # Somatic route
  |    +-- BodyRegionMap           # Lazy-loaded, presentation-only region map
  +-- ReflectionScreen             # Results, crisis support, needs, next step
- +-- ExploreScreen                # Route and practice entry points
+ +-- ExploreScreen                # Grouped noticing/naming and comparison/learning entries
  +-- JournalScreen                # Sessions, evidence-gated summaries, chain entry
  +-- SessionDetailScreen          # Saved reflection details and one-entry deletion*
  +-- SettingsScreen               # Language, appearance, utility routes
@@ -38,6 +38,10 @@ and utility destinations are deferred. Route implementations load through
 `CheckInFeatureBoundary`; host and utility destinations use
 `LazyRouteBoundary`. Both boundaries expose bilingual loading/failure states,
 and delayed destination headings receive route focus after their chunk renders.
+
+Today starts Affect Map through the same typed `startRoute` boundary used by Explore. `Help me
+choose` opens Arrival without making that route chooser mandatory. Explore groups its existing
+routes in presentation only; it does not own a second navigation or model registry.
 
 `*` `useCheckInWorkflow` owns completion and persistence state outside the
 presentation host so every input route, including Quick, reaches one auditable

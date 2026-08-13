@@ -6,13 +6,14 @@ Privacy-first PWA for exploring emotions through words, body sensations, and aff
 
 ## Product Flow
 
-- **Today** offers a quick selectable word with one explicit Continue action and recent local reflections.
-- **Arrival** leads with guided uncertainty, then placement, words, or body signals.
+- **Today** opens Affect Map directly, keeps route guidance one tap away, and offers quick words.
+- **Arrival** guides uncertainty toward placement, words, or body signals.
 - **Body Compass** offers front, back, and accessible list selection, then records a sensation and
   intensity before suggesting possible words.
 - **Affect Map** places a state by energy and pleasantness.
 - **Word Ladder** moves from broad feeling families toward more precise language.
 - **Plutchik** explores possible blends between two primary emotions.
+- **Explore** separates ways to notice and name from comparison and vocabulary learning.
 - **Reflection** presents tentative meaning, an explicit fit check, optional needs, and a user-chosen next step.
 - **Journal** keeps optional local reflections and guided chain-analysis entries, delays aggregate
   summaries until three saved check-ins, and supports deletion of one check-in at a time.

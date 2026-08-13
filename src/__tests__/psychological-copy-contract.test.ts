@@ -144,7 +144,7 @@ describe('psychological copy contract', () => {
   it('uses non-evaluative, model-accurate language on key decision surfaces', () => {
     expect(en.privacyData.saving).toBe('Save reflections on this device')
     expect(ro.privacyData.saving).toBe('Salvați reflecțiile pe acest dispozitiv')
-    expect(ro.today.checkIn).not.toContain('verificare')
+    expect(ro.today.placeFeeling).not.toContain('verificare')
     expect(en.plutchik.lede).toContain('starting emotions from this model')
     expect(ro.plutchik.lede).toContain('emoții de pornire din acest model')
     expect(en.analyze.exploreAI).toBe('Explore in Google AI Mode')

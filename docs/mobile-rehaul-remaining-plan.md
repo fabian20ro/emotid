@@ -1,9 +1,7 @@
 # Remaining Product Plan
 
-Status: core mobile migration, persistence hardening, current-session safety semantics, first-run
-storage transparency, and Journal simplification complete. Remaining work: primary-entry
-information architecture, moderated comprehension validation, and release closure. Updated August
-13, 2026.
+Status: core mobile migration and primary-entry information architecture complete. Remaining work:
+moderated comprehension validation and release closure. Updated August 13, 2026.
 
 This is the only active implementation plan. Historical work belongs in `ITERATION_LOG.md`,
 release criteria in `docs/release-quality-gates.md`, and candidate evidence in
@@ -31,15 +29,16 @@ release criteria in `docs/release-quality-gates.md`, and candidate evidence in
 - English/Romanian, light/dark, keyboard, reflow, focus, PWA lifecycle, and performance budgets
   have broad automated coverage. Historical physical and simulator evidence retains the limits
   documented in `docs/physical-release-evidence.md`.
+- Today starts Place the Feeling directly and keeps Help me choose one tap away. Explore groups
+  noticing/naming separately from comparison/learning without duplicating route ownership.
 
 Physical iPhone testing remains outside scope. Simulator VoiceOver is not represented as physical
 screen-reader evidence.
 
 ## Open Risks
 
-1. Today adds a route-choice step before Place the Feeling, and Explore gives naming and learning
-   methods equal weight.
-2. Moderated comprehension evidence and final exact-candidate release dispositions remain open.
+1. Moderated comprehension evidence remains open.
+2. Final exact-candidate release dispositions remain open.
 
 ## Architecture Direction
 
@@ -54,10 +53,10 @@ screen-reader evidence.
 
 ### Next Change Boundary
 
-P44 needs no new architectural layer. Extend the existing typed Today callbacks so the primary
-action starts Affect Map and the secondary action opens Arrival. Group the existing Explore item
-array in presentation only. Do not introduce a router, navigation service, or generalized menu
-schema.
+P45 is research and bounded correction, not an architecture phase. Use the existing screens and
+local evidence templates. Change product behavior only for repeated findings, or immediately for
+safety, accessibility, or data loss. Do not add telemetry, a research backend, or a generic survey
+system.
 
 ### Avoid
 
@@ -67,20 +66,7 @@ three real uses or when a safety/data-loss boundary requires one owner.
 
 ## Recommended Sequence
 
-### P44 - Entry and Explore Information Architecture (next)
-
-1. Characterize current deep-link, Back/Forward, interruption, and recovery behavior before edits.
-2. Make Place the Feeling the direct Today primary action. Keep Help me choose as the secondary
-   route into the existing guide.
-3. Keep direct method selection in Explore and group existing routes into naming and learning.
-   Add no hub, route layer, or tutorial.
-4. Verify route history, focus handoff, touch geometry, compact/large mobile, EN/RO, light/dark,
-   WebKit/Chromium, and PWA update survival.
-
-Exit: primary placement begins in one tap; guidance remains one tap away; every existing method
-remains reachable without duplicated route choices.
-
-### P45 - Moderated Comprehension Validation
+### P45 - Moderated Comprehension Validation (next)
 
 Run five to eight short, local sessions across Romanian and English where feasible. Collect no
 telemetry. Observe without coaching:
@@ -112,5 +98,6 @@ and separate psychological review. Persistence tests use controllable promises a
 
 ## Decision
 
-Implement P44 next. It removes one decision step from the primary Place the Feeling journey while
-keeping guidance and every existing method reachable through the current navigation model.
+Run P45 next. The implementation is now broad enough that another speculative UI pass would add
+more risk than value. Short moderated sessions should identify repeated comprehension failures;
+fix only those findings, then freeze the exact P46 release candidate.

@@ -5,7 +5,7 @@ test.describe('Migrated guided workflows', () => {
   test('uses direct Today copy and routes vocabulary practice as a screen', async ({ page }) => {
     await openApp(page)
     await expect(page.getByRole('heading', { name: 'How are you feeling?' })).toBeVisible()
-    await expect(page.getByText('Choose the closest feeling below, or explore it in more detail.')).toBeVisible()
+    await expect(page.getByText('Start with energy and pleasantness, or choose a word that feels close.')).toBeVisible()
 
     await page.getByRole('button', { name: 'Explore' }).click()
     await page.getByRole('button', { name: /practice emotional vocabulary/i }).click()
@@ -44,6 +44,6 @@ test.describe('Migrated guided workflows', () => {
   test('shows the revised Today copy in Romanian', async ({ page }) => {
     await openApp(page, { language: 'ro' })
     await expect(page.getByRole('heading', { name: 'Cum vă simțiți?' })).toBeVisible()
-    await expect(page.getByText('Alegeți starea cea mai apropiată de mai jos sau explorați-o mai în detaliu.')).toBeVisible()
+    await expect(page.getByText('Începeți cu energia și cât de plăcută este starea sau alegeți un cuvânt apropiat.')).toBeVisible()
   })
 })

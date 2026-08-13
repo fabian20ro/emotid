@@ -257,6 +257,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .primary-button:disabled { background: var(--disabled-bg); color: var(--disabled-ink); cursor: not-allowed; }
 .secondary-button { background: var(--surface-raised); color: var(--ink); border-color: var(--line); }
 .text-button { min-height: 48px; border: 0; background: transparent; color: var(--teal); font-weight: 680; padding: 8px 10px; }
+.today-entry-actions { display: grid; gap: 10px; margin-top: 24px; }
 
 .fixed-action {
   position: fixed;
@@ -271,6 +272,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 }
 
 .route-grid { display: grid; gap: 10px; margin-top: 24px; }
+.explore-route-grid { margin-top: 0; }
 .route-card {
   min-height: 82px;
   width: 100%;

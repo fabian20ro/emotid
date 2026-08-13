@@ -7,19 +7,22 @@ import { TodayScreen } from '../screens/TodayScreen'
 
 function renderToday(language: 'en' | 'ro' = 'en') {
   storage.set('language', language)
+  const onPlaceFeeling = vi.fn()
+  const onHelpChoose = vi.fn()
   const onQuickComplete = vi.fn()
   render(
     <LanguageProvider>
       <TodayScreen
         sessions={[]}
         saveSessions
-        onStart={vi.fn()}
+        onPlaceFeeling={onPlaceFeeling}
+        onHelpChoose={onHelpChoose}
         onQuickComplete={onQuickComplete}
         onOpenJournal={vi.fn()}
       />
     </LanguageProvider>,
   )
-  return { onQuickComplete }
+  return { onPlaceFeeling, onHelpChoose, onQuickComplete }
 }
 
 describe('TodayScreen quick commitment', () => {
@@ -61,5 +64,28 @@ describe('TodayScreen quick commitment', () => {
 
     await user.click(screen.getByTestId('quick-feeling-anxiety'))
     expect(screen.getByRole('button', { name: 'Continuați cu anxietate' })).toBeVisible()
+  })
+
+  it('starts placement directly and keeps route guidance separate', async () => {
+    const user = userEvent.setup()
+    const { onPlaceFeeling, onHelpChoose } = renderToday()
+
+    const place = screen.getByRole('button', { name: 'Place the feeling' })
+    const help = screen.getByRole('button', { name: 'Help me choose' })
+    expect(place.compareDocumentPosition(help) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+
+    await user.click(place)
+    expect(onPlaceFeeling).toHaveBeenCalledOnce()
+    expect(onHelpChoose).not.toHaveBeenCalled()
+
+    await user.click(help)
+    expect(onHelpChoose).toHaveBeenCalledOnce()
+  })
+
+  it('exposes the direct and guided actions in Romanian', () => {
+    renderToday('ro')
+
+    expect(screen.getByRole('button', { name: 'Plasați starea' })).toBeVisible()
+    expect(screen.getByRole('button', { name: 'Ajutați-mă să aleg' })).toBeVisible()
   })
 })

@@ -74,14 +74,16 @@ async function measureRoute(
   await session.detach()
   await page.goto('/')
   await expect(page.getByTestId('today-screen')).toBeVisible()
+  let routeTrigger = page.getByRole('button', { name: 'Place the feeling', exact: true })
   if (route === 'plutchik') {
     await page.getByRole('button', { name: 'Explore', exact: true }).click()
     await expect(page.getByTestId('explore-screen')).toBeVisible()
-  } else {
-    await page.getByRole('button', { name: 'Start a reflection' }).click()
+    routeTrigger = page.getByTestId('explore-plutchik')
+  } else if (route !== 'affect') {
+    await page.getByRole('button', { name: 'Help me choose', exact: true }).click()
     await expect(page.getByTestId('arrival-screen')).toBeVisible()
+    routeTrigger = page.getByTestId(`arrival-${route}`)
   }
-  const routeTrigger = page.getByTestId(`${route === 'plutchik' ? 'explore' : 'arrival'}-${route}`)
   await routeTrigger.click({ trial: true })
   await page.evaluate((testId) => {
     const metricsWindow = window as typeof window & { __emotIdRouteReadyAt?: number }

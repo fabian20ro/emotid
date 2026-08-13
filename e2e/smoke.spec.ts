@@ -18,7 +18,7 @@ test.describe('First run and shell', () => {
 
   test('restores exact destinations with browser Back and Forward', async ({ page }) => {
     await openApp(page)
-    await page.getByRole('button', { name: 'Start a reflection' }).click()
+    await page.getByRole('button', { name: 'Help me choose' }).click()
     await expect(page.getByTestId('arrival-screen')).toBeVisible()
     await page.goBack()
     await expect(page.getByTestId('today-screen')).toBeVisible()

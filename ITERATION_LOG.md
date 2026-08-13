@@ -2274,3 +2274,30 @@ Metric-local eligibility prevents unrelated observations from manufacturing appa
 Versioned union reads preserve local records more simply and safely than an eager datastore rewrite.
 **Promoted to Lessons Learned:** Yes — expanded the longitudinal UI lesson to require metric-local
 evidence and reject global-gate contamination.
+
+---
+
+### [2026-08-13] Make Affect placement direct and clarify Explore choices
+
+**Context:** P44 addressed an avoidable route-choice step before the primary Affect Map journey and
+equal visual weight between naming methods and learning activities in Explore.
+**What happened:**
+- Started with failing Today callback and Explore grouping contracts. Split the Today entry into a
+  direct Place the Feeling primary action and a Help me choose secondary action that retains the
+  existing Arrival guide.
+- Reused the typed `startRoute('affect')` workflow boundary; no router, state service, or duplicate
+  route registry was added. Grouped the existing Explore entries into Notice and name and Compare
+  and learn presentation sections, with Affect first.
+- Revised bilingual task copy and added semantic regions. Added EN/RO x light/dark route, focus,
+  history, grouping, and overflow coverage in WebKit and Chromium, plus four compact mobile sizes.
+- Full verification exposed two stale Today copy assertions and a performance proxy that still
+  entered every route through Arrival. Updated the benchmark so Affect measures the new direct path
+  while Body and Words retain the guided path.
+**Outcome:** `npm run check` passes 84 files / 663 tests. Playwright passes 248/248 across Mobile
+Safari and Mobile Chrome. PWA lifecycle and performance proxy each pass 1/1. Initial JavaScript
+gzip is 143,815 bytes, entry JavaScript gzip is 43,174 bytes, and production assets total 887,550
+bytes, all within budget.
+**Insight:** Primary-entry changes must update not only journey selectors but also performance
+measurement paths; otherwise the benchmark silently measures obsolete information architecture.
+**Promoted to Lessons Learned:** No — covered by documentation/source verification and behavioral
+contract guidance.

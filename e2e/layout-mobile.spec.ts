@@ -26,8 +26,12 @@ for (const viewport of viewports) {
       await openApp(page)
       await expectNoHorizontalOverflow(page)
 
-      const primary = await page.getByRole('button', { name: 'Start a reflection' }).boundingBox()
+      const primary = await page.getByRole('button', { name: 'Place the feeling' }).boundingBox()
       expect(primary!.height).toBeGreaterThanOrEqual(55)
+      const guidance = page.getByRole('button', { name: 'Help me choose' })
+      const guidanceBox = await guidance.boundingBox()
+      expect(guidanceBox!.height).toBeGreaterThanOrEqual(55)
+      await expect(guidance).toBeInViewport()
 
       let nav = await page.locator('.bottom-nav').boundingBox()
       expect(nav!.y + nav!.height).toBeLessThanOrEqual(viewport.height + 1)
@@ -38,6 +42,22 @@ for (const viewport of viewports) {
       expect(nav!.y + nav!.height).toBeLessThanOrEqual(viewport.height + 1)
 
       const cards = page.locator('.route-card')
+      for (let index = 0; index < await cards.count(); index++) {
+        const box = await cards.nth(index).boundingBox()
+        expect(box!.width).toBeLessThanOrEqual(viewport.width - 32)
+        expect(box!.height).toBeGreaterThanOrEqual(80)
+      }
+    })
+
+    test('Explore groups keep every route in bounds', async ({ page }) => {
+      await openApp(page)
+      await page.getByRole('button', { name: 'Explore', exact: true }).click()
+      await expectNoHorizontalOverflow(page)
+
+      await expect(page.getByRole('region', { name: 'Notice and name' })).toBeVisible()
+      await expect(page.getByRole('region', { name: 'Compare and learn' })).toBeVisible()
+      const cards = page.locator('.app-content .route-card')
+      await expect(cards).toHaveCount(5)
       for (let index = 0; index < await cards.count(); index++) {
         const box = await cards.nth(index).boundingBox()
         expect(box!.width).toBeLessThanOrEqual(viewport.width - 32)
