@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event'
 import { LanguageProvider } from '../context/LanguageContext'
 import { storage } from '../data/storage'
 import { TodayScreen } from '../screens/TodayScreen'
+import { ACCEPTANCE_HOOKS } from '../../scripts/acceptance/selectors.mjs'
 
 function renderToday(language: 'en' | 'ro' = 'en', sessions: React.ComponentProps<typeof TodayScreen>['sessions'] = []) {
   storage.set('language', language)
@@ -96,6 +97,7 @@ describe('TodayScreen quick commitment', () => {
 
     const place = screen.getByRole('button', { name: 'Place the feeling' })
     const help = screen.getByRole('button', { name: 'Help me choose' })
+    expect(screen.getByTestId(ACCEPTANCE_HOOKS.todayGuidedEntry)).toBe(help)
     expect(place.compareDocumentPosition(help) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
 
     await user.click(place)

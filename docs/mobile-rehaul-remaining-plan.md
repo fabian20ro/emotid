@@ -1,7 +1,8 @@
 # Remaining Product Plan
 
-Status: core mobile migration and P46 release closure complete. P45 human validation and unavailable
-physical evidence are deferred. No current evidence supports another product-copy migration.
+Status: core mobile migration, P46 release closure, and P50 stable native hooks complete. P45 human
+validation and unavailable physical evidence are deferred. No current evidence supports another
+product-copy migration.
 Updated August 13, 2026.
 
 This is the only active implementation plan. Historical work belongs in `ITERATION_LOG.md`,
@@ -20,8 +21,9 @@ release criteria in `docs/release-quality-gates.md`, and candidate evidence in
   remain explicit choices, and no backend or telemetry exists.
 - EN/RO, light/dark, keyboard, compact reflow, focus, PWA lifecycle, persistence, safety, and
   performance have broad repeatable coverage.
-- Product SHA `61f8743` is frozen and deployed. Automated gates, iOS Simulator, Pixel browser,
-  installed WebAPK, and Pixel mid-tier timing expose no unresolved product blocker.
+- P46 product SHA `61f8743` is frozen and deployed. P50 adds behavior-neutral acceptance hooks on
+  top of that baseline. Automated gates, iOS Simulator, Pixel browser, installed WebAPK, and Pixel
+  mid-tier timing expose no unresolved product blocker.
 
 Physical iPhone testing remains outside scope. Simulator VoiceOver is not physical screen-reader
 evidence.
@@ -45,10 +47,9 @@ evidence.
 
 ### Next Change Boundary
 
-P50 may stabilize selectors shared by Android, iOS, and macOS native adapters. This release found
-the same stale-copy failure in all three. Add stable product test hooks only for controls used across
-those adapters, then centralize their names once. Do not create a workflow DSL or universal device
-framework.
+P50 centralized only six repeated native acceptance hooks. Product behavior and platform-local
+interaction code remain separate. The next bounded architecture task may improve native Safari
+transport diagnosis; no product architecture change is justified without new evidence.
 
 ### Avoid
 
@@ -58,15 +59,21 @@ boundaries.
 
 ## Recommended Sequence
 
-### P50 - Stable Native Acceptance Hooks (next recommended)
+### P50 - Stable Native Acceptance Hooks (complete)
 
-1. Inventory selectors repeated across at least three native adapters: Today guided entry, save
-   completion, external AI link, and onboarding progress/focus.
-2. Add narrow semantic test IDs where no stable state exists. Keep accessible-name checks where
-   naming or speech is the behavior under test.
-3. Export one small selector map from `scripts/acceptance/`; retain platform-local interactions.
-4. Start with contract tests proving all adapters consume the map. Run focused adapter tests,
-   `npm run check`, Playwright, then one base row per available native platform.
+One frozen selector map now covers Today guided entry, save completion, external AI, and onboarding
+state/focus. Android, iOS, and macOS adapters consume it; TalkBack speech checks retain accessible
+names. Contract tests prevent copy/class selector regressions. Browser, iOS Simulator, and Pixel
+rows pass; native Safari remains blocked at its pre-existing WebDriver click transport.
+
+### P52 - Native Safari Activation Capability Probe (next implementation recommendation)
+
+1. Add a disposable seed-page button whose native WebDriver activation sets an observable state.
+2. Probe it once after SafariDriver session creation, before the product matrix.
+3. When activation is inert, classify the run `BLOCKED` with driver/session diagnostics and skip
+   product rows. Never use a script click as passing native evidence.
+4. Unit-test pass, blocked, and genuine product-failure classification. Rerun native Safari plus
+   `npm run check`; keep the change entirely inside the macOS harness.
 
 ### P51 - Deferred Physical Evidence
 
@@ -93,5 +100,6 @@ deterministic invariants and psychological review. Native evidence must name pla
 
 ## Decision
 
-Implement P50 next because three independent adapters failed from one copy-drift pattern. Keep P49
+P50 closes the repeated-selector architecture gap. Implement P52 next because it is local,
+bounded, and turns a known Safari transport ambiguity into a fail-fast capability result. Keep P49
 closed. Run P45 and P51 only when participants, human AT operation, or distinct hardware exist.

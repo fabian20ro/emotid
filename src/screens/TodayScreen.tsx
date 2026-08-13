@@ -53,7 +53,7 @@ export function TodayScreen({ sessions, saveSessions, onPlaceFeeling, onHelpChoo
           <Crosshair size={19} aria-hidden="true" />
           {t.placeFeeling}
         </button>
-        <button type="button" className="secondary-button" onClick={onHelpChoose}>
+        <button type="button" className="secondary-button" data-testid="today-guided-entry" onClick={onHelpChoose}>
           <CircleHelp size={19} aria-hidden="true" />
           {t.helpChoose}
         </button>

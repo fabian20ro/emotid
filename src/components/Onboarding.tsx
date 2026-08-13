@@ -64,6 +64,7 @@ export function Onboarding({ mode = 'initial', onComplete, saveSessions, onSaveS
       role="dialog"
       aria-modal="true"
       aria-labelledby="onboarding-title"
+      data-testid="onboarding-dialog"
     >
       <div ref={focusTrapRef} className="onboarding-panel">
         <div className="onboarding-header">
@@ -77,6 +78,7 @@ export function Onboarding({ mode = 'initial', onComplete, saveSessions, onSaveS
         <div
           className="onboarding-progress"
           role="progressbar"
+          data-testid="onboarding-progress"
           aria-label={t.progress}
           aria-valuemin={1}
           aria-valuemax={screens.length}
@@ -87,7 +89,7 @@ export function Onboarding({ mode = 'initial', onComplete, saveSessions, onSaveS
 
         <motion.div key={step} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="onboarding-copy">
           <span className="onboarding-icon"><current.Icon size={27} aria-hidden="true" /></span>
-          <h1 ref={headingRef} id="onboarding-title" tabIndex={-1}>{current.title}</h1>
+          <h1 ref={headingRef} id="onboarding-title" data-testid="onboarding-heading" tabIndex={-1}>{current.title}</h1>
           <p>{current.body}</p>
           {isLast && (
             <div className="onboarding-preferences">

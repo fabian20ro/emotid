@@ -1,5 +1,7 @@
+import { ACCEPTANCE_HOOKS, ACCEPTANCE_SELECTORS } from '../acceptance/selectors.mjs'
+
 async function openArrival({ page, activate, expectVisible }) {
-  await activate(page.getByRole('button', { name: /help me choose|ajutați-mă să aleg/i }))
+  await activate(page.getByTestId(ACCEPTANCE_HOOKS.todayGuidedEntry))
   await expectVisible(page.getByTestId('arrival-screen'), 'Arrival')
 }
 
@@ -15,19 +17,24 @@ export const JOURNEYS = Object.freeze({
   j1: async (context) => {
     const { page, language, resetState, expectVisible, assert, activate } = context
     await resetState(page, language, false)
-    const dialog = page.getByRole('dialog')
+    const dialog = page.getByTestId(ACCEPTANCE_HOOKS.onboardingDialog)
     await expectVisible(dialog, 'First-run dialog')
     for (const expectedStep of ['1', '2', '3']) {
       const heading = dialog.getByRole('heading', { level: 1 })
-      await page.waitForFunction((step) => {
-        const activeDialog = document.querySelector('[role="dialog"]')
-        const progress = activeDialog?.querySelector('[role="progressbar"]')
-        const currentHeading = activeDialog?.querySelector('h1')
+      await page.waitForFunction(({ step, dialogSelector, progressSelector, headingSelector }) => {
+        const activeDialog = document.querySelector(dialogSelector)
+        const progress = activeDialog?.querySelector(progressSelector)
+        const currentHeading = activeDialog?.querySelector(headingSelector)
         return progress?.getAttribute('aria-valuenow') === step
           && currentHeading === document.activeElement
-      }, expectedStep)
+      }, {
+        step: expectedStep,
+        dialogSelector: ACCEPTANCE_SELECTORS.onboardingDialog,
+        progressSelector: ACCEPTANCE_SELECTORS.onboardingProgress,
+        headingSelector: ACCEPTANCE_SELECTORS.onboardingHeading,
+      })
       assert(await heading.evaluate((element) => element === document.activeElement), `J1 step ${expectedStep} heading lacks focus`)
-      assert(await dialog.getByRole('progressbar').getAttribute('aria-valuenow') === expectedStep, `J1 progress is not ${expectedStep}`)
+      assert(await dialog.getByTestId(ACCEPTANCE_HOOKS.onboardingProgress).getAttribute('aria-valuenow') === expectedStep, `J1 progress is not ${expectedStep}`)
       if (expectedStep !== '3') await activate(dialog.locator('.primary-button'))
     }
     await expectVisible(dialog.locator('.onboarding-language'), 'Language choice')
@@ -40,7 +47,7 @@ export const JOURNEYS = Object.freeze({
     await resetState(page, language)
     await activate(page.getByRole('button', { name: /settings|setări/i }))
     await activate(page.getByRole('button', { name: /replay introduction|reluați introducerea/i }))
-    const dialog = page.getByRole('dialog')
+    const dialog = page.getByTestId(ACCEPTANCE_HOOKS.onboardingDialog)
     await expectVisible(dialog, 'Replayed introduction')
     assert(await page.locator('.app-shell').getAttribute('inert') !== null, 'J2 background is not inert')
     await activate(page.getByRole('button', { name: /close introduction|închideți introducerea/i }))
@@ -167,7 +174,7 @@ export const JOURNEYS = Object.freeze({
     await activate(page.getByTestId('quick-continue'))
     await expectVisible(page.getByTestId('reflection-screen'), 'Compact reflection')
     assert(await page.locator('.need-choice').count() === 0, 'J9 inferred need is visible before exploration')
-    const aiLink = page.locator('.external-ai-link')
+    const aiLink = page.getByTestId(ACCEPTANCE_HOOKS.externalAiLink)
     assert(await aiLink.count() === 0, 'J9 AI link is visible before exploration')
 
     const done = page.getByRole('button', { name: /done for now|gata pentru acum/i })

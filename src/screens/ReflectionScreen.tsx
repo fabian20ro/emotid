@@ -207,7 +207,7 @@ export function ReflectionScreen({ completion, allowExternalAI, saveState, sessi
 
         {aiLink ? (
           <div className="external-ai-action">
-            <a className="secondary-button external-ai-link" href={aiLink} target="_blank" rel="noopener noreferrer">
+            <a className="secondary-button external-ai-link" data-testid="external-ai-link" href={aiLink} target="_blank" rel="noopener noreferrer">
               {analyzeT.exploreAI}<ExternalLink size={18} aria-hidden="true" />
             </a>
             <p>{analyzeT.aiDisclosure}</p>
@@ -238,6 +238,7 @@ export function ReflectionScreen({ completion, allowExternalAI, saveState, sessi
       {(completion.crisisTier === 'none' || saveState === 'error') && (
         <div
           className={`session-save-status is-${saveState}`}
+          data-testid="session-save-status"
           role={saveState === 'error' ? 'alert' : 'status'}
           aria-live="polite"
         >

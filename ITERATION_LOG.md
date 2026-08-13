@@ -2418,3 +2418,29 @@ Recommendation is conditional release with documented evidence waivers. Initial 
 **Insight:** A native adapter that follows mutable copy can fail every route without finding a
 product defect. Shared semantic hooks are justified after the same drift appears on three platforms.
 **Promoted to Lessons Learned:** Yes — added the stable native acceptance hook rule.
+
+---
+
+### [2026-08-13] Stabilize native acceptance hooks
+
+**Context:** P46 found the same translated-copy and presentation-class selector drift in Android,
+iOS, and macOS adapters. P50 required one narrow contract without a workflow DSL or shared device
+framework.
+**What happened:**
+- Started with failing product and static adapter contracts. Added six semantic hooks for guided
+  entry, onboarding dialog/heading/progress, save status, and external AI handoff.
+- Exported one frozen hook/selector map from `scripts/acceptance/`. Migrated four native adapters;
+  retained accessible-name selection in TalkBack where spoken naming is the behavior under test.
+- A back-to-back iOS run exposed a `simctl boot` state race. Extracted and unit-tested an idempotent
+  boot boundary: already-booted and lost-race states proceed, while genuine boot failure stays fatal.
+- Full browser coverage passed 256/256. PWA passed 1/1 after rerunning outside the macOS process
+  sandbox. iOS Simulator passed Quick, onboarding focus, and Romanian guided Word Ladder, 3/3.
+  Pixel 6a Android 17 passed J1/J5/J9 in EN/RO, 6/6. Native Safari remained BLOCKED at the known
+  driver-click transport; diagnostic script activation reproduced correct product behavior.
+**Outcome:** `npm run check` passes 85 files / 676 tests before the final documentation-only diff.
+No copy, safety, persistence, visual, or interaction behavior changed. P50 is complete; P52 is a
+bounded SafariDriver capability probe recommendation.
+**Insight:** Stable product hooks remove application drift, but native transport capability is a
+separate precondition. Probe that precondition once and classify it before running product rows.
+**Promoted to Lessons Learned:** No — the existing native-hook and hardware fail-fast lessons cover
+the reusable boundaries.

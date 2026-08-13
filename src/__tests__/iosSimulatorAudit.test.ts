@@ -21,6 +21,27 @@ afterEach(() => {
 })
 
 describe('iOS Simulator Safari audit', () => {
+  it('boots idempotently across an external Simulator state race', async () => {
+    const { bootSimulatorIfNeeded } = await import(auditModuleUrl)
+    const boot = vi.fn()
+
+    expect(bootSimulatorIfNeeded({ readState: () => 'Booted', boot })).toBe(false)
+    expect(boot).not.toHaveBeenCalled()
+
+    expect(bootSimulatorIfNeeded({ readState: () => 'Shutdown', boot })).toBe(true)
+
+    const racingBoot = vi.fn(() => { throw new Error('already booted') })
+    const racingStates = vi.fn()
+      .mockReturnValueOnce('Shutdown')
+      .mockReturnValueOnce('Booted')
+    expect(bootSimulatorIfNeeded({ readState: racingStates, boot: racingBoot })).toBe(false)
+
+    expect(() => bootSimulatorIfNeeded({
+      readState: () => 'Shutdown',
+      boot: () => { throw new Error('boot failed') },
+    })).toThrow('boot failed')
+  })
+
   it('builds the exact bounded bilingual matrix', async () => {
     const { buildIOSSimulatorMatrix } = await import(auditModuleUrl)
 

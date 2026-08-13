@@ -6,6 +6,7 @@ import { LanguageProvider } from '../context/LanguageContext'
 import { storage } from '../data/storage'
 import type { AnalysisResult } from '../models/types'
 import type { CheckInCompletion, ReflectionDetail, ReflectionSaveOutcome } from '../navigation/types'
+import { ACCEPTANCE_HOOKS } from '../../scripts/acceptance/selectors.mjs'
 
 function deferred<T>() {
   let resolve!: (value: T) => void
@@ -283,9 +284,16 @@ describe('ReflectionScreen need selection', () => {
     await user.click(screen.getByRole('button', { name: 'Explore further' }))
 
     const link = screen.getByRole('link', { name: 'Explore in Google AI Mode' })
+    expect(screen.getByTestId(ACCEPTANCE_HOOKS.externalAiLink)).toBe(link)
     expect(link).toHaveAttribute('href', expect.stringContaining('https://www.google.com/search?udm=50&q='))
     expect(screen.getByText(/opens Google AI Mode/i)).toBeInTheDocument()
     expect(screen.getByText(/not a substitute for professional support/i)).toBeInTheDocument()
+  })
+
+  it('exposes save completion through the stable native acceptance hook', () => {
+    renderReflection([result('anxiety')], { saveState: 'saved' })
+
+    expect(screen.getByTestId(ACCEPTANCE_HOOKS.sessionSaveStatus)).toHaveClass('is-saved')
   })
 
   it('localizes mismatch recovery in Romanian', async () => {

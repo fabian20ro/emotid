@@ -4,12 +4,12 @@ import {
   ACCEPTANCE_RESULTS,
   validateAcceptanceAdapter,
 } from '../acceptance/contract.mjs'
+import { ACCEPTANCE_SELECTORS } from '../acceptance/selectors.mjs'
 
 const RUN_PARAMETER = 'native-safari-run'
 
 const COPY = {
   en: {
-    start: 'Help me choose',
     reflection: 'What seems to fit?',
     explore: 'Explore further',
     happy: 'Happy',
@@ -19,7 +19,6 @@ const COPY = {
     acknowledge: 'Continue to reflection',
   },
   ro: {
-    start: 'Ajutați-mă să aleg',
     reflection: 'Ce pare să se potrivească?',
     explore: 'Explorați mai mult',
     happy: 'Fericit',
@@ -176,18 +175,18 @@ async function runQuick(driver, language) {
   await click(driver, 'css selector', '[data-testid="quick-feeling-anxiety"]')
   await click(driver, 'css selector', '[data-testid="quick-continue"]')
   await driver.waitForElement('css selector', '[data-testid="reflection-screen"]')
-  await driver.waitForElement('css selector', '.session-save-status.is-saved')
+  await driver.waitForElement('css selector', ACCEPTANCE_SELECTORS.saveComplete)
   const heading = await driver.getText(await driver.findElement('css selector', 'h1'))
   if (heading !== copy.reflection) throw new Error(`Unexpected Reflection heading: ${heading}`)
   await click(driver, 'xpath', buttonWithText(copy.explore))
   await driver.waitForElement('css selector', '[data-testid="reflection-exploration-screen"]')
-  const aiLink = await driver.findElement('css selector', '.external-ai-link')
+  const aiLink = await driver.findElement('css selector', ACCEPTANCE_SELECTORS.externalAiLink)
   const aiUrl = new URL(await driver.getAttribute(aiLink, 'href'))
   if (aiUrl.searchParams.get('udm') !== '50') throw new Error('External AI link lost udm=50')
 }
 
-async function openWordLadder(driver, copy) {
-  await click(driver, 'xpath', buttonWithText(copy.start))
+async function openWordLadder(driver) {
+  await click(driver, 'css selector', ACCEPTANCE_SELECTORS.todayGuidedEntry)
   await driver.waitForElement('css selector', '[data-testid="arrival-screen"]')
   await click(driver, 'css selector', '[data-testid="arrival-words"]')
   await driver.waitForElement('css selector', '[data-testid="words-screen"]')
@@ -195,7 +194,7 @@ async function openWordLadder(driver, copy) {
 
 async function runWordIntermediate(driver, language) {
   const copy = COPY[language]
-  await openWordLadder(driver, copy)
+  await openWordLadder(driver)
   await click(driver, 'xpath', buttonWithText(copy.happy))
   await click(driver, 'xpath', buttonWithText(copy.playful))
   await click(driver, 'xpath', buttonWithText(copy.continuePlayful))
@@ -206,7 +205,7 @@ async function runWordIntermediate(driver, language) {
 
 async function runTier4(driver, language) {
   const copy = COPY[language]
-  await openWordLadder(driver, copy)
+  await openWordLadder(driver)
   await click(driver, 'xpath', buttonWithText(copy.tier4Path[0]))
   await click(driver, 'xpath', buttonWithText(copy.tier4Path[1]))
   await click(driver, 'css selector', '.word-path-levels button:last-child')

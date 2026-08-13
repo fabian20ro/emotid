@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event'
 import { Onboarding } from '../components/Onboarding'
 import { LanguageProvider } from '../context/LanguageContext'
 import { storage } from '../data/storage'
+import { ACCEPTANCE_HOOKS } from '../../scripts/acceptance/selectors.mjs'
 
 function renderOnboarding(onComplete = vi.fn(), saveSessions = true, onSaveSessionsChange = vi.fn()) {
   return {
@@ -34,9 +35,10 @@ afterEach(() => setItemSpy.mockRestore())
 describe('Onboarding', () => {
   it('frames the experience as exploration rather than a test', () => {
     renderOnboarding()
-    expect(screen.getByRole('dialog')).toHaveAttribute('aria-modal', 'true')
+    expect(screen.getByTestId(ACCEPTANCE_HOOKS.onboardingDialog)).toHaveAttribute('aria-modal', 'true')
     expect(screen.getByText(/not a test/i)).toBeInTheDocument()
-    expect(screen.getByRole('progressbar', { name: 'Introduction progress' })).toHaveAttribute('aria-valuenow', '1')
+    expect(screen.getByTestId(ACCEPTANCE_HOOKS.onboardingHeading)).toHaveTextContent('This is an exploration, not a test')
+    expect(screen.getByTestId(ACCEPTANCE_HOOKS.onboardingProgress)).toHaveAttribute('aria-valuenow', '1')
   })
 
   it('moves through purpose and local privacy in three steps', async () => {

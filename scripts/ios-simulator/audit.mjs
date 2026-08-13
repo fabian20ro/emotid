@@ -4,6 +4,7 @@ import {
   ACCEPTANCE_RESULTS,
   validateAcceptanceAdapter,
 } from '../acceptance/contract.mjs'
+import { ACCEPTANCE_SELECTORS } from '../acceptance/selectors.mjs'
 
 const RUN_PARAMETER = 'ios-simulator-run'
 
@@ -90,7 +91,6 @@ const LOOPBACK_HOSTS = new Set(['127.0.0.1', 'localhost', '[::1]'])
 
 const COPY = Object.freeze({
   en: Object.freeze({
-    start: 'Help me choose',
     reflection: 'What seems to fit?',
     explore: 'Explore further',
     done: 'Done for now',
@@ -108,7 +108,6 @@ const COPY = Object.freeze({
     cancel: 'Cancel',
   }),
   ro: Object.freeze({
-    start: 'Ajutați-mă să aleg',
     reflection: 'Ce pare să se potrivească?',
     explore: 'Explorați mai mult',
     done: 'Gata pentru acum',
@@ -126,6 +125,17 @@ const COPY = Object.freeze({
     cancel: 'Anulați',
   }),
 })
+
+export function bootSimulatorIfNeeded({ readState, boot }) {
+  if (readState() === 'Booted') return false
+  try {
+    boot()
+    return true
+  } catch (error) {
+    if (readState() !== 'Booted') throw error
+    return false
+  }
+}
 
 function parsePort(value) {
   const port = Number.parseInt(value, 10)
@@ -562,15 +572,15 @@ async function runOnboardingFocus(driver, {
   const candidateUrl = new URL(baseUrl)
   candidateUrl.searchParams.set(RUN_PARAMETER, runToken)
   await driver.navigate(candidateUrl.href)
-  await driver.waitForElement('css selector', '.onboarding')
+  await driver.waitForElement('css selector', ACCEPTANCE_SELECTORS.onboardingDialog)
   await waitForStableVisualViewport(driver)
   await waitForCondition(
     driver,
-    "return document.querySelector('#onboarding-title') === document.activeElement",
+    `return document.querySelector(${JSON.stringify(ACCEPTANCE_SELECTORS.onboardingHeading)}) === document.activeElement`,
     'onboarding heading focus',
   )
   const surface = await driver.execute(`
-    const heading = document.querySelector('#onboarding-title')
+    const heading = document.querySelector(${JSON.stringify(ACCEPTANCE_SELECTORS.onboardingHeading)})
     const headingStyle = getComputedStyle(heading)
     const shell = document.querySelector('.onboarding').getBoundingClientRect()
     const viewport = visualViewport
@@ -619,8 +629,8 @@ async function runOnboardingFocus(driver, {
   for (const expectedStep of ['1', '2', '3']) {
     await waitForCondition(
       driver,
-      `return document.querySelector('#onboarding-title') === document.activeElement
-        && document.querySelector('[role="progressbar"]')?.getAttribute('aria-valuenow') === ${JSON.stringify(expectedStep)}`,
+      `return document.querySelector(${JSON.stringify(ACCEPTANCE_SELECTORS.onboardingHeading)}) === document.activeElement
+        && document.querySelector(${JSON.stringify(ACCEPTANCE_SELECTORS.onboardingProgress)})?.getAttribute('aria-valuenow') === ${JSON.stringify(expectedStep)}`,
       `onboarding step ${expectedStep} focus and progress`,
     )
     const next = await driver.waitForElement('css selector', '.onboarding-actions .primary-button')
@@ -772,13 +782,13 @@ async function inspectRobustnessSurface(driver, entry) {
   })
 }
 
-async function openWords(driver, copy) {
-  await click(driver, 'xpath', buttonWithText(copy.start))
+async function openWords(driver) {
+  await click(driver, 'css selector', ACCEPTANCE_SELECTORS.todayGuidedEntry)
   await click(driver, 'css selector', '[data-testid="arrival-words"]')
 }
 
-async function openArrival(driver, copy) {
-  await click(driver, 'xpath', buttonWithText(copy.start))
+async function openArrival(driver) {
+  await click(driver, 'css selector', ACCEPTANCE_SELECTORS.todayGuidedEntry)
   await driver.waitForElement('css selector', '[data-testid="arrival-screen"]')
 }
 
@@ -786,10 +796,10 @@ async function runSettingsReplay(driver, copy) {
   await click(driver, 'xpath', buttonWithAccessibleName(copy.settings))
   await driver.waitForElement('css selector', '[data-testid="settings-screen"]')
   await click(driver, 'xpath', buttonWithText(copy.replayIntroduction))
-  await driver.waitForElement('css selector', '.onboarding[role="dialog"]')
+  await driver.waitForElement('css selector', ACCEPTANCE_SELECTORS.onboardingDialog)
   await waitForCondition(
     driver,
-    "return document.querySelector('#onboarding-title') === document.activeElement && document.querySelector('.app-shell')?.hasAttribute('inert')",
+    `return document.querySelector(${JSON.stringify(ACCEPTANCE_SELECTORS.onboardingHeading)}) === document.activeElement && document.querySelector('.app-shell')?.hasAttribute('inert')`,
     'replayed introduction focus and inert background',
   )
   await click(driver, 'xpath', buttonWithAccessibleName(copy.closeIntroduction))
@@ -805,7 +815,7 @@ async function runSettingsReplay(driver, copy) {
 }
 
 async function runAffect(driver, copy) {
-  await openArrival(driver, copy)
+  await openArrival(driver)
   await click(driver, 'css selector', '[data-testid="arrival-affect"]')
   const field = await driver.waitForElement('css selector', '.dimensional-plot-svg')
   await driver.click(field)
@@ -817,7 +827,7 @@ async function runAffect(driver, copy) {
 }
 
 async function runBody(driver, copy) {
-  await openArrival(driver, copy)
+  await openArrival(driver)
   await click(driver, 'css selector', '[data-testid="arrival-body"]')
   await click(driver, 'css selector', '.body-side-switch button:last-child')
   await click(driver, 'css selector', '.body-region-list button')
@@ -840,13 +850,13 @@ async function runQuick(driver, copy) {
   await click(driver, 'css selector', '[data-testid="quick-feeling-anxiety"]')
   await click(driver, 'css selector', '[data-testid="quick-continue"]')
   await driver.waitForElement('css selector', '[data-testid="reflection-screen"]')
-  await driver.waitForElement('css selector', '.session-save-status.is-saved')
+  await driver.waitForElement('css selector', ACCEPTANCE_SELECTORS.saveComplete)
   const heading = await driver.getText(await driver.findElement('css selector', 'h1'))
   if (heading !== copy.reflection) throw new Error(`Unexpected Reflection heading: ${heading}`)
   await assertCurrentSurface(driver)
   await click(driver, 'xpath', buttonWithText(copy.explore))
   await driver.waitForElement('css selector', '[data-testid="reflection-exploration-screen"]')
-  const aiLink = await driver.findElement('css selector', '.external-ai-link')
+  const aiLink = await driver.findElement('css selector', ACCEPTANCE_SELECTORS.externalAiLink)
   const aiUrl = new URL(await driver.getAttribute(aiLink, 'href'))
   if (aiUrl.searchParams.get('udm') !== '50' || aiUrl.searchParams.get('q') !== copy.aiQuery) {
     throw new Error(`External AI handoff mismatch: ${aiUrl.href}`)
@@ -855,7 +865,7 @@ async function runQuick(driver, copy) {
 }
 
 async function runWordIntermediate(driver, copy) {
-  await openWords(driver, copy)
+  await openWords(driver)
   await click(driver, 'xpath', buttonWithText(copy.happy))
   await click(driver, 'xpath', buttonWithText(copy.playful))
   const direct = await driver.waitForElement('xpath', buttonWithText(copy.continuePlayful))
@@ -931,7 +941,7 @@ async function runHistoryDelete(driver, copy) {
 }
 
 async function runTier4(driver, copy) {
-  await openWords(driver, copy)
+  await openWords(driver)
   for (const [index, label] of copy.tier4Path.entries()) {
     await click(driver, 'xpath', buttonWithText(label))
     if (index === 1) await click(driver, 'css selector', '.word-path-levels button:last-child')

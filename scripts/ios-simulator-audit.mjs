@@ -7,6 +7,7 @@ import {
   buildIOSAcceptanceMatrix,
   buildIOSSimulatorMatrix,
   buildIOSRobustnessMatrix,
+  bootSimulatorIfNeeded,
   captureNativeScreenshot,
   dismissSafariCoachmark,
   getSafariTextSizeAction,
@@ -266,10 +267,11 @@ function resetSafariUi(profile) {
 }
 
 function bootProfile(profile) {
-  if (readProfileState(profile) !== 'Booted') {
-    exec('/usr/bin/xcrun', ['simctl', 'boot', profile.udid])
-    if (profile.state !== 'Booted') bootedByRunner.push(profile.udid)
-  }
+  const booted = bootSimulatorIfNeeded({
+    readState: () => readProfileState(profile),
+    boot: () => exec('/usr/bin/xcrun', ['simctl', 'boot', profile.udid]),
+  })
+  if (booted && profile.state !== 'Booted') bootedByRunner.push(profile.udid)
   exec('/usr/bin/xcrun', ['simctl', 'bootstatus', profile.udid, '-b'], { timeout: 180_000 })
 }
 

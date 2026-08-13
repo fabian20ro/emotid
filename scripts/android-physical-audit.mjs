@@ -15,6 +15,7 @@ import {
   WEBAPK_PACKAGE,
 } from './android-physical/environment.mjs'
 import { runJourneyMatrix } from './android-physical/journeys.mjs'
+import { ACCEPTANCE_HOOKS } from './acceptance/selectors.mjs'
 
 const usage = `Usage: node scripts/android-physical-audit.mjs [options]
 
@@ -322,7 +323,7 @@ async function measurePerformance(initialBrowser, initialPage) {
 
     const routeResults = {}
     for (const route of ['body', 'affect', 'words']) {
-      await activate(page.getByRole('button', { name: /help me choose/i }))
+      await activate(page.getByTestId(ACCEPTANCE_HOOKS.todayGuidedEntry))
       await expectVisible(page.getByTestId('arrival-screen'), 'Arrival')
       const start = await page.evaluate(() => performance.now())
       await activate(page.getByTestId(`arrival-${route}`))
