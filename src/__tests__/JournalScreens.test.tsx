@@ -81,13 +81,13 @@ describe('Journal data display', () => {
       onOpenChain: vi.fn(),
     }
     const { rerender } = withLanguage(<JournalScreen {...props} loading />)
-    expect(screen.getByRole('status')).toHaveTextContent('Loading saved check-ins')
+    expect(screen.getByRole('status')).toHaveTextContent('Loading saved reflections')
 
     rerender(<LanguageProvider><JournalScreen {...props} loading={false} error /></LanguageProvider>)
-    expect(screen.getByRole('alert')).toHaveTextContent('Saved check-ins could not be loaded')
+    expect(screen.getByRole('alert')).toHaveTextContent('Saved reflections could not be loaded')
 
     rerender(<LanguageProvider><JournalScreen {...props} loading={false} /></LanguageProvider>)
-    expect(screen.getByText('No saved check-ins yet')).toBeInTheDocument()
+    expect(screen.getByText('No saved reflections yet')).toBeInTheDocument()
   })
 
   it('shows localized body signals, selected need, and next step without mutating the record', () => {
@@ -114,7 +114,7 @@ describe('Journal data display', () => {
     withLanguage(<SessionDetailScreen session={oldSession} onBack={vi.fn()} onDelete={vi.fn()} />)
 
     expect(screen.getByText('anxiety')).toBeInTheDocument()
-    expect(screen.getByText('This check-in was saved before these details were available.')).toBeInTheDocument()
+    expect(screen.getByText('This reflection was saved before these details were available.')).toBeInTheDocument()
   })
 
   it('labels generated results as possibilities until the user confirms fit', () => {
@@ -139,7 +139,7 @@ describe('Journal data display', () => {
       <JournalScreen {...props} sessions={[bodySession(), bodySession({ id: 'session-2' })]} />,
     )
 
-    expect(screen.getByRole('heading', { name: 'Your first check-ins' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Your first reflections' })).toBeInTheDocument()
     expect(screen.queryByRole('heading', { name: 'What has appeared so far' })).not.toBeInTheDocument()
     expect(document.querySelector('.journal-stats')).not.toBeInTheDocument()
 
@@ -165,10 +165,10 @@ describe('Journal data display', () => {
     const onDelete = vi.fn().mockResolvedValue(undefined)
     withLanguage(<SessionDetailScreen session={bodySession()} onBack={vi.fn()} onDelete={onDelete} />)
 
-    const trigger = screen.getByRole('button', { name: 'Delete this check-in' })
+    const trigger = screen.getByRole('button', { name: 'Delete this reflection' })
     await user.click(trigger)
 
-    const dialog = screen.getByRole('dialog', { name: 'Delete this check-in?' })
+    const dialog = screen.getByRole('dialog', { name: 'Delete this reflection?' })
     expect(dialog.parentElement?.parentElement).toBe(document.body)
     expect(screen.getByRole('button', { name: 'Cancel' })).toHaveFocus()
     expect(onDelete).not.toHaveBeenCalled()
@@ -178,7 +178,7 @@ describe('Journal data display', () => {
     expect(onDelete).not.toHaveBeenCalled()
 
     await user.click(trigger)
-    await user.click(screen.getByRole('button', { name: 'Delete check-in' }))
+    await user.click(screen.getByRole('button', { name: 'Delete reflection' }))
     await waitFor(() => expect(onDelete).toHaveBeenCalledWith('session-1'))
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   })
@@ -188,12 +188,12 @@ describe('Journal data display', () => {
     const onDelete = vi.fn().mockRejectedValue(new Error('write failed'))
     withLanguage(<SessionDetailScreen session={bodySession()} onBack={vi.fn()} onDelete={onDelete} />)
 
-    await user.click(screen.getByRole('button', { name: 'Delete this check-in' }))
-    await user.click(screen.getByRole('button', { name: 'Delete check-in' }))
+    await user.click(screen.getByRole('button', { name: 'Delete this reflection' }))
+    await user.click(screen.getByRole('button', { name: 'Delete reflection' }))
 
     expect(await screen.findByRole('alert')).toHaveTextContent(
-      'This check-in could not be deleted. Your other entries were not changed.',
+      'This reflection could not be deleted. Your other entries were not changed.',
     )
-    expect(screen.getByRole('dialog', { name: 'Delete this check-in?' })).toBeInTheDocument()
+    expect(screen.getByRole('dialog', { name: 'Delete this reflection?' })).toBeInTheDocument()
   })
 })

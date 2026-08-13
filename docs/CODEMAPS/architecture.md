@@ -63,7 +63,8 @@ leaving focus on a temporary loading status.
 
 ### Check-In Workflow State
 
-`buildCheckInCompletion` is the pure safety/temporal boundary.
+`buildCheckInCompletion` is the pure current-session safety boundary. It derives support visibility
+only from the current result IDs; saved history is not an input and cannot raise urgency.
 `checkInWorkflowReducer` exposes idle, reflecting, saving, saved, disabled, and
 failed states without a global state library. `useCheckInWorkflow` owns the
 ordered write queue and guards stale base writes so an older successful write

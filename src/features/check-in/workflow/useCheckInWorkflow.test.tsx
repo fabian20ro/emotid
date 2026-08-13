@@ -22,7 +22,6 @@ function renderWorkflow(
   const onShowReflection = vi.fn()
   const onReturnToday = vi.fn()
   const hook = renderHook(() => useCheckInWorkflow({
-    sessions: [],
     saveSessions,
     saveSession,
     onShowReflection,

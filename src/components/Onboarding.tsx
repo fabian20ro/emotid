@@ -6,15 +6,18 @@ import { useLanguage } from '../context/LanguageContext'
 import { useFocusTrap } from '../hooks/useFocusTrap'
 import { storage } from '../data/storage'
 import { focusDestination } from '../utils/focusDestination'
+import { Toggle } from './Toggle'
 
 interface OnboardingProps {
   mode?: 'initial' | 'replay'
   onComplete: () => void
+  saveSessions: boolean
+  onSaveSessionsChange: (enabled: boolean) => void
   onClose?: () => void
   returnFocusRef?: RefObject<HTMLElement | null>
 }
 
-export function Onboarding({ mode = 'initial', onComplete, onClose, returnFocusRef }: OnboardingProps) {
+export function Onboarding({ mode = 'initial', onComplete, saveSessions, onSaveSessionsChange, onClose, returnFocusRef }: OnboardingProps) {
   const { section, language, setLanguage } = useLanguage()
   const t = section('onboarding')
   const privacyT = section('privacyData')
@@ -86,10 +89,21 @@ export function Onboarding({ mode = 'initial', onComplete, onClose, returnFocusR
           <span className="onboarding-icon"><current.Icon size={27} aria-hidden="true" /></span>
           <h1 ref={headingRef} id="onboarding-title" tabIndex={-1}>{current.title}</h1>
           <p>{current.body}</p>
-          {isLast && mode === 'initial' && (
-            <div className="segmented onboarding-language" role="group" aria-label={section('settingsScreen').language}>
-              <button type="button" aria-pressed={language === 'en'} className={language === 'en' ? 'is-active' : ''} onClick={() => setLanguage('en')}>English</button>
-              <button type="button" aria-pressed={language === 'ro'} className={language === 'ro' ? 'is-active' : ''} onClick={() => setLanguage('ro')}>Română</button>
+          {isLast && (
+            <div className="onboarding-preferences">
+              <div className="onboarding-save-choice">
+                <span>
+                  <strong>{privacyT.saving}</strong>
+                  <small>{privacyT.savingHint}</small>
+                </span>
+                <Toggle checked={saveSessions} label={privacyT.saving} onChange={onSaveSessionsChange} />
+              </div>
+              {mode === 'initial' && (
+                <div className="segmented onboarding-language" role="group" aria-label={section('settingsScreen').language}>
+                  <button type="button" aria-pressed={language === 'en'} className={language === 'en' ? 'is-active' : ''} onClick={() => setLanguage('en')}>English</button>
+                  <button type="button" aria-pressed={language === 'ro'} className={language === 'ro' ? 'is-active' : ''} onClick={() => setLanguage('ro')}>Română</button>
+                </div>
+              )}
             </div>
           )}
         </motion.div>

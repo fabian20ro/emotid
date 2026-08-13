@@ -11,7 +11,6 @@ const completion: CheckInCompletion = {
   selections: [],
   results: [],
   crisisTier: 'none',
-  temporalEscalation: false,
 }
 
 describe('checkInWorkflowReducer', () => {

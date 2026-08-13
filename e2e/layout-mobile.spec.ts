@@ -26,7 +26,7 @@ for (const viewport of viewports) {
       await openApp(page)
       await expectNoHorizontalOverflow(page)
 
-      const primary = await page.getByRole('button', { name: 'Start a check-in' }).boundingBox()
+      const primary = await page.getByRole('button', { name: 'Start a reflection' }).boundingBox()
       expect(primary!.height).toBeGreaterThanOrEqual(55)
 
       let nav = await page.locator('.bottom-nav').boundingBox()

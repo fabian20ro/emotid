@@ -51,8 +51,6 @@ scope and certainty requirements.
 
 **[2026-07-22]** Begin with experience, not theory selection — On mobile, asking users to choose an emotion model before describing their state adds cognitive load at the moment capacity may be lowest. Start with words, body, placement, or uncertainty; expose named models later as optional tools.
 
-**[2026-07-22]** Rehaul presentation around one shared safety boundary — Route-specific screens may own input state and reuse different model engines, but all completion must converge through the same crisis evaluation, temporal escalation, reflection, and persistence controller. This enables independent UI replacement without safety drift.
-
 ## Code Patterns & Pitfalls
 
 **[2026-08-13]** Async deadlines need cancellation and generation isolation — Racing a timeout
@@ -264,6 +262,11 @@ history-driven behavior against the same agency and uncertainty constraints as v
 
 <!-- Lessons that are no longer applicable. Keep for historical context. -->
 <!-- Format: **[YYYY-MM-DD] Archived [YYYY-MM-DD]** Title — Reason for archival -->
+
+**[2026-07-22] Archived [2026-08-13]** Rehaul presentation around one shared safety boundary —
+The shared completion boundary remains correct, but temporal escalation was removed because saved
+label history cannot justify stronger present urgency. The active contract now requires
+current-session crisis visibility only.
 
 **[2026-08-13] Archived [2026-08-13]** Android playback capture is not TalkBack speech evidence —
 Initial probes found only accessibility earcons through scrcpy `output` and no reliable microphone

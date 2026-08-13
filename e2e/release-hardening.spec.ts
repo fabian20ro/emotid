@@ -25,7 +25,7 @@ test.describe('Keyboard-only primary journeys', () => {
   })
 
   test('Body Compass completes without pointer input', async ({ page }) => {
-    await activate(page.getByRole('button', { name: 'Start a check-in' }))
+    await activate(page.getByRole('button', { name: 'Start a reflection' }))
     await activate(page.getByTestId('arrival-body'))
     await activate(page.getByRole('button', { name: 'Chest' }))
     await activate(page.getByRole('button', { name: 'Tension' }), 'Space')
@@ -35,7 +35,7 @@ test.describe('Keyboard-only primary journeys', () => {
   })
 
   test('Affect Map completes without pointer input', async ({ page }) => {
-    await activate(page.getByRole('button', { name: 'Start a check-in' }))
+    await activate(page.getByRole('button', { name: 'Start a reflection' }))
     await activate(page.getByTestId('arrival-affect'), 'Space')
 
     const field = page.getByRole('group', { name: 'Energy and pleasantness map' })
@@ -49,7 +49,7 @@ test.describe('Keyboard-only primary journeys', () => {
   })
 
   test('Word Ladder completes without pointer input', async ({ page }) => {
-    await activate(page.getByRole('button', { name: 'Start a check-in' }))
+    await activate(page.getByRole('button', { name: 'Start a reflection' }))
     await activate(page.getByTestId('arrival-words'))
     await activate(page.getByRole('button', { name: 'Happy' }), 'Space')
     await activate(page.getByRole('button', { name: 'Add Happy' }))
@@ -108,14 +108,14 @@ test('reduced motion, offline recovery, and save-disabled behavior remain functi
 
   await page.getByRole('button', { name: 'Settings' }).click()
   await page.getByRole('button', { name: 'Privacy & data' }).click()
-  await page.getByRole('switch', { name: 'Save completed check-ins' }).click()
+  await page.getByRole('switch', { name: 'Save reflections on this device' }).click()
   await page.getByRole('button', { name: 'Back' }).click()
   await page.getByRole('button', { name: 'Back' }).click()
   await page.getByTestId('quick-feeling-joy').click()
   await page.getByTestId('quick-continue').click()
   await finishReflection(page)
   await page.getByRole('button', { name: 'Journal', exact: true }).click()
-  await expect(page.getByText('No saved check-ins yet')).toBeVisible()
+  await expect(page.getByText('No saved reflections yet')).toBeVisible()
 })
 
 test.describe('desktop sanity viewport', () => {

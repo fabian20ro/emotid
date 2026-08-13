@@ -5,10 +5,19 @@ import { Onboarding } from '../components/Onboarding'
 import { LanguageProvider } from '../context/LanguageContext'
 import { storage } from '../data/storage'
 
-function renderOnboarding(onComplete = vi.fn()) {
+function renderOnboarding(onComplete = vi.fn(), saveSessions = true, onSaveSessionsChange = vi.fn()) {
   return {
-    ...render(<LanguageProvider><Onboarding onComplete={onComplete} /></LanguageProvider>),
+    ...render(
+      <LanguageProvider>
+        <Onboarding
+          onComplete={onComplete}
+          saveSessions={saveSessions}
+          onSaveSessionsChange={onSaveSessionsChange}
+        />
+      </LanguageProvider>,
+    ),
     onComplete,
+    onSaveSessionsChange,
   }
 }
 
@@ -39,7 +48,7 @@ describe('Onboarding', () => {
     const next = screen.getByRole('button', { name: /next/i })
     next.focus()
     await user.keyboard('{Enter}')
-    await waitFor(() => expect(screen.getByRole('heading', { name: /emotions can be explored with curiosity/i })).toHaveFocus())
+    await waitFor(() => expect(screen.getByRole('heading', { name: /your context matters/i })).toHaveFocus())
     expect(screen.getByRole('progressbar')).toHaveAttribute('aria-valuenow', '2')
 
     await user.click(screen.getByRole('button', { name: /next/i }))
@@ -59,6 +68,20 @@ describe('Onboarding', () => {
 
     expect(onComplete).toHaveBeenCalledOnce()
     expect(setItemSpy).toHaveBeenCalledWith(storage.KEYS.onboarded, 'true')
+  })
+
+  it('discloses local saving before first use and keeps it on by default', async () => {
+    const user = userEvent.setup()
+    const { onSaveSessionsChange } = renderOnboarding()
+    await user.click(screen.getByRole('button', { name: /next/i }))
+    await user.click(screen.getByRole('button', { name: /next/i }))
+
+    const saving = screen.getByRole('switch', { name: 'Save reflections on this device' })
+    expect(saving).toBeChecked()
+    expect(screen.getByText(/stored only on this device/i)).toBeInTheDocument()
+
+    await user.click(saving)
+    expect(onSaveSessionsChange).toHaveBeenCalledWith(false)
   })
 
   it('does not expose model names or a skip action', async () => {
@@ -107,7 +130,13 @@ describe('Onboarding', () => {
     render(
       <LanguageProvider>
         <button type="button">Replay trigger</button>
-        <Onboarding mode="replay" onComplete={onComplete} onClose={onClose} />
+        <Onboarding
+          mode="replay"
+          onComplete={onComplete}
+          onClose={onClose}
+          saveSessions={false}
+          onSaveSessionsChange={vi.fn()}
+        />
       </LanguageProvider>,
       { container: host },
     )
@@ -115,6 +144,9 @@ describe('Onboarding', () => {
     await waitFor(() => expect(screen.getByRole('heading', { name: /not a test/i })).toHaveFocus())
     expect(screen.getByRole('dialog').parentElement).toBe(document.body)
     expect(screen.queryByRole('group', { name: 'Language' })).not.toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: /next/i }))
+    await user.click(screen.getByRole('button', { name: /next/i }))
+    expect(screen.getByRole('switch', { name: 'Save reflections on this device' })).not.toBeChecked()
     await user.click(screen.getByRole('button', { name: 'Close introduction' }))
     expect(onClose).toHaveBeenCalledOnce()
     expect(setItemSpy).not.toHaveBeenCalledWith(storage.KEYS.onboarded, 'true')

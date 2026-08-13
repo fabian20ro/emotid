@@ -27,14 +27,14 @@ test.describe('Reflection trust boundary', () => {
 
     await page.getByRole('button', { name: 'Not really' }).click()
     await expect(page.getByRole('heading', { name: 'The result does not fit' })).toBeVisible()
-    await expect(page.getByRole('group', { name: 'What feels most needed right now?' })).toHaveCount(0)
+    await expect(page.getByRole('group', { name: 'What might help most right now?' })).toHaveCount(0)
     await expect(page.getByRole('button', { name: 'Try one small step' })).toHaveCount(0)
-    await expect(page.getByRole('link', { name: 'Explore with AI' })).toHaveCount(0)
+    await expect(page.getByRole('link', { name: 'Explore in Google AI Mode' })).toHaveCount(0)
 
     await page.getByRole('button', { name: 'Finish without a label' }).click()
     await expect(page.getByTestId('today-screen')).toBeVisible()
     await page.getByRole('button', { name: 'Journal', exact: true }).click()
-    await page.getByRole('button', { name: /open check-in: anxiety/i }).click()
+    await page.getByRole('button', { name: /open reflection: anxiety/i }).click()
     await expect(page.getByTestId('session-detail-screen')).toContainText(/not really/i)
     await expect(page.getByTestId('session-detail-screen')).not.toContainText('grounding')
   })
@@ -60,7 +60,7 @@ test.describe('Reflection trust boundary', () => {
 
     await expect(page.getByTestId('today-screen')).toBeVisible()
     await page.getByRole('button', { name: 'Journal', exact: true }).click()
-    await page.getByRole('button', { name: /open check-in: anxiety/i }).click()
+    await page.getByRole('button', { name: /open reflection: anxiety/i }).click()
     await expect(page.getByTestId('session-detail-screen')).toContainText('Write down one observation without trying to solve it.')
   })
 
@@ -69,8 +69,8 @@ test.describe('Reflection trust boundary', () => {
     await completeQuick(page, 'anxiety')
 
     await expect(page.getByRole('heading', { name: 'What seems to fit?' })).toBeFocused()
-    await expect(page.getByRole('group', { name: 'What feels most needed right now?' })).toHaveCount(0)
-    await expect(page.getByRole('link', { name: 'Explore with AI' })).toHaveCount(0)
+    await expect(page.getByRole('group', { name: 'What might help most right now?' })).toHaveCount(0)
+    await expect(page.getByRole('link', { name: 'Explore in Google AI Mode' })).toHaveCount(0)
 
     const { explore } = await expectCompactActions(page, 'Done for now', 'Explore further')
 
@@ -78,7 +78,7 @@ test.describe('Reflection trust boundary', () => {
     await page.keyboard.press('Enter')
     await expect(page.getByTestId('reflection-exploration-screen')).toBeVisible()
     await expect(page.getByRole('heading', { name: 'Explore further' })).toBeFocused()
-    await expect(page.getByRole('group', { name: 'What feels most needed right now?' })).toBeVisible()
+    await expect(page.getByRole('group', { name: 'What might help most right now?' })).toBeVisible()
 
     await page.getByRole('button', { name: 'Back' }).click()
     await expect(explore).toBeFocused()

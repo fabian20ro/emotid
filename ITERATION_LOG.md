@@ -2213,3 +2213,33 @@ suite passes 16/16. Initial JavaScript gzip remains within budget at 144,864 byt
 Cancellation, queue health, and workflow generation are one reliability contract.
 **Promoted to Lessons Learned:** Yes — bounded async writes with cancellation and generation
 isolation.
+
+---
+
+### [2026-08-13] Make safety current-session only and disclose local saving
+
+**Context:** P42 addressed the highest-priority trust gaps: historical labels could silently raise
+current crisis prominence, while first-run onboarding did not expose the existing default-on local
+save preference. The same pass bounded terminology cleanup without changing product mechanics.
+**What happened:**
+- Started with failing contracts, then removed temporal crisis escalation, history input, temporal
+  UI metadata, and its unused module. Current support tier and tier-4 acknowledgement now depend
+  only on the current reflection.
+- Reused the existing save preference in the final onboarding step, including replay mode and the
+  default-on behavior. Extracted the duplicated switch into one shared `Toggle` component.
+- Tightened bilingual copy around reflection, Affect Map axes, Plutchik's model-specific starting
+  emotions, optional needs, and Google AI Mode. The Google query contract and `udm=50` behavior did
+  not change.
+- Added a 320x568 EN/RO x light/dark onboarding Playwright matrix in WebKit and Chromium. It exposed
+  a Romanian final-action overflow; compact-height spacing and shorter copy fixed all eight cases.
+- Replaced stale remaining-work documentation with future-only P43-P46 phases and updated the
+  architecture and psychological contracts to match current-session safety behavior.
+**Outcome:** `npm run check` passes 83 files / 653 tests. Playwright passes 222/222 across Mobile
+Safari and Mobile Chrome. The production PWA lifecycle passes 1/1 and the production performance
+proxy passes 1/1 after correcting one stale CTA selector. Bundle and runtime performance budgets
+remain within their configured limits.
+**Insight:** Local-only persistence is still a meaningful first-run consequence. Bilingual consent
+controls need compact-height coverage, and psychological safety claims must be enforced at the
+data boundary rather than left to explanatory copy.
+**Promoted to Lessons Learned:** No new entry; the active behavioral-contract and compact mobile
+layout lessons already cover these findings. The obsolete temporal-escalation lesson was archived.

@@ -55,7 +55,7 @@ test('reveals a newly reviewed Quick need only after explicit exploration', asyn
   await openApp(page)
   await completeQuick(page, 'anger')
 
-  const needs = page.getByRole('group', { name: 'What feels most needed right now?' })
+  const needs = page.getByRole('group', { name: 'What might help most right now?' })
   await expect(needs).toHaveCount(0)
   await page.getByRole('button', { name: 'Explore further' }).click()
   await expect(needs.getByRole('button', { name: 'boundaries', exact: true })).toBeVisible()
@@ -70,7 +70,7 @@ test('reveals reviewed Affect guidance only after explicit exploration', async (
   await openApp(page)
   await completeAffectAt(page, 'afraid', { x: 0.24, y: 0.19 })
 
-  const needs = page.getByRole('group', { name: 'What feels most needed right now?' })
+  const needs = page.getByRole('group', { name: 'What might help most right now?' })
   await expect(needs).toHaveCount(0)
   await page.getByRole('button', { name: 'Explore further' }).click()
   await expect(needs.getByRole('button', { name: 'a sense of safety', exact: true })).toBeVisible()
@@ -81,14 +81,14 @@ test('keeps reviewed no-suggestion Affect guidance absent during exploration', a
   await completeAffectAt(page, 'happy', { x: 0.76, y: 0.32 })
 
   await page.getByRole('button', { name: 'Explore further' }).click()
-  await expect(page.getByRole('group', { name: 'What feels most needed right now?' })).toHaveCount(0)
+  await expect(page.getByRole('group', { name: 'What might help most right now?' })).toHaveCount(0)
 })
 
 test('reveals reviewed Plutchik guidance only after explicit exploration', async ({ page }) => {
   await openApp(page)
   await completePlutchikPair(page, 'joy', 'trust', 'love')
 
-  const needs = page.getByRole('group', { name: 'What feels most needed right now?' })
+  const needs = page.getByRole('group', { name: 'What might help most right now?' })
   await expect(needs).toHaveCount(0)
   await page.getByRole('button', { name: 'Explore further' }).click()
   await expect(needs.getByRole('button', { name: 'safe connection', exact: true })).toBeVisible()
@@ -99,14 +99,14 @@ test('keeps reviewed no-suggestion Plutchik guidance absent during exploration',
   await completePlutchikPair(page, 'joy', 'anticipation', 'optimism')
 
   await page.getByRole('button', { name: 'Explore further' }).click()
-  await expect(page.getByRole('group', { name: 'What feels most needed right now?' })).toHaveCount(0)
+  await expect(page.getByRole('group', { name: 'What might help most right now?' })).toHaveCount(0)
 })
 
 test('reveals reviewed Word Ladder guidance only after explicit exploration', async ({ page }) => {
   await openApp(page)
   await completeWordPath(page, ['Fearful'], 'Fearful')
 
-  const needs = page.getByRole('group', { name: 'What feels most needed right now?' })
+  const needs = page.getByRole('group', { name: 'What might help most right now?' })
   await expect(needs).toHaveCount(0)
   await page.getByRole('button', { name: 'Explore further' }).click()
   await expect(needs.getByRole('button', { name: 'a sense of safety', exact: true })).toBeVisible()
@@ -117,7 +117,7 @@ test('keeps reviewed no-suggestion Word Ladder guidance absent during exploratio
   await completeWordPath(page, ['Happy', 'Playful'], 'Playful')
 
   await page.getByRole('button', { name: 'Explore further' }).click()
-  await expect(page.getByRole('group', { name: 'What feels most needed right now?' })).toHaveCount(0)
+  await expect(page.getByRole('group', { name: 'What might help most right now?' })).toHaveCount(0)
 })
 
 test('chooses one of several inferred needs and persists it to Journal', async ({ page }) => {
@@ -136,9 +136,9 @@ test('chooses one of several inferred needs and persists it to Journal', async (
   await choose('Tense')
   await page.locator('.route-action button').click()
 
-  await expect(page.getByRole('group', { name: 'What feels most needed right now?' })).toHaveCount(0)
+  await expect(page.getByRole('group', { name: 'What might help most right now?' })).toHaveCount(0)
   await page.getByRole('button', { name: 'Explore further' }).click()
-  const needs = page.getByRole('group', { name: 'What feels most needed right now?' })
+  const needs = page.getByRole('group', { name: 'What might help most right now?' })
   const support = needs.getByRole('button', { name: 'support', exact: true })
   const physicalEase = needs.getByRole('button', { name: 'physical ease', exact: true })
   await expect(support).toHaveAttribute('aria-pressed', 'false')
@@ -158,6 +158,6 @@ test('chooses one of several inferred needs and persists it to Journal', async (
   await finishReflection(page)
 
   await page.getByRole('button', { name: 'Journal', exact: true }).click()
-  await page.getByRole('button', { name: /open check-in:.*grief.*tense/i }).click()
+  await page.getByRole('button', { name: /open reflection:.*grief.*tense/i }).click()
   await expect(page.getByTestId('session-detail-screen')).toContainText('physical ease')
 })

@@ -6,7 +6,7 @@
 
 ```
 App (src/App.tsx)
- +-- Onboarding                   # 3-step first-run overlay
+ +-- Onboarding                   # 3-step first-run overlay with local-save choice
  +-- AppShell                     # Persistent header, content, bottom tabs
  +-- TodayScreen                  # Explicit quick commitment and recent reflection
  +-- CheckInFlowHost*             # Arrival, check-in, Reflection workflow
@@ -76,7 +76,7 @@ mobile scale.
 ### Journal Evidence and Deletion
 
 `hasJournalPatternEvidence` is the single threshold for aggregate Journal summaries. Fewer than
-three saved check-ins show an early-history explanation and the individual entries only; three or
+three saved reflections show an early-history explanation and the individual entries only; three or
 more reveal counts and recurring dimensions. The threshold controls presentation, not storage or
 emotion interpretation.
 

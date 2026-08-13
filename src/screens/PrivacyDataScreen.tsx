@@ -3,8 +3,8 @@ import { Download, ExternalLink, Trash2 } from 'lucide-react'
 import { useLanguage } from '../context/LanguageContext'
 import { ScreenHeader } from '../components/ScreenHeader'
 import { ModalShell } from '../components/ModalShell'
+import { Toggle } from '../components/Toggle'
 import { useFocusTrap } from '../hooks/useFocusTrap'
-import { Toggle } from './SettingsScreen'
 
 interface PrivacyDataScreenProps {
   saveSessions: boolean

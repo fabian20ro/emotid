@@ -60,7 +60,7 @@ test.describe('Romanian release journeys', () => {
     await openArrival(page)
     await page.getByTestId('arrival-affect').click()
 
-    const field = page.getByRole('group', { name: 'Hartă a energiei și caracterului plăcut' })
+    const field = page.getByRole('group', { name: 'Hartă a energiei și a senzației plăcute sau neplăcute' })
     await field.focus()
     await page.keyboard.press('ArrowRight')
     await page.keyboard.press('ArrowUp')
@@ -119,8 +119,8 @@ test.describe('Romanian release journeys', () => {
     await page.getByRole('button', { name: 'Setări' }).click()
     await page.getByRole('button', { name: 'Confidențialitate și date' }).click()
 
-    const saving = page.getByRole('switch', { name: 'Salvați verificările încheiate' })
-    const external = page.getByRole('switch', { name: 'Permiteți legături externe de căutare AI' })
+    const saving = page.getByRole('switch', { name: 'Salvați reflecțiile pe acest dispozitiv' })
+    const external = page.getByRole('switch', { name: 'Permiteți legături către Google AI Mode' })
     await expect(saving).toBeChecked()
     await expect(external).toBeChecked()
     await saving.click()

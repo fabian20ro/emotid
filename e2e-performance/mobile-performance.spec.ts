@@ -78,7 +78,7 @@ async function measureRoute(
     await page.getByRole('button', { name: 'Explore', exact: true }).click()
     await expect(page.getByTestId('explore-screen')).toBeVisible()
   } else {
-    await page.getByRole('button', { name: /start a check-in/i }).click()
+    await page.getByRole('button', { name: 'Start a reflection' }).click()
     await expect(page.getByTestId('arrival-screen')).toBeVisible()
   }
   const routeTrigger = page.getByTestId(`${route === 'plutchik' ? 'explore' : 'arrival'}-${route}`)

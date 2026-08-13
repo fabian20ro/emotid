@@ -135,11 +135,24 @@ describe('psychological copy contract', () => {
   })
 
   it('keeps onboarding exploratory rather than causal or universal', () => {
-    expect(en.onboarding.screen2Title).toBe('Emotions can be explored with curiosity')
-    expect(en.onboarding.screen2Body).toContain('may draw attention')
-    expect(en.onboarding.screen2Body).toContain('notice what fits')
-    expect(ro.onboarding.screen2Title).toBe('Emoțiile pot fi explorate cu curiozitate')
-    expect(ro.onboarding.screen2Body).toContain('vă poate îndrepta atenția')
-    expect(ro.onboarding.screen2Body).toContain('observați ce se potrivește')
+    expect(en.onboarding.screen2Title).toBe('Your context matters')
+    expect(en.onboarding.screen2Body).toBe('A feeling can have more than one meaning. Notice what fits your experience and leave the rest.')
+    expect(ro.onboarding.screen2Title).toBe('Contextul vostru contează')
+    expect(ro.onboarding.screen2Body).toBe('O trăire poate avea mai multe sensuri. Păstrați ce se potrivește experienței voastre și lăsați deoparte restul.')
+  })
+
+  it('uses non-evaluative, model-accurate language on key decision surfaces', () => {
+    expect(en.privacyData.saving).toBe('Save reflections on this device')
+    expect(ro.privacyData.saving).toBe('Salvați reflecțiile pe acest dispozitiv')
+    expect(ro.today.checkIn).not.toContain('verificare')
+    expect(en.plutchik.lede).toContain('starting emotions from this model')
+    expect(ro.plutchik.lede).toContain('emoții de pornire din acest model')
+    expect(en.analyze.exploreAI).toBe('Explore in Google AI Mode')
+    expect(ro.analyze.exploreAI).toBe('Explorați în Google AI Mode')
+  })
+
+  it('does not describe historical labels as a reason for present crisis prominence', () => {
+    expect(en.crisis).not.toHaveProperty('temporalNote')
+    expect(ro.crisis).not.toHaveProperty('temporalNote')
   })
 })

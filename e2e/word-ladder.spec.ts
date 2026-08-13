@@ -37,7 +37,7 @@ test.describe('Word Ladder route', () => {
 
     await expect(page.getByTestId('reflection-screen')).toBeVisible()
     await expect(page.locator('.emotion-heading')).toContainText('Playful')
-    await expect(page.locator('.session-save-status')).toContainText('Check-in saved')
+    await expect(page.locator('.session-save-status')).toContainText('Reflection saved')
   })
 
   test('selects a broad path level and keeps Reflection interruption-free', async ({ page }) => {

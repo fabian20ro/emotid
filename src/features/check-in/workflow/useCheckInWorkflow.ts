@@ -21,7 +21,6 @@ import {
 } from './session-write-coordinator'
 
 interface UseCheckInWorkflowOptions {
-  sessions: Session[]
   saveSessions: boolean
   saveSession: (session: Session, signal?: AbortSignal) => Promise<void>
   onShowReflection: () => void
@@ -31,7 +30,6 @@ interface UseCheckInWorkflowOptions {
 }
 
 export function useCheckInWorkflow({
-  sessions,
   saveSessions,
   saveSession,
   onShowReflection,
@@ -111,10 +109,7 @@ export function useCheckInWorkflow({
     }
 
     completionInFlightRef.current = true
-    const completion = buildCheckInCompletion(
-      { route, modelId, selections, results },
-      sessions,
-    )
+    const completion = buildCheckInCompletion({ route, modelId, selections, results })
     const existing = activeSessionRef.current
     const session = createSession(
       completion,
@@ -128,7 +123,7 @@ export function useCheckInWorkflow({
       completionInFlightRef.current = false
     }, 0)
     return true
-  }, [onShowReflection, persistBaseSession, saveSessions, sessions])
+  }, [onShowReflection, persistBaseSession, saveSessions])
 
   const saveReflection = useCallback(async (
     detail: ReflectionDetail,

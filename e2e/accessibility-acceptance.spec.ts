@@ -22,7 +22,7 @@ async function expectNoHorizontalOverflow(page: Page) {
 }
 
 async function placeFeeling(page: Page) {
-  const field = page.getByRole('group', { name: /energy and pleasantness map|hartă a energiei și caracterului plăcut/i })
+  const field = page.getByRole('group', { name: /energy and pleasantness map|hartă a energiei și a senzației plăcute sau neplăcute/i })
   await field.focus()
   await page.keyboard.press('ArrowLeft')
   await page.keyboard.press('ArrowUp')
@@ -41,7 +41,7 @@ test.describe('Critical journey semantics and focus', () => {
     await expect(dialog.getByRole('progressbar', { name: 'Introduction progress' })).toHaveAttribute('aria-valuenow', '1')
     await dialog.getByRole('button', { name: 'Next' }).focus()
     await page.keyboard.press('Enter')
-    await expect(dialog.getByRole('heading', { name: 'Emotions can be explored with curiosity' })).toBeFocused()
+    await expect(dialog.getByRole('heading', { name: 'Your context matters' })).toBeFocused()
     await expect(dialog.getByRole('progressbar')).toHaveAttribute('aria-valuenow', '2')
   })
 

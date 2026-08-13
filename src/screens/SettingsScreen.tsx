@@ -11,20 +11,6 @@ interface SettingsScreenProps {
   onReplayIntroduction: (trigger: HTMLButtonElement) => void
 }
 
-function Toggle({ checked, label, onChange, disabled = false }: { checked: boolean; label: string; onChange: (checked: boolean) => void; disabled?: boolean }) {
-  return (
-    <button
-      type="button"
-      role="switch"
-      aria-checked={checked}
-      aria-label={label}
-      disabled={disabled}
-      className={checked ? 'switch is-on' : 'switch'}
-      onClick={() => onChange(!checked)}
-    ><span /></button>
-  )
-}
-
 export function SettingsScreen({ theme, onBack, onThemeChange, onOpenPrivacy, onOpenSupport, onReplayIntroduction }: SettingsScreenProps) {
   const { language, setLanguage, section } = useLanguage()
   const t = section('settingsScreen')
@@ -65,5 +51,3 @@ export function SettingsScreen({ theme, onBack, onThemeChange, onOpenPrivacy, on
     </div>
   )
 }
-
-export { Toggle }

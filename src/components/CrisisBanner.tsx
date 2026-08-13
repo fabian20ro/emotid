@@ -4,11 +4,9 @@ import type { CrisisTier } from '../models/distress'
 export function CrisisBanner({
   tier,
   crisisT,
-  showTemporalNote = false,
 }: {
   tier: CrisisTier
   crisisT: Record<string, string>
-  showTemporalNote?: boolean
 }) {
   function getMessageKey(tier: CrisisTier): string {
     switch (tier) {
@@ -40,12 +38,6 @@ export function CrisisBanner({
       <p className="crisis-disclaimer">
         {crisisT.disclaimer ?? 'If you are in immediate danger, please call emergency services.'}
       </p>
-      {showTemporalNote && (
-        <p className="crisis-temporal-note">
-          {crisisT.temporalNote ?? "We noticed this pattern appearing more often lately. That's okay — it's information, not a judgment."}
-        </p>
-      )}
-
       {(tier === 'tier2' || tier === 'tier3') && (
         <details className="crisis-grounding">
           <summary>

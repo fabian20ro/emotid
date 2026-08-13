@@ -635,9 +635,27 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .onboarding-copy h1 { margin: 22px 0 10px; font-size: 32px; line-height: 1.12; letter-spacing: 0; }
 .onboarding-copy h1[tabindex="-1"]:focus { outline: none; }
 .onboarding-copy p { margin: 0; color: var(--ink-muted); font-size: 17px; line-height: 1.6; }
-.onboarding-language { width: max-content; margin-top: 22px; }
+.onboarding-preferences { margin-top: 20px; display: grid; gap: 14px; }
+.onboarding-save-choice { min-height: 62px; padding-block: 8px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 14px; align-items: center; border-block: 1px solid var(--line); }
+.onboarding-save-choice strong { display: block; color: var(--ink); font-size: 15px; line-height: 1.4; }
+.onboarding-save-choice small { display: block; margin-top: 3px; color: var(--ink-muted); font-size: 12px; line-height: 1.45; }
+.onboarding-language { width: max-content; }
 .onboarding-language button { min-width: 96px; }
 .onboarding-actions { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 10px; align-items: end; }
+
+@media (max-height: 640px) {
+  .onboarding { padding-block: max(10px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-bottom)); }
+  .onboarding-panel { min-height: calc(100dvh - 20px); }
+  .onboarding-header { min-height: 40px; }
+  .onboarding-progress { margin: 8px 0; }
+  .onboarding-icon { width: 40px; height: 40px; }
+  .onboarding-copy h1 { margin: 10px 0 6px; font-size: 26px; }
+  .onboarding-copy p { font-size: 14px; line-height: 1.4; }
+  .onboarding-preferences { margin-top: 10px; gap: 8px; }
+  .onboarding-save-choice { min-height: 52px; padding-block: 6px; }
+  .onboarding-save-choice strong { font-size: 14px; }
+  .onboarding-save-choice small { font-size: 11px; line-height: 1.35; }
+}
 
 @media (min-width: 760px) {
   .app-shell { width: min(100%, 920px); margin: 0 auto; border-inline: 1px solid var(--line); }

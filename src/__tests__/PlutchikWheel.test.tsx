@@ -30,7 +30,7 @@ describe('PlutchikWheel', () => {
   it('renders the eight primary emotions in a stable wheel', () => {
     renderWheel()
     expect(screen.getAllByTestId(/^plutchik-emotion-/)).toHaveLength(8)
-    expect(screen.getByRole('group', { name: 'Eight primary emotions arranged as a wheel' })).toBeInTheDocument()
+    expect(screen.getByRole('group', { name: 'Eight starting emotions from the Plutchik model, arranged as a wheel' })).toBeInTheDocument()
   })
 
   it('selects an available primary emotion', () => {

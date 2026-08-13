@@ -82,7 +82,6 @@ export default function App() {
     retryBaseSave,
     finish: finishCheckIn,
   } = useCheckInWorkflow({
-    sessions,
     saveSessions,
     saveSession,
     onShowReflection: showReflection,
@@ -213,7 +212,12 @@ export default function App() {
   if (onboardingMode === 'initial') {
     return (
       <MotionConfig reducedMotion="user">
-        <Onboarding mode="initial" onComplete={() => setOnboardingMode(null)} />
+        <Onboarding
+          mode="initial"
+          onComplete={() => setOnboardingMode(null)}
+          saveSessions={saveSessions}
+          onSaveSessionsChange={setSaving}
+        />
       </MotionConfig>
     )
   }
@@ -236,6 +240,8 @@ export default function App() {
         <Onboarding
           mode="replay"
           onComplete={() => setOnboardingMode(null)}
+          saveSessions={saveSessions}
+          onSaveSessionsChange={setSaving}
           onClose={() => setOnboardingMode(null)}
           returnFocusRef={onboardingReturnFocusRef}
         />

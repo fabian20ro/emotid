@@ -34,14 +34,14 @@ test.describe('Journal data trust', () => {
     await finishReflection(page)
 
     await page.getByRole('button', { name: 'Journal', exact: true }).click()
-    await expect(page.getByRole('heading', { name: 'Your first check-ins' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Your first reflections' })).toBeVisible()
     await expect(page.locator('.journal-stats')).toHaveCount(0)
 
-    await page.getByRole('button', { name: /Open check-in: joy/i }).click()
-    const deleteTrigger = page.getByRole('button', { name: 'Delete this check-in' })
+    await page.getByRole('button', { name: /Open reflection: joy/i }).click()
+    const deleteTrigger = page.getByRole('button', { name: 'Delete this reflection' })
     await deleteTrigger.click()
 
-    const dialog = page.getByRole('dialog', { name: 'Delete this check-in?' })
+    const dialog = page.getByRole('dialog', { name: 'Delete this reflection?' })
     await expect(dialog).toBeVisible()
     await expect(page.getByRole('button', { name: 'Cancel' })).toBeFocused()
     await expectAccessibleTextContrast(page, 'dark single-check-in confirmation')
@@ -57,16 +57,16 @@ test.describe('Journal data trust', () => {
     await expect(page.getByTestId('session-detail-screen')).toContainText('joy')
 
     await deleteTrigger.click()
-    await page.getByRole('button', { name: 'Delete check-in' }).click()
+    await page.getByRole('button', { name: 'Delete reflection' }).click()
     await expect(page.getByTestId('journal-screen')).toBeVisible()
     await expect(page.getByRole('heading', { name: 'Your emotional thread' })).toBeFocused()
-    await expect(page.getByRole('button', { name: /Open check-in: anxiety/i })).toBeVisible()
-    await expect(page.getByRole('button', { name: /Open check-in: joy/i })).toHaveCount(0)
+    await expect(page.getByRole('button', { name: /Open reflection: anxiety/i })).toBeVisible()
+    await expect(page.getByRole('button', { name: /Open reflection: joy/i })).toHaveCount(0)
 
     await page.reload()
     await page.getByRole('button', { name: 'Journal', exact: true }).click()
-    await expect(page.getByRole('button', { name: /Open check-in: anxiety/i })).toBeVisible()
-    await expect(page.getByRole('button', { name: /Open check-in: joy/i })).toHaveCount(0)
+    await expect(page.getByRole('button', { name: /Open reflection: anxiety/i })).toBeVisible()
+    await expect(page.getByRole('button', { name: /Open reflection: joy/i })).toHaveCount(0)
   })
 
   test('exports sessions, chain entries, and preferences, then deletes all local data', async ({ page }) => {
@@ -83,7 +83,7 @@ test.describe('Journal data trust', () => {
     await page.getByRole('button', { name: 'Settings' }).click()
     await page.getByRole('button', { name: 'Dark' }).click()
     await page.getByRole('button', { name: 'Privacy & data' }).click()
-    await page.getByRole('switch', { name: 'Allow external AI search links' }).click()
+    await page.getByRole('switch', { name: 'Allow Google AI Mode links' }).click()
 
     const downloadPromise = page.waitForEvent('download')
     await page.getByRole('button', { name: 'Export my data' }).click()
@@ -121,7 +121,7 @@ test.describe('Journal data trust', () => {
     await page.getByRole('button', { name: 'Delete everything' }).click()
     await expect(page.getByRole('status')).toContainText('Local data was deleted')
     await expect(page.locator('html')).toHaveAttribute('data-theme', 'light')
-    await expect(page.getByRole('switch', { name: 'Allow external AI search links' })).toBeChecked()
+    await expect(page.getByRole('switch', { name: 'Allow Google AI Mode links' })).toBeChecked()
     expect(await page.evaluate(() => ({
       sound: localStorage.getItem('emot-id-sound-muted'),
       reminder: localStorage.getItem('emot-id-daily-reminder-enabled'),
@@ -132,7 +132,7 @@ test.describe('Journal data trust', () => {
     await page.getByRole('button', { name: 'Back' }).click()
     await page.getByRole('button', { name: 'Back' }).click()
     await page.getByRole('button', { name: 'Journal', exact: true }).click()
-    await expect(page.getByText('No saved check-ins yet')).toBeVisible()
+    await expect(page.getByText('No saved reflections yet')).toBeVisible()
     await page.getByRole('button', { name: 'Unpack a moment' }).click()
     await expect(page.getByText('Recent chains')).toHaveCount(0)
 
@@ -155,7 +155,7 @@ test.describe('Journal data trust', () => {
     await expect(page.getByTestId('today-screen')).toBeVisible()
 
     await page.getByRole('button', { name: 'Jurnal', exact: true }).click()
-    await expect(page.getByRole('heading', { name: 'Primele voastre verificări' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Primele voastre reflecții' })).toBeVisible()
     await page.locator('.journal-list button').click()
     await expect(page.getByTestId('session-detail-screen')).toContainText('Semnale corporale')
     await expect(page.getByTestId('session-detail-screen')).toContainText('Piept')

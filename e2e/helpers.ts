@@ -15,7 +15,7 @@ export async function openApp(page: Page, options: { language?: 'en' | 'ro'; sav
 }
 
 export async function openArrival(page: Page) {
-  await page.getByRole('button', { name: /start a check-in|începeți o verificare/i }).click()
+  await page.getByRole('button', { name: /start a reflection|începeți o reflecție/i }).click()
   await expect(page.getByTestId('arrival-screen')).toBeVisible()
 }
 

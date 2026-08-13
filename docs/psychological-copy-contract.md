@@ -1,9 +1,9 @@
 # Psychological Copy Contract
 
-**Version:** 1.2
-**Date:** 2026-08-07
-**Scope:** Reflection summaries, catalog synthesis, emotion descriptions, inferred needs,
-somatic explanations, and crisis-adjacent copy.
+**Version:** 1.3
+**Date:** 2026-08-13
+**Scope:** Onboarding, Reflection summaries, catalog synthesis, emotion descriptions, inferred
+needs, somatic explanations, and crisis-adjacent behavior and copy.
 
 ## Product Boundary
 
@@ -82,6 +82,7 @@ that a location, side of the body, or intensity establishes psychological meanin
 Crisis tiers and combinations remain deterministic, auditable prompts for making support visible.
 They are not assessments. Crisis copy must:
 
+- derive visibility only from the current result; historical entries never increase urgency;
 - state that labels cannot determine danger or self-harm intent;
 - keep verified resources visible before tier-4 reflection details;
 - allow direct emergency language only as a conditional ("if this is true" / "if you are unsure");

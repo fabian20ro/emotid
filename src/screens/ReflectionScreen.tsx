@@ -232,7 +232,7 @@ export function ReflectionScreen({ completion, allowExternalAI, saveState, sessi
       <ScreenHeader onBack={onBack} eyebrow={t.eyebrow} title={t.title} />
 
       {completion.crisisTier !== 'none' && (
-        <CrisisBanner tier={completion.crisisTier} crisisT={section('crisis')} showTemporalNote={completion.temporalEscalation} />
+        <CrisisBanner tier={completion.crisisTier} crisisT={section('crisis')} />
       )}
 
       {(completion.crisisTier === 'none' || saveState === 'error') && (

@@ -31,7 +31,7 @@ test.describe('Introduction replay', () => {
 
     await replay.click()
     await page.getByRole('button', { name: 'Înainte' }).click()
-    await expect(page.getByRole('heading', { name: 'Emoțiile pot fi explorate cu curiozitate' })).toBeFocused()
+    await expect(page.getByRole('heading', { name: 'Contextul vostru contează' })).toBeFocused()
     await page.getByRole('button', { name: 'Înainte' }).click()
     await expect(page.getByRole('heading', { name: 'Confidențialitate și date' })).toBeFocused()
     await expect(page.getByRole('group', { name: 'Limbă' })).toHaveCount(0)

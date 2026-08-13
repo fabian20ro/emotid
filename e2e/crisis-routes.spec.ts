@@ -17,7 +17,7 @@ async function expectSupportBoundary(
   if (options.tier4) {
     await expect(support).toContainText(/do not tell Emot-ID whether you are in danger/i)
     await expect(page.locator('.emotion-heading')).toHaveCount(0)
-    await expect(page.getByRole('group', { name: 'What feels most needed right now?' })).toHaveCount(0)
+    await expect(page.getByRole('group', { name: 'What might help most right now?' })).toHaveCount(0)
     await expect(acknowledge).toBeVisible()
     await acknowledge.click()
     await expect(page.locator('.emotion-heading')).toBeFocused()
@@ -27,9 +27,9 @@ async function expectSupportBoundary(
 
   await expect(page.locator('.emotion-heading')).toBeVisible()
   if (options.emotion) await expect(page.locator('.emotion-heading')).toContainText(options.emotion)
-  await expect(page.getByRole('group', { name: 'What feels most needed right now?' })).toHaveCount(0)
+  await expect(page.getByRole('group', { name: 'What might help most right now?' })).toHaveCount(0)
   await page.getByRole('button', { name: 'Explore further' }).click()
-  const needs = page.getByRole('group', { name: 'What feels most needed right now?' })
+  const needs = page.getByRole('group', { name: 'What might help most right now?' })
   if (options.reviewedGuidance === false) {
     await expect(needs).toHaveCount(0)
   } else {

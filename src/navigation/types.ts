@@ -31,5 +31,4 @@ export interface CheckInCompletion {
   selections: BaseEmotion[]
   results: AnalysisResult[]
   crisisTier: CrisisTier
-  temporalEscalation: boolean
 }
