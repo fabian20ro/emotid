@@ -2387,3 +2387,34 @@ gzip is 43,335 bytes, and production assets total 889,542 bytes, all within budg
 continuation for that saved object must precede unrelated empty-state content on compact screens.
 **Promoted to Lessons Learned:** No — the existing viewport-visibility lesson already covers the
 general rule.
+
+---
+
+### [2026-08-13] Freeze and verify the P46 release candidate
+
+**Context:** P46 required one deployed product candidate, complete repeatable gates, native evidence
+from available Mac/Simulator/Pixel tooling, and explicit dispositions for unavailable human gates.
+**What happened:**
+- `npm ci` found transitive `nanoid@3.3.16` advisory GHSA-2v37-7h3g-55p8. Updated only the lockfile
+  to `3.3.18`; clean reinstall and audit report zero vulnerabilities.
+- GitHub Mobile Safari reproduced a compact Quick defect: the explicit commitment mounted below the
+  fixed navigation. Added a failing focus/scroll contract, then nearest scrolling that preserves
+  chip focus and does not submit automatically.
+- Full local gates passed: 84 files / 672 tests, Playwright 256/256, PWA 1/1, performance 1/1.
+  Deployment workflow `31703694847` passed after the prior red run `31699675891`.
+- iOS Simulator passed base 16/16, J1-J9 36/36, and robustness 6/6 on both profiles. Native Safari
+  was classified BLOCKED after SafariDriver click did nothing while diagnostic script activation
+  produced the correct state; no app failure reproduced.
+- Android browser and installed WebAPK passed J1-J9 EN/RO, 18/18 each. Pixel 6a three-run medians
+  passed every mid-tier target: 1,485 ms startup, 231.6 ms worst first route, 39.6 ms warm return,
+  and 0 ms median longest task (52 ms worst observed).
+- All three native adapters exposed stale copy selectors. Replaced mutable save/AI checks with
+  semantic state where available, synchronized onboarding focus, and retained platform-local flows.
+  Human TalkBack, Romanian pronunciation, distinct low-tier hardware, and P45 participants remain
+  explicit deferrals rather than inferred passes.
+**Outcome:** Product SHA `61f8743` is frozen and deployed with no unresolved product blocker.
+Recommendation is conditional release with documented evidence waivers. Initial JavaScript gzip is
+144,022 bytes, entry JavaScript gzip 43,381 bytes, and production assets 889,661 bytes.
+**Insight:** A native adapter that follows mutable copy can fail every route without finding a
+product defect. Shared semantic hooks are justified after the same drift appears on three platforms.
+**Promoted to Lessons Learned:** Yes — added the stable native acceptance hook rule.

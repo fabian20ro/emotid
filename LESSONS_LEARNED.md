@@ -94,6 +94,12 @@ contract as an unchecked cast or duplicate partial property checks.
 
 ## Testing & Quality
 
+**[2026-08-13]** Native acceptance adapters need stable cross-platform hooks — Copy migrations left
+the Android, iOS, and macOS adapters waiting for obsolete labels while browser behavior remained
+correct. Reuse semantic state (`data-testid`, state class, ARIA state) for navigation and completion;
+assert localized accessible names only when naming or speech is the behavior under test. After the
+third shared selector, centralize the selector contract but keep platform actions local.
+
 **[2026-08-12]** Safety acknowledgments need an explicit focus handoff — When acknowledging crisis
 resources removes the active control and reveals reflective content, focus does not acquire a useful
 destination automatically. Focus the newly revealed result heading, keep the support message first
