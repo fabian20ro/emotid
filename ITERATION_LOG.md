@@ -2574,10 +2574,14 @@ already covers the reusable rule.
 **Context:** The first `v0.1.1` Pages run exposed a deterministic cross-platform failure in the new
 Romanian appearance-label geometry contract.
 **What happened:**
-- CI measured only about 6.86px after a compact appearance label in both Linux browser engines. A
-  mobile media rule had reduced the component-specific 10px padding to 7px.
-- Raised compact settings-segment padding to 12px. Kept the 8px rendered-geometry requirement
-  unchanged across 320px and 1280px viewports rather than weakening the test.
+- CI measured only about 6.86px after the desktop appearance label in both Linux browser engines.
+  The centered text was constrained by the control's total width, so increasing button padding did
+  not affect its rendered inset.
+- An initial corrective commit changed that ineffective padding and exact-sha CI remained red.
+  Downloading its Playwright screenshot exposed the 1280px state and corrected the diagnosis.
+- Increased the appearance control's minimum width from 192px to 216px and added viewport-aware
+  assertion diagnostics. Kept the 8px rendered-geometry requirement unchanged across 320px and
+  1280px viewports rather than weakening the test.
 - Preserved the published `v0.1.1` tag and prepared an immutable `v0.1.2` corrective release.
 **Outcome:** `npm run check` passes 86 files / 685 tests. CI-mode focused geometry passes 2/2;
 Playwright passes 258/258; production PWA and performance probes pass 1/1.

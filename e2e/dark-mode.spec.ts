@@ -138,10 +138,11 @@ test('keeps Romanian appearance labels inside their segments', async ({ page }) 
     ))
 
     expect(segments).toHaveLength(2)
-    for (const segment of segments) {
+    for (const [index, segment] of segments.entries()) {
+      const context = `${viewport.width}x${viewport.height} segment ${index + 1}`
       expect(segment.scrollWidth).toBeLessThanOrEqual(segment.clientWidth)
-      expect(segment.textInsetStart).toBeGreaterThanOrEqual(8)
-      expect(segment.textInsetEnd).toBeGreaterThanOrEqual(8)
+      expect(segment.textInsetStart, `${context} start inset`).toBeGreaterThanOrEqual(8)
+      expect(segment.textInsetEnd, `${context} end inset`).toBeGreaterThanOrEqual(8)
     }
     expect(segments[0].right).toBeLessThanOrEqual(segments[1].left + 0.5)
   }
