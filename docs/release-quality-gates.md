@@ -9,7 +9,15 @@ npm run check
 npm run test:e2e
 npm run test:pwa
 npm run test:performance
+npm run test:deployed:local
 ```
+
+After a `main` artifact is deployed, GitHub Actions runs `npm run test:deployed` against the Pages
+URL emitted by `actions/deploy-pages`. The isolated, cache-busted Chromium journey verifies the
+Today shell, index-referenced assets, manifest icons, service-worker activation and control after
+reload, one lazy Settings chunk, zero same-origin browser failures, and zero unexpected outbound
+requests. Deployment failures retain a dedicated screenshot, trace, and HTML report. This gate
+checks the published boundary; it does not replace the deeper local offline/update lifecycle test.
 
 `npm run check-acceptance` validates the canonical J1-J9 IDs/titles, EN/RO scope, evidence classes,
 adapter registrations, Playwright test anchors, and this document. The manifest owns metadata only;

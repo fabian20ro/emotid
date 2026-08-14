@@ -181,6 +181,12 @@ same contract in WebKit and Chromium.
 
 ## Performance & Infrastructure
 
+**[2026-08-14]** Post-deployment PWA checks need separate activation and control proofs —
+`navigator.serviceWorker.ready` can resolve while the registration's active worker still reports
+`activating`. Wait for the worker's `activated` state, reload, and then require a non-null page
+controller. Bind the smoke job to the deployment's emitted URL, use isolated cache-busted browser
+state, and retain failure artifacts; a local production server does not prove the published edge.
+
 **[2026-07-26]** PWA development tests do not prove offline installation behavior — An empty
 Workbox `globPatterns` list left the application dependent on visited-resource runtime caches.
 Verify a production build with a controlled service worker, unvisited lazy chunks, offline reopen,

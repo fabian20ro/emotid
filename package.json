@@ -26,6 +26,8 @@
     "format": "npm run lint:fix",
     "test:e2e": "playwright test",
     "test:pwa": "playwright test --config=playwright.pwa.config.ts",
+    "test:deployed": "playwright test --config=playwright.deployed.config.ts",
+    "test:deployed:local": "npm run build && npm run test:deployed",
     "test:performance": "npm run build && npm run test:performance:run",
     "test:performance:run": "playwright test --config=playwright.performance.config.ts",
     "test:android:physical": "node ./scripts/android-physical-audit.mjs",

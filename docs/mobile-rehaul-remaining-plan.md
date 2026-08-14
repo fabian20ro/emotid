@@ -18,6 +18,8 @@ release scope in `docs/releases/v0.1.2.md`.
 - Optional Google Search AI Mode handoff sends only selected emotion names.
 - EN/RO, light/dark, keyboard, compact reflow, offline update, persistence, safety, and performance
   have broad repeatable coverage.
+- Every successful `main` deployment receives an isolated public-URL smoke check for shell, assets,
+  manifest, service-worker control, lazy-route loading, browser errors, and outbound requests.
 
 ## Maintenance Triggers
 

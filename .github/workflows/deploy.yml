@@ -91,6 +91,8 @@ jobs:
     if: github.event_name != 'pull_request'
     needs: build
     runs-on: ubuntu-latest
+    outputs:
+      page_url: ${{ steps.deployment.outputs.page_url }}
     permissions:
       contents: read
       pages: write
@@ -102,3 +104,40 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
+
+  deployed-smoke:
+    if: github.event_name != 'pull_request'
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Verify deployed PWA
+        run: npm run test:deployed
+        env:
+          DEPLOYED_BASE_URL: ${{ needs.deploy.outputs.page_url }}
+          DEPLOYED_REVISION: ${{ github.sha }}
+
+      - name: Upload deployed smoke report on failure
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: deployed-smoke-report
+          path: |
+            playwright-report/deployed/
+            test-results/deployed/
+          if-no-files-found: ignore
+          retention-days: 7

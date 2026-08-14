@@ -2589,3 +2589,30 @@ Playwright passes 258/258; production PWA and performance probes pass 1/1.
 contract; validate computed geometry under the CI font stack before publishing a release tag.
 **Promoted to Lessons Learned:** No — existing cascade and measurement-backed validation guidance
 covers the root issue.
+
+---
+
+### [2026-08-14] Add a post-deployment Pages smoke gate
+
+**Context:** The release workflow verified its production artifact before deployment but did not
+exercise the public URL, CDN-served assets, or deployed service-worker boundary afterward.
+**What happened:**
+- Added one isolated Chromium smoke contract with local-preview and explicit deployed-URL modes. It
+  cache-busts by revision, seeds no personal content, opens Today and lazy Settings, verifies every
+  index and manifest resource, and rejects browser errors, failed same-origin responses, and any
+  unexpected outbound request.
+- Proved the contract fails against an unreachable target. Its first local production run exposed
+  that `navigator.serviceWorker.ready` may resolve while the worker is still `activating`; added an
+  explicit activation wait, then required page control after reload.
+- Exposed the Pages URL as a deployment-job output and added a dependent smoke job for `main` and
+  manual deployments. The job installs Chromium only and retains a dedicated HTML report,
+  screenshot, and trace on failure; pull requests retain the existing local-production matrix.
+- Documented the published-boundary gate without treating it as a replacement for offline/update,
+  native-device, performance, or participant evidence.
+**Outcome:** Clean `npm ci` reports zero vulnerabilities. `npm run check` passes 86 files / 685
+tests; Playwright passes 258/258; PWA and performance probes pass 1/1. The new smoke contract fails
+closed against an invalid URL and passes 1/1 against both fresh local production and public
+`v0.1.2`, with no outbound requests.
+**Insight:** Worker readiness, worker activation, and page control are distinct deployment states;
+the public edge needs its own small gate after the deployment action completes.
+**Promoted to Lessons Learned:** Yes — added the post-deployment PWA activation/control contract.
