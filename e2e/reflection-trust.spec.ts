@@ -92,7 +92,7 @@ test.describe('Reflection trust boundary', () => {
     await page.getByTestId('quick-feeling-anxiety').click()
     await page.getByTestId('quick-continue').click()
 
-    await expectCompactActions(page, 'Gata pentru acum', 'Explorați mai mult')
+    await expectCompactActions(page, 'Gata pentru acum', 'Explorează mai mult')
   })
 
   test('Romanian mismatch recovery remains in bounds', async ({ page }) => {
@@ -108,7 +108,7 @@ test.describe('Reflection trust boundary', () => {
     const box = await panel.boundingBox()
     expect(box!.x).toBeGreaterThanOrEqual(16)
     expect(box!.x + box!.width).toBeLessThanOrEqual(page.viewportSize()!.width - 16)
-    const finish = page.getByRole('button', { name: 'Încheiați fără să confirmați această etichetă' })
+    const finish = page.getByRole('button', { name: 'Încheie fără să confirmi această etichetă' })
     await finish.scrollIntoViewIfNeeded()
     await expect(finish).toBeInViewport()
   })
@@ -147,7 +147,7 @@ test.describe('Reflection trust boundary', () => {
       languageButton: 'RO',
       back: 'Înapoi',
       reject: 'Nu prea',
-      finish: 'Încheiați fără să confirmați această etichetă',
+      finish: 'Încheie fără să confirmi această etichetă',
       journal: 'Jurnal',
       heading: 'Rezultat sugerat: anxietate',
       relationship: 'Nu s-a potrivit',
@@ -160,7 +160,7 @@ test.describe('Reflection trust boundary', () => {
       languageButton: 'RO',
       back: 'Înapoi',
       reject: 'Nu prea',
-      finish: 'Încheiați fără să confirmați această etichetă',
+      finish: 'Încheie fără să confirmi această etichetă',
       journal: 'Jurnal',
       heading: 'Rezultat sugerat: anxietate',
       relationship: 'Nu s-a potrivit',

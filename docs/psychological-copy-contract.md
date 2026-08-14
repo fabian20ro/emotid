@@ -55,7 +55,7 @@ Romanian equivalents should preserve the same force:
 - "X poate include uneori..."
 - "O posibilitate de luat în considerare este..."
 - "Poziția în model nu stabilește cauza sau gravitatea."
-- "Păstrați doar ce se potrivește experienței voastre."
+- "Păstrează doar ce se potrivește experienței tale."
 
 ## Prohibited Patterns
 

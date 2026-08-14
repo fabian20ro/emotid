@@ -27,7 +27,7 @@ async function placeFeeling(page: Page) {
   await page.keyboard.press('ArrowLeft')
   await page.keyboard.press('ArrowUp')
   await page.locator('.dimensional-suggestion-chip').first().click()
-  await page.getByRole('button', { name: /reflect on these words|reflectați la aceste cuvinte/i }).click()
+  await page.getByRole('button', { name: /reflect on these words|reflectează la aceste cuvinte/i }).click()
 }
 
 test.describe('Critical journey semantics and focus', () => {
@@ -48,14 +48,14 @@ test.describe('Critical journey semantics and focus', () => {
   for (const language of ['en', 'ro'] as const) {
     test(`${language} announces meaningful destinations through the Affect journey`, async ({ page }) => {
       await openApp(page, { language })
-      await expectScreenSemantics(page, /how are you feeling|cum vă simțiți/i)
+      await expectScreenSemantics(page, /how are you feeling|cum te simți/i)
       await expect(page.getByRole('button', { name: /today|astăzi/i })).toHaveAttribute('aria-current', 'page')
 
       await openArrival(page)
-      await expectScreenSemantics(page, /what feels easiest to notice|ce vă este cel mai ușor să observați/i)
+      await expectScreenSemantics(page, /what feels easiest to notice|ce îți este cel mai ușor să observi/i)
 
       await page.getByTestId('arrival-affect').click()
-      await expectScreenSemantics(page, /place the feeling|plasați starea/i, false)
+      await expectScreenSemantics(page, /place the feeling|plasează starea/i, false)
 
       await placeFeeling(page)
       await expectScreenSemantics(page, /what seems to fit|ce pare să se potrivească/i, false)
@@ -127,14 +127,14 @@ test.describe('200% compact Safari page-zoom equivalent', () => {
     await page.getByTestId('quick-feeling-anxiety').click()
     await page.getByTestId('quick-continue').click()
     await expectNoHorizontalOverflow(page)
-    await page.getByRole('button', { name: 'Explorați mai mult' }).click()
+    await page.getByRole('button', { name: 'Explorează mai mult' }).click()
     await expectNoHorizontalOverflow(page)
   })
 
   test('Romanian Journal reflection reflows without horizontal scrolling', async ({ page }) => {
     await openApp(page, { language: 'ro', theme: 'dark' })
     await page.getByRole('button', { name: 'Jurnal', exact: true }).click()
-    await page.getByRole('button', { name: 'Desfaceți un moment' }).click()
+    await page.getByRole('button', { name: 'Desfă un moment' }).click()
 
     await expect(page.getByRole('textbox')).toHaveCount(4)
     await expectNoHorizontalOverflow(page)

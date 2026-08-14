@@ -107,18 +107,18 @@ test.describe('Word Ladder route', () => {
     await page.getByTestId('arrival-words').click()
     await page.getByRole('button', { name: 'Fericit' }).click()
 
-    await expect(page.getByRole('button', { name: 'Adăugați Fericit' })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Adaugă Fericit' })).toBeVisible()
     await expect(page.getByRole('button', { name: 'Înapoi cu un nivel' })).toBeVisible()
     await expect(page.getByRole('button', { name: 'Jucăuș' })).toBeVisible()
     await expect(page.getByRole('button', { name: 'Mulțumit' })).toBeVisible()
-    await page.getByRole('button', { name: 'Adăugați Fericit' }).click()
-    await page.getByRole('button', { name: 'Comparați cuvinte apropiate' }).click()
-    await page.getByRole('button', { name: 'Comparați cu Trist' }).click()
+    await page.getByRole('button', { name: 'Adaugă Fericit' }).click()
+    await page.getByRole('button', { name: 'Compară cuvinte apropiate' }).click()
+    await page.getByRole('button', { name: 'Compară cu Trist' }).click()
     await expect(page.getByRole('group', { name: 'Fericit și Trist' })).toBeVisible()
     await expectAccessibleTextContrast(page, 'Romanian Word Ladder comparison')
     const overflow = await page.locator('.app-shell').evaluate((element) => element.scrollWidth - element.clientWidth)
     expect(overflow).toBeLessThanOrEqual(1)
-    const comparisonButton = await page.getByRole('button', { name: 'Comparați cu Trist' }).boundingBox()
+    const comparisonButton = await page.getByRole('button', { name: 'Compară cu Trist' }).boundingBox()
     expect(comparisonButton!.height).toBeGreaterThanOrEqual(44)
   })
 
@@ -130,28 +130,28 @@ test.describe('Word Ladder route', () => {
     await page.getByRole('button', { name: 'Fericit' }).click()
     await page.getByRole('button', { name: 'Jucăuș' }).click()
 
-    const stopAction = page.getByRole('button', { name: 'Continuați cu Jucăuș' })
+    const stopAction = page.getByRole('button', { name: 'Continuă cu Jucăuș' })
     await expect(stopAction).toBeFocused()
-    await expect(stopAction).toHaveAccessibleDescription('Sau alegeți mai jos un cuvânt mai precis.')
+    await expect(stopAction).toHaveAccessibleDescription('Sau alege mai jos un cuvânt mai precis.')
 
     const stopBox = await page.getByRole('region', {
-      name: 'Acest cuvânt poate fi răspunsul vostru: Jucăuș',
+      name: 'Acest cuvânt poate fi răspunsul tău: Jucăuș',
     }).boundingBox()
-    const choicesBox = await page.getByRole('list', { name: 'Alegeți o direcție' }).boundingBox()
+    const choicesBox = await page.getByRole('list', { name: 'Alege o direcție' }).boundingBox()
     expect(stopBox!.y + stopBox!.height).toBeLessThanOrEqual(choicesBox!.y + 1)
 
-    await page.getByRole('button', { name: 'Adăugați Jucăuș' }).click()
+    await page.getByRole('button', { name: 'Adaugă Jucăuș' }).click()
     const selected = page.getByRole('region', { name: 'Cuvinte alese' })
     await expect(selected).toContainText('Jucăuș')
 
-    await page.getByRole('button', { name: 'Comparați cuvinte apropiate' }).click()
-    const contentOption = page.getByRole('button', { name: 'Comparați cu Mulțumit' })
+    await page.getByRole('button', { name: 'Compară cuvinte apropiate' }).click()
+    const contentOption = page.getByRole('button', { name: 'Compară cu Mulțumit' })
     await contentOption.click()
     await expect(contentOption).toHaveAttribute('aria-pressed', 'true')
     await expect(page.getByRole('group', { name: 'Jucăuș și Mulțumit' })).toBeVisible()
     await expect(selected).toContainText('Jucăuș')
     await expect(selected).not.toContainText('Mulțumit')
-    await expect(page.getByRole('button', { name: 'Continuați cu Jucăuș' })).toBeEnabled()
+    await expect(page.getByRole('button', { name: 'Continuă cu Jucăuș' })).toBeEnabled()
 
     const overflow = await page.locator('.app-shell').evaluate((element) => element.scrollWidth - element.clientWidth)
     expect(overflow).toBeLessThanOrEqual(1)

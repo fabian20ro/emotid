@@ -121,11 +121,11 @@ describe('ArrivalScreen guide', () => {
     const user = userEvent.setup()
     const { onChoose } = renderArrival('ro')
 
-    await user.click(screen.getByRole('button', { name: /Ghidați-mă/i }))
+    await user.click(screen.getByRole('button', { name: /Ghidează-mă/i }))
     const notClear = screen.getByRole('button', { name: /Nu foarte clar/i })
     notClear.focus()
     await user.keyboard('{Enter}')
-    expect(screen.getByRole('heading', { name: 'Puteți plasa aproximativ starea?' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Poți plasa aproximativ starea?' })).toBeInTheDocument()
 
     const words = screen.getByRole('button', { name: /Am nevoie întâi de termeni generali/i })
     words.focus()

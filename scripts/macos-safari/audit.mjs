@@ -21,12 +21,12 @@ const COPY = {
   },
   ro: {
     reflection: 'Ce pare să se potrivească?',
-    explore: 'Explorați mai mult',
+    explore: 'Explorează mai mult',
     happy: 'Fericit',
     playful: 'Jucăuș',
-    continuePlayful: 'Continuați cu Jucăuș',
+    continuePlayful: 'Continuă cu Jucăuș',
     tier4Path: ['Trist', 'disperare', 'Deprimat', 'Gol', 'Temător', 'Slab', 'Lipsit de valoare'],
-    acknowledge: 'Continuați la reflecție',
+    acknowledge: 'Continuă la reflecție',
   },
 }
 

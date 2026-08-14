@@ -204,7 +204,7 @@ test.describe('Reflection persistence trust', () => {
     await page.getByRole('button', { name: 'Gata pentru acum' }).click()
     await expect(page.getByRole('heading', { name: 'Această reflecție nu a fost salvată' })).toBeVisible()
     await expect(page.getByTestId('reflection-save-error-screen')).toContainText('Nu s-a trimis nimic online')
-    await page.getByRole('button', { name: 'Continuați fără salvare' }).click()
+    await page.getByRole('button', { name: 'Continuă fără salvare' }).click()
 
     await expect(page.getByTestId('today-screen')).toBeVisible()
     await page.getByRole('button', { name: 'Jurnal', exact: true }).click()

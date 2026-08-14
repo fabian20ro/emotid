@@ -4,6 +4,7 @@ import { emotionCatalog } from '../models/catalog'
 import { dimensionalModel } from '../models/dimensional'
 import { plutchikModel } from '../models/plutchik'
 import { somaticModel, somaticRegions } from '../models/somatic'
+import { pleasantCombinationCopy, synthesisCopy } from '../models/synthesis-copy'
 import { wheelModel } from '../models/wheel'
 
 const REVIEWED_ROMANIAN_LABELS = {
@@ -88,7 +89,37 @@ function collectStrings(value: unknown): string[] {
   return Object.values(value).flatMap(collectStrings)
 }
 
+const FORMAL_SECOND_PERSON = new RegExp(
+  String.raw`\b(?:acceptați|ați|aveți|ajutați|alegeți|adăugați|apelați|apreciați|arătați|atingeți|auziți|căutați|cereți|combinați|comparați|confirmați|contactați|continuați|descrieți|deschideți|desfaceți|doriți|editați|eliminați|explorați|exportați|exersați|faceți|folosiți|găsiți|gândiți|ghidați|gustați|identificați|indicați|includeți|încercați|începeți|încheiați|închideți|lăsați|luați|mirosiți|notați|numiți|observați|opriți|păstrați|permiteți|plasați|priviți|redeschideți|reflectați|reîncepeți|reluați|restrângeți|reveniți|revizuiți|salvați|selectați|simțiți|spuneți|sunteți|ștergeți|știți|treceți|vedeți|vi|voi|vouă|vostru|voastră|voștri|voastre|vă)(?=$|\s|[-–—,.;:!?])`,
+  'iu',
+)
+
+function generatedRomanianCopy(): string[] {
+  const copy = synthesisCopy.ro
+  return [
+    copy.singleClear('calm'),
+    copy.singleHighIntensity('calm'),
+    copy.singleLowIntensity('calm'),
+    copy.mixedValence(['calm', 'teamă']),
+    copy.concordantPleasant(['calm', 'bucurie']),
+    copy.concordantUnpleasant(['teamă', 'tristețe']),
+    copy.concordantUnpleasantSevere(['teroare', 'disperare']),
+    copy.complexityMultiple(3),
+    copy.highIntensityGroup,
+    copy.lowIntensityGroup,
+    copy.needsClosing(['odihnă']),
+    copy.needsClosingSevere(['sprijin']),
+    ...Object.values(pleasantCombinationCopy).map((entry) => entry.ro),
+  ]
+}
+
 describe('Romanian copy quality', () => {
+  it('uses informal singular address throughout the product voice', () => {
+    for (const value of [...collectStrings(ro), ...generatedRomanianCopy()]) {
+      expect(value, value).not.toMatch(FORMAL_SECOND_PERSON)
+    }
+  })
+
   it('keeps the reviewed emotion labels exact', () => {
     for (const [id, expected] of Object.entries(REVIEWED_ROMANIAN_LABELS)) {
       expect(emotionCatalog[id]?.label.ro, id).toBe(expected)

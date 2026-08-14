@@ -2523,3 +2523,23 @@ GitHub Release at the documentation commit.
 not preserve completed phases as apparent future work.
 **Promoted to Lessons Learned:** No — the existing one-owner release-documentation lesson covers
 the reusable rule.
+
+---
+
+### [2026-08-14] Align the Romanian voice with private self-reflection
+
+**Context:** Romanian product copy addressed the user with polite plural forms, making an intimate
+self-reflection experience sound institutional and socially distant.
+**What happened:**
+- Migrated all Romanian user address to informal singular across onboarding, Today, entry routes,
+  generated synthesis, reflection, Journal, settings, privacy, support, and deterministic crisis
+  guidance. English meaning and application behavior remain unchanged.
+- Added a product-voice contract that scans static translations and every generated Romanian
+  synthesis family for formal pronouns, auxiliaries, and imperatives.
+- Updated unit, Playwright, Android, iOS Simulator, and macOS Safari acceptance expectations so
+  accessible-name and spoken-language checks follow the released copy.
+**Outcome:** `npm run check` passes 86 files / 685 tests. Playwright passes 256/256 across Mobile
+Safari and Mobile Chrome, including Romanian light/dark, compact reflow, safety, and Journal flows.
+**Insight:** Grammatical register is part of psychological tone and accessibility behavior, not
+translation polish; one inconsistent generated or safety message can break the perceived voice.
+**Promoted to Lessons Learned:** Yes — added the Romanian informal-singular product voice contract.

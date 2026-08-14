@@ -4,8 +4,8 @@ import { openApp } from './helpers'
 const variants = [
   { language: 'en' as const, theme: 'light' as const, place: 'Place the feeling', help: 'Help me choose', naming: 'Notice and name', learning: 'Compare and learn' },
   { language: 'en' as const, theme: 'dark' as const, place: 'Place the feeling', help: 'Help me choose', naming: 'Notice and name', learning: 'Compare and learn' },
-  { language: 'ro' as const, theme: 'light' as const, place: 'Plasați starea', help: 'Ajutați-mă să aleg', naming: 'Observați și numiți', learning: 'Comparați și explorați' },
-  { language: 'ro' as const, theme: 'dark' as const, place: 'Plasați starea', help: 'Ajutați-mă să aleg', naming: 'Observați și numiți', learning: 'Comparați și explorați' },
+  { language: 'ro' as const, theme: 'light' as const, place: 'Plasează starea', help: 'Ajută-mă să aleg', naming: 'Observă și numește', learning: 'Compară și explorează' },
+  { language: 'ro' as const, theme: 'dark' as const, place: 'Plasează starea', help: 'Ajută-mă să aleg', naming: 'Observă și numește', learning: 'Compară și explorează' },
 ]
 
 async function expectNoHorizontalOverflow(page: Page) {

@@ -164,13 +164,13 @@ describe('WordLadderScreen', () => {
     renderScreen()
 
     await user.click(screen.getByRole('button', { name: 'Fericit' }))
-    expect(screen.getByRole('button', { name: /adăugați fericit/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /adaugă fericit/i })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Înapoi cu un nivel' })).toBeInTheDocument()
 
-    await user.click(screen.getByRole('button', { name: 'Adăugați Fericit' }))
-    await user.click(screen.getByRole('button', { name: 'Comparați cuvinte apropiate' }))
-    await user.click(screen.getByRole('button', { name: 'Comparați cu Trist' }))
+    await user.click(screen.getByRole('button', { name: 'Adaugă Fericit' }))
+    await user.click(screen.getByRole('button', { name: 'Compară cuvinte apropiate' }))
+    await user.click(screen.getByRole('button', { name: 'Compară cu Trist' }))
     expect(screen.getByRole('group', { name: 'Fericit și Trist' })).toBeInTheDocument()
-    expect(screen.getByText('Observați care descriere, dacă vreuna, pare mai apropiată.')).toBeInTheDocument()
+    expect(screen.getByText('Observă care descriere, dacă vreuna, pare mai apropiată.')).toBeInTheDocument()
   })
 })

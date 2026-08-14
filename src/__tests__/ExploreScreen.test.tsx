@@ -49,7 +49,7 @@ describe('ExploreScreen information architecture', () => {
   it('localizes both group names in Romanian', () => {
     renderExplore('ro')
 
-    expect(screen.getByRole('region', { name: 'Observați și numiți' })).toBeVisible()
-    expect(screen.getByRole('region', { name: 'Comparați și explorați' })).toBeVisible()
+    expect(screen.getByRole('region', { name: 'Observă și numește' })).toBeVisible()
+    expect(screen.getByRole('region', { name: 'Compară și explorează' })).toBeVisible()
   })
 })

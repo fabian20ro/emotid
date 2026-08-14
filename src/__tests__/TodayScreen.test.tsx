@@ -88,7 +88,7 @@ describe('TodayScreen quick commitment', () => {
     renderToday('ro')
 
     await user.click(screen.getByTestId('quick-feeling-anxiety'))
-    expect(screen.getByRole('button', { name: 'Continuați cu anxietate' })).toBeVisible()
+    expect(screen.getByRole('button', { name: 'Continuă cu anxietate' })).toBeVisible()
   })
 
   it('starts placement directly and keeps route guidance separate', async () => {
@@ -111,8 +111,8 @@ describe('TodayScreen quick commitment', () => {
   it('exposes the direct and guided actions in Romanian', () => {
     renderToday('ro')
 
-    expect(screen.getByRole('button', { name: 'Plasați starea' })).toBeVisible()
-    expect(screen.getByRole('button', { name: 'Ajutați-mă să aleg' })).toBeVisible()
+    expect(screen.getByRole('button', { name: 'Plasează starea' })).toBeVisible()
+    expect(screen.getByRole('button', { name: 'Ajută-mă să aleg' })).toBeVisible()
   })
 
   it('keeps a rejected recent result visibly framed as a suggestion', () => {

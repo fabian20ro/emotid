@@ -128,7 +128,7 @@ describe('psychological copy contract', () => {
       const romanian = synthesize(scenario, 'ro')
 
       expect(english).toMatch(/\b(may|can|could|if|notice|suggestions)\b/i)
-      expect(romanian).toMatch(/\b(poate|pot|dacă|observați|sugestii)\b/i)
+      expect(romanian).toMatch(/\b(poate|pot|dacă|observă|sugestii)\b/i)
       for (const pattern of forbiddenEnglish) expect(english).not.toMatch(pattern)
       for (const pattern of forbiddenRomanian) expect(romanian).not.toMatch(pattern)
     }
@@ -137,18 +137,18 @@ describe('psychological copy contract', () => {
   it('keeps onboarding exploratory rather than causal or universal', () => {
     expect(en.onboarding.screen2Title).toBe('Your context matters')
     expect(en.onboarding.screen2Body).toBe('A feeling can have more than one meaning. Notice what fits your experience and leave the rest.')
-    expect(ro.onboarding.screen2Title).toBe('Contextul vostru contează')
-    expect(ro.onboarding.screen2Body).toBe('O trăire poate avea mai multe sensuri. Păstrați ce se potrivește experienței voastre și lăsați deoparte restul.')
+    expect(ro.onboarding.screen2Title).toBe('Contextul tău contează')
+    expect(ro.onboarding.screen2Body).toBe('O trăire poate avea mai multe sensuri. Păstrează ce se potrivește experienței tale și lasă deoparte restul.')
   })
 
   it('uses non-evaluative, model-accurate language on key decision surfaces', () => {
     expect(en.privacyData.saving).toBe('Save reflections on this device')
-    expect(ro.privacyData.saving).toBe('Salvați reflecțiile pe acest dispozitiv')
+    expect(ro.privacyData.saving).toBe('Salvează reflecțiile pe acest dispozitiv')
     expect(ro.today.placeFeeling).not.toContain('verificare')
     expect(en.plutchik.lede).toContain('starting emotions from this model')
     expect(ro.plutchik.lede).toContain('emoții de pornire din acest model')
     expect(en.analyze.exploreAI).toBe('Explore in Google AI Mode')
-    expect(ro.analyze.exploreAI).toBe('Explorați în Google AI Mode')
+    expect(ro.analyze.exploreAI).toBe('Explorează în Google AI Mode')
   })
 
   it('does not describe historical labels as a reason for present crisis prominence', () => {
@@ -160,12 +160,12 @@ describe('psychological copy contract', () => {
     expect(en.granularity.notSure).toBe('Not sure yet')
     expect(ro.granularity.notSure).toBe('Nu știu încă')
     expect(en.granularity.feedbackNotSure).toBe('You can continue without choosing among these words.')
-    expect(ro.granularity.feedbackNotSure).toBe('Puteți continua fără să alegeți dintre aceste cuvinte.')
+    expect(ro.granularity.feedbackNotSure).toBe('Poți continua fără să alegi dintre aceste cuvinte.')
   })
 
   it('does not present a rejected suggestion as a user-confirmed label', () => {
     expect(en.reflectionScreen.finishWithoutLabel).toBe('Finish without confirming this label')
-    expect(ro.reflectionScreen.finishWithoutLabel).toBe('Încheiați fără să confirmați această etichetă')
+    expect(ro.reflectionScreen.finishWithoutLabel).toBe('Încheie fără să confirmi această etichetă')
     expect(en.today.rejectedResult).toBe('Suggested result: {result}')
     expect(ro.today.rejectedResult).toBe('Rezultat sugerat: {result}')
     expect(en.journalScreen.rejectedResult).toBe('Suggested result: {result}')

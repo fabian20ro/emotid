@@ -119,7 +119,7 @@ describe('Onboarding', () => {
 
     await user.click(romanian)
     expect(romanian).toHaveAttribute('aria-pressed', 'true')
-    expect(screen.getByRole('button', { name: /începeți/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /începe/i })).toBeInTheDocument()
     expect(setItemSpy).toHaveBeenCalledWith(storage.KEYS.language, 'ro')
   })
 

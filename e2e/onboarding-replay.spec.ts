@@ -5,7 +5,7 @@ test.describe('Introduction replay', () => {
   test('replays from Settings, stays dismissible, and preserves preferences', async ({ page }) => {
     await openApp(page, { language: 'ro', theme: 'dark' })
     await page.getByRole('button', { name: 'Setări' }).click()
-    const replay = page.getByRole('button', { name: 'Reluați introducerea' })
+    const replay = page.getByRole('button', { name: 'Reia introducerea' })
     await replay.click()
 
     const introduction = page.getByRole('dialog')
@@ -25,13 +25,13 @@ test.describe('Introduction replay', () => {
     await expect(introduction.getByRole('progressbar', { name: 'Progresul introducerii' })).toHaveAttribute('aria-valuenow', '1')
     await expect(introduction.getByRole('group', { name: 'Limbă' })).toHaveCount(0)
     await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark')
-    await page.getByRole('button', { name: 'Închideți introducerea' }).click()
+    await page.getByRole('button', { name: 'Închide introducerea' }).click()
     await expect(page.getByTestId('settings-screen')).toBeVisible()
     await expect(replay).toBeFocused()
 
     await replay.click()
     await page.getByRole('button', { name: 'Înainte' }).click()
-    await expect(page.getByRole('heading', { name: 'Contextul vostru contează' })).toBeFocused()
+    await expect(page.getByRole('heading', { name: 'Contextul tău contează' })).toBeFocused()
     await page.getByRole('button', { name: 'Înainte' }).click()
     await expect(page.getByRole('heading', { name: 'Confidențialitate și date' })).toBeFocused()
     await expect(page.getByRole('group', { name: 'Limbă' })).toHaveCount(0)

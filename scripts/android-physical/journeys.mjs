@@ -46,12 +46,12 @@ export const JOURNEYS = Object.freeze({
     const { page, language, resetState, activate, expectVisible, assert } = context
     await resetState(page, language)
     await activate(page.getByRole('button', { name: /settings|setări/i }))
-    await activate(page.getByRole('button', { name: /replay introduction|reluați introducerea/i }))
+    await activate(page.getByRole('button', { name: /replay introduction|reia introducerea/i }))
     const dialog = page.getByTestId(ACCEPTANCE_HOOKS.onboardingDialog)
     await expectVisible(dialog, 'Replayed introduction')
     assert(await page.locator('.app-shell').getAttribute('inert') !== null, 'J2 background is not inert')
-    await activate(page.getByRole('button', { name: /close introduction|închideți introducerea/i }))
-    const replay = page.getByRole('button', { name: /replay introduction|reluați introducerea/i })
+    await activate(page.getByRole('button', { name: /close introduction|închide introducerea/i }))
+    const replay = page.getByRole('button', { name: /replay introduction|reia introducerea/i })
     assert(await replay.evaluate((element) => element === document.activeElement), 'J2 focus did not return to replay trigger')
   },
 
@@ -139,7 +139,7 @@ export const JOURNEYS = Object.freeze({
     await expectVisible(detail, 'Session detail after browser Forward')
     const remove = page.locator('.danger-button').first()
     await activate(remove)
-    await activate(page.getByRole('button', { name: /cancel|anulați/i }))
+    await activate(page.getByRole('button', { name: /cancel|anulează/i }))
     assert(await remove.evaluate((element) => element === document.activeElement), 'J7 Cancel did not restore focus')
     await activate(remove)
     await activate(page.locator('.confirm-dialog-actions .danger-button'))
@@ -163,7 +163,7 @@ export const JOURNEYS = Object.freeze({
     await expectVisible(page.getByRole('alert'), 'Tier-4 safety message')
     assert(await page.locator('.emotion-heading').count() === 0, 'J8 reflection details leaked before acknowledgment')
     await expectVisible(page.locator('.crisis-resources a').first(), 'Tier-4 support link')
-    await activate(page.getByRole('button', { name: /continue to reflection|continuați la reflecție/i }))
+    await activate(page.getByRole('button', { name: /continue to reflection|continuă la reflecție/i }))
     await expectVisible(page.locator('.emotion-heading'), 'Tier-4 reflection after acknowledgment')
   },
 
@@ -178,7 +178,7 @@ export const JOURNEYS = Object.freeze({
     assert(await aiLink.count() === 0, 'J9 AI link is visible before exploration')
 
     const done = page.getByRole('button', { name: /done for now|gata pentru acum/i })
-    const explore = page.getByRole('button', { name: /explore further|explorați mai mult/i })
+    const explore = page.getByRole('button', { name: /explore further|explorează mai mult/i })
     for (const [control, description] of [[done, 'Done'], [explore, 'Explore']]) {
       const inViewport = await control.evaluate((element) => {
         const bounds = element.getBoundingClientRect()

@@ -65,9 +65,9 @@ test.describe('Arrival guide', () => {
     await openArrival(page)
 
     await page.getByTestId('arrival-unsure').click()
-    await expect(page.getByRole('heading', { name: 'Puteți indica unde simțiți ceva în corp?' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Poți indica unde simți ceva în corp?' })).toBeVisible()
     await page.getByRole('button', { name: /Nu foarte clar/i }).click()
-    await expect(page.getByRole('heading', { name: 'Puteți plasa aproximativ starea?' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Poți plasa aproximativ starea?' })).toBeVisible()
     await page.getByRole('button', { name: /Am nevoie întâi de termeni generali/i }).click()
 
     await expect(page.getByTestId('words-screen')).toBeVisible()

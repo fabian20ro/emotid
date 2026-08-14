@@ -132,7 +132,7 @@ describe('ReflectionScreen need selection', () => {
 
   it('uses the same uncertainty and agency level in Romanian', () => {
     renderReflection([result('anxietate')], { language: 'ro' })
-    expect(screen.getByText('anxietate ar putea fi aproape. Păstrați doar ce se potrivește experienței de acum.')).toBeInTheDocument()
+    expect(screen.getByText('anxietate ar putea fi aproape. Păstrează doar ce se potrivește experienței de acum.')).toBeInTheDocument()
   })
 
   it('omits need selection and saves no need when none are inferred', async () => {
@@ -196,7 +196,7 @@ describe('ReflectionScreen need selection', () => {
       [result('obosit', first), result('trist', second)],
       { language: 'ro', saveSessions: false },
     )
-    await user.click(screen.getByRole('button', { name: 'Explorați mai mult' }))
+    await user.click(screen.getByRole('button', { name: 'Explorează mai mult' }))
     const option = screen.getByRole('button', { name: second.ro })
 
     option.focus()
@@ -302,7 +302,7 @@ describe('ReflectionScreen need selection', () => {
 
     await user.click(screen.getByRole('button', { name: 'Nu prea' }))
     expect(screen.getByRole('heading', { name: 'Rezultatul nu se potrivește' })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Încheiați fără să confirmați această etichetă' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Încheie fără să confirmi această etichetă' })).toBeInTheDocument()
   })
 
   it('shows pending state, waits for persistence, and blocks duplicate submission', async () => {
@@ -352,7 +352,7 @@ describe('ReflectionScreen need selection', () => {
 
     await user.click(screen.getByRole('button', { name: 'Gata pentru acum' }))
     expect(await screen.findByRole('heading', { name: 'Ultimele detalii nu au fost salvate' })).toBeInTheDocument()
-    await user.click(screen.getByRole('button', { name: 'Încheiați fără aceste detalii' }))
+    await user.click(screen.getByRole('button', { name: 'Încheie fără aceste detalii' }))
 
     expect(onReturn).toHaveBeenCalledOnce()
   })

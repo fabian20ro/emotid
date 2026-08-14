@@ -3,8 +3,8 @@ import { expect, test } from '@playwright/test'
 const cases = [
   { language: 'en', theme: 'light', next: 'Next', heading: 'Privacy & data', saving: 'Save reflections on this device', hint: /stored only on this device/i },
   { language: 'en', theme: 'dark', next: 'Next', heading: 'Privacy & data', saving: 'Save reflections on this device', hint: /stored only on this device/i },
-  { language: 'ro', theme: 'light', next: 'Înainte', heading: 'Confidențialitate și date', saving: 'Salvați reflecțiile pe acest dispozitiv', hint: /doar pe acest dispozitiv/i },
-  { language: 'ro', theme: 'dark', next: 'Înainte', heading: 'Confidențialitate și date', saving: 'Salvați reflecțiile pe acest dispozitiv', hint: /doar pe acest dispozitiv/i },
+  { language: 'ro', theme: 'light', next: 'Înainte', heading: 'Confidențialitate și date', saving: 'Salvează reflecțiile pe acest dispozitiv', hint: /doar pe acest dispozitiv/i },
+  { language: 'ro', theme: 'dark', next: 'Înainte', heading: 'Confidențialitate și date', saving: 'Salvează reflecțiile pe acest dispozitiv', hint: /doar pe acest dispozitiv/i },
 ] as const
 
 for (const scenario of cases) {

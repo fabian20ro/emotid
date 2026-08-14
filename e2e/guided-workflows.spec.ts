@@ -43,7 +43,7 @@ test.describe('Migrated guided workflows', () => {
 
   test('shows the revised Today copy in Romanian', async ({ page }) => {
     await openApp(page, { language: 'ro' })
-    await expect(page.getByRole('heading', { name: 'Cum vă simțiți?' })).toBeVisible()
-    await expect(page.getByText('Începeți cu energia și cât de plăcută este starea sau alegeți un cuvânt apropiat.')).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Cum te simți?' })).toBeVisible()
+    await expect(page.getByText('Începe cu energia și cât de plăcută este starea sau alege un cuvânt apropiat.')).toBeVisible()
   })
 })

@@ -66,21 +66,21 @@ export const synthesisCopy: Record<SynthesisLanguage, SynthesisCopy> = {
   },
   ro: {
     singleClear: (name) =>
-      `${name} este cea mai apropiată potrivire dintre aceste sugestii. Observați dacă acest cuvânt se potrivește experienței voastre.`,
+      `${name} este cea mai apropiată potrivire dintre aceste sugestii. Observă dacă acest cuvânt se potrivește experienței tale.`,
     singleHighIntensity: (name) =>
       `${name} apare în zona cu energie ridicată a rezultatului. Poate descrie o trăire resimțită mai intens acum.`,
     singleLowIntensity: (name) =>
-      `${name} apare în zona mai liniștită a rezultatului. Trăirea poate fi subtilă; păstrați cuvântul numai dacă se potrivește.`,
+      `${name} apare în zona mai liniștită a rezultatului. Trăirea poate fi subtilă; păstrează cuvântul numai dacă se potrivește.`,
     mixedValence: (names) =>
-      `${formatRomanianList(names)} apar împreună printre sugestii. Trăirile pot avea direcții diferite; păstrați doar cuvintele care se potrivesc.`,
+      `${formatRomanianList(names)} apar împreună printre sugestii. Trăirile pot avea direcții diferite; păstrează doar cuvintele care se potrivesc.`,
     concordantPleasant: (names) =>
-      `${formatRomanianList(names)} apar împreună ca posibile trăiri plăcute. Observați dacă această combinație se potrivește.`,
+      `${formatRomanianList(names)} apar împreună ca posibile trăiri plăcute. Observă dacă această combinație se potrivește.`,
     concordantUnpleasant: (names) =>
-      `${formatRomanianList(names)} apar împreună ca posibile trăiri dificile. Pot avea legătură cu ceva important pentru voi, dar numai voi puteți aprecia contextul.`,
+      `${formatRomanianList(names)} apar împreună ca posibile trăiri dificile. Pot avea legătură cu ceva important pentru tine, dar numai tu poți aprecia contextul.`,
     concordantUnpleasantSevere: (names) =>
-      `${formatRomanianList(names)} apar împreună printre sugestii și pot descrie o experiență dureroasă. Există sprijin dacă îl doriți.`,
+      `${formatRomanianList(names)} apar împreună printre sugestii și pot descrie o experiență dureroasă. Există sprijin dacă îl vrei.`,
     complexityMultiple: (count) =>
-      `Au apărut mai multe posibilități: ${count} trăiri în acest rezultat. Nu este nevoie să le acceptați pe toate.`,
+      `Au apărut mai multe posibilități: ${count} trăiri în acest rezultat. Nu este nevoie să le accepți pe toate.`,
     highIntensityGroup:
       'Aceste sugestii se află în zona cu energie ridicată a modelului. Poziția nu stabilește cauza sau gravitatea trăirii.',
     lowIntensityGroup:
@@ -88,12 +88,12 @@ export const synthesisCopy: Record<SynthesisLanguage, SynthesisCopy> = {
     needsClosing: (needs) => {
       const unique = uniqueNeeds(needs)
       if (unique.length === 0) return ''
-      return `O posibilitate de luat în considerare este ${formatRomanianList(unique)}. Păstrați-o numai dacă se potrivește situației voastre.`
+      return `O posibilitate de luat în considerare este ${formatRomanianList(unique)}. Păstreaz-o numai dacă se potrivește situației tale.`
     },
     needsClosingSevere: (needs) => {
       const unique = uniqueNeeds(needs)
       if (unique.length === 0) return ''
-      return `Există sprijin. De asemenea, puteți observa dacă ${formatRomanianList(unique)} v-ar ajuta acum.`
+      return `Există sprijin. De asemenea, poți observa dacă ${formatRomanianList(unique)} te-ar ajuta acum.`
     },
   },
 }
@@ -101,18 +101,18 @@ export const synthesisCopy: Record<SynthesisLanguage, SynthesisCopy> = {
 export const pleasantCombinationCopy: Record<string, Record<SynthesisLanguage, string>> = {
   'joy+gratitude': {
     en: 'Joy and gratitude appear together here. This combination can sometimes accompany appreciation or satisfaction; keep it only if it fits.',
-    ro: 'Bucuria și recunoștința apar împreună aici. Această combinație poate însoți aprecierea sau mulțumirea; păstrați-o numai dacă se potrivește.',
+    ro: 'Bucuria și recunoștința apar împreună aici. Această combinație poate însoți aprecierea sau mulțumirea; păstreaz-o numai dacă se potrivește.',
   },
   'love+trust': {
     en: 'Love and trust appear together here. This combination can sometimes accompany a sense of connection or safety; keep it only if it fits.',
-    ro: 'Iubirea și încrederea apar împreună aici. Această combinație poate însoți un sentiment de apropiere sau siguranță; păstrați-o numai dacă se potrivește.',
+    ro: 'Iubirea și încrederea apar împreună aici. Această combinație poate însoți un sentiment de apropiere sau siguranță; păstreaz-o numai dacă se potrivește.',
   },
   'joy+serenity': {
     en: 'Joy and serenity appear together here. This combination can sometimes accompany quiet contentment; keep it only if it fits.',
-    ro: 'Bucuria și seninătatea apar împreună aici. Această combinație poate însoți o mulțumire liniștită; păstrați-o numai dacă se potrivește.',
+    ro: 'Bucuria și seninătatea apar împreună aici. Această combinație poate însoți o mulțumire liniștită; păstreaz-o numai dacă se potrivește.',
   },
   'gratitude+serenity': {
     en: 'Gratitude and serenity appear together here. This combination can sometimes accompany peaceful appreciation; keep it only if it fits.',
-    ro: 'Recunoștința și seninătatea apar împreună aici. Această combinație poate însoți o apreciere liniștită; păstrați-o numai dacă se potrivește.',
+    ro: 'Recunoștința și seninătatea apar împreună aici. Această combinație poate însoți o apreciere liniștită; păstreaz-o numai dacă se potrivește.',
   },
 }

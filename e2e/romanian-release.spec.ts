@@ -7,7 +7,7 @@ async function openRomanianApp(page: Page) {
 
 async function chooseWord(page: Page, name: string | RegExp) {
   await page
-    .getByRole('list', { name: 'Alegeți o direcție' })
+    .getByRole('list', { name: 'Alege o direcție' })
     .getByRole('button', { name })
     .click()
 }
@@ -20,10 +20,10 @@ test.describe('Romanian release journeys', () => {
 
     await expect(page.getByRole('heading', { name: 'Ce pare să se potrivească?' })).toBeVisible()
     await expect(page.locator('.emotion-heading')).toContainText('anxietate')
-    await expect(page.getByText(/ar putea fi aproape. Păstrați doar ce se potrivește experienței de acum/i)).toBeVisible()
+    await expect(page.getByText(/ar putea fi aproape. Păstrează doar ce se potrivește experienței de acum/i)).toBeVisible()
     await expect(page.locator('.more-context')).toHaveCount(0)
     await expect(page.getByRole('button', { name: 'ancorare', exact: true })).toHaveCount(0)
-    await page.getByRole('button', { name: 'Explorați mai mult' }).click()
+    await page.getByRole('button', { name: 'Explorează mai mult' }).click()
     const moreContext = page.locator('.more-context')
     await moreContext.getByText('Mai mult context').click()
     await expect(moreContext).toContainText(/cea mai apropiată potrivire dintre aceste sugestii/i)
@@ -41,13 +41,13 @@ test.describe('Romanian release journeys', () => {
     await page.getByRole('button', { name: 'Piept' }).click()
     await page.getByRole('button', { name: 'Tensiune' }).click()
     await page.getByRole('button', { name: /Moderată/i }).click()
-    await expect(page.getByRole('heading', { name: 'Unde observați o senzație în corp?' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Unde observi o senzație în corp?' })).toBeVisible()
     await expect(page.getByTestId('body-signal-chest')).toBeFocused()
     await expect(page.getByTestId('body-evidence-note')).toContainText(
       'Cuvintele posibile provin din tipare generale de grup și ipoteze selectate.',
     )
     await expect(page.getByTestId('body-evidence-note')).toContainText(
-      'Nu pot identifica o cauză, un diagnostic sau ceea ce simțiți.',
+      'Nu pot identifica o cauză, un diagnostic sau ceea ce simți.',
     )
     await page.locator('.route-action button').click()
 
@@ -70,7 +70,7 @@ test.describe('Romanian release journeys', () => {
     await suggestion.focus()
     await page.keyboard.press('Enter')
     await expect(suggestion).toHaveAttribute('aria-pressed', 'true')
-    await page.getByRole('button', { name: 'Reflectați la aceste cuvinte' }).click()
+    await page.getByRole('button', { name: 'Reflectează la aceste cuvinte' }).click()
     await expect(page.getByTestId('reflection-screen')).toBeVisible()
   })
 
@@ -80,7 +80,7 @@ test.describe('Romanian release journeys', () => {
     await page.getByTestId('arrival-words').click()
 
     await chooseWord(page, 'Fericit')
-    await page.getByRole('button', { name: 'Adăugați Fericit' }).click()
+    await page.getByRole('button', { name: 'Adaugă Fericit' }).click()
     await page.locator('.route-action button').click()
 
     await expect(page.getByTestId('reflection-screen')).toBeVisible()
@@ -108,10 +108,10 @@ test.describe('Romanian release journeys', () => {
     await finishReflection(page)
 
     await page.getByRole('button', { name: 'Jurnal', exact: true }).click()
-    await expect(page.getByRole('heading', { name: 'Firul vostru emoțional' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Firul tău emoțional' })).toBeVisible()
     await expect(page.locator('.journal-list')).toContainText(/bucurie/i)
     await page.locator('.journal-list button').click()
-    await expect(page.getByTestId('session-detail-screen')).toContainText('Ce ați numit')
+    await expect(page.getByTestId('session-detail-screen')).toContainText('Ce ai numit')
   })
 
   test('Privacy exposes localized defaults and persists save opt-out', async ({ page }) => {
@@ -119,8 +119,8 @@ test.describe('Romanian release journeys', () => {
     await page.getByRole('button', { name: 'Setări' }).click()
     await page.getByRole('button', { name: 'Confidențialitate și date' }).click()
 
-    const saving = page.getByRole('switch', { name: 'Salvați reflecțiile pe acest dispozitiv' })
-    const external = page.getByRole('switch', { name: 'Permiteți legături către Google AI Mode' })
+    const saving = page.getByRole('switch', { name: 'Salvează reflecțiile pe acest dispozitiv' })
+    const external = page.getByRole('switch', { name: 'Permite legături către Google AI Mode' })
     await expect(saving).toBeChecked()
     await expect(external).toBeChecked()
     await saving.click()
@@ -136,7 +136,7 @@ test.describe('Romanian release journeys', () => {
 
     await chooseWord(page, /^Trist$/i)
     await chooseWord(page, /^disperare$/i)
-    await page.getByRole('button', { name: /Adăugați disperare/i }).click()
+    await page.getByRole('button', { name: /Adaugă disperare/i }).click()
 
     await chooseWord(page, /^Trist$/i)
     await chooseWord(page, /^Deprimat$/i)
@@ -148,10 +148,10 @@ test.describe('Romanian release journeys', () => {
 
     await page.locator('.route-action button').click()
     await expect(page.getByRole('alert')).toContainText(
-      /nu îi arată aplicației Emot-ID dacă sunteți în pericol/i,
+      /nu îi arată aplicației Emot-ID dacă ești în pericol/i,
     )
     await expect(page.locator('.emotion-heading')).toHaveCount(0)
-    await page.getByRole('button', { name: 'Continuați la reflecție' }).click()
+    await page.getByRole('button', { name: 'Continuă la reflecție' }).click()
     await expect(page.locator('.emotion-heading')).toContainText(/disperare/i)
   })
 })

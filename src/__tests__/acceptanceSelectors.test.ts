@@ -41,7 +41,7 @@ describe('native acceptance selector contract', () => {
     for (const file of adapterFiles) {
       const source = readFileSync(path.resolve(process.cwd(), file), 'utf8')
       expect(source, file).toContain('acceptance/selectors.mjs')
-      expect(source, file).not.toMatch(/help me choose|ajutați-mă să aleg/i)
+      expect(source, file).not.toMatch(/help me choose|ajută-mă să aleg/i)
       expect(source, file).not.toContain('.session-save-status.is-saved')
       expect(source, file).not.toContain("'.external-ai-link'")
     }

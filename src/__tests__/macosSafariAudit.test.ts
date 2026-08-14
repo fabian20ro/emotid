@@ -217,7 +217,7 @@ describe('native macOS Safari audit', () => {
       'en-quick', 'en-word-intermediate', 'en-tier4',
       'ro-quick', 'ro-word-intermediate', 'ro-tier4',
     ])
-    expect(locators).toContain("//button[normalize-space(.)='Continuați cu Jucăuș']")
+    expect(locators).toContain("//button[normalize-space(.)='Continuă cu Jucăuș']")
     expect(locators).toContain("//button[normalize-space(.)='Lipsit de valoare']")
     expect(locators).toContain('[data-testid="arrival-screen"]')
     expect(driver.navigate).toHaveBeenNthCalledWith(

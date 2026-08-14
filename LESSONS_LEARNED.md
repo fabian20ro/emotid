@@ -218,6 +218,12 @@ ID, retain the repository as a metadata archive and publish a fresh repository I
 
 ## Process & Workflow
 
+**[2026-08-14]** Localized second-person register is a product voice contract — In an intimate
+self-reflection product, Romanian polite plural creates institutional distance and conflicts with
+an internal-monologue experience. Keep Romanian user address consistently informal singular across
+static UI, generated synthesis, safety copy, and native acceptance adapters; enforce the register
+with a copy test instead of relying on review memory.
+
 **[2026-08-13]** Accessibility instrumentation must not alter the active assistive-technology row —
 Android `uiautomator dump` can launch a TalkBack permission activity and restart TTS. During a
 TalkBack journey, use non-intrusive screenshot/CDP evidence; capture the native hierarchy only
