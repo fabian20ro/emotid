@@ -31,7 +31,7 @@ export function SettingsScreen({ theme, onBack, onThemeChange, onOpenPrivacy, on
         <div className="settings-row">
           <Moon size={20} aria-hidden="true" />
           <span id="settings-theme-label">{t.theme}</span>
-          <div className="segmented" role="group" aria-labelledby="settings-theme-label">
+          <div className="segmented settings-theme-segmented" role="group" aria-labelledby="settings-theme-label">
             <button type="button" aria-pressed={theme === 'light'} className={theme === 'light' ? 'is-active' : ''} onClick={() => onThemeChange('light')}>{t.light}</button>
             <button type="button" aria-pressed={theme === 'dark'} className={theme === 'dark' ? 'is-active' : ''} onClick={() => onThemeChange('dark')}>{t.dark}</button>
           </div>

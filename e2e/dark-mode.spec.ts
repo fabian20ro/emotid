@@ -112,3 +112,37 @@ test('keeps returning-user onboarding readable in dark mode', async ({ page }) =
   await expect(languageGroup.getByRole('button', { name: 'English' })).toHaveAttribute('aria-pressed', 'true')
   await expect(languageGroup.getByRole('button', { name: 'Română' })).toHaveAttribute('aria-pressed', 'false')
 })
+
+test('keeps Romanian appearance labels inside their segments', async ({ page }) => {
+  for (const viewport of [{ width: 320, height: 568 }, { width: 1280, height: 720 }]) {
+    await page.setViewportSize(viewport)
+    await openApp(page, { language: 'ro', theme: 'dark' })
+    await page.getByRole('button', { name: 'Setări' }).click()
+    await expect(page.getByTestId('settings-screen')).toBeVisible()
+
+    const segments = await page.getByRole('group', { name: 'Aspect' }).locator('button').evaluateAll((buttons) => (
+      buttons.map((button) => {
+        const bounds = button.getBoundingClientRect()
+        const textRange = document.createRange()
+        textRange.selectNodeContents(button)
+        const textBounds = textRange.getBoundingClientRect()
+        return {
+          left: bounds.left,
+          right: bounds.right,
+          clientWidth: button.clientWidth,
+          scrollWidth: button.scrollWidth,
+          textInsetStart: textBounds.left - bounds.left,
+          textInsetEnd: bounds.right - textBounds.right,
+        }
+      })
+    ))
+
+    expect(segments).toHaveLength(2)
+    for (const segment of segments) {
+      expect(segment.scrollWidth).toBeLessThanOrEqual(segment.clientWidth)
+      expect(segment.textInsetStart).toBeGreaterThanOrEqual(8)
+      expect(segment.textInsetEnd).toBeGreaterThanOrEqual(8)
+    }
+    expect(segments[0].right).toBeLessThanOrEqual(segments[1].left + 0.5)
+  }
+})

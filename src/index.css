@@ -345,6 +345,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .segmented { display: flex; border: 1px solid var(--line); border-radius: 8px; padding: 2px; }
 .segmented button { min-width: 44px; min-height: 44px; border: 0; border-radius: 6px; background: transparent; color: var(--ink-muted); }
 .segmented button.is-active { background: var(--teal); color: var(--accent-ink); }
+.settings-theme-segmented { min-width: 192px; }
+.settings-theme-segmented button { flex: 1 1 0; min-width: 0; padding-inline: 10px; white-space: nowrap; }
 .switch { width: 50px; height: 30px; padding: 3px; border: 0; border-radius: 16px; background: var(--disabled-bg); transition: background 160ms ease; }
 .switch span { display: block; width: 24px; height: 24px; border-radius: 50%; background: white; box-shadow: 0 1px 3px #0003; transform: translateX(0); transition: transform 160ms ease; }
 .switch.is-on { background: var(--teal); }

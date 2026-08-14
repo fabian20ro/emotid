@@ -1,12 +1,12 @@
 # Product Maintenance Plan
 
-Status: the mobile UI/UX migration and `v0.1.0` release closure are complete. The deployed product
+Status: the mobile UI/UX migration and `v0.1.1` patch closure are complete. The deployed product
 has no known release-blocking defect. Work now follows evidence and maintenance needs rather than
 a migration phase sequence. Updated August 14, 2026.
 
 Historical implementation detail belongs in `ITERATION_LOG.md`, release criteria in
 `docs/release-quality-gates.md`, candidate evidence in `docs/physical-release-evidence.md`, and
-release scope in `docs/releases/v0.1.0.md`.
+release scope in `docs/releases/v0.1.1.md`.
 
 ## Released Baseline
 

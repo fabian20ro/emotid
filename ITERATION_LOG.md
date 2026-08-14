@@ -2543,3 +2543,26 @@ Safari and Mobile Chrome, including Romanian light/dark, compact reflow, safety,
 **Insight:** Grammatical register is part of psychological tone and accessibility behavior, not
 translation polish; one inconsistent generated or safety message can break the perceived voice.
 **Promoted to Lessons Learned:** Yes — added the Romanian informal-singular product voice contract.
+
+---
+
+### [2026-08-14] Publish the v0.1.1 Romanian voice patch
+
+**Context:** The informal-singular Romanian migration was deployed after `v0.1.0` and needed a
+bounded patch release plus one live tone and presentation review.
+**What happened:**
+- Reviewed live Romanian onboarding, Today, guided arrival, Reflection, settings, privacy, and
+  light/dark presentation. The voice was consistent and psychologically appropriate.
+- The visual pass found `Luminos` and `Întunecat` touching their segment edges. Added a focused
+  Settings modifier with stable desktop width and responsive mobile behavior.
+- Started with a failing browser geometry contract, then verified text containment, at least 8px
+  inline breathing room, and non-overlapping segments at 320px and 1280px in both browser engines.
+- Bumped package metadata to `0.1.1`, added patch release notes, and updated the current-release and
+  maintenance references. Safety, persistence, privacy, emotion models, and AI handoff behavior
+  remain unchanged.
+**Outcome:** `npm run check` passes 86 files / 685 tests. Playwright passes 258/258; production PWA
+and performance probes pass 1/1.
+**Insight:** Translation review must include intrinsic control geometry; text can remain technically
+contained while touching an adjacent segment closely enough to look overlapped.
+**Promoted to Lessons Learned:** No — the existing measurement-backed visual validation lesson
+already covers the reusable rule.
