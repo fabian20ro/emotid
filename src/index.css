@@ -677,7 +677,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   .confirm-dialog-actions { grid-template-columns: 1fr; }
   .settings-row { grid-template-columns: auto minmax(0, 1fr); padding-block: 10px; }
   .settings-row .segmented { grid-column: 2; width: 100%; }
-  .settings-row .segmented button { flex: 1 1 0; min-width: 0; padding-inline: 7px; }
+  .settings-row .segmented button { flex: 1 1 0; min-width: 0; padding-inline: 12px; }
 }
 
 .route-load-state {
