@@ -4,6 +4,8 @@ export default defineConfig({
   testDir: './e2e',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
+  // CI needs one actionable failure quickly; local runs retain the complete diagnostic matrix.
+  maxFailures: process.env.CI ? 1 : 0,
   retries: process.env.CI ? 2 : 0,
   // Bound local browser reuse; CI keeps one worker for constrained runners and deterministic storage flows.
   workers: process.env.CI ? 1 : 2,

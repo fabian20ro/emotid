@@ -20,6 +20,8 @@ release scope in `docs/releases/v0.1.2.md`.
   have broad repeatable coverage.
 - Every successful `main` deployment receives an isolated public-URL smoke check for shell, assets,
   manifest, service-worker control, lazy-route loading, browser errors, and outbound requests.
+- Red CI browser runs stop after the first test exhausts its retries; local diagnostics remain
+  unlimited and green CI still executes the complete two-engine matrix.
 
 ## Maintenance Triggers
 

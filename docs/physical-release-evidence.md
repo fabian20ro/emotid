@@ -11,17 +11,20 @@ assistive-technology or hardware-performance gates. Physical iPhone testing is o
 
 | Field | Value |
 | --- | --- |
-| Product SHA | `61f8743` |
-| Verification harness | `2775cac` (test-only changes after product freeze) |
-| Candidate status | RELEASED AS `v0.1.0`; product assets unchanged by later harness/docs commits |
+| Released product | `v0.1.2` at `93c804e` |
+| Recorded post-release harness | `a082c38` (CI/docs only; production assets unchanged) |
+| Candidate status | RELEASED AS `v0.1.2` WITH EXPLICIT EVIDENCE WAIVERS |
 | Production URL | `https://fabian20ro.github.io/emotid/` |
-| Verified deployment workflow | `Deploy to GitHub Pages` run `31746876503`, successful |
+| Exact release-tag workflow | `Deploy to GitHub Pages` run `31824331929`, successful |
+| Recorded post-release workflow | `Deploy to GitHub Pages` run `31829844663`, successful including deployed smoke |
 | Test date | 2026-08-14 |
 | Current decision | RELEASED WITH EXPLICIT EVIDENCE WAIVERS; no open product blocker |
 
-`61f8743` contains the only post-freeze product change: revealing the Quick commitment action on
-compact screens. Later commits only correct release adapters; their production asset hashes match
-the frozen product build.
+`v0.1.2` includes the released Romanian informal-singular voice and appearance-control spacing
+corrections. Post-release `main` changes are confined to tests, workflow/configuration, and
+documentation; production asset hashes match `93c804e`. Native, Simulator, TalkBack, and physical
+performance rows below predate `v0.1.2` and remain retained evidence, not exact-current-candidate
+passes.
 
 ## Environment Inventory
 
@@ -41,17 +44,21 @@ thermal differences for every final-candidate physical run.
 | Scope | Result | Evidence |
 | --- | --- | --- |
 | Clean dependency install and audit | AUTOMATED_PASS | `npm ci`; `npm audit`: 0 vulnerabilities |
-| Lint, unit/integration, acceptance contract, i18n, psychological copy, build, budgets | AUTOMATED_PASS | `npm run check`: 86 files / 684 tests |
-| Mobile Safari + Mobile Chrome browser matrix | AUTOMATED_PASS | `npm run test:e2e`: 256/256 |
+| Lint, unit/integration, acceptance contract, i18n, psychological copy, build, budgets | AUTOMATED_PASS | `npm run check`: 86 files / 685 tests |
+| Mobile Safari + Mobile Chrome browser matrix | AUTOMATED_PASS | `npm run test:e2e`: 258/258 |
 | Production offline/update/data-retention lifecycle | AUTOMATED_PASS | `npm run test:pwa` |
 | Production browser performance probe | AUTOMATED_PASS | `npm run test:performance` |
-| CodeQL | PASS | Run `31746876222` |
-| CI, PWA, performance, Pages deploy | PASS | Run `31746876503` |
+| Exact `v0.1.2` CI, PWA, performance, Pages deploy | PASS | Run `31824331929` |
+| Recorded post-release CodeQL | PASS | Run `31829844622` at `a082c38` |
+| Recorded post-release CI, Pages deploy, public-URL smoke | PASS | Run `31829844663` at `a082c38`; deployed smoke 1/1 |
 
 These results validate browser-observable behavior. They do not validate synthesized speech,
 screen-reader gestures, installed mobile UI, or low-tier hardware timing.
 
 ## Retained Native And Physical Evidence
+
+These rows retain their recorded candidate identity. None is relabeled as an exact `v0.1.2`
+native or physical pass.
 
 | Candidate | Environment | Scope | Result | Evidence |
 | --- | --- | --- | --- | --- |
@@ -110,10 +117,11 @@ found Romanian speech understandable. TalkBack also announced persistent local-p
 during route replacement; target focus remained on the new heading and no missing, duplicate, or
 misordered content reproduced. This is a bounded checkpoint pass, not a complete human J1-J9 claim.
 
-## Current Physical Matrix
+## Retained Physical Matrix
 
 TalkBack rows retain earlier supporting evidence. The no-AT browser and installed rows below are
-exact frozen-product evidence and do not claim speech or gesture validation.
+exact evidence for their recorded pre-`v0.1.2` candidates and do not claim current-candidate,
+speech, or gesture validation.
 
 | Device | Language | Theme | Mode | J1 | J2 | J3 | J4 | J5 | J6 | J7 | J8 | J9 | Result |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -136,7 +144,7 @@ Pixel 6a on Android 17 passed the later P29 profile: cold startup median `1,440 
 `207.2 ms`; Affect `120.1 ms`; Words `219.4 ms`; Plutchik `130.2 ms`; worst warm return `41.5 ms`; longest
 observed task `53 ms`.
 
-### Final-Candidate Matrix
+### Retained v0.1.0 Candidate Matrix
 
 | Device | Measurement | Run 1 ms | Run 2 ms | Run 3 ms | Median ms | Target ms | Result |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | --- |
@@ -196,22 +204,24 @@ For a failure: retain evidence, reproduce on the intended environment, reduce to
 stable case, add the closest deterministic browser regression, fix, rerun automated gates, and
 retest the same native row. Record environment blocks separately from application failures.
 
-## Open Release Gates
+## Current Release Evidence
 
 | Gate | Status | Closure condition |
 | --- | --- | --- |
-| Exact-candidate automated baseline | PASS | Local complete gates and workflow `31746876503` |
-| iOS Simulator browser matrix | PASS, SUPPORTING | Base 16/16; acceptance 36/36; robustness 6/6 |
+| Exact-release automated baseline | PASS | `v0.1.2` workflow `31824331929`; current harness workflow `31829844663` |
+| Post-deployment public-URL smoke | PASS | `a082c38`; deployed smoke 1/1 in workflow `31829844663` |
+| iOS Simulator browser matrix | RETAINED, SUPPORTING | Pre-`v0.1.2`; base 16/16, acceptance 36/36, robustness 6/6 |
 | Simulator installed PWA / VoiceOver | OUT OF SCOPE | Capability limitation recorded; no physical-iPhone substitution claim |
-| Pixel 6a browser + installed, no AT | PASS, SUPPORTING | J1-J9 EN/RO, 36/36 total |
-| Pixel 6a TalkBack | BOUNDED_PASS / WAIVER REQUIRED FOR FULL MATRIX | Six owner-operated browser/installed checkpoints passed; complete human J1-J9 not claimed |
-| Mid-tier Android performance | PASS | Frozen-product three-run matrix |
+| Pixel 6a browser + installed, no AT | RETAINED, SUPPORTING | Pre-`v0.1.2`; J1-J9 EN/RO, 36/36 total |
+| Pixel 6a TalkBack | RETAINED BOUNDED_PASS / WAIVER REQUIRED FOR FULL MATRIX | Pre-`v0.1.2`; six owner-operated checkpoints; complete human J1-J9 not claimed |
+| Mid-tier Android performance | RETAINED PASS | Pre-`v0.1.2` three-run matrix; current automated performance probe passes |
 | Low-tier Android performance | DEFERRED / WAIVER REQUIRED | Distinct device unavailable; Pixel is not relabeled |
 | Moderated comprehension | DEFERRED / WAIVER REQUIRED | Six participant sessions unavailable; synthetic reviews remain preflight |
 | Native macOS Safari | BLOCKED, SUPPORTING ONLY | SafariDriver activation transport; no reproduced product failure |
 | Release-blocking product defects | NONE REPRODUCED | No unresolved failure after required rows |
 
-Release decision: **RELEASED AS `v0.1.0` WITH EXPLICIT EVIDENCE WAIVERS.** The frozen product has no
-unresolved automated, simulator, browser, installed-WebAPK, or mid-tier performance defect. The
-residual accessibility, low-tier performance, and comprehension risks above remain deferred; none
-is converted into a pass by supporting or historical evidence.
+Release decision: **RELEASED AS `v0.1.2` WITH EXPLICIT EVIDENCE WAIVERS.** Current automated and
+post-deployment gates expose no unresolved product defect. Simulator, native-browser, installed
+WebAPK, TalkBack, and physical performance evidence remains attached to its recorded older
+candidate. Residual accessibility, low-tier performance, and comprehension risks remain deferred;
+none is converted into an exact-current pass by retained evidence.

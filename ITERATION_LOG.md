@@ -2616,3 +2616,30 @@ closed against an invalid URL and passes 1/1 against both fresh local production
 **Insight:** Worker readiness, worker activation, and page control are distinct deployment states;
 the public edge needs its own small gate after the deployment action completes.
 **Promoted to Lessons Learned:** Yes — added the post-deployment PWA activation/control contract.
+
+---
+
+### [2026-08-14] Complete P54 release evidence and CI feedback closure
+
+**Context:** The maintenance plan and README named `v0.1.2`, but the active physical-evidence ledger
+still presented the older `v0.1.0` freeze, test counts, and workflows as current. Two deterministic
+release failures had also taken the full serial browser matrix to report.
+**What happened:**
+- Reframed the ledger around the immutable `v0.1.2` product tag at `93c804e` and the recorded
+  post-release verification/deployment checkpoint at `a082c38`. Updated automated counts and exact
+  workflow evidence without relabeling older hardware rows.
+- Renamed physical and performance matrices as retained evidence and marked Simulator, Android,
+  TalkBack, Safari, and timing rows with their actual pre-`v0.1.2` scope. Current automated passes
+  and retained native evidence are now separate claims.
+- Added CI-only `maxFailures: 1` to the primary Playwright config. A controlled four-test failure
+  exhausted two retries, stopped after one final failure, and left three tests unrun. Local runs
+  remain unlimited; the successful CI-mode matrix still ran 258/258.
+- Documented the red-run diagnostic tradeoff in the quality gate and maintenance plan. Historical
+  release notes, defect rows, and iteration records remain unchanged.
+**Outcome:** `npm run check` passes 86 files / 685 tests. CI-mode Playwright passes 258/258; PWA,
+performance, and local deployed-boundary probes pass 1/1. No product asset, copy, safety,
+persistence, privacy, or interaction behavior changed.
+**Insight:** Current automated evidence and retained native evidence need explicit candidate
+identities; otherwise a truthful historical pass becomes a misleading current-release claim.
+**Promoted to Lessons Learned:** No — the existing one-owner release-documentation lesson already
+covers this recurrence.

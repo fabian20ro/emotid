@@ -19,6 +19,11 @@ reload, one lazy Settings chunk, zero same-origin browser failures, and zero une
 requests. Deployment failures retain a dedicated screenshot, trace, and HTML report. This gate
 checks the published boundary; it does not replace the deeper local offline/update lifecycle test.
 
+The primary Playwright config stops CI after one test has exhausted its retries. This shortens red
+feedback while preserving the first screenshot, trace, and HTML report. Local runs have no failure
+limit, and every successful CI run still executes the complete Mobile Safari and Mobile Chrome
+matrix.
+
 `npm run check-acceptance` validates the canonical J1-J9 IDs/titles, EN/RO scope, evidence classes,
 adapter registrations, Playwright test anchors, and this document. The manifest owns metadata only;
 platform steps, selectors, fixtures, and lifecycle remain in their adapters.
