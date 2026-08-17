@@ -187,6 +187,7 @@ export const JOURNEYS = Object.freeze({
       assert(inViewport, `J9 ${description} action is outside the first viewport`)
     }
 
+    await activate(page.getByRole('button', { name: /partly|parțial/i }))
     await activate(explore)
     await expectVisible(page.getByTestId('reflection-exploration-screen'), 'Reflection exploration')
     assert(await page.locator('#screen-title').evaluate((element) => element === document.activeElement), 'J9 exploration heading lacks focus')

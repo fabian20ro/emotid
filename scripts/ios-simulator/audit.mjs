@@ -93,6 +93,7 @@ const COPY = Object.freeze({
   en: Object.freeze({
     reflection: 'What seems to fit?',
     explore: 'Explore further',
+    partly: 'Partly',
     done: 'Done for now',
     retry: 'Try saving again',
     journal: 'Journal',
@@ -110,6 +111,7 @@ const COPY = Object.freeze({
   ro: Object.freeze({
     reflection: 'Ce pare să se potrivească?',
     explore: 'Explorează mai mult',
+    partly: 'Parțial',
     done: 'Gata pentru acum',
     retry: 'Încearcă salvarea din nou',
     journal: 'Jurnal',
@@ -854,6 +856,7 @@ async function runQuick(driver, copy) {
   const heading = await driver.getText(await driver.findElement('css selector', 'h1'))
   if (heading !== copy.reflection) throw new Error(`Unexpected Reflection heading: ${heading}`)
   await assertCurrentSurface(driver)
+  await click(driver, 'xpath', buttonWithText(copy.partly))
   await click(driver, 'xpath', buttonWithText(copy.explore))
   await driver.waitForElement('css selector', '[data-testid="reflection-exploration-screen"]')
   const aiLink = await driver.findElement('css selector', ACCEPTANCE_SELECTORS.externalAiLink)

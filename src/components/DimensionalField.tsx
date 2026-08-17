@@ -10,10 +10,24 @@ const FIELD_SIZE = 500
 const PADDING = 30
 const INNER = FIELD_SIZE - PADDING * 2
 const KEYBOARD_STEP = 0.2
+const AXIS_NEUTRAL_THRESHOLD = 0.1
 
 function toPixel(value: number): number {
   // Map -1..+1 to PADDING..FIELD_SIZE-PADDING
   return PADDING + ((value + 1) / 2) * INNER
+}
+
+function readableEmotionInk(color: string): '#000000' | '#ffffff' {
+  const match = /^#([0-9a-f]{6})$/i.exec(color)
+  if (!match) return '#000000'
+  const channels = [0, 2, 4].map((offset) => Number.parseInt(match[1].slice(offset, offset + 2), 16) / 255)
+  const [red, green, blue] = channels.map((channel) => (
+    channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4
+  ))
+  const background = 0.2126 * red + 0.7152 * green + 0.0722 * blue
+  const blackContrast = (background + 0.05) / 0.05
+  const whiteContrast = 1.05 / (background + 0.05)
+  return whiteContrast > blackContrast ? '#ffffff' : '#000000'
 }
 
 function DimensionalFieldBase({ emotions, onSelect, onDeselect, selections = [], progressive = false }: VisualizationProps) {
@@ -253,16 +267,18 @@ function DimensionalFieldBase({ emotions, onSelect, onDeselect, selections = [],
             return (
               <g
                 key={emotion.id}
+                className="dimensional-emotion-control"
                 role="button"
                 tabIndex={0}
                 aria-label={emotion.label[language]}
                 aria-pressed={isSelected}
-                style={{ cursor: 'pointer', outline: 'none' }}
+                style={{ cursor: 'pointer' }}
                 onClick={(e) => handleEmotionDotClick(emotion, e)}
                 onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.stopPropagation(); handleEmotionDotClick(emotion, e as unknown as React.MouseEvent) } }}
               >
                 {/* Invisible hit area for touch targets (~44px at mobile scale) */}
                 <circle
+                  className="dimensional-emotion-dot"
                   cx={px}
                   cy={py}
                   r={32}
@@ -318,7 +334,7 @@ function DimensionalFieldBase({ emotions, onSelect, onDeselect, selections = [],
 
         {placement && (
           <p data-testid="affect-readout" className="affect-readout" role="status">
-            {`${placement.arousal >= 0 ? dimensionalT.readoutMoreEnergy : dimensionalT.readoutLessEnergy}, ${placement.valence >= 0 ? dimensionalT.readoutPleasant : dimensionalT.readoutUnpleasant}`}
+            {`${Math.abs(placement.arousal) <= AXIS_NEUTRAL_THRESHOLD ? dimensionalT.readoutNeutralEnergy : placement.arousal > 0 ? dimensionalT.readoutMoreEnergy : dimensionalT.readoutLessEnergy}, ${Math.abs(placement.valence) <= AXIS_NEUTRAL_THRESHOLD ? dimensionalT.readoutNeutralPleasantness : placement.valence > 0 ? dimensionalT.readoutPleasant : dimensionalT.readoutUnpleasant}`}
           </p>
         )}
 
@@ -340,7 +356,7 @@ function DimensionalFieldBase({ emotions, onSelect, onDeselect, selections = [],
                   aria-pressed={selectedIds.has(s.id)}
                   onClick={() => handleSuggestionClick(s)}
                   className="dimensional-suggestion-chip min-h-[48px]"
-                  style={{ '--emotion-color': s.color } as CSSProperties}
+                  style={{ '--emotion-color': s.color, '--emotion-ink': readableEmotionInk(s.color) } as CSSProperties}
                 >
                   {s.label[language]}
                 </button>

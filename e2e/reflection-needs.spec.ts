@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test'
-import { completeQuick, finishReflection, openApp, openArrival } from './helpers'
+import { chooseWordOption, completeQuick, finishReflection, openApp, openArrival } from './helpers'
 
 async function completeAffectAt(
   page: import('@playwright/test').Page,
@@ -46,7 +46,7 @@ async function completeWordPath(
 ) {
   await openArrival(page)
   await page.getByTestId('arrival-words').click()
-  for (const word of path) await page.getByRole('button', { name: word, exact: true }).click()
+  for (const word of path) await chooseWordOption(page, word)
   await page.getByRole('button', { name: `Continue with ${result}`, exact: true }).click()
   await expect(page.getByTestId('reflection-screen')).toBeVisible()
 }
@@ -125,8 +125,7 @@ test('chooses one of several inferred needs and persists it to Journal', async (
   await openArrival(page)
   await page.getByTestId('arrival-words').click()
 
-  const level = page.getByRole('list', { name: 'Choose one direction' })
-  const choose = async (name: string) => level.getByRole('button', { name, exact: true }).click()
+  const choose = async (name: string) => chooseWordOption(page, name)
 
   await choose('Sad')
   await choose('despair')

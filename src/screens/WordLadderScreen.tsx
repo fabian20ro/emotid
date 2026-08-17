@@ -35,6 +35,12 @@ function hasReviewedDescription(emotion: BaseEmotion) {
   return Boolean(emotion.description?.en && emotion.description.ro)
 }
 
+function withNavigationPath(emotion: BaseEmotion, path: BaseEmotion[]): BaseEmotion {
+  const navigationPath = path.map((item) => item.id)
+  if (navigationPath[navigationPath.length - 1] !== emotion.id) navigationPath.push(emotion.id)
+  return { ...emotion, navigationPath }
+}
+
 export function WordLadderScreen({ model: emotionModel, onBack, onComplete }: WordLadderScreenProps) {
   const { language, section } = useLanguage()
   const t = section('wordLadder')
@@ -74,13 +80,13 @@ export function WordLadderScreen({ model: emotionModel, onBack, onComplete }: Wo
       setHistory([])
       setPath([])
     }
-    model.handleSelect(emotion)
+    model.handleSelect(hasChildren(emotion) ? emotion : withNavigationPath(emotion, path))
   }
 
   const choosePathLevel = (index: number) => {
     const selected = path[index]
     prepareComparison(selected, history[index]?.emotions ?? [])
-    model.handleBreadcrumbSelect(selected)
+    model.handleBreadcrumbSelect(withNavigationPath(selected, path.slice(0, index + 1)))
     setHistory([])
     setPath([])
   }
@@ -119,8 +125,9 @@ export function WordLadderScreen({ model: emotionModel, onBack, onComplete }: Wo
   }
 
   const finishWithPathEmotion = (emotion: BaseEmotion) => {
-    const results = model.analyzeSelections([emotion])
-    if (results.length > 0) onComplete(MODEL_IDS.WHEEL, [emotion], results)
+    const selection = withNavigationPath(emotion, path)
+    const results = model.analyzeSelections([selection])
+    if (results.length > 0) onComplete(MODEL_IDS.WHEEL, [selection], results)
   }
 
   const comparisonAvailable = Boolean(
@@ -191,7 +198,7 @@ export function WordLadderScreen({ model: emotionModel, onBack, onComplete }: Wo
             </div>
             <div>
               {model.selections.map((emotion) => (
-                <button type="button" key={emotion.id} onClick={() => deselect(emotion)}>
+                <button type="button" key={emotion.id} aria-label={t.removeWord.replace('{word}', emotion.label[language])} onClick={() => deselect(emotion)}>
                   <i style={{ background: emotion.color }} aria-hidden="true" />
                   {emotion.label[language]}
                   <X size={15} aria-hidden="true" />
@@ -266,7 +273,7 @@ export function WordLadderScreen({ model: emotionModel, onBack, onComplete }: Wo
         <ul className="word-options" aria-label={t.level}>
           {model.visibleEmotions.map((emotion) => (
             <li key={emotion.id}>
-              <button type="button" aria-label={emotion.label[language]} onClick={() => select(emotion)}>
+              <button type="button" aria-label={(hasChildren(emotion) ? t.exploreWord : t.selectWord).replace('{word}', emotion.label[language])} onClick={() => select(emotion)}>
                 <span className="word-swatch" style={{ background: emotion.color }} aria-hidden="true" />
                 <span>
                   <strong>{emotion.label[language]}</strong>

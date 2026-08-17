@@ -90,7 +90,7 @@ guidance; signals cannot provide local causal descriptions.
 
 ### Wheel multi-parent (`parents: string[]`)
 
-Emotions like `embarrassed` appear under multiple L1 branches (both `hurt` and `disapproving`). The overlay uses `parents: string[]` instead of `parent: string`. The `analyze()` method walks `parents[0]` for the hierarchy path. Future: track actual drill-down path via `ModelState.custom.navPath`.
+Emotions like `embarrassed` appear under multiple L1 branches (both `hurt` and `disapproving`). The overlay uses `parents: string[]` instead of `parent: string`. Word Ladder selections carry their actual `navigationPath`; analysis validates that path against the graph before persisting `hierarchyPath`. Direct model calls without interaction provenance retain the primary-parent fallback.
 
 ### Suffix dedup
 

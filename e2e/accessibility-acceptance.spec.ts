@@ -92,8 +92,8 @@ test.describe('Critical journey semantics and focus', () => {
     await openApp(page)
     await openArrival(page)
     await page.getByTestId('arrival-words').click()
-    await page.getByRole('button', { name: 'Happy', exact: true }).click()
-    await page.getByRole('button', { name: 'Playful', exact: true }).click()
+    await page.getByRole('button', { name: 'Explore more specific words under Happy' }).click()
+    await page.getByRole('button', { name: 'Explore more specific words under Playful' }).click()
 
     const stop = page.getByRole('region', { name: 'This word can be your answer: Playful' })
     const finish = stop.getByRole('button', { name: 'Continue with Playful' })

@@ -9,11 +9,19 @@ import type { ChainAnalysisEntry } from '../data/types'
 export function useChainAnalysis() {
   const [entries, setEntries] = useState<ChainAnalysisEntry[]>([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(false)
 
   useEffect(() => {
     getAllChainAnalyses()
-      .then(setEntries)
-      .catch(() => setEntries([]))
+      .then((loaded) => {
+        setEntries(loaded)
+        setError(false)
+      })
+      .catch((loadError) => {
+        console.warn('Failed to load journal exercises:', loadError)
+        setEntries([])
+        setError(true)
+      })
       .finally(() => setLoading(false))
   }, [])
 
@@ -30,6 +38,7 @@ export function useChainAnalysis() {
   return {
     entries,
     loading,
+    error,
     save,
     clearAll,
   }

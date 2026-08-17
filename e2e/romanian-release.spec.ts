@@ -1,15 +1,12 @@
 import { expect, test, type Page } from '@playwright/test'
-import { finishReflection, openApp, openArrival } from './helpers'
+import { chooseWordOption, finishReflection, openApp, openArrival } from './helpers'
 
 async function openRomanianApp(page: Page) {
   await openApp(page, { language: 'ro' })
 }
 
 async function chooseWord(page: Page, name: string | RegExp) {
-  await page
-    .getByRole('list', { name: 'Alege o direcție' })
-    .getByRole('button', { name })
-    .click()
+  await chooseWordOption(page, name, 'ro')
 }
 
 test.describe('Romanian release journeys', () => {
@@ -80,7 +77,7 @@ test.describe('Romanian release journeys', () => {
     await page.getByTestId('arrival-words').click()
 
     await chooseWord(page, 'Fericit')
-    await page.getByRole('button', { name: 'Adaugă Fericit' }).click()
+    await page.getByRole('button', { name: 'Alege Fericit ca răspuns' }).click()
     await page.locator('.route-action button').click()
 
     await expect(page.getByTestId('reflection-screen')).toBeVisible()
@@ -136,7 +133,7 @@ test.describe('Romanian release journeys', () => {
 
     await chooseWord(page, /^Trist$/i)
     await chooseWord(page, /^disperare$/i)
-    await page.getByRole('button', { name: /Adaugă disperare/i }).click()
+    await page.getByRole('button', { name: /Alege disperare ca răspuns/i }).click()
 
     await chooseWord(page, /^Trist$/i)
     await chooseWord(page, /^Deprimat$/i)

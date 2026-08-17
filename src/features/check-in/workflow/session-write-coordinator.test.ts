@@ -108,6 +108,28 @@ describe('session write coordinator', () => {
     expect(detailWrite).not.toHaveBeenCalled()
   })
 
+  it('pauses new writes and drains obsolete physical work before an exclusive reset', async () => {
+    const pending = deferred()
+    const coordinator = createSessionWriteCoordinator({ timeoutMs: 1_000 })
+    const oldWrite = coordinator.enqueue('base', () => pending.promise)
+    await flushPromises()
+
+    const drain = coordinator.pauseAndDrain()
+    await expect(oldWrite).rejects.toMatchObject({ code: 'obsolete' })
+
+    await expect(coordinator.enqueue('base', async () => undefined))
+      .rejects.toMatchObject({ code: 'paused' })
+    let drained = false
+    void drain.then(() => { drained = true })
+    await flushPromises()
+    expect(drained).toBe(false)
+
+    pending.resolve()
+    await drain
+    coordinator.resume()
+    await expect(coordinator.enqueue('base', async () => undefined)).resolves.toBeUndefined()
+  })
+
   it('recovers after an ordinary rejection without entering degraded state', async () => {
     const coordinator = createSessionWriteCoordinator({ timeoutMs: 1_000 })
     const failure = new Error('disk unavailable')

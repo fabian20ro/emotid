@@ -928,7 +928,7 @@ Action plan reference: Phase 2, item 2.1
 
 **E.5 Master combination model**
 **Decision: DROP**
-The affective science perspective provides the strongest argument against this: the four models represent fundamentally different theoretical frameworks (categorical, hierarchical, somatic, dimensional). A "master combination" conflates incommensurable constructs. There is no theoretical basis for averaging Plutchik dyad scores with Russell circumplex positions. Cross-model insights are better served by the existing model-bridge system (`src/components/model-bridges.ts`), which suggests contextual next steps without attempting to merge frameworks.
+The affective science perspective provides the strongest argument against this: the four models represent fundamentally different theoretical frameworks (categorical, hierarchical, somatic, dimensional). A "master combination" conflates incommensurable constructs. There is no theoretical basis for averaging Plutchik dyad scores with Russell circumplex positions. Keep each route's reviewed reflection and next steps local to its model instead of introducing cross-model scoring.
 
 **E.7 Chain analysis mode (DBT)**
 **Decision: KEEP (expanded)**

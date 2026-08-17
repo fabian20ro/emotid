@@ -19,6 +19,15 @@ export async function openArrival(page: Page) {
   await expect(page.getByTestId('arrival-screen')).toBeVisible()
 }
 
+export async function chooseWordOption(
+  page: Page,
+  name: string | RegExp,
+  language: 'en' | 'ro' = 'en',
+) {
+  const listName = language === 'ro' ? 'Alege o direcție' : 'Choose one direction'
+  await page.getByRole('list', { name: listName }).getByRole('button').filter({ hasText: name }).first().click()
+}
+
 export async function completeQuick(page: Page, emotionId = 'anxiety') {
   await page.getByTestId(`quick-feeling-${emotionId}`).click()
   await page.getByTestId('quick-continue').click()

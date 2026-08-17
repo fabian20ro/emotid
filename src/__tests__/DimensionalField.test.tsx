@@ -221,6 +221,22 @@ describe('DimensionalField', () => {
     expect(document.querySelectorAll('g[role="button"]')).toHaveLength(3)
   })
 
+  it('describes the center without forcing either axis into a direction', () => {
+    renderField({ progressive: true })
+    const svg = document.querySelector('svg') as SVGSVGElement
+    vi.spyOn(svg, 'getBoundingClientRect').mockReturnValue({
+      x: 0, y: 0, width: 300, height: 300,
+      top: 0, left: 0, right: 300, bottom: 300,
+      toJSON: () => ({}),
+    } as DOMRect)
+
+    fireEvent.click(svg, { clientX: 150, clientY: 150 })
+
+    expect(screen.getByRole('status')).toHaveTextContent(
+      'mid-range energy, neither pleasant nor unpleasant',
+    )
+  })
+
   it('ignores unrelated keys and clamps keyboard placement to the field', () => {
     renderField()
     const field = screen.getByRole('group', { name: 'Energy and pleasantness map' })
@@ -319,6 +335,21 @@ describe('DimensionalField', () => {
     fireEvent.click(buttons[0])
     expect(onSelect).toHaveBeenCalledWith(expect.objectContaining({ id: 'happy' }))
     expect(onDeselect).not.toHaveBeenCalled()
+  })
+
+  it('chooses a contrast-safe foreground for selected suggestion colors', () => {
+    renderField({ selections: [mockEmotions[1]] })
+    const svg = document.querySelector('svg') as SVGSVGElement
+    vi.spyOn(svg, 'getBoundingClientRect').mockReturnValue({
+      x: 0, y: 0, width: 300, height: 300,
+      top: 0, left: 0, right: 300, bottom: 300,
+      toJSON: () => ({}),
+    } as DOMRect)
+
+    fireEvent.click(svg, { clientX: 71, clientY: 203 })
+
+    expect(screen.getByTestId('dimensional-suggestion-chip-sad').style.getPropertyValue('--emotion-ink'))
+      .toBe('#ffffff')
   })
 
   it('deselected a selected emotion dot via onDeselect', () => {

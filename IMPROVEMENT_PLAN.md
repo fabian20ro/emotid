@@ -11,7 +11,8 @@
 
 **Date**: 2026-02-27
 **Priority**: High
-**Status**: Planned
+**Status**: Completed. Multi-parent membership shipped earlier; actual interaction-path provenance
+was completed on 2026-08-18.
 
 ### Problem
 
@@ -33,7 +34,7 @@ The current wheel architecture assumes each emotion belongs to exactly one paren
 | **betrayed** | angry > let_down | Also fits disgusted > disappointed_disg |
 | **degraded** | angry > humiliated | Also fits disgusted > awful |
 
-### Proposed Architecture Change
+### Implemented Architecture
 
 Allow L2 emotions to declare multiple parents via a `parents` array (in addition to or replacing the current single `parent` field):
 
@@ -52,13 +53,13 @@ interface WheelEmotion extends BaseEmotion {
 - More accurate emotional granularity scoring
 - Cleaner data model
 
-**Challenges**:
+**Resolved constraints**:
 - Drill-down UI needs to handle an emotion appearing under multiple L1 parents
 - Back-navigation becomes ambiguous ("which parent did I come from?")
-- Analysis path display needs to track actual navigation route, not just hierarchy
+- Analysis history now carries the actual navigation route rather than selecting `parents[0]`
 - Existing suffix-based duplicates need migration
 
-### Implementation Notes
+### Historical Implementation Notes
 
 - This is a structural change that affects `types.ts`, `index.ts` (onSelect/onDeselect), analysis logic, and all data files
 - Should be done as a dedicated PR with thorough testing

@@ -16,13 +16,14 @@ interface JournalScreenProps {
   loading: boolean
   chainEntries: ChainAnalysisEntry[]
   chainLoading: boolean
+  chainError?: boolean
   error?: boolean
   saveSessions: boolean
   onOpenSession: (id: string) => void
   onOpenChain: () => void
 }
 
-export function JournalScreen({ sessions, loading, chainEntries, chainLoading, error = false, saveSessions, onOpenSession, onOpenChain }: JournalScreenProps) {
+export function JournalScreen({ sessions, loading, chainEntries, chainLoading, chainError = false, error = false, saveSessions, onOpenSession, onOpenChain }: JournalScreenProps) {
   const { language, section } = useLanguage()
   const t = section('journalScreen')
   const historyT = section('history')
@@ -62,11 +63,16 @@ export function JournalScreen({ sessions, loading, chainEntries, chainLoading, e
         </section>
       )}
 
-      {(chainLoading || (latestExercise && latestExercisePreview)) && (
+      {(chainLoading || chainError || (latestExercise && latestExercisePreview)) && (
         <section aria-labelledby="journal-exercises-title">
           <h2 id="journal-exercises-title" className="section-heading">{t.exercises}</h2>
           {chainLoading ? (
             <p className="muted" role="status">{t.loadingExercises}</p>
+          ) : chainError ? (
+            <div className="soft-panel journal-empty" role="alert">
+              <strong>{t.exerciseErrorTitle}</strong>
+              <p>{t.exerciseErrorBody}</p>
+            </div>
           ) : latestExercise && latestExercisePreview ? (
             <button
               type="button"

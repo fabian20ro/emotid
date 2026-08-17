@@ -1,5 +1,6 @@
 import { createStore, promisifyRequest, del, keys, values } from 'idb-keyval'
 import type { Session } from './types'
+import { decodeSessions } from './record-validation'
 
 const store = createStore('emot-id-sessions', 'sessions')
 
@@ -24,8 +25,8 @@ export async function saveSession(session: Session, signal?: AbortSignal): Promi
 }
 
 export async function getAllSessions(): Promise<Session[]> {
-  const allValues = await values<Session>(store)
-  const sessions = allValues.filter((session): session is Session => session !== undefined)
+  const allValues = await values<unknown>(store)
+  const sessions = decodeSessions(allValues)
   return sessions.sort((a, b) => b.timestamp - a.timestamp)
 }
 

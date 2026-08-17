@@ -61,7 +61,7 @@ export default function App() {
   const onboardingReturnFocusRef = useRef<HTMLElement | null>(null)
 
   const { sessions, loading: sessionsLoading, error: sessionsError, save: saveSession, remove: removeSession, clearAll: clearAllSessions } = useSessionHistory()
-  const { entries: chainEntries, loading: chainLoading, save: saveChainEntry, clearAll: clearAllChains } = useChainAnalysis()
+  const { entries: chainEntries, loading: chainLoading, error: chainError, save: saveChainEntry, clearAll: clearAllChains } = useChainAnalysis()
   const [saveSessions, setSaveSessions] = useState(() => storage.get('saveSessions') !== 'false')
   const [allowExternalAI, setAllowExternalAI] = useState(() => storage.get('allowExternalAI') !== 'false')
   const [theme, setTheme] = useState<'light' | 'dark'>(() => storage.get('theme') === 'dark' ? 'dark' : 'light')
@@ -81,6 +81,7 @@ export default function App() {
     saveReflection,
     retryBaseSave,
     finish: finishCheckIn,
+    runExclusiveReset,
   } = useCheckInWorkflow({
     saveSessions,
     saveSession,
@@ -149,13 +150,15 @@ export default function App() {
   }, [])
 
   const clearData = useCallback(async () => {
-    await Promise.all([clearAllSessions(), clearAllChains()])
+    await runExclusiveReset(async () => {
+      await Promise.all([clearAllSessions(), clearAllChains()])
+    })
     storage.resetPreferences()
     setLanguage(navigator.language.startsWith('ro') ? 'ro' : 'en')
     setSaving(true)
     setExternalAI(true)
     setTheme('light')
-  }, [clearAllChains, clearAllSessions, setExternalAI, setLanguage, setSaving])
+  }, [clearAllChains, clearAllSessions, runExclusiveReset, setExternalAI, setLanguage, setSaving])
 
   const deleteJournalSession = useCallback(async (sessionId: string) => {
     await removeSession(sessionId)
@@ -184,7 +187,7 @@ export default function App() {
       case 'explore':
         return <LazyRouteBoundary><ExploreScreen onChoose={startRoute} onPractice={() => navigation.navigate({ name: 'granularity' })} /></LazyRouteBoundary>
       case 'journal':
-        return <LazyRouteBoundary><JournalScreen sessions={sessions} loading={sessionsLoading} chainEntries={chainEntries} chainLoading={chainLoading} error={sessionsError} saveSessions={saveSessions} onOpenSession={(sessionId) => navigation.navigate({ name: 'session', sessionId })} onOpenChain={() => navigation.navigate({ name: 'chain' })} /></LazyRouteBoundary>
+        return <LazyRouteBoundary><JournalScreen sessions={sessions} loading={sessionsLoading} chainEntries={chainEntries} chainLoading={chainLoading} chainError={chainError} error={sessionsError} saveSessions={saveSessions} onOpenSession={(sessionId) => navigation.navigate({ name: 'session', sessionId })} onOpenChain={() => navigation.navigate({ name: 'chain' })} /></LazyRouteBoundary>
       case 'session':
         return <LazyRouteBoundary><SessionDetailScreen session={sessions.find((session) => session.id === destination.sessionId)} onBack={navigation.back} onDelete={deleteJournalSession} /></LazyRouteBoundary>
       case 'settings':
@@ -207,7 +210,7 @@ export default function App() {
       default:
         return null
     }
-  }, [allowExternalAI, chainEntries, chainLoading, clearAllChains, clearData, completeCheckIn, completeQuick, completion, deleteJournalSession, destination, exportData, finishCheckIn, navigation, retryBaseSave, saveChainEntry, saveReflection, saveSessions, sessionCaptured, sessionSaveState, sessions, sessionsError, sessionsLoading, setExternalAI, setSaving, startRoute, theme])
+  }, [allowExternalAI, chainEntries, chainError, chainLoading, clearAllChains, clearData, completeCheckIn, completeQuick, completion, deleteJournalSession, destination, exportData, finishCheckIn, navigation, retryBaseSave, saveChainEntry, saveReflection, saveSessions, sessionCaptured, sessionSaveState, sessions, sessionsError, sessionsLoading, setExternalAI, setSaving, startRoute, theme])
 
   if (onboardingMode === 'initial') {
     return (

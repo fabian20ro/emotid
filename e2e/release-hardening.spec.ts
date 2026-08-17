@@ -51,8 +51,8 @@ test.describe('Keyboard-only primary journeys', () => {
   test('Word Ladder completes without pointer input', async ({ page }) => {
     await activate(page.getByRole('button', { name: 'Help me choose' }))
     await activate(page.getByTestId('arrival-words'))
-    await activate(page.getByRole('button', { name: 'Happy' }), 'Space')
-    await activate(page.getByRole('button', { name: 'Add Happy' }))
+    await activate(page.getByRole('button', { name: 'Explore more specific words under Happy' }), 'Space')
+    await activate(page.getByRole('button', { name: 'Choose Happy as the answer' }))
     await activate(page.locator('.route-action button'))
     await expect(page.getByTestId('reflection-screen')).toBeVisible()
   })

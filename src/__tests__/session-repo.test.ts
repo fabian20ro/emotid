@@ -16,7 +16,7 @@ vi.mock('idb-keyval', () => ({
   values: idb.values,
 }))
 
-import { deleteSession, exportSessionsJSON, saveSession } from '../data/session-repo'
+import { deleteSession, exportSessionsJSON, getAllSessions, saveSession } from '../data/session-repo'
 
 const session: Session = {
   id: 'session-1',
@@ -53,6 +53,12 @@ describe('session repository', () => {
 
     expect(exported).toHaveLength(1)
     expect(exported[0].selectedNeed).toBe('quiet and rest')
+  })
+
+  it('fails fast when persisted session data has an invalid shape', async () => {
+    idb.values.mockResolvedValue([{ ...session, timestamp: 'yesterday' }])
+
+    await expect(getAllSessions()).rejects.toMatchObject({ name: 'StoredDataValidationError' })
   })
 
   it('aborts an active session transaction when the write signal is cancelled', async () => {

@@ -2643,3 +2643,61 @@ persistence, privacy, or interaction behavior changed.
 identities; otherwise a truthful historical pass becomes a misleading current-release claim.
 **Promoted to Lessons Learned:** No — the existing one-owner release-documentation lesson already
 covers this recurrence.
+
+### [2026-08-18] Independent expert audit and corrective backlog
+
+**Context:** Requested UI/UX, psychological, and architecture audits using three `gpt-5.6-luna`
+subagents at maximum reasoning, followed by independent verification of every proposed finding.
+**What happened:**
+- Reproduced the mobile product in EN/RO, light/dark, at 320px and 393px. Confirmed Privacy switch
+  clipping/wrapping, Affect and Plutchik completion actions outside the first viewport, Affect
+  origin false precision, absent SVG-dot focus, and 15 selected-chip colors below 4.5:1 contrast.
+- Traced multi-parent Word Ladder results to `parents[0]`, chain-load errors to an empty-state
+  fallback, and delete-all to stores being cleared without first quiescing the check-in writer.
+- Confirmed body inference provenance is flattened in Reflection, crisis save feedback is hidden,
+  persisted records lack runtime decoding, safety contacts are duplicated, and CI omits acceptance,
+  untranslated-copy, and psychological-copy policy checks.
+- Rejected or deferred unsupported proposals: no new backend/router/store/design system, no change
+  to Google AI query semantics, no fourth fit answer without participant evidence, and no claimed
+  screen-reader defect without native evidence.
+- Replaced the stale no-known-defect maintenance status with one bounded P0-P3 corrective sequence.
+**Verification:** `npm run test:coverage` passed 86 files / 685 tests; focused mobile layout passed
+40/40; specialist runs also passed lint, type-check, copy/i18n/acceptance checks, Mobile Chrome,
+Mobile Safari, PWA, and performance budgets. Initial JavaScript is 143,999 / 150,000 gzip bytes.
+**Outcome:** No production behavior changed. The next releasable slice is privacy/data-erasure
+integrity, followed by core Affect/Plutchik completion accessibility.
+**Insight:** Expert review becomes actionable only after each claim is classified as reproduced
+defect, source-proven defect, bounded risk, or unvalidated product hypothesis.
+**Promoted to Lessons Learned:** Yes — actual interaction paths must own multi-parent provenance.
+
+### [2026-08-18] Complete the P0-P3 corrective pass
+
+**Context:** The independent audit produced a verified, bounded sequence covering privacy races,
+core-route visibility, provenance, persistence trust, policy gates, and small maintenance debt.
+**What happened:**
+- Made delete-all exclusive: new writes pause, obsolete work is aborted and physically drained,
+  both stores clear, workflow state resets, and preferences return to defaults. Rebuilt Privacy rows
+  as stable label/switch grids with compact bilingual geometry tests.
+- Corrected Affect origin language, SVG keyboard focus, dynamic chip contrast, and completion
+  reveal. Applied the same reveal boundary to Plutchik. Preserved the actual Word Ladder traversal
+  for multi-parent results and gave branch, leaf, completion, and removal actions explicit names.
+- Kept the Google AI Mode URL/query contract unchanged while requiring explicit result fit before
+  handoff. Exposed qualitative body-match strength, save feedback after crisis resources, and a
+  separate journal-exercise load error. Added fail-fast runtime decoders and one crisis-resource
+  URL source.
+- Consolidated policy checks in CI, repaired contributor/security/architecture docs, removed the
+  unused model bridge, and corrected the missing semantic color token.
+- The first browser run caught stale action-name helpers in crisis and Romanian paths. Replaced the
+  fourth repeated selector strategy with one visible-option helper while keeping dedicated
+  accessible-name assertions. A later launch-only failure was macOS sandbox process denial; the
+  unrestricted single-worker rerun separated environment failure from product behavior.
+**Verification:** `npm run check` passed 88 files / 695 tests, policy audits, production build, and
+asset budgets. Focused Chromium/WebKit paths passed 56/56; the full matrix passed 274/274. PWA
+offline/update, local deployed smoke, and production mobile performance each passed 1/1. Initial
+JavaScript is 145,022 / 150,000 gzip bytes; production assets are 895,465 / 960,000 bytes.
+**Outcome:** P0-P3 are complete. No backend, telemetry, router/state migration, AI-query change, or
+unsupported psychological feature was added. Next work is exact-commit corrective release closure.
+**Insight:** Logical cancellation is insufficient for erasure; deletion must wait for physical
+persistence settlement. Shared test helpers should select visible domain options, while separate
+tests own exact assistive action-name contracts.
+**Promoted to Lessons Learned:** Yes — destructive storage operations must quiesce physical writes.

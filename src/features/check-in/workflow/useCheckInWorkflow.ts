@@ -157,6 +157,22 @@ export function useCheckInWorkflow({
     onReturnToday()
   }, [onReturnToday, reset])
 
+  const runExclusiveReset = useCallback(async (action: () => Promise<void>) => {
+    completionInFlightRef.current = true
+    const coordinator = writeCoordinatorRef.current!
+    try {
+      await coordinator.pauseAndDrain()
+      await action()
+      activeSessionRef.current = null
+      latestWriteRef.current = null
+      latestBaseWriteRef.current = null
+      dispatch({ type: 'reset' })
+    } finally {
+      coordinator.resume()
+      completionInFlightRef.current = false
+    }
+  }, [])
+
   return {
     state,
     begin: reset,
@@ -164,5 +180,6 @@ export function useCheckInWorkflow({
     saveReflection,
     retryBaseSave,
     finish,
+    runExclusiveReset,
   }
 }

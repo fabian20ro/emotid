@@ -14,6 +14,16 @@
 
 ## Architecture & Design Decisions
 
+**[2026-08-18]** Destructive local-data operations must drain physical writes — Invalidating a
+promise or workflow generation does not stop an IndexedDB transaction that ignores cancellation.
+Pause new writes, abort and await every physical settlement, clear storage, reset in-memory state,
+then resume. Test clear ordering with a deliberately unresolved write.
+
+**[2026-08-18]** Multi-parent emotion graphs need path provenance from interaction — A selected
+leaf does not identify which valid parent branch the user traversed. Store the actual navigation
+path in workflow state and carry it into analysis/history; deriving breadcrumbs or persisted paths
+from `parents[0]` silently rewrites the user's route.
+
 **[2026-08-04]** Same-document browser navigation needs snapshots, not depth counters — A
 `popstate` event does not say whether traversal moved backward or forward. Store and validate the
 typed destination stack in every History entry, restore that exact snapshot, and rotate a

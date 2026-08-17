@@ -7,6 +7,8 @@ export interface BaseEmotion {
   intensity?: number;
   parent?: string;
   parents?: string[];
+  /** Actual branch traversed to this selection when the model is a graph. */
+  navigationPath?: string[];
 }
 
 export interface AnalysisResult {

@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test'
-import { openApp, openArrival } from './helpers'
+import { chooseWordOption, openApp, openArrival } from './helpers'
 
 async function expectSupportBoundary(
   page: Page,
@@ -38,10 +38,7 @@ async function expectSupportBoundary(
 }
 
 async function chooseWord(page: Page, name: string | RegExp) {
-  await page
-    .getByRole('list', { name: 'Choose one direction' })
-    .getByRole('button', { name })
-    .click()
+  await chooseWordOption(page, name)
 }
 
 test.describe('Crisis boundary by completion route', () => {
@@ -86,7 +83,7 @@ test.describe('Crisis boundary by completion route', () => {
 
     await chooseWord(page, /^sad/i)
     await chooseWord(page, /^despair/i)
-    await page.getByRole('button', { name: 'Add Despair' }).click()
+    await page.getByRole('button', { name: 'Choose Despair as the answer' }).click()
     await chooseWord(page, /^sad/i)
     await chooseWord(page, /^depressed/i)
     await chooseWord(page, /^empty/i)

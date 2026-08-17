@@ -110,12 +110,17 @@ describe('ReflectionScreen need selection', () => {
     expect(screen.getByRole('heading', { name: 'Explore further' })).toHaveFocus()
     expect(screen.getByRole('button', { name: need.en })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Try one small step' })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: 'Explore in Google AI Mode' })).toBeInTheDocument()
+    expect(screen.queryByRole('link', { name: 'Explore in Google AI Mode' })).not.toBeInTheDocument()
+    expect(screen.getByText(/choose yes or partly/i)).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'A possible meaning' })).toBeInTheDocument()
 
     await user.click(screen.getByRole('button', { name: 'Back' }))
     expect(screen.getByTestId('reflection-screen')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Explore further' })).toHaveFocus()
+
+    await user.click(screen.getByRole('button', { name: 'Partly' }))
+    await user.click(screen.getByRole('button', { name: 'Explore further' }))
+    expect(screen.getByRole('link', { name: 'Explore in Google AI Mode' })).toBeInTheDocument()
   })
 
   it('shows the primary description once and omits empty result rows from more context', async () => {
@@ -222,12 +227,15 @@ describe('ReflectionScreen need selection', () => {
     expect(screen.getByRole('button', { name: need.en })).toHaveAttribute('aria-pressed', 'false')
   })
 
-  it('keeps safety support ahead of storage and suppresses routine save status', () => {
+  it('keeps safety support ahead of visible storage feedback', () => {
     renderReflection([result('despair')], { crisisTier: 'tier4', saveState: 'saved' })
 
-    expect(screen.getByRole('alert')).toHaveClass('crisis-message')
-    expect(screen.getByRole('alert').closest('.crisis-banner')).toBeInTheDocument()
-    expect(screen.queryByText('Reflection saved. Everything below is optional.')).not.toBeInTheDocument()
+    const alert = screen.getByRole('alert')
+    const saveStatus = screen.getByTestId('session-save-status')
+    expect(alert).toHaveClass('crisis-message')
+    expect(alert.closest('.crisis-banner')).toBeInTheDocument()
+    expect(saveStatus).toHaveTextContent('Reflection saved. Everything below is optional.')
+    expect(alert.compareDocumentPosition(saveStatus) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
   })
 
   it('clears inferred content and saves no inferred detail when the result is rejected', async () => {
@@ -281,6 +289,7 @@ describe('ReflectionScreen need selection', () => {
   it('shows the Google handoff disclosure beside the unchanged external action', async () => {
     const user = userEvent.setup()
     renderReflection([result('anxiety')], { allowExternalAI: true })
+    await user.click(screen.getByRole('button', { name: 'Yes' }))
     await user.click(screen.getByRole('button', { name: 'Explore further' }))
 
     const link = screen.getByRole('link', { name: 'Explore in Google AI Mode' })
@@ -288,6 +297,15 @@ describe('ReflectionScreen need selection', () => {
     expect(link).toHaveAttribute('href', expect.stringContaining('https://www.google.com/search?udm=50&q='))
     expect(screen.getByText(/opens Google AI Mode/i)).toBeInTheDocument()
     expect(screen.getByText(/not a substitute for professional support/i)).toBeInTheDocument()
+  })
+
+  it('shows qualitative match provenance for body-derived possibilities', () => {
+    renderReflection([{
+      ...result('grief'),
+      matchStrength: { en: 'closer match', ro: 'potrivire mai apropiată' },
+    }])
+
+    expect(screen.getByText('closer match')).toBeInTheDocument()
   })
 
   it('exposes save completion through the stable native acceptance hook', () => {

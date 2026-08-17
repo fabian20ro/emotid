@@ -48,7 +48,8 @@ export function ReflectionScreen({ completion, allowExternalAI, saveState, sessi
   const requiresAcknowledge = completion.crisisTier === 'tier4' && !tier4Acknowledged
   const rejected = fit === 'no'
   const nextStepOptions = [t.stepPause, t.stepWrite, t.stepConnect]
-  const aiLink = allowExternalAI
+  const aiFitConfirmed = fit === 'yes' || fit === 'partly'
+  const aiLink = allowExternalAI && aiFitConfirmed
     ? buildGoogleAiSearchUrl(results, language, analyzeT)
     : null
 
@@ -214,7 +215,7 @@ export function ReflectionScreen({ completion, allowExternalAI, saveState, sessi
             <small>{analyzeT.aiWarning}</small>
           </div>
         ) : (
-          <p className="external-ai-disabled">{analyzeT.externalAIDisabled}</p>
+          <p className="external-ai-disabled">{allowExternalAI ? analyzeT.aiNeedsFit : analyzeT.externalAIDisabled}</p>
         )}
 
         <div className="reflection-exploration-finish">
@@ -235,8 +236,7 @@ export function ReflectionScreen({ completion, allowExternalAI, saveState, sessi
         <CrisisBanner tier={completion.crisisTier} crisisT={section('crisis')} />
       )}
 
-      {(completion.crisisTier === 'none' || saveState === 'error') && (
-        <div
+      <div
           className={`session-save-status is-${saveState}`}
           data-testid="session-save-status"
           role={saveState === 'error' ? 'alert' : 'status'}
@@ -260,15 +260,14 @@ export function ReflectionScreen({ completion, allowExternalAI, saveState, sessi
               <RotateCcw size={16} aria-hidden="true" />{t.retrySave}
             </button>
           )}
-        </div>
-      )}
+      </div>
 
       {requiresAcknowledge ? (
         <button type="button" className="crisis-ack" onClick={() => setTier4Acknowledged(true)}>{t.acknowledge}</button>
       ) : (
         <>
           <h2 ref={resultHeadingRef} className="emotion-heading" tabIndex={-1}>
-            {results.map((result) => <span key={result.id}><i style={{ background: result.color }} />{result.label[language]}</span>)}
+            {results.map((result) => <span key={result.id}><i style={{ background: result.color }} />{result.label[language]}{result.matchStrength && <small>{result.matchStrength[language]}</small>}</span>)}
           </h2>
 
           <p className="reflection-synthesis">{briefSynthesis}</p>

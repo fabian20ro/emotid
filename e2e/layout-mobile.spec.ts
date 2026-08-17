@@ -1,5 +1,6 @@
 import { test, expect, type Page } from '@playwright/test'
 import { openApp, openArrival } from './helpers'
+import { expectAccessibleTextContrast } from './contrast'
 
 const viewports = [
   { width: 320, height: 568 },
@@ -89,6 +90,16 @@ for (const viewport of viewports) {
         })
       }).toBeGreaterThanOrEqual(-1)
       await expect(tray.locator('.dimensional-suggestion-chip').first()).toBeInViewport()
+      await tray.locator('.dimensional-suggestion-chip').first().click()
+      await expect(page.locator('.route-action button')).toBeEnabled()
+      await expect(page.locator('.route-action button')).toBeInViewport()
+      await expectAccessibleTextContrast(page, `Affect selected at ${viewport.width}px`)
+
+      const focusedDot = page.locator('.dimensional-emotion-control').first()
+      await focusedDot.focus()
+      await expect(focusedDot).toBeFocused()
+      expect(await focusedDot.locator('.dimensional-emotion-dot').evaluate((dot) => getComputedStyle(dot).strokeWidth))
+        .not.toBe('0px')
       await expectNoHorizontalOverflow(page)
     })
 
@@ -111,6 +122,8 @@ for (const viewport of viewports) {
       await page.getByTestId('plutchik-emotion-joy').click()
       await page.getByTestId('plutchik-emotion-trust').click()
       await expect(page.getByTestId('plutchik-combination')).toBeVisible()
+      await expect(page.getByTestId('plutchik-combination')).toBeInViewport()
+      await expect(page.locator('.route-action button')).toBeInViewport()
       await expectNoHorizontalOverflow(page)
     })
 
@@ -144,4 +157,43 @@ for (const viewport of viewports) {
       await expectNoHorizontalOverflow(page)
     })
   })
+}
+
+for (const viewport of [{ width: 320, height: 568 }, { width: 393, height: 742 }]) {
+  for (const language of ['en', 'ro'] as const) {
+    for (const theme of ['light', 'dark'] as const) {
+      test(`Privacy switches stay aligned at ${viewport.width}px in ${language}/${theme}`, async ({ page }) => {
+        await page.setViewportSize(viewport)
+        await openApp(page, { language, theme })
+        await page.getByRole('button', { name: language === 'ro' ? 'Setări' : 'Settings' }).click()
+        await page.getByRole('button', { name: language === 'ro' ? 'Confidențialitate și date' : 'Privacy & data' }).click()
+
+        const rows = page.locator('.privacy-setting-row')
+        const switches = rows.getByRole('switch')
+        await expect(rows).toHaveCount(2)
+        await expect(switches).toHaveCount(2)
+        const geometry = await rows.evaluateAll((elements) => elements.map((element) => {
+          const row = element.getBoundingClientRect()
+          const copy = element.querySelector('.privacy-setting-copy')!.getBoundingClientRect()
+          const toggle = element.querySelector('[role="switch"]')!.getBoundingClientRect()
+          return {
+            rowLeft: row.left,
+            rowRight: row.right,
+            copyRight: copy.right,
+            toggleLeft: toggle.left,
+            toggleRight: toggle.right,
+          }
+        }))
+
+        for (const bounds of geometry) {
+          expect(bounds.toggleRight).toBeLessThanOrEqual(bounds.rowRight + 1)
+          expect(bounds.toggleLeft).toBeGreaterThanOrEqual(bounds.copyRight + 8)
+          expect(bounds.rowLeft).toBeGreaterThanOrEqual(0)
+          expect(bounds.rowRight).toBeLessThanOrEqual(viewport.width)
+        }
+        expect(Math.abs(geometry[0].toggleRight - geometry[1].toggleRight)).toBeLessThanOrEqual(1)
+        await expectNoHorizontalOverflow(page)
+      })
+    }
+  }
 }

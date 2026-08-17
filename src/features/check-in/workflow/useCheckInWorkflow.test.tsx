@@ -15,7 +15,7 @@ const analysis: AnalysisResult = {
 }
 
 function renderWorkflow(
-  saveSession: (session: Session) => Promise<void>,
+  saveSession: (session: Session, signal?: AbortSignal) => Promise<void>,
   saveSessions = true,
   writeTimeoutMs?: number,
 ) {
@@ -166,5 +166,36 @@ describe('useCheckInWorkflow', () => {
       saveState: 'saved',
       sessionCaptured: true,
     })
+  })
+
+  it('drains an in-flight write before running an exclusive local-data reset', async () => {
+    let releaseBase: (() => void) | undefined
+    const saveSession = vi.fn<(session: Session, signal?: AbortSignal) => Promise<void>>()
+      .mockImplementation(() => new Promise<void>((resolve) => {
+        releaseBase = resolve
+      }))
+    const clearStores = vi.fn().mockResolvedValue(undefined)
+    const { result } = renderWorkflow(saveSession)
+
+    act(() => {
+      result.current.complete('quick', 'quick-check-in', [selection], [analysis])
+    })
+    await waitFor(() => expect(saveSession).toHaveBeenCalledOnce())
+
+    let resetPromise!: Promise<void>
+    act(() => {
+      resetPromise = result.current.runExclusiveReset(clearStores)
+    })
+    await act(async () => Promise.resolve())
+    expect(clearStores).not.toHaveBeenCalled()
+    expect(result.current.complete('quick', 'quick-check-in', [selection], [analysis])).toBe(false)
+
+    await act(async () => {
+      releaseBase?.()
+      await resetPromise
+    })
+
+    expect(clearStores).toHaveBeenCalledOnce()
+    expect(result.current.state).toEqual({ phase: 'idle' })
   })
 })

@@ -1,4 +1,4 @@
-import { Suspense } from 'react'
+import { Suspense, useEffect, useRef } from 'react'
 import { Check, ChevronRight } from 'lucide-react'
 import { useLanguage } from '../context/LanguageContext'
 import { useEmotionModel } from '../hooks/useEmotionModel'
@@ -33,6 +33,17 @@ export function ModelCheckInScreen({ route, model: emotionModel, onBack, onCompl
 
   const requiredSelections = route === 'plutchik' ? 2 : 1
   const plutchikCombo = route === 'plutchik' ? model.combos[0] : undefined
+  const completionRef = useRef<HTMLDivElement>(null)
+  const readyToComplete = model.modelReady && model.selections.length >= requiredSelections
+
+  useEffect(() => {
+    if (!readyToComplete) return
+    const frame = window.requestAnimationFrame(() => {
+      const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
+      completionRef.current?.scrollIntoView({ block: 'nearest', behavior })
+    })
+    return () => window.cancelAnimationFrame(frame)
+  }, [readyToComplete])
 
   const finish = () => {
     const results = model.analyze()
@@ -69,19 +80,21 @@ export function ModelCheckInScreen({ route, model: emotionModel, onBack, onCompl
         </div>
       )}
 
-      {plutchikCombo && (
-        <div className="plutchik-combination" aria-live="polite" data-testid="plutchik-combination">
-          <span>{plutchikT.combination}</span>
-          <strong>{model.selections.slice(0, 2).map((selection) => selection.label[language]).join(' + ')}</strong>
-          <span aria-hidden="true">&#8594;</span>
-          <strong style={{ color: plutchikCombo.color }}>{plutchikCombo.label[language]}</strong>
-        </div>
-      )}
+      <div ref={completionRef} className="route-completion">
+        {plutchikCombo && (
+          <div className="plutchik-combination" aria-live="polite" data-testid="plutchik-combination">
+            <span>{plutchikT.combination}</span>
+            <strong>{model.selections.slice(0, 2).map((selection) => selection.label[language]).join(' + ')}</strong>
+            <span aria-hidden="true">&#8594;</span>
+            <strong style={{ color: plutchikCombo.color }}>{plutchikCombo.label[language]}</strong>
+          </div>
+        )}
 
-      <div className="route-action">
-        <button type="button" className="primary-button" disabled={!model.modelReady || model.selections.length < requiredSelections} onClick={finish}>
-          {copy.action}<ChevronRight size={19} aria-hidden="true" />
-        </button>
+        <div className="route-action">
+          <button type="button" className="primary-button" disabled={!readyToComplete} onClick={finish}>
+            {copy.action}<ChevronRight size={19} aria-hidden="true" />
+          </button>
+        </div>
       </div>
     </div>
   )

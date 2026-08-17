@@ -13,6 +13,7 @@ const COPY = {
   en: {
     reflection: 'What seems to fit?',
     explore: 'Explore further',
+    partly: 'Partly',
     happy: 'Happy',
     playful: 'Playful',
     continuePlayful: 'Continue with Playful',
@@ -22,6 +23,7 @@ const COPY = {
   ro: {
     reflection: 'Ce pare să se potrivească?',
     explore: 'Explorează mai mult',
+    partly: 'Parțial',
     happy: 'Fericit',
     playful: 'Jucăuș',
     continuePlayful: 'Continuă cu Jucăuș',
@@ -272,6 +274,7 @@ async function runQuick(driver, language) {
   await driver.waitForElement('css selector', ACCEPTANCE_SELECTORS.saveComplete)
   const heading = await driver.getText(await driver.findElement('css selector', 'h1'))
   if (heading !== copy.reflection) throw new Error(`Unexpected Reflection heading: ${heading}`)
+  await click(driver, 'xpath', buttonWithText(copy.partly))
   await click(driver, 'xpath', buttonWithText(copy.explore))
   await driver.waitForElement('css selector', '[data-testid="reflection-exploration-screen"]')
   const aiLink = await driver.findElement('css selector', ACCEPTANCE_SELECTORS.externalAiLink)

@@ -54,6 +54,16 @@ describe('wheelModel.analyze', () => {
     }
   })
 
+  it('preserves the traversed parent branch for a multi-parent emotion', () => {
+    const helpless = {
+      ...e.helpless,
+      navigationPath: ['sad', 'vulnerable', 'helpless'],
+    }
+
+    expect(wheelModel.analyze([helpless])[0].hierarchyPath?.map((item) => item.en))
+      .toEqual(['Sad', 'Vulnerable', 'Helpless'])
+  })
+
   it('returns multiple results for multiple selections', () => {
     const leaves = Object.keys(e).filter((id) => !e[id].children?.length).slice(0, 3)
     const results = analyze(leaves)

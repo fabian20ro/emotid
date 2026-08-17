@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test'
-import { completeQuick, finishReflection, openApp, openArrival } from './helpers'
+import { chooseWordOption, completeQuick, finishReflection, openApp, openArrival } from './helpers'
 
 test.describe('First run and shell', () => {
   test('completes onboarding without selecting a theory', async ({ page }) => {
@@ -197,11 +197,11 @@ test.describe('Safety behavior through the UI', () => {
     await openArrival(page)
     await page.getByTestId('arrival-words').click()
 
-    const choose = async (name: RegExp) => page.getByRole('list', { name: 'Choose one direction' }).getByRole('button', { name }).click()
+    const choose = async (name: RegExp) => chooseWordOption(page, name)
 
     await choose(/^sad/i)
     await choose(/^despair/i)
-    await page.getByRole('button', { name: 'Add Despair' }).click()
+    await page.getByRole('button', { name: 'Choose Despair as the answer' }).click()
 
     await choose(/^sad/i)
     await choose(/^depressed/i)
@@ -232,6 +232,7 @@ test.describe('Safety behavior through the UI', () => {
     await expect(page.locator('.meaning-block')).toHaveCount(0)
     await expect(page.getByRole('group', { name: 'What might help most right now?' })).toHaveCount(0)
     await expect(page.getByRole('link', { name: 'Explore in Google AI Mode' })).toHaveCount(0)
+    await page.getByRole('button', { name: 'Partly' }).click()
     await page.getByRole('button', { name: 'Explore further' }).click()
     await expect(page.locator('.meaning-block')).toContainText(/future seeming closed/i)
     await expect(page.locator('.meaning-block')).toContainText(/lost hope rather than low mood alone/i)
@@ -245,6 +246,7 @@ test.describe('Privacy and support destinations', () => {
     await openApp(page)
     await completeQuick(page, 'anxiety')
     await expect(page.getByRole('link', { name: 'Explore in Google AI Mode' })).toHaveCount(0)
+    await page.getByRole('button', { name: 'Yes' }).click()
     await page.getByRole('button', { name: 'Explore further' }).click()
     const link = page.getByRole('link', { name: 'Explore in Google AI Mode' })
     await expect(link).toBeVisible()

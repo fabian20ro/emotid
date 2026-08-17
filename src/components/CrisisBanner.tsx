@@ -1,5 +1,6 @@
 import { ExternalLink, Phone } from 'lucide-react'
 import type { CrisisTier } from '../models/distress'
+import { CRISIS_RESOURCES } from '../models/crisis-resources'
 
 export function CrisisBanner({
   tier,
@@ -26,11 +27,11 @@ export function CrisisBanner({
     <div className={`crisis-banner${isTier4 ? ' is-tier4' : ''}`}>
       <p className="crisis-message" role="alert">{message}</p>
       <div className="crisis-resources">
-        <a href="tel:+40374456420" className="crisis-resource">
+        <a href={CRISIS_RESOURCES.romania.href} className="crisis-resource">
           <Phone size={19} aria-hidden="true" />
           <span>{crisisT.roLine ?? 'Romania — DepreHUB: 0374 456 420 (free, confidential, 24/7)'}</span>
         </a>
-        <a href="https://findahelpline.com" target="_blank" rel="noopener noreferrer" className="crisis-resource">
+        <a href={CRISIS_RESOURCES.international.href} target="_blank" rel="noopener noreferrer" className="crisis-resource">
           <ExternalLink size={19} aria-hidden="true" />
           <span>{crisisT.intLine ?? 'International: findahelpline.com'}</span>
         </a>

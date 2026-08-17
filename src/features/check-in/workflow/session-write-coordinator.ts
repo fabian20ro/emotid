@@ -6,6 +6,7 @@ export type SessionWriteOutcome =
   | 'failed'
   | 'timed-out'
   | 'rejected-degraded'
+  | 'rejected-paused'
   | 'obsolete'
   | 'settled-late'
 
@@ -41,20 +42,22 @@ interface PendingWrite {
   abortController: AbortController
   resolve: () => void
   reject: (error: unknown) => void
+  physicalSettlement?: Promise<void>
 }
 
 export class SessionWriteCoordinatorError extends Error {
-  readonly code: 'timeout' | 'degraded' | 'obsolete'
+  readonly code: 'timeout' | 'degraded' | 'obsolete' | 'paused'
   readonly operationId: number
 
   constructor(
-    code: 'timeout' | 'degraded' | 'obsolete',
+    code: 'timeout' | 'degraded' | 'obsolete' | 'paused',
     operationId: number,
   ) {
     const messages = {
       timeout: 'Local write did not finish before the deadline.',
       degraded: 'Local writes are unavailable until the pending operation settles.',
       obsolete: 'Local write belongs to an obsolete check-in.',
+      paused: 'Local writes are paused for an exclusive data operation.',
     }
     super(messages[code])
     this.name = 'SessionWriteCoordinatorError'
@@ -81,6 +84,7 @@ export function createSessionWriteCoordinator({
   let operationSequence = 0
   let tail: Promise<void> = Promise.resolve()
   let lastDiagnostic: SessionWriteDiagnostic | undefined
+  let paused = false
   const pending = new Set<PendingWrite>()
 
   const currentOperations = () => [...pending].filter((operation) => (
@@ -119,6 +123,12 @@ export function createSessionWriteCoordinator({
   const enqueue = (kind: SessionWriteKind, write: (signal: AbortSignal) => Promise<void>): Promise<void> => {
     const id = ++operationSequence
     const startedAt = now()
+
+    if (paused) {
+      const error = new SessionWriteCoordinatorError('paused', id)
+      report({ id, kind, startedAt }, 'rejected-paused')
+      return Promise.reject(error)
+    }
 
     if (status() === 'degraded') {
       const error = new SessionWriteCoordinatorError('degraded', id)
@@ -163,7 +173,7 @@ export function createSessionWriteCoordinator({
     })
     tail = execution.then(() => undefined, () => undefined)
 
-    void execution.then(
+    operation.physicalSettlement = execution.then(
       () => {
         if (operation.timedOut) {
           report(operation, 'settled-late')
@@ -201,6 +211,26 @@ export function createSessionWriteCoordinator({
     }
   }
 
+  const pauseAndDrain = async () => {
+    paused = true
+    generation += 1
+    const obsoleteOperations = [...pending]
+    for (const operation of obsoleteOperations) {
+      operation.obsolete = true
+      if (!operation.facadeSettled) {
+        report(operation, 'obsolete')
+        settleFacade(operation, new SessionWriteCoordinatorError('obsolete', operation.id))
+      }
+      operation.abortController.abort()
+    }
+    await Promise.all(obsoleteOperations.map((operation) => operation.physicalSettlement ?? Promise.resolve()))
+    tail = Promise.resolve()
+  }
+
+  const resume = () => {
+    paused = false
+  }
+
   const getSnapshot = (): SessionWriteSnapshot => ({
     status: status(),
     generation,
@@ -208,7 +238,7 @@ export function createSessionWriteCoordinator({
     lastDiagnostic,
   })
 
-  return { enqueue, resetGeneration, getSnapshot }
+  return { enqueue, resetGeneration, pauseAndDrain, resume, getSnapshot }
 }
 
 export type SessionWriteCoordinator = ReturnType<typeof createSessionWriteCoordinator>

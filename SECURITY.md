@@ -2,20 +2,19 @@
 
 ## Supported Versions
 
-Use this section to tell people about which versions of your project are
-currently being supported with security updates.
+Security fixes are applied to the current `0.1.x` release line and `main`.
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 5.1.x   | :white_check_mark: |
-| 5.0.x   | :x:                |
-| 4.0.x   | :white_check_mark: |
-| < 4.0   | :x:                |
+| Version | Supported |
+| ------- | --------- |
+| 0.1.x   | Yes       |
+| < 0.1   | No        |
 
 ## Reporting a Vulnerability
 
-Use this section to tell people how to report a vulnerability.
+Use GitHub's private vulnerability-reporting flow for this repository when it is available. If it
+is unavailable, contact the repository owner through their GitHub profile and request a private
+channel. Do not publish exploit details in an issue.
 
-Tell them where to go, how often they can expect to get an update on a
-reported vulnerability, what to expect if the vulnerability is accepted or
-declined, etc.
+Include the affected version, reproduction steps, impact, and any suggested mitigation. Expect an
+acknowledgment within seven days and an initial assessment within fourteen days. Confirmed issues
+will be coordinated privately until a fix and disclosure are ready.

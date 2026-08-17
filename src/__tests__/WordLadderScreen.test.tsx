@@ -24,7 +24,7 @@ describe('WordLadderScreen', () => {
     renderScreen()
 
     expect(screen.getByTestId('words-screen')).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Happy' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Explore more specific words under Happy' })).toBeInTheDocument()
     expect(screen.queryByText(/broad pleasant state/i)).not.toBeInTheDocument()
     expect(screen.queryByRole('button', { name: 'Use my current choice' })).not.toBeInTheDocument()
   })
@@ -33,28 +33,28 @@ describe('WordLadderScreen', () => {
     const user = userEvent.setup()
     renderScreen()
 
-    await user.click(screen.getByRole('button', { name: 'Happy' }))
-    await user.click(screen.getByRole('button', { name: 'Playful' }))
-    expect(screen.getByRole('button', { name: 'Add Happy' })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Add Playful' })).toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: 'Explore more specific words under Happy' }))
+    await user.click(screen.getByRole('button', { name: 'Explore more specific words under Playful' }))
+    expect(screen.getByRole('button', { name: 'Choose Happy as the answer' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Choose Playful as the answer' })).toBeInTheDocument()
 
     await user.click(screen.getByRole('button', { name: 'Back one level' }))
-    expect(screen.getByRole('button', { name: 'Add Happy' })).toBeInTheDocument()
-    expect(screen.queryByRole('button', { name: 'Add Playful' })).not.toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Playful' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Choose Happy as the answer' })).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'Choose Playful as the answer' })).not.toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Explore more specific words under Playful' })).toBeInTheDocument()
 
     await user.click(screen.getByRole('button', { name: 'Back one level' }))
     expect(screen.queryByRole('button', { name: 'Back one level' })).not.toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Happy' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Explore more specific words under Happy' })).toBeInTheDocument()
   })
 
   it('selects any path level and completes through the wheel analyzer', async () => {
     const user = userEvent.setup()
     const { onComplete } = renderScreen()
 
-    await user.click(screen.getByRole('button', { name: 'Happy' }))
-    await user.click(screen.getByRole('button', { name: 'Playful' }))
-    await user.click(screen.getByRole('button', { name: 'Add Happy' }))
+    await user.click(screen.getByRole('button', { name: 'Explore more specific words under Happy' }))
+    await user.click(screen.getByRole('button', { name: 'Explore more specific words under Playful' }))
+    await user.click(screen.getByRole('button', { name: 'Choose Happy as the answer' }))
 
     const selected = screen.getByRole('region', { name: 'Selected words' })
     expect(within(selected).getByRole('button', { name: /happy/i })).toBeInTheDocument()
@@ -71,11 +71,11 @@ describe('WordLadderScreen', () => {
     const user = userEvent.setup()
     const { onComplete } = renderScreen()
 
-    await user.click(screen.getByRole('button', { name: 'Happy' }))
-    await user.click(screen.getByRole('button', { name: 'Playful' }))
+    await user.click(screen.getByRole('button', { name: 'Explore more specific words under Happy' }))
+    await user.click(screen.getByRole('button', { name: 'Explore more specific words under Playful' }))
 
     expect(screen.getByText('Any word in this path can be your answer.')).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Add Playful' })).toHaveTextContent('Add Playful')
+    expect(screen.getByRole('button', { name: 'Choose Playful as the answer' })).toHaveTextContent('Choose Playful as the answer')
     expect(screen.getByText('This word can be your answer')).toBeInTheDocument()
     expect(screen.getByText('Or choose a more specific word below.')).toBeInTheDocument()
     expect(screen.getByRole('region', { name: 'This word can be your answer: Playful' })).toBeInTheDocument()
@@ -91,9 +91,9 @@ describe('WordLadderScreen', () => {
     const user = userEvent.setup()
     renderScreen()
 
-    await user.click(screen.getByRole('button', { name: 'Happy' }))
-    await user.click(screen.getByRole('button', { name: 'Playful' }))
-    await user.click(screen.getByRole('button', { name: 'Energized' }))
+    await user.click(screen.getByRole('button', { name: 'Explore more specific words under Happy' }))
+    await user.click(screen.getByRole('button', { name: 'Explore more specific words under Playful' }))
+    await user.click(screen.getByRole('button', { name: 'Select Energized' }))
 
     const selected = screen.getByRole('region', { name: 'Selected words' })
     await user.click(within(selected).getByRole('button', { name: /energized/i }))
@@ -106,11 +106,11 @@ describe('WordLadderScreen', () => {
     const user = userEvent.setup()
     renderScreen()
 
-    expect(screen.getByRole('button', { name: 'Happy' }).querySelector('.lucide-chevron-right')).toBeInTheDocument()
-    await user.click(screen.getByRole('button', { name: 'Happy' }))
-    await user.click(screen.getByRole('button', { name: 'Playful' }))
+    expect(screen.getByRole('button', { name: 'Explore more specific words under Happy' }).querySelector('.lucide-chevron-right')).toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: 'Explore more specific words under Happy' }))
+    await user.click(screen.getByRole('button', { name: 'Explore more specific words under Playful' }))
 
-    const leaf = screen.getByRole('button', { name: 'Energized' })
+    const leaf = screen.getByRole('button', { name: 'Select Energized' })
     expect(leaf.querySelector('.lucide-plus')).toBeInTheDocument()
     expect(leaf.querySelector('.lucide-check')).not.toBeInTheDocument()
   })
@@ -119,9 +119,9 @@ describe('WordLadderScreen', () => {
     const user = userEvent.setup()
     renderScreen()
 
-    await user.click(screen.getByRole('button', { name: 'Happy' }))
-    await user.click(screen.getByRole('button', { name: 'Playful' }))
-    await user.click(screen.getByRole('button', { name: 'Add Happy' }))
+    await user.click(screen.getByRole('button', { name: 'Explore more specific words under Happy' }))
+    await user.click(screen.getByRole('button', { name: 'Explore more specific words under Playful' }))
+    await user.click(screen.getByRole('button', { name: 'Choose Happy as the answer' }))
     await user.click(screen.getByRole('button', { name: 'Compare nearby words' }))
 
     expect(screen.queryByRole('button', { name: 'Compare with Happy' })).not.toBeInTheDocument()
@@ -138,9 +138,9 @@ describe('WordLadderScreen', () => {
     const user = userEvent.setup()
     renderScreen()
 
-    await user.click(screen.getByRole('button', { name: 'Happy' }))
-    await user.click(screen.getByRole('button', { name: 'Playful' }))
-    await user.click(screen.getByRole('button', { name: 'Add Playful' }))
+    await user.click(screen.getByRole('button', { name: 'Explore more specific words under Happy' }))
+    await user.click(screen.getByRole('button', { name: 'Explore more specific words under Playful' }))
+    await user.click(screen.getByRole('button', { name: 'Choose Playful as the answer' }))
     await user.click(screen.getByRole('button', { name: 'Compare nearby words' }))
 
     expect(screen.queryByRole('button', { name: 'Compare with Sad' })).not.toBeInTheDocument()
@@ -152,9 +152,9 @@ describe('WordLadderScreen', () => {
     const user = userEvent.setup()
     renderScreen()
 
-    await user.click(screen.getByRole('button', { name: 'Happy' }))
-    await user.click(screen.getByRole('button', { name: 'Playful' }))
-    await user.click(screen.getByRole('button', { name: 'Energized' }))
+    await user.click(screen.getByRole('button', { name: 'Explore more specific words under Happy' }))
+    await user.click(screen.getByRole('button', { name: 'Explore more specific words under Playful' }))
+    await user.click(screen.getByRole('button', { name: 'Select Energized' }))
     expect(screen.queryByRole('button', { name: 'Compare nearby words' })).not.toBeInTheDocument()
   })
 
@@ -163,11 +163,11 @@ describe('WordLadderScreen', () => {
     const user = userEvent.setup()
     renderScreen()
 
-    await user.click(screen.getByRole('button', { name: 'Fericit' }))
-    expect(screen.getByRole('button', { name: /adaugă fericit/i })).toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: 'Explorează cuvinte mai precise sub Fericit' }))
+    expect(screen.getByRole('button', { name: 'Alege Fericit ca răspuns' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Înapoi cu un nivel' })).toBeInTheDocument()
 
-    await user.click(screen.getByRole('button', { name: 'Adaugă Fericit' }))
+    await user.click(screen.getByRole('button', { name: 'Alege Fericit ca răspuns' }))
     await user.click(screen.getByRole('button', { name: 'Compară cuvinte apropiate' }))
     await user.click(screen.getByRole('button', { name: 'Compară cu Trist' }))
     expect(screen.getByRole('group', { name: 'Fericit și Trist' })).toBeInTheDocument()

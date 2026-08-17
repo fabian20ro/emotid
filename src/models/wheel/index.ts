@@ -43,6 +43,29 @@ for (const [id, overlay] of Object.entries(allOverlays)) {
 
 const CENTER_IDS = rootIds
 
+function getHierarchyPath(selection: WheelEmotion): { ro: string; en: string }[] {
+  const traversed = selection.navigationPath
+  if (traversed?.length && traversed[traversed.length - 1] === selection.id) {
+    const valid = traversed.every((id, index) => {
+      const emotion = allEmotions[id]
+      if (!emotion) return false
+      if (index === 0) return emotion.parents.length === 0
+      return emotion.parents.includes(traversed[index - 1])
+    })
+    if (valid) return traversed.map((id) => allEmotions[id].label)
+  }
+
+  const path: { ro: string; en: string }[] = []
+  let current: WheelEmotion | undefined = selection
+  let depth = 0
+  while (current && depth < 10) {
+    path.push(current.label)
+    current = current.parents[0] ? allEmotions[current.parents[0]] : undefined
+    depth += 1
+  }
+  return path.reverse()
+}
+
 export const wheelModel: EmotionModel<WheelEmotion> = {
   id: MODEL_IDS.WHEEL,
   name: { ro: 'Roata emoțiilor', en: 'Emotion Wheel' },
@@ -108,17 +131,7 @@ export const wheelModel: EmotionModel<WheelEmotion> = {
 
   analyze(selections: WheelEmotion[]): AnalysisResult[] {
     return selections.map((s) => {
-      // Walk up parents[0] to build hierarchy path
-      // Future: track actual drill-down path via ModelState.custom.navPath
-      const path: { ro: string; en: string }[] = []
-      let current: WheelEmotion | undefined = s
-      let depth = 0
-      while (current && depth < 10) {
-        path.push(current.label)
-        current = current.parents[0] ? allEmotions[current.parents[0]] : undefined
-        depth++
-      }
-      path.reverse()
+      const path = getHierarchyPath(s)
 
       return {
         id: s.id,

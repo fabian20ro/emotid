@@ -99,6 +99,9 @@ describe('Journal data display', () => {
 
     rerender(<LanguageProvider><JournalScreen {...props} loading={false} chainLoading /></LanguageProvider>)
     expect(screen.getByRole('status')).toHaveTextContent('Loading journal exercises')
+
+    rerender(<LanguageProvider><JournalScreen {...props} loading={false} chainError /></LanguageProvider>)
+    expect(screen.getByRole('alert')).toHaveTextContent('Journal exercises could not be loaded')
   })
 
   it('shows localized body signals, selected need, and next step without mutating the record', () => {
