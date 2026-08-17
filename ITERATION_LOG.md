@@ -2701,3 +2701,24 @@ unsupported psychological feature was added. Next work is exact-commit correctiv
 persistence settlement. Shared test helpers should select visible domain options, while separate
 tests own exact assistive action-name contracts.
 **Promoted to Lessons Learned:** Yes — destructive storage operations must quiesce physical writes.
+
+### [2026-08-18] Close the v0.1.3 corrective release
+
+**Context:** P0-P3 were green and deployed on `fb28bf3`, but package metadata and the public release
+identity still named `v0.1.2`.
+**What happened:**
+- Bumped package and lockfile metadata together, added one bounded release note, and advanced the
+  README, maintenance plan, and candidate-bound evidence owner without rewriting historical rows.
+- Kept the external evidence waivers explicit and retained every native/physical result under its
+  actual older candidate.
+- Defined the next automated-only slice as one static release-identity consistency check rather
+  than another release framework or product refactor.
+**Verification:** The release commit passed `npm run check`, the complete Chromium/WebKit matrix,
+PWA lifecycle, production performance, Pages deployment, public deployed smoke, and CodeQL before
+the immutable `v0.1.3` tag and GitHub release were created.
+**Outcome:** `v0.1.3` is the released identity for the August corrective pass. No product behavior
+changed in the release-only commit.
+**Insight:** Release facts already have enough owners; the next improvement is a read-only
+consistency gate across them, not another manifest.
+**Promoted to Lessons Learned:** No — the existing one-owner release-documentation lesson covers
+this release.

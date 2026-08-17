@@ -1,12 +1,12 @@
 # Product Maintenance Plan
 
-Status: the mobile UI/UX migration and the August 18 corrective pass are complete on `main`.
-Remaining work is release closure or evidence collection, not another migration program. Updated
-August 18, 2026.
+Status: the mobile UI/UX migration, August 18 corrective pass, and `v0.1.3` release closure are
+complete. Remaining work is automated maintenance or evidence collection, not another migration
+program. Updated August 18, 2026.
 
 Historical implementation detail belongs in `ITERATION_LOG.md`, release criteria in
 `docs/release-quality-gates.md`, candidate evidence in `docs/physical-release-evidence.md`, and
-release scope in `docs/releases/v0.1.2.md`.
+release scope in `docs/releases/v0.1.3.md`.
 
 ## Released Baseline
 
@@ -36,25 +36,31 @@ release scope in `docs/releases/v0.1.2.md`.
 - **P3:** CI runs one complete policy gate; stale docs, security guidance, dead bridge code, the
   missing color token, and ambiguous Word Ladder accessible names are corrected.
 
+## Completed Release Closure
+
+`v0.1.3` owns the P0-P3 corrective pass. The release commit must pass the complete hosted product
+workflow, Pages deployment, and public smoke before the immutable tag and GitHub release are
+created. Historical evidence rows retain their original candidate identity.
+
 ## Active Priorities
 
-### P4 - Corrective release closure
+### P5 - Automated release identity consistency
 
-1. Require the pushed `main` workflow, both browser projects, Pages deployment, and public smoke to
-   pass for the exact corrective commit.
-2. If this pass is published as a patch, create one immutable release identity and update only the
-   release note and candidate-bound evidence owner. Do not rewrite historical evidence rows.
-3. Continue monitoring the initial-JavaScript budget. It is close to its ceiling but still passes;
-   profile and split only after a measured failure or material route-timing regression.
+1. Add one pure release-manifest checker for package metadata, lockfile root, README current-release
+   URL, latest release-note filename/title, and this plan's release-scope link.
+2. Cover valid and drifted fixtures with Node tests. Keep GitHub's live release/tag state outside
+   the PR gate because those objects do not exist before release.
+3. Add the checker to `check:policy`, document the single command, and verify the complete local and
+   hosted gates. Do not add a release framework or duplicate release facts into another manifest.
 
-### P5 - External evidence when available
+### P6 - External evidence when available
 
 1. Run the existing low-tier Android performance matrix on a genuinely distinct low-tier device.
 2. Resume moderated comprehension only with six real participants; synthetic agents remain expert
    preflight, not participant evidence.
 3. Resume complete TalkBack and native Safari rows only when the required environment is available.
 
-### P6 - Evidence-gated product questions
+### P7 - Evidence-gated product questions
 
 1. Revisit live-region controls and modal background exposure only after native assistive-technology
    evidence reproduces a failure.
@@ -65,9 +71,9 @@ release scope in `docs/releases/v0.1.2.md`.
 
 ## Recommended Sequence
 
-Close P4 first. P5 is next only when its external prerequisites exist. P6 remains closed unless its
-named evidence trigger occurs. No product refactor is justified while automated quality,
-performance, and production-boundary gates pass.
+Implement P5 next. P6 is available only when its external prerequisites exist. P7 remains closed
+unless its named evidence trigger occurs. Continue monitoring the initial-JavaScript budget, but do
+not refactor while automated quality, performance, and production-boundary gates pass.
 
 ## Maintenance Triggers
 

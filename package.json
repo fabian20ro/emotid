@@ -1,7 +1,7 @@
 {
   "name": "emotid",
   "private": true,
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Emotion identification system",
   "license": "MIT",
   "engines": {
