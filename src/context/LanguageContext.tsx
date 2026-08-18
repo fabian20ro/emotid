@@ -1,9 +1,9 @@
-import { createContext, useState, useEffect, useContext, type ReactNode } from 'react'
+import { createContext, useState, useEffect, useContext, useCallback, type ReactNode } from 'react'
 import roStrings from '../i18n/ro.json'
 import enStrings from '../i18n/en.json'
 import { storage } from '../data/storage'
 
-type Language = 'ro' | 'en'
+export type Language = 'ro' | 'en'
 
 type Strings = typeof roStrings
 
@@ -25,19 +25,33 @@ const strings: Record<Language, Strings> = {
   en: enStrings,
 }
 
-export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguage] = useState<Language>(() => {
-    if (typeof window !== 'undefined') {
-      const saved = storage.get('language')
-      if (saved === 'ro' || saved === 'en') return saved
-      const browserLang = navigator.language
-      if (browserLang.startsWith('ro')) return 'ro'
-    }
-    return 'en'
-  })
+export function getInitialLanguage(): Language {
+  if (typeof window === 'undefined') return 'en'
+  const saved = storage.get('language')
+  if (saved === 'ro' || saved === 'en') return saved
+  return navigator.language.startsWith('ro') ? 'ro' : 'en'
+}
+
+export function setDocumentLanguage(language: Language) {
+  document.documentElement.lang = language
+}
+
+export function LanguageProvider({
+  children,
+  initialLanguage = getInitialLanguage(),
+}: {
+  children: ReactNode
+  initialLanguage?: Language
+}) {
+  const [language, setLanguageState] = useState<Language>(initialLanguage)
+  const setLanguage = useCallback((nextLanguage: Language) => {
+    setDocumentLanguage(nextLanguage)
+    setLanguageState(nextLanguage)
+  }, [])
+
   useEffect(() => {
     storage.set('language', language)
-    document.documentElement.lang = language
+    setDocumentLanguage(language)
   }, [language])
 
   return (

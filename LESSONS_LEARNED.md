@@ -104,6 +104,12 @@ contract as an unchecked cast or duplicate partial property checks.
 
 ## Testing & Quality
 
+**[2026-08-19]** Set document language before mounting localized UI — Applying `html.lang` in a
+React effect lets the first localized DOM commit occur under the static fallback language. Chrome
+and TalkBack may retain that initial language for headings and controls even after the effect runs.
+Resolve and apply the stored/browser language before `createRoot`, and update it before rendering a
+runtime language change. Test the language captured at the first localized DOM mutation.
+
 **[2026-08-13]** Native acceptance adapters need stable cross-platform hooks — Copy migrations left
 the Android, iOS, and macOS adapters waiting for obsolete labels while browser behavior remained
 correct. Reuse semantic state (`data-testid`, state class, ARIA state) for navigation and completion;

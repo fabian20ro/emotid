@@ -31,6 +31,42 @@ async function placeFeeling(page: Page) {
 }
 
 test.describe('Critical journey semantics and focus', () => {
+  test('sets Romanian before mounting the first app controls', async ({ page }) => {
+    await page.addInitScript(() => {
+      const observer = new MutationObserver(() => {
+        if (!document.querySelector('[data-testid="today-screen"]')) return
+        const state = window as typeof window & { firstAppContentLanguage?: string }
+        state.firstAppContentLanguage ??= document.documentElement.lang
+        observer.disconnect()
+      })
+      observer.observe(document, { childList: true, subtree: true })
+    })
+
+    await openApp(page, { language: 'ro' })
+
+    expect(await page.evaluate(() => (
+      window as typeof window & { firstAppContentLanguage?: string }
+    ).firstAppContentLanguage)).toBe('ro')
+
+    await expect(page.getByRole('heading', { name: 'Cum te simți?' })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Plasează starea' })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Ajută-mă să aleg' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Un punct de pornire rapid' })).toBeVisible()
+    await expect(page.locator('[data-testid^="quick-feeling-"]')).toHaveCount(6)
+    await expect(page.getByRole('heading', { name: 'Firul tău recent' })).toBeVisible()
+    await expect(page.locator('.bottom-nav').getByRole('button')).toHaveCount(3)
+
+    const spokenNodes = page.locator([
+      '[data-testid="today-screen"] h1',
+      '[data-testid="today-screen"] h2',
+      '[data-testid="today-screen"] button',
+      '.bottom-nav button',
+    ].join(', '))
+    expect(await spokenNodes.evaluateAll((nodes) => nodes.map(
+      (node) => node.closest('[lang]')?.getAttribute('lang'),
+    ))).toEqual(Array(await spokenNodes.count()).fill('ro'))
+  })
+
   test('introduction exposes progress and focuses each new explanation', async ({ page }) => {
     await page.goto('/')
 

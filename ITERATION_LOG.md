@@ -2827,3 +2827,31 @@ The complete human J1-J9 waiver and `en-US` TalkBack pronunciation limitation re
 **Insight:** CSS capitalization can affect physical assistive speech even when source text and
 document language are correct.
 **Promoted to Lessons Learned:** Yes — avoid transformed uppercase on screen-reader-visible prose.
+
+### [2026-08-19] Apply Romanian language before the first UI mount
+
+**Context:** During the physical Romanian TalkBack follow-up, the owner identified a precise
+cluster spoken with the English voice: the initial Today title, primary actions, quick-section
+heading and six choices, recent-thread heading, and bottom navigation.
+**What happened:**
+- Added a failing browser probe that captured `html.lang` at the first localized Today DOM mutation;
+  it reproduced `en` even though every visible string and accessible name was Romanian.
+- Traced the ordering defect to the static `index.html` fallback and the Language provider's
+  post-render effect.
+- Centralized initial-language resolution, applied it before `createRoot`, passed that exact value
+  into the provider, and made runtime language changes update document semantics before rerender.
+- Extended the regression across every reported initial heading/control and verified inherited
+  Romanian language in Mobile Chromium and WebKit.
+- Recorded the finding and corrected physical evidence without claiming Romanian pronunciation:
+  the Pixel's Android, Chrome, and TalkBack profiles remain `en-US`.
+**Verification:** The regression failed before implementation (`en` vs `ro`) and passes afterward
+in both browser projects. `npm run check` passes 88 files / 696 tests plus every policy, i18n,
+psychological-copy, release, build, and performance gate. Playwright passes 276/276; PWA lifecycle
+passes 1/1. Pixel 6a Android 17 / TalkBack 17 passes J9 RO light/dark 2/2 against exact local assets.
+TalkBack, touch exploration, stay-awake, and ADB forwarding were restored afterward.
+**Outcome:** Initial Romanian UI now exists under Romanian document semantics from its first DOM
+commit. No copy, styling, workflow, safety, persistence, AI handoff, or network behavior changed.
+The complete human TalkBack matrix and Romanian pronunciation check remain unclaimed.
+**Insight:** Post-render language synchronization is too late for initial assistive-technology
+metadata even when sighted localization appears correct.
+**Promoted to Lessons Learned:** Yes — initialize document language before mounting localized UI.

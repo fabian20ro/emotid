@@ -49,7 +49,7 @@ thermal differences for every final-candidate physical run.
 | Clean dependency install and audit | AUTOMATED_PASS | `npm ci`; `npm audit`: 0 vulnerabilities |
 | Lint, unit/integration, acceptance contract, i18n, psychological copy, build, budgets | AUTOMATED_PASS | `npm run check`: 88 files / 696 tests |
 | Release-identity fixtures and live repository | AUTOMATED_PASS | `npm run check:release`: 8/8 fixtures; live repository pass |
-| Mobile Safari + Mobile Chrome browser matrix | AUTOMATED_PASS | `npm run test:e2e`: 274/274 |
+| Mobile Safari + Mobile Chrome browser matrix | AUTOMATED_PASS | current working tree: 276/276; exact `v0.1.5`: 274/274 |
 | Production offline/update/data-retention lifecycle | AUTOMATED_PASS | `npm run test:pwa` |
 | Production browser performance probe | AUTOMATED_PASS | `npm run test:performance` |
 | Exact `v0.1.5` CI, PWA, performance, Pages deploy, public smoke | PASS | Release-commit `Deploy to GitHub Pages` workflow; deployed smoke 1/1 |
@@ -70,6 +70,7 @@ such; older native and physical evidence is not relabeled as current.
 | --- | --- | --- | --- | --- |
 | `v0.1.5` / `0fd3981` | Pixel 6a Android 17, Chrome 151 + TalkBack 17.0.1 | Complete J1-J9; EN/RO; light/dark; exact local assets, native activation, TTS dispatch | SUPPORTING_PASS, 36/36 | `.reports/android-physical/2026-08-18T21-14-31-521Z-talkback-browser/` |
 | working tree from `0fd3981` | Pixel 6a Android 17, Chrome 151 + TalkBack 17.0.1 | Sentence-case follow-up; J8 RO light/dark; exact local assets | SUPPORTING_PASS, 2/2 | `.reports/android-physical/2026-08-18T21-36-05-200Z-talkback-browser/` |
+| working tree from `ec050f9` | Pixel 6a Android 17, Chrome 151 + TalkBack 17.0.1 | Pre-mount Romanian document-language follow-up; J9 RO light/dark; exact local assets | SUPPORTING_PASS, 2/2 | `.reports/android-physical/2026-08-18T22-14-51-804Z-talkback-browser/` |
 | working tree from `0fd3981` | Pixel 6a Android 17, Chrome 151 + TalkBack 17.0.1 | Owner-operated Romanian speech observation and uppercase experiment | FINDING; not a complete journey pass | `.reports/android-physical/2026-08-18T21-25-00Z-human-talkback-v015/` |
 | `61f8743` / harness `4a85b42` | iOS 26.5 Simulator SE + 17 Pro | Base; EN/RO; exact local assets | SIMULATOR_SUPPORTING_PASS, 16/16 | `.reports/ios-simulator/2026-08-13T13-12-18-750Z/` |
 | `61f8743` / harness `4a85b42` | iOS 26.5 Simulator SE + 17 Pro | Complete J1-J9; EN/RO; exact local assets | SIMULATOR_SUPPORTING_PASS, 36/36 | `.reports/ios-simulator/2026-08-13T13-14-37-926Z/` |
@@ -135,6 +136,16 @@ observation found one product defect: CSS uppercase made the sentence-case Refle
 character by character. Removing that transform made physical speech normal; the corrected working
 tree then passed J8 RO light/dark 2/2. The observation did not complete human J1-J9, so the existing
 waiver remains.
+
+The same owner observation later isolated English-voice speech to the initial Today heading,
+actions, quick choices, recent-thread heading, and bottom navigation. A deterministic browser probe
+confirmed that Romanian UI was first mounted while the static document still had `lang="en"`;
+the language effect ran only afterward. The bootstrap now applies the stored language before React
+mounts and applies runtime changes before rerendering localized text. Mobile Chromium and WebKit
+capture `ro` at the first Today DOM mutation and verify all reported nodes inherit it. The corrected
+working tree passed physical J9 RO light/dark 2/2. Android, Chrome, and TalkBack remain configured
+`en-US`, so the automated TTS diagnostic still attributes its English voice to AT configuration;
+physical Romanian pronunciation quality is not claimed without another owner listening pass.
 
 ## Retained Physical Matrix
 
@@ -213,6 +224,7 @@ Never expose these fixtures through production query parameters or application c
 
 | ID | Candidate / environment | Journey | Reproduction | Severity | Regression | Fix / issue | Retest |
 | --- | --- | --- | --- | --- | --- | --- | --- |
+| A11Y-LANG-1 | working tree from `ec050f9`; Mobile Chrome / Pixel report | Initial Today | Romanian controls mounted before the post-render language effect changed static `html lang="en"` | High accessibility / localization | first-DOM-mutation and reported-control assertions in `accessibility-acceptance.spec.ts` | Resolve/apply document language before `createRoot`; update language before runtime rerender | Mobile Chromium/WebKit 2/2; physical J9 RO light/dark 2/2 |
 | P46-CTA-1 | `e34c6ad`; CI Mobile Safari 390x664 | Quick | Newly mounted commitment remained below fixed navigation when chip activation did not scroll | High usability | `TodayScreen.test.tsx`; `smoke.spec.ts` viewport assertion | Reveal action with nearest scrolling; preserve chip focus and explicit commitment | Playwright 256/256; CI run `31703694847` |
 | P35-FOCUS-1 | working tree from `ad38399c`; both iOS profiles | J8 tier-4 | Acknowledgment removed its button and left no focused destination | High accessibility | `ReflectionScreen.test.tsx`; `crisis-routes.spec.ts` | Focus the newly revealed result heading | J8 4/4; base matrix 16/16 |
 | P36-OUTLINE-1 | working tree from `32a3d708`; SE Safari | J1 onboarding | Programmatically focused noninteractive heading showed Safari's blue outline | Medium accessibility / visual | `Onboarding.test.tsx`; `accessibility-acceptance.spec.ts` | Suppress outline only for the programmatic onboarding heading | P36 onboarding 1/1; robustness 6/6 |
@@ -232,7 +244,7 @@ retest the same native row. Record environment blocks separately from applicatio
 | iOS Simulator browser matrix | RETAINED, SUPPORTING | Pre-`v0.1.5`; base 16/16, acceptance 36/36, robustness 6/6 |
 | Simulator installed PWA / VoiceOver | OUT OF SCOPE | Capability limitation recorded; no physical-iPhone substitution claim |
 | Pixel 6a browser + installed, no AT | RETAINED, SUPPORTING | Pre-`v0.1.5`; J1-J9 EN/RO, 36/36 total |
-| Pixel 6a TalkBack | CURRENT SUPPORTING_PASS / WAIVER REQUIRED FOR HUMAN MATRIX | Exact `v0.1.5` automated physical J1-J9 EN/RO light/dark 36/36; owner-observed casing defect fixed in the follow-up candidate; complete human J1-J9 not claimed |
+| Pixel 6a TalkBack | CURRENT SUPPORTING_PASS / WAIVER REQUIRED FOR HUMAN MATRIX | Exact `v0.1.5` automated physical J1-J9 EN/RO light/dark 36/36; owner-observed casing and initial language-order defects fixed in follow-up candidates; corrected J8/J9 RO light/dark 4/4; complete human J1-J9 not claimed |
 | Mid-tier Android performance | RETAINED PASS | Pre-`v0.1.5` three-run matrix; current automated performance probe passes |
 | Low-tier Android performance | DEFERRED / WAIVER REQUIRED | Distinct device unavailable; Pixel is not relabeled |
 | Moderated comprehension | DEFERRED / WAIVER REQUIRED | Six participant sessions unavailable; synthetic reviews remain preflight |
