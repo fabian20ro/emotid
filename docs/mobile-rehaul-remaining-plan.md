@@ -1,12 +1,12 @@
 # Product Maintenance Plan
 
-Status: the mobile UI/UX migration, August 18 corrective pass, and `v0.1.3` release closure are
-complete. Remaining work is automated maintenance or evidence collection, not another migration
-program. Updated August 18, 2026.
+Status: the mobile UI/UX migration, August 18 corrective pass, and `v0.1.4` automated release
+maintenance are complete. Remaining work requires a named maintenance trigger or external
+evidence, not another migration program. Updated August 18, 2026.
 
 Historical implementation detail belongs in `ITERATION_LOG.md`, release criteria in
 `docs/release-quality-gates.md`, candidate evidence in `docs/physical-release-evidence.md`, and
-release scope in `docs/releases/v0.1.3.md`.
+release scope in `docs/releases/v0.1.4.md`.
 
 ## Released Baseline
 
@@ -38,20 +38,19 @@ release scope in `docs/releases/v0.1.3.md`.
 
 ## Completed Release Closure
 
-`v0.1.3` owns the P0-P3 corrective pass. The release commit must pass the complete hosted product
-workflow, Pages deployment, and public smoke before the immutable tag and GitHub release are
+`v0.1.3` owns the P0-P3 corrective pass. Its release commit passed the complete hosted product
+workflow, Pages deployment, and public smoke before the immutable tag and GitHub release were
 created. Historical evidence rows retain their original candidate identity.
 
+## Completed Automated Maintenance
+
+- **P5:** one pure checker now rejects drift among package metadata, the lockfile root, README
+  release URL, latest numeric release-note filename/title, and this plan's release-scope link.
+- Eight deterministic Node fixtures cover valid state, numeric semver ordering, malformed JSON,
+  and every independent owner mismatch. `check:policy` runs both fixtures and the live repository
+  check without relying on network or unreleased GitHub objects.
+
 ## Active Priorities
-
-### P5 - Automated release identity consistency
-
-1. Add one pure release-manifest checker for package metadata, lockfile root, README current-release
-   URL, latest release-note filename/title, and this plan's release-scope link.
-2. Cover valid and drifted fixtures with Node tests. Keep GitHub's live release/tag state outside
-   the PR gate because those objects do not exist before release.
-3. Add the checker to `check:policy`, document the single command, and verify the complete local and
-   hosted gates. Do not add a release framework or duplicate release facts into another manifest.
 
 ### P6 - External evidence when available
 
@@ -71,9 +70,10 @@ created. Historical evidence rows retain their original candidate identity.
 
 ## Recommended Sequence
 
-Implement P5 next. P6 is available only when its external prerequisites exist. P7 remains closed
-unless its named evidence trigger occurs. Continue monitoring the initial-JavaScript budget, but do
-not refactor while automated quality, performance, and production-boundary gates pass.
+No additional implementation is justified without a maintenance or evidence trigger. P6 is
+available only when its external prerequisites exist. P7 remains closed unless its named evidence
+trigger occurs. Continue monitoring automated dependency, security, performance, and production
+gates; do not refactor while they pass.
 
 ## Maintenance Triggers
 

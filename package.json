@@ -1,7 +1,7 @@
 {
   "name": "emotid",
   "private": true,
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Emotion identification system",
   "license": "MIT",
   "engines": {
@@ -54,10 +54,11 @@
     "prepare:catalog-review:description-pilot": "node ./scripts/catalog-guidance-review.mjs prepare --surface description-pilot --batch-id p27-description-pilot-01 --out-dir .reports/catalog-guidance/p27-description-pilot-01",
     "prepare:catalog-review:word-intermediate-descriptions": "node ./scripts/catalog-guidance-review.mjs prepare --surface word-ladder-intermediate-descriptions --batch-id p27-word-intermediate-descriptions-01 --out-dir .reports/catalog-guidance/p27-word-intermediate-descriptions-01",
     "check-copy": "node ./check_psychological_copy.cjs && npm run test:catalog-review",
-    "check:policy": "npm run check-acceptance && npm run i18n-audit && npm run check-copy",
+    "check:release": "node --test ./scripts/check-release-consistency.test.mjs && node ./scripts/check-release-consistency.mjs",
+    "check:policy": "npm run check-acceptance && npm run i18n-audit && npm run check-copy && npm run check:release",
     "check-performance": "node ./scripts/check-performance-budget.mjs",
     "check-acceptance": "node ./scripts/check-acceptance-contract.mjs",
-    "precheck": "node -e \"const p=require('./package.json');const required=['check-translations','check-copy','check-acceptance','check:policy','lint','test','build','type-check'];required.forEach(s=>{if(!p.scripts[s])console.error('missing script:',s),process.exit(1);});['check-keys','check-translations','check-untranslated','check-copy'].forEach(k=>{const v=p.scripts[k];if(!v)throw new Error('script missing: '+k);if(v.includes('./node_modules/.bin/')||v.includes('jest'))throw new Error('deprecated script: '+k)})\"",
+    "precheck": "node -e \"const p=require('./package.json');const required=['check-translations','check-copy','check-acceptance','check:release','check:policy','lint','test','build','type-check'];required.forEach(s=>{if(!p.scripts[s])console.error('missing script:',s),process.exit(1);});['check-keys','check-translations','check-untranslated','check-copy'].forEach(k=>{const v=p.scripts[k];if(!v)throw new Error('script missing: '+k);if(v.includes('./node_modules/.bin/')||v.includes('jest'))throw new Error('deprecated script: '+k)})\"",
     "check-untranslated": "node ./check_i18n_untranslated.cjs",
     "i18n-audit": "npm run check-keys && npm run check-translations && npm run check-untranslated",
     "check": "npm run lint && npm run test && npm run check:policy && npm run build && npm run check-performance"

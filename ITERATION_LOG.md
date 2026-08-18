@@ -2722,3 +2722,31 @@ changed in the release-only commit.
 consistency gate across them, not another manifest.
 **Promoted to Lessons Learned:** No — the existing one-owner release-documentation lesson covers
 this release.
+
+### [2026-08-18] Enforce release identity consistency and publish v0.1.4
+
+**Context:** `v0.1.3` required coordinated manual edits across package metadata, README, release
+notes, and the active maintenance plan. Each file was correct, but no deterministic gate prevented
+future partial updates.
+**What happened:**
+- Began with failing Node fixtures, then added one pure validator and a thin repository-reading CLI.
+- Enforced package/lockfile versions, the README release URL, numeric latest-note identity/title,
+  and the maintenance-plan release-scope link through `check:policy`.
+- Kept live GitHub tags/releases outside candidate validation because they do not exist before the
+  candidate passes and is published.
+- Advanced the release owners and candidate evidence ledger together without relabeling older
+  native, physical, assistive-technology, or participant evidence.
+- Diagnosed a Mac-local long-lived WebKit blank-navigation timeout as browser transport: the exact
+  case passed 3/3 alone, the CI retry recovered, and all 137 WebKit checks passed first-attempt
+  across three fresh-browser shards. No product assertion failed.
+**Verification:** Eight drift fixtures, the live repository check, clean install/audit, `npm run
+check`, all 137 Chromium and 137 WebKit checks, PWA lifecycle, production performance, Pages
+deployment, public smoke, and CodeQL passed before the immutable `v0.1.4` tag and GitHub release
+were created.
+**Outcome:** Release identity drift now fails locally and in CI with structured diagnostics. The
+application bundle, user behavior, Google handoff, safety semantics, and evidence waivers are
+unchanged.
+**Insight:** Candidate-time consistency should validate existing release owners without querying
+post-candidate publishing systems or adding another manifest.
+**Promoted to Lessons Learned:** No — the existing one-owner release-documentation lesson already
+covers the architectural boundary.

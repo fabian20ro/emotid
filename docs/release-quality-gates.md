@@ -12,6 +12,11 @@ npm run test:performance
 npm run test:deployed:local
 ```
 
+`npm run check:release` is included in `npm run check`. It runs deterministic drift fixtures, then
+requires one release identity across `package.json`, the lockfile root, the README release URL, the
+latest numeric release-note filename and title, and the maintenance-plan release-scope link. It
+does not query GitHub: a tag and release do not exist while their candidate commit is being checked.
+
 After a `main` artifact is deployed, GitHub Actions runs `npm run test:deployed` against the Pages
 URL emitted by `actions/deploy-pages`. The isolated, cache-busted Chromium journey verifies the
 Today shell, index-referenced assets, manifest icons, service-worker activation and control after
