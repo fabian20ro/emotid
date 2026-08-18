@@ -2798,3 +2798,32 @@ unchanged.
 **Insight:** No new reusable process insight; the existing release-owner and evidence-retention
 rules handled the patch without another abstraction.
 **Promoted to Lessons Learned:** No.
+
+### [2026-08-19] Fix uppercase-induced TalkBack spelling
+
+**Context:** Exact `v0.1.5` physical testing became available again on the Pixel 6a. The full
+automated TalkBack matrix passed, while owner swipe exploration heard the Reflection eyebrow as
+individual characters and Romanian controls through the device's English voice profile.
+**What happened:**
+- Ran J1-J9 in EN/RO and light/dark against the clean `v0.1.5` local production build: 36/36
+  `SUPPORTING_PASS`, with bound TalkBack, touch exploration, native activation, TTS dispatch, and
+  route postconditions.
+- Reproduced that `.screen-eyebrow` transformed sentence-case DOM text to uppercase; removing the
+  transform in the live Pixel page changed `O posibilitate, nu un verdict` from character spelling
+  to normal speech.
+- Removed only that visual transform and added a bilingual browser regression for exact copy and
+  computed sentence case.
+- Separated the remaining voice behavior from the product fix: Android, Chrome, and TalkBack were
+  `en-US`; Romanian visible/AX content and `html lang="ro"` were correct; explicit control-level
+  `lang="ro"` did not change the English control voice.
+**Verification:** `npm run check` passes 88 files / 696 tests and all policy/build/budget gates;
+Mobile Safari + Mobile Chrome pass 274/274; the focused accessibility suite passes 16/16; the
+corrected physical J8 RO light/dark run passes 2/2. The owner confirmed normal eyebrow speech in
+the live CSS experiment. TalkBack, touch exploration, stay-awake, server, and ADB forwards were
+restored afterward.
+**Outcome:** Prose-like screen eyebrows remain visually sentence case and are no longer exposed as
+acronym-like speech. No copy, safety order, language metadata, emotion logic, or persistence changed.
+The complete human J1-J9 waiver and `en-US` TalkBack pronunciation limitation remain explicit.
+**Insight:** CSS capitalization can affect physical assistive speech even when source text and
+document language are correct.
+**Promoted to Lessons Learned:** Yes — avoid transformed uppercase on screen-reader-visible prose.

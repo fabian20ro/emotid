@@ -222,7 +222,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 }
 
 .screen-with-action { padding-bottom: 96px; }
-.screen-eyebrow { margin: 0 0 8px; color: var(--teal); font-size: 12px; font-weight: 750; text-transform: uppercase; }
+.screen-eyebrow { margin: 0 0 8px; color: var(--teal); font-size: 12px; font-weight: 750; }
 .screen-title { margin: 0; font-size: 30px; line-height: 1.12; font-weight: 720; letter-spacing: 0; }
 .screen-lede { margin: 10px 0 0; color: var(--ink-muted); font-size: 16px; line-height: 1.5; }
 

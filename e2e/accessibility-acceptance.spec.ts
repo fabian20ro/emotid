@@ -59,6 +59,11 @@ test.describe('Critical journey semantics and focus', () => {
 
       await placeFeeling(page)
       await expectScreenSemantics(page, /what seems to fit|ce pare să se potrivească/i, false)
+      const eyebrow = page.locator('.screen-eyebrow')
+      await expect(eyebrow).toHaveText(
+        language === 'ro' ? 'O posibilitate, nu un verdict' : 'A possibility, not a verdict',
+      )
+      expect(await eyebrow.evaluate((element) => getComputedStyle(element).textTransform)).toBe('none')
     })
   }
 

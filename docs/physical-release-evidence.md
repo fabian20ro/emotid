@@ -63,11 +63,14 @@ screen-reader gestures, installed mobile UI, or low-tier hardware timing.
 
 ## Retained Native And Physical Evidence
 
-These rows retain their recorded candidate identity. None is relabeled as an exact `v0.1.5`
-native or physical pass.
+Each row retains its recorded candidate identity. The new exact `v0.1.5` rows are identified as
+such; older native and physical evidence is not relabeled as current.
 
 | Candidate | Environment | Scope | Result | Evidence |
 | --- | --- | --- | --- | --- |
+| `v0.1.5` / `0fd3981` | Pixel 6a Android 17, Chrome 151 + TalkBack 17.0.1 | Complete J1-J9; EN/RO; light/dark; exact local assets, native activation, TTS dispatch | SUPPORTING_PASS, 36/36 | `.reports/android-physical/2026-08-18T21-14-31-521Z-talkback-browser/` |
+| working tree from `0fd3981` | Pixel 6a Android 17, Chrome 151 + TalkBack 17.0.1 | Sentence-case follow-up; J8 RO light/dark; exact local assets | SUPPORTING_PASS, 2/2 | `.reports/android-physical/2026-08-18T21-36-05-200Z-talkback-browser/` |
+| working tree from `0fd3981` | Pixel 6a Android 17, Chrome 151 + TalkBack 17.0.1 | Owner-operated Romanian speech observation and uppercase experiment | FINDING; not a complete journey pass | `.reports/android-physical/2026-08-18T21-25-00Z-human-talkback-v015/` |
 | `61f8743` / harness `4a85b42` | iOS 26.5 Simulator SE + 17 Pro | Base; EN/RO; exact local assets | SIMULATOR_SUPPORTING_PASS, 16/16 | `.reports/ios-simulator/2026-08-13T13-12-18-750Z/` |
 | `61f8743` / harness `4a85b42` | iOS 26.5 Simulator SE + 17 Pro | Complete J1-J9; EN/RO; exact local assets | SIMULATOR_SUPPORTING_PASS, 36/36 | `.reports/ios-simulator/2026-08-13T13-14-37-926Z/` |
 | `61f8743` / harness `4a85b42` | iOS 26.5 Simulator SE + 17 Pro | Onboarding, landscape, dark, accessibility text | SIMULATOR_SUPPORTING_PASS, 6/6 | `.reports/ios-simulator/2026-08-13T13-18-25-063Z/` |
@@ -122,6 +125,16 @@ English installed standalone navigation passed 6/6. Romanian app content dispatc
 found Romanian speech understandable. TalkBack also announced persistent local-privacy context
 during route replacement; target focus remained on the new heading and no missing, duplicate, or
 misordered content reproduced. This is a bounded checkpoint pass, not a complete human J1-J9 claim.
+
+The exact `v0.1.5` follow-up passed all 36 automated physical TalkBack rows. A separate owner
+observation reproduced English-voice pronunciation across Romanian controls while Android, Chrome,
+and TalkBack were configured `en-US`; visible copy, accessible names, and `html lang="ro"` remained
+Romanian, and explicit per-control `lang="ro"` did not change the voice. This remains an
+assistive-technology configuration limitation, not an application localization failure. The same
+observation found one product defect: CSS uppercase made the sentence-case Reflection eyebrow read
+character by character. Removing that transform made physical speech normal; the corrected working
+tree then passed J8 RO light/dark 2/2. The observation did not complete human J1-J9, so the existing
+waiver remains.
 
 ## Retained Physical Matrix
 
@@ -219,7 +232,7 @@ retest the same native row. Record environment blocks separately from applicatio
 | iOS Simulator browser matrix | RETAINED, SUPPORTING | Pre-`v0.1.5`; base 16/16, acceptance 36/36, robustness 6/6 |
 | Simulator installed PWA / VoiceOver | OUT OF SCOPE | Capability limitation recorded; no physical-iPhone substitution claim |
 | Pixel 6a browser + installed, no AT | RETAINED, SUPPORTING | Pre-`v0.1.5`; J1-J9 EN/RO, 36/36 total |
-| Pixel 6a TalkBack | RETAINED BOUNDED_PASS / WAIVER REQUIRED FOR FULL MATRIX | Pre-`v0.1.5`; six owner-operated checkpoints; complete human J1-J9 not claimed |
+| Pixel 6a TalkBack | CURRENT SUPPORTING_PASS / WAIVER REQUIRED FOR HUMAN MATRIX | Exact `v0.1.5` automated physical J1-J9 EN/RO light/dark 36/36; owner-observed casing defect fixed in the follow-up candidate; complete human J1-J9 not claimed |
 | Mid-tier Android performance | RETAINED PASS | Pre-`v0.1.5` three-run matrix; current automated performance probe passes |
 | Low-tier Android performance | DEFERRED / WAIVER REQUIRED | Distinct device unavailable; Pixel is not relabeled |
 | Moderated comprehension | DEFERRED / WAIVER REQUIRED | Six participant sessions unavailable; synthetic reviews remain preflight |

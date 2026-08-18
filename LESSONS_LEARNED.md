@@ -142,6 +142,12 @@ roles/instructions in the device language; it does not by itself prove an app lo
 Audio remains supporting evidence beside bound TalkBack/touch exploration, exact AX names, native
 activation, visible speech output, and route postconditions.
 
+**[2026-08-19]** CSS capitalization can change physical screen-reader speech — Chrome/TalkBack
+exposed `text-transform: uppercase` for a sentence-case eyebrow as acronym-like speech and read it
+character by character. The DOM string and document language were already correct. Avoid visual
+uppercase on prose-like labels; verify computed casing in browsers and spoken output physically
+before changing copy or adding redundant language attributes.
+
 **[2026-08-09]** Physical browser targeting needs two independent exact proofs — A matching CDP
 page is not proof that Android displays the same Chrome tab. Give every browser audit a unique URL
 token, require the exact token in both the non-standalone CDP page and Chrome's native URL bar,
