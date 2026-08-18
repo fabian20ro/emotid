@@ -71,6 +71,7 @@ such; older native and physical evidence is not relabeled as current.
 | `v0.1.5` / `0fd3981` | Pixel 6a Android 17, Chrome 151 + TalkBack 17.0.1 | Complete J1-J9; EN/RO; light/dark; exact local assets, native activation, TTS dispatch | SUPPORTING_PASS, 36/36 | `.reports/android-physical/2026-08-18T21-14-31-521Z-talkback-browser/` |
 | working tree from `0fd3981` | Pixel 6a Android 17, Chrome 151 + TalkBack 17.0.1 | Sentence-case follow-up; J8 RO light/dark; exact local assets | SUPPORTING_PASS, 2/2 | `.reports/android-physical/2026-08-18T21-36-05-200Z-talkback-browser/` |
 | working tree from `ec050f9` | Pixel 6a Android 17, Chrome 151 + TalkBack 17.0.1 | Pre-mount Romanian document-language follow-up; J9 RO light/dark; exact local assets | SUPPORTING_PASS, 2/2 | `.reports/android-physical/2026-08-18T22-14-51-804Z-talkback-browser/` |
+| `fbf039e` | Pixel 6a Android 17, Chrome 151 + TalkBack 17.0.1 | Owner-operated Today speech before/after explicit Chrome `ro` app locale | OWNER_OBSERVED_PASS with Chrome `ro`; configuration finding with inherited `en-US` | `.reports/android-physical/2026-08-18T22-54-22Z-human-talkback-browser-locale/` |
 | working tree from `0fd3981` | Pixel 6a Android 17, Chrome 151 + TalkBack 17.0.1 | Owner-operated Romanian speech observation and uppercase experiment | FINDING; not a complete journey pass | `.reports/android-physical/2026-08-18T21-25-00Z-human-talkback-v015/` |
 | `61f8743` / harness `4a85b42` | iOS 26.5 Simulator SE + 17 Pro | Base; EN/RO; exact local assets | SIMULATOR_SUPPORTING_PASS, 16/16 | `.reports/ios-simulator/2026-08-13T13-12-18-750Z/` |
 | `61f8743` / harness `4a85b42` | iOS 26.5 Simulator SE + 17 Pro | Complete J1-J9; EN/RO; exact local assets | SIMULATOR_SUPPORTING_PASS, 36/36 | `.reports/ios-simulator/2026-08-13T13-14-37-926Z/` |
@@ -146,6 +147,15 @@ capture `ro` at the first Today DOM mutation and verify all reported nodes inher
 working tree passed physical J9 RO light/dark 2/2. Android, Chrome, and TalkBack remain configured
 `en-US`, so the automated TTS diagnostic still attributes its English voice to AT configuration;
 physical Romanian pronunciation quality is not claimed without another owner listening pass.
+
+The subsequent owner listening pass separated the remaining layers. With Chrome inheriting the
+device's `en-US` locale, all initial Today headings and button labels still used the English voice
+despite correct visible copy, accessible names, pre-mount `html lang="ro"`, and the physical J9
+supporting pass. After the owner explicitly selected Romanian in Android's Chrome-language dialog,
+the same title and complete heading/button sequence through `Jurnal` were spoken in Romanian.
+TalkBack's own `double tap to activate` hint remained English because TalkBack and the device stayed
+`en-US`. Therefore the bootstrap correction is retained as a real semantic fix, but physical voice
+selection is accurately attributed to browser/AT configuration rather than that code change.
 
 ## Retained Physical Matrix
 
@@ -244,7 +254,7 @@ retest the same native row. Record environment blocks separately from applicatio
 | iOS Simulator browser matrix | RETAINED, SUPPORTING | Pre-`v0.1.5`; base 16/16, acceptance 36/36, robustness 6/6 |
 | Simulator installed PWA / VoiceOver | OUT OF SCOPE | Capability limitation recorded; no physical-iPhone substitution claim |
 | Pixel 6a browser + installed, no AT | RETAINED, SUPPORTING | Pre-`v0.1.5`; J1-J9 EN/RO, 36/36 total |
-| Pixel 6a TalkBack | CURRENT SUPPORTING_PASS / WAIVER REQUIRED FOR HUMAN MATRIX | Exact `v0.1.5` automated physical J1-J9 EN/RO light/dark 36/36; owner-observed casing and initial language-order defects fixed in follow-up candidates; corrected J8/J9 RO light/dark 4/4; complete human J1-J9 not claimed |
+| Pixel 6a TalkBack | CURRENT SUPPORTING_PASS / WAIVER REQUIRED FOR HUMAN MATRIX | Exact `v0.1.5` automated physical J1-J9 EN/RO light/dark 36/36; corrected J8/J9 RO light/dark 4/4; owner confirms Romanian Today speech with Chrome app locale `ro`; TalkBack hints remain English under AT/device `en-US`; complete human J1-J9 not claimed |
 | Mid-tier Android performance | RETAINED PASS | Pre-`v0.1.5` three-run matrix; current automated performance probe passes |
 | Low-tier Android performance | DEFERRED / WAIVER REQUIRED | Distinct device unavailable; Pixel is not relabeled |
 | Moderated comprehension | DEFERRED / WAIVER REQUIRED | Six participant sessions unavailable; synthetic reviews remain preflight |

@@ -2855,3 +2855,32 @@ The complete human TalkBack matrix and Romanian pronunciation check remain uncla
 **Insight:** Post-render language synchronization is too late for initial assistive-technology
 metadata even when sighted localization appears correct.
 **Promoted to Lessons Learned:** Yes — initialize document language before mounting localized UI.
+
+### [2026-08-19] Attribute Romanian TalkBack voice to Chrome locale
+
+**Context:** The owner returned for the listening pass left open after the pre-mount language fix.
+The exact reported Today headings and controls still sounded English under the original device
+configuration.
+**What happened:**
+- Reproduced the complete initial Today surface on `fbf039e` with pre-mount `html lang="ro"` and
+  confirmed that the owner heard the `Cum te simți?` text itself, not only its role, in English.
+- Correlated the observation with TTS logs alternating `ro-RO` and `en-US`; Android was `en-US`, and
+  Chrome and TalkBack had no per-app locale and therefore inherited it.
+- Temporarily selected Chrome `ro-RO`; the owner accepted Android's language dialog, leaving Chrome
+  normalized to app locale `ro`.
+- Repeated the exact title and full heading/button swipe sequence through `Jurnal`. The owner
+  confirmed all Emot-ID content was now spoken in Romanian. TalkBack's own `double tap to activate`
+  hint remained English under its inherited `en-US` locale.
+- Restored TalkBack, touch exploration, stay-awake, ADB forwarding/reverse, and the local server;
+  retained the owner-selected Romanian Chrome locale.
+**Verification:** Owner-observed Romanian app-content speech passed across every initially reported
+Today heading/control after Chrome was set to `ro`. Device settings afterward: accessibility `0`,
+touch exploration `0`, stay-awake `0`, no ADB forwards/reverses.
+**Outcome:** No further product change is justified. The app owns Romanian text and document
+semantics; Chrome/TalkBack own voice selection and AT action hints. The bootstrap regression remains
+valid, but it is not represented as the physical pronunciation fix.
+**Insight:** A correct web language boundary cannot force a browser/AT voice policy. Compare the
+same node before and after the browser app locale, and distinguish page text from AT-generated
+roles and instructions.
+**Promoted to Lessons Learned:** No — the existing TalkBack source/language attribution lesson
+already covers this boundary.
