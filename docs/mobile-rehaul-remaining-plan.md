@@ -1,12 +1,12 @@
 # Product Maintenance Plan
 
-Status: the mobile UI/UX migration, August 18 corrective pass, and `v0.1.4` automated release
+Status: the mobile UI/UX migration, August 18 corrective pass, and `v0.1.5` Romanian copy
 maintenance are complete. Remaining work requires a named maintenance trigger or external
 evidence, not another migration program. Updated August 18, 2026.
 
 Historical implementation detail belongs in `ITERATION_LOG.md`, release criteria in
 `docs/release-quality-gates.md`, candidate evidence in `docs/physical-release-evidence.md`, and
-release scope in `docs/releases/v0.1.4.md`.
+release scope in `docs/releases/v0.1.5.md`.
 
 ## Released Baseline
 
@@ -49,6 +49,14 @@ created. Historical evidence rows retain their original candidate identity.
 - Eight deterministic Node fixtures cover valid state, numeric semver ordering, malformed JSON,
   and every independent owner mismatch. `check:policy` runs both fixtures and the live repository
   check without relying on network or unreleased GitHub objects.
+
+## Completed Romanian Copy Maintenance
+
+- **v0.1.5:** corrected the Plutchik compassion label and 22 model-owned Body Compass fields while
+  preserving internal IDs, English copy, safety semantics, and model behavior.
+- One Romanian product-copy inventory now covers translations, generated synthesis, catalog and
+  model metadata, body-region data, and somatic display labels; the rendered compassion result is
+  also protected in both mobile browser engines.
 
 ## Active Priorities
 

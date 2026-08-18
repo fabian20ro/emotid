@@ -2776,3 +2776,25 @@ semantics changed.
 **Insight:** Translation parity is not a spelling inventory when localized copy also lives in model
 data.
 **Promoted to Lessons Learned:** Yes — model-owned localized copy must share the spelling gate.
+
+### [2026-08-18] Publish v0.1.5 Romanian copy maintenance
+
+**Context:** The spelling correction was committed, deployed, and green on `b3669bb`, while the
+public release identity still named `v0.1.4`.
+**What happened:**
+- Advanced package and lockfile metadata, README, maintenance-plan scope, release notes, and the
+  candidate-bound evidence ledger to `v0.1.5`.
+- Scoped the patch release to Romanian spelling and its deterministic unit/browser guards; retained
+  older native, physical, assistive-technology, participant, and low-tier evidence under the
+  candidates that produced it.
+- Kept the existing external evidence waivers explicit and added no product behavior, dependency,
+  release framework, backend, telemetry, or external network behavior.
+**Verification:** Release consistency, `npm run check`, the complete Mobile Safari and Mobile
+Chrome matrix, production PWA lifecycle, mobile performance, Pages deployment, public smoke, and
+CodeQL passed before the immutable `v0.1.5` tag and GitHub release were created.
+**Outcome:** `v0.1.5` is the released identity for the Romanian copy correction. Internal emotion
+IDs, English copy, psychological behavior, safety semantics, and Google handoff behavior remain
+unchanged.
+**Insight:** No new reusable process insight; the existing release-owner and evidence-retention
+rules handled the patch without another abstraction.
+**Promoted to Lessons Learned:** No.

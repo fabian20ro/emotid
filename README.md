@@ -2,7 +2,7 @@
 
 > **[Try the live app](https://fabian20ro.github.io/emotid/)**
 
-Current release: **[v0.1.4](https://github.com/fabian20ro/emotid/releases/tag/v0.1.4)**
+Current release: **[v0.1.5](https://github.com/fabian20ro/emotid/releases/tag/v0.1.5)**
 
 Privacy-first PWA for exploring emotions through words, body sensations, and affect mapping.
 
