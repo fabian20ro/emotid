@@ -4,6 +4,7 @@ import { emotionCatalog } from '../models/catalog'
 import { dimensionalModel } from '../models/dimensional'
 import { plutchikModel } from '../models/plutchik'
 import { somaticModel, somaticRegions } from '../models/somatic'
+import { INTENSITY_LABELS, SENSATION_CONFIG } from '../models/somatic/display'
 import { pleasantCombinationCopy, synthesisCopy } from '../models/synthesis-copy'
 import { wheelModel } from '../models/wheel'
 
@@ -20,6 +21,7 @@ const REVIEWED_ROMANIAN_LABELS = {
   blessed: 'Binecuvântat',
   brave: 'Îndrăzneț',
   confident: 'Încrezător',
+  compassion: 'compasiune',
   contemptuous: 'Disprețuitor',
   content: 'Mulțumit',
   deceived: 'Înșelat',
@@ -94,6 +96,11 @@ const FORMAL_SECOND_PERSON = new RegExp(
   'iu',
 )
 
+const CONFIRMED_MISSPELLINGS = new RegExp(
+  String.raw`\b(?:actiune|asociata|blanda|bratelor|caldura|compașiune|dorinta|emotional|emotionala|emotionale|impamantrare|inclestrare|intindere|legata|lenta|lombara|mandrie|miscare|neliniste|profunda|respiratie|rusine|strangere|sustinuta|talpilor|tristete)\b`,
+  'iu',
+)
+
 function generatedRomanianCopy(): string[] {
   const copy = synthesisCopy.ro
   return [
@@ -113,6 +120,33 @@ function generatedRomanianCopy(): string[] {
   ]
 }
 
+function productRomanianCopy(): string[] {
+  const modelMetadata = [wheelModel, dimensionalModel, plutchikModel, somaticModel]
+    .flatMap((model) => [model.name.ro, model.shortName?.ro, model.description.ro])
+    .filter((value): value is string => Boolean(value))
+  const catalogCopy = Object.values(emotionCatalog)
+    .flatMap((emotion) => [emotion.label.ro, emotion.description?.ro, emotion.needs?.ro])
+    .filter((value): value is string => Boolean(value))
+  const regionCopy = Object.values(somaticRegions).flatMap((region) => collectStrings({
+    label: region.label.ro,
+    description: region.description?.ro,
+    needs: region.needs?.ro,
+  }))
+  const somaticDisplayCopy = [
+    ...Object.values(SENSATION_CONFIG).map((sensation) => sensation.label.ro),
+    ...Object.values(INTENSITY_LABELS).flatMap((intensity) => [intensity.ro, intensity.anchor.ro]),
+  ]
+
+  return [
+    ...collectStrings(ro),
+    ...generatedRomanianCopy(),
+    ...catalogCopy,
+    ...regionCopy,
+    ...somaticDisplayCopy,
+    ...modelMetadata,
+  ]
+}
+
 describe('Romanian copy quality', () => {
   it('uses informal singular address throughout the product voice', () => {
     for (const value of [...collectStrings(ro), ...generatedRomanianCopy()]) {
@@ -123,6 +157,12 @@ describe('Romanian copy quality', () => {
   it('keeps the reviewed emotion labels exact', () => {
     for (const [id, expected] of Object.entries(REVIEWED_ROMANIAN_LABELS)) {
       expect(emotionCatalog[id]?.label.ro, id).toBe(expected)
+    }
+  })
+
+  it('rejects confirmed Romanian misspellings across product copy', () => {
+    for (const value of productRomanianCopy()) {
+      expect(value, value).not.toMatch(CONFIRMED_MISSPELLINGS)
     }
   })
 
@@ -145,19 +185,7 @@ describe('Romanian copy quality', () => {
   })
 
   it('stores Romanian source strings in NFC form', () => {
-    const modelMetadata = [wheelModel, dimensionalModel, plutchikModel, somaticModel]
-      .flatMap((model) => [model.name.ro, model.shortName?.ro, model.description.ro])
-      .filter((value): value is string => Boolean(value))
-    const catalogCopy = Object.values(emotionCatalog)
-      .flatMap((emotion) => [emotion.label.ro, emotion.description?.ro, emotion.needs?.ro])
-      .filter((value): value is string => Boolean(value))
-    const regionCopy = Object.values(somaticRegions).flatMap((region) => collectStrings({
-      label: region.label.ro,
-      description: region.description?.ro,
-      needs: region.needs?.ro,
-    }))
-
-    for (const value of [...collectStrings(ro), ...catalogCopy, ...regionCopy, ...modelMetadata]) {
+    for (const value of productRomanianCopy()) {
       expect(value, value).toBe(value.normalize('NFC'))
     }
   })

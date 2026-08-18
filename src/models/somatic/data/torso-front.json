@@ -6,11 +6,11 @@
       "en": "Chest"
     },
     "description": {
-      "ro": "Zona pieptului — centrul emotional major, asociat cu iubire, anxietate, durere, bucurie, mandrie",
+      "ro": "Zona pieptului — centrul emoțional major, asociat cu iubire, anxietate, durere, bucurie, mândrie",
       "en": "Chest area — major emotional center, associated with love, anxiety, grief, joy, pride"
     },
     "needs": {
-      "ro": "respiratie lenta si deschidere",
+      "ro": "respirație lentă și deschidere",
       "en": "slow breathing and opening"
     },
     "color": "#ec4899",
@@ -152,7 +152,7 @@
       "en": "Abdominal area — strongly linked to instincts and emotions, associated with fear, anxiety, disgust, excitement"
     },
     "needs": {
-      "ro": "respiratie abdominala si caldura",
+      "ro": "respirație abdominală și căldură",
       "en": "deep belly breathing and warmth"
     },
     "color": "#eab308",

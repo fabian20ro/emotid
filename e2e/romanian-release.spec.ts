@@ -89,13 +89,14 @@ test.describe('Romanian release journeys', () => {
     await page.getByRole('button', { name: 'Explorează' }).click()
     await page.getByTestId('explore-plutchik').click()
 
-    await page.getByTestId('plutchik-emotion-joy').click()
     await page.getByTestId('plutchik-emotion-trust').click()
-    await expect(page.getByTestId('plutchik-combination')).toContainText(/bucurie \+ încredere/i)
+    await page.getByTestId('plutchik-emotion-sadness').click()
+    await expect(page.getByTestId('plutchik-combination')).toContainText(/încredere \+ tristețe/i)
     await page.locator('.route-action button').click()
 
     await expect(page.getByTestId('reflection-screen')).toBeVisible()
-    await expect(page.locator('.emotion-heading')).toContainText(/iubire/i)
+    await expect(page.locator('.emotion-heading')).toContainText(/compasiune/i)
+    await expect(page.locator('.emotion-heading')).not.toContainText(/compașiune/i)
   })
 
   test('Journal opens a saved Romanian reflection', async ({ page }) => {

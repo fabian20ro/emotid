@@ -240,6 +240,11 @@ an internal-monologue experience. Keep Romanian user address consistently inform
 static UI, generated synthesis, safety copy, and native acceptance adapters; enforce the register
 with a copy test instead of relying on review memory.
 
+**[2026-08-18]** Localized spelling gates must include model-owned copy — `ro.json` parity cannot
+see labels, descriptions, or body-region guidance stored in model data. Assemble translation,
+catalog, generated, model-metadata, and somatic display copy in one language-quality test; pin
+reported words exactly and reject only confirmed misspellings to avoid dictionary false positives.
+
 **[2026-08-13]** Accessibility instrumentation must not alter the active assistive-technology row —
 Android `uiautomator dump` can launch a TalkBack permission activity and restart TTS. During a
 TalkBack journey, use non-intrusive screenshot/CDP evidence; capture the native hierarchy only

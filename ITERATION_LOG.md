@@ -2750,3 +2750,29 @@ unchanged.
 post-candidate publishing systems or adding another manifest.
 **Promoted to Lessons Learned:** No — the existing one-owner release-documentation lesson already
 covers the architectural boundary.
+
+### [2026-08-18] Correct Romanian spelling across model-owned copy
+
+**Context:** The Plutchik compassion result displayed `compașiune`, while the controlled need label
+already used the standard Romanian `compasiune`. Existing translation parity and copy-policy gates
+did not detect spelling defects in model-owned Romanian fields.
+**What happened:**
+- Audited every Romanian translation and model JSON value with the Romanian CSpell dictionary,
+  then manually reviewed its remaining proper-name, placeholder, borrowed-word, and valid
+  inflection flags.
+- Corrected the compassion label and 22 legacy Body Compass fields with missing diacritics or
+  malformed spellings, including `încleștare` and `împământare`.
+- Centralized the assembled Romanian product-copy inventory in the existing language-quality test,
+  pinned `compasiune` exactly, and rejected the confirmed malformed forms across translations,
+  generated synthesis, catalog copy, model metadata, body-region data, and somatic display labels.
+- Changed the existing Romanian Plutchik browser journey to render the reported compassion result
+  and assert both the correct spelling and absence of the malformed form.
+**Verification:** The post-fix dictionary audit contains no confirmed typo. `npm run check` passes
+88 files / 696 tests, all policy gates, production build, and performance budgets. The focused
+Romanian Plutchik regression passes in Mobile Chrome and Mobile Safari.
+**Outcome:** Both user-facing Romanian occurrences now use `compasiune`; internal English
+`compassion` IDs remain unchanged. No application behavior, English copy, or psychological/safety
+semantics changed.
+**Insight:** Translation parity is not a spelling inventory when localized copy also lives in model
+data.
+**Promoted to Lessons Learned:** Yes — model-owned localized copy must share the spelling gate.
