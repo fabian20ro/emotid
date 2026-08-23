@@ -11,23 +11,26 @@ assistive-technology or hardware-performance gates. Physical iPhone testing is o
 
 | Field | Value |
 | --- | --- |
-| Released product | `v0.1.5` (immutable tag resolves the exact release commit) |
+| Released product | `v0.1.6` (immutable tag resolves the exact release commit) |
 | Corrective product commit | `fb28bf3` |
 | Romanian spelling product commit | `b3669bb` |
-| Runtime baseline | `v0.1.4` at `88f0fd5`; `v0.1.5` adds Romanian copy corrections and regression guards |
-| Candidate status | RELEASED AS `v0.1.5` WITH EXPLICIT EVIDENCE WAIVERS |
+| TalkBack accessibility product commits | `ec050f9`, `fbf039e` |
+| Runtime baseline | `v0.1.5` at `0fd3981`; `v0.1.6` adds screen-reader casing and pre-mount language corrections |
+| Candidate status | RELEASED AS `v0.1.6` WITH EXPLICIT EVIDENCE WAIVERS |
 | Production URL | `https://fabian20ro.github.io/emotid/` |
-| Exact release workflow | `Deploy to GitHub Pages` for the `v0.1.5` release commit, successful including deployed smoke |
+| Exact release workflow | `Deploy to GitHub Pages` for the `v0.1.6` release commit, successful including deployed smoke |
 | Corrective product workflow | `Deploy to GitHub Pages` run `32077254862`, successful including deployed smoke |
 | Romanian spelling workflow | `Deploy to GitHub Pages` run `32107489742`, successful including deployed smoke |
-| Test date | 2026-08-18 |
+| TalkBack accessibility workflow | `Deploy to GitHub Pages` run `32192420682`, successful including deployed smoke |
+| Test date | 2026-08-23 |
 | Current decision | RELEASED WITH EXPLICIT EVIDENCE WAIVERS; no open product blocker |
 
 `v0.1.3` includes the P0-P3 privacy, accessibility, provenance, persistence, policy, and bounded
 maintenance corrections described in its release note. `v0.1.4` adds only the automated
 release-identity consistency gate. `v0.1.5` corrects Romanian spelling and extends deterministic
-language-quality coverage. Native, Simulator, TalkBack, and physical-performance rows below
-predate `v0.1.5` and remain retained evidence, not exact-current-candidate passes.
+language-quality coverage. `v0.1.6` corrects screen-reader casing and initial document-language
+ordering while recording the Chrome/TalkBack voice boundary. Native, Simulator, TalkBack, and
+physical-performance rows below retain their recorded candidate identity.
 
 ## Environment Inventory
 
@@ -49,10 +52,10 @@ thermal differences for every final-candidate physical run.
 | Clean dependency install and audit | AUTOMATED_PASS | `npm ci`; `npm audit`: 0 vulnerabilities |
 | Lint, unit/integration, acceptance contract, i18n, psychological copy, build, budgets | AUTOMATED_PASS | `npm run check`: 88 files / 696 tests |
 | Release-identity fixtures and live repository | AUTOMATED_PASS | `npm run check:release`: 8/8 fixtures; live repository pass |
-| Mobile Safari + Mobile Chrome browser matrix | AUTOMATED_PASS | current working tree: 276/276; exact `v0.1.5`: 274/274 |
+| Mobile Safari + Mobile Chrome browser matrix | AUTOMATED_PASS | exact `v0.1.6`: 276/276 |
 | Production offline/update/data-retention lifecycle | AUTOMATED_PASS | `npm run test:pwa` |
 | Production browser performance probe | AUTOMATED_PASS | `npm run test:performance` |
-| Exact `v0.1.5` CI, PWA, performance, Pages deploy, public smoke | PASS | Release-commit `Deploy to GitHub Pages` workflow; deployed smoke 1/1 |
+| Exact `v0.1.6` CI, PWA, performance, Pages deploy, public smoke | PASS | Release-commit `Deploy to GitHub Pages` workflow; deployed smoke 1/1 |
 | Corrective product CodeQL | PASS | Run `32077254251` at `fb28bf3` |
 | Corrective product CI, Pages deploy, public-URL smoke | PASS | Run `32077254862` at `fb28bf3`; deployed smoke 1/1 |
 | Romanian spelling CodeQL | PASS | Run `32107489151` at `b3669bb` |
@@ -63,8 +66,8 @@ screen-reader gestures, installed mobile UI, or low-tier hardware timing.
 
 ## Retained Native And Physical Evidence
 
-Each row retains its recorded candidate identity. The new exact `v0.1.5` rows are identified as
-such; older native and physical evidence is not relabeled as current.
+Each row retains its recorded candidate identity. Older native and physical evidence is not
+relabeled as exact `v0.1.6` evidence.
 
 | Candidate | Environment | Scope | Result | Evidence |
 | --- | --- | --- | --- | --- |
@@ -249,19 +252,19 @@ retest the same native row. Record environment blocks separately from applicatio
 
 | Gate | Status | Closure condition |
 | --- | --- | --- |
-| Exact-release automated baseline | PASS | `v0.1.5` release-commit workflow; release fixtures 8/8, 88 files / 696 tests, and Playwright 274/274 |
-| Post-deployment public-URL smoke | PASS | `v0.1.5` release-commit workflow; deployed smoke 1/1 |
-| iOS Simulator browser matrix | RETAINED, SUPPORTING | Pre-`v0.1.5`; base 16/16, acceptance 36/36, robustness 6/6 |
+| Exact-release automated baseline | PASS | `v0.1.6` release-commit workflow; release fixtures 8/8, 88 files / 696 tests, and Playwright 276/276 |
+| Post-deployment public-URL smoke | PASS | `v0.1.6` release-commit workflow; deployed smoke 1/1 |
+| iOS Simulator browser matrix | RETAINED, SUPPORTING | Pre-`v0.1.6`; base 16/16, acceptance 36/36, robustness 6/6 |
 | Simulator installed PWA / VoiceOver | OUT OF SCOPE | Capability limitation recorded; no physical-iPhone substitution claim |
-| Pixel 6a browser + installed, no AT | RETAINED, SUPPORTING | Pre-`v0.1.5`; J1-J9 EN/RO, 36/36 total |
+| Pixel 6a browser + installed, no AT | RETAINED, SUPPORTING | Pre-`v0.1.6`; J1-J9 EN/RO, 36/36 total |
 | Pixel 6a TalkBack | CURRENT SUPPORTING_PASS / WAIVER REQUIRED FOR HUMAN MATRIX | Exact `v0.1.5` automated physical J1-J9 EN/RO light/dark 36/36; corrected J8/J9 RO light/dark 4/4; owner confirms Romanian Today speech with Chrome app locale `ro`; TalkBack hints remain English under AT/device `en-US`; complete human J1-J9 not claimed |
-| Mid-tier Android performance | RETAINED PASS | Pre-`v0.1.5` three-run matrix; current automated performance probe passes |
+| Mid-tier Android performance | RETAINED PASS | Pre-`v0.1.6` three-run matrix; current automated performance probe passes |
 | Low-tier Android performance | DEFERRED / WAIVER REQUIRED | Distinct device unavailable; Pixel is not relabeled |
 | Moderated comprehension | DEFERRED / WAIVER REQUIRED | Six participant sessions unavailable; synthetic reviews remain preflight |
 | Native macOS Safari | BLOCKED, SUPPORTING ONLY | SafariDriver activation transport; no reproduced product failure |
 | Release-blocking product defects | NONE REPRODUCED | No unresolved failure after required rows |
 
-Release decision: **RELEASED AS `v0.1.5` WITH EXPLICIT EVIDENCE WAIVERS.** Current automated and
+Release decision: **RELEASED AS `v0.1.6` WITH EXPLICIT EVIDENCE WAIVERS.** Current automated and
 post-deployment gates expose no unresolved product defect. Simulator, native-browser, installed
 WebAPK, TalkBack, and physical performance evidence remains attached to its recorded older
 candidate. Residual accessibility, low-tier performance, and comprehension risks remain deferred;

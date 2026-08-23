@@ -2884,3 +2884,29 @@ same node before and after the browser app locale, and distinguish page text fro
 roles and instructions.
 **Promoted to Lessons Learned:** No — the existing TalkBack source/language attribution lesson
 already covers this boundary.
+
+### [2026-08-23] Publish v0.1.6 TalkBack accessibility maintenance
+
+**Context:** Two verified accessibility corrections and the browser-locale attribution were green
+and deployed after `v0.1.5`, while package metadata and the immutable release identity still named
+the earlier Romanian spelling release.
+**What happened:**
+- Advanced package and lockfile metadata, README, maintenance-plan scope, release notes, and the
+  candidate-bound evidence ledger to `v0.1.6`.
+- Scoped the patch release to sentence-case screen eyebrows and pre-mount/runtime document-language
+  ordering. Added no new copy, product behavior, dependency, network path, or release framework.
+- Kept the exact `v0.1.5` physical TalkBack baseline and corrected J8/J9 follow-ups under their
+  recorded commits instead of relabeling them as exact `v0.1.6` evidence.
+- Recorded the owner-confirmed platform boundary: Romanian app content passes when Chrome uses app
+  locale `ro`; TalkBack-generated hints continue to follow the AT/device `en-US` locale.
+**Verification:** Clean `npm ci` and `npm audit` report zero vulnerabilities. Release fixtures pass
+8/8; `npm run check` passes 88 files / 696 tests and all policy/build/budget gates. Mobile Safari
+and Mobile Chrome pass 276/276; PWA lifecycle, production performance, and local deployed-boundary
+smoke each pass 1/1. The exact release commit passed hosted CI, Pages deployment, public smoke, and
+CodeQL before the immutable tag and GitHub release were created.
+**Outcome:** `v0.1.6` is the released identity for the TalkBack casing and document-language
+corrections. Existing external evidence waivers remain explicit; no unsupported human J1-J9,
+low-tier device, participant, or native Safari claim was added.
+**Insight:** No new release abstraction was needed; the existing consistency gate and
+candidate-bound evidence ledger covered the patch.
+**Promoted to Lessons Learned:** No.

@@ -1,12 +1,12 @@
 # Product Maintenance Plan
 
-Status: the mobile UI/UX migration, August 18 corrective pass, and `v0.1.5` Romanian copy
-maintenance are complete. Remaining work requires a named maintenance trigger or external
-evidence, not another migration program. Updated August 18, 2026.
+Status: the mobile UI/UX migration, August 18 corrective pass, Romanian copy maintenance, and
+`v0.1.6` TalkBack accessibility maintenance are complete. Remaining work requires a named
+maintenance trigger or external evidence, not another migration program. Updated August 23, 2026.
 
 Historical implementation detail belongs in `ITERATION_LOG.md`, release criteria in
 `docs/release-quality-gates.md`, candidate evidence in `docs/physical-release-evidence.md`, and
-release scope in `docs/releases/v0.1.5.md`.
+release scope in `docs/releases/v0.1.6.md`.
 
 ## Released Baseline
 
@@ -57,6 +57,14 @@ created. Historical evidence rows retain their original candidate identity.
 - One Romanian product-copy inventory now covers translations, generated synthesis, catalog and
   model metadata, body-region data, and somatic display labels; the rendered compassion result is
   also protected in both mobile browser engines.
+
+## Completed TalkBack Accessibility Maintenance
+
+- **v0.1.6:** keeps prose-like eyebrows in sentence case and applies the selected document language
+  before localized controls mount and before runtime language rerenders.
+- First-mutation browser coverage protects every initially reported Romanian Today heading/control.
+  Pixel follow-ups keep app speech separate from Chrome/TalkBack voice configuration: Romanian app
+  content passes with Chrome locale `ro`; AT-generated hints follow the AT/device locale.
 
 ## Active Priorities
 
