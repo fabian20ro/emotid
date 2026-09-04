@@ -21,6 +21,23 @@ async function expectCompactActions(page: Page, doneName: string, exploreName: s
 test.describe('Reflection trust boundary', () => {
   test.beforeEach(async ({ page }) => openApp(page))
 
+  test('a new quick check-in preserves a reflection abandoned through Back and Journal', async ({ page }) => {
+    await completeQuick(page, 'anxiety')
+    await expect(page.getByTestId('session-save-status')).toContainText(/saved/i)
+    await page.getByRole('button', { name: 'Back', exact: true }).click()
+    await page.getByRole('button', { name: 'Journal', exact: true }).click()
+    await expect(page.getByRole('button', { name: /open reflection: anxiety/i })).toBeVisible()
+    await page.getByRole('button', { name: 'Today', exact: true }).click()
+    await completeQuick(page, 'joy')
+    await page.getByRole('button', { name: 'Done for now' }).click()
+    await page.getByRole('button', { name: 'Journal', exact: true }).click()
+    await expect(page.getByRole('button', { name: /open reflection: anxiety/i })).toBeVisible()
+    await expect(page.getByRole('button', { name: /open reflection: joy/i })).toBeVisible()
+    await page.reload()
+    await page.getByRole('button', { name: 'Journal', exact: true }).click()
+    await expect(page.getByRole('button', { name: /open reflection:/i })).toHaveCount(2)
+  })
+
   test('rejected results remove inferred content and persist no inferred need', async ({ page }) => {
     await completeQuick(page, 'anxiety')
     await expect(page.getByRole('button', { name: 'grounding', exact: true })).toHaveCount(0)

@@ -103,11 +103,13 @@ export function useCheckInWorkflow({
     modelId: string,
     selections: BaseEmotion[],
     results: AnalysisResult[],
+    intent: 'new' | 'revision' = 'revision',
   ) => {
     if (selections.length === 0 || results.length === 0 || completionInFlightRef.current) {
       return false
     }
 
+    if (intent === 'new') reset()
     completionInFlightRef.current = true
     const completion = buildCheckInCompletion({ route, modelId, selections, results })
     const existing = activeSessionRef.current
@@ -123,7 +125,7 @@ export function useCheckInWorkflow({
       completionInFlightRef.current = false
     }, 0)
     return true
-  }, [onShowReflection, persistBaseSession, saveSessions])
+  }, [onShowReflection, persistBaseSession, reset, saveSessions])
 
   const saveReflection = useCallback(async (
     detail: ReflectionDetail,

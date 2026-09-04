@@ -135,7 +135,7 @@ export default function App() {
     selection: BaseEmotion,
     result: AnalysisResult,
   ) => {
-    completeCheckIn('quick', 'quick-check-in', [selection], [result])
+    completeCheckIn('quick', 'quick-check-in', [selection], [result], 'new')
   }, [completeCheckIn])
 
   const exportData = useCallback(async () => {

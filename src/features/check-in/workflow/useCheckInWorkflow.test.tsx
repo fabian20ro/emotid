@@ -32,6 +32,35 @@ function renderWorkflow(
 }
 
 describe('useCheckInWorkflow', () => {
+  it('starts a distinct quick entry after an abandoned reflection without overwriting it', async () => {
+    const save = vi.fn<(session: Session) => Promise<void>>().mockResolvedValue(undefined)
+    const { result } = renderWorkflow(save)
+    act(() => { result.current.complete('affect', 'dimensional', [selection], [analysis]) })
+    await waitFor(() => expect(save).toHaveBeenCalledOnce())
+    const original = save.mock.calls[0][0]
+    await new Promise((resolve) => setTimeout(resolve, 10))
+    act(() => {
+      result.current.complete('quick', 'quick-check-in', [selection], [analysis], 'new')
+      result.current.complete('quick', 'quick-check-in', [selection], [analysis], 'new')
+    })
+    await waitFor(() => expect(save).toHaveBeenCalledTimes(2))
+    expect(save.mock.calls[1][0].id).not.toBe(original.id)
+    expect(save.mock.calls[1][0].timestamp).toBeGreaterThan(original.timestamp)
+    expect(original.entryRoute).toBe('affect')
+  })
+
+  it('keeps the original identity during an explicit revision', async () => {
+    const save = vi.fn<(session: Session) => Promise<void>>().mockResolvedValue(undefined)
+    const { result } = renderWorkflow(save)
+    act(() => { result.current.complete('words', 'wheel', [selection], [analysis]) })
+    await waitFor(() => expect(save).toHaveBeenCalledOnce())
+    await new Promise((resolve) => setTimeout(resolve, 10))
+    act(() => { result.current.complete('words', 'wheel', [selection], [analysis], 'revision') })
+    await waitFor(() => expect(save).toHaveBeenCalledTimes(2))
+    expect(save.mock.calls[1][0].id).toBe(save.mock.calls[0][0].id)
+    expect(save.mock.calls[1][0].timestamp).toBe(save.mock.calls[0][0].timestamp)
+  })
+
   afterEach(() => {
     vi.useRealTimers()
     vi.restoreAllMocks()
