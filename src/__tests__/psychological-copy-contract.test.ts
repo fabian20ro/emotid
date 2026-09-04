@@ -105,7 +105,7 @@ describe('psychological copy contract', () => {
     ], 'en')
 
     expect(text).not.toContain(marker)
-    expect(text).toContain('closest match among these suggestions')
+    expect(text).toContain('one possible word')
     expect(text).toContain('Keep it only if it fits')
   })
 

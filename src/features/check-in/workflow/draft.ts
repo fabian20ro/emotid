@@ -10,6 +10,7 @@ interface DraftFields {
   wordComparison: { selected: BaseEmotion; siblings: BaseEmotion[] } | null
   placement: { valence: number; arousal: number } | null
   fit: ReflectionAnswer | undefined
+  selectedResultIds: string[] | undefined
 }
 
 export function createCheckInDraft() {

@@ -26,8 +26,10 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'npm run dev',
+    command: process.env.E2E_PRODUCTION === 'true'
+      ? 'npm run preview -- --host localhost --port 5173 --strictPort'
+      : 'npm run dev',
     url: 'http://localhost:5173/emotid/',
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: !process.env.CI && process.env.E2E_PRODUCTION !== 'true',
   },
 })

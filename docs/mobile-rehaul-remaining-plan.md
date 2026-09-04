@@ -1,8 +1,10 @@
 # Product Maintenance Plan
 
-Status: the mobile UI/UX migration, August 18 corrective pass, Romanian copy maintenance, and
-`v0.1.6` TalkBack accessibility maintenance are complete. Remaining work requires a named
-maintenance trigger or external evidence, not another migration program. Updated August 23, 2026.
+Status: the mobile migration and `v0.1.6` maintenance release are complete. The September 4 direct
+UX/psychology audit reproduced new persistence, revision, body-completion, and journal-readback
+defects. R1-R6 product changes are implemented and locally verified; publication requires the
+hosted workflow and public smoke gate. Updated September 5, 2026. The summary records delivered scope, not
+six new implementation requests.
 
 Historical implementation detail belongs in `ITERATION_LOG.md`, release criteria in
 `docs/release-quality-gates.md`, candidate evidence in `docs/physical-release-evidence.md`, and
@@ -68,28 +70,53 @@ created. Historical evidence rows retain their original candidate identity.
 
 ## Active Priorities
 
-### P6 - External evidence when available
+### Current Implementation
 
-1. Run the existing low-tier Android performance matrix on a genuinely distinct low-tier device.
-2. Resume moderated comprehension only with six real participants; synthetic agents remain expert
-   preflight, not participant evidence.
-3. Resume complete TalkBack and native Safari rows only when the required environment is available.
+- **R1:** distinct new-entry identity; workflow-owned in-memory drafts; immediate fit writes;
+  optimistic correction display; ordered writes survive a new draft; stale exits cannot close it.
+- **R2:** explicit no-suggestion outcome and optional body-only record; 183 single-signal cases
+  enumerated, including 64 empty results. No scoring thresholds or safety labels changed.
+- **R3:** all exercise entries reachable; full current/legacy readback; individual confirmation
+  and deletion, separate from bulk deletion.
+- **R4:** optional per-word acceptance, original suggestions retained; one result selector feeds
+  headings, vocabulary and valence; Google receives only chosen words with its unchanged prompt.
+- **R5:** five bilingual contrasts/examples, reviewed bittersweetness meaning, available word
+  descriptions before commitment, no empty generic context panels or unsupported best-match claim.
+- **R6:** compact intermediate continuation with prior selections retained; readable external
+  Affect labels; direct guide with remembered navigation step; language on introduction step one.
 
-### P7 - Evidence-gated product questions
+Current catalog coverage is deliberately bounded: 61 reviewed descriptions, not an invented
+definition for every word. Missing prose stays absent; existing no-guidance decisions stay intact.
+Editorial review is not clinical validation, participant evidence, or a new physical AT pass.
 
-1. Revisit live-region controls and modal background exposure only after native assistive-technology
-   evidence reproduces a failure.
-2. Review standalone Romanian masculine emotion labels with native linguistic and psychological
-   input before any catalog-wide grammatical change.
-3. Add a fourth Reflection fit answer only if participant evidence shows that `partly` is
-   insufficient.
+### Next Recommended Work
 
-## Recommended Sequence
+1. Prioritize another bounded content batch only for high-exposure words lacking
+   reviewed definitions. Start with the Stressed/Overwhelmed sibling context; inventory with the
+   existing catalog tooling, review EN/RO together, then add rendered comparison tests. Do not
+   mass-fill the catalog or create a runtime prose generator.
+2. Resume external P6/P7 evidence only on their existing prerequisites. They do not block these
+   verified product fixes. No new feature or architectural migration is needed for closure.
 
-No additional implementation is justified without a maintenance or evidence trigger. P6 is
-available only when its external prerequisites exist. P7 remains closed unless its named evidence
-trigger occurs. Continue monitoring automated dependency, security, performance, and production
-gates; do not refactor while they pass.
+Detailed pre-change findings and reproduction: [September audit](ux-psychology-audit-2026-09-04.md).
+R1-R6 are labels for this corrective pass, not a renumbering of the migration history.
+
+## Delivered Sequence And Verification
+
+Implementation followed R1a -> R1b -> R2 -> R3 -> R4 -> R5 -> R6. R1-R3 repair
+reproduced defects and need no participants or physical device. R4-R6 follow the observed choice
+and content gaps, with psychological impact treated as heuristic until real usage validates it.
+External P6 evidence and unrelated P7 questions remain deferred on their own prerequisites.
+
+Implemented architectural improvement: the existing check-in workflow owns one current draft
+and explicit new/revise/finish transitions, independently of screen mounting. Screen-only
+presentation stays local and the ordered writer owns persistence. This addresses the repeated
+identity, Back, rejection, and restoration problems without a new state library or router.
+
+Verification follows the normative commands in `docs/release-quality-gates.md`. Local completion:
+710 unit/component tests, 298 production Chromium/WebKit journeys, PWA lifecycle, production
+performance, policy, lint, build and asset budgets passed. On publication, require hosted CI and
+the public deployed smoke. These checks are not new physical audio evidence.
 
 ## Maintenance Triggers
 
@@ -103,7 +130,7 @@ Open a product change only for:
 Use the smallest behavior-boundary test and implementation. Keep bilingual copy, deterministic
 crisis semantics, client-only privacy, and platform-local native adapters.
 
-## Deferred Evidence
+## Deferred Evidence And Questions (P6/P7)
 
 - **Low-tier Android:** run the existing three-run performance matrix when a distinct device is
   available. Do not relabel Pixel 6a or emulator evidence.
@@ -121,11 +148,13 @@ crisis semantics, client-only privacy, and platform-local native adapters.
 - **Reflection choice set:** do not add a fourth "not sure" answer until participant evidence shows
   that the existing "partly" choice fails to express uncertainty.
 
-## Closed Pending Evidence
+## Outside This Pass
 
-Do not change onboarding language placement, Affect terminology, Google AI Mode wording, or skip
-behavior from incomplete synthetic runs. Reopen only after repeated human evidence or a new
-deterministic contradiction.
+Affect terminology, Google AI Mode prompt semantics, global skip behavior, and catalog-wide
+grammatical changes remain unchanged. R6 moved language choice based on direct inspection;
+prior synthetic runs are not participant evidence. Per-word acceptance does not add a fourth
+global fit answer. An optional emotion-entry context note requires a separate product decision;
+do not add reminders, scores, emotion targets, or another model without a demonstrated need.
 
 ## Avoid
 

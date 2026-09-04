@@ -82,6 +82,7 @@ async function measureRoute(
   } else if (route !== 'affect') {
     await page.getByRole('button', { name: 'Help me choose', exact: true }).click()
     await expect(page.getByTestId('arrival-screen')).toBeVisible()
+    await page.locator('.guide-all-routes').click()
     routeTrigger = page.getByTestId(`arrival-${route}`)
   }
   await routeTrigger.click({ trial: true })

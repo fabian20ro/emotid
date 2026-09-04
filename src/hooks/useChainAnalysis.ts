@@ -3,6 +3,7 @@ import {
   getAllChainAnalyses,
   saveChainAnalysis,
   clearAllChainAnalyses,
+  deleteChainAnalysis,
 } from '../data/chain-analysis-repo'
 import type { ChainAnalysisEntry } from '../data/types'
 
@@ -35,11 +36,17 @@ export function useChainAnalysis() {
     setEntries([])
   }, [])
 
+  const remove = useCallback(async (id: string) => {
+    await deleteChainAnalysis(id)
+    setEntries((previous) => previous.filter((entry) => entry.id !== id))
+  }, [])
+
   return {
     entries,
     loading,
     error,
     save,
     clearAll,
+    remove,
   }
 }

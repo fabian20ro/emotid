@@ -104,6 +104,11 @@ contract as an unchecked cast or duplicate partial property checks.
 
 ## Testing & Quality
 
+**[2026-09-05]** Final browser evidence needs an unchanged candidate - Editing imported product
+files during a Vite-backed suite can reload active journeys and mimic navigation or persistence
+failures. Freeze product code for the final run; rerun the complete affected suite after any edit.
+Do not weaken assertions to accommodate development-server reloads.
+
 **[2026-08-19]** Set document language before mounting localized UI — Applying `html.lang` in a
 React effect lets the first localized DOM commit occur under the static fallback language. Chrome
 and TalkBack may retain that initial language for headings and controls even after the effect runs.

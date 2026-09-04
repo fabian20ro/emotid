@@ -148,7 +148,7 @@ test.describe('Reflection persistence trust', () => {
     await openApp(page)
     await completeQuick(page, 'anxiety')
 
-    await expect(page.locator('.session-save-status')).toContainText('latest selection has not been saved yet')
+    await expect(page.locator('.session-save-status')).toContainText('latest changes have not been saved yet')
     await page.getByRole('button', { name: 'Try saving again' }).click()
     await expect(page.locator('.session-save-status')).toContainText('Reflection saved')
     await expect.poll(() => putAttempts(page)).toBe(2)
@@ -171,10 +171,10 @@ test.describe('Reflection persistence trust', () => {
     await expect(page.locator('.session-save-status')).toContainText('Saving your reflection')
     await expect.poll(() => putAttempts(page)).toBe(1)
     await page.clock.fastForward(SESSION_WRITE_TIMEOUT_MS)
-    await expect(page.locator('.session-save-status')).toContainText('latest selection has not been saved yet')
+    await expect(page.locator('.session-save-status')).toContainText('latest changes have not been saved yet')
 
     await page.getByRole('button', { name: 'Try saving again' }).click()
-    await expect(page.locator('.session-save-status')).toContainText('latest selection has not been saved yet')
+    await expect(page.locator('.session-save-status')).toContainText('latest changes have not been saved yet')
     await expect.poll(() => putAttempts(page)).toBe(1)
 
     await page.evaluate(() => (window as InstrumentedWindow).__releaseSessionTransactions())
@@ -200,7 +200,7 @@ test.describe('Reflection persistence trust', () => {
     await openApp(page, { language: 'ro' })
     await completeQuick(page, 'anxiety')
 
-    await expect(page.locator('.session-save-status')).toContainText('nu a fost încă salvată')
+    await expect(page.locator('.session-save-status')).toContainText('nu au fost încă salvate')
     await page.getByRole('button', { name: 'Gata pentru acum' }).click()
     await expect(page.getByRole('heading', { name: 'Această reflecție nu a fost salvată' })).toBeVisible()
     await expect(page.getByTestId('reflection-save-error-screen')).toContainText('Nu s-a trimis nimic online')
@@ -234,6 +234,7 @@ test.describe('Reflection persistence trust', () => {
     await expect(page.locator('.session-save-status')).toContainText('Reflection saved')
 
     await page.getByRole('button', { name: 'Back' }).click()
+    await page.getByRole('button', { name: 'Back one level' }).click()
     await page.getByRole('button', { name: 'Explore more specific words under Sad' }).click()
     await page.getByRole('button', { name: 'Continue with Sad' }).click()
     await expect(page.locator('.session-save-status')).toContainText('Reflection saved')
@@ -260,12 +261,13 @@ test.describe('Reflection persistence trust', () => {
     )).toBe(1)
 
     await page.getByRole('button', { name: 'Back' }).click()
+    await page.getByRole('button', { name: 'Back one level' }).click()
     await page.getByRole('button', { name: 'Explore more specific words under Sad' }).click()
     await page.getByRole('button', { name: 'Continue with Sad' }).click()
     await expect(page.locator('.session-save-status')).toContainText('Saving your reflection')
     await page.evaluate(() => (window as InstrumentedWindow).__releaseSessionTransactions())
     await expect.poll(() => putAttempts(page)).toBe(2)
-    await expect(page.locator('.session-save-status')).toContainText('latest selection has not been saved yet')
+    await expect(page.locator('.session-save-status')).toContainText('latest changes have not been saved yet')
 
     await page.getByRole('button', { name: 'Done for now' }).click()
     const errorScreen = page.getByTestId('reflection-save-error-screen')

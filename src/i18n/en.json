@@ -60,6 +60,28 @@
     "backMapLabel": "Back of body"
   },
   "granularity": {
+    "contrasts": {
+      "anxiety-scale": {
+        "meaning": "Anxiety can be a broad unease about what might happen. Apprehension often points to a particular event you are uneasy about. Fear can feel more immediate, around a perceived threat. These words overlap; they are not a fixed intensity ladder.",
+        "example": "Before a meeting, you might call the uncertain waiting anxiety or apprehension; a sudden threatening shout might bring fear."
+      },
+      "anger-scale": {
+        "meaning": "Annoyance often names irritation. Anger can be a stronger response to frustration or a crossed boundary. Rage usually names very intense anger. The word describes a feeling, not permission or a prediction to act.",
+        "example": "Repeated interruptions might feel annoying, unfair treatment might bring anger, and an overwhelming surge might feel like rage."
+      },
+      "sadness-scale": {
+        "meaning": "Sadness can accompany disappointment or loss. Grief often centers on a meaningful loss. Despair can include a sense that nothing will improve. They are not stages everyone goes through, and duration alone does not decide the word.",
+        "example": "A canceled visit might bring sadness; missing someone who has died may be grief. Despair names felt hopelessness, not a fact about the future."
+      },
+      "self-evaluation": {
+        "meaning": "Guilt often focuses on something you did or believe you should have done. Shame can turn that judgment toward your whole self. Remorse can add sorrow about harm and a wish to repair it. Feeling guilty does not prove responsibility.",
+        "example": "After a harsh remark: 'I wish I had not said that' may be guilt; 'I am awful' may be shame; wanting to acknowledge the hurt may involve remorse."
+      },
+      "future-orientation": {
+        "meaning": "Interest draws your attention to something. Curiosity adds a wish to explore or understand. Anticipation looks ahead to an expected event and may feel pleasant, uneasy, or mixed. These can happen together.",
+        "example": "A new subject catches your interest; asking how it works expresses curiosity; waiting for the next class may bring anticipation."
+      }
+    },
     "eyebrow": "Word practice",
     "title": "Notice the difference",
     "lede": "Choose a word or choose not sure. Each answer opens a short distinction.",
@@ -84,6 +106,22 @@
     "close": "Close"
   },
   "chainAnalysis": {
+    "detailTitle": "Saved reflection",
+    "newEntry": "Write a new reflection",
+    "readEntries": "Read saved reflections",
+    "emptyEntries": "No saved exercises yet.",
+    "deleteOne": "Delete this exercise",
+    "deleteOneTitle": "Delete this exercise?",
+    "deleteOneBody": "Only this exercise will be removed. This cannot be undone.",
+    "legacyFields": {
+      "triggeringEvent": "Triggering event",
+      "vulnerabilityFactors": "Context",
+      "promptingEvent": "What happened next",
+      "emotion": "Emotion",
+      "urge": "Urge",
+      "action": "Action",
+      "consequence": "What followed"
+    },
     "eyebrow": "Journal exercise",
     "title": "Unpack a moment",
     "prompt": "Start with what happened. Add only the details that feel useful.",
@@ -224,6 +262,9 @@
     "continue": "Reflect on these words"
   },
   "wordLadder": {
+    "meaning": "Meaning of this word",
+    "meanings": "Meanings of these words",
+    "stateNotPerson": "A difficult state, not a judgment of you",
     "eyebrow": "Word Ladder",
     "title": "Move toward a closer word",
     "lede": "Start broad. You may stop at any level when a word feels close enough.",
@@ -258,6 +299,9 @@
     "continue": "Reflect on this combination"
   },
   "reflectionScreen": {
+    "chooseWords": "Which words fit?",
+    "namedSynthesis": "You chose: {words}. You can keep or revise your choice.",
+    "chooseWordsHint": "Optional. Choose individual words, or leave them unconfirmed.",
     "eyebrow": "A possibility, not a verdict",
     "title": "What seems to fit?",
     "briefSynthesis": "may be close. Keep only what fits your experience.",
@@ -349,6 +393,7 @@
     }
   },
   "sessionDetail": {
+    "originalSuggestions": "Original suggestions",
     "title": "Saved reflection",
     "felt": "What you named",
     "bodySignals": "Body signals",

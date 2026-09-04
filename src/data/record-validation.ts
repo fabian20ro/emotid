@@ -38,6 +38,7 @@ function isResult(value: unknown): value is AnalysisResult {
 
 function isSession(value: unknown): value is Session {
   if (!isRecord(value)) return false
+  const results = value.results
   const crisisTiers = ['none', 'tier1', 'tier2', 'tier3', 'tier4']
   const reflectionAnswers = [undefined, 'yes', 'partly', 'no']
   const interventionResponses = [undefined, 'better', 'same', 'worse']
@@ -46,18 +47,24 @@ function isSession(value: unknown): value is Session {
     && isFiniteNumber(value.timestamp)
     && isString(value.modelId)
     && Array.isArray(value.selections) && value.selections.every(isSelection)
-    && Array.isArray(value.results) && value.results.every(isResult)
+    && Array.isArray(results) && results.every(isResult)
     && crisisTiers.includes(String(value.crisisTier))
     && reflectionAnswers.includes(value.reflectionAnswer as undefined | string)
     && interventionResponses.includes(value.interventionResponse as undefined | string)
     && entryRoutes.includes(value.entryRoute as undefined | string)
     && isOptionalString(value.selectedNeed)
     && isOptionalString(value.nextStep)
+    && (value.selectedResultIds === undefined || (
+      Array.isArray(value.selectedResultIds)
+      && new Set(value.selectedResultIds).size === value.selectedResultIds.length
+      && value.selectedResultIds.every((id) => isString(id) && results.some((result: AnalysisResult) => result.id === id))
+    ))
     && (value.outcome === undefined || (
       value.outcome === 'body-observation' && value.entryRoute === 'body'
+      && value.modelId === 'somatic'
       && value.crisisTier === 'none' && value.reflectionAnswer === undefined
       && value.selectedNeed === undefined && value.nextStep === undefined
-      && value.results.length === 0 && value.selections.length > 0
+      && results.length === 0 && value.selections.length > 0
       && value.selections.every((selection) => SENSATION_TYPES.some((type) => type === selection.extras?.sensationType)
         && typeof selection.extras?.intensity === 'number' && [1, 2, 3].includes(selection.extras.intensity))
     ))

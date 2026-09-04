@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useRef, useState, type FormEvent } from 'react'
 import { Trash2 } from 'lucide-react'
 import { useLanguage } from '../context/LanguageContext'
 import { ScreenHeader } from './ScreenHeader'
@@ -6,6 +6,7 @@ import { ModalShell } from './ModalShell'
 import { useFocusTrap } from '../hooks/useFocusTrap'
 import type { ChainAnalysisEntry, ChainReflectionEntry } from '../data/types'
 import { getChainEntryPreview } from '../data/chain-presentation'
+import { focusDestination } from '../utils/focusDestination'
 
 type ReflectionField = 'situation' | 'noticed' | 'response' | 'outcome'
 type ReflectionFields = Pick<ChainReflectionEntry, ReflectionField>
@@ -25,6 +26,8 @@ const FIELDS: { id: ReflectionField; required: boolean }[] = [
 ]
 
 interface ChainAnalysisProps {
+  initialView?: 'entries'
+  onDelete?: (id: string) => Promise<void>
   isOpen: boolean
   onClose: () => void
   entries: ChainAnalysisEntry[]
@@ -40,9 +43,18 @@ export function ChainAnalysis({
   loading,
   onSave,
   onClearAll,
+  initialView,
+  onDelete,
 }: ChainAnalysisProps) {
   const { section, language } = useLanguage()
   const chainT = section('chainAnalysis')
+  const [showEntries, setShowEntries] = useState(initialView === 'entries')
+  const [selectedId, setSelectedId] = useState<string | null>(null)
+  const selectedEntry = entries.find((entry) => entry.id === selectedId)
+  const headingRef = useRef<HTMLDivElement>(null)
+  useLayoutEffect(() => {
+    focusDestination(headingRef.current?.querySelector<HTMLElement>('#screen-title') ?? null)
+  }, [selectedId, showEntries])
   const [fields, setFields] = useState<ReflectionFields>(EMPTY_FIELDS)
   const [saved, setSaved] = useState(false)
   const [saving, setSaving] = useState(false)
@@ -71,7 +83,6 @@ export function ChainAnalysis({
     }
   }, [isOpen])
 
-  const recentEntries = useMemo(() => entries.slice(0, 3), [entries])
   const canSave = fields.situation.trim().length > 0 && !saving
 
   const saveEntry = async (event: FormEvent) => {
@@ -104,7 +115,9 @@ export function ChainAnalysis({
     setClearing(true)
     setClearError(false)
     try {
-      await onClearAll()
+      if (selectedId && onDelete) await onDelete(selectedId)
+      else await onClearAll()
+      setSelectedId(null)
       setConfirmOpen(false)
     } catch {
       setClearError(true)
@@ -116,10 +129,22 @@ export function ChainAnalysis({
   if (!isOpen) return null
 
   return (
-    <div className="screen guided-screen" data-testid="chain-screen">
-      <ScreenHeader onBack={onClose} eyebrow={chainT.eyebrow} title={chainT.title} lede={chainT.prompt} />
+    <div ref={headingRef} className="screen guided-screen" data-testid="chain-screen">
+      <ScreenHeader onBack={selectedId ? () => setSelectedId(null) : onClose} eyebrow={chainT.eyebrow} title={selectedEntry ? chainT.detailTitle : showEntries ? chainT.recent : chainT.title} lede={selectedEntry ? new Date(selectedEntry.timestamp).toLocaleString(language) : showEntries ? undefined : chainT.prompt} />
 
-      {!saved ? (
+      {selectedEntry ? <section data-testid="chain-entry-detail">
+        <dl className="detail-list">
+          {('version' in selectedEntry
+            ? FIELDS.map(({ id }) => ({ label: chainT[id], value: selectedEntry[id] }))
+            : (['triggeringEvent', 'vulnerabilityFactors', 'promptingEvent', 'emotion', 'urge', 'action', 'consequence'] as const).map((id) => ({ label: chainT.legacyFields[id], value: selectedEntry[id] }))
+          ).filter((field) => field.value).map((field) => <div key={field.label}><dt>{field.label}</dt><dd style={{ whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}>{field.value}</dd></div>)}
+        </dl>
+        {onDelete && <button ref={clearTriggerRef} type="button" className="danger-button" onClick={() => setConfirmOpen(true)}><Trash2 size={18} aria-hidden="true" />{chainT.deleteOne}</button>}
+      </section> : <>
+      {(entries.length > 0 || showEntries) && <button type="button" className="secondary-button" onClick={() => { if (showEntries) setFields(EMPTY_FIELDS); setShowEntries(!showEntries); setSaved(false) }}>{showEntries ? chainT.newEntry : chainT.readEntries}</button>}
+      {showEntries && !loading && entries.length === 0 && <p className="muted">{chainT.emptyEntries}</p>}
+
+      {!showEntries && (!saved ? (
         <form className="chain-form" onSubmit={(event) => { void saveEntry(event) }}>
           {FIELDS.map(({ id, required }) => (
             <label className="chain-field" key={id} htmlFor={`chain-${id}`}>
@@ -146,28 +171,29 @@ export function ChainAnalysis({
           <p>{chainT.saved}</p>
           <button type="button" onClick={onClose} className="primary-button">{chainT.done}</button>
         </section>
-      )}
+      ))}
 
-      {!loading && recentEntries.length > 0 && (
-        <section className="guided-recent" aria-labelledby="recent-chains-title">
+      {!loading && entries.length > 0 && (
+        <section className="guided-recent" aria-labelledby={showEntries ? 'screen-title' : 'recent-chains-title'}>
           <div className="guided-recent-heading">
-            <h2 id="recent-chains-title">{chainT.recent}</h2>
+            {!showEntries && <h2 id="recent-chains-title">{chainT.recent}</h2>}
             <button ref={clearTriggerRef} type="button" onClick={() => setConfirmOpen(true)} className="text-button danger-text">{chainT.clear}</button>
           </div>
           <div className="guided-recent-list">
-            {recentEntries.map((entry) => {
+            {entries.map((entry) => {
               const preview = getChainEntryPreview(entry)
               return (
-                <div key={entry.id}>
+                <button type="button" key={entry.id} onClick={() => { setSelectedId(entry.id); setShowEntries(true) }}>
                   <small>{new Date(entry.timestamp).toLocaleString(language === 'ro' ? 'ro-RO' : 'en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</small>
                   <strong>{preview.title}</strong>
                   {preview.detail && <span>{preview.detail}</span>}
-                </div>
+                </button>
               )
             })}
           </div>
         </section>
       )}
+      </>}
 
       {confirmOpen && (
         <ModalShell
@@ -185,14 +211,14 @@ export function ChainAnalysis({
             transition: { duration: 0.14 },
           }}
         >
-          <h2 id="clear-chain-title">{chainT.confirmTitle}</h2>
-          <p id="clear-chain-description">{chainT.confirmBody}</p>
+          <h2 id="clear-chain-title">{selectedId ? chainT.deleteOneTitle : chainT.confirmTitle}</h2>
+          <p id="clear-chain-description">{selectedId ? chainT.deleteOneBody : chainT.confirmBody}</p>
           {clearError && <p className="privacy-feedback" role="alert">{chainT.clearError}</p>}
           <div className="confirm-dialog-actions">
             <button ref={cancelRef} type="button" className="secondary-button" disabled={clearing} onClick={closeConfirm}>{chainT.cancel}</button>
             <button type="button" className="danger-button" disabled={clearing} onClick={() => { void clearEntries() }}>
               <Trash2 size={18} aria-hidden="true" />
-              {clearing ? chainT.clearing : chainT.confirmAction}
+              {clearing ? chainT.clearing : selectedId ? chainT.deleteOne : chainT.confirmAction}
             </button>
           </div>
         </ModalShell>

@@ -60,6 +60,28 @@
     "backMapLabel": "Partea din spate a corpului"
   },
   "granularity": {
+    "contrasts": {
+      "anxiety-scale": {
+        "meaning": "Anxietatea poate fi o neliniște difuză despre ce s-ar putea întâmpla. Îngrijorarea se poate lega de un eveniment anume pe care îl aștepți cu neliniște. Frica poate apărea în fața unei amenințări percepute ca imediată. Sensurile se suprapun; nu formează o scară fixă de intensitate.",
+        "example": "Înaintea unei întâlniri, așteptarea incertă poate fi anxietate sau îngrijorare; un strigăt amenințător și neașteptat poate aduce frică."
+      },
+      "anger-scale": {
+        "meaning": "Iritarea poate numi o supărare ușoară. Furia poate fi o reacție mai puternică la frustrare sau la încălcarea unei limite. Mânia numește aici o furie foarte intensă. Cuvântul descrie starea, nu o permisiune sau o predicție de a acționa.",
+        "example": "Întreruperile repetate pot aduce iritare, un tratament nedrept poate aduce furie, iar un val copleșitor de furie poate fi trăit ca mânie."
+      },
+      "sadness-scale": {
+        "meaning": "Tristețea poate însoți dezamăgirea sau pierderea. Durerea sufletească se poate lega de o pierdere importantă. Disperarea poate include senzația că nimic nu se va îmbunătăți. Nu sunt etape obligatorii, iar durata nu decide singură cuvântul.",
+        "example": "O vizită anulată poate aduce tristețe; dorul de cineva care a murit poate face parte din doliu. Disperarea numește lipsa de speranță simțită, nu un fapt despre viitor."
+      },
+      "self-evaluation": {
+        "meaning": "Vinovăția se poate lega de ceva ce ai făcut sau crezi că trebuia să faci. Rușinea poate îndrepta judecata spre tine ca persoană. Remușcarea poate adăuga părerea de rău pentru un rău făcut și dorința de a repara. Sentimentul de vinovăție nu dovedește responsabilitatea.",
+        "example": "După o vorbă aspră: «Aș fi vrut să nu spun asta» poate fi vinovăție; «Sunt groaznic» poate fi rușine; dorința de a recunoaște suferința provocată poate ține de remușcare."
+      },
+      "future-orientation": {
+        "meaning": "Interesul îți atrage atenția spre ceva. Curiozitatea adaugă dorința de a explora sau de a înțelege. Anticiparea privește spre un eveniment așteptat și poate fi plăcută, neliniștitoare sau mixtă. Aceste stări pot apărea împreună.",
+        "example": "Un subiect nou îți trezește interesul; întrebarea despre cum funcționează exprimă curiozitate; așteptarea următorului curs poate aduce anticipare."
+      }
+    },
     "eyebrow": "Exercițiu de vocabular",
     "title": "Observă diferențele",
     "lede": "Alege un cuvânt sau spune că nu știi încă. Fiecare răspuns deschide o diferență scurtă.",
@@ -84,6 +106,22 @@
     "close": "Închide"
   },
   "chainAnalysis": {
+    "detailTitle": "Reflecție salvată",
+    "newEntry": "Scrie o reflecție nouă",
+    "readEntries": "Citește reflecțiile salvate",
+    "emptyEntries": "Nu ai încă exerciții salvate.",
+    "deleteOne": "Șterge acest exercițiu",
+    "deleteOneTitle": "Ștergi acest exercițiu?",
+    "deleteOneBody": "Doar acest exercițiu va fi șters. Acțiunea nu poate fi anulată.",
+    "legacyFields": {
+      "triggeringEvent": "Eveniment declanșator",
+      "vulnerabilityFactors": "Contextul momentului",
+      "promptingEvent": "Ce s-a întâmplat apoi",
+      "emotion": "Emoție",
+      "urge": "Impuls",
+      "action": "Acțiune",
+      "consequence": "Ce a urmat"
+    },
     "eyebrow": "Exercițiu de jurnal",
     "title": "Privește un moment pas cu pas",
     "prompt": "Începe cu ce s-a întâmplat. Adaugă doar detaliile care îți sunt utile.",
@@ -224,6 +262,9 @@
     "continue": "Reflectează la aceste cuvinte"
   },
   "wordLadder": {
+    "meaning": "Sensul acestui cuvânt",
+    "meanings": "Sensurile acestor cuvinte",
+    "stateNotPerson": "O stare dificilă, nu o judecată despre tine",
     "eyebrow": "Scara cuvintelor",
     "title": "Apropie-te de un cuvânt potrivit",
     "lede": "Începe general. Te poți opri la orice nivel când un cuvânt este suficient de apropiat.",
@@ -258,6 +299,9 @@
     "continue": "Reflectează la această combinație"
   },
   "reflectionScreen": {
+    "chooseWords": "Ce cuvinte se potrivesc?",
+    "namedSynthesis": "Ai ales: {words}. Poți păstra sau schimba alegerea.",
+    "chooseWordsHint": "Opțional. Alege cuvintele potrivite sau lasă sugestiile neconfirmate.",
     "eyebrow": "O posibilitate, nu un verdict",
     "title": "Ce pare să se potrivească?",
     "briefSynthesis": "ar putea fi aproape. Păstrează doar ce se potrivește experienței de acum.",
@@ -349,6 +393,7 @@
     }
   },
   "sessionDetail": {
+    "originalSuggestions": "Sugestiile inițiale",
     "title": "Reflecție salvată",
     "felt": "Ce ai numit",
     "bodySignals": "Semnale corporale",

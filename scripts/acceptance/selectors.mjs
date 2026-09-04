@@ -8,6 +8,7 @@ export const ACCEPTANCE_HOOKS = Object.freeze({
 })
 
 export const ACCEPTANCE_SELECTORS = Object.freeze({
+  guideAllRoutes: '.guide-all-routes',
   todayGuidedEntry: `[data-testid="${ACCEPTANCE_HOOKS.todayGuidedEntry}"]`,
   onboardingDialog: `[data-testid="${ACCEPTANCE_HOOKS.onboardingDialog}"]`,
   onboardingHeading: `[data-testid="${ACCEPTANCE_HOOKS.onboardingHeading}"]`,

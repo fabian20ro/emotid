@@ -34,7 +34,7 @@ function formatRomanianList(items: string[]): string {
 export const synthesisCopy: Record<SynthesisLanguage, SynthesisCopy> = {
   en: {
     singleClear: (name) =>
-      `${name} is the closest match among these suggestions. Notice whether that word fits your experience.`,
+      `${name} is one possible word. Notice whether it fits your experience.`,
     singleHighIntensity: (name) =>
       `${name} sits near the high-energy end of this result. It may describe something that feels especially present right now.`,
     singleLowIntensity: (name) =>
@@ -66,7 +66,7 @@ export const synthesisCopy: Record<SynthesisLanguage, SynthesisCopy> = {
   },
   ro: {
     singleClear: (name) =>
-      `${name} este cea mai apropiată potrivire dintre aceste sugestii. Observă dacă acest cuvânt se potrivește experienței tale.`,
+      `${name} este un cuvânt posibil. Observă dacă se potrivește experienței tale.`,
     singleHighIntensity: (name) =>
       `${name} apare în zona cu energie ridicată a rezultatului. Poate descrie o trăire resimțită mai intens acum.`,
     singleLowIntensity: (name) =>

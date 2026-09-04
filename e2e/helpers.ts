@@ -17,6 +17,7 @@ export async function openApp(page: Page, options: { language?: 'en' | 'ro'; sav
 export async function openArrival(page: Page) {
   await page.getByRole('button', { name: /help me choose|ajută-mă să aleg/i }).click()
   await expect(page.getByTestId('arrival-screen')).toBeVisible()
+  await page.locator('.guide-all-routes').click()
 }
 
 export async function chooseWordOption(

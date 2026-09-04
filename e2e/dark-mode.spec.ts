@@ -104,13 +104,13 @@ test('keeps returning-user onboarding readable in dark mode', async ({ page }) =
   await page.goto('/')
   await expect(page.getByRole('dialog')).toBeVisible()
   await expectDarkScreen(page, 'Onboarding step 1')
+  const languageGroup = page.getByRole('group', { name: 'Language' })
+  await expect(languageGroup.getByRole('button', { name: 'English' })).toHaveAttribute('aria-pressed', 'true')
+  await expect(languageGroup.getByRole('button', { name: 'Română' })).toHaveAttribute('aria-pressed', 'false')
   await page.getByRole('button', { name: 'Next' }).click()
   await expectDarkScreen(page, 'Onboarding step 2')
   await page.getByRole('button', { name: 'Next' }).click()
   await expectDarkScreen(page, 'Onboarding step 3')
-  const languageGroup = page.getByRole('group', { name: 'Language' })
-  await expect(languageGroup.getByRole('button', { name: 'English' })).toHaveAttribute('aria-pressed', 'true')
-  await expect(languageGroup.getByRole('button', { name: 'Română' })).toHaveAttribute('aria-pressed', 'false')
 })
 
 test('keeps Romanian appearance labels inside their segments', async ({ page }) => {

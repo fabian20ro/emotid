@@ -325,6 +325,7 @@ async function measurePerformance(initialBrowser, initialPage) {
     for (const route of ['body', 'affect', 'words']) {
       await activate(page.getByTestId(ACCEPTANCE_HOOKS.todayGuidedEntry))
       await expectVisible(page.getByTestId('arrival-screen'), 'Arrival')
+      await activate(page.locator('.guide-all-routes'))
       const start = await page.evaluate(() => performance.now())
       await activate(page.getByTestId(`arrival-${route}`))
       await expectVisible(page.getByTestId(`${route}-screen`), `${route} screen`)

@@ -4,16 +4,8 @@ import {
   GRANULARITY_SETS,
   getGranularityLabel,
   getValidGranularitySets,
-  type GranularityDistinction,
 } from '../data/granularity-triads'
 import { ScreenHeader } from './ScreenHeader'
-
-const DISTINCTION_FALLBACKS: Record<GranularityDistinction, string> = {
-  intensity: 'These words can differ by emotional intensity, from mild to strong.',
-  duration: 'These words can differ by duration and perceived weight over time.',
-  focus: 'These words can differ by where attention turns: self, social image, or repair.',
-  time: 'These words can differ by time orientation: present interest, active exploration, or future readiness.',
-}
 
 type StepAnswer = string | 'not-sure'
 
@@ -32,7 +24,8 @@ export function GranularityTraining({ isOpen, onClose }: GranularityTrainingProp
   const { language, section } = useLanguage()
   const granularityT = section('granularity')
 
-  const validSets = useMemo(() => getValidGranularitySets(GRANULARITY_SETS), [])
+  const validSets = useMemo(() => getValidGranularitySets(GRANULARITY_SETS).filter((set) =>
+    Object.hasOwn(granularityT.contrasts, set.id)), [granularityT.contrasts])
   const totalSteps = validSets.length
 
   const [stepIndex, setStepIndex] = useState(0)
@@ -56,12 +49,7 @@ export function GranularityTraining({ isOpen, onClose }: GranularityTrainingProp
 
   const currentSet = validSets[stepIndex]
 
-  const distinctionTemplate =
-    (granularityT.distinctions as Partial<Record<GranularityDistinction, string>> | undefined)?.[currentSet?.distinction as GranularityDistinction]
-
-  const feedbackLine2 = currentSet
-    ? distinctionTemplate ?? DISTINCTION_FALLBACKS[currentSet.distinction]
-    : ''
+  const learning = granularityT.contrasts[currentSet?.id as keyof typeof granularityT.contrasts]
 
   const feedbackLine1 = currentAnswer && currentAnswer !== 'not-sure'
     ? formatTemplate(
@@ -119,6 +107,7 @@ export function GranularityTraining({ isOpen, onClose }: GranularityTrainingProp
             <progress value={stepIndex + 1} max={totalSteps} />
           </div>
           <h2 id="granularity-prompt">{granularityT.prompt ?? 'Which word feels closest?'}</h2>
+          {learning && <div className="practice-contrast"><p>{learning.meaning}</p><p>{learning.example}</p></div>}
           <div className="guided-options">
             {currentSet.options.map((option) => {
               const active = currentAnswer === option.id
@@ -135,7 +124,6 @@ export function GranularityTraining({ isOpen, onClose }: GranularityTrainingProp
           {currentAnswer && (
             <div className="guided-feedback" role="status" aria-live="polite">
               <strong>{feedbackLine1}</strong>
-              <p>{feedbackLine2}</p>
             </div>
           )}
           <div className="guided-primary-action">

@@ -2910,3 +2910,59 @@ low-tier device, participant, or native Safari claim was added.
 **Insight:** No new release abstraction was needed; the existing consistency gate and
 candidate-bound evidence ledger covered the patch.
 **Promoted to Lessons Learned:** No.
+
+### [2026-09-05] Direct UX and psychological audit of v0.1.6
+
+**Context:** Owner requested current major problems and a prioritized remediation plan, explicitly
+without subagents. Browser review began September 4.
+**What happened:** Inspected main source and traversed isolated Chromium mobile journeys in
+Romanian/light and English/dark, with complementary settings/theme and compact-width samples.
+Reproduced stale session identity overwriting a prior record, rejection lost through revision,
+empty revision drafts, a body completion button with no outcome, and journal exercise fields
+stored but unavailable for full readback. Production somatic analysis returned no suggestions
+for 64 of 183 exposed single-signal cases; no-suggestion is legitimate, silent completion is the
+defect. Recorded grouped-result agency, missing educational contrasts, and visual hierarchy
+concerns separately from measured behavior.
+**Outcome:** Added `docs/ux-psychology-audit-2026-09-04.md` as evidence and updated the active plan
+with ordered R1-R6 repairs and acceptance criteria. No product implementation, commit, push, or
+release performed. Existing external evidence waivers remain unchanged.
+**Verification:** Direct browser interactions, screenshots, source tracing, production analyzer
+enumeration, and repository readback of synthetic four-field exercise data. No full test-suite,
+physical speech, clinical, or participant validation claimed.
+**Insight:** Completed migration and happy-path trust tests do not establish persistence correctness
+on revision/exit paths or full readability of saved journal content.
+**Promoted to Lessons Learned:** No; existing lifecycle and behavioral-contract lessons cover this.
+
+### [2026-09-05] September R1-R6 implementation and verification
+
+**Context:** Owner authorized implementation, comprehensive verification, and publication to live.
+**Changes:** Fixed new quick-entry identity; retained workflow drafts and immediate fit corrections;
+kept pending committed writes independent of new drafts and guarded stale exits. Added validated
+observation-only body completion without changing scoring. Added full exercise readback and
+individual deletion. Added explicit per-result acceptance, shared result derivation for summaries,
+and unchanged emotion-name-only Google handoff. Added five bilingual learning contrasts/examples,
+a reviewed bittersweetness definition, pre-choice meanings and compact Word Ladder navigation.
+Moved introduction language choice to step one; opened guidance directly and retained its step
+in browser history. Split the somatic selection guard from scoring to preserve lazy loading.
+**Discovered during verification:** Returning to a method menu incorrectly restarted the guide;
+fixed by recording its step. New drafts must not cancel already committed corrections; stale
+completion callbacks must not close a new session. Browser launch failures with WebKit Abort trap
+occurred under sandbox, before app load; rerun outside sandbox, not counted as product evidence.
+**Verification so far:** Focused Chromium/WebKit new identity, rejection/revision, body observation,
+gratitude-only AI handoff and EN/RO four-entry readback passed. All exposed 183 body combinations
+are covered (64 empty). Complete product policy/unit/build/budget gate passed; full final browser,
+PWA/performance and hosted publication checks still running. Visual RO/light 393x742 inspection
+shows continuation plus three complete child choices. Final outcomes recorded after completion.
+**Scope:** No backend, telemetry, new outbound behavior, scoring threshold or crisis-tier change.
+No new native speech, physical device, participant or clinical-efficacy claim.
+
+**Final local verification:** `npm run check` passed: 90 files / 710 tests, policy, lint, build,
+and budgets (initial JS 149,037 gzip bytes / 150,000 limit). All 298 Chromium/WebKit journeys
+passed against the unchanged production build, including EN/RO x light/dark and enlarged text.
+Production offline/update preservation and route performance each passed. Development-backed
+attempts were invalidated by Fast Refresh reloads, including a LanguageContext invalidation;
+release CI now explicitly uses production preview. Native adapters and their selector contract
+follow direct guidance and first-step language placement; no native execution is claimed.
+The exact pushed candidate must pass hosted build, Pages deployment and public smoke before
+publication is reported. Next work: bounded reviewed definitions, not a new architecture.
+**Promoted to Lessons Learned:** Final browser verification needs an unchanged candidate.

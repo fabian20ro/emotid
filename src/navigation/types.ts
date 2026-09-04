@@ -8,6 +8,7 @@ export type ReflectionSaveOutcome = 'saved' | 'not-saved'
 export type SessionSaveState = 'saving' | 'saved' | 'error' | 'disabled'
 
 export interface ReflectionDetail {
+  selectedResultIds?: string[]
   reflectionAnswer?: ReflectionAnswer
   selectedNeed?: string
   nextStep?: string
@@ -15,7 +16,7 @@ export interface ReflectionDetail {
 
 export type AppDestination =
   | { name: AppTab }
-  | { name: 'arrival' }
+  | { name: 'arrival'; guideStep?: 'closed' | 'body' | 'placement' }
   | { name: 'check-in'; route: Exclude<CheckInRoute, 'quick'> }
   | { name: 'reflection' }
   | { name: 'session'; sessionId: string }
@@ -23,7 +24,7 @@ export type AppDestination =
   | { name: 'privacy' }
   | { name: 'support' }
   | { name: 'granularity' }
-  | { name: 'chain' }
+  | { name: 'chain'; view?: 'entries' }
 
 export interface CheckInCompletion {
   outcome?: 'body-observation'

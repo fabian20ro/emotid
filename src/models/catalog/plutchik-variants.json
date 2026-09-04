@@ -243,6 +243,11 @@
       "en": "bittersweetness"
     },
     "color": "#C8A8D8",
+    "description": {
+      "en": "Bittersweetness can mean pleasure and sadness present together, such as enjoying a farewell while missing what is ending. Neither feeling has to cancel the other.",
+      "ro": "Starea dulce-amăruie poate însemna bucurie și tristețe trăite împreună, ca atunci când te bucuri de o despărțire frumoasă, dar îți lipsește ce se încheie. Cele două stări nu trebuie să se anuleze."
+    },
+    "descriptionStatus": "reviewed",
     "guidance": {
       "status": "reviewed",
       "needId": null

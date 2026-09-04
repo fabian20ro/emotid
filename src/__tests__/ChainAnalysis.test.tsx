@@ -67,7 +67,7 @@ describe('ChainAnalysis', () => {
     })
   })
 
-  it('keeps legacy seven-field records readable without rewriting them', () => {
+  it('keeps legacy seven-field records readable without rewriting them', async () => {
     const legacyEntry = {
       id: 'legacy-1',
       timestamp: Date.now(),
@@ -83,7 +83,28 @@ describe('ChainAnalysis', () => {
 
     expect(screen.getByText('anxiety')).toBeInTheDocument()
     expect(screen.getByText('felt steadier')).toBeInTheDocument()
+    await userEvent.setup().click(screen.getByRole('button', { name: /anxiety.*felt steadier/i }))
+    for (const text of ['message', 'little sleep', 'feedback', 'anxiety', 'avoid', 'paused', 'felt steadier']) {
+      expect(screen.getByText(text, { exact: true })).toBeInTheDocument()
+    }
     expect(legacyEntry).not.toHaveProperty('version')
+  })
+
+  it('keeps an individual exercise open when deletion fails and never falls back to bulk deletion', async () => {
+    const onDelete = vi.fn().mockRejectedValue(new Error('disk unavailable'))
+    const onClearAll = vi.fn()
+    renderChain({ initialView: 'entries', onDelete, onClearAll, entries: [{
+      id: 'one', timestamp: Date.now(), version: 2,
+      situation: 'A distinct moment', noticed: 'Tension', response: 'Paused', outcome: 'More time',
+    }] })
+    const user = userEvent.setup()
+    await user.click(screen.getByRole('button', { name: /A distinct moment/ }))
+    await user.click(screen.getByRole('button', { name: 'Delete this exercise', exact: true }))
+    await user.click(screen.getByRole('dialog').querySelector('button.danger-button')!)
+    expect(await screen.findByRole('alert')).toBeInTheDocument()
+    expect(onDelete).toHaveBeenCalledWith('one')
+    expect(onClearAll).not.toHaveBeenCalled()
+    expect(screen.getByText('Tension')).toBeInTheDocument()
   })
 
   it('shows a new reflection preview using factual entered text', () => {

@@ -9,7 +9,8 @@ import type {
 } from '../../../navigation/types'
 import { buildCheckInCompletion } from './build-completion'
 import { createCheckInDraft } from './draft'
-import { isCompleteSomaticSelection } from '../../../models/somatic/scoring'
+import { isCompleteSomaticSelection } from '../../../models/somatic/selection'
+import { MODEL_IDS } from '../../../models/constants'
 import {
   checkInWorkflowReducer,
   INITIAL_CHECK_IN_WORKFLOW_STATE,
@@ -63,7 +64,8 @@ export function useCheckInWorkflow({
   }, [saveSession])
 
   const reset = useCallback(() => {
-    writeCoordinatorRef.current?.resetGeneration()
+    // A new draft must not cancel an already committed observation/correction.
+    // Destructive resets still pause, cancel and drain the coordinator below.
     activeSessionRef.current = null
     setCurrentSession(null)
     setDraft(createCheckInDraft())
@@ -111,7 +113,7 @@ export function useCheckInWorkflow({
     results: AnalysisResult[],
     intent: 'new' | 'revision' = 'revision',
   ) => {
-    const observationOnly = route === 'body' && selections.every(isCompleteSomaticSelection)
+    const observationOnly = route === 'body' && modelId === MODEL_IDS.SOMATIC && selections.every(isCompleteSomaticSelection)
     if (selections.length === 0 || (results.length === 0 && !observationOnly) || completionInFlightRef.current) {
       return false
     }
@@ -124,9 +126,18 @@ export function useCheckInWorkflow({
       completion,
       existing ? { id: existing.id, timestamp: existing.timestamp } : undefined,
     )
-    if (existing?.reflectionAnswer) session = addReflectionDetail(session, {
-      reflectionAnswer: existing.reflectionAnswer,
-    })
+    if (existing?.reflectionAnswer && !completion.outcome) {
+      const selectedResultIds = existing.selectedResultIds?.filter((id) => results.some((result) => result.id === id))
+      const reflectionAnswer = selectedResultIds === undefined ? existing.reflectionAnswer
+        : selectedResultIds.length === 0 ? 'no' : selectedResultIds.length === results.length ? 'yes' : 'partly'
+      session = addReflectionDetail(session, { reflectionAnswer, selectedResultIds })
+      draft.set('fit', reflectionAnswer)
+      draft.set('selectedResultIds', selectedResultIds)
+    }
+    if (completion.outcome) {
+      draft.set('fit', undefined)
+      draft.set('selectedResultIds', undefined)
+    }
     activeSessionRef.current = session
     setCurrentSession(session)
     dispatch({ type: 'completed', completion, saveEnabled: saveSessions })
@@ -136,7 +147,7 @@ export function useCheckInWorkflow({
       completionInFlightRef.current = false
     }, 0)
     return true
-  }, [onShowReflection, persistBaseSession, reset, saveSessions])
+  }, [draft, onShowReflection, persistBaseSession, reset, saveSessions])
 
   const saveReflection = useCallback(async (
     detail: ReflectionDetail,
@@ -169,9 +180,10 @@ export function useCheckInWorkflow({
   }, [persistBaseSession])
 
   const finish = useCallback(() => {
+    if (currentSession?.id !== activeSessionRef.current?.id) return
     reset()
     onReturnToday()
-  }, [onReturnToday, reset])
+  }, [currentSession?.id, onReturnToday, reset])
 
   const runExclusiveReset = useCallback(async (action: () => Promise<void>) => {
     completionInFlightRef.current = true

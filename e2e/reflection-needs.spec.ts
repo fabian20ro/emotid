@@ -62,7 +62,7 @@ test('reveals a newly reviewed Quick need only after explicit exploration', asyn
   await expect(page.getByRole('heading', { name: 'A possible meaning' })).toBeVisible()
   const description = page.getByText(/mobilized energy around a perceived obstacle/i)
   await expect(description).toHaveCount(1)
-  await page.getByText('More context').click()
+  await expect(page.getByText('More context')).toHaveCount(0)
   await expect(description).toHaveCount(1)
 })
 

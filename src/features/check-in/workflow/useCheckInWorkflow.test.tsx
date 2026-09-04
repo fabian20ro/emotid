@@ -32,6 +32,30 @@ function renderWorkflow(
 }
 
 describe('useCheckInWorkflow', () => {
+  it('finishes pending corrections across a new check-in without letting the old exit close the new one', async () => {
+    let release!: () => void
+    const save = vi.fn<(session: Session) => Promise<void>>()
+      .mockResolvedValueOnce(undefined)
+      .mockImplementationOnce(() => new Promise((resolve) => { release = resolve }))
+      .mockResolvedValue(undefined)
+    const { result, onReturnToday } = renderWorkflow(save)
+    act(() => { result.current.complete('quick', 'quick-check-in', [selection], [analysis]) })
+    await waitFor(() => expect(save).toHaveBeenCalledOnce())
+    const oldFinish = result.current.finish
+    let detail!: Promise<unknown>
+    act(() => { detail = result.current.saveReflection({ reflectionAnswer: 'no' }) })
+    await waitFor(() => expect(save).toHaveBeenCalledTimes(2))
+    await new Promise((resolve) => setTimeout(resolve, 10))
+    act(() => { result.current.complete('quick', 'quick-check-in', [selection], [analysis], 'new') })
+    const newId = result.current.currentSession!.id
+    await act(async () => { release(); await detail; oldFinish() })
+    await waitFor(() => expect(save).toHaveBeenCalledTimes(3))
+    expect(save.mock.calls[1][0].reflectionAnswer).toBe('no')
+    expect(save.mock.calls[2][0].id).toBe(newId)
+    expect(result.current.currentSession?.id).toBe(newId)
+    expect(onReturnToday).not.toHaveBeenCalled()
+  })
+
   it('keeps the latest rejection in memory while writes are pending, and retries it after failure', async () => {
     let rejectDetail!: (error: Error) => void
     const save = vi.fn<(session: Session) => Promise<void>>()

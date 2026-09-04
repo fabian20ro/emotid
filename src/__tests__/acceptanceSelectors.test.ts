@@ -27,6 +27,7 @@ describe('native acceptance selector contract', () => {
       externalAiLink: 'external-ai-link',
     })
     expect(ACCEPTANCE_SELECTORS).toEqual({
+      guideAllRoutes: '.guide-all-routes',
       todayGuidedEntry: '[data-testid="today-guided-entry"]',
       onboardingDialog: '[data-testid="onboarding-dialog"]',
       onboardingHeading: '[data-testid="onboarding-heading"]',

@@ -66,6 +66,7 @@ async function findInstalledTarget(browser) {
 
 async function openWords(page) {
   await page.getByTestId('today-guided-entry').click()
+  await page.locator('.guide-all-routes').click()
   await page.getByTestId('arrival-words').click()
 }
 

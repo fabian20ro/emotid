@@ -3,6 +3,8 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { GranularityTraining } from '../components/GranularityTraining'
 import { LanguageProvider } from '../context/LanguageContext'
+import en from '../i18n/en.json'
+import ro from '../i18n/ro.json'
 
 function renderTraining(props: Partial<React.ComponentProps<typeof GranularityTraining>> = {}) {
   const defaults: React.ComponentProps<typeof GranularityTraining> = {
@@ -22,6 +24,22 @@ function renderTraining(props: Partial<React.ComponentProps<typeof GranularityTr
 }
 
 describe('GranularityTraining', () => {
+  for (const [language, copy] of [['en', en], ['ro', ro]] as const) {
+    it(`shows a distinct contrast and concrete example before each choice (${language})`, async () => {
+      localStorage.setItem('emot-id-language', language)
+      const user = userEvent.setup()
+      const { unmount } = renderTraining()
+      for (const contrast of Object.values(copy.granularity.contrasts)) {
+        expect(screen.getByText(contrast.meaning)).toBeInTheDocument()
+        expect(screen.getByText(contrast.example)).toBeInTheDocument()
+        await user.click(screen.getByRole('button', { name: copy.granularity.notSure }))
+        await user.click(screen.getByRole('button', { name: copy.granularity.continue }))
+      }
+      expect(screen.getByText(copy.granularity.completedTitle)).toBeInTheDocument()
+      unmount()
+      localStorage.clear()
+    })
+  }
   it('renders step progress and keeps continue disabled until a response is selected', () => {
     renderTraining()
 
@@ -44,7 +62,7 @@ describe('GranularityTraining', () => {
     await user.click(screen.getByRole('button', { name: 'anxiety' }))
 
     expect(screen.getByText(/You chose anxiety/i)).toBeInTheDocument()
-    expect(screen.getByText(/differ mostly by intensity/i)).toBeInTheDocument()
+    expect(screen.getByText(/not a fixed intensity ladder/i)).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Continue' })).toBeEnabled()
   })
 

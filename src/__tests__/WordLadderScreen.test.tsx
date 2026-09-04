@@ -18,6 +18,15 @@ function renderScreen() {
 }
 
 describe('WordLadderScreen', () => {
+  it('keeps an earlier selected word when finishing at another intermediate word', async () => {
+    const user = userEvent.setup()
+    const { onComplete } = renderScreen()
+    await user.click(screen.getByRole('button', { name: 'Explore more specific words under Happy' }))
+    await user.click(screen.getByRole('button', { name: 'Choose Happy as the answer' }))
+    await user.click(screen.getByRole('button', { name: 'Explore more specific words under Sad' }))
+    await user.click(screen.getByRole('button', { name: 'Continue with Sad' }))
+    expect(onComplete.mock.calls[0][1].map((emotion) => emotion.id)).toEqual(['happy', 'sad'])
+  })
   beforeEach(() => window.localStorage.clear())
 
   it('starts at broad words without showing a premature completion action', () => {
@@ -74,8 +83,7 @@ describe('WordLadderScreen', () => {
     await user.click(screen.getByRole('button', { name: 'Explore more specific words under Happy' }))
     await user.click(screen.getByRole('button', { name: 'Explore more specific words under Playful' }))
 
-    expect(screen.getByText('Any word in this path can be your answer.')).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Choose Playful as the answer' })).toHaveTextContent('Choose Playful as the answer')
+    expect(screen.getByRole('button', { name: 'Choose Playful as the answer' })).toHaveTextContent('Playful')
     expect(screen.getByText('This word can be your answer')).toBeInTheDocument()
     expect(screen.getByText('Or choose a more specific word below.')).toBeInTheDocument()
     expect(screen.getByRole('region', { name: 'This word can be your answer: Playful' })).toBeInTheDocument()

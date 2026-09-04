@@ -1,7 +1,6 @@
 import { useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { ArrowLeft, Check, ChevronDown, ExternalLink, HeartHandshake, Lightbulb, LoaderCircle, RotateCcw, TriangleAlert, X } from 'lucide-react'
 import { useLanguage } from '../context/LanguageContext'
-import { synthesize } from '../models/synthesis'
 import { CrisisBanner } from '../components/CrisisBanner'
 import { ScreenHeader } from '../components/ScreenHeader'
 import { buildGoogleAiSearchUrl } from '../utils/google-ai-search'
@@ -28,7 +27,9 @@ export function ReflectionScreen({ completion, allowExternalAI, saveState, sessi
   const t = section('reflectionScreen')
   const bodyT = section('bodyCompass')
   const analyzeT = section('analyze')
-  const results = completion.results
+  const [selectedResultIds, setSelectedResultIds] = useDraftState('selectedResultIds', undefined)
+  const results = useMemo(() => selectedResultIds === undefined ? completion.results
+    : completion.results.filter((result) => selectedResultIds.includes(result.id)), [completion.results, selectedResultIds])
   const needs = useMemo(
     () => [...new Set(results.map((result) => result.needs?.[language]).filter((need): need is string => Boolean(need)))],
     [language, results],
@@ -45,14 +46,15 @@ export function ReflectionScreen({ completion, allowExternalAI, saveState, sessi
   const restoreExplorationTriggerRef = useRef(false)
   const savingRef = useRef(false)
   const pendingDetailRef = useRef<ReflectionDetail | null>(null)
-  const synthesis = useMemo(() => synthesize(results, language), [results, language])
   const emotionNames = results.map((result) => result.label[language]).join(', ')
-  const briefSynthesis = `${emotionNames} ${t.briefSynthesis}`
+  const briefSynthesis = completion.route === 'quick' || completion.route === 'words'
+    ? t.namedSynthesis.replace('{words}', emotionNames)
+    : `${emotionNames} ${t.briefSynthesis}`
   const requiresAcknowledge = completion.crisisTier === 'tier4' && !tier4Acknowledged
   const rejected = fit === 'no'
   const nextStepOptions = [t.stepPause, t.stepWrite, t.stepConnect]
   const aiFitConfirmed = fit === 'yes' || fit === 'partly'
-  const aiLink = allowExternalAI && aiFitConfirmed
+  const aiLink = allowExternalAI && aiFitConfirmed && results.length > 0
     ? buildGoogleAiSearchUrl(results, language, analyzeT)
     : null
 
@@ -91,6 +93,7 @@ export function ReflectionScreen({ completion, allowExternalAI, saveState, sessi
   const finish = (step = nextStep) => {
     void attemptSave({
       reflectionAnswer: fit,
+      selectedResultIds,
       selectedNeed: rejected ? undefined : selectedNeed,
       nextStep: rejected ? undefined : step,
     })
@@ -105,12 +108,25 @@ export function ReflectionScreen({ completion, allowExternalAI, saveState, sessi
   }
 
   const chooseFit = (answer: ReflectionAnswer) => {
+    const nextIds = answer !== 'no' && selectedResultIds?.length ? selectedResultIds : undefined
     setFit(answer)
     setNextStep(undefined)
+    setSelectedResultIds(nextIds)
     if (answer === 'no') setSelectedNeed(undefined)
-    void onFitChange?.({ reflectionAnswer: answer }).catch(() => {
+    void onFitChange?.({ reflectionAnswer: answer, selectedResultIds: nextIds }).catch(() => {
       // The workflow's persistent save-status/retry controls own this failure.
     })
+  }
+
+  const chooseResult = (id: string) => {
+    const previous = selectedResultIds ?? []
+    const next = previous.includes(id) ? previous.filter((item) => item !== id) : [...previous, id]
+    const answer = next.length === 0 ? 'no' : next.length === completion.results.length ? 'yes' : 'partly'
+    setSelectedResultIds(next)
+    setFit(answer)
+    setSelectedNeed(undefined)
+    setNextStep(undefined)
+    void onFitChange?.({ reflectionAnswer: answer, selectedResultIds: next }).catch(() => {})
   }
 
   const closeExploration = () => {
@@ -206,11 +222,11 @@ export function ReflectionScreen({ completion, allowExternalAI, saveState, sessi
           <section className="meaning-block"><HeartHandshake size={21} aria-hidden="true" /><div><h2>{t.function}</h2><p>{results[0].description[language]}</p></div></section>
         )}
 
-        <details className="more-context">
+        {(contextResults.length > 0 || results.some((result) => result.componentLabels?.length)) && <details className="more-context">
           <summary>{t.more}<ChevronDown size={18} aria-hidden="true" /></summary>
-          <p>{synthesis}</p>
+          {results.filter((result) => result.componentLabels?.length).map((result) => <p key={result.id}><strong>{result.label[language]}:</strong> {result.componentLabels!.map((label) => label[language]).join(' + ')}</p>)}
           {contextResults.map((result) => <p key={result.id}><strong>{result.label[language]}:</strong> {result.description?.[language] ?? result.needs?.[language]}</p>)}
-        </details>
+        </details>}
 
         {aiLink ? (
           <div className="external-ai-action">
@@ -277,10 +293,19 @@ export function ReflectionScreen({ completion, allowExternalAI, saveState, sessi
       ) : (
         <>
           <h2 ref={resultHeadingRef} className="emotion-heading" tabIndex={-1}>
-            {results.map((result) => <span key={result.id}><i style={{ background: result.color }} />{result.label[language]}{result.matchStrength && <small>{result.matchStrength[language]}</small>}</span>)}
+            {completion.results.map((result) => <span key={result.id}><i style={{ background: result.color }} />{result.label[language]}{result.matchStrength && <small>{result.matchStrength[language]}</small>}</span>)}
           </h2>
 
-          <p className="reflection-synthesis">{briefSynthesis}</p>
+          {!rejected && <p className="reflection-synthesis">{briefSynthesis}</p>}
+
+          {completion.results.length > 1 && completion.route !== 'quick' && completion.route !== 'words' && <fieldset className="need-choice">
+            <legend>{t.chooseWords}</legend>
+            <p>{t.chooseWordsHint}</p>
+            {completion.results.map((result) => <label key={result.id} className="result-choice">
+              <input type="checkbox" checked={selectedResultIds?.includes(result.id) ?? false} onChange={() => chooseResult(result.id)} />
+              {result.label[language]}
+            </label>)}
+          </fieldset>}
 
           <fieldset className="fit-check">
             <legend>{t.fit}</legend>

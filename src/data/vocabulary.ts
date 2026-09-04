@@ -1,5 +1,5 @@
 import type { Session } from './types'
-import { isSessionEligibleForPatterns } from './session-presentation'
+import { getSessionResults, isSessionEligibleForPatterns } from './session-presentation'
 
 export interface VocabularyStats {
   uniqueEmotionCount: number
@@ -38,7 +38,7 @@ export function computeVocabulary(sessions: Session[]): VocabularyStats {
     for (const selection of session.selections) {
       selectedEmotionIds.add(selection.emotionId)
     }
-    for (const result of session.results) {
+    for (const result of getSessionResults(session)) {
       activeEmotionIds.add(result.id)
       perModelIds[session.modelId].add(result.id)
       const existing = activeEmotionCounts.get(result.id)

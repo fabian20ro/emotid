@@ -6,7 +6,7 @@ import { ModalShell } from '../components/ModalShell'
 import { useFocusTrap } from '../hooks/useFocusTrap'
 import { getIntensityLabel, getSensationLabel, getSomaticRegionLabel } from '../models/somatic/display'
 import type { Session } from '../data/types'
-import { getEmotionDisplayLabel, getResultRelationship } from '../data/session-presentation'
+import { getEmotionDisplayLabel, getResultRelationship, getSessionResults } from '../data/session-presentation'
 
 interface SessionDetailScreenProps {
   session?: Session
@@ -62,7 +62,8 @@ export function SessionDetailScreen({ session, onBack, onDelete }: SessionDetail
     <div className="screen" data-testid="session-detail-screen">
       <ScreenHeader title={t.title} onBack={onBack} lede={new Intl.DateTimeFormat(language, { dateStyle: 'long', timeStyle: 'short' }).format(session.timestamp)} />
       <dl className="detail-list">
-        {session.results.length > 0 && <div><dt>{t.relationship[relationship]}</dt><dd>{session.results.map((result) => getEmotionDisplayLabel(result, language)).join(', ')}</dd></div>}
+        {session.results.length > 0 && <div><dt>{t.relationship[relationship]}</dt><dd>{(relationship === 'rejected' ? session.results : getSessionResults(session)).map((result) => getEmotionDisplayLabel(result, language)).join(', ')}</dd></div>}
+        {session.selectedResultIds !== undefined && <div><dt>{t.originalSuggestions}</dt><dd>{session.results.map((result) => getEmotionDisplayLabel(result, language)).join(', ')}</dd></div>}
         {bodySignals.length > 0 && (
           <div>
             <dt>{t.bodySignals}</dt>

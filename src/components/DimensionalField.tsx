@@ -294,7 +294,7 @@ function DimensionalFieldBase({ emotions, onSelect, onDeselect, selections = [],
                   stroke={isSelected ? '#fff' : 'none'}
                   strokeWidth={isSelected ? 1.5 : 0}
                 />
-                {(!progressive || isSuggested || isSelected) && <text
+                {!progressive && <text
                   x={px}
                   y={labelOffsets.get(emotion.id) ?? (py - (isSelected ? 22 : 16))}
                   fill="var(--affect-label)"

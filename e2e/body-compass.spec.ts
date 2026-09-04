@@ -1,6 +1,28 @@
 import { expect, test, type Page } from '@playwright/test'
 import { openApp, openArrival } from './helpers'
 
+test('keeps gratitude alone from four body suggestions and hands off only that word', async ({ page }) => {
+  await openApp(page)
+  await openBodyCompass(page)
+  await page.locator('[data-region="chest"]').first().click({ force: true })
+  await page.getByRole('button', { name: 'Warmth', exact: true }).click()
+  await page.getByRole('button', { name: /^Moderate/ }).click()
+  await page.getByRole('button', { name: 'See what might fit' }).click()
+  await expect(page.getByRole('checkbox')).toHaveCount(4)
+  await page.getByRole('checkbox', { name: 'Gratitude', exact: true }).check()
+  await page.getByRole('button', { name: 'Explore further' }).click()
+  const link = await page.getByRole('link', { name: 'Explore in Google AI Mode' }).getAttribute('href')
+  const url = new URL(link!)
+  expect(url.searchParams.get('udm')).toBe('50')
+  expect(url.searchParams.get('q')).toMatch(/gratitude/i)
+  expect(url.searchParams.get('q')).not.toMatch(/tenderness|pride|love/i)
+  await page.getByRole('button', { name: 'Done for now' }).click()
+  await page.getByRole('button', { name: 'Journal', exact: true }).click()
+  await page.getByRole('button', { name: /^Open reflection: gratitude/i }).click()
+  await expect(page.getByTestId('session-detail-screen')).toContainText('Original suggestions')
+  await expect(page.getByTestId('session-detail-screen')).toContainText('Tenderness')
+})
+
 test('keeps a mild pressure observation without inventing an emotion', async ({ page }) => {
   await openApp(page)
   await openBodyCompass(page)

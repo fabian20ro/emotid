@@ -45,6 +45,7 @@ export function addReflectionDetail(session: Session, detail: ReflectionDetail):
   return {
     ...session,
     reflectionAnswer: detail.reflectionAnswer,
+    selectedResultIds: detail.selectedResultIds,
     selectedNeed: detail.selectedNeed,
     nextStep: detail.nextStep,
   }

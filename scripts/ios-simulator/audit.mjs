@@ -785,13 +785,14 @@ async function inspectRobustnessSurface(driver, entry) {
 }
 
 async function openWords(driver) {
-  await click(driver, 'css selector', ACCEPTANCE_SELECTORS.todayGuidedEntry)
+  await openArrival(driver)
   await click(driver, 'css selector', '[data-testid="arrival-words"]')
 }
 
 async function openArrival(driver) {
   await click(driver, 'css selector', ACCEPTANCE_SELECTORS.todayGuidedEntry)
   await driver.waitForElement('css selector', '[data-testid="arrival-screen"]')
+  await click(driver, 'css selector', ACCEPTANCE_SELECTORS.guideAllRoutes)
 }
 
 async function runSettingsReplay(driver, copy) {

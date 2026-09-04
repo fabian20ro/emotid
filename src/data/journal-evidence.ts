@@ -1,5 +1,5 @@
 import type { Session } from './types'
-import { isSessionEligibleForPatterns } from './session-presentation'
+import { getSessionResults, isSessionEligibleForPatterns } from './session-presentation'
 
 export const JOURNAL_SUMMARY_MIN_ENTRIES = 3
 
@@ -21,7 +21,7 @@ export function getJournalEvidence(
   const currentValence = eligible.filter((session) => (
     session.timestamp >= nowMs - SEVEN_DAYS_MS
     && session.timestamp <= nowMs
-    && session.results.some((result) => result.valence !== undefined)
+    && getSessionResults(session).some((result) => result.valence !== undefined)
   ))
   const somatic = sessions.filter((session) => (
     session.modelId === 'somatic' && session.selections.length > 0

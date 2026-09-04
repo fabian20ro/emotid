@@ -41,6 +41,7 @@ function completion(results: AnalysisResult[], crisisTier: CheckInCompletion['cr
 function renderReflection(
   results: AnalysisResult[],
   options: {
+    route?: CheckInCompletion['route']
     crisisTier?: CheckInCompletion['crisisTier']
     language?: 'en' | 'ro'
     saveSessions?: boolean
@@ -58,7 +59,7 @@ function renderReflection(
   render(
     <LanguageProvider>
       <ReflectionScreen
-        completion={completion(results, options.crisisTier)}
+        completion={{ ...completion(results, options.crisisTier), route: options.route ?? 'affect' }}
         allowExternalAI={options.allowExternalAI ?? false}
         saveState={options.saveState ?? (options.saveSessions === false ? 'disabled' : 'saved')}
         sessionCaptured={options.sessionCaptured ?? options.saveSessions !== false}
@@ -73,6 +74,14 @@ function renderReflection(
 }
 
 describe('ReflectionScreen need selection', () => {
+  it('keeps a chosen subset when the user also confirms its fit', async () => {
+    const { onSave } = renderReflection([result('love'), result('gratitude')], { route: 'body' })
+    const user = userEvent.setup()
+    await user.click(screen.getByRole('checkbox', { name: 'gratitude' }))
+    await user.click(screen.getByRole('button', { name: 'Yes', exact: true }))
+    await user.click(screen.getByRole('button', { name: 'Done for now' }))
+    expect(onSave).toHaveBeenCalledWith(expect.objectContaining({ reflectionAnswer: 'yes', selectedResultIds: ['gratitude'] }))
+  })
   beforeEach(() => localStorage.clear())
 
   it('frames generated labels as rejectable possibilities in both languages', () => {
@@ -129,7 +138,7 @@ describe('ReflectionScreen need selection', () => {
     renderReflection([result('anxiety'), withoutGuidance])
 
     await user.click(screen.getByRole('button', { name: 'Explore further' }))
-    await user.click(screen.getByText('More context'))
+    expect(screen.queryByText('More context')).not.toBeInTheDocument()
 
     expect(screen.getAllByText('anxiety description')).toHaveLength(1)
     expect(screen.queryByText('empty:')).not.toBeInTheDocument()

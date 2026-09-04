@@ -116,8 +116,9 @@ export function WordLadderScreen({ model: emotionModel, onBack, onComplete }: Wo
 
   const finishWithPathEmotion = (emotion: BaseEmotion) => {
     const selection = withNavigationPath(emotion, path)
-    const results = model.analyzeSelections([selection])
-    if (results.length > 0) onComplete(MODEL_IDS.WHEEL, [selection], results)
+    const selections = [...model.selections.filter((item) => item.id !== selection.id), selection]
+    const results = model.analyzeSelections(selections)
+    if (results.length > 0) onComplete(MODEL_IDS.WHEEL, selections, results)
   }
 
   const comparisonAvailable = Boolean(
@@ -129,7 +130,7 @@ export function WordLadderScreen({ model: emotionModel, onBack, onComplete }: Wo
 
   return (
     <div className="screen checkin-screen checkin-screen-words" data-testid="words-screen">
-      <ScreenHeader onBack={onBack} eyebrow={t.eyebrow} title={t.title} lede={t.lede} />
+      <ScreenHeader onBack={onBack} eyebrow={t.eyebrow} title={t.title} lede={path.length ? undefined : t.lede} />
       <div className="checkin-step">
         <span>{t.level}</span>
         {model.selections.length > 0 && <span><Check size={15} aria-hidden="true" />{model.selections.length}</span>}
@@ -139,8 +140,6 @@ export function WordLadderScreen({ model: emotionModel, onBack, onComplete }: Wo
         {path.length > 0 && (
           <>
             <section className="word-path" aria-label={t.path}>
-              <span>{t.path}</span>
-              <p>{t.pathHint}</p>
               <div className="word-path-levels">
                 {path.map((item, index) => (
                   <button
@@ -149,7 +148,7 @@ export function WordLadderScreen({ model: emotionModel, onBack, onComplete }: Wo
                     onClick={() => choosePathLevel(index)}
                     aria-label={t.useWord.replace('{word}', item.label[language])}
                   >
-                    {t.useWord.replace('{word}', item.label[language])}
+                    {item.label[language]}
                   </button>
                 ))}
               </div>
@@ -161,8 +160,7 @@ export function WordLadderScreen({ model: emotionModel, onBack, onComplete }: Wo
               className="word-stop-choice"
               aria-label={`${t.stopHere}: ${path[path.length - 1].label[language]}`}
             >
-              <span>{t.stopHere}</span>
-              <strong id="word-stop-title">{path[path.length - 1].label[language]}</strong>
+              <span className="sr-only">{t.stopHere}</span>
               <button
                 ref={stopChoiceRef}
                 type="button"
@@ -174,6 +172,7 @@ export function WordLadderScreen({ model: emotionModel, onBack, onComplete }: Wo
                 <ChevronRight size={19} aria-hidden="true" />
               </button>
               <p id="word-more-specific">{t.moreSpecific}</p>
+              {path.at(-1)?.description?.[language] && <details className="word-meaning"><summary>{t.meaning}</summary><p>{path.at(-1)!.description![language]}</p></details>}
             </section>
           </>
         )}
@@ -251,7 +250,7 @@ export function WordLadderScreen({ model: emotionModel, onBack, onComplete }: Wo
           </>
         )}
 
-        {model.selections.length > 0 && (
+        {model.selections.length > 0 && path.length === 0 && (
           <div className="route-action">
             <button type="button" className="primary-button" disabled={!model.modelReady} onClick={finish}>
               {t.continueWith.replace('{word}', model.selections.map((emotion) => emotion.label[language]).join(', '))}
@@ -267,12 +266,17 @@ export function WordLadderScreen({ model: emotionModel, onBack, onComplete }: Wo
                 <span className="word-swatch" style={{ background: emotion.color }} aria-hidden="true" />
                 <span>
                   <strong>{emotion.label[language]}</strong>
+                  {emotion.id === 'bad' && <small>{t.stateNotPerson}</small>}
                 </span>
                 {hasChildren(emotion) ? <ChevronRight size={18} aria-hidden="true" /> : <Plus size={18} aria-hidden="true" />}
               </button>
             </li>
           ))}
         </ul>
+        {model.visibleEmotions.some(hasReviewedDescription) && <details className="word-meaning">
+          <summary>{t.meanings}</summary>
+          {model.visibleEmotions.filter(hasReviewedDescription).map((emotion) => <div key={emotion.id}><strong>{emotion.label[language]}</strong><p>{emotion.description![language]}</p></div>)}
+        </details>}
       </div>
     </div>
   )

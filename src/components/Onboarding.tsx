@@ -91,6 +91,12 @@ export function Onboarding({ mode = 'initial', onComplete, saveSessions, onSaveS
           <span className="onboarding-icon"><current.Icon size={27} aria-hidden="true" /></span>
           <h1 ref={headingRef} id="onboarding-title" data-testid="onboarding-heading" tabIndex={-1}>{current.title}</h1>
           <p>{current.body}</p>
+          {step === 0 && mode === 'initial' && (
+            <div className="segmented onboarding-language" role="group" aria-label={section('settingsScreen').language}>
+              <button type="button" aria-pressed={language === 'en'} className={language === 'en' ? 'is-active' : ''} onClick={() => setLanguage('en')}>English</button>
+              <button type="button" aria-pressed={language === 'ro'} className={language === 'ro' ? 'is-active' : ''} onClick={() => setLanguage('ro')}>Română</button>
+            </div>
+          )}
           {isLast && (
             <div className="onboarding-preferences">
               <div className="onboarding-save-choice">
@@ -100,12 +106,6 @@ export function Onboarding({ mode = 'initial', onComplete, saveSessions, onSaveS
                 </span>
                 <Toggle checked={saveSessions} label={privacyT.saving} onChange={onSaveSessionsChange} />
               </div>
-              {mode === 'initial' && (
-                <div className="segmented onboarding-language" role="group" aria-label={section('settingsScreen').language}>
-                  <button type="button" aria-pressed={language === 'en'} className={language === 'en' ? 'is-active' : ''} onClick={() => setLanguage('en')}>English</button>
-                  <button type="button" aria-pressed={language === 'ro'} className={language === 'ro' ? 'is-active' : ''} onClick={() => setLanguage('ro')}>Română</button>
-                </div>
-              )}
             </div>
           )}
         </motion.div>

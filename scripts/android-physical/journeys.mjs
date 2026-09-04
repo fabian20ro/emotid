@@ -3,6 +3,7 @@ import { ACCEPTANCE_HOOKS, ACCEPTANCE_SELECTORS } from '../acceptance/selectors.
 async function openArrival({ page, activate, expectVisible }) {
   await activate(page.getByTestId(ACCEPTANCE_HOOKS.todayGuidedEntry))
   await expectVisible(page.getByTestId('arrival-screen'), 'Arrival')
+  await activate(page.locator(ACCEPTANCE_SELECTORS.guideAllRoutes))
 }
 
 async function finishQuick({ page, activate, expectVisible }, emotion = 'anxiety') {
@@ -35,9 +36,9 @@ export const JOURNEYS = Object.freeze({
       })
       assert(await heading.evaluate((element) => element === document.activeElement), `J1 step ${expectedStep} heading lacks focus`)
       assert(await dialog.getByTestId(ACCEPTANCE_HOOKS.onboardingProgress).getAttribute('aria-valuenow') === expectedStep, `J1 progress is not ${expectedStep}`)
+      if (expectedStep === '1') await expectVisible(dialog.locator('.onboarding-language'), 'Language choice')
       if (expectedStep !== '3') await activate(dialog.locator('.primary-button'))
     }
-    await expectVisible(dialog.locator('.onboarding-language'), 'Language choice')
     await activate(dialog.locator('.primary-button'))
     await expectVisible(page.getByTestId('today-screen'), 'Today after onboarding')
   },

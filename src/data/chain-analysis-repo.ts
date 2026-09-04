@@ -20,3 +20,7 @@ export async function clearAllChainAnalyses(): Promise<void> {
     await del(key, store)
   }
 }
+
+export async function deleteChainAnalysis(id: string): Promise<void> {
+  await del(id, store)
+}

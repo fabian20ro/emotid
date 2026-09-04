@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useLayoutEffect, useState } from 'react'
+import { focusDestination } from '../utils/focusDestination'
 import { Activity, ArrowRight, Crosshair, ListTree, Sparkles } from 'lucide-react'
 import { useLanguage } from '../context/LanguageContext'
 import { ScreenHeader } from '../components/ScreenHeader'
@@ -19,14 +20,23 @@ export function chooseGuidedRoute(
 }
 
 interface ArrivalScreenProps {
+  initialGuideStep?: 'closed' | 'body' | 'placement'
+  onGuideStepChange?: (step: 'closed' | 'body' | 'placement') => void
   onBack: () => void
   onChoose: (route: Exclude<CheckInRoute, 'quick'>) => void
 }
 
-export function ArrivalScreen({ onBack, onChoose }: ArrivalScreenProps) {
+export function ArrivalScreen({ onBack, onChoose, initialGuideStep = 'closed', onGuideStepChange }: ArrivalScreenProps) {
   const { section } = useLanguage()
   const t = section('arrival')
-  const [guideStep, setGuideStep] = useState<'closed' | 'body' | 'placement'>('closed')
+  const [guideStep, updateGuideStep] = useState(initialGuideStep)
+  const setGuideStep = (step: 'closed' | 'body' | 'placement') => {
+    updateGuideStep(step)
+    onGuideStepChange?.(step)
+  }
+  useLayoutEffect(() => {
+    focusDestination(document.getElementById('screen-title'))
+  }, [guideStep])
 
   const routes = [
     { id: 'affect' as const, title: t.affect, hint: t.affectHint, Icon: Crosshair, tone: 'var(--mustard-soft)', color: 'var(--mustard)' },

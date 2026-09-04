@@ -18,6 +18,7 @@ export interface Session {
   interventionResponse?: 'better' | 'same' | 'worse'
   entryRoute?: 'quick' | 'body' | 'affect' | 'words' | 'plutchik'
   outcome?: 'body-observation'
+  selectedResultIds?: string[]
   selectedNeed?: string
   nextStep?: string
 }

@@ -20,7 +20,7 @@ interface JournalScreenProps {
   error?: boolean
   saveSessions: boolean
   onOpenSession: (id: string) => void
-  onOpenChain: () => void
+  onOpenChain: (view?: 'entries') => void
 }
 
 export function JournalScreen({ sessions, loading, chainEntries, chainLoading, chainError = false, error = false, saveSessions, onOpenSession, onOpenChain }: JournalScreenProps) {
@@ -77,7 +77,7 @@ export function JournalScreen({ sessions, loading, chainEntries, chainLoading, c
             <button
               type="button"
               className="journal-entry-button"
-              onClick={onOpenChain}
+              onClick={() => onOpenChain('entries')}
               aria-label={`${t.openExercises}: ${latestExercisePreview.title}`}
             >
               <span>
@@ -127,7 +127,7 @@ export function JournalScreen({ sessions, loading, chainEntries, chainLoading, c
       </section>
 
       {!chainLoading && !latestExercise && (
-        <button type="button" className="secondary-button mt-6" onClick={onOpenChain}>
+        <button type="button" className="secondary-button mt-6" onClick={() => onOpenChain()}>
           <GitBranch size={19} aria-hidden="true" />
           {t.unpack}
         </button>

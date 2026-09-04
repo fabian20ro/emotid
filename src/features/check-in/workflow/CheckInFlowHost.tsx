@@ -29,6 +29,7 @@ interface CheckInFlowHostProps {
   saveState: SessionSaveState
   sessionCaptured: boolean
   onBack: () => void
+  onGuideStepChange?: (step: 'closed' | 'body' | 'placement') => void
   onChoose: (route: Exclude<CheckInRoute, 'quick'>) => void
   onComplete: (
     route: CheckInRoute,
@@ -48,6 +49,7 @@ export function CheckInFlowHost({
   saveState,
   sessionCaptured,
   onBack,
+  onGuideStepChange,
   onChoose,
   onComplete,
   onRetryBaseSave,
@@ -55,7 +57,7 @@ export function CheckInFlowHost({
   onFinish,
 }: CheckInFlowHostProps) {
   if (destination.name === 'arrival') {
-    return <ArrivalScreen onBack={onBack} onChoose={onChoose} />
+    return <ArrivalScreen initialGuideStep={destination.guideStep ?? 'body'} onGuideStepChange={onGuideStepChange} onBack={onBack} onChoose={onChoose} />
   }
 
   if (destination.name === 'check-in') {

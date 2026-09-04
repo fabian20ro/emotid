@@ -62,7 +62,7 @@ export default function App() {
   const onboardingReturnFocusRef = useRef<HTMLElement | null>(null)
 
   const { sessions: storedSessions, loading: sessionsLoading, error: sessionsError, save: saveSession, remove: removeSession, clearAll: clearAllSessions } = useSessionHistory()
-  const { entries: chainEntries, loading: chainLoading, error: chainError, save: saveChainEntry, clearAll: clearAllChains } = useChainAnalysis()
+  const { entries: chainEntries, loading: chainLoading, error: chainError, save: saveChainEntry, clearAll: clearAllChains, remove: removeChainEntry } = useChainAnalysis()
   const [saveSessions, setSaveSessions] = useState(() => storage.get('saveSessions') !== 'false')
   const [allowExternalAI, setAllowExternalAI] = useState(() => storage.get('allowExternalAI') !== 'false')
   const [theme, setTheme] = useState<'light' | 'dark'>(() => storage.get('theme') === 'dark' ? 'dark' : 'light')
@@ -188,13 +188,13 @@ export default function App() {
         }
         return (
           <LazyRouteBoundary>
-            <CheckInFlowHost destination={destination} completion={completion} allowExternalAI={allowExternalAI} saveState={sessionSaveState} sessionCaptured={sessionCaptured} onBack={navigation.back} onChoose={startRoute} onComplete={completeCheckIn} onRetryBaseSave={retryBaseSave} onSaveReflection={saveReflection} onFinish={finishCheckIn} />
+            <CheckInFlowHost destination={destination} completion={completion} allowExternalAI={allowExternalAI} saveState={sessionSaveState} sessionCaptured={sessionCaptured} onBack={navigation.back} onGuideStepChange={(guideStep) => navigation.replace({ name: 'arrival', guideStep })} onChoose={startRoute} onComplete={completeCheckIn} onRetryBaseSave={retryBaseSave} onSaveReflection={saveReflection} onFinish={finishCheckIn} />
           </LazyRouteBoundary>
         )
       case 'explore':
         return <LazyRouteBoundary><ExploreScreen onChoose={startRoute} onPractice={() => navigation.navigate({ name: 'granularity' })} /></LazyRouteBoundary>
       case 'journal':
-        return <LazyRouteBoundary><JournalScreen sessions={sessions} loading={sessionsLoading} chainEntries={chainEntries} chainLoading={chainLoading} chainError={chainError} error={sessionsError} saveSessions={saveSessions} onOpenSession={(sessionId) => navigation.navigate({ name: 'session', sessionId })} onOpenChain={() => navigation.navigate({ name: 'chain' })} /></LazyRouteBoundary>
+        return <LazyRouteBoundary><JournalScreen sessions={sessions} loading={sessionsLoading} chainEntries={chainEntries} chainLoading={chainLoading} chainError={chainError} error={sessionsError} saveSessions={saveSessions} onOpenSession={(sessionId) => navigation.navigate({ name: 'session', sessionId })} onOpenChain={(view) => navigation.navigate({ name: 'chain', view })} /></LazyRouteBoundary>
       case 'session':
         return <LazyRouteBoundary><SessionDetailScreen session={sessions.find((session) => session.id === destination.sessionId)} onBack={navigation.back} onDelete={deleteJournalSession} /></LazyRouteBoundary>
       case 'settings':
@@ -213,11 +213,11 @@ export default function App() {
       case 'granularity':
         return <LazyRouteBoundary><GranularityTraining isOpen onClose={navigation.back} /></LazyRouteBoundary>
       case 'chain':
-        return <LazyRouteBoundary><ChainAnalysis isOpen onClose={navigation.back} entries={chainEntries} loading={chainLoading} onSave={saveChainEntry} onClearAll={clearAllChains} /></LazyRouteBoundary>
+        return <LazyRouteBoundary><ChainAnalysis isOpen initialView={destination.view} onClose={navigation.back} entries={chainEntries} loading={chainLoading} onSave={saveChainEntry} onClearAll={clearAllChains} onDelete={removeChainEntry} /></LazyRouteBoundary>
       default:
         return null
     }
-  }, [allowExternalAI, chainEntries, chainError, chainLoading, clearAllChains, clearData, completeCheckIn, completeQuick, completion, deleteJournalSession, destination, exportData, finishCheckIn, navigation, retryBaseSave, saveChainEntry, saveReflection, saveSessions, sessionCaptured, sessionSaveState, sessions, sessionsError, sessionsLoading, setExternalAI, setSaving, startRoute, theme])
+  }, [allowExternalAI, chainEntries, chainError, chainLoading, clearAllChains, clearData, completeCheckIn, completeQuick, completion, deleteJournalSession, destination, exportData, finishCheckIn, navigation, retryBaseSave, saveChainEntry, saveReflection, saveSessions, sessionCaptured, sessionSaveState, sessions, sessionsError, sessionsLoading, setExternalAI, setSaving, startRoute, theme, removeChainEntry])
 
   if (onboardingMode === 'initial') {
     return (

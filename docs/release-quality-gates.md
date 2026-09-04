@@ -6,11 +6,15 @@ Run before release:
 
 ```bash
 npm run check
-npm run test:e2e
+E2E_PRODUCTION=true npm run test:e2e
 npm run test:pwa
 npm run test:performance
 npm run test:deployed:local
 ```
+
+The release browser matrix and CI use the production build created by `check`, without hot
+reload. Port 5173 must be free. Plain `npm run test:e2e` retains the development-server workflow
+for focused iteration; do not edit imported files during a final development-backed run.
 
 `npm run check:release` is included in `npm run check`. It runs deterministic drift fixtures, then
 requires one release identity across `package.json`, the lockfile root, the README release URL, the

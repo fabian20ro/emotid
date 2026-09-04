@@ -108,8 +108,6 @@ describe('Onboarding', () => {
   it('can set Romanian before completion', async () => {
     const user = userEvent.setup()
     renderOnboarding()
-    await user.click(screen.getByRole('button', { name: /next/i }))
-    await user.click(screen.getByRole('button', { name: /next/i }))
     const languageGroup = screen.getByRole('group', { name: 'Language' })
     const english = screen.getByRole('button', { name: 'English' })
     const romanian = screen.getByRole('button', { name: 'Română' })
@@ -119,6 +117,8 @@ describe('Onboarding', () => {
 
     await user.click(romanian)
     expect(romanian).toHaveAttribute('aria-pressed', 'true')
+    await user.click(screen.getByRole('button', { name: 'Înainte' }))
+    await user.click(screen.getByRole('button', { name: 'Înainte' }))
     expect(screen.getByRole('button', { name: /începe/i })).toBeInTheDocument()
     expect(setItemSpy).toHaveBeenCalledWith(storage.KEYS.language, 'ro')
   })
