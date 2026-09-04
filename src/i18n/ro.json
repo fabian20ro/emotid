@@ -183,6 +183,12 @@
     "guideAllRoutes": "Arată toate punctele de pornire"
   },
   "bodyCompass": {
+    "noSuggestionTitle": "De data aceasta, fără un cuvânt sugerat",
+    "noSuggestionBody": "Harta nu a găsit un cuvânt pentru aceste senzații. Poți păstra ce ai observat fără să numești o emoție.",
+    "keepObservation": "Păstrează observația corporală",
+    "reviseSignals": "Schimbă senzațiile",
+    "leaveWithoutSaving": "Ieși fără să salvezi",
+    "observationTitle": "Observație corporală",
     "eyebrow": "Busola corporală",
     "title": "Unde observi o senzație în corp?",
     "lede": "O senzație poate oferi indicii, dar nu dovedește o anumită emoție.",
@@ -277,7 +283,7 @@
     "notSaved": "Această reflecție nu a fost salvată",
     "baseSaving": "Reflecția se salvează pe acest dispozitiv…",
     "baseSaved": "Reflecția este salvată. Tot ce urmează este opțional.",
-    "baseSaveError": "Ultima selecție nu a fost încă salvată.",
+    "baseSaveError": "Ultimele modificări nu au fost încă salvate.",
     "baseNotSaved": "Salvarea este oprită. Această reflecție nu va fi păstrată.",
     "baseSaveErrorTitle": "Această reflecție nu a fost salvată",
     "detailSaveErrorTitle": "Ultimele detalii nu au fost salvate",
@@ -338,7 +344,8 @@
       "fit": "Potrivire confirmată",
       "partial": "Potrivire parțială",
       "rejected": "Nu s-a potrivit",
-      "legacy": "Rezultat salvat"
+      "legacy": "Rezultat salvat",
+      "observation": "Observație corporală"
     }
   },
   "sessionDetail": {
@@ -355,7 +362,8 @@
       "fit": "Cuvinte care s-au potrivit",
       "partial": "Cuvinte care s-au potrivit parțial",
       "rejected": "Rezultat sugerat care nu s-a potrivit",
-      "legacy": "Rezultat salvat"
+      "legacy": "Rezultat salvat",
+      "observation": "Observație corporală"
     },
     "delete": "Șterge această reflecție",
     "confirmTitle": "Ștergi această reflecție?",

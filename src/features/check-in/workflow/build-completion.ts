@@ -14,6 +14,7 @@ export function buildCheckInCompletion(
 ): CheckInCompletion {
   return {
     ...input,
+    ...(input.route === 'body' && input.results.length === 0 ? { outcome: 'body-observation' as const } : {}),
     crisisTier: getCrisisTier(input.results.map((result) => result.id)),
   }
 }

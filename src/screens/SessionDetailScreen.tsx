@@ -62,7 +62,7 @@ export function SessionDetailScreen({ session, onBack, onDelete }: SessionDetail
     <div className="screen" data-testid="session-detail-screen">
       <ScreenHeader title={t.title} onBack={onBack} lede={new Intl.DateTimeFormat(language, { dateStyle: 'long', timeStyle: 'short' }).format(session.timestamp)} />
       <dl className="detail-list">
-        <div><dt>{t.relationship[relationship]}</dt><dd>{session.results.map((result) => getEmotionDisplayLabel(result, language)).join(', ')}</dd></div>
+        {session.results.length > 0 && <div><dt>{t.relationship[relationship]}</dt><dd>{session.results.map((result) => getEmotionDisplayLabel(result, language)).join(', ')}</dd></div>}
         {bodySignals.length > 0 && (
           <div>
             <dt>{t.bodySignals}</dt>

@@ -11,9 +11,10 @@ export function getEmotionDisplayLabel(
   return getCanonicalEmotion(emotion.id)?.label[language] ?? emotion.label[language]
 }
 
-export type ResultRelationship = 'named' | 'suggested' | 'fit' | 'partial' | 'rejected' | 'legacy'
+export type ResultRelationship = 'named' | 'suggested' | 'fit' | 'partial' | 'rejected' | 'legacy' | 'observation'
 
 export function getResultRelationship(session: Session): ResultRelationship {
+  if (session.outcome === 'body-observation') return 'observation'
   if (session.reflectionAnswer === 'yes') return 'fit'
   if (session.reflectionAnswer === 'partly') return 'partial'
   if (session.reflectionAnswer === 'no') return 'rejected'
@@ -27,6 +28,7 @@ export function getSessionResultHeading(
   language: DisplayLanguage,
   rejectedTemplate: string,
 ): string {
+  if (session.outcome === 'body-observation') return session.selections.map((item) => item.label[language]).join(', ')
   const result = session.results
     .slice(0, 3)
     .map((item) => getEmotionDisplayLabel(item, language))

@@ -183,6 +183,12 @@
     "guideAllRoutes": "Show all starting points"
   },
   "bodyCompass": {
+    "noSuggestionTitle": "No suggested word this time",
+    "noSuggestionBody": "The map did not find a word for these sensations. You can keep what you noticed without naming an emotion.",
+    "keepObservation": "Keep this body observation",
+    "reviseSignals": "Change the sensations",
+    "leaveWithoutSaving": "Leave without saving",
+    "observationTitle": "Body observation",
     "eyebrow": "Body Compass",
     "title": "Where do you notice a body sensation?",
     "lede": "A sensation can offer clues, but it does not prove any one emotion.",
@@ -277,7 +283,7 @@
     "notSaved": "This reflection was not saved",
     "baseSaving": "Saving your reflection on this device…",
     "baseSaved": "Reflection saved. Everything below is optional.",
-    "baseSaveError": "Your latest selection has not been saved yet.",
+    "baseSaveError": "Your latest changes have not been saved yet.",
     "baseNotSaved": "Saving is off. This reflection will not be kept.",
     "baseSaveErrorTitle": "This reflection was not saved",
     "detailSaveErrorTitle": "The latest details were not saved",
@@ -338,7 +344,8 @@
       "fit": "Confirmed fit",
       "partial": "Partial fit",
       "rejected": "Did not fit",
-      "legacy": "Saved result"
+      "legacy": "Saved result",
+      "observation": "Body observation"
     }
   },
   "sessionDetail": {
@@ -355,7 +362,8 @@
       "fit": "Words that fit",
       "partial": "Words that partly fit",
       "rejected": "Suggested result that did not fit",
-      "legacy": "Saved result"
+      "legacy": "Saved result",
+      "observation": "Body observation"
     },
     "delete": "Delete this reflection",
     "confirmTitle": "Delete this reflection?",

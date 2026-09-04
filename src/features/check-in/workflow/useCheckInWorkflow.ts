@@ -9,6 +9,7 @@ import type {
 } from '../../../navigation/types'
 import { buildCheckInCompletion } from './build-completion'
 import { createCheckInDraft } from './draft'
+import { isCompleteSomaticSelection } from '../../../models/somatic/scoring'
 import {
   checkInWorkflowReducer,
   INITIAL_CHECK_IN_WORKFLOW_STATE,
@@ -110,7 +111,8 @@ export function useCheckInWorkflow({
     results: AnalysisResult[],
     intent: 'new' | 'revision' = 'revision',
   ) => {
-    if (selections.length === 0 || results.length === 0 || completionInFlightRef.current) {
+    const observationOnly = route === 'body' && selections.every(isCompleteSomaticSelection)
+    if (selections.length === 0 || (results.length === 0 && !observationOnly) || completionInFlightRef.current) {
       return false
     }
 

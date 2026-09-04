@@ -26,6 +26,7 @@ export type AppDestination =
   | { name: 'chain' }
 
 export interface CheckInCompletion {
+  outcome?: 'body-observation'
   route: CheckInRoute
   modelId: string
   selections: BaseEmotion[]

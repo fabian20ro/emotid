@@ -1,6 +1,27 @@
 import { expect, test, type Page } from '@playwright/test'
 import { openApp, openArrival } from './helpers'
 
+test('keeps a mild pressure observation without inventing an emotion', async ({ page }) => {
+  await openApp(page)
+  await openBodyCompass(page)
+  await page.locator('[data-region="chest"]').first().click({ force: true })
+  await page.getByRole('button', { name: 'Pressure', exact: true }).click()
+  await page.getByRole('button', { name: /^Mild/ }).click()
+  await page.getByRole('button', { name: 'See what might fit' }).click()
+  await expect(page.getByTestId('body-no-suggestion')).toBeVisible()
+  await expect(page.getByTestId('body-signal-chest')).toContainText('Pressure - Mild')
+  await page.getByRole('button', { name: 'Keep this body observation' }).click()
+  await expect(page.getByRole('heading', { name: 'Body observation' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Yes', exact: true })).toHaveCount(0)
+  await page.getByRole('button', { name: 'Done for now' }).click()
+  await page.reload()
+  await page.getByRole('button', { name: 'Journal', exact: true }).click()
+  await expect(page.getByText('Body observation', { exact: true })).toBeVisible()
+  await page.getByRole('button', { name: /open reflection: chest/i }).click()
+  await expect(page.getByTestId('session-detail-screen')).toContainText('Pressure')
+  await expect(page.getByTestId('session-detail-screen')).toContainText('Mild')
+})
+
 async function openBodyCompass(page: Page) {
   await openArrival(page)
   await page.getByTestId('arrival-body').click()

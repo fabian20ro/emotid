@@ -382,7 +382,7 @@ describe('ReflectionScreen need selection', () => {
       sessionCaptured: false,
     })
 
-    expect(screen.getByRole('alert')).toHaveTextContent('Your latest selection has not been saved yet')
+    expect(screen.getByRole('alert')).toHaveTextContent('Your latest changes have not been saved yet')
     await user.click(screen.getByRole('button', { name: 'Try saving again' }))
     expect(onRetryBaseSave).toHaveBeenCalledOnce()
   })

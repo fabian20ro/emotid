@@ -17,6 +17,7 @@ export interface Session {
   reflectionAnswer?: 'yes' | 'partly' | 'no'
   interventionResponse?: 'better' | 'same' | 'worse'
   entryRoute?: 'quick' | 'body' | 'affect' | 'words' | 'plutchik'
+  outcome?: 'body-observation'
   selectedNeed?: string
   nextStep?: string
 }

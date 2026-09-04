@@ -34,6 +34,7 @@ export function createSession(input: SessionInput, identity?: SessionIdentity): 
     timestamp: identity?.timestamp ?? Date.now(),
     modelId: input.modelId,
     entryRoute: input.route,
+    ...(input.route === 'body' && input.results.length === 0 ? { outcome: 'body-observation' as const } : {}),
     selections: serializeSelections(input.selections),
     results: input.results,
     crisisTier: getCrisisTier(input.results.map((result) => result.id)),

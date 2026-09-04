@@ -37,6 +37,7 @@ export function BodyCompassScreen({ model: emotionModel, onBack, onComplete }: B
   const [draftSensation, setDraftSensation] = useState<SensationType | null>(null)
   const [pickerMode, setPickerMode] = useState<BodyPickerMode>('front')
   const [focusTarget, setFocusTarget] = useState<FocusTarget>(null)
+  const [noSuggestion, setNoSuggestion] = useState(false)
   const pickerRef = useRef<HTMLDivElement>(null)
   const signalRefs = useRef(new Map<string, HTMLDivElement>())
   const selections = model.selections.filter(isCompleteSomaticSelection)
@@ -59,6 +60,7 @@ export function BodyCompassScreen({ model: emotionModel, onBack, onComplete }: B
   }, [focusTarget, selections, step])
 
   const startRegion = (region: SomaticRegion) => {
+    setNoSuggestion(false)
     const existing = selections.find((selection) => selection.id === region.id)
     setActiveRegion(region)
     setDraftSensation(existing?.selectedSensation ?? null)
@@ -98,6 +100,7 @@ export function BodyCompassScreen({ model: emotionModel, onBack, onComplete }: B
   }
 
   const removeSelection = (selection: SomaticSelection) => {
+    setNoSuggestion(false)
     const nextSelection = selections.find((candidate) => candidate.id !== selection.id)
     model.handleDeselect(selection)
     setFocusTarget(nextSelection ? { kind: 'signal', id: nextSelection.id } : { kind: 'picker' })
@@ -107,7 +110,7 @@ export function BodyCompassScreen({ model: emotionModel, onBack, onComplete }: B
     const results = model.analyze()
     if (selections.length > 0 && results.length > 0) {
       onComplete(MODEL_IDS.SOMATIC, selections, results)
-    }
+    } else if (selections.length > 0) setNoSuggestion(true)
   }
 
   const titles: Record<BodyStep, string> = {
@@ -229,9 +232,16 @@ export function BodyCompassScreen({ model: emotionModel, onBack, onComplete }: B
               </div>
               <p className="body-stage-hint body-evidence-note" data-testid="body-evidence-note">{t.evidenceNote}</p>
               <div className="route-action">
+                {noSuggestion ? <div data-testid="body-no-suggestion">
+                  <h2>{t.noSuggestionTitle}</h2>
+                  <p role="status">{t.noSuggestionBody}</p>
+                  <button type="button" className="primary-button" onClick={() => onComplete(MODEL_IDS.SOMATIC, selections, [])}>{t.keepObservation}</button>
+                  <button type="button" className="secondary-button" onClick={() => setNoSuggestion(false)}>{t.reviseSignals}</button>
+                  <button type="button" className="text-button" onClick={onBack}>{t.leaveWithoutSaving}</button>
+                </div> :
                 <button type="button" className="primary-button" onClick={finish}>
                   {t.continue}<ChevronRight size={19} aria-hidden="true" />
-                </button>
+                </button>}
               </div>
             </section>
           )}

@@ -26,6 +26,7 @@ interface ReflectionScreenProps {
 export function ReflectionScreen({ completion, allowExternalAI, saveState, sessionCaptured, onBack, onRetryBaseSave, onSave, onReturn, onFitChange }: ReflectionScreenProps) {
   const { language, section } = useLanguage()
   const t = section('reflectionScreen')
+  const bodyT = section('bodyCompass')
   const analyzeT = section('analyze')
   const results = completion.results
   const needs = useMemo(
@@ -235,7 +236,7 @@ export function ReflectionScreen({ completion, allowExternalAI, saveState, sessi
 
   return (
     <div ref={screenRef} className="screen reflection-screen" data-testid="reflection-screen" aria-busy={finishState === 'saving'}>
-      <ScreenHeader onBack={onBack} eyebrow={t.eyebrow} title={t.title} />
+      <ScreenHeader onBack={onBack} eyebrow={t.eyebrow} title={completion.outcome === 'body-observation' ? bodyT.observationTitle : t.title} />
 
       {completion.crisisTier !== 'none' && (
         <CrisisBanner tier={completion.crisisTier} crisisT={section('crisis')} />
@@ -267,7 +268,11 @@ export function ReflectionScreen({ completion, allowExternalAI, saveState, sessi
           )}
       </div>
 
-      {requiresAcknowledge ? (
+      {completion.outcome === 'body-observation' ? <>
+        <p>{bodyT.noSuggestionBody}</p>
+        <ul>{completion.selections.map((selection) => <li key={selection.id}>{selection.label[language]}</li>)}</ul>
+        <button type="button" className="primary-button" onClick={() => finish()}>{t.done}</button>
+      </> : requiresAcknowledge ? (
         <button type="button" className="crisis-ack" onClick={() => setTier4Acknowledged(true)}>{t.acknowledge}</button>
       ) : (
         <>

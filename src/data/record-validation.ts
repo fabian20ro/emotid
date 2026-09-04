@@ -1,5 +1,6 @@
 import type { AnalysisResult } from '../models/types'
 import type { ChainAnalysisEntry, SerializedSelection, Session } from './types'
+import { SENSATION_TYPES } from '../models/somatic/types'
 
 type UnknownRecord = Record<string, unknown>
 
@@ -52,6 +53,14 @@ function isSession(value: unknown): value is Session {
     && entryRoutes.includes(value.entryRoute as undefined | string)
     && isOptionalString(value.selectedNeed)
     && isOptionalString(value.nextStep)
+    && (value.outcome === undefined || (
+      value.outcome === 'body-observation' && value.entryRoute === 'body'
+      && value.crisisTier === 'none' && value.reflectionAnswer === undefined
+      && value.selectedNeed === undefined && value.nextStep === undefined
+      && value.results.length === 0 && value.selections.length > 0
+      && value.selections.every((selection) => SENSATION_TYPES.some((type) => type === selection.extras?.sensationType)
+        && typeof selection.extras?.intensity === 'number' && [1, 2, 3].includes(selection.extras.intensity))
+    ))
 }
 
 function isChainEntry(value: unknown): value is ChainAnalysisEntry {
