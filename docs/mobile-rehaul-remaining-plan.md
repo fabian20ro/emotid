@@ -91,11 +91,17 @@ Editorial review is not clinical validation, participant evidence, or a new phys
 
 ### Next Recommended Work
 
-1. Prioritize another bounded content batch only for high-exposure words lacking
+1. Remediate newly reported development-toolchain advisories in `browserslist`, `fast-uri`, and
+   `@humanfs/node`. Confirm patched versions and parent ranges, update only affected lockfile
+   branches, then run clean install, policy/unit/build, production browser and PWA checks. Do not
+   use forced audit fixes or merge dependency PRs without checking the resolved tree. September 5
+   production-only audit reports zero vulnerabilities; full audit propagates seven underlying
+   advisories across 96 dependency entries. This is not 96 independent product vulnerabilities.
+2. Prioritize another bounded content batch only for high-exposure words lacking
    reviewed definitions. Start with the Stressed/Overwhelmed sibling context; inventory with the
    existing catalog tooling, review EN/RO together, then add rendered comparison tests. Do not
    mass-fill the catalog or create a runtime prose generator.
-2. Resume external P6/P7 evidence only on their existing prerequisites. They do not block these
+3. Resume external P6/P7 evidence only on their existing prerequisites. They do not block these
    verified product fixes. No new feature or architectural migration is needed for closure.
 
 Detailed pre-change findings and reproduction: [September audit](ux-psychology-audit-2026-09-04.md).

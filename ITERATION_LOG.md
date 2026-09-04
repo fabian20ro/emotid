@@ -2966,3 +2966,9 @@ follow direct guidance and first-step language placement; no native execution is
 The exact pushed candidate must pass hosted build, Pages deployment and public smoke before
 publication is reported. Next work: bounded reviewed definitions, not a new architecture.
 **Promoted to Lessons Learned:** Final browser verification needs an unchanged candidate.
+
+**Publication follow-up:** Push surfaced new dependency advisories. Read-only triage found seven
+underlying advisories in development-only `browserslist`, `fast-uri`, and `@humanfs/node`; npm
+propagates them to 96 dependency entries. `npm audit --omit=dev` reports zero. Dependency
+remediation now precedes optional content work in the remaining plan. No dependency changes or
+automatic/forced audit fix were mixed into this UX pass.
