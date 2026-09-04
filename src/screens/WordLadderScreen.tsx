@@ -4,7 +4,8 @@ import { ScreenHeader } from '../components/ScreenHeader'
 import { useLanguage } from '../context/LanguageContext'
 import { useEmotionModel } from '../hooks/useEmotionModel'
 import { MODEL_IDS } from '../models/constants'
-import type { AnalysisResult, BaseEmotion, EmotionModel, ModelState } from '../models/types'
+import { useDraftState } from '../features/check-in/workflow/draft'
+import type { AnalysisResult, BaseEmotion, EmotionModel } from '../models/types'
 
 interface WordLadderScreenProps {
   model: EmotionModel<BaseEmotion>
@@ -14,17 +15,6 @@ interface WordLadderScreenProps {
 
 interface LadderEmotion extends BaseEmotion {
   children?: string[]
-}
-
-interface LadderSnapshot {
-  emotions: BaseEmotion[]
-  selections: BaseEmotion[]
-  state: ModelState
-}
-
-interface ComparisonContext {
-  selected: BaseEmotion
-  siblings: BaseEmotion[]
 }
 
 function hasChildren(emotion: BaseEmotion): emotion is LadderEmotion {
@@ -46,9 +36,9 @@ export function WordLadderScreen({ model: emotionModel, onBack, onComplete }: Wo
   const t = section('wordLadder')
   const selectionT = section('selectionBar')
   const model = useEmotionModel(emotionModel)
-  const [path, setPath] = useState<BaseEmotion[]>([])
-  const [history, setHistory] = useState<LadderSnapshot[]>([])
-  const [comparisonContext, setComparisonContext] = useState<ComparisonContext | null>(null)
+  const [path, setPath] = useDraftState('wordPath', [])
+  const [history, setHistory] = useDraftState('wordHistory', [])
+  const [comparisonContext, setComparisonContext] = useDraftState('wordComparison', null)
   const [comparison, setComparison] = useState<BaseEmotion | null>(null)
   const [comparisonOpen, setComparisonOpen] = useState(false)
   const stopChoiceRef = useRef<HTMLButtonElement>(null)

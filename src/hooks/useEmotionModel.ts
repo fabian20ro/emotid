@@ -1,18 +1,22 @@
-import { useState, useMemo, useCallback, useEffect, useRef } from 'react'
+import { useMemo, useCallback, useEffect, useRef } from 'react'
+import { useDraftState } from '../features/check-in/workflow/draft'
 import type { BaseEmotion, AnalysisResult, EmotionModel, ModelState } from '../models/types'
 
 export function useEmotionModel(model: EmotionModel<BaseEmotion>) {
-  const [selections, setSelections] = useState<BaseEmotion[]>([])
-  const [modelState, setModelState] = useState<ModelState>(() => model.initialState)
+  const [selections, setSelections] = useDraftState('selections', [])
+  const [modelState, setModelState] = useDraftState('modelState', () => model.initialState)
+  const previousModel = useRef(model)
   const selectionsRef = useRef(selections)
   useEffect(() => {
     selectionsRef.current = selections
   }, [selections])
 
   useEffect(() => {
+    if (previousModel.current === model) return
+    previousModel.current = model
     setSelections([])
     setModelState(model.initialState)
-  }, [model])
+  }, [model, setModelState, setSelections])
 
   const visibleEmotions = useMemo(() => {
     const ids = Array.from(modelState.visibleEmotionIds.keys())
@@ -45,7 +49,7 @@ export function useEmotionModel(model: EmotionModel<BaseEmotion>) {
         return effect.newState
       })
     },
-    [model]
+    [model, setModelState, setSelections]
   )
 
   const handleDeselect = useCallback(
@@ -62,13 +66,13 @@ export function useEmotionModel(model: EmotionModel<BaseEmotion>) {
         return effect.newState
       })
     },
-    [model]
+    [model, setModelState, setSelections]
   )
 
   const handleClear = useCallback(() => {
     setSelections([])
     setModelState(model.onClear())
-  }, [model])
+  }, [model, setModelState, setSelections])
 
   // Derive breadcrumb path by walking the parent chain from any visible emotion
   const breadcrumbPath = useMemo(() => {
@@ -96,13 +100,13 @@ export function useEmotionModel(model: EmotionModel<BaseEmotion>) {
       )
       setModelState(model.onClear())
     },
-    [model]
+    [model, setModelState, setSelections]
   )
 
   const restore = useCallback((savedSelections: BaseEmotion[], savedState: ModelState) => {
     setSelections(savedSelections)
     setModelState(savedState)
-  }, [])
+  }, [setModelState, setSelections])
 
   const combos = useMemo(() => {
     return selections.length < 2 ? [] : model.analyze(selections).filter((r) => r.componentLabels)

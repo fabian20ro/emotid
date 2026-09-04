@@ -6,6 +6,7 @@ import { CrisisBanner } from '../components/CrisisBanner'
 import { ScreenHeader } from '../components/ScreenHeader'
 import { buildGoogleAiSearchUrl } from '../utils/google-ai-search'
 import { focusDestination } from '../utils/focusDestination'
+import { useDraftState } from '../features/check-in/workflow/draft'
 import type { CheckInCompletion, ReflectionAnswer, ReflectionDetail, ReflectionSaveOutcome, SessionSaveState } from '../navigation/types'
 
 type FinishState = 'idle' | 'saving' | 'error'
@@ -19,9 +20,10 @@ interface ReflectionScreenProps {
   onRetryBaseSave: () => void
   onSave: (detail: ReflectionDetail) => Promise<ReflectionSaveOutcome>
   onReturn: () => void
+  onFitChange?: (detail: ReflectionDetail) => Promise<ReflectionSaveOutcome>
 }
 
-export function ReflectionScreen({ completion, allowExternalAI, saveState, sessionCaptured, onBack, onRetryBaseSave, onSave, onReturn }: ReflectionScreenProps) {
+export function ReflectionScreen({ completion, allowExternalAI, saveState, sessionCaptured, onBack, onRetryBaseSave, onSave, onReturn, onFitChange }: ReflectionScreenProps) {
   const { language, section } = useLanguage()
   const t = section('reflectionScreen')
   const analyzeT = section('analyze')
@@ -30,7 +32,7 @@ export function ReflectionScreen({ completion, allowExternalAI, saveState, sessi
     () => [...new Set(results.map((result) => result.needs?.[language]).filter((need): need is string => Boolean(need)))],
     [language, results],
   )
-  const [fit, setFit] = useState<ReflectionAnswer | undefined>()
+  const [fit, setFit] = useDraftState('fit', undefined)
   const [selectedNeed, setSelectedNeed] = useState<string | undefined>()
   const [tier4Acknowledged, setTier4Acknowledged] = useState(false)
   const [showExploration, setShowExploration] = useState(false)
@@ -105,6 +107,9 @@ export function ReflectionScreen({ completion, allowExternalAI, saveState, sessi
     setFit(answer)
     setNextStep(undefined)
     if (answer === 'no') setSelectedNeed(undefined)
+    void onFitChange?.({ reflectionAnswer: answer }).catch(() => {
+      // The workflow's persistent save-status/retry controls own this failure.
+    })
   }
 
   const closeExploration = () => {

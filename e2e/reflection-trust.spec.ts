@@ -21,6 +21,40 @@ async function expectCompactActions(page: Page, doneName: string, exploreName: s
 test.describe('Reflection trust boundary', () => {
   test.beforeEach(async ({ page }) => openApp(page))
 
+  test('rejection is saved before leaving with Back, without a final Done action', async ({ page }) => {
+    await completeQuick(page, 'anxiety')
+    await page.getByRole('button', { name: 'Not really' }).click()
+    await expect(page.getByTestId('session-save-status')).toHaveClass(/is-saved/)
+    await page.getByRole('button', { name: 'Back', exact: true }).click()
+    await page.getByRole('button', { name: 'Journal', exact: true }).click()
+    await expect(page.getByText('Did not fit', { exact: true })).toBeVisible()
+    await page.reload()
+    await page.getByRole('button', { name: 'Journal', exact: true }).click()
+    await expect(page.getByText('Did not fit', { exact: true })).toBeVisible()
+  })
+
+  test('Affect revision restores placement, selected words and the explicit fit answer', async ({ page }) => {
+    await page.getByRole('button', { name: 'Place the feeling', exact: true }).click()
+    const plot = page.locator('.dimensional-plot-svg')
+    await plot.focus()
+    await page.keyboard.press('ArrowRight')
+    const readout = await page.getByTestId('affect-readout').textContent()
+    const chip = page.locator('.dimensional-suggestion-chip').first()
+    const id = await chip.getAttribute('data-testid')
+    await chip.click()
+    await page.getByTestId('affect-screen').getByRole('button', { name: 'Reflect on these words' }).click()
+    await page.getByRole('button', { name: 'Not really' }).click()
+    await expect(page.getByTestId('session-save-status')).toHaveClass(/is-saved/)
+    await page.getByRole('button', { name: 'Revise my selection' }).click()
+    await expect(page.getByTestId('affect-readout')).toHaveText(readout!)
+    await expect(page.getByTestId(id!)).toHaveAttribute('aria-pressed', 'true')
+    await page.getByTestId('affect-screen').getByRole('button', { name: 'Reflect on these words' }).click()
+    await expect(page.getByRole('button', { name: 'Not really' })).toHaveAttribute('aria-pressed', 'true')
+    await page.getByRole('button', { name: 'Finish without confirming this label' }).click()
+    await page.getByRole('button', { name: 'Journal', exact: true }).click()
+    await expect(page.getByRole('button', { name: /open reflection:/i })).toHaveCount(1)
+  })
+
   test('a new quick check-in preserves a reflection abandoned through Back and Journal', async ({ page }) => {
     await completeQuick(page, 'anxiety')
     await expect(page.getByTestId('session-save-status')).toContainText(/saved/i)

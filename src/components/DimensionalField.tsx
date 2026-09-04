@@ -5,6 +5,7 @@ import { useLanguage } from '../context/LanguageContext'
 import { findNearest } from '../models/dimensional'
 import type { VisualizationProps } from '../models/types'
 import type { DimensionalEmotion } from '../models/dimensional/types'
+import { useDraftState } from '../features/check-in/workflow/draft'
 
 const FIELD_SIZE = 500
 const PADDING = 30
@@ -80,9 +81,11 @@ function DimensionalFieldBase({ emotions, onSelect, onDeselect, selections = [],
   }, [dimEmotions, selectedIds])
 
   const svgRef = useRef<SVGSVGElement>(null)
-  const [crosshair, setCrosshair] = useState<{ x: number; y: number } | null>(null)
-  const [placement, setPlacement] = useState<{ valence: number; arousal: number } | null>(null)
-  const [suggestions, setSuggestions] = useState<DimensionalEmotion[]>([])
+  const [placement, setPlacement] = useDraftState('placement', null)
+  const crosshair = placement ? { x: toPixel(placement.valence), y: toPixel(-placement.arousal) } : null
+  const suggestions = useMemo(() => placement
+    ? findNearest(placement.valence, placement.arousal, emotionMap, 3)
+    : [], [placement, emotionMap])
   const suggestionTrayRef = useRef<HTMLDivElement>(null)
   const suggestedIds = useMemo(() => new Set(suggestions.map((suggestion) => suggestion.id)), [suggestions])
 
@@ -95,11 +98,9 @@ function DimensionalFieldBase({ emotions, onSelect, onDeselect, selections = [],
   const placeAt = useCallback(
     (valence: number, arousal: number) => {
       setHasInteracted(true)
-      setCrosshair({ x: toPixel(valence), y: toPixel(-arousal) })
       setPlacement({ valence, arousal })
-      setSuggestions(findNearest(valence, arousal, emotionMap, 3))
     },
-    [emotionMap]
+    [setPlacement]
   )
 
   const placeFromClientPoint = useCallback(
@@ -213,7 +214,7 @@ function DimensionalFieldBase({ emotions, onSelect, onDeselect, selections = [],
             stroke="var(--affect-grid)" strokeWidth={1}
           />
 
-          {!hasInteracted && (
+          {!hasInteracted && !placement && (
             <g aria-hidden="true" pointerEvents="none" data-testid="affect-placement-hint">
               <rect
                 x={92}
@@ -364,7 +365,7 @@ function DimensionalFieldBase({ emotions, onSelect, onDeselect, selections = [],
               <button
                 type="button"
                 aria-label={dimensionalT.clearPlacement}
-                onClick={() => { setCrosshair(null); setPlacement(null); setSuggestions([]) }}
+                onClick={() => setPlacement(null)}
                 className="dimensional-clear min-h-[48px]"
               >
                 <X size={19} aria-hidden="true" />

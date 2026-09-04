@@ -32,6 +32,27 @@ function renderWorkflow(
 }
 
 describe('useCheckInWorkflow', () => {
+  it('keeps the latest rejection in memory while writes are pending, and retries it after failure', async () => {
+    let rejectDetail!: (error: Error) => void
+    const save = vi.fn<(session: Session) => Promise<void>>()
+      .mockResolvedValueOnce(undefined)
+      .mockImplementationOnce(() => new Promise((_, reject) => { rejectDetail = reject }))
+      .mockResolvedValue(undefined)
+    const { result } = renderWorkflow(save)
+    act(() => { result.current.complete('quick', 'quick-check-in', [selection], [analysis]) })
+    await waitFor(() => expect(save).toHaveBeenCalledOnce())
+    let write!: Promise<unknown>
+    act(() => { write = result.current.saveReflection({ reflectionAnswer: 'no' }).catch(() => undefined) })
+    expect(result.current.currentSession?.reflectionAnswer).toBe('no')
+    expect(result.current.state).toMatchObject({ saveState: 'saving' })
+    await waitFor(() => expect(save).toHaveBeenCalledTimes(2))
+    await act(async () => { rejectDetail(new Error('disk')); await write })
+    expect(result.current.state).toMatchObject({ saveState: 'error' })
+    act(() => result.current.retryBaseSave())
+    await waitFor(() => expect(result.current.state).toMatchObject({ saveState: 'saved' }))
+    expect(save.mock.calls[2][0].reflectionAnswer).toBe('no')
+  })
+
   it('starts a distinct quick entry after an abandoned reflection without overwriting it', async () => {
     const save = vi.fn<(session: Session) => Promise<void>>().mockResolvedValue(undefined)
     const { result } = renderWorkflow(save)

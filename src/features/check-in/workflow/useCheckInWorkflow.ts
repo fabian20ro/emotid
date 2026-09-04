@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useReducer, useRef } from 'react'
+import { useCallback, useEffect, useReducer, useRef, useState } from 'react'
 import { addReflectionDetail, createSession } from '../../../data/session'
 import type { Session } from '../../../data/types'
 import type { AnalysisResult, BaseEmotion } from '../../../models/types'
@@ -8,6 +8,7 @@ import type {
   ReflectionSaveOutcome,
 } from '../../../navigation/types'
 import { buildCheckInCompletion } from './build-completion'
+import { createCheckInDraft } from './draft'
 import {
   checkInWorkflowReducer,
   INITIAL_CHECK_IN_WORKFLOW_STATE,
@@ -42,6 +43,8 @@ export function useCheckInWorkflow({
     INITIAL_CHECK_IN_WORKFLOW_STATE,
   )
   const activeSessionRef = useRef<Session | null>(null)
+  const [currentSession, setCurrentSession] = useState<Session | null>(null)
+  const [draft, setDraft] = useState(createCheckInDraft)
   const saveSessionRef = useRef(saveSession)
   const writeCoordinatorRef = useRef<SessionWriteCoordinator | null>(null)
   if (writeCoordinatorRef.current === null) {
@@ -61,6 +64,8 @@ export function useCheckInWorkflow({
   const reset = useCallback(() => {
     writeCoordinatorRef.current?.resetGeneration()
     activeSessionRef.current = null
+    setCurrentSession(null)
+    setDraft(createCheckInDraft())
     latestWriteRef.current = null
     latestBaseWriteRef.current = null
     completionInFlightRef.current = false
@@ -113,11 +118,15 @@ export function useCheckInWorkflow({
     completionInFlightRef.current = true
     const completion = buildCheckInCompletion({ route, modelId, selections, results })
     const existing = activeSessionRef.current
-    const session = createSession(
+    let session = createSession(
       completion,
       existing ? { id: existing.id, timestamp: existing.timestamp } : undefined,
     )
+    if (existing?.reflectionAnswer) session = addReflectionDetail(session, {
+      reflectionAnswer: existing.reflectionAnswer,
+    })
     activeSessionRef.current = session
+    setCurrentSession(session)
     dispatch({ type: 'completed', completion, saveEnabled: saveSessions })
     persistBaseSession(session)
     onShowReflection()
@@ -131,13 +140,16 @@ export function useCheckInWorkflow({
     detail: ReflectionDetail,
   ): Promise<ReflectionSaveOutcome> => {
     const session = activeSessionRef.current
-    if (!session || !saveSessions) return 'not-saved'
+    if (!session) return 'not-saved'
 
     const updated = addReflectionDetail(session, detail)
+    activeSessionRef.current = updated
+    setCurrentSession(updated)
+    if (!saveSessions) return 'not-saved'
+    dispatch({ type: 'save-started' })
     const write = queueSessionSave('detail', updated)
     try {
       await write
-      activeSessionRef.current = updated
       if (latestWriteRef.current === write) {
         dispatch({ type: 'write-succeeded' })
       }
@@ -166,6 +178,8 @@ export function useCheckInWorkflow({
       await coordinator.pauseAndDrain()
       await action()
       activeSessionRef.current = null
+      setCurrentSession(null)
+      setDraft(createCheckInDraft())
       latestWriteRef.current = null
       latestBaseWriteRef.current = null
       dispatch({ type: 'reset' })
@@ -177,6 +191,8 @@ export function useCheckInWorkflow({
 
   return {
     state,
+    draft,
+    currentSession,
     begin: reset,
     complete,
     saveReflection,

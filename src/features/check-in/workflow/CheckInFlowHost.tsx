@@ -82,6 +82,7 @@ export function CheckInFlowHost({
         onBack={onBack}
         onRetryBaseSave={onRetryBaseSave}
         onSave={onSaveReflection}
+        onFitChange={onSaveReflection}
         onReturn={onFinish}
       />
     </LazyRouteBoundary>

@@ -14,6 +14,7 @@ import type { AnalysisResult, BaseEmotion } from './models/types'
 import type { CheckInRoute, AppTab } from './navigation/types'
 import { preloadCheckInFeature } from './features/check-in/registry'
 import { useCheckInWorkflow } from './features/check-in/workflow/useCheckInWorkflow'
+import { CheckInDraftContext } from './features/check-in/workflow/draft'
 
 const CheckInFlowHost = lazy(async () => {
   const module = await import('./features/check-in/workflow/CheckInFlowHost')
@@ -60,7 +61,7 @@ export default function App() {
   const [isOffline, setIsOffline] = useState(() => typeof navigator !== 'undefined' && !navigator.onLine)
   const onboardingReturnFocusRef = useRef<HTMLElement | null>(null)
 
-  const { sessions, loading: sessionsLoading, error: sessionsError, save: saveSession, remove: removeSession, clearAll: clearAllSessions } = useSessionHistory()
+  const { sessions: storedSessions, loading: sessionsLoading, error: sessionsError, save: saveSession, remove: removeSession, clearAll: clearAllSessions } = useSessionHistory()
   const { entries: chainEntries, loading: chainLoading, error: chainError, save: saveChainEntry, clearAll: clearAllChains } = useChainAnalysis()
   const [saveSessions, setSaveSessions] = useState(() => storage.get('saveSessions') !== 'false')
   const [allowExternalAI, setAllowExternalAI] = useState(() => storage.get('allowExternalAI') !== 'false')
@@ -76,6 +77,8 @@ export default function App() {
 
   const {
     state: checkInState,
+    draft: checkInDraft,
+    currentSession,
     begin: beginCheckIn,
     complete: completeCheckIn,
     saveReflection,
@@ -88,6 +91,10 @@ export default function App() {
     onShowReflection: showReflection,
     onReturnToday: returnToday,
   })
+
+  const sessions = useMemo(() => storedSessions.map((session) => (
+    saveSessions && currentSession?.id === session.id ? currentSession : session
+  )), [currentSession, saveSessions, storedSessions])
 
   const completion = checkInState.phase === 'reflecting'
     ? checkInState.completion
@@ -237,7 +244,7 @@ export default function App() {
         onTabChange={(tab) => navigation.reset({ name: tab })}
         onOpenSettings={() => navigation.navigate({ name: 'settings' })}
       >
-        {content}
+        <CheckInDraftContext.Provider value={checkInDraft}>{content}</CheckInDraftContext.Provider>
       </AppShell>
       {onboardingMode === 'replay' && (
         <Onboarding
