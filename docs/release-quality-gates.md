@@ -6,6 +6,7 @@ Run before release:
 
 ```bash
 npm run check
+npm run test:language-refresh
 E2E_PRODUCTION=true npm run test:e2e
 npm run test:pwa
 npm run test:performance
@@ -15,6 +16,11 @@ npm run test:deployed:local
 The release browser matrix and CI use the production build created by `check`, without hot
 reload. Port 5173 must be free. Plain `npm run test:e2e` retains the development-server workflow
 for focused iteration; do not edit imported files during a final development-backed run.
+
+`test:language-refresh` is a separate Chromium development-boundary regression. It starts an
+ephemeral Vite server, simulates a provider edit in memory, and requires document and selection
+preservation without Fast Refresh invalidation. It never edits source files and does not replace
+the production matrix. CI runs it after browser installation, before the production journeys.
 
 `npm run check:release` is included in `npm run check`. It runs deterministic drift fixtures, then
 requires one release identity across `package.json`, the lockfile root, the README release URL, the

@@ -1,6 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { getInitialLanguage, LanguageProvider, setDocumentLanguage } from './context/LanguageContext'
+import { LanguageProvider } from './context/LanguageContext'
+import { getInitialLanguage, setDocumentLanguage } from './context/language-bootstrap'
 import './index.css'
 import App from './App.tsx'
 

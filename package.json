@@ -25,6 +25,7 @@
     "lint:fix": "eslint . --fix",
     "format": "npm run lint:fix",
     "test:e2e": "playwright test",
+    "test:language-refresh": "node --test scripts/language-refresh.test.mjs",
     "test:pwa": "playwright test --config=playwright.pwa.config.ts",
     "test:deployed": "playwright test --config=playwright.deployed.config.ts",
     "test:deployed:local": "npm run build && npm run test:deployed",

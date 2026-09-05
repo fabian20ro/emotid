@@ -48,7 +48,10 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium webkit
 
-      - name: Run browser tests
+      - name: Verify language Fast Refresh
+        run: npm run test:language-refresh
+
+      - name: Run production browser tests
         run: npm run test:e2e
         env:
           E2E_PRODUCTION: 'true'

@@ -3032,3 +3032,31 @@ lint, policy, type checking, build and asset budgets passed. No product changes 
 browser matrix. Hosted CI/deploy/public smoke and the eight affected public-URL journeys must
 pass on this commit before publication is reported as verified. Existing catalog provenance and
 production-verification lessons apply; no new reusable lesson required.
+
+### [2026-09-05] M3 language bootstrap and Fast Refresh boundary
+
+**Context:** Owner requested implementation, verification, deployment and live confirmation.
+M2 was published as `5049d28`; its hosted pipeline and eight affected live journeys passed.
+**Reproduction:** Controlled in-memory provider edits caused Vite to invalidate `getInitialLanguage`
+and reload the document. Extracting bootstrap alone exposed a second incompatible export,
+`useLanguage`. Logs retained locally under `/tmp/emotid-m3-hmr-*.log`.
+**Changes:** Separate bootstrap/type and stable context/hook owners from the provider, retaining
+the public provider/hook API. No language precedence, synchronous DOM language, copy, storage,
+safety, scoring or outbound behavior change. No new dependency or global state abstraction.
+**Regression:** `test:language-refresh` uses Vite and Chromium without modifying source files;
+it failed before either boundary repair and passes after both, preserving the document and Quick
+selection. Added to CI separately from production tests. Nine unit cases cover bootstrap and
+synchronous commits; eight browser cases cover EN/RO x themes and both engines with an opposite
+browser locale, first-mutation language, runtime changes and reload persistence. The browser
+fixture also accounts for existing localized loading headings, not just destination headings.
+**Performance:** Initial JS 149,910 gzip bytes, four bytes below M2 and 90 below the unchanged
+budget. No meaningful runtime speedup claimed. Further content needs import-graph review first.
+**Scope:** No physical audio or participant validation; existing release waivers remain unchanged.
+Final frozen-candidate verification and publication results follow. Existing production-freeze
+and synchronous-language lessons apply; no duplicate lesson added.
+
+**Final pre-deploy checks:** 723 unit/component tests, the development Fast Refresh regression,
+and all 314 production Chromium/WebKit journeys passed. PWA lifecycle, production performance,
+local deployed smoke, lint, policy, types, build and asset budgets passed. Product files remained
+unchanged during final browser verification. Hosted CI, Pages, public smoke and the eight affected
+live language journeys are required on the committed revision before claiming verified deployment.

@@ -1,39 +1,16 @@
-import { createContext, useState, useEffect, useContext, useCallback, type ReactNode } from 'react'
+import { useState, useEffect, useCallback, type ReactNode } from 'react'
 import roStrings from '../i18n/ro.json'
 import enStrings from '../i18n/en.json'
 import { storage } from '../data/storage'
+import { getInitialLanguage, setDocumentLanguage, type Language } from './language-bootstrap'
+import { LanguageContext, type Strings, type StringSection } from './language-context'
 
-export type Language = 'ro' | 'en'
-
-type Strings = typeof roStrings
-
-/** Type-safe section accessor — returns the flat string record for a given i18n section */
-type StringSection = keyof Strings
-
-interface LanguageContextType {
-  language: Language
-  setLanguage: (lang: Language) => void
-  t: Strings
-  /** Type-safe section accessor: `section('today')` returns `Strings['today']` */
-  section: <K extends StringSection>(key: K) => Strings[K]
-}
-
-const LanguageContext = createContext<LanguageContextType | null>(null)
+export type { Language } from './language-bootstrap'
+export { useLanguage } from './language-context'
 
 const strings: Record<Language, Strings> = {
   ro: roStrings,
   en: enStrings,
-}
-
-export function getInitialLanguage(): Language {
-  if (typeof window === 'undefined') return 'en'
-  const saved = storage.get('language')
-  if (saved === 'ro' || saved === 'en') return saved
-  return navigator.language.startsWith('ro') ? 'ro' : 'en'
-}
-
-export function setDocumentLanguage(language: Language) {
-  document.documentElement.lang = language
 }
 
 export function LanguageProvider({
@@ -64,12 +41,4 @@ export function LanguageProvider({
       {children}
     </LanguageContext.Provider>
   )
-}
-
-export function useLanguage() {
-  const context = useContext(LanguageContext)
-  if (!context) {
-    throw new Error('useLanguage must be used within LanguageProvider')
-  }
-  return context
 }

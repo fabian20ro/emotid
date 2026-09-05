@@ -98,8 +98,8 @@ M2 completes the Stressed sibling group with five new bilingual definitions and 
 Tense meaning. See [editorial decisions and evidence](m2-stressed-description-review.md).
 Other incomplete groups, including the distinct `overwhelmed_fear` context, remain deferred.
 
-1. Repair the small language-bootstrap/Fast Refresh boundary described below, independently of
-   product behavior. Keep final browser evidence on production, not HMR.
+1. Inspect initial imports before any further content expansion; only 90 gzip bytes remain under
+   the initial-JS budget. Change a loading boundary only after identifying a specific eager owner.
 2. Resume external P6/P7 evidence only on their existing prerequisites. They do not block these
    verified product fixes. No new feature or architectural migration is needed for closure.
 
@@ -140,22 +140,20 @@ Done: one complete reachable group, incomplete groups still fail closed, no safe
 and no hidden prose falsely counted as available. Stop after this batch; do not fill all missing
 catalog entries merely to increase coverage.
 
-### M3 - Small Architecture Improvement (P2, Independent Commit)
+### M3 - Small Architecture Improvement (Implemented)
 
-Extract language bootstrap helpers from the React component module. Previous Vite logs showed
-Fast Refresh invalidating `LanguageContext.tsx` because `getInitialLanguage` was incompatible.
-Production E2E avoids this issue; improving the development boundary remains useful.
+Controlled provider refresh reproduced incompatible `getInitialLanguage`, then incompatible
+`useLanguage` after bootstrap extraction alone. Bootstrap/type now live in a leaf module; context
+identity and hook live separately from the provider. The existing provider/hook import API remains
+available. Synchronous document language, preference precedence and persistence are unchanged.
 
-1. Reproduce with a controlled local edit and retain the invalidation log.
-2. Move initial-language/document-language helpers and their shared type to a small leaf module;
-   update bootstrap/provider imports. Preserve the `useLanguage` API and synchronous document
-   language before the first localized render. No new store, router or async locale loader.
-3. Run language/default/preference, first-mutation and runtime-switch tests. Verify an edit no
-   longer resets the current journey through that export incompatibility. If another export is
-   responsible, fix only the proven boundary, not an imagined general framework.
-4. Compare build size before/after. This targets clarity and debugging, not a promised speedup.
+The repeatable Chromium refresh test preserves the current document and selected Quick word;
+CI runs it separately from production tests. Unit and two-engine EN/RO x theme browser regressions
+cover stored/browser preference precedence, first localized mutations, runtime changes and reload.
+No new state library, async locale loader, translated copy or network behavior. This is a
+development/debugging fix, not a claimed user-perceived speedup.
 
-Performance guard: after M2 initial JS is 149,914 gzip bytes / 150,000 limit (86 bytes headroom).
+Performance guard: after M3 initial JS is 149,910 gzip bytes / 150,000 limit (90 bytes headroom).
 Inspect initial imports before any further content expansion. Re-measure after each
 content batch. If headroom runs out, inspect the manifest/import graph and move the specific eager
 feature dependency behind its existing lazy boundary. Do not raise budgets or build a global
@@ -192,8 +190,9 @@ and explicit new/revise/finish transitions, independently of screen mounting. Sc
 presentation stays local and the ordered writer owns persistence. This addresses the repeated
 identity, Back, rejection, and restoration problems without a new state library or router.
 
-Verification follows the normative commands in `docs/release-quality-gates.md`. M2 local completion:
-714 unit/component tests, 306 production Chromium/WebKit journeys, PWA lifecycle, production
+Verification follows the normative commands in `docs/release-quality-gates.md`. M3 local completion:
+723 unit/component tests, the development Fast Refresh regression, 314 production Chromium/WebKit
+journeys, PWA lifecycle, production
 performance, policy, lint, build and asset budgets passed. On publication, require hosted CI and
 the public deployed smoke. These checks are not new physical audio evidence.
 
