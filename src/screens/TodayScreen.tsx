@@ -4,7 +4,7 @@ import { useLanguage } from '../context/LanguageContext'
 import { quickEmotions } from '../models/catalog/quick'
 import type { AnalysisResult, BaseEmotion } from '../models/types'
 import type { Session } from '../data/types'
-import { getResultRelationship, getSessionResultHeading } from '../data/session-presentation'
+import { RecentThread } from '../components/RecentThread'
 
 interface TodayScreenProps {
   sessions: Session[]
@@ -97,16 +97,7 @@ export function TodayScreen({ sessions, saveSessions, onPlaceFeeling, onHelpChoo
         <h2 id="recent-title" className="section-heading">{t.recentTitle}</h2>
         <div className="soft-panel recent-thread">
           {recent ? (
-            <>
-              <div className="recent-thread-main">
-                <span className="muted text-xs">{new Intl.DateTimeFormat(language, { dateStyle: 'medium' }).format(recent.timestamp)}</span>
-                <strong>{getSessionResultHeading(recent, language, t.rejectedResult)}</strong>
-                <span className="muted text-xs">{section('journalScreen').relationship[getResultRelationship(recent)]}</span>
-              </div>
-              <button type="button" className="icon-button" onClick={onOpenJournal} aria-label={t.continue}>
-                <ArrowRight size={19} aria-hidden="true" />
-              </button>
-            </>
+            <RecentThread session={recent} onOpenJournal={onOpenJournal} />
           ) : (
             <p className="muted text-sm m-0">{t.recentEmpty}</p>
           )}

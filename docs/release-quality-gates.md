@@ -50,6 +50,10 @@ platform steps, selectors, fixtures, and lifecycle remain in their adapters.
 - production assets exceed 960,000 bytes;
 - a primary feature screen is no longer a dynamic build entry.
 
+Session presentation must also remain a dynamic entry outside the static startup graph: an empty
+journal must not pull the complete emotion catalog onto Today's critical path. Browser tests verify
+that no summary request occurs without history, plus delayed/failed loading with retained data.
+
 `test:performance` records production startup and first-open behavior for Body, Affect, Words, and
 Plutchik. The JSON artifact includes transfer/decoded bytes, resource paths, long tasks, and
 elapsed time. CI timing is diagnostic because shared runners do not represent physical devices.

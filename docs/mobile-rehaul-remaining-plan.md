@@ -98,8 +98,8 @@ M2 completes the Stressed sibling group with five new bilingual definitions and 
 Tense meaning. See [editorial decisions and evidence](m2-stressed-description-review.md).
 Other incomplete groups, including the distinct `overwhelmed_fear` context, remain deferred.
 
-1. Inspect initial imports before any further content expansion; only 90 gzip bytes remain under
-   the initial-JS budget. Change a loading boundary only after identifying a specific eager owner.
+1. Keep future content work bounded to a deliberately selected incomplete choice group; no bulk
+   catalog completion. The initial-import issue below is fixed; remeasure budgets after each batch.
 2. Resume external P6/P7 evidence only on their existing prerequisites. They do not block these
    verified product fixes. No new feature or architectural migration is needed for closure.
 
@@ -153,11 +153,30 @@ cover stored/browser preference precedence, first localized mutations, runtime c
 No new state library, async locale loader, translated copy or network behavior. This is a
 development/debugging fix, not a claimed user-perceived speedup.
 
-Performance guard: after M3 initial JS is 149,910 gzip bytes / 150,000 limit (90 bytes headroom).
-Inspect initial imports before any further content expansion. Re-measure after each
+Performance guard: initial JS is now 142,050 gzip bytes / 150,000 limit (7,950 bytes headroom).
+Re-measure after each
 content batch. If headroom runs out, inspect the manifest/import graph and move the specific eager
 feature dependency behind its existing lazy boundary. Do not raise budgets or build a global
 localization system just to make the gate green.
+
+### Initial Catalog Loading (Implemented)
+
+The proven eager path was Today -> session presentation -> full emotion catalog, even with an
+empty journal. Only the recent-summary presentation dependency now loads on demand when a session
+exists. Quick remains immediately selectable; journal labels still use canonical corrections,
+selected-result filtering and rejection framing. No catalog duplication or new state framework.
+
+Initial static JS fell from 149,910 to 142,050 gzip bytes (7,860 bytes / 5.24%). Total assets and
+offline precaching remain separate measurements: this does not promise the same reduction in
+total background transfer or a measured physical-device speedup. The unchanged 150,000-byte gate
+also requires a dynamic session-presentation entry outside the static startup graph.
+
+Eight browser rows cover empty-history deferral, cold-cache saved history, delayed and HTTP 503
+summary loading, usable Quick controls, compact error copy, contrast and reopening recovery in
+EN/RO x themes on Chromium/WebKit. WebKit retained simulated failed-module state across reload;
+reopening a page passed. Error copy therefore says to reopen, not merely reload. Existing route
+chunk recovery has the same browser-level limitation; do not add a universal retry loader without
+a separately reproduced requirement. Offline reopen/update remains covered by the PWA gate.
 
 ### M4 - Verification And Publication For Each Batch
 
@@ -190,8 +209,8 @@ and explicit new/revise/finish transitions, independently of screen mounting. Sc
 presentation stays local and the ordered writer owns persistence. This addresses the repeated
 identity, Back, rejection, and restoration problems without a new state library or router.
 
-Verification follows the normative commands in `docs/release-quality-gates.md`. M3 local completion:
-723 unit/component tests, the development Fast Refresh regression, 314 production Chromium/WebKit
+Verification follows the normative commands in `docs/release-quality-gates.md`. Current local completion:
+723 unit/component tests, the development Fast Refresh regression, 322 production Chromium/WebKit
 journeys, PWA lifecycle, production
 performance, policy, lint, build and asset budgets passed. On publication, require hosted CI and
 the public deployed smoke. These checks are not new physical audio evidence.

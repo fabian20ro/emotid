@@ -189,6 +189,8 @@
     "quickContinue": "Continuă cu {emotion}",
     "recentTitle": "Firul tău recent",
     "recentEmpty": "Reflecțiile pot rămâne aici când alegi să le salvezi.",
+    "recentLoading": "Se încarcă ultima ta reflecție…",
+    "recentUnavailable": "Rezumatul nu s-a putut încărca. Redeschide aplicația pentru a reîncerca. Reflecțiile salvate nu sunt modificate.",
     "rejectedResult": "Rezultat sugerat: {result}",
     "savedLocally": "Salvat doar pe acest dispozitiv",
     "continue": "Deschide jurnalul"

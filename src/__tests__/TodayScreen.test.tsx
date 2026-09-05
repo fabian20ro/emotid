@@ -115,7 +115,7 @@ describe('TodayScreen quick commitment', () => {
     expect(screen.getByRole('button', { name: 'Ajută-mă să aleg' })).toBeVisible()
   })
 
-  it('keeps a rejected recent result visibly framed as a suggestion', () => {
+  it('keeps a rejected recent result visibly framed as a suggestion', async () => {
     renderToday('en', [{
       id: 'rejected',
       timestamp: 1,
@@ -128,7 +128,7 @@ describe('TodayScreen quick commitment', () => {
     }])
 
     const recent = document.querySelector('.recent-thread')!
-    expect(within(recent).getByText('Suggested result: anxiety')).toBeInTheDocument()
+    expect(await within(recent).findByText('Suggested result: anxiety')).toBeInTheDocument()
     expect(within(recent).queryByText('anxiety', { exact: true })).not.toBeInTheDocument()
   })
 })

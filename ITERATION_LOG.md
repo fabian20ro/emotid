@@ -3060,3 +3060,30 @@ and all 314 production Chromium/WebKit journeys passed. PWA lifecycle, productio
 local deployed smoke, lint, policy, types, build and asset budgets passed. Product files remained
 unchanged during final browser verification. Hosted CI, Pages, public smoke and the eight affected
 live language journeys are required on the committed revision before claiming verified deployment.
+
+### [2026-09-05] Initial catalog loading boundary
+
+**Context:** Owner asked what the startup budget means, then requested the next implementation,
+verification and live deployment. Explained gzip-byte limits, not account quotas or money.
+M3 `934b81c` passed hosted CI/Pages/smoke and eight live language journeys.
+**Finding:** Today eagerly imported session presentation and thereby the complete catalog even
+without history. Quick's smaller curated source set remains intentionally eager.
+**Changes:** RecentThread loads existing presentation helpers only when a recent session exists;
+no duplicated catalog, labels or result policy. Preserved canonical label corrections and rejected
+result framing. Localized loading/error copy; Quick remains usable independently of summary load.
+**TDD/verification:** Dynamic-entry performance assertion failed against the preceding build.
+Repaired boundary passes; 723 unit/component tests and language Fast Refresh pass. Eight focused
+EN/RO x theme/browser rows cover cold-cache history, held/failed requests, selection preservation,
+contrast and reopening with data intact. WebKit cached failed imports across reload, for both
+abort and non-cacheable 503 simulations; new-page recovery passes. Copy names reopening explicitly.
+Cold browser contexts retain IndexedDB via storageState, avoiding warmed-cache false positives.
+**Performance:** Initial gzip JS 149,910 -> 142,050 (-7,860; 5.24%), entry 41,256, total assets
+907,627. Limits unchanged. Offline precache transfer is not the static startup graph; no physical
+timing or speech improvement claim. Final frozen release matrix and publication checks follow.
+
+**Final pre-deploy checks:** 723 unit/component and 322 production browser tests passed, plus
+language Fast Refresh, PWA offline/update lifecycle, performance and local deployed smoke.
+Lint, policy, types, build, asset budgets and diff checks passed. Final EN/light and RO/dark
+screenshots inspected, including 320px error reflow. Exact-commit hosted CI/Pages/public smoke and
+affected live journeys remain mandatory before reporting publication as verified. No new lesson:
+existing lazy-boundary, frozen-candidate and evidence-scope guidance applies.

@@ -49,6 +49,7 @@ const dynamicEntries = Object.entries(manifest)
   .sort((a, b) => a.source.localeCompare(b.source))
 
 const requiredDynamicSources = [
+  'src/data/session-presentation.ts',
   'src/features/check-in/workflow/CheckInFlowHost.tsx',
   'src/screens/BodyCompassScreen.tsx',
   'src/screens/JournalScreen.tsx',
@@ -60,6 +61,11 @@ for (const source of requiredDynamicSources) {
   if (!dynamicEntries.some((entry) => entry.source === source)) {
     throw new Error(`Expected dynamic feature entry missing: ${source}`)
   }
+}
+
+const presentation = manifest['src/data/session-presentation.ts']
+if (initialFiles.includes(presentation.file)) {
+  throw new Error('Session presentation must not load its full catalog at startup')
 }
 
 const measurements = {
