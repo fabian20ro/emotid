@@ -23,7 +23,7 @@ const somaticDir = path.resolve(scriptsDir, '../src/models/somatic/data')
 const wheelOverlayDir = path.resolve(scriptsDir, '../src/models/wheel/overlays')
 const wheelRootIdsPath = path.resolve(scriptsDir, '../src/models/wheel/root-ids.json')
 
-test('builds the exact 61-entry reviewed description inventory with one complete root comparison group', () => {
+test('builds the exact 66-entry reviewed description inventory with one complete root comparison group', () => {
   const batch = buildDescriptionPilotBatch({
     batchId: 'p27-description-pilot-01',
     catalogDir,
@@ -50,6 +50,7 @@ test('builds the exact 61-entry reviewed description inventory with one complete
     'bitter',
     'bittersweetness',
     'bored',
+    'burned_out',
     'confused',
     'content',
     'critical',
@@ -70,14 +71,18 @@ test('builds the exact 61-entry reviewed description inventory with one complete
     'hurt',
     'insecure',
     'interested',
+    'irritable',
     'joy',
     'let_down',
     'lonely',
     'mad',
     'nervous',
     'numb',
+    'on_edge',
     'optimistic',
+    'out_of_control',
     'overwhelmed',
+    'overwhelmed_bad',
     'peaceful',
     'playful',
     'powerful',

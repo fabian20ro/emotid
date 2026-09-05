@@ -391,6 +391,11 @@
       "en": "Overwhelmed"
     },
     "color": "#D0D8E0",
+    "description": {
+      "en": "Feeling overwhelmed can mean that demands, thoughts, or feelings seem too much to take in at once. The emphasis is on the amount to handle, rather than on losing control.",
+      "ro": "A fi copleșit poate însemna că solicitările, gândurile sau trăirile par prea multe pentru a fi cuprinse deodată. Accentul cade pe cât este de gestionat, nu neapărat pe pierderea controlului."
+    },
+    "descriptionStatus": "reviewed",
     "guidance": {
       "status": "reviewed",
       "needId": "relief"
@@ -403,6 +408,11 @@
       "en": "Out of control"
     },
     "color": "#D0D8E0",
+    "description": {
+      "en": "Feeling out of control can describe the feeling that emotions or events are hard to influence or steady. It describes a felt lack of control, not proof that control is absent.",
+      "ro": "A simți că lucrurile scapă de sub control poate însemna senzația că emoțiile sau evenimentele sunt greu de influențat ori de stabilizat. Descrie o trăire, nu dovada că lipsește orice control."
+    },
+    "descriptionStatus": "reviewed",
     "guidance": {
       "status": "reviewed",
       "needId": null
@@ -487,6 +497,11 @@
       "en": "Burned out"
     },
     "color": "#D0D8E0",
+    "description": {
+      "en": "Feeling burned out may involve work-related exhaustion, distance from work, or a reduced sense of effectiveness. Here the word refers to an ongoing work experience, not just a single tiring moment.",
+      "ro": "Epuizarea profesională poate implica oboseală legată de muncă, detașare față de aceasta sau senzația unei eficiențe reduse. Aici cuvântul descrie o experiență profesională de durată, nu doar un singur moment obositor."
+    },
+    "descriptionStatus": "reviewed",
     "guidance": {
       "status": "reviewed",
       "needId": "rest"
@@ -499,6 +514,11 @@
       "en": "On edge"
     },
     "color": "#D0D8E0",
+    "description": {
+      "en": "Feeling on edge can involve uneasiness and a sense of being poised to react, even without a clear trigger. The emphasis is on readiness, rather than on annoyance itself.",
+      "ro": "Starea de a avea nervii întinși poate implica neliniște și pregătire pentru o reacție imediată, chiar fără un motiv clar. Accentul cade pe această pregătire, nu pe iritare în sine."
+    },
+    "descriptionStatus": "reviewed",
     "guidance": {
       "status": "reviewed",
       "needId": "grounding"
@@ -511,6 +531,11 @@
       "en": "Irritable"
     },
     "color": "#D0D8E0",
+    "description": {
+      "en": "Feeling irritable can mean that small interruptions or frustrations are unusually bothersome. Annoyance may arise easily; the feeling does not say whether it is expressed or how someone behaves.",
+      "ro": "Iritabilitatea poate însemna că mici întreruperi sau frustrări deranjează mai mult decât de obicei. Iritarea poate apărea ușor; trăirea nu spune dacă este exprimată sau cum se comportă persoana."
+    },
+    "descriptionStatus": "reviewed",
     "guidance": {
       "status": "reviewed",
       "needId": null

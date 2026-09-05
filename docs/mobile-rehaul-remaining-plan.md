@@ -85,7 +85,7 @@ created. Historical evidence rows retain their original candidate identity.
 - **R6:** compact intermediate continuation with prior selections retained; readable external
   Affect labels; direct guide with remembered navigation step; language on introduction step one.
 
-Current catalog coverage is deliberately bounded: 61 reviewed descriptions, not an invented
+Current catalog coverage is deliberately bounded: 66 reviewed descriptions, not an invented
 definition for every word. Missing prose stays absent; existing no-guidance decisions stay intact.
 Editorial review is not clinical validation, participant evidence, or a new physical AT pass.
 
@@ -94,13 +94,13 @@ Editorial review is not clinical validation, participant evidence, or a new phys
 M1 dependency remediation is implemented; the full and production-only audits now report zero.
 Publication remains subject to the exact-candidate gates in M4.
 
-1. Inventory the Stressed/Overwhelmed branches by actual reachable ID, then review one complete
-   missing group. `stressed`, `tired`, `bored`, and `overwhelmed` already have reviewed definitions;
-   `overwhelmed_bad` and `overwhelmed_fear` do not. Do not rewrite reviewed copy by guessing from
-   visible labels, mass-fill the catalog, or create a runtime prose generator.
-2. Repair the small language-bootstrap/Fast Refresh boundary described below, independently of
+M2 completes the Stressed sibling group with five new bilingual definitions and the existing
+Tense meaning. See [editorial decisions and evidence](m2-stressed-description-review.md).
+Other incomplete groups, including the distinct `overwhelmed_fear` context, remain deferred.
+
+1. Repair the small language-bootstrap/Fast Refresh boundary described below, independently of
    product behavior. Keep final browser evidence on production, not HMR.
-3. Resume external P6/P7 evidence only on their existing prerequisites. They do not block these
+2. Resume external P6/P7 evidence only on their existing prerequisites. They do not block these
    verified product fixes. No new feature or architectural migration is needed for closure.
 
 Detailed pre-change findings and reproduction: [September audit](ux-psychology-audit-2026-09-04.md).
@@ -117,7 +117,11 @@ packages remain deliberately unchanged. Final product/publication evidence belon
 iteration log and exact-revision hosted workflow. M1-M4 are maintenance packages, not a
 renumbering of historical migration phases.
 
-### M2 - One Vocabulary Comprehension Batch (P2)
+### M2 - One Vocabulary Comprehension Batch (Implemented)
+
+Scope completed: `overwhelmed_bad`, `out_of_control`, `burned_out`, `on_edge`, `irritable`.
+The procedure below remains the boundary for any separately approved future batch, not a request
+to continue filling the catalog automatically.
 
 1. Derive reachable IDs and sibling groups using existing catalog tooling and Wheel overlays.
    Rank by route prominence, not fabricated usage statistics; select one coherent group, roughly
@@ -151,7 +155,8 @@ Production E2E avoids this issue; improving the development boundary remains use
    responsible, fix only the proven boundary, not an imagined general framework.
 4. Compare build size before/after. This targets clarity and debugging, not a promised speedup.
 
-Performance guard: initial JS was 149,037 gzip bytes / 150,000 limit. Re-measure after M1 and each
+Performance guard: after M2 initial JS is 149,914 gzip bytes / 150,000 limit (86 bytes headroom).
+Inspect initial imports before any further content expansion. Re-measure after each
 content batch. If headroom runs out, inspect the manifest/import graph and move the specific eager
 feature dependency behind its existing lazy boundary. Do not raise budgets or build a global
 localization system just to make the gate green.
@@ -187,8 +192,8 @@ and explicit new/revise/finish transitions, independently of screen mounting. Sc
 presentation stays local and the ordered writer owns persistence. This addresses the repeated
 identity, Back, rejection, and restoration problems without a new state library or router.
 
-Verification follows the normative commands in `docs/release-quality-gates.md`. Local completion:
-710 unit/component tests, 298 production Chromium/WebKit journeys, PWA lifecycle, production
+Verification follows the normative commands in `docs/release-quality-gates.md`. M2 local completion:
+714 unit/component tests, 306 production Chromium/WebKit journeys, PWA lifecycle, production
 performance, policy, lint, build and asset budgets passed. On publication, require hosted CI and
 the public deployed smoke. These checks are not new physical audio evidence.
 

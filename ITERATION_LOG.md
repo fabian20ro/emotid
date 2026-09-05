@@ -3008,3 +3008,27 @@ offline/update preservation, production performance and local deployed smoke pas
 checks passed. The candidate is ready for hosted verification; publication is reported only after
 its own CI, Pages deployment and public smoke succeed. Existing dependency lessons cover this;
 no new lesson required.
+
+### [2026-09-05] M2 bounded Stressed meanings
+
+**Context:** Owner requested the next implementation, pre-deploy verification and live confirmation.
+**Changes:** Added five EN/RO reviewed definitions, completing the six-option Stressed group while
+preserving Tense, all labels/IDs, guidance, scoring and safety gates. Added editorial scope/source
+record and catalog/component/browser regressions. No new UI, i18n key, model call or dependency;
+model-owned copy stays bilingual in the catalog rather than being duplicated in i18n JSON.
+**TDD:** New group and bilingual component tests first failed on missing definitions. Source copy
+then passed after adding explicit uncertainty to both burnout translations. Same-label Fearful
+variant and unrelated incomplete groups remain untouched and fail closed for comparison.
+**Focused verification:** 8 production Chromium/WebKit EN/RO x theme journeys passed, including
+all meanings before choice, contrast, 200% text at 320x568, 393x742 screenshots, voluntary
+comparison, Back restoration and selected-word-only Google query. Visual RO/dark and EN/light
+inspection found readable, non-overlapping prose. No physical speech or participant evidence.
+**Performance:** Initial JS is 149,914 gzip bytes / 150,000; future content needs an import-budget
+review first. Full release gates and exact-revision publication checks follow before live claims.
+
+**Final pre-deploy checks:** 714 unit/component tests and all 306 production Chromium/WebKit
+journeys passed. PWA offline/update preservation, production performance, local deployed smoke,
+lint, policy, type checking, build and asset budgets passed. No product changes during the final
+browser matrix. Hosted CI/deploy/public smoke and the eight affected public-URL journeys must
+pass on this commit before publication is reported as verified. Existing catalog provenance and
+production-verification lessons apply; no new reusable lesson required.

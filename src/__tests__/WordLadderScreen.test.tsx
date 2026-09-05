@@ -18,6 +18,21 @@ function renderScreen() {
 }
 
 describe('WordLadderScreen', () => {
+  for (const language of ['en', 'ro'] as const) it(`shows all Stressed meanings before selection and compares leaves (${language})`, async () => {
+    window.localStorage.setItem('emot-id-language', language)
+    const ro = language === 'ro'
+    const user = userEvent.setup()
+    renderScreen()
+    await user.click(screen.getByRole('button', { name: ro ? 'Explorează cuvinte mai precise sub Rău' : 'Explore more specific words under Bad' }))
+    await user.click(screen.getByRole('button', { name: ro ? 'Explorează cuvinte mai precise sub Stresat' : 'Explore more specific words under Stressed' }))
+    await user.click(screen.getByText(ro ? 'Sensurile acestor cuvinte' : 'Meanings of these words', { exact: true }))
+    expect(screen.getByText(ro ? /senzația că emoțiile/ : /the feeling that emotions/)).toBeVisible()
+    await user.click(screen.getByRole('button', { name: ro ? 'Alege Copleșit' : 'Select Overwhelmed', exact: true }))
+    await user.click(screen.getByRole('button', { name: ro ? 'Compară cuvinte apropiate' : 'Compare nearby words' }))
+    await user.click(screen.getByRole('button', { name: ro ? 'Compară cu Irascibil' : 'Compare with Irritable' }))
+    expect(screen.getByRole('group', { name: ro ? 'Copleșit și Irascibil' : 'Overwhelmed and Irritable' })).toBeVisible()
+  })
+
   it('keeps an earlier selected word when finishing at another intermediate word', async () => {
     const user = userEvent.setup()
     const { onComplete } = renderScreen()
