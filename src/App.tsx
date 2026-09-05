@@ -179,12 +179,12 @@ export default function App() {
   const content = useMemo(() => {
     switch (destination.name) {
       case 'today':
-        return <TodayScreen sessions={sessions} saveSessions={saveSessions} onPlaceFeeling={() => startRoute('affect')} onHelpChoose={() => navigation.navigate({ name: 'arrival' })} onQuickComplete={completeQuick} onOpenJournal={() => navigation.reset({ name: 'journal' })} />
+        return <TodayScreen sessions={sessions} sessionsLoading={sessionsLoading} sessionsError={sessionsError} saveSessions={saveSessions} onPlaceFeeling={() => startRoute('affect')} onHelpChoose={() => navigation.navigate({ name: 'arrival' })} onQuickComplete={completeQuick} onOpenJournal={() => navigation.reset({ name: 'journal' })} />
       case 'arrival':
       case 'check-in':
       case 'reflection':
         if (destination.name === 'reflection' && !completion) {
-          return <TodayScreen sessions={sessions} saveSessions={saveSessions} onPlaceFeeling={() => startRoute('affect')} onHelpChoose={() => navigation.navigate({ name: 'arrival' })} onQuickComplete={completeQuick} onOpenJournal={() => navigation.reset({ name: 'journal' })} />
+          return <TodayScreen sessions={sessions} sessionsLoading={sessionsLoading} sessionsError={sessionsError} saveSessions={saveSessions} onPlaceFeeling={() => startRoute('affect')} onHelpChoose={() => navigation.navigate({ name: 'arrival' })} onQuickComplete={completeQuick} onOpenJournal={() => navigation.reset({ name: 'journal' })} />
         }
         return (
           <LazyRouteBoundary>

@@ -8,6 +8,8 @@ import { RecentThread } from '../components/RecentThread'
 
 interface TodayScreenProps {
   sessions: Session[]
+  sessionsLoading: boolean
+  sessionsError: boolean
   saveSessions: boolean
   onPlaceFeeling: () => void
   onHelpChoose: () => void
@@ -15,7 +17,7 @@ interface TodayScreenProps {
   onOpenJournal: () => void
 }
 
-export function TodayScreen({ sessions, saveSessions, onPlaceFeeling, onHelpChoose, onQuickComplete, onOpenJournal }: TodayScreenProps) {
+export function TodayScreen({ sessions, sessionsLoading, sessionsError, saveSessions, onPlaceFeeling, onHelpChoose, onQuickComplete, onOpenJournal }: TodayScreenProps) {
   const { language, section } = useLanguage()
   const t = section('today')
   const recent = sessions[0]
@@ -96,7 +98,11 @@ export function TodayScreen({ sessions, saveSessions, onPlaceFeeling, onHelpChoo
       <section aria-labelledby="recent-title">
         <h2 id="recent-title" className="section-heading">{t.recentTitle}</h2>
         <div className="soft-panel recent-thread">
-          {recent ? (
+          {sessionsLoading ? (
+            <p className="muted text-sm m-0" role="status">{section('journalScreen').loading}</p>
+          ) : sessionsError ? (
+            <p className="muted text-sm m-0" role="status">{t.historyUnavailable}</p>
+          ) : recent ? (
             <RecentThread session={recent} onOpenJournal={onOpenJournal} />
           ) : (
             <p className="muted text-sm m-0">{t.recentEmpty}</p>

@@ -15,6 +15,8 @@ function renderToday(language: 'en' | 'ro' = 'en', sessions: React.ComponentProp
     <LanguageProvider>
       <TodayScreen
         sessions={sessions}
+        sessionsLoading={false}
+        sessionsError={false}
         saveSessions
         onPlaceFeeling={onPlaceFeeling}
         onHelpChoose={onHelpChoose}

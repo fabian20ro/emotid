@@ -16,7 +16,7 @@ vi.mock('idb-keyval', () => ({
   values: idb.values,
 }))
 
-import { deleteSession, exportSessionsJSON, getAllSessions, saveSession } from '../data/session-repo'
+import { deleteSession, getAllSessions, saveSession } from '../data/session-repo'
 
 const session: Session = {
   id: 'session-1',
@@ -49,7 +49,7 @@ describe('session repository', () => {
     }
     idb.values.mockResolvedValue([sessionWithNeed])
 
-    const exported = JSON.parse(await exportSessionsJSON()) as Session[]
+    const exported = await getAllSessions()
 
     expect(exported).toHaveLength(1)
     expect(exported[0].selectedNeed).toBe('quiet and rest')

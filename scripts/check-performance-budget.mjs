@@ -63,11 +63,6 @@ for (const source of requiredDynamicSources) {
   }
 }
 
-const presentation = manifest['src/data/session-presentation.ts']
-if (initialFiles.includes(presentation.file)) {
-  throw new Error('Session presentation must not load its full catalog at startup')
-}
-
 const measurements = {
   initialFiles,
   initialJsGzipBytes,

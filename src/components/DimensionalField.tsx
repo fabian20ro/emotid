@@ -154,19 +154,6 @@ function DimensionalFieldBase({ emotions, onSelect, onDeselect, selections = [],
     [onSelect, onDeselect, selectedIds]
   )
 
-  const handleEmotionDotClick = useCallback(
-    (emotion: DimensionalEmotion, e: React.MouseEvent) => {
-      e.stopPropagation()
-      setHasInteracted(true)
-      if (selectedIds.has(emotion.id)) {
-        onDeselect(emotion)
-      } else {
-        onSelect(emotion)
-      }
-    },
-    [onSelect, onDeselect, selectedIds]
-  )
-
   return (
     <div className="dimensional-field">
       <p id="dimensional-instructions" className="dimensional-instructions">
@@ -274,8 +261,14 @@ function DimensionalFieldBase({ emotions, onSelect, onDeselect, selections = [],
                 aria-label={emotion.label[language]}
                 aria-pressed={isSelected}
                 style={{ cursor: 'pointer' }}
-                onClick={(e) => handleEmotionDotClick(emotion, e)}
-                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.stopPropagation(); handleEmotionDotClick(emotion, e as unknown as React.MouseEvent) } }}
+                onClick={(e) => { e.stopPropagation(); handleSuggestionClick(emotion) }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    handleSuggestionClick(emotion)
+                  }
+                }}
               >
                 {/* Invisible hit area for touch targets (~44px at mobile scale) */}
                 <circle

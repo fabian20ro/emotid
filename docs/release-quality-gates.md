@@ -50,8 +50,10 @@ platform steps, selectors, fixtures, and lifecycle remain in their adapters.
 - production assets exceed 960,000 bytes;
 - a primary feature screen is no longer a dynamic build entry.
 
-Session presentation must also remain a dynamic entry outside the static startup graph: an empty
-journal must not pull the complete emotion catalog onto Today's critical path. Browser tests verify
+Session presentation must remain a dynamic entry. The build's catalog-startup guard also traverses
+static chunk imports and inspects Rollup's actual module ownership, rejecting the full catalog even
+through a different eager importer. An empty journal must not pull the complete catalog onto
+Today's critical path. Browser tests verify
 that no summary request occurs without history, plus delayed/failed loading with retained data.
 
 `test:performance` records production startup and first-open behavior for Body, Affect, Words, and

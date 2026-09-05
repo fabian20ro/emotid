@@ -40,8 +40,3 @@ export async function clearAllSessions(): Promise<void> {
     await del(key, store)
   }
 }
-
-export async function exportSessionsJSON(): Promise<string> {
-  const sessions = await getAllSessions()
-  return JSON.stringify(sessions, null, 2)
-}

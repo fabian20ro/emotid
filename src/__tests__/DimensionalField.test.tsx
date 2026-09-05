@@ -337,6 +337,22 @@ describe('DimensionalField', () => {
     expect(onDeselect).not.toHaveBeenCalled()
   })
 
+  it.each([['Enter', false], [' ', false], ['Enter', true], [' ', true]] as const)(
+    'toggles a dot once with %s (selected=%s) without bubbling', (key, selected) => {
+      const onSelect = vi.fn()
+      const onDeselect = vi.fn()
+      const parentKey = vi.fn()
+      render(<LanguageProvider><div onKeyDown={parentKey}>
+        <DimensionalField emotions={mockEmotions} sizes={defaultSizes} selections={selected ? [mockEmotions[0]] : []} onSelect={onSelect} onDeselect={onDeselect} />
+      </div></LanguageProvider>)
+      const dot = document.querySelector('g[role="button"]')!
+      expect(fireEvent.keyDown(dot, { key })).toBe(false)
+      expect(selected ? onDeselect : onSelect).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({ id: 'happy' }))
+      expect(selected ? onSelect : onDeselect).not.toHaveBeenCalled()
+      expect(parentKey).not.toHaveBeenCalled()
+    },
+  )
+
   it('chooses a contrast-safe foreground for selected suggestion colors', () => {
     renderField({ selections: [mockEmotions[1]] })
     const svg = document.querySelector('svg') as SVGSVGElement

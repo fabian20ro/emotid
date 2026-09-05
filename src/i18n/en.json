@@ -190,6 +190,7 @@
     "recentTitle": "Your recent thread",
     "recentEmpty": "Your reflections can stay here when you choose to save them.",
     "recentLoading": "Loading your latest reflection…",
+    "historyUnavailable": "Saved reflections could not be loaded. This does not mean they were deleted. Reopen the app to try again.",
     "recentUnavailable": "The summary could not load. Reopen the app to try again. Your saved reflections are unchanged.",
     "rejectedResult": "Suggested result: {result}",
     "savedLocally": "Saved only on this device",

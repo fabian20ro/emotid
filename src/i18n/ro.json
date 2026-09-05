@@ -190,6 +190,7 @@
     "recentTitle": "Firul tău recent",
     "recentEmpty": "Reflecțiile pot rămâne aici când alegi să le salvezi.",
     "recentLoading": "Se încarcă ultima ta reflecție…",
+    "historyUnavailable": "Reflecțiile salvate nu s-au putut încărca. Asta nu înseamnă că au fost șterse. Redeschide aplicația pentru a reîncerca.",
     "recentUnavailable": "Rezumatul nu s-a putut încărca. Redeschide aplicația pentru a reîncerca. Reflecțiile salvate nu sunt modificate.",
     "rejectedResult": "Rezultat sugerat: {result}",
     "savedLocally": "Salvat doar pe acest dispozitiv",

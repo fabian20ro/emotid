@@ -3087,3 +3087,51 @@ Lint, policy, types, build, asset budgets and diff checks passed. Final EN/light
 screenshots inspected, including 320px error reflow. Exact-commit hosted CI/Pages/public smoke and
 affected live journeys remain mandatory before reporting publication as verified. No new lesson:
 existing lazy-boundary, frozen-candidate and evidence-scope guidance applies.
+
+### [2026-09-05] Bounded code-hygiene audit
+
+**Request:** Identify next work, otherwise inspect for unnecessary/duplicated code and weak tests.
+No runtime implementation or publication requested. Startup commit `7f824e0` previously passed
+hosted CI/Pages/public smoke and all eight affected live journeys.
+**Confirmed:** Today drops the history hook's loading/error state. A temporary app-level test with
+a rejected history read reproduced the empty-history invitation and no error alert. The performance
+gate protects a wrapper, not full catalog ownership: a temporary `import './models/catalog'` in
+main built successfully and passed the gate at 148,907 gzip bytes. Both probes were removed; the
+normal build and performance check restored the 142,050-byte baseline.
+**Cleanup findings:** exportSessionsJSON has no production caller; only its own repository test
+uses it, while the app uses the complete schema-v3 export. DimensionalField duplicates its toggle
+and casts KeyboardEvent through unknown to MouseEvent. The active plan repeats completed history;
+test-results/.last-run.json remains tracked generated state. These are scoped cleanup, not grounds
+for a framework rewrite. No P0/P1 defect established in the inspected paths.
+**Plan:** Today states -> actual module-boundary regression -> dead export/handler cleanup ->
+plan/artifact hygiene, with targeted tests before full runtime release gates. Existing physical
+and participant gaps remain separately deferred. No audit claim about every line or dependency.
+**Verification:** One diagnostic Vitest reproduction passed (asserting the undesirable state);
+mutated build/gate and restored build/gate executed. No full browser suite or live deployment for
+this audit. Only plan/log remain changed; no duplicate lesson promoted.
+
+### [2026-09-05] Code-hygiene corrective pass
+
+**Request:** Implement the prioritized audit recommendations and babysit through live verification.
+**TDD:** App-level EN/RO loading/error/empty tests failed before Today received the existing hook
+states; four catalog graph cases first failed without the guard. Both now pass. A real temporary
+eager catalog import in main now fails the build with the owning chunk; the probe was removed and
+the normal build restored. The guard traverses static imports and Rollup module ownership, not
+minified strings or a wrapper filename. Byte limits are unchanged.
+**Behavior:** Today keeps Quick usable while distinguishing pending/failed/empty history; EN/RO
+copy avoids implying deletion and explains reopening. Eight browser rows inject only synthetic
+read failures, preserve data, check compact contrast/reflow and recover the original record.
+**Cleanup:** Removed unused session-only export; repository/complete-export field coverage stays.
+Affect shares one toggle, with local mouse/keyboard event handling and four Enter/Space selection,
+deselection and propagation tests. Reduced the active plan to remaining work and references.
+Stopped tracking only test-results/.last-run.json; existing ignored artifacts remain local.
+**Verification so far:** 733 unit/component tests, focused browser matrix, language Fast Refresh,
+lint/policy/types/build pass. Initial JS 142,134 gzip bytes / 150,000. Full frozen production matrix,
+PWA/performance, exact-revision CI/deploy/public smoke and affected live journeys follow.
+No scoring, crisis gating, storage schema, AI query or native-speech behavior change claimed.
+
+**Final pre-deploy:** All 330 production browser tests, 733 unit/component tests, Fast Refresh,
+PWA lifecycle, performance and local deployed smoke pass. Policy/lint/types/build/budgets pass;
+the controlled eager-import mutation is rejected. RO/dark compact failure screenshot inspected.
+Product stayed frozen for the final matrix. Exact-commit hosted checks and live affected journeys
+are required before reporting publication; no new physical AT or participant evidence claimed.
