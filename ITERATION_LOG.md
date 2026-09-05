@@ -2972,3 +2972,39 @@ underlying advisories in development-only `browserslist`, `fast-uri`, and `@huma
 propagates them to 96 dependency entries. `npm audit --omit=dev` reports zero. Dependency
 remediation now precedes optional content work in the remaining plan. No dependency changes or
 automatic/forced audit fix were mixed into this UX pass.
+
+### [2026-09-05] Remaining maintenance implementation plan
+
+**Context:** Owner requested a complete prioritized remaining-work plan, not implementation.
+**Changes:** Expanded the existing plan with bounded M1 dependency repair, M2 reachable vocabulary
+group review, M3 language-bootstrap development-boundary cleanup, and per-batch publication gates.
+Recorded completed hosted/live verification and separated optional tags from deployed main.
+**Verified:** Existing hosted run is successful for `aefd2c0`; fresh full audit retains 96 propagated
+entries from three root packages. Catalog inspection corrected the previous broad content shortlist:
+Stressed/Tired/Bored/Overwhelmed already have reviewed definitions; variant IDs need separate review.
+**Scope:** Documentation only. No dependencies, runtime code, scoring, network behavior or native
+device state changed. No commit/push requested in this planning turn.
+**Insight:** Prioritize missing reachable IDs and complete choice groups, not visible label names.
+Existing catalog provenance/group-completeness lessons cover this; no new lesson promoted.
+
+### [2026-09-05] M1 targeted dependency remediation
+
+**Context:** Owner requested implementation of the recommended next lot, verification before
+publication, and confirmation that live works.
+**Changes:** Updated browserslist 4.28.1 -> 4.28.9, fast-uri 3.1.5 -> 3.1.7, and @humanfs/node
+0.16.7 -> 0.16.8 within existing parent ranges. Included Browserslist data packages and humanfs
+core/types required by those versions. No package.json, direct dependency, override, runtime or UI
+change. Included the preceding planning documentation and marked M1 implemented.
+**Verification so far:** Clean npm ci and full npm ls passed. Full and production-only npm audit
+report zero, down from seven underlying advisories propagated to 96 entries. npm outdated checked
+before/after; unrelated versions unchanged. Product check passed: 710 tests, policy, lint, build,
+initial JS unchanged at 149,037 gzip bytes. Final browser/PWA/publication gates follow below.
+**Environment:** npm cache writes required sandbox escalation; no cache ownership or global install
+script policy changes. npm ci reported existing esbuild/fsevents install-script policy warnings;
+the actual build passes. No advisory suppressions or forced audit fixes.
+
+**Final pre-deploy checks:** 298 production Chromium/WebKit tests passed without retries; PWA
+offline/update preservation, production performance and local deployed smoke passed. Final policy
+checks passed. The candidate is ready for hosted verification; publication is reported only after
+its own CI, Pages deployment and public smoke succeed. Existing dependency lessons cover this;
+no new lesson required.

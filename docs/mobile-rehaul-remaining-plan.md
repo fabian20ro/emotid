@@ -2,8 +2,8 @@
 
 Status: the mobile migration and `v0.1.6` maintenance release are complete. The September 4 direct
 UX/psychology audit reproduced new persistence, revision, body-completion, and journal-readback
-defects. R1-R6 product changes are implemented and locally verified; publication requires the
-hosted workflow and public smoke gate. Updated September 5, 2026. The summary records delivered scope, not
+defects. R1-R6 are live at `aefd2c0`; hosted build, deploy and public smoke passed, followed by
+22 live regression journeys. Updated September 5, 2026. The summary records delivered scope, not
 six new implementation requests.
 
 Historical implementation detail belongs in `ITERATION_LOG.md`, release criteria in
@@ -91,21 +91,89 @@ Editorial review is not clinical validation, participant evidence, or a new phys
 
 ### Next Recommended Work
 
-1. Remediate newly reported development-toolchain advisories in `browserslist`, `fast-uri`, and
-   `@humanfs/node`. Confirm patched versions and parent ranges, update only affected lockfile
-   branches, then run clean install, policy/unit/build, production browser and PWA checks. Do not
-   use forced audit fixes or merge dependency PRs without checking the resolved tree. September 5
-   production-only audit reports zero vulnerabilities; full audit propagates seven underlying
-   advisories across 96 dependency entries. This is not 96 independent product vulnerabilities.
-2. Prioritize another bounded content batch only for high-exposure words lacking
-   reviewed definitions. Start with the Stressed/Overwhelmed sibling context; inventory with the
-   existing catalog tooling, review EN/RO together, then add rendered comparison tests. Do not
-   mass-fill the catalog or create a runtime prose generator.
+M1 dependency remediation is implemented; the full and production-only audits now report zero.
+Publication remains subject to the exact-candidate gates in M4.
+
+1. Inventory the Stressed/Overwhelmed branches by actual reachable ID, then review one complete
+   missing group. `stressed`, `tired`, `bored`, and `overwhelmed` already have reviewed definitions;
+   `overwhelmed_bad` and `overwhelmed_fear` do not. Do not rewrite reviewed copy by guessing from
+   visible labels, mass-fill the catalog, or create a runtime prose generator.
+2. Repair the small language-bootstrap/Fast Refresh boundary described below, independently of
+   product behavior. Keep final browser evidence on production, not HMR.
 3. Resume external P6/P7 evidence only on their existing prerequisites. They do not block these
    verified product fixes. No new feature or architectural migration is needed for closure.
 
 Detailed pre-change findings and reproduction: [September audit](ux-psychology-audit-2026-09-04.md).
 R1-R6 are labels for this corrective pass, not a renumbering of the migration history.
+
+### M1 - Security Maintenance (Implemented)
+
+Updated `browserslist` 4.28.1 -> 4.28.9, `fast-uri` 3.1.5 -> 3.1.7, and `@humanfs/node`
+0.16.7 -> 0.16.8, including required child dependencies. Only lockfile resolution changed;
+no direct dependency, major version, override, runtime code or UI change.
+Clean `npm ci`, complete `npm ls`, full and production-only audits pass. Seven underlying
+advisories / 96 propagated entries are removed; current audits report zero. Unrelated outdated
+packages remain deliberately unchanged. Final product/publication evidence belongs in the
+iteration log and exact-revision hosted workflow. M1-M4 are maintenance packages, not a
+renumbering of historical migration phases.
+
+### M2 - One Vocabulary Comprehension Batch (P2)
+
+1. Derive reachable IDs and sibling groups using existing catalog tooling and Wheel overlays.
+   Rank by route prominence, not fabricated usage statistics; select one coherent group, roughly
+   4-8 definitions where structure permits. Reuse valid reviewed entries.
+2. Add failing group-coverage fixtures and retain a deliberately incomplete-group fixture.
+   Comparison stays unavailable until all displayed alternatives have reviewed EN/RO prose.
+3. Review variants in context, not by label equivalence. Write brief experiential meanings and
+   distinctions without fixed causes, diagnoses, mandatory needs or pressure to choose a leaf.
+   Maintain informal Romanian singular and editorial source provenance; no clinical-validation claim.
+4. Update source review status and existing hydration/inventory tests. Preserve reviewed-null
+   guidance decisions: adding a definition does not authorize emotion-to-advice mappings.
+5. Verify pre-choice meaning, intermediate continuation, Back/revision and unchanged AI handoff
+   across EN/RO x light/dark, 320x568, 393x742, enlarged text and keyboard; then full release gates.
+
+Done: one complete reachable group, incomplete groups still fail closed, no safety/scoring change,
+and no hidden prose falsely counted as available. Stop after this batch; do not fill all missing
+catalog entries merely to increase coverage.
+
+### M3 - Small Architecture Improvement (P2, Independent Commit)
+
+Extract language bootstrap helpers from the React component module. Previous Vite logs showed
+Fast Refresh invalidating `LanguageContext.tsx` because `getInitialLanguage` was incompatible.
+Production E2E avoids this issue; improving the development boundary remains useful.
+
+1. Reproduce with a controlled local edit and retain the invalidation log.
+2. Move initial-language/document-language helpers and their shared type to a small leaf module;
+   update bootstrap/provider imports. Preserve the `useLanguage` API and synchronous document
+   language before the first localized render. No new store, router or async locale loader.
+3. Run language/default/preference, first-mutation and runtime-switch tests. Verify an edit no
+   longer resets the current journey through that export incompatibility. If another export is
+   responsible, fix only the proven boundary, not an imagined general framework.
+4. Compare build size before/after. This targets clarity and debugging, not a promised speedup.
+
+Performance guard: initial JS was 149,037 gzip bytes / 150,000 limit. Re-measure after M1 and each
+content batch. If headroom runs out, inspect the manifest/import graph and move the specific eager
+feature dependency behind its existing lazy boundary. Do not raise budgets or build a global
+localization system just to make the gate green.
+
+### M4 - Verification And Publication For Each Batch
+
+During development: smallest failing behavior test -> minimal change -> focused verification.
+Full final gates only on a frozen candidate, following `release-quality-gates.md`. Run suites
+sequentially when they share production artifacts or test-output directories.
+
+Every publishable batch: `check`, production Chromium/WebKit matrix, PWA lifecycle, performance,
+commit/push, exact-revision hosted CI/deploy/smoke, then affected journeys on the public URL using
+isolated synthetic storage. Lockfile changes additionally require clean install and audit/tree
+checks. A successful push or HTTP 200 alone is not acceptance.
+
+Use existing structural error/retry diagnostics; no private emotion text, telemetry or new outbound
+traffic. Keep revision-bound artifacts and distinguish native speech from browser semantics.
+Do not rerun physical tests for documentation-only changes.
+
+A versioned release is optional: update the existing identity owners together, pass release
+consistency checks, then tag the verified revision on request. The existing v0.1.6 tag does not
+contain September main changes; do not rewrite it. Publication of a maintenance fix needs no tag.
 
 ## Delivered Sequence And Verification
 
@@ -146,6 +214,8 @@ crisis semantics, client-only privacy, and platform-local native adapters.
   J1-J9 matrix remains waived for this release.
 - **Native macOS Safari:** retry after Safari/SafariDriver changes. Current activation transport is
   blocked before product rows and is not an application failure.
+- **iOS simulator:** run existing acceptance/robustness suites when its runtime is available,
+  especially after adapter changes. Keep simulator evidence labeled; no physical iPhone required.
 - **Assistive-technology uncertainty:** live regions containing controls and modal background
   exposure remain risks, not reproduced defects. Recheck with native screen-reader evidence before
   changing announcements or adding `inert` behavior.
@@ -167,3 +237,9 @@ do not add reminders, scores, emotion targets, or another model without a demons
 No speculative router migration, global state library, backend, telemetry, datastore rewrite,
 design-system project, workflow DSL, or universal device framework. Apply DRY after repeated use,
 YAGNI to unproven needs, and KISS at every change boundary.
+
+SoC: catalog, workflow, persistence and presentation retain owners. POLA: Back retains the draft;
+new means a distinct entry; accepted means user-accepted. Fail Fast: reject malformed records and
+missing review provenance. Gall's Law: ship one verified increment at a time. UX: progressive
+disclosure, recognition over recall, reversible choices, visible save status and no forced
+interpretation. Stop when acceptance passes, not when another speculative phase can be invented.
