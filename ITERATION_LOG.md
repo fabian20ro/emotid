@@ -3135,3 +3135,52 @@ PWA lifecycle, performance and local deployed smoke pass. Policy/lint/types/buil
 the controlled eager-import mutation is rejected. RO/dark compact failure screenshot inspected.
 Product stayed frozen for the final matrix. Exact-commit hosted checks and live affected journeys
 are required before reporting publication; no new physical AT or participant evidence claimed.
+
+### [2026-10-29] Graphify audit prerequisite check
+
+**Request:** Create a graph and identify critical issues from it.
+**Identity:** fabian20ro/emotid, HEAD 94e5cf766b1176966b61e21317eaf32ae144dad2;
+checkout clean before this log entry. Graphify list_repositories and graph_stats returned
+no_workspace (403); list_workspaces returned an empty accessible list. Indexed commit,
+readiness and coverage are unknown, not empty or current. No rebuild endpoint available.
+**Blocked:** Workspace/repository access must be configured in Graphify. The skill's named
+Python fallback documentation/generator do not exist in this TypeScript checkout. No graph
+created, no graph-derived critical findings asserted, no source/device/deployment changes.
+
+### [2026-10-29] Local Graphify graph and bounded source audit
+
+**Context:** User supplied `/Users/fabian/git/graphify`; use local checkout instead of hosted workspace.
+**What happened:** Generated local AST graph using checkout 0a8cd4e, LLM backend disabled;
+312 classified files, 1,561 nodes, 3,632 edges, 98 communities. Saved graph, HTML, source hashes,
+bounded subgraph, regeneration script and report under ignored `.reports/graphify-audit/`.
+Source-verified P2 findings: abort during database opening missed by saveSession; finite but
+unrepresentable timestamps accepted by both persisted-record validators; privacy deletion dialog
+missing explicit touch opener focus. No critical/P0 finding established. Graph limitations include
+44 symbol-empty files and external-reference collisions; no runtime-coverage inference.
+**Verification:** Four isolated defect-characterization tests pass (defects reproduced); ten existing
+focused tests pass. Audit harness initially lacked Vitest globals required by shared setup; corrected.
+**Outcome:** Local Graphify unblocks the audit without cloud workspace or model quotas. No app-source,
+device, live, commit or push changes. Generated HTML loads its visualization library from unpkg.
+**Promoted to Lessons Learned:** No; existing cancellation and explicit-focus lessons already apply.
+
+### [2026-10-29] Fix three Graphify findings with regression-first verification
+
+**Context:** User requested all three fixes in priority order, TDD, thorough checks, commit/push/PR.
+**What happened:** Observed failing delayed-open cancellation regression, then added the transaction
+callback abort check. Observed four invalid-date failures, then shared representable timestamp
+validation across sessions and both exercise formats. Observed cancel/Escape/success focus failures
+for a non-focused touch opener, then passed an explicit trigger ref to the existing focus trap.
+Added EN/RO x light/dark browser cases for retained malformed records/load errors and all three
+dialog exits. No copy, scoring, schema migration, crisis policy or outbound behavior changes.
+Fast-forwarded the branch onto origin/main 13a5b11 (merged Vitest update); clean npm install used
+a temporary cache after the default cache was unwritable. Browser launches required sandbox
+escalation. New test JSON imports needed Node import attributes; corrected before final runs.
+**Verification:** 750 unit/component tests; lint, policy, i18n, types, build and bundle budgets;
+346 frozen-production Chromium/WebKit tests; PWA offline/update, performance, local deployment
+smoke and language Fast Refresh all pass. Initial JS 142,154 gzip bytes / 150,000 budget.
+Graph regenerated locally with source hashes and pre-fix snapshot retained under ignored reports.
+**Remaining:** Full npm audit reports 14 toolchain vulnerabilities (5 high/4 moderate/5 low),
+production-only audit zero. Separate dependency remediation is next; no force downgrade of PWA
+plugin. Exact-commit PR CI, review/merge and subsequent Pages/public smoke remain publication gates.
+No new physical-device, assistive-speech or participant evidence claimed; phone untouched.
+**Promoted to Lessons Learned:** No; fixes enforce existing cancellation/focus principles.

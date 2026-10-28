@@ -22,6 +22,15 @@ No further feature phase is mandatory once this candidate passes publication gat
 
 ## Conditional Next Work
 
+- **Priority after the Graphify fixes PR:** review/merge only after exact-revision checks;
+  then verify Pages deployment and public smoke. PR creation alone does not publish fixes.
+- **Dependency remediation next:** October 29 clean-install audit reports 14 development-tool
+  vulnerabilities (5 high, 4 moderate, 5 low); production-only audit reports zero. Review the
+  existing Vite/source-map-js dependency PRs, update the synchronized Vitest cohort and compatible
+  transitive fixes, then inspect the deepmerge/Workbox chain separately. Do not use force-fix's
+  proposed PWA-plugin downgrade. Re-run clean install, audit, checks, browser/PWA and performance
+  gates; record any remaining advisory with reachability and mitigation evidence.
+
 - **Vocabulary:** only a deliberately selected incomplete reachable choice group, with EN/RO
   editorial review and provenance. Current coverage is 66 reviewed meanings. Do not fill the
   catalog automatically or infer needs from new definitions; reviewed-null guidance stays intact.

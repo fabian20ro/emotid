@@ -85,4 +85,29 @@ describe('session repository', () => {
     expect(transaction.abort).toHaveBeenCalledOnce()
     expect(objectStore.put).toHaveBeenCalledWith(session, session.id)
   })
+
+  it('rejects cancellation while the database is opening without writing', async () => {
+    let open!: () => void
+    const opening = new Promise<void>((resolve) => { open = resolve })
+    const objectStore = { transaction: {}, put: vi.fn() }
+    idb.store.mockImplementation(async (_mode, callback) => {
+      await opening
+      return callback(objectStore)
+    })
+    idb.promisifyRequest.mockResolvedValue(undefined)
+    const controller = new AbortController()
+    const write = saveSession(session, controller.signal)
+    controller.abort()
+    open()
+
+    await expect(write).rejects.toBe(controller.signal.reason)
+    expect(objectStore.put).not.toHaveBeenCalled()
+  })
+
+  it('rejects an already aborted write without opening the store', async () => {
+    const controller = new AbortController()
+    controller.abort()
+    await expect(saveSession(session, controller.signal)).rejects.toBe(controller.signal.reason)
+    expect(idb.store).not.toHaveBeenCalled()
+  })
 })

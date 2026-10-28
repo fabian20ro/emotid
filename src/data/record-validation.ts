@@ -14,6 +14,7 @@ export class StoredDataValidationError extends Error {
 const isRecord = (value: unknown): value is UnknownRecord => typeof value === 'object' && value !== null
 const isString = (value: unknown): value is string => typeof value === 'string'
 const isFiniteNumber = (value: unknown): value is number => typeof value === 'number' && Number.isFinite(value)
+const isTimestamp = (value: unknown): value is number => isFiniteNumber(value) && Number.isFinite(new Date(value).getTime())
 const isOptionalString = (value: unknown) => value === undefined || isString(value)
 const isOptionalFiniteNumber = (value: unknown) => value === undefined || isFiniteNumber(value)
 const isLabel = (value: unknown) => isRecord(value) && isString(value.en) && isString(value.ro)
@@ -44,7 +45,7 @@ function isSession(value: unknown): value is Session {
   const interventionResponses = [undefined, 'better', 'same', 'worse']
   const entryRoutes = [undefined, 'quick', 'body', 'affect', 'words', 'plutchik']
   return isString(value.id)
-    && isFiniteNumber(value.timestamp)
+    && isTimestamp(value.timestamp)
     && isString(value.modelId)
     && Array.isArray(value.selections) && value.selections.every(isSelection)
     && Array.isArray(results) && results.every(isResult)
@@ -71,7 +72,7 @@ function isSession(value: unknown): value is Session {
 }
 
 function isChainEntry(value: unknown): value is ChainAnalysisEntry {
-  if (!isRecord(value) || !isString(value.id) || typeof value.timestamp !== 'number' || !Number.isFinite(value.timestamp)) return false
+  if (!isRecord(value) || !isString(value.id) || !isTimestamp(value.timestamp)) return false
   if (value.version === 2) {
     return ['situation', 'noticed', 'response', 'outcome'].every((key) => isString(value[key]))
   }
