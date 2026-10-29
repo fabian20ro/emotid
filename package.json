@@ -29,6 +29,8 @@
     "test:pwa": "playwright test --config=playwright.pwa.config.ts",
     "test:deployed": "playwright test --config=playwright.deployed.config.ts",
     "test:deployed:local": "npm run build && npm run test:deployed",
+    "test:live": "playwright test --config=playwright.live.config.ts",
+    "test:live:config": "node --test scripts/live-regression-config.test.mjs",
     "test:performance": "npm run build && npm run test:performance:run",
     "test:performance:run": "playwright test --config=playwright.performance.config.ts",
     "test:android:physical": "node ./scripts/android-physical-audit.mjs",
@@ -62,7 +64,7 @@
     "precheck": "node -e \"const p=require('./package.json');const required=['check-translations','check-copy','check-acceptance','check:release','check:policy','lint','test','build','type-check'];required.forEach(s=>{if(!p.scripts[s])console.error('missing script:',s),process.exit(1);});['check-keys','check-translations','check-untranslated','check-copy'].forEach(k=>{const v=p.scripts[k];if(!v)throw new Error('script missing: '+k);if(v.includes('./node_modules/.bin/')||v.includes('jest'))throw new Error('deprecated script: '+k)})\"",
     "check-untranslated": "node ./check_i18n_untranslated.cjs",
     "i18n-audit": "npm run check-keys && npm run check-translations && npm run check-untranslated",
-    "check": "npm run lint && npm run test && npm run check:policy && npm run build && npm run check-performance"
+    "check": "npm run lint && npm run test && npm run test:live:config && npm run check:policy && npm run build && npm run check-performance"
   },
   "dependencies": {
     "framer-motion": "^12.29.2",

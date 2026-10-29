@@ -34,6 +34,35 @@ reload, one lazy Settings chunk, zero same-origin browser failures, and zero une
 requests. Deployment failures retain a dedicated screenshot, trace, and HTML report. This gate
 checks the published boundary; it does not replace the deeper local offline/update lifecycle test.
 
+### Opt-In Live Regression Matrix
+
+```bash
+DEPLOYED_BASE_URL=https://fabian20ro.github.io/emotid/ npm run test:live
+```
+
+`playwright.live.config.ts` requires an explicit HTTP(S) target (no credentials, query or hash),
+starts no local server and uses fresh browser contexts with synthetic data only. Never substitute
+a persistent personal profile. It reuses existing tests, with no retries or filtered errors:
+
+- 22 Chromium/WebKit storage/journal checks: EN/RO x light/dark malformed-date retention and
+  privacy-dialog focus; journal deletion, export/reset and Romanian body details.
+- Two separate Chromium/WebKit PWA checks: registration/activation, reload control, assets,
+  manifest and lazy Settings, with existing browser/network failure assertions intact.
+
+Storage projects block service workers: their synthetic fixture navigation can interrupt pending
+registration in WebKit. PWA projects explicitly allow workers; storage results alone are not
+offline/PWA evidence. See the [registration investigation](webkit-registration-investigation.md).
+This matrix is browser evidence, not native Safari or assistive-speech evidence.
+
+Run the **Live regression checks** workflow manually after merging the workflow to the default
+branch. It targets the public Pages URL, has read-only repository permissions and retains the
+HTML report plus failure traces/screenshots for 14 days. Local artifacts use
+`playwright-report/live/` and `test-results/live/`. The workflow does not deploy or replace the
+automatic post-deployment smoke gate. Record the successful Pages deployment SHA separately:
+the test checkout SHA and `DEPLOYED_REVISION` cache-busting token do not prove the served revision.
+`npm run test:live:config` checks target validation and bounded discovery without network/browser
+access; it runs in `npm run check` and PR CI.
+
 The primary Playwright config stops CI after one test has exhausted its retries. This shortens red
 feedback while preserving the first screenshot, trace, and HTML report. Local runs have no failure
 limit, and every successful CI run still executes the complete Mobile Safari and Mobile Chrome

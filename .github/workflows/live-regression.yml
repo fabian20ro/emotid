@@ -1,0 +1,38 @@
+name: Live regression checks
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: live-regression
+  cancel-in-progress: false
+
+jobs:
+  live:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run test:live:config
+      - run: npx playwright install --with-deps chromium webkit
+      - name: Verify public site with isolated synthetic data
+        run: npm run test:live
+        env:
+          DEPLOYED_BASE_URL: https://fabian20ro.github.io/emotid/
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: live-regression-report
+          path: |
+            playwright-report/live/
+            test-results/live/
+          if-no-files-found: ignore
+          retention-days: 14
