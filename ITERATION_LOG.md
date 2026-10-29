@@ -3184,3 +3184,24 @@ production-only audit zero. Separate dependency remediation is next; no force do
 plugin. Exact-commit PR CI, review/merge and subsequent Pages/public smoke remain publication gates.
 No new physical-device, assistive-speech or participant evidence claimed; phone untouched.
 **Promoted to Lessons Learned:** No; fixes enforce existing cancellation/focus principles.
+
+### [2026-10-29] Remediate dependency advisories on the existing fixes PR
+
+**Context:** User requested dependency remediation, thorough verification, commit/push and PR #9 update.
+**What happened:** Updated Vite to 7.3.7 and the complete Vitest/coverage cohort to 4.1.12;
+targeted compatible fixes for brace-expansion, fast-uri, serialize-javascript, source-map-js,
+undici and zod. Lockfile includes their compatible transitive refresh; no runtime dependency or
+framework-major changes. Checked outdated versions before/after and retained unrelated versions.
+**Security:** Full clean-install audit reduced 14 entries (5 high/4 moderate/5 low) to four low
+entries representing one unpatched deepmerge advisory. Production-only audit remains zero.
+Inspected both resolver distributions: their only merge uses fixed internal defaults, while caller
+options use object spread. Recorded exact chain, advisory, reachability and revisit conditions in
+docs/dependency-security.md; rejected force-fix's unsupported PWA-plugin downgrade. No suppression.
+**Verification:** Clean npm ci and npm ls pass; 750 tests both normally and with V8 coverage;
+lint, types, bilingual/content/release policy, build and bundle budgets pass. All 346 production
+Chromium/WebKit journeys pass, plus PWA offline/update, performance, local deployment smoke and
+language Fast Refresh. No physical-device or live deployment claim. Dependencies frozen for checks.
+**Remaining:** Exact-revision hosted checks/review/merge, Pages/public smoke, reconcile overlapping
+dependency PRs; revisit deepmerge when patched or reachability changes. Existing external-evidence
+deferrals unchanged. No new product feature phase required.
+**Promoted to Lessons Learned:** No; synchronized dependency cohorts and full verification already documented.
