@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { render, screen, waitFor } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { LanguageProvider } from '../context/LanguageContext'
 import { PrivacyDataScreen } from '../screens/PrivacyDataScreen'
@@ -20,6 +20,18 @@ function renderPrivacy(overrides: Partial<React.ComponentProps<typeof PrivacyDat
 
 describe('PrivacyDataScreen', () => {
   beforeEach(() => localStorage.clear())
+
+  it.each(['cancel', 'escape', 'success'])('restores a non-focused touch opener after %s', async (action) => {
+    renderPrivacy()
+    const trigger = screen.getByRole('button', { name: 'Delete all local data' })
+    // Safari taps need not make the trigger document.activeElement.
+    fireEvent.click(trigger)
+    expect(screen.getByRole('button', { name: 'Cancel' })).toHaveFocus()
+    if (action === 'escape') fireEvent.keyDown(document, { key: 'Escape' })
+    else fireEvent.click(screen.getByRole('button', { name: action === 'cancel' ? 'Cancel' : 'Delete everything' }))
+    await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument())
+    await waitFor(() => expect(trigger).toHaveFocus())
+  })
 
   it('portals and focus-traps destructive confirmation, then clears all data', async () => {
     const user = userEvent.setup()

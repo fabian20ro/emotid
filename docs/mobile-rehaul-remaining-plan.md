@@ -22,6 +22,13 @@ No further feature phase is mandatory once this candidate passes publication gat
 
 ## Conditional Next Work
 
+- **Priority after the Graphify fixes PR:** review/merge only after exact-revision checks;
+  then verify Pages deployment and public smoke. PR creation alone does not publish fixes.
+- **Residual dependency advisory:** compatible remediation is implemented; one unpatched low
+  deepmerge advisory remains as four npm dependency-chain entries. Revisit on an upstream fix or
+  changed reachability; see [dependency security review](dependency-security.md). No force-fix
+  PWA downgrade. After merging, reconcile the now-overlapping Vite/source-map-js dependency PRs.
+
 - **Vocabulary:** only a deliberately selected incomplete reachable choice group, with EN/RO
   editorial review and provenance. Current coverage is 66 reviewed meanings. Do not fill the
   catalog automatically or infer needs from new definitions; reviewed-null guidance stays intact.

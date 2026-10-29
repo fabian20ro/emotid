@@ -8,6 +8,8 @@ export async function saveSession(session: Session, signal?: AbortSignal): Promi
   if (signal?.aborted) throw signal.reason
 
   await store('readwrite', (objectStore) => {
+    // Database opening may have outlived the caller's cancellation.
+    if (signal?.aborted) throw signal.reason
     const transaction = objectStore.transaction
     const abort = () => {
       try {

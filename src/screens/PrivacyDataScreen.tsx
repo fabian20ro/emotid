@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { Download, ExternalLink, Trash2 } from 'lucide-react'
 import { useLanguage } from '../context/LanguageContext'
 import { ScreenHeader } from '../components/ScreenHeader'
@@ -23,7 +23,8 @@ export function PrivacyDataScreen({ saveSessions, allowExternalAI, onBack, onSav
   const [pending, setPending] = useState<'export' | 'clear' | null>(null)
   const [feedback, setFeedback] = useState<{ type: 'status' | 'alert'; text: string } | null>(null)
   const closeConfirm = useCallback(() => setConfirmOpen(false), [])
-  const focusTrapRef = useFocusTrap(confirmOpen, closeConfirm)
+  const clearTriggerRef = useRef<HTMLButtonElement>(null)
+  const focusTrapRef = useFocusTrap(confirmOpen, closeConfirm, undefined, clearTriggerRef)
 
   const exportData = async () => {
     setPending('export')
@@ -66,7 +67,7 @@ export function PrivacyDataScreen({ saveSessions, allowExternalAI, onBack, onSav
         </div>
       </div>
       <button type="button" className="secondary-button mt-6" disabled={pending !== null} onClick={() => { void exportData() }}><Download size={19} aria-hidden="true" />{pending === 'export' ? t.exporting : t.export}</button>
-      <button type="button" className="danger-button mt-3" disabled={pending !== null} onClick={() => setConfirmOpen(true)}><Trash2 size={19} aria-hidden="true" />{t.clear}</button>
+      <button ref={clearTriggerRef} type="button" className="danger-button mt-3" disabled={pending !== null} onClick={() => setConfirmOpen(true)}><Trash2 size={19} aria-hidden="true" />{t.clear}</button>
       {feedback && <p className="privacy-feedback" role={feedback.type}>{feedback.text}</p>}
 
       {confirmOpen && (
