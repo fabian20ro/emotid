@@ -3205,3 +3205,47 @@ language Fast Refresh. No physical-device or live deployment claim. Dependencies
 dependency PRs; revisit deepmerge when patched or reachability changes. Existing external-evidence
 deferrals unchanged. No new product feature phase required.
 **Promoted to Lessons Learned:** No; synchronized dependency cohorts and full verification already documented.
+
+### [2026-10-29] Merge verified fixes, reconcile dependency PRs, verify live
+
+**Context:** User requested PR checks/fixes, merge, Pages/live verification and overlapping PR cleanup.
+**Outcome:** PR #9 checks passed without further source changes; merged checked head b1fe7bb as
+488f69b37c6561629f97f2ea162e430975641803. Merge and checked-head trees identical. Closed #7
+(source-map-js 1.2.2) and #8 (Vite 7.3.7) as superseded after confirming merged versions; no open PRs.
+Main CodeQL passed. Pages workflow 40793163507 passed: 750 unit tests, 346 production browser tests,
+language refresh, PWA lifecycle, performance/budgets, deployment and deployed smoke. GitHub Pages
+deployment 7400842466 reports success for the exact merge SHA and public /emotid/ URL.
+**Independent live verification:** Chromium and WebKit deployed PWA smoke each passed, including
+worker activation/control. Initial live storage/journal matrix: 19 passed, three WebKit failures
+reported sw.js load failure around fixture navigation; data assertions passed. Worker-blocked
+storage/journal rerun: all 22 passed, including EN/RO x light/dark date/focus cases in both engines.
+Likely registration/navigation race; not a proven general startup failure or a silent clean retry.
+Ignored live configurations retained under .reports/graphify-audit; no phone or user data touched.
+**Remaining:** Make bounded hosted matrix repeatable, isolate fixture lifecycle and reproduce the
+registration race before changing app behavior. Unpatched low deepmerge advisory and external
+evidence deferrals unchanged. Plan/log updates retained locally; deployed source remains 488f69b.
+**Promoted to Lessons Learned:** No; first observation, diagnosis requires bounded reproduction.
+
+### [2026-10-29] Repeatable live regressions and WebKit registration probe
+
+**Context:** User requested maintained live checks, race investigation, thorough verification,
+commit/push/PR including pending publication docs.
+**What changed:** Added an explicit-target, no-server Playwright configuration reusing 22 existing
+storage/journal cases and two engine-specific deployed PWA cases. Workers blocked only for storage
+fixtures, enabled for PWA; no retries/error filters. Added a manual read-only GitHub workflow with
+failure artifacts, eight network-free configuration tests and PR/check integration. Included prior
+publication log/plan updates; documented commands and evidence boundaries in release gates.
+**Race:** Native register() instrumentation reproduced load rejection on immediate fixture navigation
+in 4/5 WebKit attempts (repeated 4/5). Waiting for an activated worker still failed 5/5; waiting for
+the actual current register() promise to resolve passed 5/5. Reopening found an active worker. No
+persistent startup/data failure established; no production registration change or suppression.
+**Verification:** Initial config tests failed before implementation, final eight pass. npm run check
+passed (750 unit tests, lint/types, policy/i18n/release, build/budgets); final lint/config rerun passed.
+72 public checks passed (three complete runs, zero retries) against deployed 488f69b; local production
+matrix passed 24/24, including slash normalization. Existing offline/update lifecycle passed.
+Workflow YAML parses; diff whitespace clean. No app/dependency/copy changes or device interaction.
+**Remaining:** Exact-commit PR CI/review/merge; manually dispatch the new live workflow once present
+on main. Keep the low unpatched deepmerge advisory and external evidence deferrals visible. Only
+revisit registration ownership for an ordinary-route or settled-startup failure. No required feature
+phase. Hosted outcomes belong to the PR/workflow rather than another moving status in the plan.
+**Promoted to Lessons Learned:** Yes; distinguish storage fixture navigation from PWA lifecycle.

@@ -39,6 +39,9 @@ jobs:
       - name: Run tests
         run: npm test
 
+      - name: Verify live regression configuration
+        run: npm run test:live:config
+
       - name: Build
         run: npm run build
 

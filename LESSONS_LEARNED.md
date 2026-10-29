@@ -208,6 +208,13 @@ same contract in WebKit and Chromium.
 
 ## Performance & Infrastructure
 
+**[2026-10-29]** Storage fixtures and worker lifecycle need separate live checks - Immediate
+same-origin fixture navigation can reject a pending WebKit service-worker registration even when
+an activated worker is observable. A paired probe passed only after the actual registration promise
+settled. Block workers in synthetic storage projects; separately require worker-enabled activation,
+control and clean browser errors. Do not filter the rejection or treat storage-only success as PWA
+evidence.
+
 **[2026-08-14]** Post-deployment PWA checks need separate activation and control proofs —
 `navigator.serviceWorker.ready` can resolve while the registration's active worker still reports
 `activating`. Wait for the worker's `activated` state, reload, and then require a non-null page
