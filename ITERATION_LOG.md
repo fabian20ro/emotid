@@ -3361,3 +3361,56 @@ same restored source. No candidate deployment or production DB migration claimed
 **Remaining:** Require PR #12 CI/review, then authorized merge, deployment/public smoke and the
 expanded live matrix. Next implementation remains audit PR B (R02/R03).
 **Promoted to Lessons Learned:** No; explicit-destination lesson already recorded.
+
+### [2026-11-07] Publish PR A and verify the public storage boundary
+
+**Context:** User approved the next sequence: verify PR #12 CI, merge, check deployment/live,
+then implement audit PR B separately. No force-push or new direct feature push to main.
+**Publication:** PR #12 CI run 42307934456 passed on a5d6f8d: 764 unit/component tests,
+370 production browser cases with no flaky retries, PWA lifecycle and performance. CodeQL passed.
+Merged the exact head with a merge commit, 1692aecf1e3db24c824e05367d1fcfcaf9884d96.
+Its product tree equals the reviewed candidate. Main run 42310101921 passed build, 370 browser
+cases, PWA, performance, Pages deployment and public deployed-smoke. Deployment 7613188198
+reports success at the same SHA and https://fabian20ro.github.io/emotid/.
+**Live verification:** Expanded live matrix passed 48/48 with no retries on the public site:
+46 storage/journal cases and two service-worker-enabled PWA smokes, Chromium/WebKit, EN/RO x
+themes. Includes two tabs, missed erasure notifications, stale drafts, partial failure/retry and
+blocked v1 migration. Fresh isolated contexts and synthetic data only. The shared live test files
+are unchanged from PR A; PR B's new reflection cases were not run against this older public code.
+**Evidence:** Ignored .reports/pr-a-ci.log, pr-a-deploy.log and pr-a-public-live.log. Remote main
+verified at 1692aec. This closes PR A publication, not the remaining audit findings. DB v2 requires
+forward-compatible recovery; do not roll back to v1 code or erase personal data to recover.
+**Promoted to Lessons Learned:** No; existing release-boundary and explicit-refspec lessons apply.
+
+### [2026-11-07] Audit PR B: renewed agreement and continuous support
+
+**Implementation:** R02/R03 only. Existing completion boundary compares result-ID sets before
+carrying reflection answers. Changed sets clear global yes/partly/no; identical/reordered results
+restore the exact answer. Retain applicable individual acceptances, but do not reinterpret the
+loss of all accepted options as rejection of new suggestions. Align the draft and saved session,
+preserving the original session identity. Reuse one support-banner definition across result,
+exploration, next step and save-error branches; pending states retain it. No new thresholds,
+gating, scoring, crisis copy, AI query semantics, dependencies or storage schema.
+**TDD:** Three global-answer cases failed first. Additional tests caught changed yes-to-subset
+answers on identical results and stale no after accepted options disappeared. All corrected at
+the completion boundary. Support continuation failed for all four support tiers in both languages
+before the UI fix; none-tier remains banner-free and tier-4 acknowledgment unchanged.
+**Verification:** npm run check passed: 784 unit/component tests, eight live-config tests,
+lint/types, policy/catalog/copy/i18n/release, build and budgets. Focused browser matrix 34/34,
+then frozen full production matrix 394/394 in Chromium/WebKit, no retries. New 24 cases cover
+body revision plus reload/Journal, EN/RO x themes, support through exploration/step/Back and
+injected save failure, focus and reachable exit. All five completion routes retain support.
+PWA offline/update, language Fast Refresh, performance proxy and local deployed-smoke each passed.
+Initial JS gzip 143655/150000; entry gzip 42861/50000; assets 912354/960000 bytes. Release consistency
+rechecked after plan edits; git diff --check clean. Initial Playwright discovery required the JSON
+import type attribute in the new test; fixed before browser execution, not a product failure.
+**Review:** Independent standards/architecture and spec/UX-safety reviews found no actionable
+scoped issues. Inspected screenshots across all four language/theme combinations, including save
+failure. Browser evidence only: no phone, native screen-reader speech or clinical pass claimed.
+**Documentation / remaining:** Audit status updated; detailed PR C implementation sequence in
+the maintenance plan. PR B requires its own hosted CI/review/merge and public verification; the
+live pass above is PR A, not PR B. Next implementation: R04/R08 draft ownership and Back/Forward,
+then D accessibility/dialogs, E tooling/dependencies/release, F localization/choice IDs, G bounded
+maintenance and measurement-first PWA/history scaling. No new router/state framework needed.
+**Promoted to Lessons Learned:** Yes; agreement scoped to evaluated identities, within the existing
+explicit-commitment lesson. Local test servers stopped; artifacts ignored under .reports/pr-b-*.

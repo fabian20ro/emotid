@@ -47,12 +47,16 @@ model in parallel is insufficient if the screen then relies on a hidden module c
 feature boundary inject the concrete loaded engine so screen state stays synchronous, direct tests
 remain deterministic, and retry/loading behavior has one owner.
 
-**[2026-07-29]** Model output becomes user history only after an explicit commitment — Persist the
+**[2026-07-29] Updated [2026-11-07]** Model output becomes user history only after an explicit commitment — Persist the
 user's committed input early, but keep inferred labels, needs, and actions optional. Derived
 suggestions that are unconfirmed, partial, or rejected may remain visible in the Journal for
 context, but must not silently enter pattern analytics as facts about the user. When a rejected
 result remains for provenance, every history surface must frame it as a suggestion that did not
 fit; a bare emotion heading contradicts the user's rejection even when analytics are correct.
+Agreement belongs to the evaluated result identities: changing the set invalidates global fit,
+while identical/reordered results retain it. Keep only still-applicable individual acceptances;
+removing all previously accepted options does not reject newly suggested ones. Align draft,
+persisted session and analytics at the existing completion boundary.
 
 **[2026-07-28]** Generated psychological copy needs a typed boundary from catalog prose — Do not
 parse or splice emotion descriptions into generated narratives. Keep reviewed bilingual templates

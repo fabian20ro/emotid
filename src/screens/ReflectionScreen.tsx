@@ -57,6 +57,9 @@ export function ReflectionScreen({ completion, allowExternalAI, saveState, sessi
   const aiLink = allowExternalAI && aiFitConfirmed && results.length > 0
     ? buildGoogleAiSearchUrl(results, language, analyzeT)
     : null
+  const support = completion.crisisTier !== 'none'
+    ? <CrisisBanner tier={completion.crisisTier} crisisT={section('crisis')} />
+    : null
 
   useLayoutEffect(() => {
     if (finishState === 'saving') return
@@ -141,6 +144,7 @@ export function ReflectionScreen({ completion, allowExternalAI, saveState, sessi
         <h1 id="screen-title" className="screen-title" tabIndex={-1}>
           {sessionCaptured ? t.detailSaveErrorTitle : t.baseSaveErrorTitle}
         </h1>
+        {support}
         <p className="screen-lede" role="alert">{sessionCaptured ? t.detailSaveErrorBody : t.saveErrorBody}</p>
         <div className="save-error-actions">
           <button type="button" className="primary-button" onClick={retrySave}>
@@ -158,6 +162,7 @@ export function ReflectionScreen({ completion, allowExternalAI, saveState, sessi
     return (
       <div ref={screenRef} className="screen" data-testid="next-step-screen" aria-busy={finishState === 'saving'}>
         <ScreenHeader title={t.nextStep} onBack={() => setShowStep(false)} lede={t.nextStepChoicePrompt} />
+        {support}
         {selectedNeed && <p className="next-step-need"><Lightbulb size={18} aria-hidden="true" />{t.need}: {selectedNeed}</p>}
         <div className="next-step-options" role="group" aria-label={t.nextStepChoicePrompt}>
           {nextStepOptions.map((option) => (
@@ -191,6 +196,7 @@ export function ReflectionScreen({ completion, allowExternalAI, saveState, sessi
     return (
       <div ref={screenRef} className="screen reflection-exploration-screen" data-testid="reflection-exploration-screen" aria-busy={finishState === 'saving'}>
         <ScreenHeader title={t.exploreMore} onBack={closeExploration} lede={t.exploreHint} />
+        {support}
 
         {needs.length > 0 && (
           <fieldset className="need-choice">
@@ -254,9 +260,7 @@ export function ReflectionScreen({ completion, allowExternalAI, saveState, sessi
     <div ref={screenRef} className="screen reflection-screen" data-testid="reflection-screen" aria-busy={finishState === 'saving'}>
       <ScreenHeader onBack={onBack} eyebrow={t.eyebrow} title={completion.outcome === 'body-observation' ? bodyT.observationTitle : t.title} />
 
-      {completion.crisisTier !== 'none' && (
-        <CrisisBanner tier={completion.crisisTier} crisisT={section('crisis')} />
-      )}
+      {support}
 
       <div
           className={`session-save-status is-${saveState}`}

@@ -127,9 +127,12 @@ export function useCheckInWorkflow({
       existing ? { id: existing.id, timestamp: existing.timestamp } : undefined,
     )
     if (existing?.reflectionAnswer && !completion.outcome) {
-      const selectedResultIds = existing.selectedResultIds?.filter((id) => results.some((result) => result.id === id))
-      const reflectionAnswer = selectedResultIds === undefined ? existing.reflectionAnswer
-        : selectedResultIds.length === 0 ? 'no' : selectedResultIds.length === results.length ? 'yes' : 'partly'
+      const sameResults = existing.results.length === results.length
+        && existing.results.every((previous) => results.some((result) => result.id === previous.id))
+      const retainedIds = existing.selectedResultIds?.filter((id) => results.some((result) => result.id === id))
+      const selectedResultIds = sameResults || retainedIds?.length ? retainedIds : undefined
+      const reflectionAnswer = sameResults ? existing.reflectionAnswer
+        : selectedResultIds?.length ? (selectedResultIds.length === results.length ? 'yes' : 'partly') : undefined
       session = addReflectionDetail(session, { reflectionAnswer, selectedResultIds })
       draft.set('fit', reflectionAnswer)
       draft.set('selectedResultIds', selectedResultIds)

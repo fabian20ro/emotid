@@ -1,6 +1,7 @@
 import { act, renderHook, waitFor } from '@testing-library/react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import type { Session } from '../../../data/types'
+import { isSessionEligibleForPatterns } from '../../../data/session-presentation'
 import type { AnalysisResult, BaseEmotion } from '../../../models/types'
 import { useCheckInWorkflow } from './useCheckInWorkflow'
 
@@ -32,6 +33,63 @@ function renderWorkflow(
 }
 
 describe('useCheckInWorkflow', () => {
+  it.each([
+    { ids: undefined, answer: 'yes', nextIds: undefined, nextAnswer: 'yes' },
+    { ids: undefined, answer: 'no', nextIds: undefined, nextAnswer: 'no' },
+    { ids: ['joy'], answer: 'yes', nextIds: ['joy'], nextAnswer: 'yes' },
+    { ids: [], answer: 'no', nextIds: [], nextAnswer: 'no' },
+  ] as const)('restores the exact answer for reordered but identical results: $answer / $ids', async ({ ids, answer, nextIds, nextAnswer }) => {
+    const save = vi.fn<(session: Session) => Promise<void>>().mockResolvedValue(undefined)
+    const { result } = renderWorkflow(save)
+    const other = { ...analysis, id: 'gratitude' }
+    act(() => { result.current.complete('body', 'somatic', [selection], [analysis, other]) })
+    await waitFor(() => expect(save).toHaveBeenCalledOnce())
+    await act(async () => { await result.current.saveReflection({ reflectionAnswer: answer, selectedResultIds: ids && [...ids] }) })
+    act(() => { result.current.complete('body', 'somatic', [selection], [other, analysis]) })
+    await waitFor(() => expect(save).toHaveBeenCalledTimes(3))
+    expect(save.mock.calls[2][0]).toMatchObject({ reflectionAnswer: nextAnswer, selectedResultIds: nextIds })
+    expect(result.current.draft.get('fit')).toBe(nextAnswer)
+  })
+
+  it.each([
+    { ids: ['joy', 'gratitude'], nextIds: ['joy'], nextAnswer: 'partly', eligible: true },
+    { ids: ['gratitude'], nextIds: undefined, nextAnswer: undefined, eligible: false },
+    { ids: [], nextIds: undefined, nextAnswer: undefined, eligible: false },
+  ] as const)('carries only applicable individual acceptances after revision: $ids', async ({ ids, nextIds, nextAnswer, eligible }) => {
+    const save = vi.fn<(session: Session) => Promise<void>>().mockResolvedValue(undefined)
+    const { result } = renderWorkflow(save)
+    act(() => { result.current.complete('body', 'somatic', [selection], [analysis, { ...analysis, id: 'gratitude' }]) })
+    await waitFor(() => expect(save).toHaveBeenCalledOnce())
+    await act(async () => { await result.current.saveReflection({ reflectionAnswer: ids.length ? 'yes' : 'no', selectedResultIds: [...ids] }) })
+    act(() => { result.current.complete('body', 'somatic', [selection], [analysis, { ...analysis, id: 'grief' }]) })
+    await waitFor(() => expect(save).toHaveBeenCalledTimes(3))
+    const revised = save.mock.calls[2][0]
+    expect(revised.reflectionAnswer).toBe(nextAnswer)
+    expect(revised.selectedResultIds).toEqual(nextIds)
+    expect(result.current.draft.get('fit')).toBe(nextAnswer)
+    expect(result.current.draft.get('selectedResultIds')).toEqual(nextIds)
+    expect(isSessionEligibleForPatterns(revised)).toBe(eligible)
+  })
+
+  it.each(['yes', 'partly', 'no'] as const)('requires a fresh global %s answer when result identities change', async (answer) => {
+    const save = vi.fn<(session: Session) => Promise<void>>().mockResolvedValue(undefined)
+    const { result } = renderWorkflow(save)
+    act(() => { result.current.complete('body', 'somatic', [selection], [analysis]) })
+    await waitFor(() => expect(save).toHaveBeenCalledOnce())
+    await act(async () => { await result.current.saveReflection({ reflectionAnswer: answer }) })
+    act(() => { result.current.draft.set('fit', answer) })
+    const originalId = result.current.currentSession!.id
+    act(() => { result.current.complete('body', 'somatic', [selection], [{ ...analysis, id: 'grief' }]) })
+    await waitFor(() => expect(save).toHaveBeenCalledTimes(3))
+
+    const revised = save.mock.calls[2][0]
+    expect(revised.id).toBe(originalId)
+    expect(revised.reflectionAnswer).toBeUndefined()
+    expect(revised.selectedResultIds).toBeUndefined()
+    expect(result.current.draft.get('fit')).toBeUndefined()
+    expect(isSessionEligibleForPatterns(revised)).toBe(false)
+  })
+
   it('invalidates the active reflection even if a destructive reset partly fails', async () => {
     const save = vi.fn().mockResolvedValue(undefined)
     const { result } = renderWorkflow(save)
