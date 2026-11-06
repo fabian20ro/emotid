@@ -1,7 +1,6 @@
 import { lazy, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { MotionConfig } from 'framer-motion'
 import { AppShell } from './components/AppShell'
-import { StorageBoundary } from './components/StorageBoundary'
 import { Onboarding } from './components/Onboarding'
 import { LazyRouteBoundary } from './components/LazyRouteBoundary'
 import { TodayScreen } from './screens/TodayScreen'
@@ -56,10 +55,6 @@ const ChainAnalysis = lazy(async () => {
 })
 
 export default function App() {
-  return <StorageBoundary><AppContent /></StorageBoundary>
-}
-
-function AppContent() {
   const { setLanguage } = useLanguage()
   const navigation = useAppNavigation()
   const [onboardingMode, setOnboardingMode] = useState<'initial' | 'replay' | null>(() => storage.get('onboarded') !== 'true' ? 'initial' : null)
@@ -163,9 +158,7 @@ function AppContent() {
 
   const clearData = useCallback(async () => {
     await runExclusiveReset(async () => {
-      const results = await Promise.allSettled([clearAllSessions(), clearAllChains()])
-      const failures = results.filter((result) => result.status === 'rejected')
-      if (failures.length) throw new AggregateError(failures.map((result) => result.reason), 'Local data was not fully deleted')
+      await Promise.all([clearAllSessions(), clearAllChains()])
     })
     storage.resetPreferences()
     setLanguage(navigator.language.startsWith('ro') ? 'ro' : 'en')

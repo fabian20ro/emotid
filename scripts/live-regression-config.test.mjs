@@ -22,8 +22,7 @@ for (const url of [undefined, '', '/emotid/', 'file:///tmp/emotid/', 'https://us
 test('discovers only the bounded storage and PWA matrix without starting browsers or a server', () => {
   const result = listTests('https://example.com/emotid')
   assert.equal(result.status, 0, result.stderr)
-  assert.match(result.stdout, /Total: 48 tests in 4 files/)
-  assert.ok(result.stdout.includes('data-erasure.spec.ts'))
+  assert.match(result.stdout, /Total: 24 tests in 3 files/)
   for (const project of ['storage-chromium', 'storage-webkit', 'pwa-chromium', 'pwa-webkit']) {
     assert.ok(result.stdout.includes(`[${project}]`))
   }

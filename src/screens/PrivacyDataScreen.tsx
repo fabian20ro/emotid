@@ -47,7 +47,7 @@ export function PrivacyDataScreen({ saveSessions, allowExternalAI, onBack, onSav
       setConfirmOpen(false)
       setFeedback({ type: 'status', text: t.clearSuccess })
     } catch {
-      setFeedback({ type: 'alert', text: t.clearError })
+      setFeedback({ type: 'alert', text: t.dataError })
     } finally {
       setPending(null)
     }
@@ -67,8 +67,8 @@ export function PrivacyDataScreen({ saveSessions, allowExternalAI, onBack, onSav
         </div>
       </div>
       <button type="button" className="secondary-button mt-6" disabled={pending !== null} onClick={() => { void exportData() }}><Download size={19} aria-hidden="true" />{pending === 'export' ? t.exporting : t.export}</button>
-      <button ref={clearTriggerRef} type="button" className="danger-button mt-3" disabled={pending !== null} onClick={() => { setFeedback(null); setConfirmOpen(true) }}><Trash2 size={19} aria-hidden="true" />{t.clear}</button>
-      {feedback && !confirmOpen && <p className="privacy-feedback" role={feedback.type}>{feedback.text}</p>}
+      <button ref={clearTriggerRef} type="button" className="danger-button mt-3" disabled={pending !== null} onClick={() => setConfirmOpen(true)}><Trash2 size={19} aria-hidden="true" />{t.clear}</button>
+      {feedback && <p className="privacy-feedback" role={feedback.type}>{feedback.text}</p>}
 
       {confirmOpen && (
         <ModalShell
@@ -88,7 +88,6 @@ export function PrivacyDataScreen({ saveSessions, allowExternalAI, onBack, onSav
         >
           <h2 id="clear-data-title">{t.confirmTitle}</h2>
           <p id="clear-data-description">{t.confirmClear}</p>
-          {feedback && <p className="privacy-feedback" role={feedback.type}>{feedback.text}</p>}
           <div className="confirm-dialog-actions">
             <button type="button" className="secondary-button" disabled={pending !== null} onClick={closeConfirm}>{t.cancel}</button>
             <button type="button" className="danger-button" disabled={pending !== null} onClick={() => { void clearData() }}>

@@ -50,17 +50,6 @@ for (const language of ['en', 'ro'] as const) for (const theme of ['light', 'dar
       })))
     })
     expect(retained).toEqual([1e20, 1e20])
-    await page.getByRole('button', { name: copy.settingsScreen.title, exact: true }).click()
-    await page.getByRole('button', { name: copy.privacyData.title, exact: true }).click()
-    await page.getByRole('button', { name: copy.privacyData.clear, exact: true }).click()
-    await page.getByRole('button', { name: copy.privacyData.confirmAction, exact: true }).click()
-    await expect(page.getByRole('dialog')).toHaveCount(0)
-    // Reset restores browser language (English), without a page reload.
-    await page.getByRole('button', { name: 'Back', exact: true }).click()
-    await page.getByRole('button', { name: 'Back', exact: true }).click()
-    await page.getByRole('button', { name: 'Journal', exact: true }).click()
-    await expect(journal.getByRole('alert')).toHaveCount(0)
-    await expect(journal).toContainText(en.journalScreen.emptyTitle)
     expect(errors).toEqual([])
   })
 

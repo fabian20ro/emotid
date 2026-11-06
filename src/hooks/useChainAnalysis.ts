@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import {
   getAllChainAnalyses,
   saveChainAnalysis,
@@ -11,25 +11,19 @@ export function useChainAnalysis() {
   const [entries, setEntries] = useState<ChainAnalysisEntry[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
-  const revision = useRef(0)
 
   useEffect(() => {
-    const started = revision.current
-    let active = true
     getAllChainAnalyses()
       .then((loaded) => {
-        if (!active || started !== revision.current) return
         setEntries(loaded)
         setError(false)
       })
       .catch((loadError) => {
-        if (!active || started !== revision.current) return
         console.warn('Failed to load journal exercises:', loadError)
         setEntries([])
         setError(true)
       })
-      .finally(() => { if (active && started === revision.current) setLoading(false) })
-    return () => { active = false }
+      .finally(() => setLoading(false))
   }, [])
 
   const save = useCallback(async (entry: ChainAnalysisEntry) => {
@@ -39,10 +33,7 @@ export function useChainAnalysis() {
 
   const clearAll = useCallback(async () => {
     await clearAllChainAnalyses()
-    revision.current += 1
     setEntries([])
-    setError(false)
-    setLoading(false)
   }, [])
 
   const remove = useCallback(async (id: string) => {

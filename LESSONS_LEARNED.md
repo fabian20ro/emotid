@@ -14,13 +14,6 @@
 
 ## Architecture & Design Decisions
 
-**[2026-11-07]** Cross-tab erasure needs a durable transaction guard, not notifications alone -
-Suspended tabs can miss BroadcastChannel and later recreate deleted records. Check the erasure
-epoch in the same transaction as the write; rotate it atomically with clear. Notifications only
-accelerate UI invalidation and must never turn a committed clear into a reported failure.
-For separate databases, await every clear settlement and invalidate stale drafts even on partial
-failure. Schema upgrades also need a tested old-tab blocked/reload path and a forward-fix rollback plan.
-
 **[2026-08-18]** Destructive local-data operations must drain physical writes — Invalidating a
 promise or workflow generation does not stop an IndexedDB transaction that ignores cancellation.
 Pause new writes, abort and await every physical settlement, clear storage, reset in-memory state,

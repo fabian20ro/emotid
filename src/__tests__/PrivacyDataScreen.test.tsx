@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { fireEvent, render, screen, waitFor, within } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { LanguageProvider } from '../context/LanguageContext'
 import { PrivacyDataScreen } from '../screens/PrivacyDataScreen'
@@ -20,19 +20,6 @@ function renderPrivacy(overrides: Partial<React.ComponentProps<typeof PrivacyDat
 
 describe('PrivacyDataScreen', () => {
   beforeEach(() => localStorage.clear())
-
-  it('reports incomplete deletion inside the open dialog and permits retry', async () => {
-    const onClear = vi.fn().mockRejectedValueOnce(new Error('partial failure')).mockResolvedValue(undefined)
-    renderPrivacy({ onClear })
-    fireEvent.click(screen.getByRole('button', { name: 'Delete all local data' }))
-    fireEvent.click(screen.getByRole('button', { name: 'Delete everything' }))
-    const dialog = screen.getByRole('dialog')
-    expect(await within(dialog).findByRole('alert')).toHaveTextContent('Some data may already have been deleted')
-    expect(screen.queryByRole('status')).not.toBeInTheDocument()
-    fireEvent.click(screen.getByRole('button', { name: 'Delete everything' }))
-    await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument())
-    expect(screen.getByRole('status')).toHaveTextContent('Local data was deleted')
-  })
 
   it.each(['cancel', 'escape', 'success'])('restores a non-focused touch opener after %s', async (action) => {
     renderPrivacy()

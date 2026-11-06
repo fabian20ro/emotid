@@ -44,10 +44,8 @@ DEPLOYED_BASE_URL=https://fabian20ro.github.io/emotid/ npm run test:live
 starts no local server and uses fresh browser contexts with synthetic data only. Never substitute
 a persistent personal profile. It reuses existing tests, with no retries or filtered errors:
 
-- 46 Chromium/WebKit storage/journal checks: EN/RO x light/dark malformed-date retention/recovery
-  and privacy-dialog focus; journal deletion, export/reset and Romanian body details; two-tab
-  erasure with/without notifications, stale exercise drafts, partial-clear retry, pending-clear
-  settlement, and blocked v1 database upgrade/recovery.
+- 22 Chromium/WebKit storage/journal checks: EN/RO x light/dark malformed-date retention and
+  privacy-dialog focus; journal deletion, export/reset and Romanian body details.
 - Two separate Chromium/WebKit PWA checks: registration/activation, reload control, assets,
   manifest and lazy Settings, with existing browser/network failure assertions intact.
 
@@ -64,9 +62,6 @@ automatic post-deployment smoke gate. Record the successful Pages deployment SHA
 the test checkout SHA and `DEPLOYED_REVISION` cache-busting token do not prove the served revision.
 `npm run test:live:config` checks target validation and bounded discovery without network/browser
 access; it runs in `npm run check` and PR CI.
-
-The expanded erasure matrix requires PR A's storage lifecycle implementation on the target.
-Run against a local preview before merge; run against Pages only after that revision is deployed.
 
 The primary Playwright config stops CI after one test has exhausted its retries. This shortens red
 feedback while preserving the first screenshot, trace, and HTML report. Local runs have no failure

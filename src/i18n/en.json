@@ -433,13 +433,6 @@
     "help": "Help",
     "replayIntroduction": "Replay introduction"
   },
-  "storageRecovery": {
-    "title": "Local data changed in another tab",
-    "body": "Data was deleted in another tab. This tab has stopped saving so it cannot bring deleted data back. Reload to continue; unfinished changes in this tab will be discarded.",
-    "reload": "Reload app",
-    "upgradeTitle": "Close other Emot-ID tabs",
-    "upgradeBody": "An older tab is using local storage, or the app has been updated. Close other Emot-ID tabs and reload this one. Your saved data will be kept."
-  },
   "privacyData": {
     "title": "Privacy & data",
     "lede": "Saved reflections stay on this device. Emot-ID has no account, analytics, or cloud sync.",
@@ -457,7 +450,6 @@
     "deleting": "Deleting…",
     "cancel": "Cancel",
     "clearSuccess": "Local data was deleted and preferences were reset.",
-    "clearError": "Deletion could not be completed. Some data may already have been deleted. Preferences were kept. Try deleting again.",
     "dataError": "The action could not be completed. Reopen the app and try again."
   },
   "supportScreen": {

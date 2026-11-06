@@ -1,23 +1,26 @@
-import { createGuardedStore } from './guarded-store'
+import { createStore, set, del, keys, values } from 'idb-keyval'
 import type { ChainAnalysisEntry } from './types'
 import { decodeChainEntries } from './record-validation'
 
-const store = createGuardedStore('emot-id-chain-analysis', 'entries')
+const store = createStore('emot-id-chain-analysis', 'entries')
 
 export async function saveChainAnalysis(entry: ChainAnalysisEntry): Promise<void> {
-  await store.put(entry.id, entry)
+  await set(entry.id, entry, store)
 }
 
 export async function getAllChainAnalyses(): Promise<ChainAnalysisEntry[]> {
-  const allValues = await store.values()
+  const allValues = await values<unknown>(store)
   const entries = decodeChainEntries(allValues)
   return entries.sort((a, b) => b.timestamp - a.timestamp)
 }
 
 export async function clearAllChainAnalyses(): Promise<void> {
-  await store.clear()
+  const allKeys = await keys(store)
+  for (const key of allKeys) {
+    await del(key, store)
+  }
 }
 
 export async function deleteChainAnalysis(id: string): Promise<void> {
-  await store.delete(id)
+  await del(id, store)
 }
