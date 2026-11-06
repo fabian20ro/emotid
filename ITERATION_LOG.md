@@ -3346,3 +3346,18 @@ codex/restore-pr-review to main, require its normal CI/review, then merge and ve
 Main remains at the accidental implementation commit until recovery is approved. Do not confuse
 the cancelled run with a deployed candidate, or the recovery PR with the implementation PR.
 **Promoted to Lessons Learned:** Yes; explicit push destination after branching from a remote ref.
+
+### [2026-11-07] Authorized recovery completed; implementation PR targets main
+
+**Authorization:** User explicitly approved pushing revert 19e366b to main, then presenting the
+implementation as a PR. Non-force push completed; remote main verified at 19e366b. Its complete
+tree equals pre-incident 362d8f5. GitHub automatically marked recovery PR #11 merged.
+**PR:** Retargeted implementation PR #12 from the recovery branch to main; removed obsolete merge
+ordering from its description. No implementation merge authorized or performed. This documentation
+push triggers normal PR CI on the final head; CI results remain separate from local test evidence.
+**Verification:** No product/test/config changes since fully tested 04f6df0. At recovery verification,
+latest Pages deployment remained 7418462722 at 362d8f5; the revert's push workflow may redeploy the
+same restored source. No candidate deployment or production DB migration claimed.
+**Remaining:** Require PR #12 CI/review, then authorized merge, deployment/public smoke and the
+expanded live matrix. Next implementation remains audit PR B (R02/R03).
+**Promoted to Lessons Learned:** No; explicit-destination lesson already recorded.
