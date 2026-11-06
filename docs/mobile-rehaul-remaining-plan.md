@@ -1,6 +1,6 @@
 # Product Maintenance Plan
 
-Updated October 29, 2026. The mobile migration and the bounded M1-M3/startup maintenance work
+Updated November 7, 2026. The mobile migration and the bounded M1-M3/startup maintenance work
 are implemented, including the code-hygiene corrective pass. Publication status belongs to the
 exact-revision hosted workflow and public verification, not a moving status copied into this plan.
 
@@ -18,21 +18,30 @@ release scope in `docs/releases/v0.1.6.md`. Do not duplicate completed phases he
 The implementation distinguishes pending/error/empty history without blocking Quick, rejects
 eager full-catalog modules during build, and retains canonical labels and deterministic safety.
 The active plan is shortened; the generated Playwright run marker is no longer tracked.
-No further feature phase is mandatory once this candidate passes publication gates.
+The November audit found additional state/data defects beyond those publication checks.
+
+## Active Remediation
+
+The prioritized findings and PR A-G sequence live in
+[the multidisciplinary audit](audit-2026-11-06.md#ordine-recomandata-de-implementare).
+PR A implements durable multi-tab erasure, per-store atomic clear and history recovery;
+publication remains subject to exact-revision PR CI/review/merge and deployment checks.
+Next: PR B, renewed agreement after result changes and support continuity (R02/R03).
+Keep scoring and safety gating unchanged. Remaining priorities stay in the audit, not a duplicate list.
 
 ## Conditional Next Work
 
-- **Next publication step:** merge the live-regression tooling after exact-revision CI, then run
-  its manual workflow against the published site. Commands and evidence boundaries belong to
+- **Publication:** live-regression tooling is merged and its initial hosted run passed.
+  Repeat it after remediation PRs are published. Commands and evidence boundaries belong to
   [release quality gates](release-quality-gates.md#opt-in-live-regression-matrix).
 - **Registration failures:** a bounded WebKit probe reproduced pending-registration rejection
   during fixture navigation, not a persistent startup failure. Keep storage and PWA checks separate;
   change registration ownership only for a reproduced ordinary-route/settled-startup failure.
   See the [investigation](webkit-registration-investigation.md).
-- **Residual dependency advisory:** compatible remediation is implemented; one unpatched low
-  deepmerge advisory remains as four npm dependency-chain entries. Revisit on an upstream fix or
-  changed reachability; see [dependency security review](dependency-security.md). No force-fix
-  PWA downgrade.
+- **Dependencies:** November's audit supersedes the earlier single-advisory snapshot:
+  15 dev-toolchain entries from three advisories, no production entries. R18 tracks reassessment;
+  [dependency security review](dependency-security.md) retains the previous analysis until updated.
+  No force-fix PWA downgrade.
 
 - **Vocabulary:** only a deliberately selected incomplete reachable choice group, with EN/RO
   editorial review and provenance. Current coverage is 66 reviewed meanings. Do not fill the
