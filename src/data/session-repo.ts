@@ -1,44 +1,23 @@
-import { createStore, promisifyRequest, del, keys, values } from 'idb-keyval'
+import { createGuardedStore } from './guarded-store'
 import type { Session } from './types'
 import { decodeSessions } from './record-validation'
 
-const store = createStore('emot-id-sessions', 'sessions')
+const store = createGuardedStore('emot-id-sessions', 'sessions')
 
 export async function saveSession(session: Session, signal?: AbortSignal): Promise<void> {
-  if (signal?.aborted) throw signal.reason
-
-  await store('readwrite', (objectStore) => {
-    // Database opening may have outlived the caller's cancellation.
-    if (signal?.aborted) throw signal.reason
-    const transaction = objectStore.transaction
-    const abort = () => {
-      try {
-        transaction.abort()
-      } catch {
-        // The transaction may have settled between the signal and abort call.
-      }
-    }
-    signal?.addEventListener('abort', abort, { once: true })
-    objectStore.put(session, session.id)
-    return promisifyRequest(transaction).finally(() => {
-      signal?.removeEventListener('abort', abort)
-    })
-  })
+  await store.put(session.id, session, signal)
 }
 
 export async function getAllSessions(): Promise<Session[]> {
-  const allValues = await values<unknown>(store)
+  const allValues = await store.values()
   const sessions = decodeSessions(allValues)
   return sessions.sort((a, b) => b.timestamp - a.timestamp)
 }
 
 export async function deleteSession(id: string): Promise<void> {
-  await del(id, store)
+  await store.delete(id)
 }
 
 export async function clearAllSessions(): Promise<void> {
-  const allKeys = await keys(store)
-  for (const key of allKeys) {
-    await del(key, store)
-  }
+  await store.clear()
 }

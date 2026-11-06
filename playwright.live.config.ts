@@ -31,7 +31,7 @@ export default defineConfig({
     ...(['chromium', 'webkit'] as const).map(browserName => ({
       name: `storage-${browserName}`,
       testDir: './e2e',
-      testMatch: ['storage-boundaries.spec.ts', 'journal-data.spec.ts'],
+      testMatch: ['storage-boundaries.spec.ts', 'journal-data.spec.ts', 'data-erasure.spec.ts'],
       use: {
         ...devices[browserName === 'webkit' ? 'iPhone 14' : 'Pixel 7'],
         serviceWorkers: 'block' as const,

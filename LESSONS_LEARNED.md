@@ -14,6 +14,13 @@
 
 ## Architecture & Design Decisions
 
+**[2026-11-07]** Cross-tab erasure needs a durable transaction guard, not notifications alone -
+Suspended tabs can miss BroadcastChannel and later recreate deleted records. Check the erasure
+epoch in the same transaction as the write; rotate it atomically with clear. Notifications only
+accelerate UI invalidation and must never turn a committed clear into a reported failure.
+For separate databases, await every clear settlement and invalidate stale drafts even on partial
+failure. Schema upgrades also need a tested old-tab blocked/reload path and a forward-fix rollback plan.
+
 **[2026-08-18]** Destructive local-data operations must drain physical writes — Invalidating a
 promise or workflow generation does not stop an IndexedDB transaction that ignores cancellation.
 Pause new writes, abort and await every physical settlement, clear storage, reset in-memory state,
@@ -257,6 +264,12 @@ ID, retain the repository as a metadata archive and publish a fresh repository I
 **[2026-04-11]** Vitest packages must move together — Upgrading `vitest` without matching `@vitest/coverage-v8` left `package-lock.json` with incompatible peers and broke `npm ci` in CI. Treat `vitest` and `@vitest/*` helpers as a synchronized set; regenerate the lockfile and verify with fresh `npm ci`.
 
 ## Process & Workflow
+
+**[2026-11-07]** Push new PR branches with an explicit destination refspec - A branch created
+from origin/main may inherit main as its upstream. With push.default=upstream, a source-only
+push can update main. Verify tracking and use HEAD:refs/heads/codex/<branch>, then verify remote
+refs. Preserve the user's global Git preferences. If an accidental push happens, stop deployment,
+report it and use approved recovery; never bypass a rejected main write or force-push history.
 
 **[2026-08-14]** Localized second-person register is a product voice contract — In an intimate
 self-reflection product, Romanian polite plural creates institutional distance and conflicts with

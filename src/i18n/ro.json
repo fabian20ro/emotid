@@ -433,6 +433,13 @@
     "help": "Ajutor",
     "replayIntroduction": "Reia introducerea"
   },
+  "storageRecovery": {
+    "title": "Datele locale s-au schimbat în altă filă",
+    "body": "Au fost șterse date în altă filă. Salvarea în această filă s-a oprit, ca datele șterse să nu reapară. Reîncarcă pentru a continua; modificările neterminate din această filă se vor pierde.",
+    "reload": "Reîncarcă aplicația",
+    "upgradeTitle": "Închide celelalte file Emot-ID",
+    "upgradeBody": "O filă mai veche folosește stocarea locală sau aplicația a fost actualizată. Închide celelalte file Emot-ID și reîncarc-o pe aceasta. Datele salvate vor fi păstrate."
+  },
   "privacyData": {
     "title": "Confidențialitate și date",
     "lede": "Reflecțiile salvate rămân pe acest dispozitiv. Emot-ID nu folosește conturi, monitorizare sau sincronizare în cloud.",
@@ -450,6 +457,7 @@
     "deleting": "Se șterge…",
     "cancel": "Anulează",
     "clearSuccess": "Datele locale au fost șterse, iar preferințele au fost resetate.",
+    "clearError": "Ștergerea nu s-a încheiat. Este posibil ca unele date să fi fost deja șterse. Preferințele au fost păstrate. Încearcă să ștergi din nou.",
     "dataError": "Acțiunea nu a putut fi finalizată. Redeschide aplicația și încearcă din nou."
   },
   "supportScreen": {

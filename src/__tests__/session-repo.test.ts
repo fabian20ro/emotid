@@ -1,113 +1,63 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { IDBFactory, IDBObjectStore } from 'fake-indexeddb'
 import type { Session } from '../data/types'
 
-const idb = vi.hoisted(() => ({
-  del: vi.fn(),
-  promisifyRequest: vi.fn(),
-  store: vi.fn(),
-  values: vi.fn(),
-}))
-
-vi.mock('idb-keyval', () => ({
-  createStore: vi.fn(() => idb.store),
-  promisifyRequest: idb.promisifyRequest,
-  del: idb.del,
-  keys: vi.fn(),
-  values: idb.values,
-}))
-
-import { deleteSession, getAllSessions, saveSession } from '../data/session-repo'
-
 const session: Session = {
-  id: 'session-1',
-  timestamp: 1,
-  modelId: 'wheel',
-  selections: [],
-  results: [],
-  crisisTier: 'none',
+  id: 'session-1', timestamp: 1, modelId: 'wheel',
+  selections: [], results: [], crisisTier: 'none',
 }
 
-describe('session repository', () => {
-  beforeEach(() => {
-    idb.del.mockReset()
-    idb.promisifyRequest.mockReset()
-    idb.store.mockReset()
-    idb.values.mockReset()
+beforeEach(() => {
+  vi.resetModules()
+  vi.stubGlobal('indexedDB', new IDBFactory())
+  vi.stubGlobal('BroadcastChannel', undefined)
+})
+afterEach(() => { vi.restoreAllMocks(); vi.unstubAllGlobals() })
+
+describe('session repository with real IndexedDB transaction semantics', () => {
+  it('deletes only the requested key and preserves optional fields', async () => {
+    const repo = await import('../data/session-repo')
+    await repo.saveSession({ ...session, selectedNeed: 'quiet and rest' })
+    await repo.saveSession({ ...session, id: 'session-2' })
+    await repo.deleteSession('session-2')
+    expect(await repo.getAllSessions()).toEqual([{ ...session, selectedNeed: 'quiet and rest' }])
   })
 
-  it('deletes only the requested session key', async () => {
-    await deleteSession('session-2')
-
-    expect(idb.del).toHaveBeenCalledOnce()
-    expect(idb.del).toHaveBeenCalledWith('session-2', idb.store)
+  it('fails closed on invalid persisted records without deleting them', async () => {
+    const repo = await import('../data/session-repo')
+    await repo.saveSession({ ...session, timestamp: NaN })
+    await expect(repo.getAllSessions()).rejects.toMatchObject({ name: 'StoredDataValidationError' })
   })
 
-  it('preserves the optional selected need', async () => {
-    const sessionWithNeed: Session = {
-      ...session,
-      selectedNeed: 'quiet and rest',
-    }
-    idb.values.mockResolvedValue([sessionWithNeed])
-
-    const exported = await getAllSessions()
-
-    expect(exported).toHaveLength(1)
-    expect(exported[0].selectedNeed).toBe('quiet and rest')
-  })
-
-  it('fails fast when persisted session data has an invalid shape', async () => {
-    idb.values.mockResolvedValue([{ ...session, timestamp: 'yesterday' }])
-
-    await expect(getAllSessions()).rejects.toMatchObject({ name: 'StoredDataValidationError' })
-  })
-
-  it('aborts an active session transaction when the write signal is cancelled', async () => {
-    let rejectTransaction!: (error: unknown) => void
-    const transactionPromise = new Promise<void>((_resolve, reject) => {
-      rejectTransaction = reject
-    })
-    const abortError = new DOMException('This operation was aborted', 'AbortError')
-    const transaction = {
-      abort: vi.fn(() => rejectTransaction(abortError)),
-    }
-    const objectStore = {
-      transaction,
-      put: vi.fn(),
-    }
-    idb.store.mockImplementation((_mode, callback) => callback(objectStore))
-    idb.promisifyRequest.mockReturnValue(transactionPromise)
+  it('rolls back an active write when its signal aborts', async () => {
+    const repo = await import('../data/session-repo')
+    await repo.getAllSessions()
     const controller = new AbortController()
-
-    const write = saveSession(session, controller.signal)
-    controller.abort()
-
-    await expect(write).rejects.toBe(abortError)
-    expect(transaction.abort).toHaveBeenCalledOnce()
-    expect(objectStore.put).toHaveBeenCalledWith(session, session.id)
+    const original = IDBObjectStore.prototype.put
+    vi.spyOn(IDBObjectStore.prototype, 'put').mockImplementation(function (...args) {
+      const request = original.apply(this, args)
+      controller.abort()
+      return request
+    })
+    await expect(repo.saveSession(session, controller.signal)).rejects.toMatchObject({ name: 'AbortError' })
+    expect(await repo.getAllSessions()).toEqual([])
   })
 
-  it('rejects cancellation while the database is opening without writing', async () => {
-    let open!: () => void
-    const opening = new Promise<void>((resolve) => { open = resolve })
-    const objectStore = { transaction: {}, put: vi.fn() }
-    idb.store.mockImplementation(async (_mode, callback) => {
-      await opening
-      return callback(objectStore)
-    })
-    idb.promisifyRequest.mockResolvedValue(undefined)
+  it('rejects cancellation while opening without persisting', async () => {
+    const repo = await import('../data/session-repo')
     const controller = new AbortController()
-    const write = saveSession(session, controller.signal)
+    const write = repo.saveSession(session, controller.signal)
     controller.abort()
-    open()
-
     await expect(write).rejects.toBe(controller.signal.reason)
-    expect(objectStore.put).not.toHaveBeenCalled()
+    expect(await repo.getAllSessions()).toEqual([])
   })
 
-  it('rejects an already aborted write without opening the store', async () => {
+  it('rejects an already cancelled write without opening a database', async () => {
+    const repo = await import('../data/session-repo')
+    const open = vi.spyOn(indexedDB, 'open')
     const controller = new AbortController()
     controller.abort()
-    await expect(saveSession(session, controller.signal)).rejects.toBe(controller.signal.reason)
-    expect(idb.store).not.toHaveBeenCalled()
+    await expect(repo.saveSession(session, controller.signal)).rejects.toBe(controller.signal.reason)
+    expect(open).not.toHaveBeenCalled()
   })
 })

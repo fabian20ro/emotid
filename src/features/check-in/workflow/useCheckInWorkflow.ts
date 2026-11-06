@@ -191,13 +191,15 @@ export function useCheckInWorkflow({
     try {
       await coordinator.pauseAndDrain()
       await action()
+    } finally {
+      // A failed multi-store clear may already have erased sessions. Never retain
+      // a draft that could reinsert them when the coordinator resumes.
       activeSessionRef.current = null
       setCurrentSession(null)
       setDraft(createCheckInDraft())
       latestWriteRef.current = null
       latestBaseWriteRef.current = null
       dispatch({ type: 'reset' })
-    } finally {
       coordinator.resume()
       completionInFlightRef.current = false
     }
