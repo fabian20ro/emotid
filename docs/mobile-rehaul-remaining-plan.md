@@ -25,9 +25,29 @@ The November audit found additional state/data defects beyond those publication 
 The prioritized findings and PR A-G sequence live in
 [the multidisciplinary audit](audit-2026-11-06.md#ordine-recomandata-de-implementare).
 PR A implements durable multi-tab erasure, per-store atomic clear and history recovery;
-publication remains subject to exact-revision PR CI/review/merge and deployment checks.
-Next: PR B, renewed agreement after result changes and support continuity (R02/R03).
+PR #12 is merged. PR B implements renewed agreement after result changes and support continuity
+(R02/R03); publication evidence belongs to the iteration log and exact-revision hosted checks.
+Next: PR C, draft ownership and reflection navigation (R04/R08).
 Keep scoring and safety gating unchanged. Remaining priorities stay in the audit, not a duplicate list.
+
+### Next Implementation: PR C
+
+1. Reproduce exercise draft loss when opening history and returning; reproduce browser Back
+   skipping reflection exploration/step. Assert visible values, not only stored record counts.
+2. Keep the unsaved exercise draft with its existing workflow owner across history visits.
+   A new exercise or explicit discard resets it; navigation alone does not. Preserve pending-save
+   settlement behavior and the erasure invalidation boundary introduced by PR A.
+3. Model result/exploration/step as explicit reflection destinations in the existing navigation
+   contract. Reuse its history snapshots; do not introduce another router or independent depth counter.
+   Keep need/step choices with the current check-in draft, not the unmounted screen.
+4. Test in-app Back and browser Back/Forward, history round trips, delayed/failed saves, restart,
+   and cross-tab erasure. Preserve the current support tier and tier-4 acknowledgment boundary;
+   history traversal must not bypass it or reopen obsolete drafts after reset.
+5. Focused TDD, then check + frozen full production matrix + PWA lifecycle. Verify EN/RO x themes,
+   focus destinations and public affected journeys after the reviewed PR is deployed.
+
+Small architecture change: extend existing draft/navigation owners. No shared global form store,
+generic wizard framework, scoring changes or unrelated serializer cleanup.
 
 ## Conditional Next Work
 

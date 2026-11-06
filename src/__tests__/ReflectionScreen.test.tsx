@@ -7,6 +7,8 @@ import { storage } from '../data/storage'
 import type { AnalysisResult } from '../models/types'
 import type { CheckInCompletion, ReflectionDetail, ReflectionSaveOutcome } from '../navigation/types'
 import { ACCEPTANCE_HOOKS } from '../../scripts/acceptance/selectors.mjs'
+import en from '../i18n/en.json'
+import ro from '../i18n/ro.json'
 
 function deferred<T>() {
   let resolve!: (value: T) => void
@@ -74,6 +76,47 @@ function renderReflection(
 }
 
 describe('ReflectionScreen need selection', () => {
+  for (const language of ['en', 'ro'] as const) {
+    it.each(['none', 'tier1', 'tier2', 'tier3', 'tier4'] as const)(`keeps support and gating consistent through every reflection substate in ${language}: %s`, async (tier) => {
+      const user = userEvent.setup()
+      const copy = language === 'en' ? en : ro
+      const t = copy.reflectionScreen
+      const pending = deferred<ReflectionSaveOutcome>()
+      renderReflection([result('despair')], { language, crisisTier: tier, onSave: () => pending.promise })
+      const expectSupport = () => {
+        const links = screen.queryAllByRole('link', { name: /deprehub/i })
+        expect(links).toHaveLength(tier === 'none' ? 0 : 1)
+        if (tier !== 'none') {
+          expect(screen.getByText(copy.crisis[tier])).toBeInTheDocument()
+          expect(links[0]).toHaveAttribute('href', 'tel:+40374456420')
+        }
+      }
+      expectSupport()
+      if (tier === 'tier4') {
+        expect(screen.queryByRole('button', { name: t.exploreMore })).not.toBeInTheDocument()
+        await user.click(screen.getByRole('button', { name: t.acknowledge }))
+        expect(screen.getByRole('heading', { name: 'despair' })).toHaveFocus()
+      } else {
+        expect(screen.queryByRole('button', { name: t.acknowledge })).not.toBeInTheDocument()
+      }
+      await user.click(screen.getByRole('button', { name: t.exploreMore }))
+      expectSupport()
+      await user.click(screen.getByRole('button', { name: t.nextStep }))
+      expectSupport()
+      await user.click(screen.getByRole('button', { name: copy.navigation.back }))
+      expectSupport()
+      await user.click(screen.getByRole('button', { name: copy.navigation.back }))
+      expectSupport()
+      expect(screen.getByRole('button', { name: t.exploreMore })).toHaveFocus()
+      expect(screen.queryByRole('button', { name: t.acknowledge })).not.toBeInTheDocument()
+      await user.click(screen.getByRole('button', { name: t.done }))
+      expectSupport()
+      await act(async () => pending.reject(new Error('disk unavailable')))
+      expect(screen.getByTestId('reflection-save-error-screen')).toBeInTheDocument()
+      expectSupport()
+    })
+  }
+
   it('keeps a chosen subset when the user also confirms its fit', async () => {
     const { onSave } = renderReflection([result('love'), result('gratitude')], { route: 'body' })
     const user = userEvent.setup()

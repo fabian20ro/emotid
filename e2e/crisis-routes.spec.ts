@@ -7,6 +7,7 @@ async function expectSupportBoundary(
 ) {
   const alert = page.getByRole('alert')
   const support = page.locator('.crisis-banner')
+  const supportMessage = await support.locator('.crisis-message').textContent()
   await expect(alert).toBeVisible()
   await expect(support.getByRole('link', { name: /deprehub/i })).toHaveAttribute('href', 'tel:+40374456420')
   await expect(support.getByRole('link', { name: /findahelpline/i })).toHaveAttribute('href', 'https://findahelpline.com')
@@ -35,6 +36,18 @@ async function expectSupportBoundary(
   } else {
     await expect(needs).toBeVisible()
   }
+  await expect(support).toHaveCount(1)
+  await expect(support.locator('.crisis-message')).toHaveText(supportMessage!)
+  await page.getByRole('button', { name: 'Try one small step' }).click()
+  await expect(support).toHaveCount(1)
+  await expect(support.locator('.crisis-message')).toHaveText(supportMessage!)
+  await expect(page.getByRole('heading', { name: 'Try one small step' })).toBeFocused()
+  await page.getByRole('button', { name: 'Back', exact: true }).click()
+  await expect(support).toHaveCount(1)
+  await page.getByRole('button', { name: 'Back', exact: true }).click()
+  await expect(page.getByTestId('reflection-explore-more')).toBeFocused()
+  await expect(support).toHaveCount(1)
+  await expect(acknowledge).toHaveCount(0)
 }
 
 async function chooseWord(page: Page, name: string | RegExp) {
