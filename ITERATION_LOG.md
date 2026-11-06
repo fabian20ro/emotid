@@ -3249,3 +3249,100 @@ on main. Keep the low unpatched deepmerge advisory and external evidence deferra
 revisit registration ownership for an ordinary-route or settled-startup failure. No required feature
 phase. Hosted outcomes belong to the PR/workflow rather than another moving status in the plan.
 **Promoted to Lessons Learned:** Yes; distinguish storage fixture navigation from PWA lifecycle.
+
+### [2026-10-29] Verify merged live-regression workflow on GitHub
+
+**Context:** User merged PR #10; requested publication verification, manual live run and conclusions.
+**Verification:** Main 362d8f577f109485b15bc7680559186b96a561f4 passed CodeQL and Pages workflow
+40912026350, including 750 unit tests, 346 production browser tests and automatic deployed smoke.
+Pages deployment 7418462722 reports success for that SHA. Dispatched live-regression.yml on main;
+run 40930011042 passed eight configuration tests and all 24 live checks, zero retries. Retained
+live-regression-report artifact 12922761471. Deployment SHA remained unchanged after the live run.
+**Conclusion:** Publication gates closed; no new app defect or required feature phase. Keep the
+bounded WebKit fixture finding distinct from a persistent startup issue. Residual low deepmerge
+advisory and deferred external evidence unchanged. No code/device changes; this log entry remains
+local, with durable verification evidence also posted on merged PR #10.
+**Promoted to Lessons Learned:** No; confirms existing lifecycle separation and publication gates.
+
+### [2026-11-06] Twelve-specialist audit with bounded browser verification
+
+**Context:** User requested a comprehensive multidisciplinary audit using at least ten distinct agents,
+report only. Preserved the pending publication-log entry. Source tree aa90634 matches main 362d8f5.
+**Work:** Twelve independent agents: security, privacy, data integrity, architecture, psychology,
+mobile UX, accessibility, performance, QA, operations, localization and code quality. Parent deduplicated
+and checked findings; report docs/audit-2026-11-06.md contains severity, evidence class and remediation order.
+**Verification:** npm run check passes including 750 unit tests and eight live-config tests. Sixteen
+production screenshots across EN/RO x light/dark at 390x844: no shell horizontal overflow/pageerrors.
+Browser reproductions confirm cross-tab deleted-record resurrection (0 -> 1), lost exercise draft,
+native Back skipping reflection substates, deletion alert outside modal, inherited Yes after body
+result change, support disappearing in exploration, and clipped 320x256 confirmation. Pending-dialog
+focus escape tested by reproducing its disabled-control DOM state, not a real stalled transaction.
+Initial probe navigation/selectors corrected; their timeouts excluded from product findings.
+Current audit: 15 dev-toolchain entries (13 moderate, two low), three advisories; production audit zero.
+**Outcome:** One P1 data-erasure defect; prioritized P2 state/safety-context/accessibility/tooling
+findings plus P3 maintenance and explicitly unverified PWA/scaling risks. Earlier green smoke evidence
+does not cover these new scenarios. No app/dependency changes, phone interaction, commit/push/deploy.
+Artifacts under ignored .reports/audit-2026-11-06. Local audit preview stopped; agents closed.
+**Next:** Regression-first deletion generation/atomicity/recovery work, then renewed agreement and
+support continuity. Do not implement speculative redesign or equate synthetic agents with participants.
+**Promoted to Lessons Learned:** No; findings are open fixes, not completed remediation lessons.
+
+### [2026-11-07] Audit PR A: durable bulk erasure across tabs
+
+**Context:** Implement the first audit PR with TDD, repeatable two-tab browser verification,
+the pending audit/reporting changes, then commit, push and open a PR. No merge/deployment requested.
+**Implementation:** Both existing databases upgrade in place to v2 with a separate lifecycle store.
+Record writes check the page's erasure epoch atomically; collection clear rotates it in the same
+transaction. BroadcastChannel/foreground checks accelerate UI invalidation but are not the guard.
+Stale tabs unmount old workflows and show bilingual explicit reload recovery, retaining Support.
+Reuse AppShell for focus/scroll/lazy-screen handling. Old v1 connections get a close-tabs/reload
+upgrade path. Removed unused runtime idb-keyval; fake-indexeddb added only for transaction tests.
+Delete-all waits for both stores to settle, resets the active draft even on partial failure, and
+resets preferences only after complete success. Failed records remain intact; retryable error is
+inside the confirmation. Successful clear removes stale error/loading states and late-load results.
+**TDD / discoveries:** Observed red two-tab, history-error/late-load, failed-reset, in-dialog error,
+optional-notification and live-discovery tests before fixes. Additional review caught missing focus
+when opening Support from recovery; new browser assertion failed, then AppShell reuse fixed it.
+Legacy save fixtures held all transaction completions, including new initialization reads: narrowed
+to session writes without weakening assertions. New fault injection initially assumed cross-database
+completion order; fixed independent flags. Blocked-upgrade fixture initially awaited transient Today;
+now awaits recovery directly. These fixture failures were diagnosed, not hidden by automatic retries.
+**Final verification:** npm run check passed: 764 unit/component tests, eight live-config tests,
+lint/types, bilingual/policy/catalog/release checks, build and asset budgets. Frozen production matrix:
+370/370 passed in Chromium/WebKit, zero retries. Includes 24 new erasure cases, EN/RO x light/dark,
+two tabs with/without notifications, stale exercise drafts, partial clear/retry, settlement ordering,
+legacy migration, focus, contrast and recovery screenshots. Corrupt-history recovery covered in the
+existing four-variant storage matrix. Order-sensitive clear and blocked migration each passed 20
+additional repetitions (10 per engine). PWA offline/update, language Fast Refresh and mobile
+performance proxy passed. Expanded live configuration passed 48/48 against local production preview
+(including both engine PWA smokes), not the public deployment. npm audit --omit=dev: zero findings;
+15 existing dev-toolchain entries remain outside this PR. git diff --check clean. Preview stopped.
+**Documentation:** Included pending publication/audit log entries and docs/audit-2026-11-06.md;
+marked PR A implementation scope without rewriting historical findings. Updated remaining plan and
+release gates; live regression workflow automatically picks up the extended shared config.
+**Remaining:** Exact-revision PR CI/review/merge, then deployment/public smoke and the expanded live
+matrix. DB v2 needs a v2-compatible forward fix, not rollback to old v1 code. Ordinary cross-tab
+history synchronization and per-entry erasure were not expanded. R07 pending-focus/small-viewport
+work and the rest of R15 remain. Next implementation: PR B, R02/R03 (renewed agreement and support
+continuity), then the audit's C-G sequence. No phone, native accessibility or clinical pass claimed.
+**Promoted to Lessons Learned:** Yes; durable epoch guard, advisory notification and partial-clear
+settlement/upgrade recovery boundaries.
+
+### [2026-11-07] Correct accidental upstream push without bypassing approval
+
+**Incident:** First implementation commit 04f6df0 was accidentally pushed to main. I used a
+source-only push refspec while the new branch still tracked origin/main and the user's global
+push.default was upstream. I should have supplied the destination explicitly.
+**Containment:** Cancelled Pages run 42306292629 during dependency installation. Build/upload/deploy
+did not run; latest successful Pages deployment remained 7418462722 at 362d8f5. No production DB v2
+migration occurred. Published the intended feature branch using an explicit HEAD:refs/heads/... refspec.
+**Recovery:** Created local revert 19e366b and verified its complete tree equals 362d8f5. The safety
+reviewer rejected directly pushing that revert to main; did not bypass the rejection. Asked for
+approval and opened recovery PR #11 on codex/restore-pr-review instead. No force-push or remote merge.
+Reapplied the verified implementation above the recovery commit for a stacked implementation PR;
+source/tests/config exactly match tested 04f6df0, with only this incident log and Git lesson added.
+**Required sequence:** Approve/merge recovery PR #11 first; retarget the implementation PR from
+codex/restore-pr-review to main, require its normal CI/review, then merge and verify deployment/live.
+Main remains at the accidental implementation commit until recovery is approved. Do not confuse
+the cancelled run with a deployed candidate, or the recovery PR with the implementation PR.
+**Promoted to Lessons Learned:** Yes; explicit push destination after branching from a remote ref.

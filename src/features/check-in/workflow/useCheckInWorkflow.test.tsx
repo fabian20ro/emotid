@@ -32,6 +32,19 @@ function renderWorkflow(
 }
 
 describe('useCheckInWorkflow', () => {
+  it('invalidates the active reflection even if a destructive reset partly fails', async () => {
+    const save = vi.fn().mockResolvedValue(undefined)
+    const { result } = renderWorkflow(save)
+    act(() => { result.current.complete('quick', 'quick-check-in', [selection], [analysis]) })
+    await waitFor(() => expect(save).toHaveBeenCalledOnce())
+    await act(async () => {
+      await expect(result.current.runExclusiveReset(async () => { throw new Error('one store failed') })).rejects.toThrow('one store failed')
+    })
+    expect(result.current.currentSession).toBeNull()
+    expect(result.current.state).toEqual({ phase: 'idle' })
+    await act(async () => { expect(await result.current.saveReflection({ reflectionAnswer: 'yes' })).toBe('not-saved') })
+    expect(save).toHaveBeenCalledOnce()
+  })
   it('finishes pending corrections across a new check-in without letting the old exit close the new one', async () => {
     let release!: () => void
     const save = vi.fn<(session: Session) => Promise<void>>()

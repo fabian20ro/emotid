@@ -20,6 +20,7 @@ async function instrumentSessionWrites(page: Page, failures: number) {
     target.__sessionPutAttempts = 0
 
     IDBObjectStore.prototype.put = function put(value: unknown, key?: IDBValidKey) {
+      if (this.name !== 'sessions') return originalPut.call(this, value, key)
       target.__sessionPutAttempts += 1
       if (remainingFailures < 0 || remainingFailures > 0) {
         if (remainingFailures > 0) remainingFailures -= 1
@@ -37,6 +38,7 @@ async function failSessionWriteAttempts(page: Page, failedAttempts: number[]) {
     target.__sessionPutAttempts = 0
 
     IDBObjectStore.prototype.put = function put(value: unknown, key?: IDBValidKey) {
+      if (this.name !== 'sessions') return originalPut.call(this, value, key)
       target.__sessionPutAttempts += 1
       if (attempts.includes(target.__sessionPutAttempts)) {
         throw new DOMException('Simulated local save failure', 'QuotaExceededError')
@@ -47,6 +49,7 @@ async function failSessionWriteAttempts(page: Page, failedAttempts: number[]) {
 }
 
 async function holdTransactionCompletions(page: Page) {
+  // Delay acknowledgment after physical commit; this is not a rollback simulation.
   await page.addInitScript(() => {
     const target = window as InstrumentedWindow
     const originalTransaction = IDBDatabase.prototype.transaction
@@ -63,6 +66,8 @@ async function holdTransactionCompletions(page: Page) {
       ...args: Parameters<IDBDatabase['transaction']>
     ) {
       const current = Reflect.apply(originalTransaction, this, args) as IDBTransaction
+      // Hold write acknowledgments only, not initial epoch/history reads.
+      if (this.name !== 'emot-id-sessions' || current.mode !== 'readwrite' || !current.objectStoreNames.contains('sessions')) return current
       Object.defineProperty(current, 'oncomplete', {
         configurable: true,
         get() {
@@ -211,7 +216,7 @@ test.describe('Reflection persistence trust', () => {
     await expect(page.locator('.journal-list button')).toHaveCount(0)
   })
 
-  test('completes immediately without touching IndexedDB when saving is disabled', async ({ page }) => {
+  test('completes immediately without writing IndexedDB when saving is disabled', async ({ page }) => {
     await instrumentSessionWrites(page, -1)
     await openApp(page, { saveSessions: false })
     await completeQuick(page, 'joy')
