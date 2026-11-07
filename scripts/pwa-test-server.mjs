@@ -42,7 +42,19 @@ const server = createServer((request, response) => {
   const url = new URL(request.url ?? '/', `http://${host}:${port}`)
 
   if (url.pathname === '/__pwa-test/version') {
-    if (request.method === 'POST') activeVersion = versions[1]
+    if (!['GET', 'PUT'].includes(request.method)) {
+      response.setHeader('Allow', 'GET, PUT')
+      send(response, 405, 'Expected GET or PUT')
+      return
+    }
+    if (request.method === 'PUT') {
+      const version = url.searchParams.get('version')
+      if (!versions.includes(version)) {
+        send(response, 400, 'Expected version v1 or v2')
+        return
+      }
+      activeVersion = version
+    }
     send(response, 200, activeVersion)
     return
   }

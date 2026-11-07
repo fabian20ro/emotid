@@ -9,6 +9,7 @@ npm run check
 npm run test:language-refresh
 E2E_PRODUCTION=true npm run test:e2e
 npm run test:pwa
+npm run test:pwa:retry
 npm run test:performance
 npm run test:deployed:local
 ```
@@ -16,6 +17,18 @@ npm run test:deployed:local
 The release browser matrix and CI use the production build created by `check`, without hot
 reload. Port 5173 must be free. Plain `npm run test:e2e` retains the development-server workflow
 for focused iteration; do not edit imported files during a final development-backed run.
+
+`test:tooling` is part of the policy gate, locally and in CI. It checks the retired catalog command
+against temporary fixtures and parses workflow YAML to protect publication concurrency, main-only
+publishing, minimal permissions and full-SHA action pins with a maintained update path.
+
+The PWA fixture selects v1 before every attempt using its loopback-only version endpoint. Only
+known versions are accepted. `test:pwa:retry` runs the real lifecycle with one deliberate failure
+after v2 is active, then requires a successful retry from v1. The outer test rejects any other
+failure and checks that the first trace survives; this intentional flaky result is not counted as
+an ordinary product pass. Evidence: `.reports/pwa-retry.json` and `test-results/pwa-retry/`.
+CI uploads those exact paths as `pwa-retry-evidence`, on success or failure, for seven days.
+The fixture endpoint and injection flag are test-only, never shipped application behavior.
 
 Keyboard journeys traverse controls sequentially, without `locator.focus()`. The `pressTab`
 helper uses native Option+Tab on macOS WebKit to include buttons; other hosts/engines use Tab.

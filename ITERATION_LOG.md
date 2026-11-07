@@ -3531,3 +3531,82 @@ G bounded maintenance, measurement-first history/PWA work. Capture startup trace
 No phone, native speech, human comprehension, low-tier performance or clinical pass claimed.
 **Promoted to Lessons Learned:** No; existing native-activation focus guidance applies. New host
 keyboard detail belongs to executable test helpers/release gates, not duplicated bootstrap rules.
+
+### [2026-11-08] Audit PR E: safe tooling and publication, TDD
+
+**Request / branch:** Continue the recommended sequence. `codex/tooling-release-hardening`,
+explicit destination refspec; no direct main push. PR #14 merged at `eed7fb5`; exact-SHA main
+workflow `42419891427` passed build, Pages and deployed smoke. Pages deployment `7628047718`
+reports success for that SHA. Retargeted #15 to main, marked ready, and merged main ancestry into
+its branch without source changes because retargeting alone did not start the main-filtered build.
+Exact head `725b098` passed build `42420011039` and CodeQL `42420007905`; #15 then merged at
+`b11f59d`. Its publication workflow is `42421939674`; final public evidence follows below.
+
+**R13:** Retired the unsupported catalog writer with an explicit failing command and pointer to
+the review tool. A temporary-fixture CLI test first reproduced the old successful overwrite,
+then required refusal and byte-identical curated guidance/provenance, including reviewed-null
+content. No real catalog was regenerated, and no supported caller remained.
+
+**R16/R19:** Structured YAML contracts failed before the fixes: main publication was cancellable,
+actions used mutable tags, and non-main manual runs could reach publishing steps. Main-only
+guards now cover Pages setup/upload/deploy/smoke; only PRs cancel superseded active workflows.
+An in-progress main workflow runs through smoke; older pending runs can still be superseded by
+GitHub concurrency. Only the deploy job has write permissions. All action SHAs were resolved
+from their existing upstream major tags; weekly Dependabot action updates added. Tests also
+require the intentional PWA failure trace/report to upload on success, not only on failure.
+The sole new dependency is dev-only `yaml@2.9.1`; lockfile inspection confirmed no other package
+version changes. No product/runtime network behavior or application logic changes.
+
+**R17:** The first repeated lifecycle passed and the second failed because the test server stayed
+on v2. Each attempt now explicitly selects v1 through the loopback-only endpoint. Unknown versions
+return 400; unsupported methods return 405 without mutation. A real Playwright retry injects one
+failure after the v2 lifecycle finishes, then requires a full successful retry from v1. The outer
+test checks failed/passed statuses, the exact injected error and the retained first trace; it does
+not turn unrelated flakes into passes. CI archives only the scoped synthetic retry artifacts.
+This changes test-fixture isolation, not application service-worker/update behavior.
+
+**R18:** Full audit remains 15 dev-toolchain entries (13 moderate, 2 low) from three advisories;
+production audit zero. Registry/owner inspection found no compatible patched chain. minimatch
+fixes require 11.x while the current lint owners require 10.x; Workbox still requires glob 11.x
+and uses its synchronous path; deepmerge has no published patch and the inspected resolver merges
+constant defaults. Updated `docs/dependency-security.md` with primary sources, call paths and
+reassessment triggers. No claim of patched dependencies; no forced downgrade, major override or
+audit suppression. `npm outdated` before/after retained the distinction from unrelated updates.
+
+**Local verification:**
+- Clean `npm ci`, `npm ls --depth=0`, final `npm run check`: 97 files / 801 unit/component tests,
+  five tooling contracts, live-config, policy, bilingual/catalog/release, lint/types/build all pass.
+- Frozen production browser matrix: 514/514, one worker, no retries, retained failure traces.
+  No recurrence of D's local parallel WebKit blank-start issue; this does not establish its cause.
+- PWA lifecycle/endpoint cases repeated twice: 4/4. Retry harness: 1/1, containing one deliberate
+  failure followed by a genuine pass. Language Fast Refresh, performance proxy and local deployed
+  smoke: 1/1 each. Local smoke is not Pages evidence.
+- Initial JS gzip 144353/150000; entry 43559/50000; assets 914929/960000 bytes, unchanged.
+- After the browser matrix, only workflow evidence-upload contract/config and documentation were
+  refined; tooling red/green and full check rerun. Product source/build inputs remained unchanged.
+- Ignored evidence: `.reports/pr-e-*-red.log`, `pr-e-final-check.log`, `pr-e-browser.log`,
+  `pr-e-pwa-final.log`, `pr-e-pwa-retry.log`, `.reports/pwa-retry.json`, first-attempt traces,
+  language/performance/local-smoke logs and dated audit/outdated snapshots.
+
+**Final C/D publication:** #14's deployed revision passed 32 affected draft/navigation journeys
+on the public URL. #15 main workflow `42421939674` then passed build, deploy and deployed smoke
+for `b11f59d1bd6ffe40c5ca09543058be11f84ddc0c`; CodeQL `42421939246` also passed.
+Pages deployment `7628356448` reports success for that exact SHA. Repeated all 136 C/D public
+journeys across Chromium/WebKit, with EN/RO x themes where parameterized: 136/136, no retries.
+Used isolated synthetic contexts and blocked service workers for storage/dialog fixtures; this
+matrix alone is not PWA evidence. The hosted deployed smoke separately enables service workers.
+Evidence: `.reports/pr-c-public.log`, `pr-cd-public.log`, `pr-cd-live-results/` and hosted run IDs.
+The maintained live regression matrix then passed 48/48, no retries: two-tab storage scenarios
+with workers blocked plus distinct Chromium/WebKit PWA projects with workers enabled.
+Evidence: `.reports/pr-d-live-regression.log`, `playwright-report/live/`, `test-results/live/`.
+The latest Pages deployment remained `7628356448` / `b11f59d` after those checks. Local test ports
+5173/4174/4175/4176 were stopped. `git diff --check` and release consistency checks passed.
+
+**Remaining:** Review/merge E and verify its hosted publication controls on the exact revision.
+Next F: stable need/next-step IDs using the existing need catalog, legacy text fallback, bounded
+Romanian repelled/rejected distinction and count-aware Journal copy. Then G: stale documentation,
+pure session policy, completion metadata ownership and unused breadcrumb removal. History scaling
+and old-tab PWA lazy-chunk recovery remain measurement/reproduction-first, not rewrite mandates.
+No physical device, native speech, human comprehension or clinical pass claimed.
+**Promoted to Lessons Learned:** No; fixture reset and workflow policy are executable contracts;
+dependency review triggers belong to their maintained security document.
