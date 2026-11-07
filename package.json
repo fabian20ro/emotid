@@ -27,6 +27,7 @@
     "test:e2e": "playwright test",
     "test:language-refresh": "node --test scripts/language-refresh.test.mjs",
     "test:pwa": "playwright test --config=playwright.pwa.config.ts",
+    "test:pwa:retry": "node --test scripts/pwa-retry.test.mjs",
     "test:deployed": "playwright test --config=playwright.deployed.config.ts",
     "test:deployed:local": "npm run build && npm run test:deployed",
     "test:live": "playwright test --config=playwright.live.config.ts",
@@ -58,7 +59,8 @@
     "prepare:catalog-review:word-intermediate-descriptions": "node ./scripts/catalog-guidance-review.mjs prepare --surface word-ladder-intermediate-descriptions --batch-id p27-word-intermediate-descriptions-01 --out-dir .reports/catalog-guidance/p27-word-intermediate-descriptions-01",
     "check-copy": "node ./check_psychological_copy.cjs && npm run test:catalog-review",
     "check:release": "node --test ./scripts/check-release-consistency.test.mjs && node ./scripts/check-release-consistency.mjs",
-    "check:policy": "npm run check-acceptance && npm run i18n-audit && npm run check-copy && npm run check:release",
+    "test:tooling": "node --test scripts/catalog-retirement.test.mjs scripts/workflow-contracts.test.mjs",
+    "check:policy": "npm run test:tooling && npm run check-acceptance && npm run i18n-audit && npm run check-copy && npm run check:release",
     "check-performance": "node ./scripts/check-performance-budget.mjs",
     "check-acceptance": "node ./scripts/check-acceptance-contract.mjs",
     "precheck": "node -e \"const p=require('./package.json');const required=['check-translations','check-copy','check-acceptance','check:release','check:policy','lint','test','build','type-check'];required.forEach(s=>{if(!p.scripts[s])console.error('missing script:',s),process.exit(1);});['check-keys','check-translations','check-untranslated','check-copy'].forEach(k=>{const v=p.scripts[k];if(!v)throw new Error('script missing: '+k);if(v.includes('./node_modules/.bin/')||v.includes('jest'))throw new Error('deprecated script: '+k)})\"",
@@ -95,7 +97,8 @@
     "typescript-eslint": "^8.65.0",
     "vite": "^7.3.7",
     "vite-plugin-pwa": "^1.3.0",
-    "vitest": "^4.1.12"
+    "vitest": "^4.1.12",
+    "yaml": "2.9.1"
   },
   "overrides": {
     "@babel/core": "^7.29.6",

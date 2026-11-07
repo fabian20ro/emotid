@@ -10,7 +10,23 @@ async function waitForServiceWorkerControl(page: Page) {
   })
 }
 
-test('offline reopen and automatic update preserve local check-ins', async ({ context, page, request }) => {
+test.beforeEach(async ({ request }) => {
+  const response = await request.put('/__pwa-test/version?version=v1')
+  expect(response.ok()).toBe(true)
+  expect(await response.text()).toBe('v1')
+})
+
+test('version control rejects invalid selections and unsupported methods without changing the active build', async ({ request }) => {
+  await request.put('/__pwa-test/version?version=v2')
+  for (const version of ['', 'v3', '../v1']) {
+    const response = await request.put(`/__pwa-test/version?version=${encodeURIComponent(version)}`)
+    expect(response.status()).toBe(400)
+  }
+  expect((await request.delete('/__pwa-test/version')).status()).toBe(405)
+  expect(await (await request.get('/__pwa-test/version')).text()).toBe('v2')
+})
+
+test('offline reopen and automatic update preserve local check-ins', async ({ context, page, request }, testInfo) => {
   const externalRequests: string[] = []
   context.on('request', (browserRequest) => {
     const url = new URL(browserRequest.url())
@@ -106,7 +122,9 @@ test('offline reopen and automatic update preserve local check-ins', async ({ co
       resolve()
     }, { once: true })
   }))
-  await request.post('http://127.0.0.1:4174/__pwa-test/version')
+  const update = await request.put('/__pwa-test/version?version=v2')
+  expect(update.ok()).toBe(true)
+  expect(await update.text()).toBe('v2')
   await offlinePage.evaluate(async () => {
     const registration = await navigator.serviceWorker.getRegistration('/emotid/')
     if (!registration) throw new Error('Missing service worker registration')
@@ -118,4 +136,7 @@ test('offline reopen and automatic update preserve local check-ins', async ({ co
   await offlinePage.getByRole('button', { name: 'Journal', exact: true }).click()
   await expect(offlinePage.locator('.journal-list button')).toHaveCount(1)
   expect(externalRequests).toEqual([])
+  if (process.env.PWA_TEST_INJECT_FAILURE === 'true' && testInfo.retry === 0) {
+    throw new Error('Synthetic failure after switching the test server to v2')
+  }
 })
