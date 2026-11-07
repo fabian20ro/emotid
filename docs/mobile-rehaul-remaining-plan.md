@@ -1,6 +1,6 @@
 # Product Maintenance Plan
 
-Updated November 7, 2026. The mobile migration and the bounded M1-M3/startup maintenance work
+Updated November 8, 2026. The mobile migration and the bounded M1-M3/startup maintenance work
 are implemented, including the code-hygiene corrective pass. Publication status belongs to the
 exact-revision hosted workflow and public verification, not a moving status copied into this plan.
 
@@ -26,37 +26,38 @@ The prioritized findings and PR A-G sequence live in
 [the multidisciplinary audit](audit-2026-11-06.md#ordine-recomandata-de-implementare).
 PR A implements durable multi-tab erasure, per-store atomic clear and history recovery;
 PRs #12/#13 are merged. PR B implements renewed agreement after result changes and support continuity
-(R02/R03). PR C implements draft ownership and reflection navigation (R04/R08) on its branch;
+(R02/R03). PR C implements draft ownership and reflection navigation (R04/R08), merged as #14;
 publication evidence belongs to the iteration log and exact-revision hosted checks.
-PR D implements the shared dialog focus/viewport boundary, vocabulary focus progression and
+PR D (#15 merged) implements the shared dialog focus/viewport boundary, vocabulary focus progression and
 dated Journal accessible names (R07/R09/R12), with sequential keyboard coverage from R15.
-Next implementation: PR E, safe tooling and release verification.
+PR E implements safe tooling and release verification (R13, R16-R19); dependency reassessment
+does not remove the remaining upstream advisories. Review/merge and exact-SHA publication checks
+remain distinct from implementation. Next product implementation: PR F.
 Keep scoring and safety gating unchanged. Remaining priorities stay in the audit, not a duplicate list.
 
-### Next Implementation: PR E
+### Next Implementation: PR F
 
-1. R13 first: trace references to `scripts/extract-catalog.cjs`; retire the obsolete writer and
-   its executable documentation if no supported caller needs it. Preserve curated catalogs,
-   reviewed-null guidance and provenance. Test the supported catalog validation/review path;
-   never run the old generator over real content to reproduce its destructive output.
-2. R16/R19: add workflow contract tests before changing configuration. PR builds may cancel
-   superseded runs; main publication must finish deployment plus smoke. Keep deploy permission
-   restricted to the deploy job. Pin actions to verified upstream commit SHAs with version comments
-   and Dependabot updates. No new publishing service or release framework.
-3. R17: reproduce a PWA-test retry after switching to v2. Add an explicit test-server reset to v1
-   before every attempt, with validation of allowed versions. Verify the injected first failure
-   and subsequent successful retry, retaining the original trace. This is fixture isolation,
-   not a change to application update behavior.
-4. R18: rerun full and production-only dependency audits. Inspect affected call paths and select
-   compatible fixes; no forced PWA downgrade or speculative major migration. Update the security
-   review with dated remaining advisories, reachability and next review trigger.
-5. Separate tooling changes from dependency changes in reviewable commits. After the final lockfile,
-   run clean install, full check, frozen production browser matrix, PWA lifecycle, language refresh,
-   performance and local deployed smoke. Validate hosted workflow behavior after reviewed merge;
-   exact-SHA Pages/smoke and affected public journeys remain publication requirements.
+1. R11 first: reproduce selecting a suggested need/next step, changing language and returning to
+   reflection. Selection must survive; after saving/reloading, details use the current language.
+   Include EN -> RO and RO -> EN, legacy sessions and export/readback.
+2. Reuse existing `NeedOptionId`/`getNeedOption`; introduce only the three fixed next-step IDs
+   needed by the current UI. Draft identity must not depend on translated labels. Add optional
+   persisted IDs and a small presentation resolver with legacy-string fallback. Validate IDs at
+   the record boundary, retain old records without destructive migration, and preserve existing
+   export compatibility. Do not guess the original language or translate user-authored text.
+3. R10: distinguish Romanian `repelled` from `rejected`, using the existing descriptions and
+   reviewed emotional meaning. Preserve emotion IDs, provenance, reviewed-null guidance and
+   scoring. Add a narrow bilingual catalog regression; review the affected selection and detail UI.
+4. R24: count-aware Journal vocabulary text in EN/RO, covering 0/1/2/19/20/101 and larger counts.
+   Use the smallest existing localization extension that expresses Romanian grammar; no new
+   localization framework. Check empty-state behavior separately from count formatting.
+5. Verify public behavior through draft/workflow/persistence tests, legacy fixtures, export and
+   analytics parity; then the frozen production matrix, PWA lifecycle/retry and supporting release
+   gates. Browser journeys cover language switching before/after save in both themes and engines.
+   Review/merge, exact-SHA Pages/smoke, then repeat affected public journeys with synthetic data.
 
-Small architecture improvement: make the existing PWA test server's version an explicit resettable
-test boundary. No shared platform-runner abstraction; no product state or catalog schema rewrite.
+Small architecture improvement: stable choice identity at the draft/persistence boundary, with
+one display resolver. Reuse the need catalog; do not add a generalized form/schema/state framework.
 
 ## Conditional Next Work
 
@@ -71,10 +72,10 @@ test boundary. No shared platform-runner abstraction; no product state or catalo
   initial `goto`; five traced repetitions of each case passed. Root cause remains unconfirmed;
   do not equate these timeouts with the registration rejection above. Keep the evidence in the
   iteration log and capture traces on recurrence, before changing application startup or retries.
-- **Dependencies:** November's audit supersedes the earlier single-advisory snapshot:
-  15 dev-toolchain entries from three advisories, no production entries. R18 tracks reassessment;
-  [dependency security review](dependency-security.md) retains the previous analysis until updated.
-  No force-fix PWA downgrade.
+- **Dependencies:** November 8 reassessment: 15 dev-toolchain entries from three advisories,
+  no production entries. Compatible patched transitive releases are not available in the inspected
+  dependency chains. The [dependency security review](dependency-security.md) records reachability
+  and review triggers. No forced downgrade or unsupported major override.
 
 - **Vocabulary:** only a deliberately selected incomplete reachable choice group, with EN/RO
   editorial review and provenance. Current coverage is 66 reviewed meanings. Do not fill the
