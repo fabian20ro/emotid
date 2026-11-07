@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { GranularityTraining } from '../components/GranularityTraining'
 import { LanguageProvider } from '../context/LanguageContext'
@@ -24,6 +24,22 @@ function renderTraining(props: Partial<React.ComponentProps<typeof GranularityTr
 }
 
 describe('GranularityTraining', () => {
+  it('hands focus to each prompt, completion and restart rather than the removed Continue action', async () => {
+    const user = userEvent.setup()
+    renderTraining()
+    for (let step = 0; step < 5; step += 1) {
+      await user.click(screen.getByRole('button', { name: en.granularity.notSure }))
+      await user.tab()
+      expect(screen.getByRole('button', { name: en.granularity.continue })).toHaveFocus()
+      await user.keyboard('{Enter}')
+      const name = step === 4 ? en.granularity.completedTitle : en.granularity.prompt
+      await waitFor(() => expect(screen.getByRole('heading', { name })).toHaveFocus())
+    }
+    await user.tab()
+    expect(screen.getByRole('button', { name: en.granularity.restart })).toHaveFocus()
+    await user.keyboard('{Enter}')
+    await waitFor(() => expect(screen.getByRole('heading', { name: en.granularity.prompt })).toHaveFocus())
+  })
   for (const [language, copy] of [['en', en], ['ro', ro]] as const) {
     it(`shows a distinct contrast and concrete example before each choice (${language})`, async () => {
       localStorage.setItem('emot-id-language', language)

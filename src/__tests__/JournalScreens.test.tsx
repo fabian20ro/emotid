@@ -40,6 +40,18 @@ const noExercises = {
 describe('Journal data display', () => {
   beforeEach(() => localStorage.clear())
 
+  it.each(['en', 'ro'] as const)('includes the visible date in each similar entry accessible name (%s)', (language) => {
+    withLanguage(<JournalScreen
+      sessions={[bodySession(), bodySession({ id: 'session-2', timestamp: Date.parse('2026-07-24T10:00:00Z') })]}
+      loading={false} {...noExercises} saveSessions onOpenSession={vi.fn()} onOpenChain={vi.fn()}
+    />, language)
+    const entries = document.querySelectorAll('.journal-list button')
+    expect(entries).toHaveLength(2)
+    const dates = Array.from(entries, (entry) => entry.querySelector('small')!.textContent!)
+    expect(dates[0]).not.toBe(dates[1])
+    entries.forEach((entry, index) => expect(entry).toHaveAccessibleName(expect.stringContaining(dates[index])))
+  })
+
   it('shows corrected canonical labels for records saved with older copy', () => {
     withLanguage(
       <JournalScreen

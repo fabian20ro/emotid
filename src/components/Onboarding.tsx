@@ -66,7 +66,7 @@ export function Onboarding({ mode = 'initial', onComplete, saveSessions, onSaveS
       aria-labelledby="onboarding-title"
       data-testid="onboarding-dialog"
     >
-      <div ref={focusTrapRef} className="onboarding-panel">
+      <div ref={focusTrapRef} className="onboarding-panel" tabIndex={-1}>
         <div className="onboarding-header">
           <div className="onboarding-brand">Emot-ID</div>
           {mode === 'replay' && onClose && (

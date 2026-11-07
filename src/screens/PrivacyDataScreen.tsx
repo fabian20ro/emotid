@@ -21,8 +21,10 @@ export function PrivacyDataScreen({ saveSessions, allowExternalAI, onBack, onSav
   const t = section('privacyData')
   const [confirmOpen, setConfirmOpen] = useState(false)
   const [pending, setPending] = useState<'export' | 'clear' | null>(null)
-  const [feedback, setFeedback] = useState<{ type: 'status' | 'alert'; text: string } | null>(null)
-  const closeConfirm = useCallback(() => setConfirmOpen(false), [])
+  const [feedback, setFeedback] = useState<{ type: 'status' | 'alert'; key: 'exportSuccess' | 'dataError' | 'clearSuccess' | 'clearError' } | null>(null)
+  const closeConfirm = useCallback(() => {
+    if (pending !== 'clear') setConfirmOpen(false)
+  }, [pending])
   const clearTriggerRef = useRef<HTMLButtonElement>(null)
   const focusTrapRef = useFocusTrap(confirmOpen, closeConfirm, undefined, clearTriggerRef)
 
@@ -31,9 +33,9 @@ export function PrivacyDataScreen({ saveSessions, allowExternalAI, onBack, onSav
     setFeedback(null)
     try {
       await onExport()
-      setFeedback({ type: 'status', text: t.exportSuccess })
+      setFeedback({ type: 'status', key: 'exportSuccess' })
     } catch {
-      setFeedback({ type: 'alert', text: t.dataError })
+      setFeedback({ type: 'alert', key: 'dataError' })
     } finally {
       setPending(null)
     }
@@ -45,9 +47,9 @@ export function PrivacyDataScreen({ saveSessions, allowExternalAI, onBack, onSav
     try {
       await onClear()
       setConfirmOpen(false)
-      setFeedback({ type: 'status', text: t.clearSuccess })
+      setFeedback({ type: 'status', key: 'clearSuccess' })
     } catch {
-      setFeedback({ type: 'alert', text: t.clearError })
+      setFeedback({ type: 'alert', key: 'clearError' })
     } finally {
       setPending(null)
     }
@@ -68,7 +70,7 @@ export function PrivacyDataScreen({ saveSessions, allowExternalAI, onBack, onSav
       </div>
       <button type="button" className="secondary-button mt-6" disabled={pending !== null} onClick={() => { void exportData() }}><Download size={19} aria-hidden="true" />{pending === 'export' ? t.exporting : t.export}</button>
       <button ref={clearTriggerRef} type="button" className="danger-button mt-3" disabled={pending !== null} onClick={() => { setFeedback(null); setConfirmOpen(true) }}><Trash2 size={19} aria-hidden="true" />{t.clear}</button>
-      {feedback && !confirmOpen && <p className="privacy-feedback" role={feedback.type}>{feedback.text}</p>}
+      {feedback && !confirmOpen && <p className="privacy-feedback" role={feedback.type}>{t[feedback.key]}</p>}
 
       {confirmOpen && (
         <ModalShell
@@ -76,8 +78,6 @@ export function PrivacyDataScreen({ saveSessions, allowExternalAI, onBack, onSav
           focusTrapRef={focusTrapRef}
           labelledBy="clear-data-title"
           describedBy="clear-data-description"
-          backdropClassName="dialog-backdrop"
-          viewportClassName="dialog-viewport"
           panelClassName="confirm-dialog"
           panelProps={{
             initial: { scale: 0.97, y: 8 },
@@ -88,7 +88,7 @@ export function PrivacyDataScreen({ saveSessions, allowExternalAI, onBack, onSav
         >
           <h2 id="clear-data-title">{t.confirmTitle}</h2>
           <p id="clear-data-description">{t.confirmClear}</p>
-          {feedback && <p className="privacy-feedback" role={feedback.type}>{feedback.text}</p>}
+          {feedback && <p className="privacy-feedback" role={feedback.type}>{t[feedback.key]}</p>}
           <div className="confirm-dialog-actions">
             <button type="button" className="secondary-button" disabled={pending !== null} onClick={closeConfirm}>{t.cancel}</button>
             <button type="button" className="danger-button" disabled={pending !== null} onClick={() => { void clearData() }}>

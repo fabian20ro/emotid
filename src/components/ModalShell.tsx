@@ -25,8 +25,8 @@ export function ModalShell({
   focusTrapRef,
   labelledBy,
   describedBy,
-  backdropClassName = 'fixed inset-0 z-[var(--z-backdrop)] bg-black/50',
-  viewportClassName = 'fixed inset-0 z-[var(--z-modal)] flex items-center justify-center p-4',
+  backdropClassName = 'dialog-backdrop',
+  viewportClassName = 'dialog-viewport',
   panelClassName,
   backdropProps,
   panelProps,
@@ -63,6 +63,7 @@ export function ModalShell({
           exit={{ scale: 0.95, opacity: 0, y: 12 }}
           transition={{ type: 'spring', damping: 25 }}
           {...panelProps}
+          tabIndex={-1}
           className={panelClassName}
           onClick={(e) => e.stopPropagation()}
         >

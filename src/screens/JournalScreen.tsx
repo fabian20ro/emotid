@@ -35,6 +35,8 @@ export function JournalScreen({ sessions, loading, chainEntries, chainLoading, c
   const hasSummaryEvidence = evidence.vocabulary || evidence.valence || evidence.somatic
   const latestExercise = getLatestChainEntry(chainEntries)
   const latestExercisePreview = latestExercise ? getChainEntryPreview(latestExercise) : undefined
+  const dateFormat = new Intl.DateTimeFormat(language, { dateStyle: 'medium', timeStyle: 'short' })
+  const latestExerciseDate = latestExercise ? dateFormat.format(latestExercise.timestamp) : undefined
 
   return (
     <div className="screen" data-testid="journal-screen">
@@ -78,10 +80,10 @@ export function JournalScreen({ sessions, loading, chainEntries, chainLoading, c
               type="button"
               className="journal-entry-button"
               onClick={() => onOpenChain('entries')}
-              aria-label={`${t.openExercises}: ${latestExercisePreview.title}`}
+              aria-label={`${t.openExercises}: ${latestExercisePreview.title}. ${latestExerciseDate}`}
             >
               <span>
-                <small>{new Intl.DateTimeFormat(language, { dateStyle: 'medium', timeStyle: 'short' }).format(latestExercise.timestamp)}</small>
+                <small>{latestExerciseDate}</small>
                 <strong>{latestExercisePreview.title}</strong>
                 <small>{t.openExercises}</small>
               </span>
@@ -111,10 +113,11 @@ export function JournalScreen({ sessions, loading, chainEntries, chainLoading, c
             {sessions.map((session) => {
               const relationship = getResultRelationship(session)
               const resultHeading = getSessionResultHeading(session, language, t.rejectedResult)
+              const date = dateFormat.format(session.timestamp)
               return (
-                <button type="button" className="journal-entry-button" key={session.id} onClick={() => onOpenSession(session.id)} aria-label={`${t.open}: ${resultHeading}. ${t.relationship[relationship]}`}>
+                <button type="button" className="journal-entry-button" key={session.id} onClick={() => onOpenSession(session.id)} aria-label={`${t.open}: ${resultHeading}. ${t.relationship[relationship]}. ${date}`}>
                   <span>
-                    <small>{new Intl.DateTimeFormat(language, { dateStyle: 'medium', timeStyle: 'short' }).format(session.timestamp)}</small>
+                    <small>{date}</small>
                     <strong>{resultHeading}</strong>
                     <small>{t.relationship[relationship]}</small>
                   </span>

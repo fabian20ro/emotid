@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useLanguage } from '../context/LanguageContext'
 import {
   GRANULARITY_SETS,
@@ -6,6 +6,7 @@ import {
   getValidGranularitySets,
 } from '../data/granularity-triads'
 import { ScreenHeader } from './ScreenHeader'
+import { focusDestination } from '../utils/focusDestination'
 
 type StepAnswer = string | 'not-sure'
 
@@ -31,6 +32,13 @@ export function GranularityTraining({ isOpen, onClose }: GranularityTrainingProp
   const [stepIndex, setStepIndex] = useState(0)
   const [currentAnswer, setCurrentAnswer] = useState<StepAnswer | null>(null)
   const [completed, setCompleted] = useState(false)
+  const stepHeadingRef = useRef<HTMLHeadingElement>(null)
+
+  useLayoutEffect(() => {
+    if (!isOpen) return
+    const frame = window.requestAnimationFrame(() => focusDestination(stepHeadingRef.current))
+    return () => window.cancelAnimationFrame(frame)
+  }, [completed, isOpen, stepIndex])
 
   const resetSession = useCallback(() => {
     setStepIndex(0)
@@ -90,7 +98,7 @@ export function GranularityTraining({ isOpen, onClose }: GranularityTrainingProp
 
       {totalSteps > 0 && completed && (
         <section className="guided-complete" id="granularity-body" aria-labelledby="granularity-complete-title">
-          <h2 id="granularity-complete-title">{granularityT.completedTitle ?? 'Practice complete'}</h2>
+          <h2 ref={stepHeadingRef} tabIndex={-1} id="granularity-complete-title">{granularityT.completedTitle ?? 'Practice complete'}</h2>
           <p>{granularityT.completedBody ?? 'You practiced noticing subtle differences between similar emotions.'}</p>
           <p className="muted">{granularityT.completedEncouragement ?? 'Emotional nuance grows through repetition, not perfection.'}</p>
           <div className="guided-actions">
@@ -106,7 +114,7 @@ export function GranularityTraining({ isOpen, onClose }: GranularityTrainingProp
             <span>{formatTemplate(granularityT.progress ?? 'Step {current} of {total}', { current: String(stepIndex + 1), total: String(totalSteps) })}</span>
             <progress value={stepIndex + 1} max={totalSteps} />
           </div>
-          <h2 id="granularity-prompt">{granularityT.prompt ?? 'Which word feels closest?'}</h2>
+          <h2 ref={stepHeadingRef} tabIndex={-1} id="granularity-prompt">{granularityT.prompt ?? 'Which word feels closest?'}</h2>
           {learning && <div className="practice-contrast"><p>{learning.meaning}</p><p>{learning.example}</p></div>}
           <div className="guided-options">
             {currentSet.options.map((option) => {

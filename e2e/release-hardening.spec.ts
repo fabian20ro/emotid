@@ -1,8 +1,8 @@
 import { expect, test, type Locator, type Page } from '@playwright/test'
-import { finishReflection, openApp, openArrival } from './helpers'
+import { finishReflection, openApp, openArrival, tabTo } from './helpers'
 
 async function activate(locator: Locator, key: 'Enter' | 'Space' = 'Enter') {
-  await locator.focus()
+  await tabTo(locator)
   await locator.page().keyboard.press(key)
 }
 
@@ -41,7 +41,7 @@ test.describe('Keyboard-only primary journeys', () => {
     await activate(page.getByTestId('arrival-affect'), 'Space')
 
     const field = page.getByRole('group', { name: 'Energy and pleasantness map' })
-    await field.focus()
+    await tabTo(field)
     await page.keyboard.press('ArrowLeft')
     await page.keyboard.press('ArrowUp')
     const suggestion = page.locator('.dimensional-suggestion-chip').first()

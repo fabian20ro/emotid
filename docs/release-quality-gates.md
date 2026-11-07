@@ -17,6 +17,14 @@ The release browser matrix and CI use the production build created by `check`, w
 reload. Port 5173 must be free. Plain `npm run test:e2e` retains the development-server workflow
 for focused iteration; do not edit imported files during a final development-backed run.
 
+Keyboard journeys traverse controls sequentially, without `locator.focus()`. The `pressTab`
+helper uses native Option+Tab on macOS WebKit to include buttons; other hosts/engines use Tab.
+Plain Tab/Shift+Tab still exercise modal containment. This follows WebKit's macOS keyboard
+preference behavior ([upstream report](https://github.com/microsoft/playwright/issues/41808));
+it does not alter system preferences or establish hardware/assistive-speech support. If the host
+keyboard-navigation preferences differ, reproduce on two plain HTML buttons before diagnosing
+an application regression. Never replace traversal with programmatic target focus to turn green.
+
 `test:language-refresh` is a separate Chromium development-boundary regression. It starts an
 ephemeral Vite server, simulates a provider edit in memory, and requires document and selection
 preservation without Fast Refresh invalidation. It never edits source files and does not replace

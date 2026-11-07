@@ -167,8 +167,6 @@ export function ChainAnalysis({
           focusTrapRef={focusTrapRef}
           labelledBy="clear-chain-title"
           describedBy="clear-chain-description"
-          backdropClassName="dialog-backdrop"
-          viewportClassName="dialog-viewport"
           panelClassName="confirm-dialog"
           panelProps={{
             initial: { scale: 0.97, y: 8 },
