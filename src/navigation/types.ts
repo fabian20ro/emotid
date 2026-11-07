@@ -4,6 +4,7 @@ import type { CrisisTier } from '../models/distress'
 export type AppTab = 'today' | 'explore' | 'journal'
 export type CheckInRoute = 'quick' | 'body' | 'affect' | 'words' | 'plutchik'
 export type ReflectionAnswer = 'yes' | 'partly' | 'no'
+export type ReflectionView = 'result' | 'exploration' | 'step'
 export type ReflectionSaveOutcome = 'saved' | 'not-saved'
 export type SessionSaveState = 'saving' | 'saved' | 'error' | 'disabled'
 
@@ -18,7 +19,7 @@ export type AppDestination =
   | { name: AppTab }
   | { name: 'arrival'; guideStep?: 'closed' | 'body' | 'placement' }
   | { name: 'check-in'; route: Exclude<CheckInRoute, 'quick'> }
-  | { name: 'reflection' }
+  | { name: 'reflection'; view?: ReflectionView; sessionId?: string }
   | { name: 'session'; sessionId: string }
   | { name: 'settings' }
   | { name: 'privacy' }

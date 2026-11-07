@@ -26,7 +26,7 @@ import {
 interface UseCheckInWorkflowOptions {
   saveSessions: boolean
   saveSession: (session: Session, signal?: AbortSignal) => Promise<void>
-  onShowReflection: () => void
+  onShowReflection: (sessionId: string) => void
   onReturnToday: () => void
   writeTimeoutMs?: number
   onWriteDiagnostic?: (diagnostic: SessionWriteDiagnostic) => void
@@ -58,6 +58,8 @@ export function useCheckInWorkflow({
   const latestWriteRef = useRef<Promise<void> | null>(null)
   const latestBaseWriteRef = useRef<Promise<void> | null>(null)
   const completionInFlightRef = useRef(false)
+  const activeCompletionRef = useRef<ReturnType<typeof buildCheckInCompletion> | null>(null)
+  const renderedCompletion = state.phase === 'reflecting' ? state.completion : null
 
   useEffect(() => {
     saveSessionRef.current = saveSession
@@ -67,6 +69,7 @@ export function useCheckInWorkflow({
     // A new draft must not cancel an already committed observation/correction.
     // Destructive resets still pause, cancel and drain the coordinator below.
     activeSessionRef.current = null
+    activeCompletionRef.current = null
     setCurrentSession(null)
     setDraft(createCheckInDraft())
     latestWriteRef.current = null
@@ -120,7 +123,11 @@ export function useCheckInWorkflow({
 
     if (intent === 'new') reset()
     completionInFlightRef.current = true
+    draft.set('selectedNeed', undefined)
+    draft.set('nextStep', undefined)
+    draft.set('tier4Acknowledged', false)
     const completion = buildCheckInCompletion({ route, modelId, selections, results })
+    activeCompletionRef.current = completion
     const existing = activeSessionRef.current
     let session = createSession(
       completion,
@@ -145,7 +152,7 @@ export function useCheckInWorkflow({
     setCurrentSession(session)
     dispatch({ type: 'completed', completion, saveEnabled: saveSessions })
     persistBaseSession(session)
-    onShowReflection()
+    onShowReflection(session.id)
     window.setTimeout(() => {
       completionInFlightRef.current = false
     }, 0)
@@ -183,10 +190,11 @@ export function useCheckInWorkflow({
   }, [persistBaseSession])
 
   const finish = useCallback(() => {
-    if (currentSession?.id !== activeSessionRef.current?.id) return
+    // A revision keeps the session ID but owns a different completion.
+    if (!renderedCompletion || renderedCompletion !== activeCompletionRef.current) return
     reset()
     onReturnToday()
-  }, [currentSession?.id, onReturnToday, reset])
+  }, [renderedCompletion, onReturnToday, reset])
 
   const runExclusiveReset = useCallback(async (action: () => Promise<void>) => {
     completionInFlightRef.current = true
@@ -198,6 +206,7 @@ export function useCheckInWorkflow({
       // A failed multi-store clear may already have erased sessions. Never retain
       // a draft that could reinsert them when the coordinator resumes.
       activeSessionRef.current = null
+      activeCompletionRef.current = null
       setCurrentSession(null)
       setDraft(createCheckInDraft())
       latestWriteRef.current = null

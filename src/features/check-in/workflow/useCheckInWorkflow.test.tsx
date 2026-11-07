@@ -103,7 +103,7 @@ describe('useCheckInWorkflow', () => {
     await act(async () => { expect(await result.current.saveReflection({ reflectionAnswer: 'yes' })).toBe('not-saved') })
     expect(save).toHaveBeenCalledOnce()
   })
-  it('finishes pending corrections across a new check-in without letting the old exit close the new one', async () => {
+  it.each(['new', 'revision'] as const)('does not let an old exit close a %s completion', async (intent) => {
     let release!: () => void
     const save = vi.fn<(session: Session) => Promise<void>>()
       .mockResolvedValueOnce(undefined)
@@ -117,7 +117,7 @@ describe('useCheckInWorkflow', () => {
     act(() => { detail = result.current.saveReflection({ reflectionAnswer: 'no' }) })
     await waitFor(() => expect(save).toHaveBeenCalledTimes(2))
     await new Promise((resolve) => setTimeout(resolve, 10))
-    act(() => { result.current.complete('quick', 'quick-check-in', [selection], [analysis], 'new') })
+    act(() => { result.current.complete('quick', 'quick-check-in', [selection], [analysis], intent) })
     const newId = result.current.currentSession!.id
     await act(async () => { release(); await detail; oldFinish() })
     await waitFor(() => expect(save).toHaveBeenCalledTimes(3))

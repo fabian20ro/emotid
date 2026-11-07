@@ -48,6 +48,19 @@ async function expectSupportBoundary(
   await expect(page.getByTestId('reflection-explore-more')).toBeFocused()
   await expect(support).toHaveCount(1)
   await expect(acknowledge).toHaveCount(0)
+  if (options.tier4) {
+    await page.goBack()
+    await expect(page.locator('.route-action button')).toBeVisible()
+    await page.goForward()
+    await expect(page.locator('.emotion-heading')).toBeVisible()
+    await expect(acknowledge).toHaveCount(0)
+    await page.goForward()
+    await expect(page.getByTestId('reflection-exploration-screen')).toBeVisible()
+    await expect(support).toHaveCount(1)
+    await page.goForward()
+    await expect(page.getByTestId('next-step-screen')).toBeVisible()
+    await expect(support).toHaveCount(1)
+  }
 }
 
 async function chooseWord(page: Page, name: string | RegExp) {
