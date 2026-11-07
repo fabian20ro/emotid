@@ -82,6 +82,11 @@ Propagate `AbortSignal` to the transaction boundary, reject new work while a non
 is unresolved, rotate workflow generations on reset, and ignore obsolete or late completion. Keep
 diagnostics structural and transient: operation ID, kind, duration, outcome; never user content.
 
+**[2026-11-07]** A retained session ID is not a completion identity — Explicit revisions keep
+the same journal record. Bind asynchronous finalization to the evaluated completion, so a late
+save cannot close the revised flow. Likewise, committed-write acknowledgment after erasure must
+not restore either the history cache or a draft's Saved state; verify both owners together.
+
 **[2026-07-22]** Fixed mobile shells need explicit grid areas and scroll reset — Conditional rows such as offline banners can shift auto-placed content and push navigation outside the viewport. Name shell grid areas, keep the content row `minmax(0, 1fr)`, and reset the internal content scroller whenever the destination changes.
 
 **[2026-02-07]** Temporary script format must match module mode — `.js` + `require(...)` fails in `"type": "module"` repos. Use `.cjs` for CommonJS temporary scripts. Always check `package.json` module type before writing temp scripts.

@@ -108,6 +108,10 @@
   "chainAnalysis": {
     "detailTitle": "Reflecție salvată",
     "newEntry": "Scrie o reflecție nouă",
+    "resumeEntry": "Continuă acest draft",
+    "discardDraft": "Renunță la draft",
+    "discardTitle": "Renunți la acest draft?",
+    "discardBody": "Se va șterge doar acest text nesalvat. Reflecțiile salvate rămân.",
     "readEntries": "Citește reflecțiile salvate",
     "emptyEntries": "Nu ai încă exerciții salvate.",
     "deleteOne": "Șterge acest exercițiu",

@@ -108,6 +108,10 @@
   "chainAnalysis": {
     "detailTitle": "Saved reflection",
     "newEntry": "Write a new reflection",
+    "resumeEntry": "Continue this draft",
+    "discardDraft": "Discard draft",
+    "discardTitle": "Discard this draft?",
+    "discardBody": "Only this unsaved text will be removed. Saved reflections will stay.",
     "readEntries": "Read saved reflections",
     "emptyEntries": "No saved exercises yet.",
     "deleteOne": "Delete this exercise",

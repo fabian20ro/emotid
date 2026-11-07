@@ -9,6 +9,16 @@ import type { CheckInCompletion, ReflectionDetail, ReflectionSaveOutcome } from 
 import { ACCEPTANCE_HOOKS } from '../../scripts/acceptance/selectors.mjs'
 import en from '../i18n/en.json'
 import ro from '../i18n/ro.json'
+import { useState } from 'react'
+import type { ReflectionView } from '../navigation/types'
+
+function ReflectionHarness(props: Omit<React.ComponentProps<typeof ReflectionScreen>, 'view' | 'onViewChange'>) {
+  const [view, setView] = useState<ReflectionView>('result')
+  return <ReflectionScreen {...props} view={view} onViewChange={setView} onBack={() => {
+    if (view === 'result') props.onBack()
+    else setView(view === 'step' ? 'exploration' : 'result')
+  }} />
+}
 
 function deferred<T>() {
   let resolve!: (value: T) => void
@@ -60,7 +70,7 @@ function renderReflection(
   const onRetryBaseSave = vi.fn()
   render(
     <LanguageProvider>
-      <ReflectionScreen
+      <ReflectionHarness
         completion={{ ...completion(results, options.crisisTier), route: options.route ?? 'affect' }}
         allowExternalAI={options.allowExternalAI ?? false}
         saveState={options.saveState ?? (options.saveSessions === false ? 'disabled' : 'saved')}
@@ -76,6 +86,20 @@ function renderReflection(
 }
 
 describe('ReflectionScreen need selection', () => {
+  it.each(['exploration', 'step'] as const)('rejects a history request for %s before tier-4 acknowledgment', (view) => {
+    storage.set('language', 'en')
+    const onBack = vi.fn()
+    render(<LanguageProvider><ReflectionScreen
+      view={view} onViewChange={vi.fn()} completion={completion([result('despair')], 'tier4')}
+      allowExternalAI={false} saveState="saved" sessionCaptured
+      onBack={onBack} onRetryBaseSave={vi.fn()} onSave={vi.fn()} onReturn={vi.fn()}
+    /></LanguageProvider>)
+    expect(screen.getByRole('button', { name: en.reflectionScreen.acknowledge })).toBeVisible()
+    expect(screen.queryByTestId('reflection-exploration-screen')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('next-step-screen')).not.toBeInTheDocument()
+    expect(onBack).toHaveBeenCalledOnce()
+  })
+
   for (const language of ['en', 'ro'] as const) {
     it.each(['none', 'tier1', 'tier2', 'tier3', 'tier4'] as const)(`keeps support and gating consistent through every reflection substate in ${language}: %s`, async (tier) => {
       const user = userEvent.setup()

@@ -10,6 +10,7 @@ import type {
   ReflectionDetail,
   ReflectionSaveOutcome,
   SessionSaveState,
+  ReflectionView,
 } from '../../../navigation/types'
 
 const ReflectionScreen = lazy(async () => {
@@ -29,6 +30,7 @@ interface CheckInFlowHostProps {
   saveState: SessionSaveState
   sessionCaptured: boolean
   onBack: () => void
+  onReflectionViewChange: (view: ReflectionView) => void
   onGuideStepChange?: (step: 'closed' | 'body' | 'placement') => void
   onChoose: (route: Exclude<CheckInRoute, 'quick'>) => void
   onComplete: (
@@ -49,6 +51,7 @@ export function CheckInFlowHost({
   saveState,
   sessionCaptured,
   onBack,
+  onReflectionViewChange,
   onGuideStepChange,
   onChoose,
   onComplete,
@@ -77,6 +80,8 @@ export function CheckInFlowHost({
   return (
     <LazyRouteBoundary>
       <ReflectionScreen
+        view={destination.view ?? 'result'}
+        onViewChange={onReflectionViewChange}
         completion={completion}
         allowExternalAI={allowExternalAI}
         saveState={saveState}

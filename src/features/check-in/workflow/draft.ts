@@ -11,6 +11,9 @@ interface DraftFields {
   placement: { valence: number; arousal: number } | null
   fit: ReflectionAnswer | undefined
   selectedResultIds: string[] | undefined
+  selectedNeed: string | undefined
+  nextStep: string | undefined
+  tier4Acknowledged: boolean
 }
 
 export function createCheckInDraft() {

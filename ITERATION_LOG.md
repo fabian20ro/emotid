@@ -3414,3 +3414,62 @@ then D accessibility/dialogs, E tooling/dependencies/release, F localization/cho
 maintenance and measurement-first PWA/history scaling. No new router/state framework needed.
 **Promoted to Lessons Learned:** Yes; agreement scoped to evaluated identities, within the existing
 explicit-commitment lesson. Local test servers stopped; artifacts ignored under .reports/pr-b-*.
+
+### [2026-11-07] PR B publication verified; PR C started from merged main
+
+**Context:** User merged PR #13, then requested the next phase with TDD. Fetched main and created
+`codex/draft-navigation-continuity` without upstream tracking, based on `86b4d73`.
+**Publication:** PR #13 merge `86b4d732a0bbcf02902937f673f11f15326b6721`; main workflow
+`42313208033` completed successfully (build, deploy, deployed-smoke). Pages deployment `7613566186`
+reports success at `https://fabian20ro.github.io/emotid/` for that same SHA.
+**Additional public verification:** Existing reflection-revision and crisis-route journeys,
+Chromium/WebKit, including EN/RO x themes: 34/34 passed. Storage-fixture projects block workers;
+this pass is not a separate PWA lifecycle claim. Ignored log `.reports/pr-b-public-reflection.log`.
+PR C's subsequent tests are against its local candidate, not this public release.
+
+### [2026-11-07] Audit PR C: retained drafts and reflection history, TDD
+
+**Request:** Continue R04/R08 with test-first implementation. Keep a separate feature branch/PR.
+**Implementation:** `useChainDraft` owns exercise text and save state across route unmounts.
+History navigation no longer clears text; pending saves lock edits; failure retains an editable
+draft; explicit discard requires a bilingual confirmation. Successful save/new entry and full
+privacy clear reset the draft. Exercise-only clear invalidates pending/saved confirmations but
+preserves unrelated unsaved edits. The history hook also ignores acknowledgments from before clear.
+Reflection result/exploration/step use existing typed history snapshots. Need/step/acknowledgment
+stay with the check-in draft; explicit revision clears those optional choices. Stale session
+destinations cannot show another session. Rejected/gated Forward destinations return to the real
+result entry. Back leaves save failure without losing choices; later saving uses the edited
+details. Finalization checks completion identity, not only the stable journal record ID.
+No new router, global form framework, persistence schema, network behavior or scoring changes.
+
+**TDD / review:** Observed red tests for history/unmount draft loss, discard, browser Back skipping
+substeps, stale history reinsertion, collection-clear success state, rejected Forward, failure
+navigation and late finalization of a same-session revision. Two read-only architecture reviews
+identified the lifecycle cases; each was reproduced and addressed. A further test catches retry
+after changing choices, not merely returning to an old failure screen.
+Early RO exercise failures used the screen title instead of the Journal action; a new-entry test
+used a nonexistent empty-Journal action after saving; one rejection test guessed "No" instead of
+the actual "Not really" label. Corrected fixtures; those timeouts are not product-red evidence.
+Visual review then found a new icon/text misalignment: geometry test failed at 21px, minimal
+inline-flex fix passed. Final suites rerun after that fix; no product edits during final runs.
+
+**Final candidate verification:**
+- `npm run check`: 97 files / 797 tests; lint, types, policy, translations, build, budgets pass.
+- Frozen production `E2E_PRODUCTION=true npm run test:e2e -- --reporter=line`: 426/426,
+  Chromium/WebKit, no retries; includes EN/RO x themes and existing two-tab erasure matrix.
+- New state/navigation regressions, tier-4 history restoration and direct no-bypass unit cases;
+  screenshots inspected across all four language/theme variants. Icon alignment: 16/16 focused.
+- PWA offline/update lifecycle 1/1; language Fast Refresh 1/1; performance proxy 1/1;
+  local production deployed-smoke 1/1. Initial gzip JS 144,233 / 150,000 bytes.
+- `git diff --check` clean. Local test ports 5173/4174/4175/4176 no longer listening.
+  Logs ignored under `.reports/pr-c-*`; final full evidence uses `pr-c-verified-check.log`
+  and `pr-c-verified-browser.log`, not the earlier pre-visual-fix run.
+
+**Evidence limits:** Deferred browser acknowledgments occur after physical commit; not physical
+transaction cancellation proof. Existing repository/two-tab transaction tests remain intact.
+No native speech, physical phone, low-tier performance, human comprehension or clinical pass.
+**Remaining:** Exact-head PR CI/review/merge, then Pages/public smoke and affected live journeys.
+PR C is not live. Next implementation: PR D (R07/R09/R12 and keyboard part of R15), with a detailed
+sequence in the maintenance plan. Then E tooling/dependencies/release, F content/stable choice IDs,
+G bounded maintenance and measurement-first scaling. Shared modal focus/viewport handling is the
+next small architecture improvement. Completion-identity lesson promoted; no bootstrap expansion.

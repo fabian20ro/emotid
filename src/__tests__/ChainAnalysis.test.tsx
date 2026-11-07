@@ -1,11 +1,19 @@
 import { describe, expect, it, vi } from 'vitest'
-import { render, screen, waitFor } from '@testing-library/react'
+import { act, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ChainAnalysis } from '../components/ChainAnalysis'
 import { LanguageProvider } from '../context/LanguageContext'
+import { useChainDraft } from '../hooks/useChainDraft'
+import type { ChainAnalysisEntry } from '../data/types'
 
-function renderChain(overrides: Partial<React.ComponentProps<typeof ChainAnalysis>> = {}) {
-  const defaults: React.ComponentProps<typeof ChainAnalysis> = {
+type TestProps = Omit<React.ComponentProps<typeof ChainAnalysis>, 'draft'> & { onSave: (entry: ChainAnalysisEntry) => Promise<void> }
+function ChainHarness({ onSave, ...props }: TestProps) {
+  const draft = useChainDraft(onSave)
+  return <LanguageProvider><ChainAnalysis {...props} draft={draft} /></LanguageProvider>
+}
+
+function renderChain(overrides: Partial<TestProps> = {}) {
+  const defaults: TestProps = {
     isOpen: true,
     onClose: vi.fn(),
     entries: [],
@@ -16,12 +24,51 @@ function renderChain(overrides: Partial<React.ComponentProps<typeof ChainAnalysi
   }
 
   return {
-    ...render(<LanguageProvider><ChainAnalysis {...defaults} /></LanguageProvider>),
+    ...render(<ChainHarness {...defaults} />),
     props: defaults,
   }
 }
 
 describe('ChainAnalysis', () => {
+  it('requires confirmation to discard a draft, without deleting saved entries', async () => {
+    const user = userEvent.setup()
+    const { props } = renderChain()
+    await user.type(screen.getByLabelText('What happened?'), 'Keep until confirmed')
+    await user.click(screen.getByRole('button', { name: 'Discard draft' }))
+    const dialog = screen.getByRole('dialog', { name: 'Discard this draft?' })
+    expect(dialog.parentElement?.parentElement).toBe(document.body)
+    await user.click(screen.getByRole('button', { name: 'Cancel' }))
+    expect(screen.getByLabelText('What happened?')).toHaveValue('Keep until confirmed')
+    await user.click(screen.getByRole('button', { name: 'Discard draft' }))
+    await user.click(screen.getByRole('dialog').querySelector('button.danger-button')!)
+    expect(screen.getByLabelText('What happened?')).toHaveValue('')
+    expect(props.onClearAll).not.toHaveBeenCalled()
+  })
+
+  it('locks the submitted fields while saving and restores them after failure', async () => {
+    let reject!: (error: Error) => void
+    const onSave = vi.fn(() => new Promise<void>((_, fail) => { reject = fail }))
+    const user = userEvent.setup()
+    renderChain({ onSave })
+    await user.type(screen.getByLabelText('What happened?'), 'Snapshot')
+    await user.click(screen.getByRole('button', { name: 'Save reflection' }))
+    expect(screen.getAllByRole('textbox').every((input) => (input as HTMLTextAreaElement).disabled)).toBe(true)
+    await act(async () => reject(new Error('retry later')))
+    expect(screen.getByLabelText('What happened?')).toBeEnabled()
+    expect(screen.getByLabelText('What happened?')).toHaveValue('Snapshot')
+  })
+
+  it('preserves the current draft when visiting saved reflections', async () => {
+    const user = userEvent.setup()
+    renderChain({ entries: [{ id: 'old', timestamp: 1, version: 2, situation: 'Old entry', noticed: '', response: '', outcome: '' }] })
+    await user.type(screen.getByLabelText('What happened?'), 'Unfinished thought')
+    await user.type(screen.getByLabelText('What did you notice?'), 'Tension')
+    await user.click(screen.getByRole('button', { name: 'Read saved reflections' }))
+    await user.click(screen.getByRole('button', { name: /Write a new reflection|Continue this draft/ }))
+    expect(screen.getByLabelText('What happened?')).toHaveValue('Unfinished thought')
+    expect(screen.getByLabelText('What did you notice?')).toHaveValue('Tension')
+  })
+
   it('shows one four-part reflection and requires only what happened', async () => {
     const user = userEvent.setup()
     const onSave = vi.fn().mockResolvedValue(undefined)
@@ -194,7 +241,7 @@ describe('ChainAnalysis', () => {
     const { rerender } = renderChain({ entries: [] })
     expect(screen.queryByText('Recent reflections')).not.toBeInTheDocument()
 
-    rerender(<LanguageProvider><ChainAnalysis isOpen={false} onClose={vi.fn()} entries={[]} loading={false} onSave={vi.fn()} onClearAll={vi.fn()} /></LanguageProvider>)
+    rerender(<ChainHarness isOpen={false} onClose={vi.fn()} entries={[]} loading={false} onSave={vi.fn()} onClearAll={vi.fn()} />)
     expect(screen.queryByTestId('chain-screen')).not.toBeInTheDocument()
   })
 })

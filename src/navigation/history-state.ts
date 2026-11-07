@@ -18,12 +18,14 @@ function isAppDestination(value: unknown): value is AppDestination {
     case 'today':
     case 'explore':
     case 'journal':
-    case 'reflection':
     case 'settings':
     case 'privacy':
     case 'support':
     case 'granularity':
       return true
+    case 'reflection':
+      return (value.view === undefined || value.view === 'result' || value.view === 'exploration' || value.view === 'step')
+        && (value.sessionId === undefined || typeof value.sessionId === 'string')
     case 'arrival':
       return value.guideStep === undefined || value.guideStep === 'closed' || value.guideStep === 'body' || value.guideStep === 'placement'
     case 'chain':

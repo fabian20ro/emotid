@@ -33,7 +33,9 @@ export function useChainAnalysis() {
   }, [])
 
   const save = useCallback(async (entry: ChainAnalysisEntry) => {
+    const started = revision.current
     await saveChainAnalysis(entry)
+    if (started !== revision.current) return
     setEntries((prev) => [entry, ...prev.filter((item) => item.id !== entry.id)])
   }, [])
 
