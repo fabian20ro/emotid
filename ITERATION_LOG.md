@@ -3473,3 +3473,61 @@ PR C is not live. Next implementation: PR D (R07/R09/R12 and keyboard part of R1
 sequence in the maintenance plan. Then E tooling/dependencies/release, F content/stable choice IDs,
 G bounded maintenance and measurement-first scaling. Shared modal focus/viewport handling is the
 next small architecture improvement. Completion-identity lesson promoted; no bootstrap expansion.
+
+### [2026-11-07] Audit PR D: dialog and keyboard accessibility, TDD
+
+**Request / branch:** Continue the recommended R07/R09/R12 + keyboard R15 work test-first.
+`codex/dialog-keyboard-accessibility` starts from PR C's `17db65e`, without upstream tracking.
+PR #14 remains open; its exact-head build run `42319418901` and CodeQL `42319417448` passed.
+No merge authorization received for #14. Publish D as a dependent draft, not directly to main;
+retarget to main after C merges and require D's hosted checks before integration/publication.
+
+**Implementation:** Shared `useFocusTrap`/`ModalShell` keeps focus on a focusable panel when all
+actions become disabled/removed, cycles Tab/Shift+Tab, scrolls clipped targets into view and
+restores the opener. Shared dialog geometry constrains content at 320x256. Privacy Escape now
+respects pending deletion. Vocabulary prompts, completion and restart use the existing destination
+focus helper after native activation. Journal accessible names reuse their visible localized date;
+one formatter per render replaces per-row construction. No new framework, persistence changes,
+scoring/gating changes, network behavior or dependencies.
+
+**Red -> green:** Failing unit tests reproduced the empty-dialog escape, vocabulary focus loss and
+indistinguishable Journal names in EN/RO. Browser red cases reproduced short-dialog clipping and
+disabled-action focus loss. The bilingual matrix discovered an additional real defect: full clear
+reset the application language, but success feedback retained the old translation. Store a feedback
+key instead of localized text; assert the current document language and matching message.
+All five confirmation types cover cancel/Escape/opener return; four destructive types cover pending,
+real transaction abort with deferred notification, error and successful retry. Deferred notification
+is not evidence of a physically blocked transaction. Existing transaction/two-tab tests remain intact.
+
+**Keyboard environment:** Replacing programmatic target focus with sequential traversal exposed
+macOS WebKit skipping native buttons. Two plain HTML buttons reproduced it independently of the
+app; Option+Tab traversed them. The test helper uses that native gesture on macOS WebKit and Tab
+elsewhere, without changing system preferences or injecting tabindex. Focused keyboard suite 32/32;
+72 dialog cases passed across EN/RO x light/dark and Chromium/WebKit. Native speech not tested.
+
+**Frozen candidate verification:**
+- `npm run check`: 97 files / 801 tests, live-config tests, lint, types, bilingual/policy/release
+  checks, build and budgets pass. Initial JS gzip 144353/150000; entry 43559/50000;
+  production assets 914929/960000 bytes. Release consistency rechecked after plan edits.
+- Full two-worker production browser run: 510/514; Chromium 257/257. Four WebKit tests timed out
+  at initial `goto`, with blank pages, before application assertions. Screenshots/errors preserved.
+  All 88 new browser cases passed. No product edit or timeout increase followed those failures.
+- Five traced repetitions of each startup failure: 20/20. Complete WebKit production rerun with
+  CI's single-worker setting, failure traces enabled and no retries: 257/257. Thus all 514 distinct
+  browser cases passed on this candidate, but the initial parallel-run instability is not erased.
+  Root cause unconfirmed; do not equate it with the older interrupted-registration rejection.
+- PWA offline/update, language Fast Refresh, performance proxy and local deployed smoke: 1/1 each.
+  The deployed-smoke command used local preview, not Pages. Normal mobile dialogs inspected after
+  animation settlement in all four language/theme combinations; short and error states inspected.
+- `git diff --check` clean; local test ports 5173/4174/4175/4176 stopped. Ignored evidence:
+  `.reports/pr-d-final-check.log`, `pr-d-final-browser.log`, `pr-d-webkit-startup-repeat.log`,
+  `pr-d-webkit-serial.log`, preserved startup traces/screenshots and supporting-gate logs.
+
+**Remaining:** Review/merge C, retarget D to main, exact-head CI/review/merge, Pages/public smoke
+and affected live journeys. Neither C nor D is claimed live. Next implementation E: retire the
+invalid generator, release concurrency/action pinning, resettable PWA fixture and dependency
+reassessment; detailed sequence in the maintenance plan. Then F content/stable choice IDs,
+G bounded maintenance, measurement-first history/PWA work. Capture startup traces on recurrence.
+No phone, native speech, human comprehension, low-tier performance or clinical pass claimed.
+**Promoted to Lessons Learned:** No; existing native-activation focus guidance applies. New host
+keyboard detail belongs to executable test helpers/release gates, not duplicated bootstrap rules.

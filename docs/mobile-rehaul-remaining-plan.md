@@ -28,29 +28,35 @@ PR A implements durable multi-tab erasure, per-store atomic clear and history re
 PRs #12/#13 are merged. PR B implements renewed agreement after result changes and support continuity
 (R02/R03). PR C implements draft ownership and reflection navigation (R04/R08) on its branch;
 publication evidence belongs to the iteration log and exact-revision hosted checks.
-Next implementation: PR D, dialog and keyboard accessibility.
+PR D implements the shared dialog focus/viewport boundary, vocabulary focus progression and
+dated Journal accessible names (R07/R09/R12), with sequential keyboard coverage from R15.
+Next implementation: PR E, safe tooling and release verification.
 Keep scoring and safety gating unchanged. Remaining priorities stay in the audit, not a duplicate list.
 
-### Next Implementation: PR D
+### Next Implementation: PR E
 
-1. R07: reproduce Tab/Shift+Tab escaping a pending destructive dialog with no enabled controls;
-   reproduce clipped actions at 320x256. Use real keyboard traversal and a controlled pending
-   operation, not programmatic focus as a substitute for Tab. Include the new draft-discard dialog.
-2. Fix the existing `useFocusTrap`/`ModalShell` boundary: focusable panel fallback, trap when no
-   targets remain, viewport-constrained scrolling. Preserve explicit opener return and in-dialog
-   errors. Test cancel/Escape, pending, failure/retry, and successful deletion separately.
-3. R09: use the existing destination-focus helper for vocabulary prompt, completion and restart.
-   Assert Tab/Enter continuation with the next prompt focused, not a removed/disabled button.
-4. R12: include the visible localized timestamp in Journal entry accessible names. Test two similar
-   entries on different dates, EN/RO. Do not replace visible wording with a separate hidden narrative.
-5. R15: extend actual sequential keyboard coverage in release-hardening tests. Check EN/RO x
-   light/dark in Chromium/WebKit, normal mobile and short/zoomed viewport geometry. Browser
-   semantics do not establish native speech; no phone or participant prerequisites for this PR.
-6. Focused TDD, full check and frozen browser matrix; after reviewed merge, exact-SHA deployment,
-   smoke and affected public journeys. Keep production changes separate from tooling upgrades.
+1. R13 first: trace references to `scripts/extract-catalog.cjs`; retire the obsolete writer and
+   its executable documentation if no supported caller needs it. Preserve curated catalogs,
+   reviewed-null guidance and provenance. Test the supported catalog validation/review path;
+   never run the old generator over real content to reproduce its destructive output.
+2. R16/R19: add workflow contract tests before changing configuration. PR builds may cancel
+   superseded runs; main publication must finish deployment plus smoke. Keep deploy permission
+   restricted to the deploy job. Pin actions to verified upstream commit SHAs with version comments
+   and Dependabot updates. No new publishing service or release framework.
+3. R17: reproduce a PWA-test retry after switching to v2. Add an explicit test-server reset to v1
+   before every attempt, with validation of allowed versions. Verify the injected first failure
+   and subsequent successful retry, retaining the original trace. This is fixture isolation,
+   not a change to application update behavior.
+4. R18: rerun full and production-only dependency audits. Inspect affected call paths and select
+   compatible fixes; no forced PWA downgrade or speculative major migration. Update the security
+   review with dated remaining advisories, reachability and next review trigger.
+5. Separate tooling changes from dependency changes in reviewable commits. After the final lockfile,
+   run clean install, full check, frozen production browser matrix, PWA lifecycle, language refresh,
+   performance and local deployed smoke. Validate hosted workflow behavior after reviewed merge;
+   exact-SHA Pages/smoke and affected public journeys remain publication requirements.
 
-Small architecture change: harden the shared modal/focus boundary once, instead of adding local
-keyboard exceptions per dialog. No overlay framework, new routing library or scoring changes.
+Small architecture improvement: make the existing PWA test server's version an explicit resettable
+test boundary. No shared platform-runner abstraction; no product state or catalog schema rewrite.
 
 ## Conditional Next Work
 
@@ -61,6 +67,10 @@ keyboard exceptions per dialog. No overlay framework, new routing library or sco
   during fixture navigation, not a persistent startup failure. Keep storage and PWA checks separate;
   change registration ownership only for a reproduced ordinary-route/settled-startup failure.
   See the [investigation](webkit-registration-investigation.md).
+- **WebKit startup:** PR D's two-worker local matrix encountered four blank-page timeouts at the
+  initial `goto`; five traced repetitions of each case passed. Root cause remains unconfirmed;
+  do not equate these timeouts with the registration rejection above. Keep the evidence in the
+  iteration log and capture traces on recurrence, before changing application startup or retries.
 - **Dependencies:** November's audit supersedes the earlier single-advisory snapshot:
   15 dev-toolchain entries from three advisories, no production entries. R18 tracks reassessment;
   [dependency security review](dependency-security.md) retains the previous analysis until updated.

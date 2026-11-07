@@ -1,8 +1,39 @@
-import { render, waitFor } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { useRef, useState } from 'react'
 import { describe, expect, it, vi } from 'vitest'
 import { ModalShell } from '../components/ModalShell'
+import { useFocusTrap } from '../hooks/useFocusTrap'
 
 const panelClassName = 'test-panel'
+
+function EmptyDialog() {
+  const [open, setOpen] = useState(false)
+  const trigger = useRef<HTMLButtonElement>(null)
+  const trap = useFocusTrap(open, () => setOpen(false), undefined, trigger)
+  return <>
+    <button ref={trigger} onClick={() => setOpen(true)}>Open</button>
+    <button>Background action</button>
+    {open && <ModalShell onClose={() => setOpen(false)} focusTrapRef={trap} labelledBy="empty-title" panelClassName={panelClassName}>
+      <h2 id="empty-title">Working</h2>
+      <button disabled>Wait</button>
+    </ModalShell>}
+  </>
+}
+
+it('keeps focus inside a dialog without enabled actions and restores its opener', async () => {
+  const user = userEvent.setup()
+  render(<EmptyDialog />)
+  await user.click(screen.getByRole('button', { name: 'Open' }))
+  const dialog = screen.getByRole('dialog')
+  expect(dialog).toHaveFocus()
+  await user.tab()
+  expect(dialog).toHaveFocus()
+  await user.tab({ shift: true })
+  expect(dialog).toHaveFocus()
+  await user.keyboard('{Escape}')
+  await waitFor(() => expect(screen.getByRole('button', { name: 'Open' })).toHaveFocus())
+})
 
 describe('ModalShell ARIA references', () => {
   it('does not warn when its portal children provide the label and description', async () => {

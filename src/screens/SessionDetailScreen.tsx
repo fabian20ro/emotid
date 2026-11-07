@@ -102,8 +102,6 @@ export function SessionDetailScreen({ session, onBack, onDelete }: SessionDetail
           focusTrapRef={focusTrapRef}
           labelledBy="delete-session-title"
           describedBy="delete-session-description"
-          backdropClassName="dialog-backdrop"
-          viewportClassName="dialog-viewport"
           panelClassName="confirm-dialog"
           panelProps={{
             initial: { scale: 0.97, y: 8 },
