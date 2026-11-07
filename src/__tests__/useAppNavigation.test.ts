@@ -3,6 +3,23 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import { useAppNavigation } from '../hooks/useAppNavigation'
 
 describe('useAppNavigation', () => {
+  it('restores reflection steps and rejects malformed step payloads', () => {
+    const { result } = renderHook(() => useAppNavigation())
+    act(() => result.current.navigate({ name: 'reflection', sessionId: 'current', view: 'exploration' }))
+    const exploration = window.history.state
+    act(() => result.current.navigate({ name: 'reflection', sessionId: 'current', view: 'step' }))
+    const step = window.history.state
+    act(() => window.dispatchEvent(new PopStateEvent('popstate', { state: exploration })))
+    expect(result.current.destination).toEqual({ name: 'reflection', sessionId: 'current', view: 'exploration' })
+    act(() => window.dispatchEvent(new PopStateEvent('popstate', { state: step })))
+    expect(result.current.destination).toEqual({ name: 'reflection', sessionId: 'current', view: 'step' })
+    for (const invalid of [{ view: 'unknown' }, { sessionId: 4 }]) {
+      act(() => window.dispatchEvent(new PopStateEvent('popstate', { state: {
+        emotIdNavigation: { ...step.emotIdNavigation, stack: [{ name: 'reflection', ...invalid }] },
+      } })))
+      expect(result.current.destination).toEqual({ name: 'reflection', sessionId: 'current', view: 'step' })
+    }
+  })
   beforeEach(() => {
     window.history.replaceState(null, '', '/')
   })

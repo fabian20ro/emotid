@@ -3,10 +3,23 @@ import { beforeEach, expect, it, vi } from 'vitest'
 import { useSessionHistory } from '../hooks/useSessionHistory'
 import { useChainAnalysis } from '../hooks/useChainAnalysis'
 
-const repos = vi.hoisted(() => ({ load: vi.fn(), clear: vi.fn() }))
+const repos = vi.hoisted(() => ({ load: vi.fn(), clear: vi.fn(), save: vi.fn() }))
 vi.mock('../data/session-repo', () => ({ getAllSessions: repos.load, clearAllSessions: repos.clear }))
-vi.mock('../data/chain-analysis-repo', () => ({ getAllChainAnalyses: repos.load, clearAllChainAnalyses: repos.clear }))
+vi.mock('../data/chain-analysis-repo', () => ({ getAllChainAnalyses: repos.load, clearAllChainAnalyses: repos.clear, saveChainAnalysis: repos.save }))
 beforeEach(() => { vi.resetAllMocks(); repos.clear.mockResolvedValue(undefined) })
+
+it('does not restore an erased exercise when its earlier save acknowledgment arrives late', async () => {
+  repos.load.mockResolvedValue([])
+  let finish!: () => void
+  repos.save.mockReturnValue(new Promise<void>((resolve) => { finish = resolve }))
+  const { result } = renderHook(useChainAnalysis)
+  await waitFor(() => expect(result.current.loading).toBe(false))
+  let write!: Promise<void>
+  act(() => { write = result.current.save({ id: 'erased', timestamp: 1, version: 2, situation: 'Old', noticed: '', response: '', outcome: '' }) })
+  await act(() => result.current.clearAll())
+  await act(async () => { finish(); await write })
+  expect(result.current.entries).toEqual([])
+})
 
 for (const [name, hook] of [['sessions', useSessionHistory], ['exercises', useChainAnalysis]] as const) {
   it(`${name}: successful clear recovers from a load error`, async () => {

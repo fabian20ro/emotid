@@ -8,6 +8,7 @@ import { TodayScreen } from './screens/TodayScreen'
 import { useAppNavigation } from './hooks/useAppNavigation'
 import { useSessionHistory } from './hooks/useSessionHistory'
 import { useChainAnalysis } from './hooks/useChainAnalysis'
+import { useChainDraft } from './hooks/useChainDraft'
 import { useLanguage } from './context/LanguageContext'
 import { storage } from './data/storage'
 import { exportStoredUserDataJSON } from './data/user-data'
@@ -68,12 +69,13 @@ function AppContent() {
 
   const { sessions: storedSessions, loading: sessionsLoading, error: sessionsError, save: saveSession, remove: removeSession, clearAll: clearAllSessions } = useSessionHistory()
   const { entries: chainEntries, loading: chainLoading, error: chainError, save: saveChainEntry, clearAll: clearAllChains, remove: removeChainEntry } = useChainAnalysis()
+  const chainDraft = useChainDraft(saveChainEntry)
   const [saveSessions, setSaveSessions] = useState(() => storage.get('saveSessions') !== 'false')
   const [allowExternalAI, setAllowExternalAI] = useState(() => storage.get('allowExternalAI') !== 'false')
   const [theme, setTheme] = useState<'light' | 'dark'>(() => storage.get('theme') === 'dark' ? 'dark' : 'light')
 
-  const showReflection = useCallback(() => {
-    navigation.navigate({ name: 'reflection' })
+  const showReflection = useCallback((sessionId: string) => {
+    navigation.navigate({ name: 'reflection', sessionId })
   }, [navigation])
 
   const returnToday = useCallback(() => {
@@ -164,6 +166,7 @@ function AppContent() {
   const clearData = useCallback(async () => {
     await runExclusiveReset(async () => {
       const results = await Promise.allSettled([clearAllSessions(), clearAllChains()])
+      chainDraft.reset()
       const failures = results.filter((result) => result.status === 'rejected')
       if (failures.length) throw new AggregateError(failures.map((result) => result.reason), 'Local data was not fully deleted')
     })
@@ -172,7 +175,7 @@ function AppContent() {
     setSaving(true)
     setExternalAI(true)
     setTheme('light')
-  }, [clearAllChains, clearAllSessions, runExclusiveReset, setExternalAI, setLanguage, setSaving])
+  }, [chainDraft, clearAllChains, clearAllSessions, runExclusiveReset, setExternalAI, setLanguage, setSaving])
 
   const deleteJournalSession = useCallback(async (sessionId: string) => {
     await removeSession(sessionId)
@@ -180,6 +183,10 @@ function AppContent() {
   }, [navigation, removeSession])
 
   const destination = navigation.destination
+  const staleReflection = destination.name === 'reflection' && (!completion || destination.sessionId !== currentSession?.id)
+  useEffect(() => {
+    if (staleReflection) navigation.replace({ name: 'today' })
+  }, [navigation, staleReflection])
   const activeTab: AppTab | null = destination.name === 'today' || destination.name === 'explore' || destination.name === 'journal' ? destination.name : null
   const showTabs = destination.name === 'today' || destination.name === 'explore' || destination.name === 'journal' || destination.name === 'arrival'
 
@@ -190,18 +197,21 @@ function AppContent() {
       case 'arrival':
       case 'check-in':
       case 'reflection':
-        if (destination.name === 'reflection' && !completion) {
+        if (staleReflection) {
           return <TodayScreen sessions={sessions} sessionsLoading={sessionsLoading} sessionsError={sessionsError} saveSessions={saveSessions} onPlaceFeeling={() => startRoute('affect')} onHelpChoose={() => navigation.navigate({ name: 'arrival' })} onQuickComplete={completeQuick} onOpenJournal={() => navigation.reset({ name: 'journal' })} />
         }
         return (
           <LazyRouteBoundary>
-            <CheckInFlowHost destination={destination} completion={completion} allowExternalAI={allowExternalAI} saveState={sessionSaveState} sessionCaptured={sessionCaptured} onBack={navigation.back} onGuideStepChange={(guideStep) => navigation.replace({ name: 'arrival', guideStep })} onChoose={startRoute} onComplete={completeCheckIn} onRetryBaseSave={retryBaseSave} onSaveReflection={saveReflection} onFinish={finishCheckIn} />
+            <CheckInFlowHost destination={destination} completion={completion} allowExternalAI={allowExternalAI} saveState={sessionSaveState} sessionCaptured={sessionCaptured} onBack={navigation.back} onReflectionViewChange={(view) => { if (destination.name === 'reflection') navigation.navigate({ ...destination, view }) }} onGuideStepChange={(guideStep) => navigation.replace({ name: 'arrival', guideStep })} onChoose={startRoute} onComplete={completeCheckIn} onRetryBaseSave={retryBaseSave} onSaveReflection={saveReflection} onFinish={finishCheckIn} />
           </LazyRouteBoundary>
         )
       case 'explore':
         return <LazyRouteBoundary><ExploreScreen onChoose={startRoute} onPractice={() => navigation.navigate({ name: 'granularity' })} /></LazyRouteBoundary>
       case 'journal':
-        return <LazyRouteBoundary><JournalScreen sessions={sessions} loading={sessionsLoading} chainEntries={chainEntries} chainLoading={chainLoading} chainError={chainError} error={sessionsError} saveSessions={saveSessions} onOpenSession={(sessionId) => navigation.navigate({ name: 'session', sessionId })} onOpenChain={(view) => navigation.navigate({ name: 'chain', view })} /></LazyRouteBoundary>
+        return <LazyRouteBoundary><JournalScreen sessions={sessions} loading={sessionsLoading} chainEntries={chainEntries} chainLoading={chainLoading} chainError={chainError} error={sessionsError} saveSessions={saveSessions} onOpenSession={(sessionId) => navigation.navigate({ name: 'session', sessionId })} onOpenChain={(view) => {
+          if (!view && chainDraft.status === 'saved') chainDraft.reset()
+          navigation.navigate({ name: 'chain', view })
+        }} /></LazyRouteBoundary>
       case 'session':
         return <LazyRouteBoundary><SessionDetailScreen session={sessions.find((session) => session.id === destination.sessionId)} onBack={navigation.back} onDelete={deleteJournalSession} /></LazyRouteBoundary>
       case 'settings':
@@ -220,11 +230,11 @@ function AppContent() {
       case 'granularity':
         return <LazyRouteBoundary><GranularityTraining isOpen onClose={navigation.back} /></LazyRouteBoundary>
       case 'chain':
-        return <LazyRouteBoundary><ChainAnalysis isOpen initialView={destination.view} onClose={navigation.back} entries={chainEntries} loading={chainLoading} onSave={saveChainEntry} onClearAll={clearAllChains} onDelete={removeChainEntry} /></LazyRouteBoundary>
+        return <LazyRouteBoundary><ChainAnalysis isOpen initialView={destination.view} onClose={navigation.back} entries={chainEntries} loading={chainLoading} draft={chainDraft} onClearAll={() => chainDraft.clearSaved(clearAllChains)} onDelete={removeChainEntry} /></LazyRouteBoundary>
       default:
         return null
     }
-  }, [allowExternalAI, chainEntries, chainError, chainLoading, clearAllChains, clearData, completeCheckIn, completeQuick, completion, deleteJournalSession, destination, exportData, finishCheckIn, navigation, retryBaseSave, saveChainEntry, saveReflection, saveSessions, sessionCaptured, sessionSaveState, sessions, sessionsError, sessionsLoading, setExternalAI, setSaving, startRoute, theme, removeChainEntry])
+  }, [allowExternalAI, chainDraft, chainEntries, chainError, chainLoading, clearAllChains, clearData, completeCheckIn, completeQuick, completion, deleteJournalSession, destination, exportData, finishCheckIn, navigation, retryBaseSave, saveReflection, saveSessions, sessionCaptured, sessionSaveState, sessions, sessionsError, sessionsLoading, setExternalAI, setSaving, startRoute, theme, removeChainEntry, staleReflection])
 
   if (onboardingMode === 'initial') {
     return (

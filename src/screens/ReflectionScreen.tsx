@@ -6,11 +6,13 @@ import { ScreenHeader } from '../components/ScreenHeader'
 import { buildGoogleAiSearchUrl } from '../utils/google-ai-search'
 import { focusDestination } from '../utils/focusDestination'
 import { useDraftState } from '../features/check-in/workflow/draft'
-import type { CheckInCompletion, ReflectionAnswer, ReflectionDetail, ReflectionSaveOutcome, SessionSaveState } from '../navigation/types'
+import type { CheckInCompletion, ReflectionAnswer, ReflectionDetail, ReflectionSaveOutcome, ReflectionView, SessionSaveState } from '../navigation/types'
 
 type FinishState = 'idle' | 'saving' | 'error'
 
 interface ReflectionScreenProps {
+  view: ReflectionView
+  onViewChange: (view: ReflectionView) => void
   completion: CheckInCompletion
   allowExternalAI: boolean
   saveState: SessionSaveState
@@ -22,7 +24,7 @@ interface ReflectionScreenProps {
   onFitChange?: (detail: ReflectionDetail) => Promise<ReflectionSaveOutcome>
 }
 
-export function ReflectionScreen({ completion, allowExternalAI, saveState, sessionCaptured, onBack, onRetryBaseSave, onSave, onReturn, onFitChange }: ReflectionScreenProps) {
+export function ReflectionScreen({ view: requestedView, onViewChange, completion, allowExternalAI, saveState, sessionCaptured, onBack, onRetryBaseSave, onSave, onReturn, onFitChange }: ReflectionScreenProps) {
   const { language, section } = useLanguage()
   const t = section('reflectionScreen')
   const bodyT = section('bodyCompass')
@@ -35,15 +37,13 @@ export function ReflectionScreen({ completion, allowExternalAI, saveState, sessi
     [language, results],
   )
   const [fit, setFit] = useDraftState('fit', undefined)
-  const [selectedNeed, setSelectedNeed] = useState<string | undefined>()
-  const [tier4Acknowledged, setTier4Acknowledged] = useState(false)
-  const [showExploration, setShowExploration] = useState(false)
-  const [showStep, setShowStep] = useState(false)
+  const [selectedNeed, setSelectedNeed] = useDraftState('selectedNeed', undefined)
+  const [tier4Acknowledged, setTier4Acknowledged] = useDraftState('tier4Acknowledged', false)
   const [finishState, setFinishState] = useState<FinishState>('idle')
-  const [nextStep, setNextStep] = useState<string | undefined>()
+  const [saveOriginView, setSaveOriginView] = useState(requestedView)
+  const [nextStep, setNextStep] = useDraftState('nextStep', undefined)
   const screenRef = useRef<HTMLDivElement>(null)
   const resultHeadingRef = useRef<HTMLHeadingElement>(null)
-  const restoreExplorationTriggerRef = useRef(false)
   const savingRef = useRef(false)
   const pendingDetailRef = useRef<ReflectionDetail | null>(null)
   const emotionNames = results.map((result) => result.label[language]).join(', ')
@@ -52,6 +52,8 @@ export function ReflectionScreen({ completion, allowExternalAI, saveState, sessi
     : `${emotionNames} ${t.briefSynthesis}`
   const requiresAcknowledge = completion.crisisTier === 'tier4' && !tier4Acknowledged
   const rejected = fit === 'no'
+  const view = requiresAcknowledge || rejected || completion.outcome ? 'result' : requestedView
+  const previousViewRef = useRef(view)
   const nextStepOptions = [t.stepPause, t.stepWrite, t.stepConnect]
   const aiFitConfirmed = fit === 'yes' || fit === 'partly'
   const aiLink = allowExternalAI && aiFitConfirmed && results.length > 0
@@ -62,15 +64,26 @@ export function ReflectionScreen({ completion, allowExternalAI, saveState, sessi
     : null
 
   useLayoutEffect(() => {
+    // Rejected or gated history entries must return to the actual result entry,
+    // not display a result over a hidden exploration/step destination.
+    if (view !== requestedView) onBack()
+  }, [onBack, requestedView, view])
+
+  useLayoutEffect(() => {
+    if (finishState === 'error' && saveOriginView !== view) setFinishState('idle')
+  }, [finishState, saveOriginView, view])
+
+  useLayoutEffect(() => {
     if (finishState === 'saving') return
     screenRef.current?.scrollIntoView?.({ block: 'start' })
-    if (restoreExplorationTriggerRef.current) {
-      restoreExplorationTriggerRef.current = false
+    const previousView = previousViewRef.current
+    previousViewRef.current = view
+    if (previousView === 'exploration' && view === 'result') {
       focusDestination(screenRef.current?.querySelector<HTMLElement>('[data-testid="reflection-explore-more"]') ?? null)
       return
     }
     focusDestination(screenRef.current?.querySelector<HTMLElement>('#screen-title') ?? null)
-  }, [finishState, showExploration, showStep])
+  }, [finishState, view])
 
   useLayoutEffect(() => {
     if (completion.crisisTier === 'tier4' && tier4Acknowledged) {
@@ -82,6 +95,7 @@ export function ReflectionScreen({ completion, allowExternalAI, saveState, sessi
     if (savingRef.current) return
     savingRef.current = true
     pendingDetailRef.current = detail
+    setSaveOriginView(view)
     setFinishState('saving')
     try {
       const outcome = await onSave(detail)
@@ -132,12 +146,7 @@ export function ReflectionScreen({ completion, allowExternalAI, saveState, sessi
     void onFitChange?.({ reflectionAnswer: answer, selectedResultIds: next }).catch(() => {})
   }
 
-  const closeExploration = () => {
-    restoreExplorationTriggerRef.current = true
-    setShowExploration(false)
-  }
-
-  if (finishState === 'error') {
+  if (finishState === 'error' && saveOriginView === view) {
     return (
       <div ref={screenRef} className="screen reflection-save-state" data-testid="reflection-save-error-screen">
         <span className="save-state-mark is-error"><TriangleAlert size={28} aria-hidden="true" /></span>
@@ -147,6 +156,9 @@ export function ReflectionScreen({ completion, allowExternalAI, saveState, sessi
         {support}
         <p className="screen-lede" role="alert">{sessionCaptured ? t.detailSaveErrorBody : t.saveErrorBody}</p>
         <div className="save-error-actions">
+          <button type="button" className="text-button inline-flex items-center justify-center gap-2" onClick={onBack}>
+            <ArrowLeft size={18} aria-hidden="true" />{section('navigation').back}
+          </button>
           <button type="button" className="primary-button" onClick={retrySave}>
             <RotateCcw size={18} aria-hidden="true" />{t.retrySave}
           </button>
@@ -158,10 +170,10 @@ export function ReflectionScreen({ completion, allowExternalAI, saveState, sessi
     )
   }
 
-  if (showStep) {
+  if (view === 'step') {
     return (
       <div ref={screenRef} className="screen" data-testid="next-step-screen" aria-busy={finishState === 'saving'}>
-        <ScreenHeader title={t.nextStep} onBack={() => setShowStep(false)} lede={t.nextStepChoicePrompt} />
+        <ScreenHeader title={t.nextStep} onBack={onBack} lede={t.nextStepChoicePrompt} />
         {support}
         {selectedNeed && <p className="next-step-need"><Lightbulb size={18} aria-hidden="true" />{t.need}: {selectedNeed}</p>}
         <div className="next-step-options" role="group" aria-label={t.nextStepChoicePrompt}>
@@ -187,7 +199,7 @@ export function ReflectionScreen({ completion, allowExternalAI, saveState, sessi
     )
   }
 
-  if (showExploration) {
+  if (view === 'exploration') {
     const contextResults = results.filter((result, index) => {
       const context = result.description?.[language] ?? result.needs?.[language]
       return Boolean(context) && !(index === 0 && result.description?.[language])
@@ -195,7 +207,7 @@ export function ReflectionScreen({ completion, allowExternalAI, saveState, sessi
 
     return (
       <div ref={screenRef} className="screen reflection-exploration-screen" data-testid="reflection-exploration-screen" aria-busy={finishState === 'saving'}>
-        <ScreenHeader title={t.exploreMore} onBack={closeExploration} lede={t.exploreHint} />
+        <ScreenHeader title={t.exploreMore} onBack={onBack} lede={t.exploreHint} />
         {support}
 
         {needs.length > 0 && (
@@ -222,7 +234,7 @@ export function ReflectionScreen({ completion, allowExternalAI, saveState, sessi
           </fieldset>
         )}
 
-        <button type="button" className="secondary-button" disabled={finishState === 'saving'} onClick={() => setShowStep(true)}>{t.nextStep}</button>
+        <button type="button" className="secondary-button" disabled={finishState === 'saving'} onClick={() => onViewChange('step')}>{t.nextStep}</button>
 
         {results[0]?.description?.[language] && (
           <section className="meaning-block"><HeartHandshake size={21} aria-hidden="true" /><div><h2>{t.function}</h2><p>{results[0].description[language]}</p></div></section>
@@ -345,7 +357,7 @@ export function ReflectionScreen({ completion, allowExternalAI, saveState, sessi
                   className="secondary-button"
                   data-testid="reflection-explore-more"
                   disabled={finishState === 'saving'}
-                  onClick={() => setShowExploration(true)}
+                  onClick={() => onViewChange('exploration')}
                 >
                   {t.exploreMore}
                 </button>
