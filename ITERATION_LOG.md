@@ -3710,6 +3710,13 @@ after the final code/test freeze. Release consistency and diff whitespace checks
 Pages workflow `42432206078` is still running production browser tests. Do not claim F is live
 until that run and deployment are successful; G remains an unmerged PR candidate.
 
+**Publication follow-up:** That workflow subsequently passed build/deploy/deployed-smoke.
+Pages deployment `7629688683` succeeded for exact SHA `a9cb40d` and remained the latest deployment
+after 24/24 F journeys passed on the public URL, EN/RO x themes x Chromium/WebKit, no retries.
+Synthetic contexts blocked workers; the separate hosted smoke verifies worker activation/control.
+Evidence: `.reports/pr-f-public-browser.log`, `.reports/pr-f-public-results/`, hosted run/deployment
+IDs above. This closes F publication verification, not G publication. G is PR #18.
+
 **Harness corrections:** The build-isolation probe belongs in the existing Node tooling suite:
 Vitest's global DOM setup and jsdom typed-array realm are unsuitable for an in-process Vite build.
 These startup failures were not product reds; retained red evidence shows actual unwanted modules.
