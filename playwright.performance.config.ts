@@ -19,6 +19,11 @@ export default defineConfig({
       name: 'Mobile Chrome performance proxy',
       use: { ...devices['Pixel 7'] },
     },
+    {
+      name: 'Mobile WebKit history proxy',
+      testMatch: 'history-performance.spec.ts',
+      use: { ...devices['iPhone 14'] },
+    },
   ],
   webServer: {
     command: 'npm run preview -- --host 127.0.0.1 --port 4175',

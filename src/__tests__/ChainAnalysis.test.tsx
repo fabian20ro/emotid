@@ -30,6 +30,21 @@ function renderChain(overrides: Partial<TestProps> = {}) {
 }
 
 describe('ChainAnalysis', () => {
+  it('does not reformat saved history while typing an unrelated draft', async () => {
+    const legacyFormat = vi.spyOn(Date.prototype, 'toLocaleString')
+    const formatterRead = vi.spyOn(Intl.DateTimeFormat.prototype, 'format', 'get')
+    try {
+      renderChain({ entries: [{ id: 'old', timestamp: 1, version: 2,
+        situation: 'Saved moment', noticed: '', response: '', outcome: '' }] })
+      legacyFormat.mockClear()
+      formatterRead.mockClear()
+      await userEvent.setup().type(screen.getByLabelText('What happened?'), 'abc')
+      expect(screen.getByLabelText('What happened?')).toHaveValue('abc')
+      expect(screen.getByRole('button', { name: /Saved moment/ })).toBeInTheDocument()
+      expect(legacyFormat).not.toHaveBeenCalled()
+      expect(formatterRead).not.toHaveBeenCalled()
+    } finally { legacyFormat.mockRestore(); formatterRead.mockRestore() }
+  })
   it('requires confirmation to discard a draft, without deleting saved entries', async () => {
     const user = userEvent.setup()
     const { props } = renderChain()
