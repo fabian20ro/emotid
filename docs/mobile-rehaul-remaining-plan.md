@@ -25,21 +25,25 @@ to the iteration log. R18 remains an upstream tooling risk, not a patched depend
 R20 measurements and the exercise-typing fix are merged (#19). The retained-tab PWA failure and
 deferred-activation fix are merged (#20); publication is separate. Method, tradeoffs and browser
 limits: [PWA investigation](pwa-old-tab-update.md). Accessible bounded history rendering is
-implemented on the current branch; contract and evidence: [history pagination](history-pagination.md).
+implemented in pending PR #21; contract and evidence: [history pagination](history-pagination.md).
+Full-hydration instrumentation is stacked on #21; method and findings: [hydration](history-hydration.md).
 Keep scoring and safety gating unchanged.
 
-### Recommended Next: Measure Hydration Before Storage Changes
+### Recommended Next: Publish The Verified Stack
 
 R20's [measurements](history-scale-measurements.md) demonstrated typing and DOM costs. Rendering is
-now bounded to 20 rows per list; hydration and full-history aggregate scans remain.
+now bounded to 20 rows per list. Full-hydration measurement is implemented separately from the
+production build; full arrays and aggregate scans still grow with history size.
 
-1. Extend the loopback-only 100/1000/5000 fixture harness with navigation-to-ready observations for
-   both history stores. Distinguish cold app startup, database read/decode/sort and rendered readiness;
-   use the native clock, fresh contexts and repeated samples. No product telemetry or timing SLA.
-2. Compare with the bounded-DOM measurements. Preserve complete aggregates/export, ordering,
-   erasure epochs and loading/error states. Investigate only a demonstrated remaining bottleneck.
-3. Choose the smallest measured fix, or stop at documented evidence if costs are acceptable.
-   Do not introduce IndexedDB pagination/indexes, a global store or a repository rewrite by default.
+1. Review/merge parent #21 first. Retarget the hydration PR from `codex/accessible-history-pages`
+   to `main` after the parent lands; inspect the resulting diff and rerun exact-head CI. Avoid a
+   squash/rebase operation that silently reintroduces parent changes. Do not merge the child first.
+2. After each merged revision, verify exact-SHA Pages/deployed smoke and the public regression
+   matrix. Large-history fixtures and hydration instrumentation remain loopback-only.
+3. No storage rewrite from these bounded measurements. If slower-device evidence or longer-note/
+   shuffled-order requirements reveal a bottleneck, add that fixture first, profile its owning
+   operation, then choose one measured fix. Preserve export, aggregates, ordering, epochs and errors.
+   Otherwise stop here; no speculative IndexedDB indexes, global store or repository abstraction.
 
 Architecture follow-up remains evidence-driven. The catalog-free session policy is now implemented;
 do not add another facade, global store or generic recovery framework merely to continue refactoring.

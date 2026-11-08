@@ -12,6 +12,7 @@ node_modules
 /test-results/
 /.reports/
 /.pwa-test-builds/
+/.history-hydration-build/
 dist
 dist-ssr
 coverage

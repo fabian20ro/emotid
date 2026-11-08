@@ -6,6 +6,11 @@ import { parse } from 'yaml'
 const readYaml = (path) => parse(readFileSync(new URL(path, import.meta.url), 'utf8'))
 const deploy = readYaml('../.github/workflows/deploy.yml')
 
+test('stacked codex PRs receive checks without extending push publication triggers', () => {
+  assert.deepEqual(deploy.on.pull_request.branches, ['main', 'codex/**'])
+  assert.deepEqual(deploy.on.push.branches, ['main'])
+})
+
 test('only main can publish and only the deploy job has write permission', () => {
   const mainOnly = "github.ref == 'refs/heads/main' && github.event_name != 'pull_request'"
   assert.deepEqual(deploy.permissions, { contents: 'read' })
@@ -61,4 +66,14 @@ test('CI retains old-tab lifecycle evidence on success as well as failure', () =
   assert.equal(steps[upload].if, 'always()')
   assert.match(steps[upload].uses, /^actions\/upload-artifact@/)
   assert.equal(steps[upload].with.path, 'test-results/pwa/')
+})
+
+test('CI measures hydration separately and retains its evidence without publishing the instrumented build', () => {
+  const steps = deploy.jobs.build.steps
+  const suite = steps.findIndex((step) => step.run === 'npm run test:hydration:run')
+  const upload = steps.findIndex((step) => step.with?.name === 'hydration-evidence')
+  assert.ok(suite >= 0 && upload > suite)
+  assert.equal(steps[upload].if, 'always()')
+  assert.equal(steps[upload].with.path, 'test-results/hydration/')
+  assert.equal(steps.find((step) => step.uses?.startsWith('actions/upload-pages-artifact@')).with.path, './dist')
 })
