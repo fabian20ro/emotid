@@ -62,6 +62,15 @@ jobs:
       - name: Verify production PWA lifecycle
         run: npm run test:pwa
 
+      - name: Retain PWA lifecycle evidence
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: pwa-lifecycle-evidence
+          path: test-results/pwa/
+          if-no-files-found: ignore
+          retention-days: 14
+
       - name: Verify PWA retry isolation
         run: npm run test:pwa:retry
 

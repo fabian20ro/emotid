@@ -8,6 +8,7 @@ const port = 4174
 const root = resolve('.pwa-test-builds')
 const versions = ['v1', 'v2']
 let activeVersion = versions[0]
+let networkState = 'online'
 
 for (const version of versions) {
   execFileSync(
@@ -59,6 +60,29 @@ const server = createServer((request, response) => {
     return
   }
 
+  if (url.pathname === '/__pwa-test/network') {
+    if (!['GET', 'PUT'].includes(request.method)) {
+      response.setHeader('Allow', 'GET, PUT')
+      send(response, 405, 'Expected GET or PUT')
+      return
+    }
+    if (request.method === 'PUT') {
+      const state = url.searchParams.get('state')
+      if (!['online', 'offline'].includes(state)) {
+        send(response, 400, 'Expected online or offline')
+        return
+      }
+      networkState = state
+    }
+    send(response, 200, networkState)
+    return
+  }
+
+  if (networkState === 'offline') {
+    request.socket.destroy()
+    return
+  }
+
   if (!url.pathname.startsWith('/emotid/')) {
     send(response, 404, 'Not found')
     return
@@ -74,6 +98,10 @@ const server = createServer((request, response) => {
   }
 
   if (!existsSync(filePath) || statSync(filePath).isDirectory()) {
+    if (relativePath.startsWith('assets/')) {
+      send(response, 404, 'Asset not found')
+      return
+    }
     filePath = resolve(versionRoot, 'index.html')
   }
 

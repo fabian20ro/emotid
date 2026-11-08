@@ -3792,3 +3792,66 @@ Ignored evidence: `.reports/r20-*-red.log`, `r20-check.log`, `r20-full-browser.l
 `r20-full-browser-results/`, `r20-performance-final/`, `r20-pwa-retry-evidence/`,
 `r20-pwa-retry.json`, supporting-gate logs and `r20-scale-initial/` (excluded harness failures).
 Only documentation changed after the final code/test freeze. No native devices were accessed.
+
+## 2026-11-08 - Retained-tab PWA update: reproduction and deferred activation
+
+**Request:** After merging #19, reproduce the old-tab update with TDD; verify, commit, push and PR.
+**Base:** `f44c91bffbb85f50c10e19ded51a8b05dd316786`; branch `codex/pwa-old-tab-update`.
+
+**Confirmed:** v2 takeover leaves a v1 document running with its old import graph. The online
+Words open requested the retired v1 chunk, received 404 and failed; controller changed once and
+the old chunk was no longer cached. No persisted-data loss was demonstrated. The fixture asserts
+real different dynamic chunk URLs and SHA-256 bytes, not just different version labels.
+
+**TDD / fix:** Missing asset HTTP test failed (index HTML/200 instead of 404), then the test server
+was corrected. The retained-tab behavior exposed the real takeover failure. Production change is
+only standard deferred activation: prompt registration mode, explicit skipWaiting false and
+clientsClaim true. No prompt UI/forced reload, custom worker, cache-clearing recovery or draft
+coordination framework. Both app tabs keep A; B activates after the last app client closes.
+The final polling contract also rejects the old auto-update policy in two negative-control cases;
+that temporary mutation was restored before verification. Outage-control and CI-artifact contracts
+were red before implementation, then green. Details/tradeoffs: `docs/pwa-old-tab-update.md`.
+
+**Coverage:** Two app tabs, one out-of-scope lifecycle observer; saved check-in and editable draft,
+unvisited old/new Words chunks, one-tab-close vs last-tab-close, exact exported sessions/preferences
+and saved exercise. EN/RO x themes x Chromium/WebKit, online and origin socket outage. Seed once on
+an inert document, not on every reopen. Per-attempt version/network reset; repeatable fixture HTTP
+validation; JSON lifecycle/hash/cache/response evidence uploaded by CI even on success. First-failure
+traces retained; existing Chromium native offline-emulation/reopen and deliberate retry remain.
+
+**Harness findings:** Wrong initial screen ID and missing Back before Settings corrected. An async
+waitForFunction predicate treated a Promise as truthy, advancing before worker installation; use
+expect.poll around the awaited browser observation. Early offline observations were inconclusive,
+not evidence of a safe completed takeover. Corrected gates use native worker lifecycle state.
+WebKit setOffline rejected even a literal module returned by a minimal worker with no app/Workbox.
+Six-row control: Chromium passed all three modes; WebKit passed online and origin outage, failed
+emulated offline. The application matrix uses real loopback socket outage without suppressing app
+errors. This does not claim native airplane-mode, installed iOS, physical performance or AT speech.
+
+**Verification:** npm run check passed: 891 tests /104 files, lint/types/policy/i18n/release,
+build and budgets. Explicit strict TypeScript check of PWA tests/config passed. First full PWA
+matrix: 44/44 without retries; after strengthening seed-once/preference assertions, final matrix
+again 44/44 without retries (two full repetitions, 32 retained-tab scenarios plus fixture/legacy
+checks). Frozen production browser suite: 554/554 without retries. Performance/history-scale:
+25/25. PWA retry isolation: 1/1 outer test, verifying the intentional first failure and successful
+retry with retained trace. Language Fast Refresh and local worker-enabled deployed smoke: 1/1 each.
+Final lint and diff whitespace check passed. Initial JS gzip 144816 bytes; entry 44022; production
+assets 915867, all within existing budgets.
+
+**Predecessor:** #19 merged; exact-SHA CodeQL run `42476456865` and Pages workflow `42476457330`
+(build/deploy/deployed-smoke) passed. Deployment `7635638565` is for base SHA `f44c91b`.
+Affected public R20 journeys: 14/14 without retries, Chromium/WebKit, EN/RO x themes and Journal
+data/export/deletion with isolated small synthetic data. Deployment ID/SHA unchanged before/after;
+no large public fixtures. New PWA policy is not live yet; PR review/CI/merge remain separate.
+
+**Remaining:** Review/merge, exact-SHA publication/smoke and public regressions. Recommended next:
+bounded history rendering with accessible page navigation, stable IDs, full export/aggregates and
+R20 measurements. Profile hydration separately before any repository/index redesign. R18 and
+unavailable native/human evidence remain explicit; no need to block this bounded fix on devices.
+**Promoted:** Async browser polling lesson; lifecycle/fixture specifics remain in tests and report.
+
+Ignored evidence: `.reports/pwa-old-*.log`, `.reports/pwa-old-*-red/`,
+`.reports/pwa-old-policy-negative-control/`, `.reports/pwa-old-webkit-offline-emulation/`,
+`.reports/pwa-offline-control.mjs` and `.log`; final matrix/full-browser/performance/retry/deployed
+evidence directories and `.reports/pwa-r20-live.log`. Only documentation changed after the final
+candidate freeze. No native devices accessed.

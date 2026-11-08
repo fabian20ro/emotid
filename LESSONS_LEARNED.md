@@ -120,6 +120,11 @@ contract as an unchecked cast or duplicate partial property checks.
 
 ## Testing & Quality
 
+**[2026-11-08]** Async browser-state polling must await each observation - An async predicate in
+Playwright `waitForFunction` returned a truthy Promise before service-worker installation finished.
+Use `expect.poll(() => page.evaluate(async ...))` for async browser APIs; reserve `waitForFunction`
+for synchronous state predicates. Assert the actual lifecycle state before disabling network.
+
 **[2026-09-05]** Final browser evidence needs an unchanged candidate - Editing imported product
 files during a Vite-backed suite can reload active journeys and mimic navigation or persistence
 failures. Freeze product code for the final run; rerun the complete affected suite after any edit.

@@ -10,9 +10,12 @@ export default defineConfig({
     react(),
     tailwindcss(),
     VitePWA({
-      registerType: 'autoUpdate',
+      registerType: 'prompt',
       includeAssets: ['apple-touch-icon.png'],
       workbox: {
+        // Keep each open tab's lazy graph usable; activate updates after all app tabs close.
+        skipWaiting: false,
+        clientsClaim: true,
         cleanupOutdatedCaches: true,
         globPatterns: ['**/*.{css,html,ico,js,png,svg,webmanifest}'],
         navigateFallback: 'index.html',

@@ -12,9 +12,13 @@ export default defineConfig({
     ...devices['Desktop Chrome'],
     baseURL: 'http://127.0.0.1:4174/emotid/',
     serviceWorkers: 'allow',
-    trace: 'on-first-retry',
+    trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
   },
+  projects: [
+    { name: 'chromium' },
+    { name: 'webkit', testMatch: 'old-tab-update.spec.ts', use: { ...devices['iPhone 14'] } },
+  ],
   webServer: {
     command: 'node scripts/pwa-test-server.mjs',
     url: 'http://127.0.0.1:4174/__pwa-test/version',
