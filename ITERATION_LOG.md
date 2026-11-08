@@ -3610,3 +3610,55 @@ and old-tab PWA lazy-chunk recovery remain measurement/reproduction-first, not r
 No physical device, native speech, human comprehension or clinical pass claimed.
 **Promoted to Lessons Learned:** No; fixture reset and workflow policy are executable contracts;
 dependency review triggers belong to their maintained security document.
+
+## 2026-11-08 - Audit PR F: stable reflection choices and bilingual Journal copy
+
+**Scope:** R10/R11/R24, based on merged #16 (`b765e60`), branch
+`codex/reflection-choice-identity`. No scoring, crisis gating, Google query, dependency or
+runtime network changes. Audit status and remaining plan updated; next implementation is G.
+
+**TDD:** Recorded failing selection-state tests across language changes, missing model need IDs,
+serializer identity loss, invalid identity acceptance, Journal localization, repelled/rejected
+ambiguity and Romanian count grammar. Added validation for unknown/prototype/non-string IDs,
+observation-only exclusions, rejection clearing, storage/export round trips and unchanged analytics
+eligibility. Corrected test fixture assumptions against existing catalog entries and reviewed-null
+guidance rather than changing the catalog to satisfy guessed expectations.
+
+**Implementation:** Carry the existing reviewed need ID through every analyzer and Quick results.
+Drafts store need/next-step IDs instead of translated strings. Persist optional IDs alongside original
+localized snapshots; new Journal details resolve current-language labels, legacy strings remain
+verbatim. No reverse matching of text, user-note translation, IndexedDB migration or export version
+bump. The bounded Romanian label `Repulsie` distinguishes repelled from `Respins` (rejected), keeping
+emotion IDs and provenance. Journal counts use native plural rules, including singular and Romanian
+`20 de ...`; evidence thresholds unchanged.
+
+**Verification:**
+- Final `npm run check`: 99 files / 833 unit/component tests; tooling/live-config/policy/catalog/
+  bilingual/release contracts, lint/types/build and performance budgets pass.
+- Focused production browser cases: 24/24. Final frozen full production matrix: 538/538,
+  one worker, no retries; Chromium/WebKit, with EN/RO x light/dark for the new journeys.
+- Browser cases cover draft back/return, save, real Settings language changes, reload, Journal
+  readback, original-language export snapshots, legacy text, empty/20-entry counts, intermediate
+  repelled selection and rendered contrast. Representative screenshots visually inspected.
+- Initial browser harness wrongly expected Settings during reflection. Stopped that run and fixed
+  the journey to use actual Settings after completion; no product navigation change. Mid-draft
+  language changes are proven by the real provider/component tests, not claimed as a browser UI path.
+- PWA lifecycle/endpoint cases repeated twice: 4/4. Retry harness: 1/1, with the deliberate failure
+  followed by a genuine retry pass. Language Fast Refresh, performance proxy and local deployed
+  smoke: 1/1 each. Local smoke is not public deployment evidence.
+- Initial JS gzip 144650/150000; entry 43856/50000; assets 916130/960000 bytes. No claimed speedup.
+- Evidence: ignored `.reports/pr-f-*-red.log`, final-check/browser/PWA/retry/language/performance/
+  local-smoke logs, `.reports/pr-f-focused-browser/` screenshots and initial harness traces.
+  Only documentation changed after freezing product/test inputs for the final matrix.
+
+**Predecessor publication:** #16 main workflow `42426486635` passed build/deploy/deployed-smoke;
+CodeQL `42426486457` passed. Pages deployment `7628942966` succeeded for exact SHA
+`b765e608491e7a8d5f1065ed67b2e9c637814a66`. The hosted `pwa-retry-evidence` artifact exists.
+This verifies E's hosted controls, not publication of the unmerged F branch.
+
+**Remaining:** Review/merge F, then exact-revision Pages/smoke and affected public journeys.
+Next G: R14 stale docs; R21 catalog-free session policy; R22 completion metadata ownership;
+R23 unused inferred breadcrumbs. Then R20 history measurements and a genuinely changed lazy-chunk
+old-tab PWA reproduction. R18 remains documented upstream tooling risk. No physical-device,
+native speech, human comprehension or clinical pass claimed.
+**Promoted to Lessons Learned:** No; the new identity and copy contracts are executable tests.

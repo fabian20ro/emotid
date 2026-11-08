@@ -35,6 +35,7 @@ describe('body observations without suggested emotions', () => {
     const session = createSession({ route: 'body', modelId: somaticModel.id, selections: [selection], results: [] })
     for (const change of [
       { entryRoute: 'quick' }, { selectedNeed: 'grounding' }, { reflectionAnswer: 'yes' },
+      { selectedNeedId: 'grounding' }, { nextStepId: 'write' },
       { selections: [] }, { crisisTier: 'tier4' }, { outcome: 'unknown' },
       { selections: [{ ...session.selections[0], extras: { sensationType: 'pressure', intensity: '1' } }] },
     ]) expect(() => decodeSessions([{ ...session, ...change }])).toThrow()

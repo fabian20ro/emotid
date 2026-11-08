@@ -74,6 +74,7 @@ export const dimensionalModel: EmotionModel<DimensionalEmotion> = {
       color: s.color,
       description: s.description,
       needs: s.needs,
+      needId: s.needId,
       valence: s.valence,
       arousal: s.arousal,
     }))

@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ReflectionScreen } from '../screens/ReflectionScreen'
-import { LanguageProvider } from '../context/LanguageContext'
+import { LanguageProvider, useLanguage } from '../context/LanguageContext'
 import { storage } from '../data/storage'
 import type { AnalysisResult } from '../models/types'
 import type { CheckInCompletion, ReflectionDetail, ReflectionSaveOutcome } from '../navigation/types'
@@ -10,6 +10,8 @@ import { ACCEPTANCE_HOOKS } from '../../scripts/acceptance/selectors.mjs'
 import en from '../i18n/en.json'
 import ro from '../i18n/ro.json'
 import { useState } from 'react'
+import { quickEmotions } from '../models/catalog/quick'
+import { needOptions, type NeedOptionId } from '../models/catalog/guidance/need-options'
 import type { ReflectionView } from '../navigation/types'
 
 function ReflectionHarness(props: Omit<React.ComponentProps<typeof ReflectionScreen>, 'view' | 'onViewChange'>) {
@@ -18,6 +20,11 @@ function ReflectionHarness(props: Omit<React.ComponentProps<typeof ReflectionScr
     if (view === 'result') props.onBack()
     else setView(view === 'step' ? 'exploration' : 'result')
   }} />
+}
+
+function ChangeLanguage() {
+  const { language, setLanguage } = useLanguage()
+  return <button onClick={() => setLanguage(language === 'en' ? 'ro' : 'en')}>Change language</button>
 }
 
 function deferred<T>() {
@@ -30,13 +37,14 @@ function deferred<T>() {
   return { promise, resolve, reject }
 }
 
-function result(id: string, need?: { en: string; ro: string }): AnalysisResult {
+function result(id: string, needId?: NeedOptionId): AnalysisResult {
   return {
     id,
     label: { en: id, ro: id },
     color: '#176b60',
     description: { en: `${id} description`, ro: `descriere ${id}` },
-    needs: need,
+    needs: needId ? needOptions[needId] : undefined,
+    needId,
   }
 }
 
@@ -70,6 +78,7 @@ function renderReflection(
   const onRetryBaseSave = vi.fn()
   render(
     <LanguageProvider>
+      <ChangeLanguage />
       <ReflectionHarness
         completion={{ ...completion(results, options.crisisTier), route: options.route ?? 'affect' }}
         allowExternalAI={options.allowExternalAI ?? false}
@@ -86,6 +95,44 @@ function renderReflection(
 }
 
 describe('ReflectionScreen need selection', () => {
+  it('clears both chosen identities when the user rejects the result', async () => {
+    const { onSave } = renderReflection([result('anxiety', 'grounding')])
+    const user = userEvent.setup()
+    await user.click(screen.getByRole('button', { name: en.reflectionScreen.exploreMore }))
+    await user.click(screen.getByRole('button', { name: 'grounding', exact: true }))
+    await user.click(screen.getByRole('button', { name: en.reflectionScreen.nextStep }))
+    await user.click(screen.getByRole('button', { name: en.reflectionScreen.stepConnect }))
+    await user.click(screen.getByRole('button', { name: en.navigation.back, exact: true }))
+    await user.click(screen.getByRole('button', { name: en.navigation.back, exact: true }))
+    await user.click(screen.getByRole('button', { name: en.reflectionScreen.no, exact: true }))
+    await user.click(screen.getByRole('button', { name: en.reflectionScreen.finishWithoutLabel }))
+    expect(onSave).toHaveBeenCalledWith(expect.objectContaining({ reflectionAnswer: 'no',
+      selectedNeedId: undefined, selectedNeed: undefined, nextStepId: undefined, nextStep: undefined }))
+  })
+  it.each(['en', 'ro'] as const)('keeps a chosen need across a language change from %s', async (language) => {
+    const { onSave } = renderReflection([quickEmotions.find((emotion) => emotion.id === 'anxiety')!], { language })
+    const user = userEvent.setup()
+    const before = language === 'en' ? en : ro
+    const after = language === 'en' ? ro : en
+    await user.click(screen.getByRole('button', { name: before.reflectionScreen.exploreMore }))
+    await user.click(screen.getByRole('button', { name: language === 'en' ? 'grounding' : 'ancorare', exact: true }))
+    await user.click(screen.getByRole('button', { name: 'Change language' }))
+    const translated = language === 'en' ? 'ancorare' : 'grounding'
+    expect(screen.getByRole('button', { name: translated, exact: true })).toHaveAttribute('aria-pressed', 'true')
+    await user.click(screen.getByRole('button', { name: after.reflectionScreen.done }))
+    expect(onSave).toHaveBeenCalledWith(expect.objectContaining({ selectedNeedId: 'grounding', selectedNeed: translated }))
+  })
+  it('keeps the selected next step when the language changes, and saves its identity', async () => {
+    const { onSave } = renderReflection([result('calm')])
+    const user = userEvent.setup()
+    await user.click(screen.getByRole('button', { name: en.reflectionScreen.exploreMore }))
+    await user.click(screen.getByRole('button', { name: en.reflectionScreen.nextStep }))
+    await user.click(screen.getByRole('button', { name: en.reflectionScreen.stepWrite }))
+    await user.click(screen.getByRole('button', { name: 'Change language' }))
+    expect(screen.getByRole('button', { name: ro.reflectionScreen.stepWrite })).toHaveAttribute('aria-pressed', 'true')
+    await user.click(screen.getByRole('button', { name: ro.reflectionScreen.keepStep }))
+    expect(onSave).toHaveBeenCalledWith(expect.objectContaining({ nextStepId: 'write', nextStep: ro.reflectionScreen.stepWrite }))
+  })
   it.each(['exploration', 'step'] as const)('rejects a history request for %s before tier-4 acknowledgment', (view) => {
     storage.set('language', 'en')
     const onBack = vi.fn()
@@ -158,8 +205,7 @@ describe('ReflectionScreen need selection', () => {
 
   it('makes the direct exit primary and records no inferred need without a tap', async () => {
     const user = userEvent.setup()
-    const need = { en: 'quiet and rest', ro: 'liniște și odihnă' }
-    const { onSave } = renderReflection([result('tired', need)])
+    const { onSave } = renderReflection([result('tired', 'rest')])
     const done = screen.getByRole('button', { name: 'Done for now' })
     const explore = screen.getByRole('button', { name: 'Explore further' })
 
@@ -173,8 +219,8 @@ describe('ReflectionScreen need selection', () => {
 
   it('keeps inferred guidance behind explicit exploration and restores disclosure focus', async () => {
     const user = userEvent.setup()
-    const need = { en: 'quiet and rest', ro: 'liniște și odihnă' }
-    renderReflection([result('tired', need)], { allowExternalAI: true })
+    const need = needOptions.rest
+    renderReflection([result('tired', 'rest')], { allowExternalAI: true })
 
     const explore = screen.getByRole('button', { name: 'Explore further' })
     expect(screen.queryByRole('button', { name: need.en })).not.toBeInTheDocument()
@@ -228,8 +274,8 @@ describe('ReflectionScreen need selection', () => {
 
   it('requires explicit consent before persisting the only inferred need', async () => {
     const user = userEvent.setup()
-    const need = { en: 'quiet and rest', ro: 'liniște și odihnă' }
-    const { onSave } = renderReflection([result('tired', need)])
+    const need = needOptions.rest
+    const { onSave } = renderReflection([result('tired', 'rest')])
     await user.click(screen.getByRole('button', { name: 'Explore further' }))
     const option = screen.getByRole('button', { name: need.en })
 
@@ -242,9 +288,9 @@ describe('ReflectionScreen need selection', () => {
 
   it('requires an explicit choice among deduplicated needs and allows clearing it', async () => {
     const user = userEvent.setup()
-    const quiet = { en: 'quiet and rest', ro: 'liniște și odihnă' }
-    const support = { en: 'human support', ro: 'sprijin uman' }
-    const { onSave } = renderReflection([result('tired', quiet), result('drained', quiet), result('sad', support)])
+    const quiet = needOptions.rest
+    const support = needOptions.support
+    const { onSave } = renderReflection([result('tired', 'rest'), result('drained', 'rest'), result('sad', 'support')])
     await user.click(screen.getByRole('button', { name: 'Explore further' }))
     const quietOption = screen.getByRole('button', { name: quiet.en })
     const supportOption = screen.getByRole('button', { name: support.en })
@@ -271,10 +317,9 @@ describe('ReflectionScreen need selection', () => {
 
   it('supports Romanian keyboard selection and save-disabled completion', async () => {
     const user = userEvent.setup()
-    const first = { en: 'quiet', ro: 'liniște' }
-    const second = { en: 'support', ro: 'sprijin' }
+    const second = needOptions.support
     const { onSave, onReturn } = renderReflection(
-      [result('obosit', first), result('trist', second)],
+      [result('obosit', 'rest'), result('trist', 'support')],
       { language: 'ro', saveSessions: false },
     )
     await user.click(screen.getByRole('button', { name: 'Explorează mai mult' }))
@@ -290,8 +335,8 @@ describe('ReflectionScreen need selection', () => {
 
   it('keeps every need control behind tier-4 acknowledgement', async () => {
     const user = userEvent.setup()
-    const need = { en: 'immediate support', ro: 'sprijin imediat' }
-    renderReflection([result('despair', need)], { crisisTier: 'tier4' })
+    const need = needOptions.support
+    renderReflection([result('despair', 'support')], { crisisTier: 'tier4' })
 
     expect(screen.queryByRole('group', { name: 'What might help most right now?' })).not.toBeInTheDocument()
     await user.click(screen.getByRole('button', { name: 'Continue to reflection' }))
@@ -316,8 +361,8 @@ describe('ReflectionScreen need selection', () => {
 
   it('clears inferred content and saves no inferred detail when the result is rejected', async () => {
     const user = userEvent.setup()
-    const need = { en: 'quiet and rest', ro: 'liniște și odihnă' }
-    const { onSave, onBack } = renderReflection([result('anxiety', need)], { allowExternalAI: true })
+    const need = needOptions.rest
+    const { onSave, onBack } = renderReflection([result('anxiety', 'rest')], { allowExternalAI: true })
 
     expect(screen.queryByRole('button', { name: need.en })).not.toBeInTheDocument()
     await user.click(screen.getByRole('button', { name: 'Not really' }))
@@ -359,6 +404,7 @@ describe('ReflectionScreen need selection', () => {
       reflectionAnswer: 'partly',
       selectedNeed: undefined,
       nextStep: chosenStep,
+      nextStepId: 'write',
     })
   })
 
@@ -392,7 +438,7 @@ describe('ReflectionScreen need selection', () => {
 
   it('localizes mismatch recovery in Romanian', async () => {
     const user = userEvent.setup()
-    renderReflection([result('anxietate', { en: 'support', ro: 'sprijin' })], { language: 'ro' })
+    renderReflection([result('anxietate', 'support')], { language: 'ro' })
 
     await user.click(screen.getByRole('button', { name: 'Nu prea' }))
     expect(screen.getByRole('heading', { name: 'Rezultatul nu se potrivește' })).toBeInTheDocument()

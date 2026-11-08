@@ -5,6 +5,10 @@ export type NeedOptionId = keyof typeof needOptionsData
 
 export const needOptions: Readonly<Record<NeedOptionId, LocalizedText>> = needOptionsData
 
+export function isNeedOptionId(value: unknown): value is NeedOptionId {
+  return typeof value === 'string' && Object.hasOwn(needOptions, value)
+}
+
 export function getNeedOption(id: string): LocalizedText | undefined {
-  return needOptions[id as NeedOptionId]
+  return isNeedOptionId(id) ? needOptions[id] : undefined
 }

@@ -1,5 +1,7 @@
 import type { AnalysisResult } from '../models/types'
 import type { CrisisTier } from '../models/distress'
+import type { NeedOptionId } from '../models/catalog/guidance/need-options'
+import type { NextStepId } from './reflection-choices'
 
 export interface SerializedSelection {
   emotionId: string
@@ -20,7 +22,9 @@ export interface Session {
   outcome?: 'body-observation'
   selectedResultIds?: string[]
   selectedNeed?: string
+  selectedNeedId?: NeedOptionId
   nextStep?: string
+  nextStepId?: NextStepId
 }
 
 export interface LegacyChainAnalysisEntry {

@@ -473,8 +473,16 @@
     "continue": "Return to the app"
   },
   "history": {
-    "vocabEmotions": "{count} different words",
-    "vocabSessions": "{count} entries included",
+    "vocabEmotions": {
+      "one": "different word",
+      "few": "different words",
+      "other": "different words"
+    },
+    "vocabSessions": {
+      "one": "entry included",
+      "few": "entries included",
+      "other": "entries included"
+    },
     "somaticTitle": "Body observations",
     "valenceTitle": "Words from this week",
     "valencePleasant": "{count} pleasant",

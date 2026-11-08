@@ -1,5 +1,7 @@
 import type { AnalysisResult, BaseEmotion } from '../models/types'
 import type { CrisisTier } from '../models/distress'
+import type { NextStepId } from '../data/reflection-choices'
+import type { NeedOptionId } from '../models/catalog/guidance/need-options'
 
 export type AppTab = 'today' | 'explore' | 'journal'
 export type CheckInRoute = 'quick' | 'body' | 'affect' | 'words' | 'plutchik'
@@ -12,7 +14,9 @@ export interface ReflectionDetail {
   selectedResultIds?: string[]
   reflectionAnswer?: ReflectionAnswer
   selectedNeed?: string
+  selectedNeedId?: NeedOptionId
   nextStep?: string
+  nextStepId?: NextStepId
 }
 
 export type AppDestination =

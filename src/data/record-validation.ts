@@ -1,6 +1,8 @@
 import type { AnalysisResult } from '../models/types'
 import type { ChainAnalysisEntry, SerializedSelection, Session } from './types'
 import { SENSATION_TYPES } from '../models/somatic/types'
+import { isNeedOptionId } from '../models/catalog/guidance/need-options'
+import { isNextStepId } from './reflection-choices'
 
 type UnknownRecord = Record<string, unknown>
 
@@ -30,6 +32,7 @@ function isResult(value: unknown): value is AnalysisResult {
   return isRecord(value) && isString(value.id) && isLabel(value.label) && isString(value.color)
     && isOptionalLabel(value.description)
     && isOptionalLabel(value.needs)
+    && (value.needId === undefined || isNeedOptionId(value.needId))
     && isOptionalLabel(value.matchStrength)
     && isOptionalLabelList(value.componentLabels)
     && isOptionalLabelList(value.hierarchyPath)
@@ -54,7 +57,9 @@ function isSession(value: unknown): value is Session {
     && interventionResponses.includes(value.interventionResponse as undefined | string)
     && entryRoutes.includes(value.entryRoute as undefined | string)
     && isOptionalString(value.selectedNeed)
+    && (value.selectedNeedId === undefined || isNeedOptionId(value.selectedNeedId))
     && isOptionalString(value.nextStep)
+    && (value.nextStepId === undefined || isNextStepId(value.nextStepId))
     && (value.selectedResultIds === undefined || (
       Array.isArray(value.selectedResultIds)
       && new Set(value.selectedResultIds).size === value.selectedResultIds.length
@@ -65,6 +70,7 @@ function isSession(value: unknown): value is Session {
       && value.modelId === 'somatic'
       && value.crisisTier === 'none' && value.reflectionAnswer === undefined
       && value.selectedNeed === undefined && value.nextStep === undefined
+      && value.selectedNeedId === undefined && value.nextStepId === undefined
       && results.length === 0 && value.selections.length > 0
       && value.selections.every((selection) => SENSATION_TYPES.some((type) => type === selection.extras?.sensationType)
         && typeof selection.extras?.intensity === 'number' && [1, 2, 3].includes(selection.extras.intensity))

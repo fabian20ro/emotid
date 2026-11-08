@@ -473,8 +473,16 @@
     "continue": "Revino în aplicație"
   },
   "history": {
-    "vocabEmotions": "{count} cuvinte diferite",
-    "vocabSessions": "{count} înregistrări incluse",
+    "vocabEmotions": {
+      "one": "cuvânt diferit",
+      "few": "cuvinte diferite",
+      "other": "de cuvinte diferite"
+    },
+    "vocabSessions": {
+      "one": "înregistrare inclusă",
+      "few": "înregistrări incluse",
+      "other": "de înregistrări incluse"
+    },
     "somaticTitle": "Observații despre corp",
     "valenceTitle": "Cuvinte din această săptămână",
     "valencePleasant": "{count} plăcute",

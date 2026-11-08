@@ -15,6 +15,15 @@ beforeEach(() => {
 afterEach(() => { vi.restoreAllMocks(); vi.unstubAllGlobals() })
 
 describe('session repository with real IndexedDB transaction semantics', () => {
+  it('round-trips stable choices alongside untouched legacy text', async () => {
+    const repo = await import('../data/session-repo')
+    const current: Session = { ...session, selectedNeedId: 'grounding', nextStepId: 'write',
+      selectedNeed: 'ancorare', nextStep: 'Text at selection time' }
+    const legacy = { ...session, id: 'legacy', timestamp: 0, selectedNeed: 'Custom wording' }
+    await repo.saveSession(current)
+    await repo.saveSession(legacy)
+    expect(await repo.getAllSessions()).toEqual([current, legacy])
+  })
   it('deletes only the requested key and preserves optional fields', async () => {
     const repo = await import('../data/session-repo')
     await repo.saveSession({ ...session, selectedNeed: 'quiet and rest' })

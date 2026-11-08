@@ -7,6 +7,7 @@ import { useFocusTrap } from '../hooks/useFocusTrap'
 import { getIntensityLabel, getSensationLabel, getSomaticRegionLabel } from '../models/somatic/display'
 import type { Session } from '../data/types'
 import { getEmotionDisplayLabel, getResultRelationship, getSessionResults } from '../data/session-presentation'
+import { getReflectionChoiceLabels } from '../data/reflection-choices'
 
 interface SessionDetailScreenProps {
   session?: Session
@@ -33,6 +34,7 @@ export function SessionDetailScreen({ session, onBack, onDelete }: SessionDetail
 
   const fitLabels = { yes: section('reflectionScreen').yes, partly: section('reflectionScreen').partly, no: section('reflectionScreen').no }
   const relationship = getResultRelationship(session)
+  const choices = getReflectionChoiceLabels(session, language, section('reflectionScreen'))
   const bodySignals = session.selections.flatMap((selection) => {
     const sensationType = selection.extras?.sensationType
     if (typeof sensationType !== 'string') return []
@@ -80,10 +82,10 @@ export function SessionDetailScreen({ session, onBack, onDelete }: SessionDetail
           </div>
         )}
         {session.reflectionAnswer && <div><dt>{t.fit}</dt><dd>{fitLabels[session.reflectionAnswer]}</dd></div>}
-        {session.selectedNeed && <div><dt>{t.need}</dt><dd>{session.selectedNeed}</dd></div>}
-        {session.nextStep && <div><dt>{t.step}</dt><dd>{session.nextStep}</dd></div>}
+        {choices.need && <div><dt>{t.need}</dt><dd>{choices.need}</dd></div>}
+        {choices.step && <div><dt>{t.step}</dt><dd>{choices.step}</dd></div>}
       </dl>
-      {!session.reflectionAnswer && !session.selectedNeed && !session.nextStep && relationship === 'legacy' && (
+      {!session.reflectionAnswer && !choices.need && !choices.step && relationship === 'legacy' && (
         <p className="muted text-sm">{t.older}</p>
       )}
       <button

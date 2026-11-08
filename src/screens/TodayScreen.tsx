@@ -41,6 +41,7 @@ export function TodayScreen({ sessions, sessionsLoading, sessionsError, saveSess
       color: quickSelection.color,
       description: quickSelection.description,
       needs: quickSelection.needs,
+      needId: quickSelection.needId,
     })
   }
 

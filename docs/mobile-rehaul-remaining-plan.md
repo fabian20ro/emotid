@@ -10,54 +10,53 @@ release scope in `docs/releases/v0.1.6.md`. Do not duplicate completed phases he
 
 ## Publication Contract
 
-1. Require frozen-candidate verification for Today history states, real catalog module ownership,
-   Affect input cleanup and removal of the unused session-only export.
+1. Freeze the candidate and verify affected behavior plus the maintained release gates.
 2. Commit/push; await successful exact-revision CI, Pages and public smoke.
 3. Repeat affected EN/RO x theme browser journeys on the public URL with isolated synthetic data.
-
-The implementation distinguishes pending/error/empty history without blocking Quick, rejects
-eager full-catalog modules during build, and retains canonical labels and deterministic safety.
-The active plan is shortened; the generated Playwright run marker is no longer tracked.
-The November audit found additional state/data defects beyond those publication checks.
 
 ## Active Remediation
 
 The prioritized findings and PR A-G sequence live in
 [the multidisciplinary audit](audit-2026-11-06.md#ordine-recomandata-de-implementare).
-PR A implements durable multi-tab erasure, per-store atomic clear and history recovery;
-PRs #12/#13 are merged. PR B implements renewed agreement after result changes and support continuity
-(R02/R03). PR C implements draft ownership and reflection navigation (R04/R08), merged as #14;
-publication evidence belongs to the iteration log and exact-revision hosted checks.
-PR D (#15 merged) implements the shared dialog focus/viewport boundary, vocabulary focus progression and
-dated Journal accessible names (R07/R09/R12), with sequential keyboard coverage from R15.
-PR E implements safe tooling and release verification (R13, R16-R19); dependency reassessment
-does not remove the remaining upstream advisories. Review/merge and exact-SHA publication checks
-remain distinct from implementation. Next product implementation: PR F.
-Keep scoring and safety gating unchanged. Remaining priorities stay in the audit, not a duplicate list.
+PRs A-E are merged (#12-#16). PR F implements R10/R11/R24 on its branch: stable choice IDs,
+legacy text fallback, the Romanian repelled/rejected distinction and count-aware Journal copy.
+Review/merge and exact-SHA publication checks remain distinct from implementation; evidence belongs
+to the iteration log. R18 remains an upstream tooling risk, not a patched dependency claim.
+Next implementation: PR G. Keep scoring and safety gating unchanged.
 
-### Next Implementation: PR F
+### Next Implementation: PR G
 
-1. R11 first: reproduce selecting a suggested need/next step, changing language and returning to
-   reflection. Selection must survive; after saving/reloading, details use the current language.
-   Include EN -> RO and RO -> EN, legacy sessions and export/readback.
-2. Reuse existing `NeedOptionId`/`getNeedOption`; introduce only the three fixed next-step IDs
-   needed by the current UI. Draft identity must not depend on translated labels. Add optional
-   persisted IDs and a small presentation resolver with legacy-string fallback. Validate IDs at
-   the record boundary, retain old records without destructive migration, and preserve existing
-   export compatibility. Do not guess the original language or translate user-authored text.
-3. R10: distinguish Romanian `repelled` from `rejected`, using the existing descriptions and
-   reviewed emotional meaning. Preserve emotion IDs, provenance, reviewed-null guidance and
-   scoring. Add a narrow bilingual catalog regression; review the affected selection and detail UI.
-4. R24: count-aware Journal vocabulary text in EN/RO, covering 0/1/2/19/20/101 and larger counts.
-   Use the smallest existing localization extension that expresses Romanian grammar; no new
-   localization framework. Check empty-state behavior separately from count formatting.
-5. Verify public behavior through draft/workflow/persistence tests, legacy fixtures, export and
-   analytics parity; then the frozen production matrix, PWA lifecycle/retry and supporting release
-   gates. Browser journeys cover language switching before/after save in both themes and engines.
-   Review/merge, exact-SHA Pages/smoke, then repeat affected public journeys with synthetic data.
+1. R14 first: remove the unsupported three-body-group grounding claim in `docs/CODEMAPS/models.md`
+   and correct extension paths in `docs/CONTRIB.md`. Verify each statement against actual owners;
+   do not implement a new psychological rule merely to make old documentation true.
+2. R21: move result relationship, selected-result filtering and pattern eligibility out of
+   `session-presentation.ts` into one small catalog-free policy module. Keep localized labels and
+   headings in presentation. Start with public-policy parity tests for named/suggested/partial/
+   rejected/legacy/body-observation records and a dependency-isolation check. Migrate analytics
+   consumers directly; avoid a second facade or generic policy framework.
+3. R22: test completion-to-session parity for every route and crisis tier, including observation-only
+   sessions and explicit revisions. Make the existing completion boundary the sole owner of
+   `outcome`/`crisisTier`; serialization copies them and continues to own identity and selections.
+   Safety classification must not change. Do not combine this with new scoring or guidance.
+4. R23: verify production references, then remove only the unused inferred breadcrumb result and
+   its obsolete tests. Keep the used selection handler and the actual multi-parent Word Ladder path.
+5. Verify each slice before the next, then full policy/unit/type/lint/build checks, frozen production
+   browser matrix, PWA lifecycle/retry and supporting gates. Check actual import ownership and
+   unchanged performance budgets, not just filenames. Review/merge, exact-SHA Pages/smoke, then
+   affected public journeys. No unmeasured performance improvement claim.
 
-Small architecture improvement: stable choice identity at the draft/persistence boundary, with
-one display resolver. Reuse the need catalog; do not add a generalized form/schema/state framework.
+Small architecture improvement: a catalog-free session policy shared by analytics and presentation.
+This removes accidental content coupling while retaining one source of behavioral truth.
+
+### Measurement After G
+
+- R20: synthetic histories of 100/1000/5000 records; record Journal open/render time, DOM size,
+  memory and exercise-typing behavior. Identify the limiting operation before considering bounded
+  rendering, pagination or indexing. Keep deletion, export and ordering semantics intact.
+- Old-tab PWA hypothesis: two builds with a genuinely changed lazy chunk, two tabs, B activated
+  while A stays open; exercise an unvisited route online/offline. Add recovery only if reproduced,
+  without forced mid-reflection reload or user-data clearing. Fixture retry isolation is not
+  evidence that this separate lifecycle scenario is solved.
 
 ## Conditional Next Work
 

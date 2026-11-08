@@ -1,5 +1,5 @@
 import type { CanonicalEmotion, CanonicalEmotionSource } from './types'
-import { getNeedOption } from './guidance/need-options'
+import { isNeedOptionId, needOptions } from './guidance/need-options'
 
 export function hydrateCatalogEmotion(
   source: CanonicalEmotionSource,
@@ -26,14 +26,13 @@ export function hydrateCatalogEmotion(
   }
   if (guidance.needId === null) return emotion
 
-  const needs = getNeedOption(guidance.needId)
-  if (!needs) {
+  if (!isNeedOptionId(guidance.needId)) {
     throw new Error(`${sourceName}: unknown reviewed need "${guidance.needId}" for "${source.id}"`)
   }
 
   return {
     ...emotion,
-    needs,
+    needs: needOptions[guidance.needId],
     needId: guidance.needId,
     guidanceStatus: 'reviewed',
   }
