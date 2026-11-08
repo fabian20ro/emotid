@@ -6,6 +6,8 @@ import { JournalScreen } from '../screens/JournalScreen'
 import { SessionDetailScreen } from '../screens/SessionDetailScreen'
 import { storage } from '../data/storage'
 import type { ChainAnalysisEntry, Session } from '../data/types'
+import en from '../i18n/en.json'
+import ro from '../i18n/ro.json'
 
 function bodySession(overrides: Partial<Session> = {}): Session {
   return {
@@ -39,6 +41,41 @@ const noExercises = {
 
 describe('Journal data display', () => {
   beforeEach(() => localStorage.clear())
+
+  it.each([
+    ['en', 1, '1 different word'], ['en', 19, '19 different words'],
+    ['en', 20, '20 different words'], ['en', 101, '101 different words'],
+    ['ro', 1, '1 cuvânt diferit'], ['ro', 19, '19 cuvinte diferite'],
+    ['ro', 20, '20 de cuvinte diferite'], ['ro', 101, '101 cuvinte diferite'],
+  ] as const)('uses count-aware Journal vocabulary copy (%s, %s)', (language, count, expected) => {
+    const results = Array.from({ length: count }, (_, index) => ({ id: `word-${index}`,
+      label: { en: `word ${index}`, ro: `cuvânt ${index}` }, color: '#555' }))
+    const sessions = Array.from({ length: 3 }, (_, index) => bodySession({ id: `s-${index}`, results, reflectionAnswer: 'yes' }))
+    withLanguage(<JournalScreen sessions={sessions} loading={false} {...noExercises}
+      saveSessions onOpenSession={vi.fn()} onOpenChain={vi.fn()} />, language)
+    expect(document.querySelector('.journal-stats')?.children[1]).toHaveTextContent(new RegExp(`^${expected}$`))
+  })
+
+  it.each(['en', 'ro'] as const)('renders saved choice IDs in %s without rewriting their original text', (language) => {
+    const copy = language === 'en' ? en : ro
+    const session = bodySession({ selectedNeedId: 'grounding', nextStepId: 'write',
+      selectedNeed: 'Original need snapshot', nextStep: 'Original step snapshot' })
+    const before = structuredClone(session)
+    withLanguage(<SessionDetailScreen session={session} onBack={vi.fn()} onDelete={vi.fn()} />, language)
+    expect(screen.getByText(language === 'en' ? 'grounding' : 'ancorare')).toBeInTheDocument()
+    expect(screen.getByText(copy.reflectionScreen.stepWrite)).toBeInTheDocument()
+    expect(screen.queryByText('Original need snapshot')).not.toBeInTheDocument()
+    expect(screen.queryByText('Original step snapshot')).not.toBeInTheDocument()
+    expect(session).toEqual(before)
+  })
+
+  it('does not guess IDs or translate legacy strings that happen to match a preset', () => {
+    const session = bodySession({ selectedNeed: 'grounding', nextStep: en.reflectionScreen.stepWrite })
+    withLanguage(<SessionDetailScreen session={session} onBack={vi.fn()} onDelete={vi.fn()} />, 'ro')
+    expect(screen.getByText('grounding')).toBeInTheDocument()
+    expect(screen.getByText(en.reflectionScreen.stepWrite)).toBeInTheDocument()
+    expect(session.selectedNeedId).toBeUndefined()
+  })
 
   it.each(['en', 'ro'] as const)('includes the visible date in each similar entry accessible name (%s)', (language) => {
     withLanguage(<JournalScreen

@@ -2,6 +2,8 @@ import { describe, expect, it } from 'vitest'
 import { buildUserDataExport, exportUserDataJSON } from '../data/user-data'
 import type { PreferenceSnapshot } from '../data/storage'
 import type { ChainAnalysisEntry, Session } from '../data/types'
+import { addReflectionDetail } from '../data/session'
+import { decodeSessions } from '../data/record-validation'
 
 const preferences: PreferenceSnapshot = {
   model: 'somatic',
@@ -42,6 +44,19 @@ const chain: ChainAnalysisEntry = {
 }
 
 describe('complete user-data export', () => {
+  it('exports additive choice IDs and original snapshots without rewriting older or user-authored text', () => {
+    const current = addReflectionDetail({ ...session, id: 'new' }, {
+      selectedNeedId: 'grounding', selectedNeed: 'ancorare', nextStepId: 'write', nextStep: 'Text at selection time',
+    })
+    const before = structuredClone([session, chain])
+    const exported = JSON.parse(exportUserDataJSON([current, session], [chain], preferences))
+    expect(exported.schemaVersion).toBe(3)
+    expect(decodeSessions(exported.sessions)).toEqual([current, session])
+    expect(exported.sessions[0]).toMatchObject({ selectedNeedId: 'grounding', selectedNeed: 'ancorare', nextStepId: 'write' })
+    expect(exported.sessions[1]).not.toHaveProperty('selectedNeedId')
+    expect(exported.chainEntries).toEqual([chain])
+    expect([session, chain]).toEqual(before)
+  })
   it('includes sessions, chains, preferences, and schema metadata without changing raw IDs', () => {
     const exported = buildUserDataExport([session], [chain], preferences, '2026-07-23T00:00:00.000Z')
 

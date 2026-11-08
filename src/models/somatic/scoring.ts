@@ -37,6 +37,7 @@ export function scoreSomaticSelections(selections: readonly SomaticSelection[]):
       emotionColor: string
       emotionDescription?: { ro: string; en: string }
       emotionNeeds?: { ro: string; en: string }
+      needId?: AnalysisResult['needId']
       score: number
       contributingRegions: { ro: string; en: string }[]
     }
@@ -64,6 +65,7 @@ export function scoreSomaticSelections(selections: readonly SomaticSelection[]):
           emotionColor: canonical?.color ?? '#999999',
           emotionDescription: canonical?.description,
           emotionNeeds: canonical?.needs,
+          needId: canonical?.needId,
           score: contribution,
           contributingRegions: [selection.label],
         })
@@ -84,6 +86,7 @@ export function scoreSomaticSelections(selections: readonly SomaticSelection[]):
     color: entry.emotionColor,
     description: entry.emotionDescription,
     needs: entry.emotionNeeds,
+    needId: entry.needId,
     componentLabels: entry.contributingRegions,
     score: entry.score,
     matchStrength: getMatchStrength(entry.score, maxScore),

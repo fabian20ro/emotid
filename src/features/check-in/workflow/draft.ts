@@ -1,6 +1,8 @@
 import { createContext, useContext, useLayoutEffect, useState } from 'react'
 import type { BaseEmotion, ModelState } from '../../../models/types'
 import type { ReflectionAnswer } from '../../../navigation/types'
+import type { NextStepId } from '../../../data/reflection-choices'
+import type { NeedOptionId } from '../../../models/catalog/guidance/need-options'
 
 interface DraftFields {
   selections: BaseEmotion[]
@@ -11,8 +13,8 @@ interface DraftFields {
   placement: { valence: number; arousal: number } | null
   fit: ReflectionAnswer | undefined
   selectedResultIds: string[] | undefined
-  selectedNeed: string | undefined
-  nextStep: string | undefined
+  selectedNeedId: NeedOptionId | undefined
+  nextStepId: NextStepId | undefined
   tier4Acknowledged: boolean
 }
 

@@ -1,3 +1,5 @@
+import type { NeedOptionId } from './guidance/need-options'
+
 export interface LocalizedText {
   ro: string
   en: string
@@ -20,6 +22,6 @@ export interface CanonicalEmotionSource {
 
 export interface CanonicalEmotion extends Omit<CanonicalEmotionSource, 'guidance'> {
   needs?: LocalizedText
-  needId?: string
+  needId?: NeedOptionId
   guidanceStatus?: 'reviewed'
 }

@@ -199,6 +199,7 @@ describe('scoreSomaticSelections', () => {
 
     expect(results[0].description).toBeUndefined()
     expect(results[0].needs).toEqual({ en: 'rest', ro: 'odihnă' })
+    expect(results[0]).toHaveProperty('needId', 'rest')
   })
 
   it('downgrades match strength if score is below the threshold despite high ratio', () => {

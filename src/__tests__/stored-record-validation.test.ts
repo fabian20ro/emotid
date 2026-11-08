@@ -2,6 +2,22 @@ import { describe, expect, it } from 'vitest'
 import { decodeChainEntries, decodeSessions } from '../data/record-validation'
 
 describe('persisted record validation', () => {
+  it.each(['selectedNeedId', 'nextStepId'] as const)('validates optional %s without rewriting legacy text', (field) => {
+    const legacy = { id: 's', timestamp: 1, modelId: 'wheel', selections: [], results: [], crisisTier: 'none',
+      selectedNeed: 'My own wording', nextStep: 'Keep this verbatim' }
+    expect(decodeSessions([legacy])).toEqual([legacy])
+    const current = { ...legacy, selectedNeedId: 'grounding', nextStepId: 'write' }
+    expect(decodeSessions([current])).toEqual([current])
+    for (const invalid of ['unknown', '__proto__', 'toString', '', null, 4, {}]) {
+      expect(() => decodeSessions([{ ...current, [field]: invalid }])).toThrow(/Invalid persisted session/)
+    }
+  })
+
+  it('validates optional need identity on stored analysis results', () => {
+    const session = { id: 's', timestamp: 1, modelId: 'wheel', selections: [], crisisTier: 'none',
+      results: [{ id: 'anxiety', color: '#fff', label: { en: 'anxiety', ro: 'anxietate' }, needId: 'unknown' }] }
+    expect(() => decodeSessions([session])).toThrow(/Invalid persisted session/)
+  })
   const records = [
     { decode: decodeSessions, record: { id: 's', modelId: 'wheel', selections: [], results: [], crisisTier: 'none' } },
     { decode: decodeChainEntries, record: { id: 'c', version: 2, situation: '', noticed: '', response: '', outcome: '' } },

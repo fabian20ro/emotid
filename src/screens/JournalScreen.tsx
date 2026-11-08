@@ -10,6 +10,7 @@ import { getSomaticRegionLabel } from '../models/somatic/display'
 import { getEmotionDisplayLabel, getResultRelationship, getSessionResultHeading } from '../data/session-presentation'
 import { getJournalEvidence } from '../data/journal-evidence'
 import { getChainEntryPreview, getLatestChainEntry } from '../data/chain-presentation'
+import { countForm } from '../i18n/count-form'
 
 interface JournalScreenProps {
   sessions: Session[]
@@ -50,8 +51,8 @@ export function JournalScreen({ sessions, loading, chainEntries, chainLoading, c
               {evidence.vocabulary && (
                 <>
                   <div className="journal-stats">
-                    <div><strong>{vocab.totalSessions}</strong><span>{historyT.vocabSessions.replace('{count}', '')}</span></div>
-                    <div><strong>{vocab.uniqueEmotionCount}</strong><span>{historyT.vocabEmotions.replace('{count}', '')}</span></div>
+                    <div><strong>{vocab.totalSessions}</strong>{' '}<span>{countForm(vocab.totalSessions, language, historyT.vocabSessions)}</span></div>
+                    <div><strong>{vocab.uniqueEmotionCount}</strong>{' '}<span>{countForm(vocab.uniqueEmotionCount, language, historyT.vocabEmotions)}</span></div>
                   </div>
                   {vocab.topActiveEmotions.length > 0 && <div className="pattern-words">{vocab.topActiveEmotions.slice(0, 6).map((emotion) => <span key={emotion.id}>{getEmotionDisplayLabel(emotion, language)} <b>{emotion.count}</b></span>)}</div>}
                 </>

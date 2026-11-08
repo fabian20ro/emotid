@@ -139,6 +139,7 @@ export const wheelModel: EmotionModel<WheelEmotion> = {
         color: s.color,
         description: s.description,
         needs: s.needs,
+        needId: s.needId,
         hierarchyPath: path.length > 1 ? path : undefined,
       }
     })

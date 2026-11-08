@@ -123,8 +123,8 @@ export function useCheckInWorkflow({
 
     if (intent === 'new') reset()
     completionInFlightRef.current = true
-    draft.set('selectedNeed', undefined)
-    draft.set('nextStep', undefined)
+    draft.set('selectedNeedId', undefined)
+    draft.set('nextStepId', undefined)
     draft.set('tier4Acknowledged', false)
     const completion = buildCheckInCompletion({ route, modelId, selections, results })
     activeCompletionRef.current = completion

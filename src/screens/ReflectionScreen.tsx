@@ -6,6 +6,8 @@ import { ScreenHeader } from '../components/ScreenHeader'
 import { buildGoogleAiSearchUrl } from '../utils/google-ai-search'
 import { focusDestination } from '../utils/focusDestination'
 import { useDraftState } from '../features/check-in/workflow/draft'
+import { getNextStepLabel, nextStepIds } from '../data/reflection-choices'
+import { isNeedOptionId, needOptions } from '../models/catalog/guidance/need-options'
 import type { CheckInCompletion, ReflectionAnswer, ReflectionDetail, ReflectionSaveOutcome, ReflectionView, SessionSaveState } from '../navigation/types'
 
 type FinishState = 'idle' | 'saving' | 'error'
@@ -33,15 +35,15 @@ export function ReflectionScreen({ view: requestedView, onViewChange, completion
   const results = useMemo(() => selectedResultIds === undefined ? completion.results
     : completion.results.filter((result) => selectedResultIds.includes(result.id)), [completion.results, selectedResultIds])
   const needs = useMemo(
-    () => [...new Set(results.map((result) => result.needs?.[language]).filter((need): need is string => Boolean(need)))],
-    [language, results],
+    () => [...new Set(results.map((result) => result.needId).filter(isNeedOptionId))],
+    [results],
   )
   const [fit, setFit] = useDraftState('fit', undefined)
-  const [selectedNeed, setSelectedNeed] = useDraftState('selectedNeed', undefined)
+  const [selectedNeedId, setSelectedNeedId] = useDraftState('selectedNeedId', undefined)
   const [tier4Acknowledged, setTier4Acknowledged] = useDraftState('tier4Acknowledged', false)
   const [finishState, setFinishState] = useState<FinishState>('idle')
   const [saveOriginView, setSaveOriginView] = useState(requestedView)
-  const [nextStep, setNextStep] = useDraftState('nextStep', undefined)
+  const [nextStepId, setNextStepId] = useDraftState('nextStepId', undefined)
   const screenRef = useRef<HTMLDivElement>(null)
   const resultHeadingRef = useRef<HTMLHeadingElement>(null)
   const savingRef = useRef(false)
@@ -54,7 +56,6 @@ export function ReflectionScreen({ view: requestedView, onViewChange, completion
   const rejected = fit === 'no'
   const view = requiresAcknowledge || rejected || completion.outcome ? 'result' : requestedView
   const previousViewRef = useRef(view)
-  const nextStepOptions = [t.stepPause, t.stepWrite, t.stepConnect]
   const aiFitConfirmed = fit === 'yes' || fit === 'partly'
   const aiLink = allowExternalAI && aiFitConfirmed && results.length > 0
     ? buildGoogleAiSearchUrl(results, language, analyzeT)
@@ -107,12 +108,14 @@ export function ReflectionScreen({ view: requestedView, onViewChange, completion
     }
   }
 
-  const finish = (step = nextStep) => {
+  const finish = (step = nextStepId) => {
     void attemptSave({
       reflectionAnswer: fit,
       selectedResultIds,
-      selectedNeed: rejected ? undefined : selectedNeed,
-      nextStep: rejected ? undefined : step,
+      selectedNeed: rejected || !selectedNeedId ? undefined : needOptions[selectedNeedId][language],
+      selectedNeedId: rejected ? undefined : selectedNeedId,
+      nextStep: rejected ? undefined : getNextStepLabel(step, t),
+      nextStepId: rejected ? undefined : step,
     })
   }
 
@@ -127,9 +130,9 @@ export function ReflectionScreen({ view: requestedView, onViewChange, completion
   const chooseFit = (answer: ReflectionAnswer) => {
     const nextIds = answer !== 'no' && selectedResultIds?.length ? selectedResultIds : undefined
     setFit(answer)
-    setNextStep(undefined)
+    setNextStepId(undefined)
     setSelectedResultIds(nextIds)
-    if (answer === 'no') setSelectedNeed(undefined)
+    if (answer === 'no') setSelectedNeedId(undefined)
     void onFitChange?.({ reflectionAnswer: answer, selectedResultIds: nextIds }).catch(() => {
       // The workflow's persistent save-status/retry controls own this failure.
     })
@@ -141,8 +144,8 @@ export function ReflectionScreen({ view: requestedView, onViewChange, completion
     const answer = next.length === 0 ? 'no' : next.length === completion.results.length ? 'yes' : 'partly'
     setSelectedResultIds(next)
     setFit(answer)
-    setSelectedNeed(undefined)
-    setNextStep(undefined)
+    setSelectedNeedId(undefined)
+    setNextStepId(undefined)
     void onFitChange?.({ reflectionAnswer: answer, selectedResultIds: next }).catch(() => {})
   }
 
@@ -175,22 +178,22 @@ export function ReflectionScreen({ view: requestedView, onViewChange, completion
       <div ref={screenRef} className="screen" data-testid="next-step-screen" aria-busy={finishState === 'saving'}>
         <ScreenHeader title={t.nextStep} onBack={onBack} lede={t.nextStepChoicePrompt} />
         {support}
-        {selectedNeed && <p className="next-step-need"><Lightbulb size={18} aria-hidden="true" />{t.need}: {selectedNeed}</p>}
+        {selectedNeedId && <p className="next-step-need"><Lightbulb size={18} aria-hidden="true" />{t.need}: {needOptions[selectedNeedId][language]}</p>}
         <div className="next-step-options" role="group" aria-label={t.nextStepChoicePrompt}>
-          {nextStepOptions.map((option) => (
+          {nextStepIds.map((option) => (
             <button
               type="button"
               key={option}
-              className={nextStep === option ? 'is-active' : ''}
-              aria-pressed={nextStep === option}
-              onClick={() => setNextStep(nextStep === option ? undefined : option)}
+              className={nextStepId === option ? 'is-active' : ''}
+              aria-pressed={nextStepId === option}
+              onClick={() => setNextStepId(nextStepId === option ? undefined : option)}
             >
-              <span className="need-choice-mark" aria-hidden="true">{nextStep === option && <Check size={16} />}</span>
-              <span>{option}</span>
+              <span className="need-choice-mark" aria-hidden="true">{nextStepId === option && <Check size={16} />}</span>
+              <span>{getNextStepLabel(option, t)}</span>
             </button>
           ))}
         </div>
-        <button type="button" className="primary-button mt-5" disabled={!nextStep || finishState === 'saving'} onClick={() => finish(nextStep)}>
+        <button type="button" className="primary-button mt-5" disabled={!nextStepId || finishState === 'saving'} onClick={() => finish(nextStepId)}>
           {finishState === 'saving' ? <LoaderCircle size={19} aria-hidden="true" /> : <Check size={19} aria-hidden="true" />}
           {finishState === 'saving' ? t.finishing : t.keepStep}
         </button>
@@ -216,17 +219,17 @@ export function ReflectionScreen({ view: requestedView, onViewChange, completion
             <p>{t.needHint}</p>
             <div>
               {needs.map((need) => {
-                const active = selectedNeed === need
+                const active = selectedNeedId === need
                 return (
                   <button
                     type="button"
                     key={need}
                     className={active ? 'is-active' : ''}
                     aria-pressed={active}
-                    onClick={() => setSelectedNeed(active ? undefined : need)}
+                    onClick={() => setSelectedNeedId(active ? undefined : need)}
                   >
                     <span className="need-choice-mark" aria-hidden="true">{active && <Check size={16} />}</span>
-                    <span>{need}</span>
+                    <span>{needOptions[need][language]}</span>
                   </button>
                 )
               })}

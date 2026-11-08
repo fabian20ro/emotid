@@ -19,6 +19,9 @@ describe('session mapping', () => {
   afterEach(() => vi.restoreAllMocks())
 
   it('uses current canonical copy for historical results with a stored fallback', () => {
+    expect(getEmotionDisplayLabel({ id: 'repelled', label: { en: 'Repelled', ro: 'Respins' } }, 'ro')).toBe('Repulsie')
+    expect(getEmotionDisplayLabel({ id: 'rejected', label: { en: 'Rejected', ro: 'Respins' } }, 'ro')).toBe('Respins')
+    expect(getEmotionDisplayLabel({ id: 'repelled', label: { en: 'Repelled', ro: 'Respins' } }, 'en')).toBe('Repelled')
     expect(getEmotionDisplayLabel({
       id: 'overwhelmed',
       label: { ro: 'Coplesit', en: 'Overwhelmed' },
@@ -41,7 +44,9 @@ describe('session mapping', () => {
     const enriched = addReflectionDetail(base, {
       reflectionAnswer: 'yes',
       selectedNeed: 'rest',
+      selectedNeedId: 'rest',
       nextStep: 'Pause',
+      nextStepId: 'pause',
     })
 
     expect(base).toMatchObject({ id: 'session-id', timestamp: 1234, entryRoute: 'words' })
@@ -50,9 +55,14 @@ describe('session mapping', () => {
       timestamp: base.timestamp,
       reflectionAnswer: 'yes',
       selectedNeed: 'rest',
+      selectedNeedId: 'rest',
       nextStep: 'Pause',
+      nextStepId: 'pause',
     })
     expect(base.reflectionAnswer).toBeUndefined()
+    expect(addReflectionDetail(enriched, { reflectionAnswer: 'no' })).toMatchObject({
+      selectedNeedId: undefined, nextStepId: undefined, selectedNeed: undefined, nextStep: undefined,
+    })
   })
 
   it('distinguishes chosen words from unconfirmed generated suggestions', () => {
@@ -71,6 +81,10 @@ describe('session mapping', () => {
     expect(isSessionEligibleForPatterns(suggested)).toBe(false)
     expect(isSessionEligibleForPatterns({ ...suggested, reflectionAnswer: 'partly' })).toBe(false)
     expect(isSessionEligibleForPatterns({ ...suggested, reflectionAnswer: 'yes' })).toBe(true)
+    for (const answer of ['yes', 'partly', 'no'] as const) {
+      const withChoices = addReflectionDetail(suggested, { reflectionAnswer: answer, selectedNeedId: 'rest', nextStepId: 'pause' })
+      expect(isSessionEligibleForPatterns(withChoices)).toBe(answer === 'yes')
+    }
   })
 
   it('presents rejected results as suggestions without changing other result headings', () => {

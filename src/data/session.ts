@@ -47,6 +47,8 @@ export function addReflectionDetail(session: Session, detail: ReflectionDetail):
     reflectionAnswer: detail.reflectionAnswer,
     selectedResultIds: detail.selectedResultIds,
     selectedNeed: detail.selectedNeed,
+    selectedNeedId: detail.selectedNeedId,
     nextStep: detail.nextStep,
+    nextStepId: detail.nextStepId,
   }
 }

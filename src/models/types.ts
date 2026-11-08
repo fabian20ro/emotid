@@ -1,8 +1,11 @@
+import type { NeedOptionId } from './catalog/guidance/need-options'
+
 export interface BaseEmotion {
   id: string;
   label: { ro: string; en: string };
   description?: { ro: string; en: string };
   needs?: { ro: string; en: string };
+  needId?: NeedOptionId;
   color: string;
   intensity?: number;
   parent?: string;
@@ -17,6 +20,7 @@ export interface AnalysisResult {
   color: string
   description?: { ro: string; en: string }
   needs?: { ro: string; en: string }
+  needId?: NeedOptionId
   componentLabels?: { ro: string; en: string }[]
   hierarchyPath?: { ro: string; en: string }[]
   matchStrength?: { ro: string; en: string }

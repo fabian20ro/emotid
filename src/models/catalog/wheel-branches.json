@@ -257,7 +257,7 @@
   "repelled": {
     "id": "repelled",
     "label": {
-      "ro": "Respins",
+      "ro": "Repulsie",
       "en": "Repelled"
     },
     "color": "#D49ECA",
