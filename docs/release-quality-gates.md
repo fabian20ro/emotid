@@ -24,8 +24,18 @@ publishing, minimal permissions and full-SHA action pins with a maintained updat
 It also builds analytics and session serialization in memory, inspecting actual runtime modules:
 analytics must not pull in catalog/presentation, and serialization must not load model safety logic.
 
-The PWA fixture selects v1 before every attempt using its loopback-only version endpoint. Only
-known versions are accepted. `test:pwa:retry` runs the real lifecycle with one deliberate failure
+The PWA fixture selects v1 and resets its origin-outage control before every attempt. Both controls
+are loopback-only and validate methods/values. Updates wait until all controlled app tabs/windows
+close: no forced reload or global skip-waiting action while a draft may be active. The retained-tab
+matrix checks actual different lazy chunk hashes, EN/RO x themes x Chromium/WebKit, old-tab draft
+continuity, full saved-data export and v2 activation/reopen only after the final app tab closes.
+Origin socket outage is used across engines; Chromium's native offline-emulation/reopen check also
+remains. WebKit's `setOffline` limitation and exact boundaries are in the
+[PWA investigation](pwa-old-tab-update.md). This is not native airplane-mode or AT evidence.
+
+CI uploads `test-results/pwa/` as `pwa-lifecycle-evidence` on success and failure for 14 days,
+including successful lifecycle/network/hash JSON evidence and first-failure traces.
+`test:pwa:retry` runs the real lifecycle with one deliberate failure
 after v2 is active, then requires a successful retry from v1. The outer test rejects any other
 failure and checks that the first trace survives; this intentional flaky result is not counted as
 an ordinary product pass. Evidence: `.reports/pwa-retry.json` and `test-results/pwa-retry/`.

@@ -1,16 +1,8 @@
-import { expect, test, type Page } from '@playwright/test'
-
-async function waitForServiceWorkerControl(page: Page) {
-  await page.evaluate(async () => {
-    await navigator.serviceWorker.ready
-    if (navigator.serviceWorker.controller) return
-    await new Promise<void>((resolve) => {
-      navigator.serviceWorker.addEventListener('controllerchange', () => resolve(), { once: true })
-    })
-  })
-}
+import { expect, test } from '@playwright/test'
+import { observeWaitingUpdate, waitForObservedActivation, waitForServiceWorkerControl } from './lifecycle'
 
 test.beforeEach(async ({ request }) => {
+  expect((await request.put('/__pwa-test/network?state=online')).ok()).toBe(true)
   const response = await request.put('/__pwa-test/version?version=v1')
   expect(response.ok()).toBe(true)
   expect(await response.text()).toBe('v1')
@@ -26,7 +18,7 @@ test('version control rejects invalid selections and unsupported methods without
   expect(await (await request.get('/__pwa-test/version')).text()).toBe('v2')
 })
 
-test('offline reopen and automatic update preserve local check-ins', async ({ context, page, request }, testInfo) => {
+test('offline reopen and deferred update preserve local check-ins', async ({ context, page, request }, testInfo) => {
   const externalRequests: string[] = []
   context.on('request', (browserRequest) => {
     const url = new URL(browserRequest.url())
@@ -115,13 +107,6 @@ test('offline reopen and automatic update preserve local check-ins', async ({ co
   await expect(offlinePage.getByTestId('plutchik-screen')).toBeVisible()
 
   await context.setOffline(false)
-  const controllerChanged = offlinePage.evaluate(() => new Promise<void>((resolve, reject) => {
-    const timeout = window.setTimeout(() => reject(new Error('Service worker update did not activate')), 15_000)
-    navigator.serviceWorker.addEventListener('controllerchange', () => {
-      window.clearTimeout(timeout)
-      resolve()
-    }, { once: true })
-  }))
   const update = await request.put('/__pwa-test/version?version=v2')
   expect(update.ok()).toBe(true)
   expect(await update.text()).toBe('v2')
@@ -130,11 +115,17 @@ test('offline reopen and automatic update preserve local check-ins', async ({ co
     if (!registration) throw new Error('Missing service worker registration')
     await registration.update()
   })
-  await controllerChanged
-  await offlinePage.reload()
-  await expect(offlinePage.locator('html')).toHaveAttribute('data-app-version', 'v2')
-  await offlinePage.getByRole('button', { name: 'Journal', exact: true }).click()
-  await expect(offlinePage.locator('.journal-list button')).toHaveCount(1)
+  await expect.poll(() => offlinePage.evaluate(async () => (await navigator.serviceWorker.getRegistration())?.waiting?.state)).toBe('installed')
+  const observer = await observeWaitingUpdate(context)
+  await expect(offlinePage.locator('html')).toHaveAttribute('data-app-version', 'v1')
+  await offlinePage.close()
+  await waitForObservedActivation(observer)
+  const updatedPage = await context.newPage()
+  await updatedPage.goto('/emotid/')
+  await waitForServiceWorkerControl(updatedPage)
+  await expect(updatedPage.locator('html')).toHaveAttribute('data-app-version', 'v2')
+  await updatedPage.getByRole('button', { name: 'Journal', exact: true }).click()
+  await expect(updatedPage.locator('.journal-list button')).toHaveCount(1)
   expect(externalRequests).toEqual([])
   if (process.env.PWA_TEST_INJECT_FAILURE === 'true' && testInfo.retry === 0) {
     throw new Error('Synthetic failure after switching the test server to v2')

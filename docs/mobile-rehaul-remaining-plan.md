@@ -22,22 +22,12 @@ PRs A-G are merged (#12-#18). PR G implements R14/R21-R23: corrected extension/s
 documentation, catalog-free session policy, completion-owned metadata and unused breadcrumb removal.
 Review/merge and exact-SHA publication checks remain distinct from implementation; evidence belongs
 to the iteration log. R18 remains an upstream tooling risk, not a patched dependency claim.
-R20 measurements and the measured exercise-typing fix are implemented on the current branch;
-publication is separate. Next implementation: the old-tab PWA reproduction below.
+R20 measurements and the exercise-typing fix are merged (#19). The retained-tab PWA failure is
+reproduced and a deferred-activation fix is implemented on the current branch; publication is
+separate. Method, tradeoffs and browser limits: [PWA investigation](pwa-old-tab-update.md).
 Keep scoring and safety gating unchanged.
 
-### Recommended Next: Old-Tab PWA Reproduction
-
-1. Build A/B with a genuinely different lazy route chunk; assert different content hashes, not only
-   version labels. Open two tabs on A, visit only the initial route, activate B from the other tab.
-2. In the retained A tab, open the previously unvisited route online and offline. Verify which app/
-   worker version actually remains, record requests/errors and prove saved data survives. If automatic
-   update reloads A, record that observed lifecycle rather than claiming a retained-old-tab case.
-3. Keep this separate from storage fixtures and from the already-fixed per-attempt server reset.
-   Add recovery only for a reproduced failure, with explicit user control during a draft; no forced
-   mid-reflection reload or data clearing. Preserve failure artifacts and test retries from clean A.
-
-### Then: Bounded History Rendering
+### Recommended Next: Bounded History Rendering
 
 R20's [measurements](history-scale-measurements.md) demonstrate the typing bottleneck and its fix,
 but full hydration and DOM remain. At 5,000 records/store the Journal contains about 40,000 nodes.
@@ -67,6 +57,9 @@ do not add another facade, global store or generic recovery framework merely to 
   initial `goto`; five traced repetitions of each case passed. Root cause remains unconfirmed;
   do not equate these timeouts with the registration rejection above. Keep the evidence in the
   iteration log and capture traces on recurrence, before changing application startup or retries.
+- **WebKit offline emulation:** a literal-worker control reproduces failure under `setOffline`;
+  the origin-outage matrix passes without that API. Retest after a relevant upstream/browser fix;
+  do not equate origin-outage coverage with native airplane-mode acceptance.
 - **Dependencies:** November 8 reassessment: 15 dev-toolchain entries from three advisories,
   no production entries. Compatible patched transitive releases are not available in the inspected
   dependency chains. The [dependency security review](dependency-security.md) records reachability

@@ -52,3 +52,13 @@ test('CI retains the deliberate first-failure trace even when retry verification
   assert.deepEqual(steps[upload].with.path.trim().split('\n'), ['.reports/pwa-retry.json', 'test-results/pwa-retry/'])
   assert.equal(steps[upload].with['include-hidden-files'], true)
 })
+
+test('CI retains old-tab lifecycle evidence on success as well as failure', () => {
+  const steps = deploy.jobs.build.steps
+  const suite = steps.findIndex((step) => step.run === 'npm run test:pwa')
+  const upload = steps.findIndex((step) => step.with?.name === 'pwa-lifecycle-evidence')
+  assert.ok(suite >= 0 && upload > suite)
+  assert.equal(steps[upload].if, 'always()')
+  assert.match(steps[upload].uses, /^actions\/upload-artifact@/)
+  assert.equal(steps[upload].with.path, 'test-results/pwa/')
+})
