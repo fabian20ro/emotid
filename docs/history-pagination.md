@@ -66,6 +66,7 @@ timings. Form-open median was 11.3 -> 24.6ms in Chromium and 25 -> 22ms in WebKi
 interaction improved. Approximate Chromium heap in these samples was 81.4 -> 39.6MB; WebKit exposes
 no corresponding heap value. DOM reduction is the strong direct result, not a memory/latency SLA.
 
-Full hydration and aggregate scans still grow with history size. Measure navigation-to-hydrated
-readiness separately before storage/index work. These tests are not low-tier Android, native
+Full hydration and aggregate scans still grow with history size. The stacked follow-up measures
+navigation-to-hydrated readiness separately: [method and limits](history-hydration.md).
+These tests are not low-tier Android, native
 screen-reader speech or real-participant acceptance. No new physical-device evidence is claimed.

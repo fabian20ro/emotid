@@ -3917,3 +3917,52 @@ Ignored evidence: `.reports/history-pages-*.log`, `history-pages-first-browser/`
 `history-pages-tab-probe/`, `history-pages-final-focused/`, final full-browser/performance/PWA/retry/
 deployed/live evidence directories. Earlier intermediate green runs are not
 the final acceptance candidate; only documentation changes during the final verification freeze.
+
+## 2026-11-08 - Full history hydration measurements, stacked on #21
+
+**Request/base:** Measure complete history loading with TDD and browser verification; commit/push/PR.
+GitHub still showed #21 OPEN at `0094cd3`; user explicitly requested PR stacking. New branch
+`codex/history-hydration-measurements` starts at that commit; PR base is
+`codex/accessible-history-pages`, not main. No parent merge, release or deployment performed.
+
+**Implemented:** Test-only optimized build in `.history-hydration-build`, wrapping real repository,
+guarded-read, validation and hook-commit boundaries. Independent first-Today/recent-summary frame
+observations; fail-closed completeness/count/error/timing checks. Ordinary production is a paired
+control and must have no probe. Loopback 0/100/1000/5000 records per store, EN/RO x themes x engines,
+three repetitions per build, exact full exports and bounded Journal rows. No production source,
+schema, scoring, safety, dependencies, telemetry or outbound behavior changed. CI retains hydration
+artifacts and accepts codex-targeted stacked PRs; main-only publication guards are unchanged.
+
+**TDD:** Missing probe/plugin imports first failed. Validation negative control with rejection
+disabled produced 8 failing assertions; restored validation and focused suite passed 18/18.
+Workflow contracts failed before hydration wiring and stacked-base support, then passed 7/7.
+Browser controls hold each actual read or inject failure: Today presence cannot satisfy full
+hydration, and errors cannot yield successful evidence. A test-helper syntax error, an interrupted
+pre-final run and browser-test generic inference correction were excluded from acceptance. Strict
+standalone TypeScript check of all hydration browser files passed. No product fix was needed.
+
+**Verification:** npm run check passed: 914 tests /106 files, lint/types, policy, i18n, release,
+build and unchanged budgets (initial gzip JS 145111 bytes; entry 44317; assets 919828). Final
+hydration matrix 42/42, 32 complete JSON artifacts /192 measurement contexts; full production
+browser suite 562/562; existing performance 25/25; PWA lifecycle 22/22, all without retries.
+PWA retry outer contract 1/1 (intentional first failure and successful retry, retained trace);
+language Fast Refresh 1/1; ordinary-build local deployed smoke 1/1. Candidate implementation and
+tests stayed frozen throughout final browser verification; subsequent changes were documentation.
+
+**Findings/decision:** At 5000/store, both-hook medians across language/theme combinations were
+71.5-99.1ms Chromium /70-80ms WebKit on macOS arm64. Ordinary Today-ready medians 96.6-117.6ms /
+102-113ms. Guarded read grew with count; validation/sort intervals were small in this favorable
+ordered fixture. Not isolated I/O/CPU, cold hardware, randomized overhead, INP or low-tier evidence.
+Keep current storage architecture; no demonstrated need for indexes/global state. Full methods,
+environment, table and limitations: `docs/history-hydration.md`.
+
+**Remaining/next:** Review/merge #21, retarget/recheck the child diff and CI, then merge the child
+and verify exact-SHA publication/public regression. No large fixtures on Pages. R18 upstream
+tooling risk remains; no new dependency assessment claimed. Long-note/shuffled chronology and
+slower hardware are conditional follow-ups, not reasons for speculative refactoring. Existing
+native/human evidence gaps remain unchanged. Existing readiness lessons apply; no duplicate added.
+
+Ignored evidence: `.reports/hydration-*.log`, `hydration-final-evidence/`,
+`hydration-full-browser-evidence/`, `hydration-performance-evidence/`, `hydration-pwa-evidence/`,
+`hydration-pwa-retry-evidence/`, `hydration-deployed-local-evidence/`; earlier pilots are not final
+acceptance. CI retains equivalent hydration artifacts for 14 days.

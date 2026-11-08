@@ -11,6 +11,7 @@ E2E_PRODUCTION=true npm run test:e2e
 npm run test:pwa
 npm run test:pwa:retry
 npm run test:performance
+npm run test:hydration
 npm run test:deployed:local
 ```
 
@@ -21,6 +22,7 @@ for focused iteration; do not edit imported files during a final development-bac
 `test:tooling` is part of the policy gate, locally and in CI. It checks the retired catalog command
 against temporary fixtures and parses workflow YAML to protect publication concurrency, main-only
 publishing, minimal permissions and full-SHA action pins with a maintained update path.
+PR checks also accept `codex/**` target branches for stacked PRs; publication remains main-only.
 It also builds analytics and session serialization in memory, inspecting actual runtime modules:
 analytics must not pull in catalog/presentation, and serialization must not load model safety logic.
 
@@ -138,6 +140,15 @@ navigation, visible focus from both control sets, deletion at a page boundary an
 Check both languages/themes, narrow/desktop layout and complete aggregates/exports; pagination must
 not change storage semantics. Scope and evidence boundaries: [pagination contract](history-pagination.md).
 Use native clocks for timing; fake clocks and missing memory APIs cannot establish performance.
+
+`test:hydration` builds ordinary production, then an isolated optimized instrumented build, and
+measures 0/100/1,000/5,000 records per store across both engines/languages/themes. Three fresh-context
+samples of each build separate first Today DOM, recent-summary frames, repository read/validation/
+sort-continuation and both hooks' hydrated commits. Deliberately held/failed reads prove the readiness
+boundary. Exact exports and normal-build probe absence are required; no timing SLA or telemetry.
+CI uses `test:hydration:run` after its existing production build. Only `dist` is publishable;
+`.history-hydration-build` stays test-only. CI retains `test-results/hydration/` on success and
+failure for 14 days. Method, recorded measurements and limits: [hydration report](history-hydration.md).
 
 ## Moderated Comprehension Acceptance
 
