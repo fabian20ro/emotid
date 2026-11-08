@@ -1,8 +1,9 @@
 import { act, renderHook, waitFor } from '@testing-library/react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import type { Session } from '../../../data/types'
-import { isSessionEligibleForPatterns } from '../../../data/session-presentation'
+import { isSessionEligibleForPatterns } from '../../../data/session-policy'
 import type { AnalysisResult, BaseEmotion } from '../../../models/types'
+import { somaticRegions } from '../../../models/somatic'
 import { useCheckInWorkflow } from './useCheckInWorkflow'
 
 const selection: BaseEmotion = {
@@ -33,6 +34,27 @@ function renderWorkflow(
 }
 
 describe('useCheckInWorkflow', () => {
+  it('revises between observation-only and suggested results without stale completion metadata', async () => {
+    const save = vi.fn<(session: Session) => Promise<void>>().mockResolvedValue(undefined)
+    const { result } = renderWorkflow(save)
+    const signal = { ...somaticRegions.chest, selectedSensation: 'pressure', selectedIntensity: 1 }
+    act(() => { result.current.complete('body', 'somatic', [signal], []) })
+    await waitFor(() => expect(save).toHaveBeenCalledOnce())
+    const original = save.mock.calls[0][0]
+    expect(original).toMatchObject({ outcome: 'body-observation', crisisTier: 'none' })
+    act(() => { result.current.complete('body', 'somatic', [signal], [{ ...analysis, id: 'despair' }], 'revision') })
+    await waitFor(() => expect(save).toHaveBeenCalledTimes(2))
+    expect(save.mock.calls[1][0]).toMatchObject({ id: original.id, timestamp: original.timestamp, crisisTier: 'tier1' })
+    expect(save.mock.calls[1][0].outcome).toBeUndefined()
+    await act(async () => { await result.current.saveReflection({ reflectionAnswer: 'yes', selectedNeedId: 'support' }) })
+    act(() => { result.current.complete('body', 'somatic', [signal], [], 'revision') })
+    await waitFor(() => expect(save).toHaveBeenCalledTimes(4))
+    const observed = save.mock.calls[3][0]
+    expect(observed).toMatchObject({ id: original.id, timestamp: original.timestamp, outcome: 'body-observation', crisisTier: 'none' })
+    expect(observed.reflectionAnswer).toBeUndefined()
+    expect(observed.selectedNeedId).toBeUndefined()
+    expect(result.current.draft.get('fit')).toBeUndefined()
+  })
   it.each([
     { ids: undefined, answer: 'yes', nextIds: undefined, nextAnswer: 'yes' },
     { ids: undefined, answer: 'no', nextIds: undefined, nextAnswer: 'no' },

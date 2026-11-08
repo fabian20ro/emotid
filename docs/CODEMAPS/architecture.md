@@ -1,6 +1,6 @@
 # Architecture Codemap
 
-**Last Updated:** 2026-08-13
+**Last Updated:** 2026-11-08
 
 ## Component Tree
 
@@ -65,6 +65,8 @@ leaving focus on a temporary loading status.
 
 `buildCheckInCompletion` is the pure current-session safety boundary. It derives support visibility
 only from the current result IDs; saved history is not an input and cannot raise urgency.
+It also owns the observation-only outcome. `createSession` accepts that completed value and copies
+its metadata, adding identity and serialized selections; it does not reclassify results.
 `checkInWorkflowReducer` exposes idle, reflecting, saving, saved, disabled, and
 failed states without a global state library. `useCheckInWorkflow` owns the
 ordered write queue and guards stale base writes so an older successful write
@@ -74,7 +76,10 @@ repository write.
 ### Journal Autonomy
 
 Journal summary presentation uses one pure policy with metric-local eligibility; it does not add
-derived state to IndexedDB. The journal-exercise store accepts a discriminated legacy/current
+derived state to IndexedDB. `session-policy.ts` owns result relationship, selected-result filtering
+and pattern eligibility without runtime catalog imports; analytics consume it directly.
+`session-presentation.ts` retains localized headings and canonical label resolution.
+The journal-exercise store accepts a discriminated legacy/current
 union, so new four-part records need no destructive migration and old records export unchanged.
 `App` reads both stores independently and passes exercise entries to Journal for one latest-entry
 preview; it does not create a merged journal model or alter either export shape.

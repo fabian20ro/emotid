@@ -1,5 +1,5 @@
 import type { Session } from './types'
-import { getSessionResults, isSessionEligibleForPatterns } from './session-presentation'
+import { getSessionResults, isSessionEligibleForPatterns } from './session-policy'
 
 export const JOURNAL_SUMMARY_MIN_ENTRIES = 3
 

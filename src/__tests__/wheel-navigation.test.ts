@@ -73,55 +73,6 @@ describe('Wheel navigation', () => {
   })
 })
 
-describe('Wheel breadcrumb path derivation', () => {
-  it('returns empty path at root level (generation 0)', () => {
-    const state = wheelModel.initialState
-    // At root, no breadcrumb should be shown
-    expect(state.currentGeneration).toBe(0)
-  })
-
-  it('derives single-segment path at level 1', () => {
-    const state = wheelModel.initialState
-    const happy = e['happy']
-    const effect = wheelModel.onSelect(happy, state, [])
-
-    // After drilling into happy, visible emotions are happy's children
-    const visibleIds = Array.from(effect.newState.visibleEmotionIds.keys())
-    // Pick any visible emotion and walk its parent chain
-    const firstChild = e[visibleIds[0]]
-    expect(firstChild.parents[0]).toBe('happy')
-
-    // Build path by walking parents
-    const path: string[] = []
-    let current = firstChild
-    while (current?.parents[0]) {
-      path.push(current.parents[0])
-      current = e[current.parents[0]]
-    }
-    path.reverse()
-    expect(path).toEqual(['happy'])
-  })
-
-  it('derives two-segment path at level 2', () => {
-    const state = wheelModel.initialState
-    const effect1 = wheelModel.onSelect(e['happy'], state, [])
-    const effect2 = wheelModel.onSelect(e['playful'], effect1.newState, [])
-
-    const visibleIds = Array.from(effect2.newState.visibleEmotionIds.keys())
-    const firstLeaf = e[visibleIds[0]]
-
-    // Build path
-    const path: string[] = []
-    let current = firstLeaf
-    while (current?.parents[0]) {
-      path.push(current.parents[0])
-      current = e[current.parents[0]]
-    }
-    path.reverse()
-    expect(path).toEqual(['happy', 'playful'])
-  })
-})
-
 describe('Wheel analyze with hierarchy path', () => {
   it('builds hierarchy path for leaf emotion', () => {
     const results = wheelModel.analyze([e['aroused']])

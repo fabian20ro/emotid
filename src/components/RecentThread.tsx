@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { ArrowRight } from 'lucide-react'
 import type { Session } from '../data/types'
+import { getResultRelationship } from '../data/session-policy'
 import { useLanguage } from '../context/LanguageContext'
 
 type Presentation = typeof import('../data/session-presentation')
@@ -26,7 +27,7 @@ export function RecentThread({ session, onOpenJournal }: { session: Session; onO
         <span className="muted text-xs">{new Intl.DateTimeFormat(language, { dateStyle: 'medium' }).format(session.timestamp)}</span>
         {presentation ? <>
           <strong>{presentation.getSessionResultHeading(session, language, t.rejectedResult)}</strong>
-          <span className="muted text-xs">{section('journalScreen').relationship[presentation.getResultRelationship(session)]}</span>
+          <span className="muted text-xs">{section('journalScreen').relationship[getResultRelationship(session)]}</span>
         </> : <p className="muted text-sm m-0" role="status">{failed ? t.recentUnavailable : t.recentLoading}</p>}
       </div>
       <button type="button" className="icon-button" onClick={onOpenJournal} aria-label={t.continue}>

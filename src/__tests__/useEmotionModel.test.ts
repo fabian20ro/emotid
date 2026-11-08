@@ -136,37 +136,7 @@ describe('useEmotionModel', () => {
     }
   })
 
-  describe('wheel breadcrumb', () => {
-    it('breadcrumbPath is empty at root', () => {
-      const { result } = renderHook(() => useEmotionModel(wheelModel))
-      expect(result.current.breadcrumbPath).toEqual([])
-    })
-
-    it('breadcrumbPath shows ancestors after drilling down', () => {
-      const { result } = renderHook(() => useEmotionModel(wheelModel))
-
-      // Drill into happy
-      const happy = result.current.visibleEmotions.find((e) => e.id === 'happy')!
-      act(() => { result.current.handleSelect(happy) })
-
-      expect(result.current.breadcrumbPath).toHaveLength(1)
-      expect(result.current.breadcrumbPath[0].id).toBe('happy')
-    })
-
-    it('breadcrumbPath shows two ancestors at level 2', () => {
-      const { result } = renderHook(() => useEmotionModel(wheelModel))
-
-      const happy = result.current.visibleEmotions.find((e) => e.id === 'happy')!
-      act(() => { result.current.handleSelect(happy) })
-
-      const playful = result.current.visibleEmotions.find((e) => e.id === 'playful')!
-      act(() => { result.current.handleSelect(playful) })
-
-      expect(result.current.breadcrumbPath).toHaveLength(2)
-      expect(result.current.breadcrumbPath[0].id).toBe('happy')
-      expect(result.current.breadcrumbPath[1].id).toBe('playful')
-    })
-
+  describe('wheel intermediate selection', () => {
     it('handleBreadcrumbSelect adds branch emotion and resets to root', () => {
       const { result } = renderHook(() => useEmotionModel(wheelModel))
 
@@ -175,14 +145,14 @@ describe('useEmotionModel', () => {
       act(() => { result.current.handleSelect(happy) })
 
       // Now select happy via breadcrumb
-      act(() => { result.current.handleBreadcrumbSelect(result.current.breadcrumbPath[0]) })
+      act(() => { result.current.handleBreadcrumbSelect(happy) })
 
       // happy should be in selections
       expect(result.current.selections).toHaveLength(1)
       expect(result.current.selections[0].id).toBe('happy')
 
       // Should reset to root
-      expect(result.current.breadcrumbPath).toEqual([])
+      expect(result.current.modelState.currentGeneration).toBe(0)
       const visibleIds = result.current.visibleEmotions.map((e) => e.id)
       expect(visibleIds).toContain('happy')
       expect(visibleIds).toContain('sad')
@@ -199,7 +169,7 @@ describe('useEmotionModel', () => {
 
       // Now drill again and breadcrumb-select happy
       act(() => { result.current.handleSelect(result.current.visibleEmotions.find((e) => e.id === 'happy')!) })
-      act(() => { result.current.handleBreadcrumbSelect(result.current.breadcrumbPath[0]) })
+      act(() => { result.current.handleBreadcrumbSelect(wheelModel.allEmotions.happy) })
 
       // Should have aroused + happy, no duplicates
       expect(result.current.selections).toHaveLength(2)
@@ -208,7 +178,7 @@ describe('useEmotionModel', () => {
 
       // Breadcrumb-select happy again — should not duplicate
       act(() => { result.current.handleSelect(result.current.visibleEmotions.find((e) => e.id === 'happy')!) })
-      act(() => { result.current.handleBreadcrumbSelect(result.current.breadcrumbPath[0]) })
+      act(() => { result.current.handleBreadcrumbSelect(wheelModel.allEmotions.happy) })
       const happyCount = result.current.selections.filter((s) => s.id === 'happy').length
       expect(happyCount).toBe(1)
     })

@@ -2,8 +2,9 @@ import { describe, expect, it } from 'vitest'
 import { somaticModel } from '../models/somatic'
 import type { SomaticRegion } from '../models/somatic/types'
 import { createSession } from '../data/session'
+import { buildCheckInCompletion } from '../features/check-in/workflow/build-completion'
 import { decodeSessions } from '../data/record-validation'
-import { getResultRelationship, isSessionEligibleForPatterns } from '../data/session-presentation'
+import { getResultRelationship, isSessionEligibleForPatterns } from '../data/session-policy'
 
 describe('body observations without suggested emotions', () => {
   it('round-trips every exposed single signal, preserving empty results rather than inventing labels', () => {
@@ -17,7 +18,7 @@ describe('body observations without suggested emotions', () => {
           const results = somaticModel.analyze([selection])
           if (results.length) continue
           empty++
-          const session = createSession({ route: 'body', modelId: somaticModel.id, selections: [selection], results })
+          const session = createSession(buildCheckInCompletion({ route: 'body', modelId: somaticModel.id, selections: [selection], results }))
           expect(decodeSessions([session])).toEqual([session])
           expect(session.results).toEqual([])
           expect(getResultRelationship(session)).toBe('observation')
@@ -32,7 +33,7 @@ describe('body observations without suggested emotions', () => {
 
   it('rejects malformed observation records and inferred content attached to them', () => {
     const selection = { ...somaticModel.allEmotions.chest, selectedSensation: 'pressure', selectedIntensity: 1 }
-    const session = createSession({ route: 'body', modelId: somaticModel.id, selections: [selection], results: [] })
+    const session = createSession(buildCheckInCompletion({ route: 'body', modelId: somaticModel.id, selections: [selection], results: [] }))
     for (const change of [
       { entryRoute: 'quick' }, { selectedNeed: 'grounding' }, { reflectionAnswer: 'yes' },
       { selectedNeedId: 'grounding' }, { nextStepId: 'write' },
