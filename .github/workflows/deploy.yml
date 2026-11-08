@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   pull_request:
-    branches: [main]
+    branches: [main, 'codex/**']
   push:
     branches: [main]
   workflow_dispatch:
@@ -88,6 +88,18 @@ jobs:
 
       - name: Record production mobile performance
         run: npm run test:performance:run
+
+      - name: Measure full history hydration
+        run: npm run test:hydration:run
+
+      - name: Retain hydration evidence
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: hydration-evidence
+          path: test-results/hydration/
+          if-no-files-found: ignore
+          retention-days: 14
 
       - name: Upload performance summary
         if: always()

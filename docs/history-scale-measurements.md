@@ -79,14 +79,17 @@ individual deletion, retained draft, durable deletion after reload and complete 
 
 ## Residual Risk / Next Decision
 
+Historical baseline below describes R20 before pagination. The subsequent
+[bounded rendering follow-up](history-pagination.md) replaces the full-DOM limitation; complete
+hydration remains. Keep these original measurements as the before evidence, not current status.
+
 Full hydration and full DOM remain: at 5,000 records, Journal has 40,099 DOM nodes; the exercise
 form while typing has 20,079. Chromium reported approximately 81.4 MB JS heap in these samples;
 there is no precise cross-browser memory comparison. This PR fixes the measured typing problem,
 not unbounded-history scalability. It does not establish a maximum supported history size.
 
-Keep the next planned old-tab PWA reproduction separate. If continuing history work afterward,
-start with bounded list rendering and explicit accessible navigation, preserving full export,
-aggregate eligibility and stable selected IDs. Reuse these fixtures for before/after evidence.
+The old-tab PWA investigation is merged as #20. Bounded list rendering follows it, preserving full
+export, aggregate eligibility and stable selected IDs; the original fixtures remain the comparison.
 Do not introduce IndexedDB pagination, indexes or a global store without isolating hydration or
 query cost first; this harness currently measures interaction after startup, not hydration cost.
 

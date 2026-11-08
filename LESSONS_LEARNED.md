@@ -213,6 +213,11 @@ must return. Pass the opener explicitly for touch-triggered overlays, preserve i
 development-effect replays, restore only after the background becomes interactive, and verify the
 same contract in WebKit and Chromium.
 
+**[2026-11-08]** Successful deletion needs focus after modal cleanup - When the opener disappears,
+return-focus cannot restore a useful destination. Schedule the explicit list/screen destination
+after the dialog closes; a timer scheduled before the state change can lose to trap cleanup.
+Test empty-list deletion separately from cancel/error paths, which must preserve the opener.
+
 **[2026-07-22]** Theme colors need paired semantic foreground and background tokens — Reusing white text on a lightened dark-theme accent produced a 2.03:1 contrast ratio. Validate computed foreground/background contrast in real browser states, including overlays and post-action screens, rather than checking token values alone.
 
 **[2026-02-07]** Preference tests become flaky when bypassing storage facade — Direct `localStorage` writes did not align with app read path. Mock/assert through `storage.get()` for behavior tests. Keep direct `localStorage` assertions for storage-layer tests only.

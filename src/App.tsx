@@ -7,6 +7,7 @@ import { LazyRouteBoundary } from './components/LazyRouteBoundary'
 import { TodayScreen } from './screens/TodayScreen'
 import { useAppNavigation } from './hooks/useAppNavigation'
 import { useSessionHistory } from './hooks/useSessionHistory'
+import { useHistoryPage } from './hooks/useHistoryPage'
 import { useChainAnalysis } from './hooks/useChainAnalysis'
 import { useChainDraft } from './hooks/useChainDraft'
 import { useLanguage } from './context/LanguageContext'
@@ -68,6 +69,7 @@ function AppContent() {
   const onboardingReturnFocusRef = useRef<HTMLElement | null>(null)
 
   const { sessions: storedSessions, loading: sessionsLoading, error: sessionsError, save: saveSession, remove: removeSession, clearAll: clearAllSessions } = useSessionHistory()
+  const journalPagination = useHistoryPage(storedSessions.length)
   const { entries: chainEntries, loading: chainLoading, error: chainError, save: saveChainEntry, clearAll: clearAllChains, remove: removeChainEntry } = useChainAnalysis()
   const chainDraft = useChainDraft(saveChainEntry)
   const [saveSessions, setSaveSessions] = useState(() => storage.get('saveSessions') !== 'false')
@@ -208,7 +210,7 @@ function AppContent() {
       case 'explore':
         return <LazyRouteBoundary><ExploreScreen onChoose={startRoute} onPractice={() => navigation.navigate({ name: 'granularity' })} /></LazyRouteBoundary>
       case 'journal':
-        return <LazyRouteBoundary><JournalScreen sessions={sessions} loading={sessionsLoading} chainEntries={chainEntries} chainLoading={chainLoading} chainError={chainError} error={sessionsError} saveSessions={saveSessions} onOpenSession={(sessionId) => navigation.navigate({ name: 'session', sessionId })} onOpenChain={(view) => {
+        return <LazyRouteBoundary><JournalScreen pagination={journalPagination} sessions={sessions} loading={sessionsLoading} chainEntries={chainEntries} chainLoading={chainLoading} chainError={chainError} error={sessionsError} saveSessions={saveSessions} onOpenSession={(sessionId) => navigation.navigate({ name: 'session', sessionId })} onOpenChain={(view) => {
           if (!view && chainDraft.status === 'saved') chainDraft.reset()
           navigation.navigate({ name: 'chain', view })
         }} /></LazyRouteBoundary>
@@ -234,7 +236,7 @@ function AppContent() {
       default:
         return null
     }
-  }, [allowExternalAI, chainDraft, chainEntries, chainError, chainLoading, clearAllChains, clearData, completeCheckIn, completeQuick, completion, deleteJournalSession, destination, exportData, finishCheckIn, navigation, retryBaseSave, saveReflection, saveSessions, sessionCaptured, sessionSaveState, sessions, sessionsError, sessionsLoading, setExternalAI, setSaving, startRoute, theme, removeChainEntry, staleReflection])
+  }, [allowExternalAI, chainDraft, chainEntries, chainError, chainLoading, clearAllChains, clearData, completeCheckIn, completeQuick, completion, deleteJournalSession, destination, exportData, finishCheckIn, journalPagination, navigation, retryBaseSave, saveReflection, saveSessions, sessionCaptured, sessionSaveState, sessions, sessionsError, sessionsLoading, setExternalAI, setSaving, startRoute, theme, removeChainEntry, staleReflection])
 
   if (onboardingMode === 'initial') {
     return (

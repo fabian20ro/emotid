@@ -85,5 +85,6 @@ acceptance. The real online 404/controller-change evidence is retained. After re
 with `expect.poll`, temporarily restoring auto-update makes both focused policy cases fail; the
 deferred policy passes. Final run counts/publication evidence belong to `ITERATION_LOG.md`.
 
-Next implementation: bounded history rendering from R20's measured DOM growth. Keep dependency and
-native/human evidence gaps separate; do not broaden update recovery without a reproduced need.
+Follow-up: [bounded history rendering](history-pagination.md) from R20's measured DOM growth.
+Current priorities belong to the maintenance plan. Keep dependency and native/human evidence gaps
+separate; do not broaden update recovery without a reproduced need.
