@@ -85,6 +85,39 @@ acceptance. The real online 404/controller-change evidence is retained. After re
 with `expect.poll`, temporarily restoring auto-update makes both focused policy cases fail; the
 deferred policy passes. Final run counts/publication evidence belong to `ITERATION_LOG.md`.
 
-Follow-up: [bounded history rendering](history-pagination.md) from R20's measured DOM growth.
+## Intermittent Origin-Outage Reopen (November 9)
+
+This is distinct from both the fixed old-tab HTTP 404 and the `setOffline` limitation above.
+[Stacked-PR CI run 42512599319](https://github.com/fabian20ro/emotid/actions/runs/42512599319)
+failed after v2 activation, when a fresh WebKit page navigated while the origin remained unavailable:
+`Connection terminated unexpectedly` / `WebKit encountered an internal error`. EN/light failed all
+three attempts; EN/dark passed on its third attempt. No missing cache was established.
+
+Local reproduction uses the unchanged actual-app fixture, Playwright 1.62.1 / WebKit 26.5:
+
+```bash
+npx playwright test --config=playwright.pwa.config.ts --project=webkit \
+  --repeat-each=5 --retries=0 --reporter=line
+```
+
+Linux ARM64 in the official `mcr.microsoft.com/playwright:v1.62.1-noble` container reproduced an
+intermittent related failure: v2 root loaded from the worker, but Words modules failed with internal
+WebKit errors. The original exact navigation symptom also recurred while testing a retained
+out-of-scope observer. Native Linux x86-64 CI and local ARM64 are different environments; x86-64
+emulation hung and is excluded from acceptance.
+
+Rejected mitigations: retaining the observer until the reopened app was controlled still failed;
+inlining the Workbox runtime also failed. Neither change is retained. The observer experiment
+captured an activated v2 worker and cached v2 index/Words asset before the navigation failure.
+Tiny literal-worker, imported-runtime, hand-written-cache and generated-Workbox controls passed
+their bounded repetitions, so they are not yet a minimal reproducer. Root cause remains unconfirmed.
+
+Next: minimize the real failing fixture on native Linux, compare main-document vs lazy-module
+failures, and retain traces/cache/lifecycle evidence before choosing a worker or harness change.
+No browser errors filtered, arbitrary waits added, origin restored early or retry count increased.
+CI now runs and uploads PWA evidence before the broad browser matrix; this is a feedback-order
+correction only. Exact experiment counts and publication evidence belong to `ITERATION_LOG.md`.
+
+Completed follow-up: [bounded history rendering](history-pagination.md) from R20's measured DOM growth.
 Current priorities belong to the maintenance plan. Keep dependency and native/human evidence gaps
 separate; do not broaden update recovery without a reproduced need.

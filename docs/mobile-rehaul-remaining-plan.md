@@ -1,6 +1,6 @@
 # Product Maintenance Plan
 
-Updated November 8, 2026. The mobile migration and the bounded M1-M3/startup maintenance work
+Updated November 9, 2026. The mobile migration and the bounded M1-M3/startup maintenance work
 are implemented, including the code-hygiene corrective pass. Publication status belongs to the
 exact-revision hosted workflow and public verification, not a moving status copied into this plan.
 
@@ -25,22 +25,28 @@ to the iteration log. R18 remains an upstream tooling risk, not a patched depend
 R20 measurements and the exercise-typing fix are merged (#19). The retained-tab PWA failure and
 deferred-activation fix are merged (#20); publication is separate. Method, tradeoffs and browser
 limits: [PWA investigation](pwa-old-tab-update.md). Accessible bounded history rendering is
-implemented in pending PR #21; contract and evidence: [history pagination](history-pagination.md).
-Full-hydration instrumentation is stacked on #21; method and findings: [hydration](history-hydration.md).
+merged in #21; contract and evidence: [history pagination](history-pagination.md).
+Full-hydration instrumentation (#22, merged through #21) is also in main; method and findings:
+[hydration](history-hydration.md). Exact-revision publication and public checks are recorded in the
+November 9 iteration entry. A separate intermittent WebKit offline-reopen failure remains unresolved.
 Keep scoring and safety gating unchanged.
 
-### Recommended Next: Publish The Verified Stack
+### Recommended Next: Isolate WebKit Offline Reopen
 
 R20's [measurements](history-scale-measurements.md) demonstrated typing and DOM costs. Rendering is
 now bounded to 20 rows per list. Full-hydration measurement is implemented separately from the
 production build; full arrays and aggregate scans still grow with history size.
 
-1. Review/merge parent #21 first. Retarget the hydration PR from `codex/accessible-history-pages`
-   to `main` after the parent lands; inspect the resulting diff and rerun exact-head CI. Avoid a
-   squash/rebase operation that silently reintroduces parent changes. Do not merge the child first.
-2. After each merged revision, verify exact-SHA Pages/deployed smoke and the public regression
-   matrix. Large-history fixtures and hydration instrumentation remain loopback-only.
-3. No storage rewrite from these bounded measurements. If slower-device evidence or longer-note/
+1. Review the CI-order correction: run/upload PWA lifecycle and retry evidence before the broad
+   browser suite. This shortens failure feedback; it does not fix WebKit. User retains merge control.
+2. Minimize the actual post-update offline-reopen failure on native Linux x86-64, retaining the
+   failing trace and exact browser/runtime. Current Linux ARM64 repetitions also fail intermittently;
+   tiny worker controls do not. Compare navigation and lazy-module failures separately. See the
+   [investigation](pwa-old-tab-update.md#intermittent-origin-outage-reopen-november-9).
+   Do not raise retries, restore the origin early or change production worker policy speculatively.
+3. After an evidence-backed fix, rerun the full PWA matrix without retries, exact-head CI, and
+   post-merge deployment/public checks. Keep large fixtures and hydration instrumentation loopback-only.
+4. No storage rewrite from these bounded measurements. If slower-device evidence or longer-note/
    shuffled-order requirements reveal a bottleneck, add that fixture first, profile its owning
    operation, then choose one measured fix. Preserve export, aggregates, ordering, epochs and errors.
    Otherwise stop here; no speculative IndexedDB indexes, global store or repository abstraction.
@@ -63,8 +69,8 @@ do not add another facade, global store or generic recovery framework merely to 
   do not equate these timeouts with the registration rejection above. Keep the evidence in the
   iteration log and capture traces on recurrence, before changing application startup or retries.
 - **WebKit offline emulation:** a literal-worker control reproduces failure under `setOffline`;
-  the origin-outage matrix passes without that API. Retest after a relevant upstream/browser fix;
-  do not equate origin-outage coverage with native airplane-mode acceptance.
+  origin-outage coverage avoids that API but now has a distinct intermittent reopen failure above.
+  Keep these diagnoses separate; neither establishes native airplane-mode acceptance.
 - **Dependencies:** November 8 reassessment: 15 dev-toolchain entries from three advisories,
   no production entries. Compatible patched transitive releases are not available in the inspected
   dependency chains. The [dependency security review](dependency-security.md) records reachability

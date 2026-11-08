@@ -7,9 +7,9 @@ Run before release:
 ```bash
 npm run check
 npm run test:language-refresh
-E2E_PRODUCTION=true npm run test:e2e
 npm run test:pwa
 npm run test:pwa:retry
+E2E_PRODUCTION=true npm run test:e2e
 npm run test:performance
 npm run test:hydration
 npm run test:deployed:local
@@ -43,6 +43,10 @@ failure and checks that the first trace survives; this intentional flaky result 
 an ordinary product pass. Evidence: `.reports/pwa-retry.json` and `test-results/pwa-retry/`.
 CI uploads those exact paths as `pwa-retry-evidence`, on success or failure, for seven days.
 The fixture endpoint and injection flag are test-only, never shipped application behavior.
+Both PWA suites and their uploads precede the broad production browser suite: earlier feedback on
+worker failures, with evidence retained before that suite cleans its output directory. Workflow
+contracts enforce this ordering. A green retry or one green matrix does not close an intermittent
+failure; the separate origin-outage reopen investigation remains open.
 
 Keyboard journeys traverse controls sequentially, without `locator.focus()`. The `pressTab`
 helper uses native Option+Tab on macOS WebKit to include buttons; other hosts/engines use Tab.

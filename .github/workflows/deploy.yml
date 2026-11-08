@@ -54,11 +54,6 @@ jobs:
       - name: Verify language Fast Refresh
         run: npm run test:language-refresh
 
-      - name: Run production browser tests
-        run: npm run test:e2e
-        env:
-          E2E_PRODUCTION: 'true'
-
       - name: Verify production PWA lifecycle
         run: npm run test:pwa
 
@@ -85,6 +80,11 @@ jobs:
           include-hidden-files: true
           if-no-files-found: ignore
           retention-days: 7
+
+      - name: Run production browser tests
+        run: npm run test:e2e
+        env:
+          E2E_PRODUCTION: 'true'
 
       - name: Record production mobile performance
         run: npm run test:performance:run

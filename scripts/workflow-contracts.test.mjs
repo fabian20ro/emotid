@@ -68,6 +68,20 @@ test('CI retains old-tab lifecycle evidence on success as well as failure', () =
   assert.equal(steps[upload].with.path, 'test-results/pwa/')
 })
 
+test('CI diagnoses and retains PWA failures before the broad browser suite clears test output', () => {
+  const steps = deploy.jobs.build.steps
+  const browser = steps.findIndex((step) => step.run === 'npm run test:e2e')
+  assert.ok(browser >= 0)
+  for (const command of ['npm run test:pwa', 'npm run test:pwa:retry']) {
+    const index = steps.findIndex((step) => step.run === command)
+    assert.ok(index >= 0 && index < browser, command)
+  }
+  for (const artifact of ['pwa-lifecycle-evidence', 'pwa-retry-evidence']) {
+    const index = steps.findIndex((step) => step.with?.name === artifact)
+    assert.ok(index >= 0 && index < browser, artifact)
+  }
+})
+
 test('CI measures hydration separately and retains its evidence without publishing the instrumented build', () => {
   const steps = deploy.jobs.build.steps
   const suite = steps.findIndex((step) => step.run === 'npm run test:hydration:run')
