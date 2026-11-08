@@ -28,7 +28,7 @@ npm install
 2. Extend `BaseEmotion` with model-specific fields
 3. Implement `EmotionModel<YourType>` interface
 4. Add the model ID to `MODEL_IDS` in `src/models/constants.ts`
-5. Register the lazy model/route boundary in `src/features/check-in/registry.ts` and its visualizer in `src/components/ModelVisualization.tsx`
+5. Register the lazy engine and optional visualization loader in `src/models/registry.ts`; map its screen/route in `src/features/check-in/registry.tsx`. `ModelVisualization.tsx` consumes the registry, not a separate mapping.
 6. Add i18n keys to both `src/i18n/en.json` and `src/i18n/ro.json`
 7. Add model, workflow, bilingual-copy, and browser-path tests at the smallest behavior boundary
 

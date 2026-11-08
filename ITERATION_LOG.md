@@ -3662,3 +3662,65 @@ R23 unused inferred breadcrumbs. Then R20 history measurements and a genuinely c
 old-tab PWA reproduction. R18 remains documented upstream tooling risk. No physical-device,
 native speech, human comprehension or clinical pass claimed.
 **Promoted to Lessons Learned:** No; the new identity and copy contracts are executable tests.
+
+## 2026-11-08 - Audit PR G: session policy and completion ownership
+
+**Scope:** R14/R21-R23, `codex/session-policy-ownership`. Started on F's `17563c0` while GitHub
+still reported #17 open; the user then merged it as `a9cb40d`. No direct main write or merge by
+the agent. G's delta excludes F. No dependency version, user-facing copy, scoring, safety gating,
+AI query, storage schema, export format or runtime network changes.
+
+**R14:** Checked actual model/feature registries, somatic scorer and support evaluator. Removed
+the nonexistent three-body-group grounding promise, corrected extension paths and visualization
+owners, documented completion/policy ownership. No new psychological rule to satisfy stale docs.
+
+**R21 TDD:** A real in-memory Vite build of analytics failed isolation: it included presentation
+and the full catalog. Characterization tests pinned named, suggested, accepted, partial, rejected,
+legacy and observation-only relationships, selected-result filtering/order and non-mutation.
+Moved those unchanged functions into `session-policy.ts`; analytics, screens and recent summary
+import the policy directly. Presentation retains canonical label resolution and headings. No facade.
+The real bundle-isolation check now passes and runs in `test:tooling`/CI.
+
+**R22 TDD:** The same isolation boundary failed for serialization loading safety rules/evaluator.
+Added parity across all five routes and five tiers before changing serialization. `createSession`
+now requires a `CheckInCompletion` and copies `crisisTier`/`outcome`; the existing completion builder
+remains the classifier. Tests cover observation-only serialization, body extras, preserved revision
+identity, transitions back to observation-only and clearing stale reflection metadata. Runtime
+workflow already supplied the completion; only standalone test callers needed the stronger contract.
+
+**R23:** Production reference search confirmed the inferred `breadcrumbPath` had no consumer.
+Retargeted handler tests to explicit branch selections, proved them before removal, then removed
+only the dead derived output and six obsolete/duplicated derivation tests. Retained the handler and
+real Word Ladder path. Added component/browser coverage for Sad -> Vulnerable -> Helpless, a
+multi-parent word, through saved/exported hierarchy provenance.
+
+**Local verification:** Final `npm run check` passed: 101 files / 868 unit/component tests, seven
+tooling contracts, live-config/policy/catalog/bilingual/release checks, lint/types/build and budgets.
+Focused production browser journeys: 8/8, EN/RO x light/dark x Chromium/WebKit, one worker/no retries.
+Screenshots inspected (RO dark WebKit, EN light Chromium). Initial JS gzip 144813/150000; entry
+44019/50000; production assets 915602/960000 bytes. No claimed runtime speedup.
+Full frozen production browser matrix: 546/546, one worker, no retries (21.4 minutes).
+PWA lifecycle/endpoint cases repeated twice: 4/4. Retry harness: 1/1, containing the deliberate
+first failure followed by a genuine successful retry. Language Fast Refresh, performance proxy
+and local deployed smoke: 1/1 each. Local smoke is not public Pages evidence. Only docs changed
+after the final code/test freeze. Release consistency and diff whitespace checks passed.
+
+**Predecessor publication at commit preparation:** #17 merged as
+`a9cb40dc14c655c5c26607ab5cf1c878baf14c1c`; exact-SHA CodeQL `42432205773` passed.
+Pages workflow `42432206078` is still running production browser tests. Do not claim F is live
+until that run and deployment are successful; G remains an unmerged PR candidate.
+
+**Harness corrections:** The build-isolation probe belongs in the existing Node tooling suite:
+Vitest's global DOM setup and jsdom typed-array realm are unsuitable for an in-process Vite build.
+These startup failures were not product reds; retained red evidence shows actual unwanted modules.
+A new workflow fixture lacked `emotionSignals` and was correctly rejected; replaced it with the
+real somatic region. The initial browser assertion used Journal-list wording in Session Detail;
+corrected the copy owner, not the UI. No application assertion was relaxed to hide a product failure.
+Ignored evidence: `.reports/pr-g-isolation-red.log`, `pr-g-metadata-red.log`, final-check/focused/full
+browser logs and `.reports/pr-g-focused-browser/`; initial browser failure artifacts retained.
+
+**Remaining:** Review/merge G, exact-SHA publication/smoke and affected public journeys. Next R20:
+deterministic 100/1000/5000-history measurements before choosing any optimization. Then reproduce
+the genuinely changed lazy-chunk old-tab PWA scenario. R18 remains upstream tooling risk; unavailable
+human/device evidence stays explicit. No native speech, comprehension or clinical pass claimed.
+**Promoted to Lessons Learned:** No; ownership/isolation contracts belong in executable checks.

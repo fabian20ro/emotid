@@ -1,14 +1,6 @@
-import { getCrisisTier } from '../models/distress'
-import type { AnalysisResult, BaseEmotion } from '../models/types'
-import type { CheckInRoute, ReflectionDetail } from '../navigation/types'
+import type { BaseEmotion } from '../models/types'
+import type { CheckInCompletion, ReflectionDetail } from '../navigation/types'
 import type { SerializedSelection, Session } from './types'
-
-interface SessionInput {
-  route: CheckInRoute
-  modelId: string
-  selections: BaseEmotion[]
-  results: AnalysisResult[]
-}
 
 interface SessionIdentity {
   id: string
@@ -28,16 +20,16 @@ function serializeSelections(selections: BaseEmotion[]): SerializedSelection[] {
   })
 }
 
-export function createSession(input: SessionInput, identity?: SessionIdentity): Session {
+export function createSession(input: CheckInCompletion, identity?: SessionIdentity): Session {
   return {
     id: identity?.id ?? crypto.randomUUID(),
     timestamp: identity?.timestamp ?? Date.now(),
     modelId: input.modelId,
     entryRoute: input.route,
-    ...(input.route === 'body' && input.results.length === 0 ? { outcome: 'body-observation' as const } : {}),
+    ...(input.outcome ? { outcome: input.outcome } : {}),
     selections: serializeSelections(input.selections),
     results: input.results,
-    crisisTier: getCrisisTier(input.results.map((result) => result.id)),
+    crisisTier: input.crisisTier,
   }
 }
 

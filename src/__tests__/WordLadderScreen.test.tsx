@@ -18,6 +18,16 @@ function renderScreen() {
 }
 
 describe('WordLadderScreen', () => {
+  it('retains the traversed branch when committing a multi-parent leaf', async () => {
+    const user = userEvent.setup()
+    const { onComplete } = renderScreen()
+    await user.click(screen.getByRole('button', { name: 'Explore more specific words under Sad' }))
+    await user.click(screen.getByRole('button', { name: 'Explore more specific words under Vulnerable' }))
+    await user.click(screen.getByRole('button', { name: 'Select Helpless', exact: true }))
+    await user.click(screen.getByRole('button', { name: 'Continue with Helpless', exact: true }))
+    expect(onComplete.mock.calls[0][2][0].hierarchyPath?.map((item) => item.en))
+      .toEqual(['Sad', 'Vulnerable', 'Helpless'])
+  })
   for (const language of ['en', 'ro'] as const) it(`shows all Stressed meanings before selection and compares leaves (${language})`, async () => {
     window.localStorage.setItem('emot-id-language', language)
     const ro = language === 'ro'

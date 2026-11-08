@@ -21,6 +21,8 @@ for focused iteration; do not edit imported files during a final development-bac
 `test:tooling` is part of the policy gate, locally and in CI. It checks the retired catalog command
 against temporary fixtures and parses workflow YAML to protect publication concurrency, main-only
 publishing, minimal permissions and full-SHA action pins with a maintained update path.
+It also builds analytics and session serialization in memory, inspecting actual runtime modules:
+analytics must not pull in catalog/presentation, and serialization must not load model safety logic.
 
 The PWA fixture selects v1 before every attempt using its loopback-only version endpoint. Only
 known versions are accepted. `test:pwa:retry` runs the real lifecycle with one deliberate failure

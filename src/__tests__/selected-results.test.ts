@@ -1,14 +1,15 @@
 import { expect, it } from 'vitest'
 import { createSession } from '../data/session'
+import { buildCheckInCompletion } from '../features/check-in/workflow/build-completion'
 import { decodeSessions } from '../data/record-validation'
-import { getSessionResults, isSessionEligibleForPatterns } from '../data/session-presentation'
+import { getSessionResults, isSessionEligibleForPatterns } from '../data/session-policy'
 import { computeVocabulary } from '../data/vocabulary'
 import { computeValenceRatio } from '../data/valence-ratio'
 
 const results = ['love', 'pride', 'tenderness', 'gratitude'].map((id) => ({
   id, label: { en: id, ro: id }, color: '#000000', valence: 0.6,
 }))
-const base = createSession({ route: 'body', modelId: 'somatic', selections: [results[0]], results })
+const base = createSession(buildCheckInCompletion({ route: 'body', modelId: 'somatic', selections: [results[0]], results }))
 
 it('counts only explicitly chosen words while retaining all original suggestions', () => {
   const session = { ...base, reflectionAnswer: 'partly' as const, selectedResultIds: ['gratitude'] }

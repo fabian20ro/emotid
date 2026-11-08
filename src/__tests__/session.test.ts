@@ -1,7 +1,9 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { addReflectionDetail, createSession } from '../data/session'
-import { getEmotionDisplayLabel, getResultRelationship, getSessionResultHeading, isSessionEligibleForPatterns } from '../data/session-presentation'
+import { getEmotionDisplayLabel, getSessionResultHeading } from '../data/session-presentation'
+import { getResultRelationship, isSessionEligibleForPatterns } from '../data/session-policy'
 import type { AnalysisResult, BaseEmotion } from '../models/types'
+import { buildCheckInCompletion } from '../features/check-in/workflow/build-completion'
 
 const emotion: BaseEmotion = {
   id: 'happy',
@@ -35,12 +37,12 @@ describe('session mapping', () => {
   it('keeps one identity while optional reflection details are added', () => {
     vi.spyOn(crypto, 'randomUUID').mockReturnValue('session-id')
     vi.spyOn(Date, 'now').mockReturnValue(1234)
-    const base = createSession({
+    const base = createSession(buildCheckInCompletion({
       route: 'words',
       modelId: 'wheel',
       selections: [emotion],
       results: [result],
-    })
+    }))
     const enriched = addReflectionDetail(base, {
       reflectionAnswer: 'yes',
       selectedNeed: 'rest',
@@ -66,12 +68,12 @@ describe('session mapping', () => {
   })
 
   it('distinguishes chosen words from unconfirmed generated suggestions', () => {
-    const chosen = createSession({
+    const chosen = createSession(buildCheckInCompletion({
       route: 'words',
       modelId: 'wheel',
       selections: [emotion],
       results: [result],
-    }, { id: 'chosen', timestamp: 1 })
+    }), { id: 'chosen', timestamp: 1 })
     const suggested = { ...chosen, id: 'suggested', entryRoute: 'affect' as const }
 
     expect(getResultRelationship(chosen)).toBe('named')
@@ -88,12 +90,12 @@ describe('session mapping', () => {
   })
 
   it('presents rejected results as suggestions without changing other result headings', () => {
-    const named = createSession({
+    const named = createSession(buildCheckInCompletion({
       route: 'words',
       modelId: 'wheel',
       selections: [emotion],
       results: [result],
-    }, { id: 'named', timestamp: 1 })
+    }), { id: 'named', timestamp: 1 })
     const rejected = { ...named, entryRoute: 'affect' as const, reflectionAnswer: 'no' as const }
 
     expect(getSessionResultHeading(named, 'en', 'Suggested result: {result}')).toBe('Happy')

@@ -74,24 +74,6 @@ export function useEmotionModel(model: EmotionModel<BaseEmotion>) {
     setModelState(model.onClear())
   }, [model, setModelState, setSelections])
 
-  // Derive breadcrumb path by walking the parent chain from any visible emotion
-  const breadcrumbPath = useMemo(() => {
-    if (modelState.currentGeneration === 0) return []
-    const firstId = modelState.visibleEmotionIds.keys().next().value
-    if (!firstId) return []
-    const path: BaseEmotion[] = []
-    let current = model.allEmotions[firstId] as BaseEmotion & { parents?: string[] }
-    // Walk up the parent chain (skip the visible emotion itself — it's a child, not an ancestor)
-    while (current?.parents?.[0]) {
-      const parent = model.allEmotions[current.parents[0]]
-      if (!parent) break
-      path.push(parent)
-      current = parent as BaseEmotion & { parents?: string[] }
-    }
-    path.reverse()
-    return path
-  }, [model, modelState.visibleEmotionIds, modelState.currentGeneration])
-
   // Select a breadcrumb emotion (branch node) and reset to root
   const handleBreadcrumbSelect = useCallback(
     (emotion: BaseEmotion) => {
@@ -127,7 +109,6 @@ export function useEmotionModel(model: EmotionModel<BaseEmotion>) {
     visibleEmotions,
     sizes,
     combos,
-    breadcrumbPath,
     handleSelect,
     handleDeselect,
     handleClear,

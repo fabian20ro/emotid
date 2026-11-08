@@ -59,7 +59,7 @@
     "prepare:catalog-review:word-intermediate-descriptions": "node ./scripts/catalog-guidance-review.mjs prepare --surface word-ladder-intermediate-descriptions --batch-id p27-word-intermediate-descriptions-01 --out-dir .reports/catalog-guidance/p27-word-intermediate-descriptions-01",
     "check-copy": "node ./check_psychological_copy.cjs && npm run test:catalog-review",
     "check:release": "node --test ./scripts/check-release-consistency.test.mjs && node ./scripts/check-release-consistency.mjs",
-    "test:tooling": "node --test scripts/catalog-retirement.test.mjs scripts/workflow-contracts.test.mjs",
+    "test:tooling": "node --test scripts/catalog-retirement.test.mjs scripts/workflow-contracts.test.mjs scripts/session-policy-isolation.test.mjs",
     "check:policy": "npm run test:tooling && npm run check-acceptance && npm run i18n-audit && npm run check-copy && npm run check:release",
     "check-performance": "node ./scripts/check-performance-budget.mjs",
     "check-acceptance": "node ./scripts/check-acceptance-contract.mjs",

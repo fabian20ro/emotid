@@ -1,6 +1,6 @@
 # Emotion Models Codemap
 
-**Last Updated:** 2026-08-07
+**Last Updated:** 2026-11-08
 **Location:** `src/models/`
 
 ## Architecture: Catalog + Overlays
@@ -20,7 +20,7 @@ model/index.ts  -> getCanonicalEmotion(id) + overlay -> hydrated ModelEmotion
 ## Type Hierarchy
 
 ```
-BaseEmotion { id, label, description?, needs?, color, intensity? }
+BaseEmotion { id, label, description?, needs?, needId?, color, intensity? }
   |
   +-- PlutchikEmotion  { category, intensity, opposite?, spawns[], components? }
   +-- WheelEmotion     { level, parents[], children? }
@@ -34,8 +34,8 @@ BaseEmotion { id, label, description?, needs?, color, intensity? }
 
 | Model | Concept | Visualization |
 |-------|---------|---------------|
-| **Plutchik** | 8 primaries spawn related emotions; selected pairs combine into dyads | BubbleField |
-| **Wheel** | 3-level hierarchical tree; drill down from general to specific | BubbleField |
+| **Plutchik** | 8 primaries spawn related emotions; selected pairs combine into dyads | PlutchikWheel |
+| **Wheel** | Multi-parent hierarchy; select intermediate or specific words | WordLadderScreen (BubbleField remains registry visualization) |
 | **Somatic** | Compare selected sensations with exploratory word associations | BodyRegionMap |
 | **Dimensional** | 2D valence × arousal field; pointer/arrow placement finds nearest emotions | DimensionalField |
 
@@ -107,20 +107,18 @@ not confidence values.
 
 Constriction is separate from tension (held muscular effort) and pressure (external force). Constriction = tightening/narrowing, common in throat, chest, stomach during anxiety/shame/grief. Added as the 9th sensation type.
 
-### Numbness Flooding Detection
-
-When numbness is reported across 3+ body groups, the somatic model offers a grounding prompt. This is a safety feature, not just pattern detection.
-
 ### Dimensional Quadrant Sparsity Fix
 
 Extra unpleasant-calm emotions were added to reduce quadrant sparsity. `lonely` and `resigned` coordinates were adjusted to reduce overlap in that quadrant.
 
 ### Model extension boundary
 
-Add the engine and optional visualization loader to `registry.ts`, then map the
-user-facing route in `features/check-in/registry.tsx`. The feature loader owns
-screen/model readiness; analyzers remain independent of React and `App` retains
-the shared completion and safety boundary. Do not add a plugin framework or
+Add the engine and optional visualization loader to `src/models/registry.ts`, then map the
+user-facing route in `src/features/check-in/registry.tsx`. The feature loader owns
+screen/model readiness; analyzers remain independent of React. The shared workflow's
+`build-completion.ts` owns completion and support metadata. No body-group-count grounding
+rule exists; support prominence follows current result IDs through `distress.ts`.
+Do not add a plugin framework or
 global model-selection state for one new model.
 
 ## Related Codemaps

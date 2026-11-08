@@ -6,7 +6,8 @@ import { ModalShell } from '../components/ModalShell'
 import { useFocusTrap } from '../hooks/useFocusTrap'
 import { getIntensityLabel, getSensationLabel, getSomaticRegionLabel } from '../models/somatic/display'
 import type { Session } from '../data/types'
-import { getEmotionDisplayLabel, getResultRelationship, getSessionResults } from '../data/session-presentation'
+import { getEmotionDisplayLabel } from '../data/session-presentation'
+import { getResultRelationship, getSessionResults } from '../data/session-policy'
 import { getReflectionChoiceLabels } from '../data/reflection-choices'
 
 interface SessionDetailScreenProps {

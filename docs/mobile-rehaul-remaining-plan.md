@@ -18,45 +18,44 @@ release scope in `docs/releases/v0.1.6.md`. Do not duplicate completed phases he
 
 The prioritized findings and PR A-G sequence live in
 [the multidisciplinary audit](audit-2026-11-06.md#ordine-recomandata-de-implementare).
-PRs A-E are merged (#12-#16). PR F implements R10/R11/R24 on its branch: stable choice IDs,
-legacy text fallback, the Romanian repelled/rejected distinction and count-aware Journal copy.
+PRs A-F are merged (#12-#17). PR G implements R14/R21-R23 on its branch: corrected extension/safety
+documentation, catalog-free session policy, completion-owned metadata and unused breadcrumb removal.
 Review/merge and exact-SHA publication checks remain distinct from implementation; evidence belongs
 to the iteration log. R18 remains an upstream tooling risk, not a patched dependency claim.
-Next implementation: PR G. Keep scoring and safety gating unchanged.
+Next implementation: R20 measurements, followed by the separate old-tab PWA reproduction.
+Keep scoring and safety gating unchanged.
 
-### Next Implementation: PR G
+### Recommended Next: R20 History Measurements
 
-1. R14 first: remove the unsupported three-body-group grounding claim in `docs/CODEMAPS/models.md`
-   and correct extension paths in `docs/CONTRIB.md`. Verify each statement against actual owners;
-   do not implement a new psychological rule merely to make old documentation true.
-2. R21: move result relationship, selected-result filtering and pattern eligibility out of
-   `session-presentation.ts` into one small catalog-free policy module. Keep localized labels and
-   headings in presentation. Start with public-policy parity tests for named/suggested/partial/
-   rejected/legacy/body-observation records and a dependency-isolation check. Migrate analytics
-   consumers directly; avoid a second facade or generic policy framework.
-3. R22: test completion-to-session parity for every route and crisis tier, including observation-only
-   sessions and explicit revisions. Make the existing completion boundary the sole owner of
-   `outcome`/`crisisTier`; serialization copies them and continues to own identity and selections.
-   Safety classification must not change. Do not combine this with new scoring or guidance.
-4. R23: verify production references, then remove only the unused inferred breadcrumb result and
-   its obsolete tests. Keep the used selection handler and the actual multi-parent Word Ladder path.
-5. Verify each slice before the next, then full policy/unit/type/lint/build checks, frozen production
-   browser matrix, PWA lifecycle/retry and supporting gates. Check actual import ownership and
-   unchanged performance budgets, not just filenames. Review/merge, exact-SHA Pages/smoke, then
-   affected public journeys. No unmeasured performance improvement claim.
+1. Add deterministic synthetic session/exercise fixtures for 100/1000/5000 records. Seed isolated
+   browser contexts before mounting the app; no personal data, telemetry or public-origin seeding.
+   Cover named, inferred, rejected and observation-only sessions so analytics eligibility stays real.
+2. Extend the existing production performance harness with Journal open/render and exercise-typing
+   journeys. Record browser/version, viewport, dataset size, DOM nodes, timing samples and available
+   memory measurements. Keep wall-clock latency and browser-specific heap support explicit; missing
+   memory APIs are not zero memory. Use several runs and report median/tail, not a single timing.
+3. Compare Chromium/WebKit and check EN/RO x themes for functional parity. Establish the baseline
+   before choosing CI thresholds; no device-class or physical-performance claims from desktop proxies.
+   Keep correctness assertions repeatable: order, selected-result eligibility, detail navigation,
+   deletion, full export and retained exercise drafts.
+4. Only if a bottleneck is measured, write its failing regression and implement the smallest local
+   fix. Prefer bounded rendering or isolating exercise-list rendering where evidence points there;
+   do not introduce pagination/indexing/state infrastructure speculatively. Re-run the same fixtures
+   and release gates, retaining before/after evidence and unchanged storage/export semantics.
 
-Small architecture improvement: a catalog-free session policy shared by analytics and presentation.
-This removes accidental content coupling while retaining one source of behavioral truth.
+### Then: Old-Tab PWA Reproduction
 
-### Measurement After G
+1. Build A/B with a genuinely different lazy route chunk; assert different content hashes, not only
+   version labels. Open two tabs on A, visit only the initial route, activate B from the other tab.
+2. In the retained A tab, open the previously unvisited route online and offline. Verify which app/
+   worker version actually remains, record requests/errors and prove saved data survives. If automatic
+   update reloads A, record that observed lifecycle rather than claiming a retained-old-tab case.
+3. Keep this separate from storage fixtures and from the already-fixed per-attempt server reset.
+   Add recovery only for a reproduced failure, with explicit user control during a draft; no forced
+   mid-reflection reload or data clearing. Preserve failure artifacts and test retries from clean A.
 
-- R20: synthetic histories of 100/1000/5000 records; record Journal open/render time, DOM size,
-  memory and exercise-typing behavior. Identify the limiting operation before considering bounded
-  rendering, pagination or indexing. Keep deletion, export and ordering semantics intact.
-- Old-tab PWA hypothesis: two builds with a genuinely changed lazy chunk, two tabs, B activated
-  while A stays open; exercise an unvisited route online/offline. Add recovery only if reproduced,
-  without forced mid-reflection reload or user-data clearing. Fixture retry isolation is not
-  evidence that this separate lifecycle scenario is solved.
+Architecture follow-up remains evidence-driven. The catalog-free session policy is now implemented;
+do not add another facade, global store or generic recovery framework merely to continue refactoring.
 
 ## Conditional Next Work
 
