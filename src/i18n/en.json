@@ -3,6 +3,16 @@
     "title": "Emot-ID",
     "subtitle": "Identify your emotions"
   },
+  "historyPagination": {
+    "range": "Entries {start}–{end} of {total}",
+    "first": "First page",
+    "previous": "Previous page",
+    "next": "Next page",
+    "last": "Last page",
+    "page": "Page",
+    "of": "of {pages}",
+    "go": "Go to page"
+  },
   "offline": {
     "message": "You are offline. Emot-ID is using cached content on this device."
   },

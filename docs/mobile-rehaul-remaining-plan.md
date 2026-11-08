@@ -22,23 +22,24 @@ PRs A-G are merged (#12-#18). PR G implements R14/R21-R23: corrected extension/s
 documentation, catalog-free session policy, completion-owned metadata and unused breadcrumb removal.
 Review/merge and exact-SHA publication checks remain distinct from implementation; evidence belongs
 to the iteration log. R18 remains an upstream tooling risk, not a patched dependency claim.
-R20 measurements and the exercise-typing fix are merged (#19). The retained-tab PWA failure is
-reproduced and a deferred-activation fix is implemented on the current branch; publication is
-separate. Method, tradeoffs and browser limits: [PWA investigation](pwa-old-tab-update.md).
+R20 measurements and the exercise-typing fix are merged (#19). The retained-tab PWA failure and
+deferred-activation fix are merged (#20); publication is separate. Method, tradeoffs and browser
+limits: [PWA investigation](pwa-old-tab-update.md). Accessible bounded history rendering is
+implemented on the current branch; contract and evidence: [history pagination](history-pagination.md).
 Keep scoring and safety gating unchanged.
 
-### Recommended Next: Bounded History Rendering
+### Recommended Next: Measure Hydration Before Storage Changes
 
-R20's [measurements](history-scale-measurements.md) demonstrate the typing bottleneck and its fix,
-but full hydration and DOM remain. At 5,000 records/store the Journal contains about 40,000 nodes.
+R20's [measurements](history-scale-measurements.md) demonstrated typing and DOM costs. Rendering is
+now bounded to 20 rows per list; hydration and full-history aggregate scans remain.
 
-1. Use the existing fixtures to compare explicit bounded pages with the current list, without a
-   virtualization dependency. Define accessible navigation, focus after page changes/deletion,
-   preserved draft/selection and language/theme parity before changing UI; update EN/RO copy together.
-2. Test first/middle/last records, deletion on a page boundary, concurrent clear and full export.
-   Aggregate statistics and exports must continue using the complete eligible history, not a page.
-3. Rerun the native-clock measurements. Add hydration-to-ready measurements before deciding whether
-   repository queries/indexes need change. Do not infer storage cost from post-startup DOM timings.
+1. Extend the loopback-only 100/1000/5000 fixture harness with navigation-to-ready observations for
+   both history stores. Distinguish cold app startup, database read/decode/sort and rendered readiness;
+   use the native clock, fresh contexts and repeated samples. No product telemetry or timing SLA.
+2. Compare with the bounded-DOM measurements. Preserve complete aggregates/export, ordering,
+   erasure epochs and loading/error states. Investigate only a demonstrated remaining bottleneck.
+3. Choose the smallest measured fix, or stop at documented evidence if costs are acceptable.
+   Do not introduce IndexedDB pagination/indexes, a global store or a repository rewrite by default.
 
 Architecture follow-up remains evidence-driven. The catalog-free session policy is now implemented;
 do not add another facade, global store or generic recovery framework merely to continue refactoring.

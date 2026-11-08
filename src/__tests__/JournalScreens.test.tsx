@@ -2,7 +2,8 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { LanguageProvider } from '../context/LanguageContext'
-import { JournalScreen } from '../screens/JournalScreen'
+import { JournalScreen as JournalView } from '../screens/JournalScreen'
+import { useHistoryPage } from '../hooks/useHistoryPage'
 import { SessionDetailScreen } from '../screens/SessionDetailScreen'
 import { storage } from '../data/storage'
 import type { ChainAnalysisEntry, Session } from '../data/types'
@@ -29,6 +30,11 @@ function bodySession(overrides: Partial<Session> = {}): Session {
   }
 }
 
+function JournalScreen(props: Omit<React.ComponentProps<typeof JournalView>, 'pagination'>) {
+  const pagination = useHistoryPage(props.sessions.length)
+  return <JournalView {...props} pagination={pagination} />
+}
+
 function withLanguage(ui: React.ReactNode, language: 'en' | 'ro' = 'en') {
   storage.set('language', language)
   return render(<LanguageProvider>{ui}</LanguageProvider>)
@@ -41,6 +47,50 @@ const noExercises = {
 
 describe('Journal data display', () => {
   beforeEach(() => localStorage.clear())
+
+  it('bounds the visible history without truncating aggregate evidence', () => {
+    const sessions = Array.from({ length: 41 }, (_, index) => bodySession({
+      id: `page-${index}`, reflectionAnswer: 'yes',
+    }))
+    withLanguage(<JournalScreen sessions={sessions} loading={false} {...noExercises}
+      saveSessions onOpenSession={vi.fn()} onOpenChain={vi.fn()} />)
+    expect(document.querySelectorAll('.journal-list button')).toHaveLength(20)
+    expect(document.querySelector('.journal-stats strong')).toHaveTextContent(/^41$/)
+    expect(screen.getAllByRole('button', { name: 'Next page' })).toHaveLength(2)
+    expect(screen.getAllByRole('button', { name: 'Next page' }).every((button) => !button.hasAttribute('disabled'))).toBe(true)
+  })
+
+  it.each(['en', 'ro'] as const)('supports keyboard paging, direct jumps and shrinking histories (%s)', async (language) => {
+    const user = userEvent.setup()
+    const copy = language === 'en' ? en : ro
+    const entries = Array.from({ length: 41 }, (_, index) => bodySession({ id: `page-${index}` }))
+    const onOpenSession = vi.fn()
+    const view = (sessions: Session[]) => <JournalScreen sessions={sessions} loading={false} {...noExercises}
+      saveSessions onOpenSession={onOpenSession} onOpenChain={vi.fn()} />
+    const { rerender } = withLanguage(view(entries), language)
+    expect(screen.getAllByRole('button', { name: copy.historyPagination.first })[0]).toBeDisabled()
+    const next = screen.getAllByRole('button', { name: copy.historyPagination.next })[1]
+    next.focus()
+    await user.keyboard('{Enter}')
+    expect(document.querySelector('.history-page-summary')).toHaveFocus()
+    await user.click(document.querySelector('.journal-list button')!)
+    expect(onOpenSession).toHaveBeenLastCalledWith('page-20')
+    const input = screen.getAllByRole('spinbutton', { name: copy.historyPagination.page })[0]
+    await user.clear(input)
+    await user.type(input, '3{Enter}')
+    expect(document.querySelectorAll('.journal-list button')).toHaveLength(1)
+    expect(screen.getAllByRole('button', { name: copy.historyPagination.next })[0]).toBeDisabled()
+    await user.click(document.querySelector('.journal-list button')!)
+    expect(onOpenSession).toHaveBeenLastCalledWith('page-40')
+    rerender(<LanguageProvider>{view(entries.slice(0, 40))}</LanguageProvider>)
+    expect(document.querySelectorAll('.journal-list button')).toHaveLength(20)
+    expect(document.querySelector('.history-page-summary')).toHaveFocus()
+    expect(screen.getAllByRole('spinbutton')[0]).toHaveValue(2)
+    rerender(<LanguageProvider>{view([])}</LanguageProvider>)
+    expect(screen.queryByRole('spinbutton')).not.toBeInTheDocument()
+    rerender(<LanguageProvider>{view(entries)}</LanguageProvider>)
+    expect(screen.getAllByRole('spinbutton')[0]).toHaveValue(1)
+  })
 
   it.each([
     ['en', 1, '1 different word'], ['en', 19, '19 different words'],

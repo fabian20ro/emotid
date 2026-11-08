@@ -1,4 +1,4 @@
-import { useCallback, useLayoutEffect, useRef, useState } from 'react'
+import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { Trash2 } from 'lucide-react'
 import { useLanguage } from '../context/LanguageContext'
 import { ScreenHeader } from './ScreenHeader'
@@ -8,6 +8,8 @@ import type { ChainAnalysisEntry } from '../data/types'
 import type { ChainDraft, ChainField } from '../hooks/useChainDraft'
 import { ChainEntryList } from './ChainEntryList'
 import { focusDestination } from '../utils/focusDestination'
+import { useHistoryPage } from '../hooks/useHistoryPage'
+import { HistoryPagination } from './HistoryPagination'
 
 const FIELDS: { id: ChainField; required: boolean }[] = [
   { id: 'situation', required: true },
@@ -39,6 +41,8 @@ export function ChainAnalysis({
 }: ChainAnalysisProps) {
   const { section, language } = useLanguage()
   const chainT = section('chainAnalysis')
+  const pagination = useHistoryPage(entries.length)
+  const visibleEntries = useMemo(() => entries.slice(pagination.start, pagination.end), [entries, pagination.start, pagination.end])
   const [showEntries, setShowEntries] = useState(initialView === 'entries')
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const selectedEntry = selectedId ? entries.find((entry) => entry.id === selectedId) : undefined
@@ -60,6 +64,7 @@ export function ChainAnalysis({
   const clearTriggerRef = useRef<HTMLButtonElement>(null)
   const discardTriggerRef = useRef<HTMLButtonElement>(null)
   const cancelRef = useRef<HTMLButtonElement>(null)
+  const focusAfterDelete = useRef(false)
   const closeConfirm = useCallback(() => {
     if (clearing) return
     setConfirmOpen(null)
@@ -67,6 +72,13 @@ export function ChainAnalysis({
   }, [clearing])
   const focusTrapRef = useFocusTrap(isOpen && confirmOpen !== null, closeConfirm, cancelRef,
     confirmOpen === 'discard' ? discardTriggerRef : clearTriggerRef)
+  useLayoutEffect(() => {
+    if (confirmOpen || !focusAfterDelete.current) return
+    focusAfterDelete.current = false
+    // Run after the dialog's return-focus cleanup; its delete trigger may no longer exist.
+    const timer = window.setTimeout(() => focusDestination(headingRef.current?.querySelector<HTMLElement>('#screen-title') ?? null), 0)
+    return () => window.clearTimeout(timer)
+  }, [confirmOpen])
 
   const canSave = fields.situation.trim().length > 0 && !saving
 
@@ -83,6 +95,7 @@ export function ChainAnalysis({
     try {
       if (selectedId && onDelete) await onDelete(selectedId)
       else await onClearAll()
+      focusAfterDelete.current = true
       setSelectedId(null)
       setConfirmOpen(null)
     } catch {
@@ -149,7 +162,9 @@ export function ChainAnalysis({
             {!showEntries && <h2 id="recent-chains-title">{chainT.recent}</h2>}
             <button ref={clearTriggerRef} type="button" onClick={() => setConfirmOpen('delete')} className="text-button danger-text">{chainT.clear}</button>
           </div>
-          <ChainEntryList entries={entries} onSelect={selectEntry} language={language} />
+          <HistoryPagination pagination={pagination} label={chainT.recent}>
+            <ChainEntryList entries={visibleEntries} onSelect={selectEntry} language={language} />
+          </HistoryPagination>
         </section>
       )}
       </>}

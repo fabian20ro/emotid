@@ -30,6 +30,41 @@ function renderChain(overrides: Partial<TestProps> = {}) {
 }
 
 describe('ChainAnalysis', () => {
+  it('returns focus to the empty history after clearing a later page', async () => {
+    const user = userEvent.setup()
+    const entries: ChainAnalysisEntry[] = Array.from({ length: 21 }, (_, index) => ({
+      id: `entry-${index}`, timestamp: 1000 - index, version: 2,
+      situation: `Moment ${index}`, noticed: '', response: '', outcome: '',
+    }))
+    const { rerender, props } = renderChain({ entries, initialView: 'entries' })
+    await user.click(screen.getAllByRole('button', { name: 'Last page' })[0])
+    await user.click(screen.getByRole('button', { name: 'Delete journal exercises' }))
+    await user.click(screen.getByRole('button', { name: 'Delete exercises', exact: true }))
+    rerender(<ChainHarness {...props} entries={[]} />)
+    await waitFor(() => expect(screen.getByRole('heading', { name: 'Recent reflections' })).toHaveFocus())
+    expect(screen.queryByRole('spinbutton')).not.toBeInTheDocument()
+  })
+
+  it('pages saved exercises while retaining the draft and selected record', async () => {
+    const user = userEvent.setup()
+    const entries: ChainAnalysisEntry[] = Array.from({ length: 41 }, (_, index) => ({
+      id: `entry-${index}`, timestamp: 1000 - index, version: 2,
+      situation: `Moment ${index}`, noticed: '', response: '', outcome: '',
+    }))
+    renderChain({ entries })
+    await user.type(screen.getByLabelText('What happened?'), 'Keep this draft')
+    expect(document.querySelectorAll('.guided-recent-list button')).toHaveLength(20)
+    await user.click(screen.getAllByRole('button', { name: 'Last page' })[1])
+    expect(screen.getByText('Entries 41–41 of 41')).toHaveFocus()
+    await user.click(screen.getByRole('button', { name: /Moment 40/ }))
+    expect(screen.getByTestId('chain-entry-detail')).toHaveTextContent('Moment 40')
+    await user.click(screen.getByRole('button', { name: 'Back', exact: true }))
+    expect(document.querySelectorAll('.guided-recent-list button')).toHaveLength(1)
+    await user.click(screen.getByRole('button', { name: 'Continue this draft' }))
+    expect(screen.getByLabelText('What happened?')).toHaveValue('Keep this draft')
+    expect(screen.getByText('Entries 41–41 of 41')).toBeInTheDocument()
+  })
+
   it('does not reformat saved history while typing an unrelated draft', async () => {
     const legacyFormat = vi.spyOn(Date.prototype, 'toLocaleString')
     const formatterRead = vi.spyOn(Intl.DateTimeFormat.prototype, 'format', 'get')

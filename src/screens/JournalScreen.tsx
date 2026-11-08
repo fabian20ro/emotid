@@ -12,8 +12,11 @@ import { getResultRelationship } from '../data/session-policy'
 import { getJournalEvidence } from '../data/journal-evidence'
 import { getChainEntryPreview, getLatestChainEntry } from '../data/chain-presentation'
 import { countForm } from '../i18n/count-form'
+import { HistoryPagination } from '../components/HistoryPagination'
+import type { HistoryPage } from '../hooks/useHistoryPage'
 
 interface JournalScreenProps {
+  pagination: HistoryPage
   sessions: Session[]
   loading: boolean
   chainEntries: ChainAnalysisEntry[]
@@ -25,7 +28,7 @@ interface JournalScreenProps {
   onOpenChain: (view?: 'entries') => void
 }
 
-export function JournalScreen({ sessions, loading, chainEntries, chainLoading, chainError = false, error = false, saveSessions, onOpenSession, onOpenChain }: JournalScreenProps) {
+export function JournalScreen({ pagination, sessions, loading, chainEntries, chainLoading, chainError = false, error = false, saveSessions, onOpenSession, onOpenChain }: JournalScreenProps) {
   const { language, section } = useLanguage()
   const t = section('journalScreen')
   const historyT = section('history')
@@ -111,8 +114,9 @@ export function JournalScreen({ sessions, loading, chainEntries, chainLoading, c
             <p>{saveSessions ? t.emptyBody : section('reflectionScreen').notSaved}</p>
           </div>
         ) : (
+          <HistoryPagination pagination={pagination} label={t.recent}>
           <div className="journal-list">
-            {sessions.map((session) => {
+            {sessions.slice(pagination.start, pagination.end).map((session) => {
               const relationship = getResultRelationship(session)
               const resultHeading = getSessionResultHeading(session, language, t.rejectedResult)
               const date = dateFormat.format(session.timestamp)
@@ -128,6 +132,7 @@ export function JournalScreen({ sessions, loading, chainEntries, chainLoading, c
               )
             })}
           </div>
+          </HistoryPagination>
         )}
       </section>
 

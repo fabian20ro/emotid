@@ -3855,3 +3855,65 @@ Ignored evidence: `.reports/pwa-old-*.log`, `.reports/pwa-old-*-red/`,
 `.reports/pwa-offline-control.mjs` and `.log`; final matrix/full-browser/performance/retry/deployed
 evidence directories and `.reports/pwa-r20-live.log`. Only documentation changed after the final
 candidate freeze. No native devices accessed.
+
+## 2026-11-08 - Accessible bounded history pages
+
+**Request:** After #20, implement accessible pagination with TDD, thorough verification, commit,
+push and PR. GitHub initially showed #20 open; user confirmed completion, fetch verified merge
+`ab7bc149dc91cfe515cbf13134c537b822ef373f`. Branch `codex/accessible-history-pages` fast-forwarded
+to that base before implementation. No merge or main push performed by the agent.
+
+**Implementation:** Twenty rows per Journal/exercise list; common state bounds and controls,
+first/previous/next/last and validated page jumps above/below the list. Focus returns to one range
+summary after either control set changes the page. EN/RO copy, existing theme tokens and icons.
+Journal page survives detail/back/tab navigation; exercise page survives detail/form changes.
+Deleting the last page's final row clamps to the previous page; empty histories reset offsets.
+Complete statistics/export, stable ID selection, draft persistence and memoized exercise formatting
+remain. No repository/schema/scoring/safety changes, dependencies, telemetry or backend.
+
+**TDD:** Journal rendered 41 rather than 20 rows; fixed. Exercise list did the same; fixed while
+retaining the draft/selected record. Bottom navigation absent; added without a second focus owner.
+Bulk exercise deletion left focus on the disappearing trigger/body; regression failed, then fixed
+by handing focus to the screen heading after modal cleanup. The first timer was scheduled too early
+and lost to trap restoration; the post-close layout effect passes. Existing cancel/failure focus
+contracts remain. Report: `docs/history-pagination.md`.
+
+**Browser coverage:** 5,000-record first/middle/last access, complete eligible aggregates, exact
+export after durable deletion and retained unsaved draft; 41-record page boundaries, keyboard/direct
+input, invalid page numbers, focus visibility, narrow/desktop screenshots, contrast, targets,
+individual/bulk deletion and two-tab erasure. Chromium/WebKit, EN/RO x light/dark.
+Initial harness errors excluded: expected Romanian after all preferences were reset to English;
+used plain Tab instead of the repo's macOS WebKit Option+Tab helper. Corrected expectations and
+platform helper, not application semantics. No filtered browser errors or skipped product cases.
+
+**Verification:** npm run check passed: 896 tests /104 files, lint/types/policy/i18n/release,
+build and size budgets. Strict E2E TypeScript check passed with DOM.Iterable. Final focused browser
+matrix: 16/16 without retries after top/bottom and deletion-focus changes. Initial JS gzip 145111
+bytes; entry 44317; production assets 919828, all within unchanged budgets. Full frozen production
+browser suite: 562/562 without retries; performance: 25/25; PWA: 22/22 without retries; injected
+PWA retry: 1/1 outer contract (expected failed/passed attempts with retained trace); language Fast
+Refresh and local deployed smoke: 1/1 each. Narrow/desktop screenshots inspected; diff check passed.
+
+**Measured:** At 5,000 records/store, Journal DOM 40,099 -> 309 nodes; exercise list 20,053 -> 183;
+typing view 20,079 -> 209, both engines. EN/light Journal median: Chromium 406.4 -> 320.6ms,
+WebKit 591 -> 329ms. Exercise list: 394.5 -> 317.3ms / 513 -> 321ms. Typing remains approximately
+20-22ms; Chromium form-open median increased 11.3 -> 24.6ms. Three-context samples include existing
+transitions and tracing; not INP, a randomized experiment, physical latency or a universal speedup.
+Exact comparison/memory limits: `docs/history-pagination.md`. Hydration-to-ready remains unmeasured.
+
+**Predecessor:** #20 merged; exact-SHA CodeQL run `42482145395` and Pages run `42482145409`
+(build/deploy/deployed-smoke) passed. Additional public worker-enabled Chromium/WebKit smoke: 2/2.
+Deployment `7636506504` remained on base SHA `ab7bc14` before/after. New pagination is not live;
+review/merge/publication separate. No large fixtures seeded on the public URL.
+
+**Remaining / next:** Verify publication after merge; then measure history hydration separately
+from bounded rendering using native-clock loopback fixtures, before proposing storage/index changes.
+Full hydration/aggregate scans remain; no maximum-history or low-tier-device guarantee. R18 upstream
+tooling and unavailable native/human acceptance remain explicit. No physical devices accessed.
+**Promoted:** Successful deletion needs a post-close focus destination after trap cleanup; added
+beside the existing modal-focus lesson. Bounded specifics remain in executable contracts/report.
+
+Ignored evidence: `.reports/history-pages-*.log`, `history-pages-first-browser/`,
+`history-pages-tab-probe/`, `history-pages-final-focused/`, final full-browser/performance/PWA/retry/
+deployed/live evidence directories. Earlier intermediate green runs are not
+the final acceptance candidate; only documentation changes during the final verification freeze.

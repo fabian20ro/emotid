@@ -3,6 +3,16 @@
     "title": "Emot-ID",
     "subtitle": "Identifică-ți emoțiile"
   },
+  "historyPagination": {
+    "range": "Înregistrările {start}–{end} din {total}",
+    "first": "Prima pagină",
+    "previous": "Pagina anterioară",
+    "next": "Pagina următoare",
+    "last": "Ultima pagină",
+    "page": "Pagina",
+    "of": "din {pages}",
+    "go": "Mergi la pagină"
+  },
   "offline": {
     "message": "Ești offline. Emot-ID folosește conținutul salvat local pe acest dispozitiv."
   },

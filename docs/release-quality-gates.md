@@ -133,6 +133,10 @@ raw event-to-frame timings, summary statistics, DOM counts and available approxi
 Targets are loopback-only; never run large-history seeding on Pages or a personal browser profile.
 The production browser matrix separately verifies 5,000-record order, eligibility, detail/deletion,
 retained drafts and complete exports. See [R20 methodology and limits](history-scale-measurements.md).
+The history-pagination matrix requires bounded rows, first/middle/last access, keyboard/direct-page
+navigation, visible focus from both control sets, deletion at a page boundary and cross-tab erasure.
+Check both languages/themes, narrow/desktop layout and complete aggregates/exports; pagination must
+not change storage semantics. Scope and evidence boundaries: [pagination contract](history-pagination.md).
 Use native clocks for timing; fake clocks and missing memory APIs cannot establish performance.
 
 ## Moderated Comprehension Acceptance
