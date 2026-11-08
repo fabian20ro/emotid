@@ -117,6 +117,14 @@ that no summary request occurs without history, plus delayed/failed loading with
 Plutchik. The JSON artifact includes transfer/decoded bytes, resource paths, long tasks, and
 elapsed time. CI timing is diagnostic because shared runners do not represent physical devices.
 
+The same performance command measures histories of 100/1,000/5,000 sessions **and** exercises,
+Chromium/WebKit, EN/RO x light/dark, three isolated contexts per combination. Artifacts include
+raw event-to-frame timings, summary statistics, DOM counts and available approximate heap values.
+Targets are loopback-only; never run large-history seeding on Pages or a personal browser profile.
+The production browser matrix separately verifies 5,000-record order, eligibility, detail/deletion,
+retained drafts and complete exports. See [R20 methodology and limits](history-scale-measurements.md).
+Use native clocks for timing; fake clocks and missing memory APIs cannot establish performance.
+
 ## Moderated Comprehension Acceptance
 
 Before release freeze, run the six-task local protocol in

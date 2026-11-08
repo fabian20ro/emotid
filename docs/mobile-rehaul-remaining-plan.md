@@ -18,32 +18,15 @@ release scope in `docs/releases/v0.1.6.md`. Do not duplicate completed phases he
 
 The prioritized findings and PR A-G sequence live in
 [the multidisciplinary audit](audit-2026-11-06.md#ordine-recomandata-de-implementare).
-PRs A-F are merged (#12-#17). PR G implements R14/R21-R23 on its branch: corrected extension/safety
+PRs A-G are merged (#12-#18). PR G implements R14/R21-R23: corrected extension/safety
 documentation, catalog-free session policy, completion-owned metadata and unused breadcrumb removal.
 Review/merge and exact-SHA publication checks remain distinct from implementation; evidence belongs
 to the iteration log. R18 remains an upstream tooling risk, not a patched dependency claim.
-Next implementation: R20 measurements, followed by the separate old-tab PWA reproduction.
+R20 measurements and the measured exercise-typing fix are implemented on the current branch;
+publication is separate. Next implementation: the old-tab PWA reproduction below.
 Keep scoring and safety gating unchanged.
 
-### Recommended Next: R20 History Measurements
-
-1. Add deterministic synthetic session/exercise fixtures for 100/1000/5000 records. Seed isolated
-   browser contexts before mounting the app; no personal data, telemetry or public-origin seeding.
-   Cover named, inferred, rejected and observation-only sessions so analytics eligibility stays real.
-2. Extend the existing production performance harness with Journal open/render and exercise-typing
-   journeys. Record browser/version, viewport, dataset size, DOM nodes, timing samples and available
-   memory measurements. Keep wall-clock latency and browser-specific heap support explicit; missing
-   memory APIs are not zero memory. Use several runs and report median/tail, not a single timing.
-3. Compare Chromium/WebKit and check EN/RO x themes for functional parity. Establish the baseline
-   before choosing CI thresholds; no device-class or physical-performance claims from desktop proxies.
-   Keep correctness assertions repeatable: order, selected-result eligibility, detail navigation,
-   deletion, full export and retained exercise drafts.
-4. Only if a bottleneck is measured, write its failing regression and implement the smallest local
-   fix. Prefer bounded rendering or isolating exercise-list rendering where evidence points there;
-   do not introduce pagination/indexing/state infrastructure speculatively. Re-run the same fixtures
-   and release gates, retaining before/after evidence and unchanged storage/export semantics.
-
-### Then: Old-Tab PWA Reproduction
+### Recommended Next: Old-Tab PWA Reproduction
 
 1. Build A/B with a genuinely different lazy route chunk; assert different content hashes, not only
    version labels. Open two tabs on A, visit only the initial route, activate B from the other tab.
@@ -54,6 +37,19 @@ Keep scoring and safety gating unchanged.
    Add recovery only for a reproduced failure, with explicit user control during a draft; no forced
    mid-reflection reload or data clearing. Preserve failure artifacts and test retries from clean A.
 
+### Then: Bounded History Rendering
+
+R20's [measurements](history-scale-measurements.md) demonstrate the typing bottleneck and its fix,
+but full hydration and DOM remain. At 5,000 records/store the Journal contains about 40,000 nodes.
+
+1. Use the existing fixtures to compare explicit bounded pages with the current list, without a
+   virtualization dependency. Define accessible navigation, focus after page changes/deletion,
+   preserved draft/selection and language/theme parity before changing UI; update EN/RO copy together.
+2. Test first/middle/last records, deletion on a page boundary, concurrent clear and full export.
+   Aggregate statistics and exports must continue using the complete eligible history, not a page.
+3. Rerun the native-clock measurements. Add hydration-to-ready measurements before deciding whether
+   repository queries/indexes need change. Do not infer storage cost from post-startup DOM timings.
+
 Architecture follow-up remains evidence-driven. The catalog-free session policy is now implemented;
 do not add another facade, global store or generic recovery framework merely to continue refactoring.
 
@@ -62,6 +58,7 @@ do not add another facade, global store or generic recovery framework merely to 
 - **Publication:** live-regression tooling is merged and its initial hosted run passed.
   Repeat it after remediation PRs are published. Commands and evidence boundaries belong to
   [release quality gates](release-quality-gates.md#opt-in-live-regression-matrix).
+  Large-history fixture tests remain loopback-only; do not add them to the public seeding matrix.
 - **Registration failures:** a bounded WebKit probe reproduced pending-registration rejection
   during fixture navigation, not a persistent startup failure. Keep storage and PWA checks separate;
   change registration ownership only for a reproduced ordinary-route/settled-startup failure.

@@ -6,7 +6,7 @@ import { ModalShell } from './ModalShell'
 import { useFocusTrap } from '../hooks/useFocusTrap'
 import type { ChainAnalysisEntry } from '../data/types'
 import type { ChainDraft, ChainField } from '../hooks/useChainDraft'
-import { getChainEntryPreview } from '../data/chain-presentation'
+import { ChainEntryList } from './ChainEntryList'
 import { focusDestination } from '../utils/focusDestination'
 
 const FIELDS: { id: ChainField; required: boolean }[] = [
@@ -41,7 +41,11 @@ export function ChainAnalysis({
   const chainT = section('chainAnalysis')
   const [showEntries, setShowEntries] = useState(initialView === 'entries')
   const [selectedId, setSelectedId] = useState<string | null>(null)
-  const selectedEntry = entries.find((entry) => entry.id === selectedId)
+  const selectedEntry = selectedId ? entries.find((entry) => entry.id === selectedId) : undefined
+  const selectEntry = useCallback((id: string) => {
+    setSelectedId(id)
+    setShowEntries(true)
+  }, [])
   const headingRef = useRef<HTMLDivElement>(null)
   useLayoutEffect(() => {
     focusDestination(headingRef.current?.querySelector<HTMLElement>('#screen-title') ?? null)
@@ -145,18 +149,7 @@ export function ChainAnalysis({
             {!showEntries && <h2 id="recent-chains-title">{chainT.recent}</h2>}
             <button ref={clearTriggerRef} type="button" onClick={() => setConfirmOpen('delete')} className="text-button danger-text">{chainT.clear}</button>
           </div>
-          <div className="guided-recent-list">
-            {entries.map((entry) => {
-              const preview = getChainEntryPreview(entry)
-              return (
-                <button type="button" key={entry.id} onClick={() => { setSelectedId(entry.id); setShowEntries(true) }}>
-                  <small>{new Date(entry.timestamp).toLocaleString(language === 'ro' ? 'ro-RO' : 'en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</small>
-                  <strong>{preview.title}</strong>
-                  {preview.detail && <span>{preview.detail}</span>}
-                </button>
-              )
-            })}
-          </div>
+          <ChainEntryList entries={entries} onSelect={selectEntry} language={language} />
         </section>
       )}
       </>}

@@ -3731,3 +3731,64 @@ deterministic 100/1000/5000-history measurements before choosing any optimizatio
 the genuinely changed lazy-chunk old-tab PWA scenario. R18 remains upstream tooling risk; unavailable
 human/device evidence stays explicit. No native speech, comprehension or clinical pass claimed.
 **Promoted to Lessons Learned:** No; ownership/isolation contracts belong in executable checks.
+
+## 2026-11-08 - Audit R20: history measurements and isolated exercise rendering
+
+**Request:** Continue after #18 merge; TDD, thorough verification, commit/push/new PR. No merge.
+**Base:** `2571c3d77ad9fee9a8beef3623207bc4cc5c11a1`; branch `codex/history-scale-measurements`.
+
+**Implemented:** Deterministic 100/1000/5000 session/exercise fixtures, mixed analytics eligibility,
+loopback-only seeding before app mount and three-context production measurements. Chromium/WebKit,
+EN/RO x light/dark; raw timings, DOM counts, optional approximate heap, browser/version metadata,
+median/tail summaries. Existing CI performance command includes this suite without a new workflow.
+Measured bottleneck: saved exercise rows reformatted/reconciled on each draft keystroke. Extracted
+memoized `ChainEntryList`, primitive language prop, stable selection callback and one date formatter
+per list render. No schema, storage, copy, dependency, safety, scoring or pagination changes.
+
+**TDD:** Fixture/measurement contracts failed before their modules existed. Typing regression failed
+with three saved-row date-format calls for three characters; now zero. Tests also protect changed
+records/callbacks and language. Eight production-browser large-history cases protect ordering,
+eligibility, exact detail, single deletion, draft retention, durable deletion and full export.
+Baseline/after details and limitations: `docs/history-scale-measurements.md`.
+
+**Measured:** 5000-record/store EN/light typing medians: Chromium 132.7 -> 23.7 ms; WebKit 250 ->
+15 ms. These are event-to-two-frame desktop proxies, not INP/CPU/physical-device claims. Full
+hydration and DOM remain (Journal 40099 nodes; exercise draft 20079); no maximum history size claim.
+
+**Harness corrections:** Initial manual tracing conflicted with runner tracing. Fake clock replaced
+the native performance object and hid heap reporting; excluded that probe and reran the baseline
+without clock mocking. A new unit assertion assumed spaces between inline accessible-name fragments;
+asserted title and detail separately instead. Native WebKit date punctuation differs from Node ICU;
+the ordering test now formats expected fixture timestamps in the browser. One initial focused
+browser run overlapped the check build's output replacement and lost startup; not accepted evidence.
+Repeated all eight cases on a stable build: 8/8 passed. Extra strict harness typecheck found an
+implicit sample-array type; made it explicit. No product assertion was relaxed to hide a failure.
+
+**Verification so far:** `npm run check`: 891 tests /104 files, lint/types/policy/i18n/release/build/
+budgets passed. Final lint and explicit strict TypeScript check of the new browser harness passed.
+Frozen-candidate full browser matrix: 554/554 passed, one worker, no retries (22.8 minutes).
+Final performance matrix: 25/25 passed (72 fresh history contexts plus startup). At 5000 records,
+typing medians across language/theme combinations: Chromium 21.1-22.3 ms; WebKit 15-21 ms.
+PWA lifecycle: 4/4 across two repetitions, no retries. Retry-isolation outer check: 1/1, requiring
+the deliberate post-v2 failure followed by a real successful retry; first-failure trace retained.
+Language Fast Refresh and local deployed smoke: 1/1 each. Release consistency rechecked after docs.
+Representative Journal/draft screenshots
+inspected across EN/RO and light/dark; no new clipping/overlap.
+
+**Predecessor publication:** #18 exact-SHA workflow `42434646609` passed build/deploy/deployed-smoke;
+CodeQL `42434645962` passed. Pages deployment `7629996522` succeeded for base SHA `2571c3d`.
+Affected public journeys: 8/8 EN/RO x themes x Chromium/WebKit passed, no retries. The same
+deployment remained latest afterward. Evidence: `.reports/r20-g-live.log` and
+`.reports/r20-g-live-results/`; synthetic contexts blocked workers, separately from hosted smoke.
+This closes G publication verification; R20 remains an unpublished PR candidate.
+
+**Remaining:** Review/merge and exact-SHA publication of R20. Next: old-tab PWA reproduction with
+genuinely different lazy-chunk hashes, online/offline and retained draft/data. Then bounded history
+rendering; isolate hydration cost before proposing repository/index changes. R18 upstream risk and
+unavailable native/human evidence unchanged. No native speech or participant pass claimed.
+**Promoted to Lessons Learned:** No; benchmark limitations recorded beside the executable harness.
+
+Ignored evidence: `.reports/r20-*-red.log`, `r20-check.log`, `r20-full-browser.log`,
+`r20-full-browser-results/`, `r20-performance-final/`, `r20-pwa-retry-evidence/`,
+`r20-pwa-retry.json`, supporting-gate logs and `r20-scale-initial/` (excluded harness failures).
+Only documentation changed after the final code/test freeze. No native devices were accessed.
