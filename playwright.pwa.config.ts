@@ -17,7 +17,7 @@ export default defineConfig({
   },
   projects: [
     { name: 'chromium' },
-    { name: 'webkit', testMatch: 'old-tab-update.spec.ts', use: { ...devices['iPhone 14'] } },
+    { name: 'webkit', testMatch: ['old-tab-update.spec.ts', 'reopen-minimal.spec.ts'], use: { ...devices['iPhone 14'] } },
   ],
   webServer: {
     command: 'node scripts/pwa-test-server.mjs',

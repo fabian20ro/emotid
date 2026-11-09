@@ -10,7 +10,9 @@ const repeats = Number(process.env.PWA_PROBE_REPEATS ?? 20)
 assert.ok(Number.isInteger(repeats) && repeats >= 1 && repeats <= 100, 'PWA_PROBE_REPEATS must be 1..100')
 const engineName = process.env.PWA_PROBE_BROWSER ?? 'webkit'
 assert.ok(['webkit', 'chromium'].includes(engineName), 'PWA_PROBE_BROWSER must be webkit or chromium')
-const output = '.reports/pwa-reopen-probe'
+const payloadBytes = Number(process.env.PWA_PROBE_PAYLOAD_BYTES ?? 0)
+assert.ok(Number.isInteger(payloadBytes) && payloadBytes >= 0 && payloadBytes <= 524288, 'PWA_PROBE_PAYLOAD_BYTES must be 0..524288')
+const output = `.reports/pwa-reopen-probe/${payloadBytes}`
 await mkdir(output, { recursive: true })
 const root = await mkdtemp(join(tmpdir(), 'pwa-reopen-'))
 for (const version of ['v1', 'v2']) {
@@ -27,7 +29,7 @@ const server = createServer(async (request, response) => {
   const path = new URL(request.url, 'http://localhost').pathname
   originRequests.push({ path, offline })
   if (offline && path !== '/observer') { request.socket.destroy(); return }
-  response.setHeader('Cache-Control', 'no-store')
+  response.setHeader('Cache-Control', path === '/app/sw.js' ? 'no-store' : 'no-cache')
   try {
     if (path === '/app/sw.js' || path.startsWith('/app/workbox-')) {
       response.setHeader('Content-Type', 'application/javascript')
@@ -43,7 +45,7 @@ const server = createServer(async (request, response) => {
       `)
     } else if (path === `/app/lazy-${version}.js`) {
       response.setHeader('Content-Type', 'application/javascript')
-      response.end(`export const value = '${version}';`)
+      response.end(`export const value = '${version}';/*${'x'.repeat(payloadBytes)}*/`)
     } else if (path === '/app/' || path === '/observer') {
       response.setHeader('Content-Type', 'text/html')
       response.end(`<!doctype html><body>${path === '/app/' ? version : 'observer'}</body>`)
@@ -131,7 +133,7 @@ try {
   await rm(root, { recursive: true, force: true })
   await writeFile(`${output}/${engineName}.json`, JSON.stringify({
     platform: process.platform, architecture: process.arch, node: process.version,
-    browser: engineName, browserVersion: browser.version(), results,
+    browser: engineName, browserVersion: browser.version(), payloadBytes, results,
   }, null, 2))
 }
 assert.equal(results.filter(row => row.outcome === 'fail').length, 0, 'Offline reopen probe failed; inspect JSON and traces')
