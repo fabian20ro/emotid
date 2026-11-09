@@ -1,0 +1,50 @@
+name: PWA reopen diagnosis
+
+on:
+  pull_request:
+    branches: [main, 'codex/**']
+    paths:
+      - '.github/workflows/pwa-reopen.yml'
+      - 'scripts/pwa-reopen-probe.mjs'
+      - 'e2e-pwa/**'
+      - 'playwright.pwa.config.ts'
+      - 'scripts/pwa-test-server.mjs'
+      - 'vite.config.ts'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pwa-reopen-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps webkit
+      - name: Verify native Linux x86-64
+        run: node -e "if(process.platform!=='linux'||process.arch!=='x64')process.exit(1);console.log(process.platform,process.arch,process.version)"
+      - name: Minimal paired worker controls
+        run: node scripts/pwa-reopen-probe.mjs
+      - name: Original application regression without retries
+        if: ${{ !cancelled() }}
+        run: npx playwright test --config=playwright.pwa.config.ts --project=webkit --grep=origin-offline --repeat-each=10 --retries=0 --reporter=line
+      - name: Retain diagnosis evidence
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: pwa-reopen-diagnosis
+          path: |
+            .reports/pwa-reopen-probe/
+            test-results/pwa/
+          include-hidden-files: true
+          retention-days: 14
