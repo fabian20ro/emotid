@@ -23,6 +23,10 @@ jobs:
   reproduce:
     runs-on: ubuntu-24.04
     timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        runtime: [locked, '1.65.0']
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
@@ -30,6 +34,11 @@ jobs:
           node-version: '24'
           cache: npm
       - run: npm ci
+      - name: Install comparison runtime without modifying dependency manifests
+        if: matrix.runtime != 'locked'
+        run: npm install --no-save --package-lock=false @playwright/test@${{ matrix.runtime }}
+      - run: git diff --exit-code -- package.json package-lock.json
+      - run: npm ls @playwright/test playwright playwright-core workbox-build
       - run: npx playwright install --with-deps webkit
       - name: Verify native Linux x86-64
         run: node -e "if(process.platform!=='linux'||process.arch!=='x64')process.exit(1);console.log(process.platform,process.arch,process.version)"
@@ -41,7 +50,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
-          name: pwa-minimal-controls
+          name: pwa-minimal-controls-${{ matrix.runtime }}
           path: .reports/pwa-reopen-probe/
           include-hidden-files: true
           retention-days: 14
@@ -55,7 +64,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
-          name: pwa-reopen-diagnosis
+          name: pwa-reopen-diagnosis-${{ matrix.runtime }}
           path: |
             .reports/pwa-reopen-probe/
             test-results/pwa/

@@ -4024,3 +4024,42 @@ Ignored evidence: `.reports/stack-*.log`, `stack-ci-pwa-artifacts/`, `stack-linu
 `stack-linux-observer-evidence/`, `stack-linux-inline-evidence/`, `stack-live-evidence/`,
 `stack-final-pwa-evidence/`; rejected experiment evidence is diagnostic,
 not final-candidate acceptance. Minimal control script: `.reports/pwa-context-control.mjs`.
+
+## 2026-11-09 - Native Linux x86-64 WebKit reduction (PR #24)
+
+**Request/base:** Verify #23, reduce the WebKit failure on native Linux x86-64, use TDD for a
+demonstrated fix, verify and prepare a PR without merging. #23 was already user-merged at
+`d6683a1`; its CI passed 914 unit tests, 562 browser cases, 22 PWA, 25 performance and 42 hydration,
+without reported flaky cases. Main Pages/deployed-smoke `42538771309` and CodeQL `42538771437`
+passed. Branch `codex/webkit-offline-repro`; draft PR #24. No agent merge or main push.
+
+**Native RED:** Read-only Ubuntu 24.04 x64 diagnostic workflow, no QEMU. At `19945c0`, run
+`42542133823` reproduced 9/40 failures in the unchanged app offline-update flow (31 passed).
+Both navigation termination and lazy-route internal errors recur. Tiny paired controls passed
+80/80: desktop/mobile x hand-written cache/Workbox, two versions, actual origin socket outage.
+
+**Reduction:** At `f66757d`, run `42543105194`, tiny controls using the application's no-cache
+response header failed 2/80; 256 KiB payload controls failed 3/80. All five were reopening failures
+in the hand-written cache worker, on desktop and mobile, despite activated v2 and cached v2 assets.
+This reproduces without React, Workbox, journaling or large payloads. Reduced real-app import-only
+flow passed 50/50; original UI flow passed 12/12 in that round. These green samples do not negate
+the original 9/40 failures. Initial local reduced-test export-name typo (`default` vs named export)
+was corrected before push and is excluded from bug evidence.
+
+**Rejected header mitigation:** HTTP-header contract first failed on no-cache, then passed with
+no-store. Local check passed 914 tests /106 files and all policy/build/budget gates; local PWA
+26/26 without retries. However native no-store controls at `7f73f80`, run `42543983473`, failed
+4/200: both profiles and both worker implementations. Therefore no-store is not a demonstrated
+fix. Removed the candidate server change and its speculative header requirement. Existing product
+worker policy and retry counts stay unchanged. The chunked-response Mac-only control passed 40/40;
+it does not establish a framing cause and is not retained as a mitigation.
+
+**Next experiment:** Compare locked Playwright 1.62.1 with 1.65.0 on native Linux using identical
+fixtures and the original no-cache policy. Comparison installs are confined to CI node_modules;
+manifest/lockfile cleanliness is asserted. Runtime changes are not accepted without the original
+full flow passing as well as minimal controls. Final results will be recorded before closing this
+iteration; this entry is not an acceptance claim.
+
+Evidence: `.reports/reopen-native-baseline/`, `reopen-native-reduced-controls/`,
+`reopen-native-reduced-all/`, `reopen-native-nostore-controls/`, `reopen-*.log`; hosted artifacts
+retain JSON and first-failure traces for 14 days. No physical-device or human speech evidence added.
