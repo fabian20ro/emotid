@@ -4024,3 +4024,90 @@ Ignored evidence: `.reports/stack-*.log`, `stack-ci-pwa-artifacts/`, `stack-linu
 `stack-linux-observer-evidence/`, `stack-linux-inline-evidence/`, `stack-live-evidence/`,
 `stack-final-pwa-evidence/`; rejected experiment evidence is diagnostic,
 not final-candidate acceptance. Minimal control script: `.reports/pwa-context-control.mjs`.
+
+## 2026-11-09 - Native Linux x86-64 WebKit reduction (PR #24)
+
+**Request/base:** Verify #23, reduce the WebKit failure on native Linux x86-64, use TDD for a
+demonstrated fix, verify and prepare a PR without merging. #23 was already user-merged at
+`d6683a1`; its CI passed 914 unit tests, 562 browser cases, 22 PWA, 25 performance and 42 hydration,
+without reported flaky cases. Main Pages/deployed-smoke `42538771309` and CodeQL `42538771437`
+passed. Branch `codex/webkit-offline-repro`; draft PR #24. No agent merge or main push.
+
+**Native RED:** Read-only Ubuntu 24.04 x64 diagnostic workflow, no QEMU. At `19945c0`, run
+`42542133823` reproduced 9/40 failures in the unchanged app offline-update flow (31 passed).
+Both navigation termination and lazy-route internal errors recur. Tiny paired controls passed
+80/80: desktop/mobile x hand-written cache/Workbox, two versions, actual origin socket outage.
+
+**Reduction:** At `f66757d`, run `42543105194`, tiny controls using the application's no-cache
+response header failed 2/80; 256 KiB payload controls failed 3/80. All five were reopening failures
+in the hand-written cache worker, on desktop and mobile, despite activated v2 and cached v2 assets.
+This reproduces without React, Workbox, journaling or large payloads. Reduced real-app import-only
+flow passed 50/50; original UI flow passed 12/12 in that round. These green samples do not negate
+the original 9/40 failures. Initial local reduced-test export-name typo (`default` vs named export)
+was corrected before push and is excluded from bug evidence.
+
+**Rejected header mitigation:** HTTP-header contract first failed on no-cache, then passed with
+no-store. Local check passed 914 tests /106 files and all policy/build/budget gates; local PWA
+26/26 without retries. However native no-store controls at `7f73f80`, run `42543983473`, failed
+4/200: both profiles and both worker implementations. Therefore no-store is not a demonstrated
+fix. Removed the candidate server change and its speculative header requirement. Existing product
+worker policy and retry counts stay unchanged. The chunked-response Mac-only control passed 40/40;
+it does not establish a framing cause and is not retained as a mitigation.
+
+**Next experiment:** Compare locked Playwright 1.62.1 with 1.65.0 on native Linux using identical
+fixtures and the original no-cache policy. Comparison installs are confined to CI node_modules;
+manifest/lockfile cleanliness is asserted. Runtime changes are not accepted without the original
+full flow passing as well as minimal controls. Final results will be recorded before closing this
+iteration; this entry is not an acceptance claim.
+
+Evidence: `.reports/reopen-native-baseline/`, `reopen-native-reduced-controls/`,
+`reopen-native-reduced-all/`, `reopen-native-nostore-controls/`, `reopen-*.log`; hosted artifacts
+retain JSON and first-failure traces for 14 days. No physical-device or human speech evidence added.
+
+**Runtime comparison completed:** Native run `42545231387` at `9753b00`, same source/headers:
+Playwright 1.62.1 / WebKit 26.5 failed 4/200 minimal controls and 2/40 original app cases;
+Playwright 1.65.0 / WebKit 27.2 passed 200/200 controls and 40/40 original cases, all without
+retries. Import-only real-app reduction passed 50/50 under each runtime; removed that redundant
+diagnostic, retaining the reproducing minimal probe and original UI/data-preservation regression.
+The no-store experiment's full/reduced app samples had passed 40/40 and 50/50, but its 4/200
+minimal failures reject it as a general fix. Exact upstream browser change not bisected.
+
+**Retained fix:** Upgrade the three Playwright packages to 1.65.0. Production source, worker policy,
+server cache headers and original lifecycle assertions unchanged. Replace temporary dual-runtime
+CI installs with npm-ci/lockfile-only native controls and original-flow repetitions; dependency
+changes trigger this read-only job. Contract first RED, then 9/9 GREEN. Tighten the local probe's
+Workbox filename route. Reconcile investigation, active plan, audit and quality gates.
+Local upgraded runtime: `npm run check` passed 914 tests /106 files and existing policy/build/budget
+gates; full production browser matrix 562/562 without retries. Further final checks/CI follow below.
+Reusable intermittent-failure lesson promoted after repeated rejected mitigations across iterations.
+
+Evidence: `.reports/reopen-runtime-comparison.log`, `reopen-native-locked-controls/`,
+`reopen-native-latest-controls/`, `reopen-runtime-check.log`, `reopen-runtime-browser.log`,
+`reopen-locked-contract-{red,green}.log`. Old cohort's overall workflow failure is intentional RED
+evidence, not a passing workflow. New cohort succeeded independently. PR #24 remains unmerged.
+
+**Final local verification:** On the retained runtime/fixtures, check passed again (914 tests /
+106 files plus lint/types/policy/i18n/release/build/budgets). Production browser 562/562, PWA
+22/22, performance 25/25, hydration 42/42, local deployed smoke 1/1, language Fast Refresh 1/1;
+ordinary browser suites used zero retries. PWA injected-retry outer contract 1/1: exactly the
+intentional failed attempt, then success, first trace retained. Strict standalone PWA TypeScript
+check and dependency-tree validation passed. Initial sandboxed PWA invocation could not launch
+native browsers (Mach permission denial); authorized execution passed and is the acceptance run.
+The temporary import-only test had also matched the retry wrapper's grep and made its exact-one
+case assertion fail in the earlier CI; removing that redundant diagnostic restores the contract.
+
+**Native final-runtime repetition:** `9485bcc`, workflow `42547014192`, succeeded with lockfile-only
+install: another 200/200 minimal controls plus 40/40 unchanged app offline-update cases, zero
+retries, native Linux x64 / WebKit 27.2. This is separate from the initial paired-runtime sample.
+CodeQL passed. General PR CI remains a separate exact-head gate; final status is linked from PR
+#24 rather than retroactively asserting a pass before the run completes. No merge/deploy requested
+or performed. Documentation-only closeout does not change the tested runtime or application.
+
+**Audit/remaining:** Normal npm audit still reports 15 dev-tooling entries (13 moderate, 2 low),
+same three advisories, zero production entries. A restricted-cache audit returned incomplete
+empty-range metadata and 18 propagated entries; authorized registry/cache access restored the
+consistent 15-entry result. No security patch claim. Next: user review/merge, then exact-main
+deployment/smoke and opt-in live matrix. Reopen browser diagnosis only on recurrence with retained
+evidence; native/human gaps and supported upstream dependency remediation remain separate.
+No storage rewrite justified. Local evidence: `.reports/reopen-final-runtime-*.log`,
+`reopen-final-native-evidence/`, `reopen-final-native.log`, `reopen-audit-authorized.json`.

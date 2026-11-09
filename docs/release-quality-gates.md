@@ -46,7 +46,31 @@ The fixture endpoint and injection flag are test-only, never shipped application
 Both PWA suites and their uploads precede the broad production browser suite: earlier feedback on
 worker failures, with evidence retained before that suite cleans its output directory. Workflow
 contracts enforce this ordering. A green retry or one green matrix does not close an intermittent
-failure; the separate origin-outage reopen investigation remains open.
+failure; use the repeated native controls below for the separate origin-outage reopen regression.
+
+### WebKit Offline Reopen Regression
+
+The read-only `PWA reopen diagnosis` workflow runs on affected PRs and manual dispatch, on native
+Ubuntu 24.04 x86-64. It installs the checked-in lockfile, verifies the host architecture, runs
+200 minimal controls (desktop/mobile x cache/Workbox) and 40 original application cases
+(EN/RO x themes), with zero retries. Dependency changes also trigger it. Reproduce after `npm ci`
+and `npx playwright install --with-deps webkit`:
+
+```bash
+PWA_PROBE_REPEATS=50 node scripts/pwa-reopen-probe.mjs
+npx playwright test --config=playwright.pwa.config.ts --project=webkit \
+  --grep=origin-offline --repeat-each=10 --retries=0 --reporter=line
+```
+
+The probe binds loopback only and exits nonzero on any failed row. Optional diagnostic controls:
+`PWA_PROBE_BROWSER=chromium`, `PWA_PROBE_CACHE_CONTROL=no-store`,
+`PWA_PROBE_PAYLOAD_BYTES=262144`; defaults match the original no-cache/zero-padding reduction.
+Do not substitute modified controls for the original application regression. The workflow retains
+`.reports/pwa-reopen-probe/` JSON and failure traces plus `test-results/pwa/` lifecycle evidence
+for 14 days, including on failure. Runtime metadata is captured with the results.
+Historical paired RED/GREEN evidence and attribution limits: [investigation](pwa-old-tab-update.md#runtime-remediation).
+
+### Keyboard And Development Boundaries
 
 Keyboard journeys traverse controls sequentially, without `locator.focus()`. The `pressTab`
 helper uses native Option+Tab on macOS WebKit to include buttons; other hosts/engines use Tab.

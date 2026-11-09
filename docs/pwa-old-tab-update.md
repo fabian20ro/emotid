@@ -1,6 +1,6 @@
 # PWA Update With A Retained Tab
 
-November 8, 2026. Baseline: `f44c91b` (#19). Candidate: `codex/pwa-old-tab-update`.
+Updated November 9, 2026. Original baseline: `f44c91b` (#19); deferred-activation fix merged in #20.
 
 ## Confirmed Failure
 
@@ -109,14 +109,33 @@ emulation hung and is excluded from acceptance.
 Rejected mitigations: retaining the observer until the reopened app was controlled still failed;
 inlining the Workbox runtime also failed. Neither change is retained. The observer experiment
 captured an activated v2 worker and cached v2 index/Words asset before the navigation failure.
-Tiny literal-worker, imported-runtime, hand-written-cache and generated-Workbox controls passed
-their bounded repetitions, so they are not yet a minimal reproducer. Root cause remains unconfirmed.
+Initial tiny controls passed bounded repetitions; a later native x86-64 reduction reproduced
+reopen navigation failures without React, journaling or Workbox. The retained reproducer is
+`scripts/pwa-reopen-probe.mjs`: two cached versions, two controlled tabs, exact waiting/activation
+gates, real socket outage, all old clients closed, then a fresh page and lazy import. It covers
+desktop/mobile and hand-written-cache/generated-Workbox workers. JSON captures runtime, cached
+paths, lifecycle state, requests and failures; failing attempts retain traces. No private data.
 
-Next: minimize the real failing fixture on native Linux, compare main-document vs lazy-module
-failures, and retain traces/cache/lifecycle evidence before choosing a worker or harness change.
+The original application's no-cache header exposed failures in this reduction. Replacing it
+with no-store also failed under repetition, so that speculative server change was reverted.
+An import-only reduction of the real application remained green under both runtimes and was
+removed as redundant; the original UI/data-preservation regression remains unchanged.
+
+### Runtime Remediation
+
+[Paired native Linux run 42545231387](https://github.com/fabian20ro/emotid/actions/runs/42545231387)
+used identical fixtures and original headers. Playwright 1.62.1 / WebKit 26.5 failed both minimal
+and actual-app cases; Playwright 1.65.0 / WebKit 27.2 passed both without retries. Exact counts and
+rejected experiments belong to `ITERATION_LOG.md`. The candidate updates only the test runtime
+and lockfile, not production worker behavior. The exact upstream WebKit change was not bisected;
+this is an evidence-backed runtime remediation, not proof that every native Safari version is fixed.
+
+The maintained read-only Linux x86-64 workflow uses the lockfile, minimal controls and repeated
+original UI/data-preservation cases. Temporary dual-runtime installs are removed. Reproduction
+commands and artifact retention: [quality gates](release-quality-gates.md#webkit-offline-reopen-regression).
 No browser errors filtered, arbitrary waits added, origin restored early or retry count increased.
-CI now runs and uploads PWA evidence before the broad browser matrix; this is a feedback-order
-correction only. Exact experiment counts and publication evidence belong to `ITERATION_LOG.md`.
+Reopen the investigation on any recurrence; retained evidence must distinguish navigation from
+lazy-module failure. Candidate CI, merge and deployment remain separate acceptance boundaries.
 
 Completed follow-up: [bounded history rendering](history-pagination.md) from R20's measured DOM growth.
 Current priorities belong to the maintenance plan. Keep dependency and native/human evidence gaps

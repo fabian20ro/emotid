@@ -28,24 +28,25 @@ limits: [PWA investigation](pwa-old-tab-update.md). Accessible bounded history r
 merged in #21; contract and evidence: [history pagination](history-pagination.md).
 Full-hydration instrumentation (#22, merged through #21) is also in main; method and findings:
 [hydration](history-hydration.md). Exact-revision publication and public checks are recorded in the
-November 9 iteration entry. A separate intermittent WebKit offline-reopen failure remains unresolved.
+November 9 iteration entry. A separate WebKit offline-reopen failure has a minimal native Linux
+reproducer and a runtime remediation candidate in #24; review/publication remain separate.
 Keep scoring and safety gating unchanged.
 
-### Recommended Next: Isolate WebKit Offline Reopen
+### Recommended Next: Review And Publish The WebKit Runtime Remediation
 
 R20's [measurements](history-scale-measurements.md) demonstrated typing and DOM costs. Rendering is
 now bounded to 20 rows per list. Full-hydration measurement is implemented separately from the
 production build; full arrays and aggregate scans still grow with history size.
 
-1. Review the CI-order correction: run/upload PWA lifecycle and retry evidence before the broad
-   browser suite. This shortens failure feedback; it does not fix WebKit. User retains merge control.
-2. Minimize the actual post-update offline-reopen failure on native Linux x86-64, retaining the
-   failing trace and exact browser/runtime. Current Linux ARM64 repetitions also fail intermittently;
-   tiny worker controls do not. Compare navigation and lazy-module failures separately. See the
-   [investigation](pwa-old-tab-update.md#intermittent-origin-outage-reopen-november-9).
-   Do not raise retries, restore the origin early or change production worker policy speculatively.
-3. After an evidence-backed fix, rerun the full PWA matrix without retries, exact-head CI, and
-   post-merge deployment/public checks. Keep large fixtures and hydration instrumentation loopback-only.
+1. Review #24 after exact-head CI: locked Playwright update, minimal native Linux controls and
+   original offline-update UI/data-preservation repetitions without retries. #23's CI-order fix is
+   already merged and green. User retains merge control; no automatic merge or release.
+2. After user merge, verify the exact main deployment, hosted smoke and opt-in live matrix.
+   The runtime remediation does not change production worker policy. Keep browser upgrades distinct
+   from native Safari/airplane-mode acceptance; [investigation](pwa-old-tab-update.md#runtime-remediation).
+3. If the failure recurs, retain JSON/first-failure traces and compare main-document vs lazy-module
+   failures before another change. No higher retries, early origin restoration or speculative worker
+   workaround. Keep large fixtures and hydration instrumentation loopback-only.
 4. No storage rewrite from these bounded measurements. If slower-device evidence or longer-note/
    shuffled-order requirements reveal a bottleneck, add that fixture first, profile its owning
    operation, then choose one measured fix. Preserve export, aggregates, ordering, epochs and errors.
@@ -68,9 +69,9 @@ do not add another facade, global store or generic recovery framework merely to 
   initial `goto`; five traced repetitions of each case passed. Root cause remains unconfirmed;
   do not equate these timeouts with the registration rejection above. Keep the evidence in the
   iteration log and capture traces on recurrence, before changing application startup or retries.
-- **WebKit offline emulation:** a literal-worker control reproduces failure under `setOffline`;
-  origin-outage coverage avoids that API but now has a distinct intermittent reopen failure above.
-  Keep these diagnoses separate; neither establishes native airplane-mode acceptance.
+- **WebKit offline emulation:** the historical 1.62.1 literal-worker control failed under `setOffline`;
+  maintained cross-engine coverage uses origin outage. The runtime remediation is verified against
+  that separate outage/reopen case, not a new offline-emulation or native airplane-mode acceptance.
 - **Dependencies:** November 8 reassessment: 15 dev-toolchain entries from three advisories,
   no production entries. Compatible patched transitive releases are not available in the inspected
   dependency chains. The [dependency security review](dependency-security.md) records reachability
