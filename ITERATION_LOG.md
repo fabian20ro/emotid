@@ -4063,3 +4063,25 @@ iteration; this entry is not an acceptance claim.
 Evidence: `.reports/reopen-native-baseline/`, `reopen-native-reduced-controls/`,
 `reopen-native-reduced-all/`, `reopen-native-nostore-controls/`, `reopen-*.log`; hosted artifacts
 retain JSON and first-failure traces for 14 days. No physical-device or human speech evidence added.
+
+**Runtime comparison completed:** Native run `42545231387` at `9753b00`, same source/headers:
+Playwright 1.62.1 / WebKit 26.5 failed 4/200 minimal controls and 2/40 original app cases;
+Playwright 1.65.0 / WebKit 27.2 passed 200/200 controls and 40/40 original cases, all without
+retries. Import-only real-app reduction passed 50/50 under each runtime; removed that redundant
+diagnostic, retaining the reproducing minimal probe and original UI/data-preservation regression.
+The no-store experiment's full/reduced app samples had passed 40/40 and 50/50, but its 4/200
+minimal failures reject it as a general fix. Exact upstream browser change not bisected.
+
+**Retained fix:** Upgrade the three Playwright packages to 1.65.0. Production source, worker policy,
+server cache headers and original lifecycle assertions unchanged. Replace temporary dual-runtime
+CI installs with npm-ci/lockfile-only native controls and original-flow repetitions; dependency
+changes trigger this read-only job. Contract first RED, then 9/9 GREEN. Tighten the local probe's
+Workbox filename route. Reconcile investigation, active plan, audit and quality gates.
+Local upgraded runtime: `npm run check` passed 914 tests /106 files and existing policy/build/budget
+gates; full production browser matrix 562/562 without retries. Further final checks/CI follow below.
+Reusable intermittent-failure lesson promoted after repeated rejected mitigations across iterations.
+
+Evidence: `.reports/reopen-runtime-comparison.log`, `reopen-native-locked-controls/`,
+`reopen-native-latest-controls/`, `reopen-runtime-check.log`, `reopen-runtime-browser.log`,
+`reopen-locked-contract-{red,green}.log`. Old cohort's overall workflow failure is intentional RED
+evidence, not a passing workflow. New cohort succeeded independently. PR #24 remains unmerged.

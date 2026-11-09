@@ -120,6 +120,12 @@ contract as an unchecked cast or duplicate partial property checks.
 
 ## Testing & Quality
 
+**[2026-11-09]** Small green samples do not resolve intermittent browser failures - Preserve the
+original failing workflow and compare runtime candidates on identical native-host fixtures without
+retries. Require both the minimal control and original user journey to pass. Revert speculative
+timing/header/worker mitigations when repetitions still fail; a browser-runtime improvement does
+not prove an exact upstream cause or native-device acceptance.
+
 **[2026-11-08]** Async browser-state polling must await each observation - An async predicate in
 Playwright `waitForFunction` returned a truthy Promise before service-worker installation finished.
 Use `expect.poll(() => page.evaluate(async ...))` for async browser APIs; reserve `waitForFunction`

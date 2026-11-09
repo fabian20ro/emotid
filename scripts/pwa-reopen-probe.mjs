@@ -33,7 +33,7 @@ const server = createServer(async (request, response) => {
   if (offline && path !== '/observer') { request.socket.destroy(); return }
   response.setHeader('Cache-Control', path === '/app/sw.js' ? 'no-store' : cacheControl)
   try {
-    if (path === '/app/sw.js' || path.startsWith('/app/workbox-')) {
+    if (path === '/app/sw.js' || /^\/app\/workbox-[\w-]+\.js$/.test(path)) {
       response.setHeader('Content-Type', 'application/javascript')
       response.end(implementation === 'workbox' ? await readFile(join(root, version, path.slice('/app/'.length))) : `
         const version = '${version}';
