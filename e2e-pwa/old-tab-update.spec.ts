@@ -71,6 +71,15 @@ test('fixture replaces real lazy chunk bytes and stops serving retired assets', 
   expect((await request.get(first.path)).status()).toBe(404)
 })
 
+test('PWA fixtures exclude HTTP cache as an offline fallback', async ({ request }) => {
+  const lazy = await lazyBuild('v1')
+  for (const path of ['/emotid/', '/emotid/sw.js', lazy.path]) {
+    const response = await request.get(path)
+    expect(response.status()).toBe(200)
+    expect(response.headers()['cache-control'], path).toBe('no-store')
+  }
+})
+
 for (const language of ['en', 'ro'] as const) for (const theme of ['light', 'dark'] as const) for (const offline of [false, true]) {
   test(`old tab preserves lazy routes and draft (${language}/${theme}/${offline ? 'origin-offline' : 'online'})`, async ({ page, context, request, browser }, testInfo) => {
     test.setTimeout(90_000)

@@ -8,6 +8,8 @@ test('reduced application offline reopen without journal interactions', async ({
   await request.put('/__pwa-test/version?version=v1')
   const manifest = JSON.parse(await readFile('.pwa-test-builds/v2/.vite/manifest.json', 'utf8'))
   const lazy = `/emotid/${manifest['src/screens/WordLadderScreen.tsx'].file}`
+  const previous = JSON.parse(await readFile('.pwa-test-builds/v1/.vite/manifest.json', 'utf8'))
+  const oldLazy = `/emotid/${previous['src/screens/WordLadderScreen.tsx'].file}`
   const failures: { url: string; error?: string }[] = []
   const responses: { url: string; worker: boolean; status: number }[] = []
   context.on('requestfailed', request => failures.push({ url: request.url(), error: request.failure()?.errorText }))
@@ -24,6 +26,7 @@ test('reduced application offline reopen without journal interactions', async ({
       (await navigator.serviceWorker.getRegistration())?.waiting?.state)).toBe('installed')
     const observer = await observeWaitingUpdate(context)
     await request.put('/__pwa-test/network?state=offline')
+    expect(await page.evaluate(async url => typeof (await import(/* @vite-ignore */ url)).WordLadderScreen, oldLazy)).toBe('function')
     await updater.close()
     await page.close()
     await waitForObservedActivation(observer)

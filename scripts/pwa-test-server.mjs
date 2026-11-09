@@ -107,7 +107,8 @@ const server = createServer((request, response) => {
 
   const extension = extname(filePath)
   response.writeHead(200, {
-    'Cache-Control': filePath.endsWith('sw.js') ? 'no-store' : 'no-cache',
+    // Offline assertions must exercise Cache Storage, never HTTP-cache revalidation/fallback.
+    'Cache-Control': 'no-store',
     'Content-Type': contentTypes[extension] ?? 'application/octet-stream',
     ...(filePath.endsWith('sw.js') ? { 'Service-Worker-Allowed': '/emotid/' } : {}),
   })
