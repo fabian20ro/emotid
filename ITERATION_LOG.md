@@ -4085,3 +4085,29 @@ Evidence: `.reports/reopen-runtime-comparison.log`, `reopen-native-locked-contro
 `reopen-native-latest-controls/`, `reopen-runtime-check.log`, `reopen-runtime-browser.log`,
 `reopen-locked-contract-{red,green}.log`. Old cohort's overall workflow failure is intentional RED
 evidence, not a passing workflow. New cohort succeeded independently. PR #24 remains unmerged.
+
+**Final local verification:** On the retained runtime/fixtures, check passed again (914 tests /
+106 files plus lint/types/policy/i18n/release/build/budgets). Production browser 562/562, PWA
+22/22, performance 25/25, hydration 42/42, local deployed smoke 1/1, language Fast Refresh 1/1;
+ordinary browser suites used zero retries. PWA injected-retry outer contract 1/1: exactly the
+intentional failed attempt, then success, first trace retained. Strict standalone PWA TypeScript
+check and dependency-tree validation passed. Initial sandboxed PWA invocation could not launch
+native browsers (Mach permission denial); authorized execution passed and is the acceptance run.
+The temporary import-only test had also matched the retry wrapper's grep and made its exact-one
+case assertion fail in the earlier CI; removing that redundant diagnostic restores the contract.
+
+**Native final-runtime repetition:** `9485bcc`, workflow `42547014192`, succeeded with lockfile-only
+install: another 200/200 minimal controls plus 40/40 unchanged app offline-update cases, zero
+retries, native Linux x64 / WebKit 27.2. This is separate from the initial paired-runtime sample.
+CodeQL passed. General PR CI remains a separate exact-head gate; final status is linked from PR
+#24 rather than retroactively asserting a pass before the run completes. No merge/deploy requested
+or performed. Documentation-only closeout does not change the tested runtime or application.
+
+**Audit/remaining:** Normal npm audit still reports 15 dev-tooling entries (13 moderate, 2 low),
+same three advisories, zero production entries. A restricted-cache audit returned incomplete
+empty-range metadata and 18 propagated entries; authorized registry/cache access restored the
+consistent 15-entry result. No security patch claim. Next: user review/merge, then exact-main
+deployment/smoke and opt-in live matrix. Reopen browser diagnosis only on recurrence with retained
+evidence; native/human gaps and supported upstream dependency remediation remain separate.
+No storage rewrite justified. Local evidence: `.reports/reopen-final-runtime-*.log`,
+`reopen-final-native-evidence/`, `reopen-final-native.log`, `reopen-audit-authorized.json`.
