@@ -3966,3 +3966,61 @@ Ignored evidence: `.reports/hydration-*.log`, `hydration-final-evidence/`,
 `hydration-full-browser-evidence/`, `hydration-performance-evidence/`, `hydration-pwa-evidence/`,
 `hydration-pwa-retry-evidence/`, `hydration-deployed-local-evidence/`; earlier pilots are not final
 acceptance. CI retains equivalent hydration artifacts for 14 days.
+
+## 2026-11-09 - Verify merged stack; shorten PWA failure feedback
+
+**Request/authorization:** Verify the merged stack, repair confirmed issues and report remaining
+work. Initially #22 had merged only into #21's branch (`3fff3f6`); the user then merged #21 into
+main (`8bb8f95`). Correction branch: `codex/stack-publication-repair`, based on that main revision.
+User explicitly requested a PR only, not an agent merge. No direct main push or release.
+
+**Publication:** Pages run `42532522584` passed build, deploy and deployed-smoke; CodeQL run
+`42532522630` passed. Deployment `7643563238` points to
+`8bb8f95be89acfeb7601c374cc9cd5a696413ab0`. Public Chromium/WebKit matrix: 48/48, EN/RO x light/dark,
+with isolated synthetic storage fixtures and separate worker-enabled checks. Latest deployment
+was rechecked and unchanged. No large-history fixtures or hydration probes were used on Pages.
+
+**Confirmed CI issue:** Earlier #22 run `42512599319` failed after the broad browser suite:
+PWA 20 passed, one failed and one flaky. WebKit EN/light/origin-offline failed all three attempts
+when reopening v2 after activation; EN/dark passed on its third. Errors: connection terminated /
+WebKit internal error. Main's subsequent green run does not resolve that intermittent failure.
+
+**Bounded investigation:** Original focused EN/light case passed 10/10 on macOS and 10/10 in
+Linux ARM64. Original full WebKit matrix repeated three times: 29/30; the failing offline Words
+route had internal resource errors after v2 root loaded from the worker. Retaining an uncontrolled
+observer until reopen did not fix it: 49/50, including the original navigation symptom despite
+activated v2 and cached v2 index/Words assets. That change was reverted. Tiny literal-worker
+controls passed 10/10 on each platform; Linux imported literal control 10/10, hand-written cache
+50/50 and generated-Workbox cache 50/50. None is yet a minimized failing reproducer. An x86-64
+emulated run hung after two successful iterations and was stopped; excluded from acceptance.
+Linux runtime: official Playwright 1.62.1 noble image, Node 24.18.1, ARM64, WebKit 26.5.
+The separate inline-Workbox experiment also failed: 48/50, EN/light and RO/light Words reopen.
+It existed only in the disposable Linux workspace and is not part of the correction.
+Root cause remains unconfirmed; do not conflate this with the older `setOffline` control failure.
+
+**Retained correction/TDD:** New workflow-order regression failed before moving the PWA lifecycle,
+retry checks and both artifact uploads ahead of the broad browser suite; 8/8 workflow contracts
+pass afterward. Existing uploads must remain before the broad suite clears test output. No gate,
+assertion, retry count or publication permission weakened. Product source, PWA policy, dependencies
+and lifecycle test behavior unchanged. Removed stale pending-stack instructions from plan/audit;
+the PWA report distinguishes fixed HTTP 404, offline emulation and unresolved origin-outage reopen.
+
+**Final local candidate:** `npm run check` passed: 914 tests /106 files, lint/types, live config,
+policy/i18n/release, production build and unchanged budgets (initial JS gzip 145111 bytes, entry
+44317, assets 919828). Workflow contracts 8/8; final original-policy PWA matrix 22/22 without
+retries on macOS. Those passes do not invalidate the intermittent Linux failures above. Only
+workflow/test-contract/docs changes remain; no repeat of the full local browser/performance/
+hydration matrices was needed for a non-product change. Their merged-main CI gates passed.
+Final injected PWA retry: 1/1 outer contract, requiring its intentional first failure followed
+by success and retained trace. Diff/whitespace checks passed. Owned diagnostic containers removed.
+
+**Next:** Review the correction PR; user owns merge. Minimize the actual failing fixture on native
+Linux x86-64, preserving traces and comparing navigation/module failures separately. No speculative
+worker change, storage rewrite or index work. R18 advisory risk and external native/human evidence
+gaps remain unchanged. No physical devices accessed. Existing evidence/workflow lessons apply;
+no duplicate lesson added.
+
+Ignored evidence: `.reports/stack-*.log`, `stack-ci-pwa-artifacts/`, `stack-linux-red-evidence/`,
+`stack-linux-observer-evidence/`, `stack-linux-inline-evidence/`, `stack-live-evidence/`,
+`stack-final-pwa-evidence/`; rejected experiment evidence is diagnostic,
+not final-candidate acceptance. Minimal control script: `.reports/pwa-context-control.mjs`.
