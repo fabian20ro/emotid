@@ -4111,3 +4111,56 @@ deployment/smoke and opt-in live matrix. Reopen browser diagnosis only on recurr
 evidence; native/human gaps and supported upstream dependency remediation remain separate.
 No storage rewrite justified. Local evidence: `.reports/reopen-final-runtime-*.log`,
 `reopen-final-native-evidence/`, `reopen-final-native.log`, `reopen-audit-authorized.json`.
+
+## 2026-11-10 - PR #24 post-merge deployment and live verification
+
+**Request/revision:** User merged #24; verify deployment, smoke and live regressions, repair only
+demonstrated failures, no automatic merge. GitHub and refreshed refs confirm main at
+`30ad4e4052cc9e74185aad41be636b684e545c80`; its tree matches the verified PR head `302b2a2`.
+Separate local branch `codex/post-24-live-verification`. No application changes, new commit/push,
+PR, merge or deployment performed. Local documentation only: close the completed publication step
+and point remaining priorities to the maintenance plan. Existing evidence lessons apply; no duplicate.
+
+**Published boundary:** [Main workflow 42639065845](https://github.com/fabian20ro/emotid/actions/runs/42639065845)
+passed build, deploy and hosted smoke at that exact SHA. Existing main-build logs confirm 914 tests /
+106 files, 562 browser, 22 PWA, 25 performance and 42 hydration cases, with no ordinary flaky result;
+the deployed smoke passed 1/1. These are inspected hosted results, not a new local full-suite run.
+Latest Pages deployment `7658829833` is successful at the same SHA and public URL.
+Downloaded that workflow's Pages artifact and compared SHA-256 for every public file against fresh
+cache-busted requests: **45/45 byte-identical**, including index, manifest, worker, all JS/CSS and
+icons. Revision query values alone are not treated as deployment proof.
+
+**Fresh live verification:** Public target `https://fabian20ro.github.io/emotid/`; isolated synthetic
+contexts, Chromium/WebKit, EN/RO x light/dark. Local Mac **48/48** and
+[hosted Linux workflow 42711722852](https://github.com/fabian20ro/emotid/actions/runs/42711722852)
+**48/48**, no retries or filtered errors. Covers storage/journal/export/reset, two-tab erasure,
+pending/partial clear, blocked upgrade recovery, focus and separate PWA/asset/lazy-route checks.
+Live target/discovery contracts 8/8; release consistency passed. Main still points to the same SHA
+after verification. No product defect discovered, so no speculative fix or remediation PR.
+
+**Evidence/remaining:** `.reports/post24-deployment.log`, `post24-pages-artifact/`,
+`post24-artifact-check.{mjs,json}`, `post24-live-local.log`, `post24-live-hosted.log`,
+`post24-live-hosted-evidence/`, `post24-live-config.log`, `post24-release-consistency.log`;
+local Playwright report under `playwright-report/live/`. Next recommended work: bounded R18
+dependency reassessment for compatible upstream fixes; the prior 15-entry dev-only audit is a
+dated snapshot, not re-audited here. Native Safari/airplane-mode/human AT evidence remains distinct.
+No physical device accessed; no additional storage architecture or product refactor justified.
+
+## 2026-11-14 - Compatible R18 dependency remediation
+
+Fresh full/production audits of `30ad4e4`: 14 development entries (12 moderate, 2 low), zero
+production. Three underlying advisories, unchanged since the previous review. Checked installed
+paths, npm outdated, same-major registry releases, engine and peer ranges. No other open PR
+overlapped at review time.
+
+Raised only the direct ESLint dev dependency, 10.8.0 to 10.15.0, and regenerated its required
+lockfile closure. ESLint and config-array now resolve minimatch 11.0.8 without an override.
+After: 12 development entries (10 moderate, 2 low), zero production. No forced update,
+downgrade, peer bypass, production change or unrelated package refresh. The remaining owner
+ranges and reassessment triggers are documented in `docs/dependency-security.md`.
+
+Clean `npm ci --strict-peer-deps` and full `npm ls --all` passed. `npm run check` passed:
+914 unit tests in 106 files, lint/types/policy/i18n/release/build/budgets. Local Chromium PWA
+smoke 1/1 without retries. All 45 files in the deployed #24 Pages artifact match the local
+production output byte-for-byte. No new live or physical acceptance claimed. Included pending
+post-#24 documentation. User retains merge control; hosted checks belong to the PR revision.

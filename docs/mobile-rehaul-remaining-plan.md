@@ -1,6 +1,6 @@
 # Product Maintenance Plan
 
-Updated November 9, 2026. The mobile migration and the bounded M1-M3/startup maintenance work
+Updated November 14, 2026. The mobile migration and the bounded M1-M3/startup maintenance work
 are implemented, including the code-hygiene corrective pass. Publication status belongs to the
 exact-revision hosted workflow and public verification, not a moving status copied into this plan.
 
@@ -28,23 +28,23 @@ limits: [PWA investigation](pwa-old-tab-update.md). Accessible bounded history r
 merged in #21; contract and evidence: [history pagination](history-pagination.md).
 Full-hydration instrumentation (#22, merged through #21) is also in main; method and findings:
 [hydration](history-hydration.md). Exact-revision publication and public checks are recorded in the
-November 9 iteration entry. A separate WebKit offline-reopen failure has a minimal native Linux
-reproducer and a runtime remediation candidate in #24; review/publication remain separate.
+November 9-10 iteration entries. The separate WebKit offline-reopen runtime remediation (#24)
+is merged; post-merge publication evidence belongs to the November 10 entry.
 Keep scoring and safety gating unchanged.
 
-### Recommended Next: Review And Publish The WebKit Runtime Remediation
+### Recommended Next: Review The Bounded Dependency Fix
 
 R20's [measurements](history-scale-measurements.md) demonstrated typing and DOM costs. Rendering is
 now bounded to 20 rows per list. Full-hydration measurement is implemented separately from the
 production build; full arrays and aggregate scans still grow with history size.
 
-1. Review #24 after exact-head CI: locked Playwright update, minimal native Linux controls and
-   original offline-update UI/data-preservation repetitions without retries. #23's CI-order fix is
-   already merged and green. User retains merge control; no automatic merge or release.
-2. After user merge, verify the exact main deployment, hosted smoke and opt-in live matrix.
-   The runtime remediation does not change production worker policy. Keep browser upgrades distinct
-   from native Safari/airplane-mode acceptance; [investigation](pwa-old-tab-update.md#runtime-remediation).
-3. If the failure recurs, retain JSON/first-failure traces and compare main-document vs lazy-module
+1. Review the ESLint-only remediation after exact-head CI; merge is a user decision. After merge,
+   verify the deployed revision and public smoke. Revisit residual R18 paths when a supported fix
+   lands or input reachability changes; see the [dependency review](dependency-security.md).
+2. No further product remediation is established by the post-merge live checks. Keep the existing
+   regression gates for future changes. Browser upgrades remain distinct from native Safari/
+   airplane-mode acceptance; [investigation](pwa-old-tab-update.md#runtime-remediation).
+3. If WebKit offline reopen fails again, retain JSON/first-failure traces and compare main-document vs lazy-module
    failures before another change. No higher retries, early origin restoration or speculative worker
    workaround. Keep large fixtures and hydration instrumentation loopback-only.
 4. No storage rewrite from these bounded measurements. If slower-device evidence or longer-note/
@@ -72,11 +72,6 @@ do not add another facade, global store or generic recovery framework merely to 
 - **WebKit offline emulation:** the historical 1.62.1 literal-worker control failed under `setOffline`;
   maintained cross-engine coverage uses origin outage. The runtime remediation is verified against
   that separate outage/reopen case, not a new offline-emulation or native airplane-mode acceptance.
-- **Dependencies:** November 8 reassessment: 15 dev-toolchain entries from three advisories,
-  no production entries. Compatible patched transitive releases are not available in the inspected
-  dependency chains. The [dependency security review](dependency-security.md) records reachability
-  and review triggers. No forced downgrade or unsupported major override.
-
 - **Vocabulary:** only a deliberately selected incomplete reachable choice group, with EN/RO
   editorial review and provenance. Current coverage is 66 reviewed meanings. Do not fill the
   catalog automatically or infer needs from new definitions; reviewed-null guidance stays intact.
