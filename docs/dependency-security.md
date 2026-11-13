@@ -1,18 +1,17 @@
 # Dependency Security Review
 
-Reviewed November 8, 2026. Audit results are a dated snapshot, not a permanent guarantee.
+Reviewed November 14, 2026. Audit results are a dated snapshot, not a permanent guarantee.
 
 ## Current Disposition
 
-Full npm audit: **15 entries (13 moderate, 2 low), from three advisories**. Production-only audit:
-**zero**. All reported paths belong to development/build tooling. This review does not claim
-that affected dependencies are patched or that tooling cannot be exploited.
+Full npm audit: **12 entries (10 moderate, 2 low), from three advisories**. Production-only audit:
+**zero**. The same-day baseline had 14 entries (12 moderate, 2 low). These counts include packages
+affected through their dependencies; they are not counts of distinct vulnerabilities.
 
-Registry checks found no fix within the supported ranges: ESLint 10.14.0 still requires minimatch
-10.x; TypeScript ESLint 8.72.1 still requires minimatch 10.x; Workbox 7.4.1 still requires glob 11.x
-and node-resolve 16.x. deepmerge 4.3.1 remains its latest release. Unrelated available updates
-were not installed. The only new package is dev-only yaml 2.9.1 for structured workflow tests;
-the existing runtime/toolchain versions and peer cohort remain unchanged.
+ESLint 10.15.0 and its config-array 0.23.6 now depend on minimatch 11.x and resolve to patched
+11.0.8. Those two advisory paths are removed. ESLint's Node engine range is unchanged and the
+existing plugin/parser peers remain supported. No production dependency or override changed.
+The residual paths below are development/build tooling; that scope limits but does not eliminate risk.
 
 Do not use `npm audit fix --force`, downgrade the PWA plugin, or insert blanket major-version
 overrides merely to make audit green. Reassess a supported upstream update or a separately scoped,
@@ -23,9 +22,10 @@ verified migration when available. Existing Babel/EJS overrides are unchanged.
 ### minimatch
 
 [GHSA-g3hv-75wg-m249](https://github.com/advisories/GHSA-g3hv-75wg-m249), moderate.
-Installed 10.2.6; fixed in 11.0.1. The issue requires attacker-controlled patterns and
-`optimizationLevel >= 2`. Current owners are ESLint/config-array, TypeScript ESLint and
-Workbox's glob. The inspected lint configuration and Vite precache configuration use fixed
+Fixed in 11.0.1. The remaining 10.2.6 is required by TypeScript ESLint's parser tooling
+(even typescript-estree 8.72.2 requests ^10.2.2) and Workbox's glob 11.1.0 (^10.1.1).
+The issue requires attacker-controlled patterns and `optimizationLevel >= 2`.
+The inspected lint configuration and Vite precache configuration use fixed
 repository-controlled patterns, not journal content. A malicious PR can modify build code/config
 already; this is not a reason to grant it write credentials or secrets.
 
